@@ -1,0 +1,23 @@
+.navbar {
+    border:0 none;
+}
+
+.navbar-content {
+    padding-top:$base-margin / 2;
+    .form-control {
+        background: transparent;
+        // color:#fff;
+        border-color: transparent;
+        // text-align: right;
+    }
+
+    .btn {
+        background: transparent;
+        padding-right:0px;
+    }
+
+}
+
+.tab-content {
+    padding: 20px 0;
+}

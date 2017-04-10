@@ -1,0 +1,60 @@
+a {
+    -webkit-transition: background-color 200ms linear;
+    -moz-transition: background-color 200ms linear;
+    -o-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+}
+
+.page-header {
+    padding:$base-margin 0px;
+    border-bottom: solid 1px $border-color;
+    margin:$base-margin 0px;
+
+    h1,h2,h3,h4,h5,h6 {
+        font-weight: lighter;
+        margin:0px;
+        padding:0px;
+    }
+    span {
+        font-size:20px;
+        display:inline-block;
+        margin-right:15px;
+    }
+}
+
+
+.page-title {
+    padding:28px 15px 15px;
+    border-bottom:solid 1px $border-color;
+    background-color:#fff;
+    color:$gray-light;
+
+    h1,h2,h3,h4,h5,h6 {
+        font-weight: lighter;
+        margin:0px 0px 5px 0px;
+        padding:0px;
+    }
+
+    a {
+        color:$gray-light;
+    }
+
+    .divider {
+        color:$gray-light;
+    }
+    .active {
+        color:$brand-primary;
+    }
+
+    .desc {
+        color:$gray-light;
+    }
+}
+@media screen and (max-width: $screen-sm-min) {
+    .page-title {
+        /*padding:15px 5px 5px;*/
+        font-size:70%;
+    }
+
+}

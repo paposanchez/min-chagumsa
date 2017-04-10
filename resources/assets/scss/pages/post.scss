@@ -1,0 +1,60 @@
+.post {
+    padding:$base-margin 0px;
+    border-bottom: solid 1px $border-color;
+    margin-top:30px;
+
+    h1,h2,h3,h4,h5,h6 {
+        font-weight: lighter;
+        margin:0px;
+        padding:0px;
+    }
+
+
+    .subject {
+        margin:0px 0px $base-margin 0px;
+    }
+
+    .post-info {
+        margin:0px 0px $base-margin;
+    }
+
+    .content {
+        padding:0px;
+        margin-bottom:$base-margin;
+        img {
+            max-width: 100%;
+        }
+    }
+
+    .post-controller {
+        margin:$base-margin 0px;
+    }
+
+
+    .files {
+        
+        .toggle-files {
+            margin-bottom:5px;
+        }
+
+        .file-list{
+            background:#fff;
+            .file {
+                display: block;
+                padding:10px;
+                overflow:hidden;
+
+                &:hover,&:active,&:focus {
+                    background:$bg-primary;
+                }
+
+
+                .info {
+                    float:right;
+                }
+            }
+        }
+
+
+    }
+}

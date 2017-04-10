@@ -1,0 +1,83 @@
+.plugin-attach {
+    .plugin-attach-add {
+    }
+
+    .plugin-attach-files {
+        margin:0px !important;
+    }
+
+
+    .qq-uploader {
+        padding:0px;
+        border:0 none;
+        background:$bg-primary;
+        border-radius: 0px;
+
+        &.qq-uploader-blank{
+            min-height: initial;
+            max-height: none;
+        }
+
+        .qq-upload-list {
+            box-shadow: none;
+
+            li {
+                overflow:hidden;
+                position: relative;
+                border: 0 none;
+                border-top:solid 1px $border-color;
+
+
+                &:first-child {
+                    border-top:0 none;
+                }
+
+                &.qq-upload-fail {
+                }
+
+                .qq-upload-file {
+                    font-size:12px;
+                    font-weight: 200;
+                }
+
+                .qq-upload-status-text{
+                    display: none;
+                    margin-top:10px;
+                    font-size:13px;
+                    font-weight: normal;
+                    text-align: right;
+                }
+
+                .btn-group {
+                    position: absolute;
+                    right:10px;
+                    top:10px;
+                }
+                
+                .qq-thumbnail-selector {
+                    width:50px;
+                }
+                
+                .qq-progress-bar-container-selector {
+                    position: absolute;
+                    right: 0;
+                    top:10px;
+                }
+                
+                .qq-upload-spinner-selector {
+                    position: absolute;
+                    right: 0;
+                    top:10px;                    
+                }
+            }
+        }
+
+
+        .qq-upload-button {
+            @include button-variant($btn-primary-bg, $btn-primary-bg, $btn-primary-border);
+
+            color:#fff !important;
+        }
+    }
+
+}

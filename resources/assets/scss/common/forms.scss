@@ -1,0 +1,31 @@
+.form-control {
+    -webkit-box-shadow: none !important;
+    box-shadow:  none !important;
+
+}
+
+.form-alpha,
+.form-alpha .form-control {
+    color:#fff;
+    background-color:rgba(0, 0, 0, 0);
+
+}
+
+.form-horizontal {
+    .checkbox {
+        &.checkbox-slider--b-flat {
+            padding-top: 7px;
+        }
+    }
+}
+
+
+select.form-control {
+    padding:0px;
+
+    option {
+        padding:$padding-base-vertical $padding-base-horizontal;
+    }
+
+}
+

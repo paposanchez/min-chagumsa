@@ -1,0 +1,59 @@
+.alert {
+    .progress {
+        height:5px;
+        margin-top: 5px;
+        margin-bottom: 0px;
+    }
+}
+.alert-default {
+    @include alert-variant($alert-default-bg, $alert-default-border, $alert-default-text);
+}
+
+
+
+
+
+.modal-alert{
+
+    .modal-header {
+        padding:25px 0px;
+        font-size: 48px;
+        text-align:center;
+    }
+
+    &.modal-success{
+
+        .modal-header {
+            color:#fff;
+            background:$brand-success;
+        }
+
+    }
+    &.modal-danger{
+        .modal-header {
+            color:#fff;
+            background:$brand-danger;
+        }
+
+    }
+    &.modal-warning{
+        .modal-header {
+            color:#fff;
+            background:$brand-warning;
+        }
+
+    }
+    &.modal-info{
+        .modal-header {
+            color:#fff;
+            background:$brand-info;
+        }
+
+    }
+
+
+    .modal-title {
+        font-size: 18px;
+        padding: $base-margin;
+    }
+}

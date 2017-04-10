@@ -1,0 +1,37 @@
+<?php
+
+return [
+    'button' => [
+        'create' => '등록',
+        'add' => '추가',
+        'ok' => '확인',
+        'cancel' => '취소',
+        'retry' => '재시도',
+        'edit' => '수정',
+        'destroy' => '삭제',
+        'save' => '저장',
+        'back' => '돌아가기',
+        'select' => '선택',
+        'file-select' => '파일선택',
+        'upload' => '올리기',
+        'download' => '내려받기',
+        'drop' => 'dlrhtdp vkdlfdmf 올리기',
+        'change' => '변경',
+        'loading' => '처리중...',
+        'list' => '목록',
+        'no' => '아니요',
+        'yes' => '예',
+        'close' => '닫기',
+    ],
+    'search' => [
+        'first_select' => '선택하세요',
+        'period' => '검색기간',
+        'period_start' => '시작일',
+        'period_end' => '종료일',
+        'keyword_field' => '검색필드',
+        'keyword' => '검색어',
+        'button' => '검색',
+    ],
+    'search-result' => '총 :count개의 결과가 검색되었습니다.',
+    'no-result' => "검색결과가 없습니다.",
+];

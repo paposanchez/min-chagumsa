@@ -1,0 +1,93 @@
+.breadcrumbs {
+
+}
+
+
+.pagination {
+    margin:0px;
+}
+
+.label {
+    font-weight: 200;
+    border-radius: 0px;
+    padding:.3em .6em .2em;
+    
+    &.label-default {
+        color:$text-color;
+    }
+}
+
+.badge {
+    padding: .3em .6em .2em;
+    font-size: 75%;
+    &.badge-primary {
+        color:#fff;
+        background:$brand-primary;
+    }
+    &.badge-info {
+        color:#fff;
+        background:$brand-info;
+    }
+    &.badge-success {
+        color:#fff;
+        background:$brand-success;
+    }
+    &.badge-warning {
+        color:#fff;
+        background:$brand-warning;
+    }
+    &.badge-danger {
+        color:#fff;
+        background:$brand-danger;
+    }
+}
+
+
+.popover {
+    padding:0px;
+    .popover-title {
+        border-bottom: 0;
+        padding:$base-margin;
+        border:0 none;
+    }
+}
+
+
+.bootstrap-touchspin .input-group-btn-vertical > .btn {
+    padding-top:7.5px;
+    padding-bottom:7.5px;
+}
+
+
+// summernote
+.note-editor {
+    margin-bottom:0px;
+}
+
+.list-group-sidebar {
+    
+/*    .side-menu-item {
+        display:block;
+        padding:$padding-base-vertical $padding-base-horizontal;
+        background-color: $bg-default;
+
+        &.active {
+            background-color: $brand-primary;
+            color:#fff;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        width: 285px;
+    }
+
+    @media (max-width: 1200px) {
+        width: 150px;
+    }*/
+
+
+}
+
+.progress-bar {
+    box-shadow: none;
+}

@@ -1,0 +1,82 @@
+<?php
+
+namespace App\Http\Controllers\Web\Auth;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+
+class RegisterController extends Controller {
+
+    use RegistersUsers;
+
+    public function __construct() {
+        $this->middleware('guest');
+    }
+
+    public function showRegistrationForm() {
+        return view('web.auth.register');
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data) {
+        $validator = Validator::make($data, [
+                    'email' => 'required|email|max:255|unique:users',
+                    'name' => 'required|max:100',
+                    'password' => 'required|min:6|confirmed',
+                    'password_confirmation' => 'required|min:6|same:password',
+                    'mobile' => 'confirmed',
+        ]);
+        $validator->setAttributeNames([
+            'email' => trans('web/register.email'),
+            'name' => trans('web/register.name'),
+            'password' => trans('web/register.password'),
+            'password_confirmation' => trans('web/register.confirm-password'),
+            'mobile' => trans('web/register.mobile'),
+        ]);
+        return $validator;
+    }
+
+    public function registered(Request $request, $user) {
+
+        $user->notify(new ConfirmEmail());
+        
+        return redirect('/')->with('ok', trans('web/verify.message'));
+    }
+
+    /**
+     * Handle a confirmation request
+     *
+     * @param  \App\Repositories\UserRepository $userRepository
+     * @param  string  $confirmation_code
+     * @return \Illuminate\Http\Response
+     */
+    public function confirm(UserRepository $userRepository, $confirmation_code) {
+        $userRepository->confirm($confirmation_code);
+        return redirect('/')->with('ok', trans('web/verify.success'));
+    }
+
+    /**
+     * Handle a resend request
+     *
+     * @param  \App\Repositories\UserRepository $userRepository
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function resend(UserRepository $userRepository, Request $request) {
+        if ($request->session()->has('id')) {
+            $user = $userRepository->getById($request->session()->get('id'));
+            $user->notify(new ConfirmEmail());
+            return redirect('/')->with('ok', trans('web/verify.resend'));
+        }
+        return redirect('/');
+    }
+
+}

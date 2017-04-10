@@ -1,0 +1,176 @@
+// Media objects
+// Source: http://stubbornella.org/content/?p=497
+// --------------------------------------------------
+
+
+// Common styles
+// -------------------------
+
+// Clear the floats
+.media,
+.media-body {
+    // overflow: hidden;
+    zoom: 1;
+}
+
+// Proper spacing between instances of .media
+.media,
+.media .media {
+    margin-top: 20px;
+    position: relative;
+}
+
+.media-form .media,
+.media:first-child {
+    margin-top: 0;
+}
+
+.media .media-form {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+// For images and videos, set to block
+.media-object {
+    display: block;
+}
+
+// Reset margins on headings for tighter default spacing
+.media-heading {
+    margin: 0 0 $base-margin;
+}
+
+
+// Media image alignment
+// -------------------------
+
+.media {
+    > .pull-left {
+        margin-right: 10px;
+    }
+    > .pull-right {
+        margin-left: 10px;
+    }
+}
+
+
+// Media list variation
+// -------------------------
+
+// Undo default ul/ol styles
+.media-list {
+    padding-left: 0;
+    list-style: none;
+}
+
+/* comments */
+.media-comments {
+
+    .media-sub {
+        /*background: $bg-default;*/
+        /*padding: 15px 0px 0px 45px;*/
+        margin-top:15px;
+
+        > .media {
+            padding-left:45px;
+            &:before {
+                /*                &#xE5DA*/
+                @extend .material-icons;
+                content: 'subdirectory_arrow_right';
+                position: absolute;
+                top: 0;
+                left: 5px;
+                width: 25px;
+                height: 25px;
+                color: #ccc;
+            }
+        }
+    }
+
+    .media-comment-sort {
+        font-weight: 300;
+
+        a {
+            color:#aaa;
+
+            &.active,
+            &:focus,
+                &:active,
+                &:hover {
+                color:$brand-primary;
+            }
+        }
+
+    }
+
+    .media {
+        &:first-child {
+            padding-top: 0;
+        }
+
+        .media-heading {
+            margin-bottom:5px;
+
+            .media-object {
+                border-radius: 99999999%;
+                display: inline-block;
+                height: 25px;
+                width: 25px;
+                vertical-align: middle;
+                margin-right:5px;
+            }
+
+            a {
+                color:#777;
+                vertical-align: middle;
+                &:hover,
+                    &:active,
+                    &:focus {
+                    color:$brand-primary;
+                }
+            }
+            div {
+                display: inline-block;
+                margin-right:5px;
+                vertical-align: middle;
+
+                &.writer {
+                    font-weight: bold;
+                }
+                &.date {
+                    color:#777;
+                }
+
+
+            }
+
+        }
+
+        .media-body {
+            float: none;
+            position: relative;
+            .media-text {
+                // padding: 2px 0px;
+                // border: 1px solid #e4e4e4;
+                // border-radius: 2px;
+                // padding: 7px 12px 8px;
+            }
+        }
+
+        .media-footer {
+            text-align:right;
+            display: block;
+            padding-top: ($padding-base-vertical / 2);
+            // padding-bottom: 5px;
+        }
+
+    }
+
+}
+
+.tab-content,
+.tile-col {
+    .media-comments {
+        padding: 0px;
+    }
+}

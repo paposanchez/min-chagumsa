@@ -1,0 +1,29 @@
+.panel {
+    
+    box-shadow: none;
+
+    .panel-heading {
+        overflow:hidden;
+        .panel-title {
+
+        }  
+
+        .panel-heading-controls {
+            display: inline-block;
+            float:right;
+
+            .radio, 
+            .checkbox {
+                margin: 0px;
+            }
+        }
+
+    }
+
+}
+
+.panel-collapse {
+    .active {
+        background:$bg-default;
+    }
+}
