@@ -16,6 +16,6 @@
     <div class="col-md-9">
 
     </div>
-
+    {{$user[0]}}
 </div>
 @endsection
