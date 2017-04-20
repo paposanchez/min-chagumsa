@@ -8,6 +8,12 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     // 대시보드
     Route::resource('dashboard', 'DashboardController');
 
+    // 주문관리
+    Route::resource('order', 'OrderController');
+
+    // 정산관리
+    Route::resource('calculation', 'CalculationController');
+
     // 사용자
     Route::resource('user', 'UserController', ['except' => ['show']]);
 

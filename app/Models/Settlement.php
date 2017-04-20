@@ -8,8 +8,22 @@
 
 namespace App\Models;
 
+use DB;
+use Illuminate\Database\Eloquent\Model;
 
-class Settlement
+class Settlement extends Model
 {
+    protected $fillable = [
+        'id',
+        'user_id',
+        'amount',
+        'description',
+        'status_cd',
+        'created_id',
+        'updated_id'
+    ];
 
+    protected $dates = [
+        'created_at', 'updated_at'
+    ];
 }

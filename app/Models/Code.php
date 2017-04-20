@@ -47,4 +47,8 @@ class Code extends Model {
         }
     }
 
+    public function translate($code){
+
+    }
+
 }
