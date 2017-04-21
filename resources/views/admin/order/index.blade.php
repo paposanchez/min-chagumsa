@@ -126,7 +126,8 @@
                             {{--<input type="checkbox">--}}
                         {{--</td>--}}
                         <td class="text-center">
-                            <a href="{{ route('order.edit', $data->id) }}">{{ $data->datekey }}-{{ $data->car_number }}</a>
+                            {{--<a href="{{ route('order.edit', $data->id) }}">{{ $data->datekey }}-{{ $data->car_number }}</a>--}}
+                            <a href="/order/view/{{$data->id}}">{{ $data->datekey }}-{{ $data->car_number }}</a>
                         </td>
                         <td class="">
                             {{ $data-> orderer_name }}
