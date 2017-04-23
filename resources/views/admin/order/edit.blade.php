@@ -891,6 +891,7 @@
                     {{--기본 정보--}}
                     <div class='col-md-12'>
                         <h2>기본 정보</h2>
+                        {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
                         <table class="table table-bordered">
                             <colgroup>
                                 <col style='width:120px;'>
@@ -902,23 +903,21 @@
                             <tr>
                                 <th>자동차 등록번호</th>
                                 <td>
-                                    <input type="text" style="width: 80%;">
+                                    <input type="text" style="width: 80%;" name="car_number">
                                 </td>
                                 <th>주행거리(km)</th>
                                 <td>
-                                    <input type="text" style="width: 80%;">
+                                    <input type="text" style="width: 80%;" name="mileage">
                                 </td>
                             </tr>
                             <tr>
                                 <th>차대번호</th>
                                 <td>
-                                    <input type="text" style="width: 80%;">
+                                    <input type="text" style="width: 80%;" name="car_id">
                                 </td>
                                 <th>동일성확인</th>
                                 <td>
-                                    <select>
-                                        <option selected> -- 선택하세요 --</option>
-                                    </select>
+                                    {!! Form::select('attachment_status', $select_attachment_status, [], ['class' =>'form-control']) !!}
                                 </td>
                             </tr>
                             <tr>
@@ -926,62 +925,67 @@
                                 <td>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
-                                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" style="width: 78%;">
+                                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" style="width: 78%;" name="car_registration_date">
                                     </div>
                                 </td>
                                 <th>사용월수</th>
                                 <td>
-                                    <input type="text" style="width: 80%;">
+                                    <input type="text" style="width: 80%;" name="car_history">
                                 </td>
                             </tr>
                             <tr>
                                 <th>차명</th>
                                 <td>
-                                    <input type="text" style="width: 80%;">
+                                    <input type="text" style="width: 80%;" name="detail_name">
                                 </td>
                                 <th>세부모델</th>
                                 <td>
-                                    <input type="text" style="width: 80%">
+                                    <input type="text" style="width: 80%" name="model_name">
                                 </td>
                             </tr>
                             <tr>
                                 <th>색상</th>
                                 <td>
-                                    <select>
-                                        <option selected> -- 선택하세요 --</option>
-                                    </select>
+                                    {!! Form::select('car_exterior_color', $select_color, [], ['class'=>'form-control']) !!}
                                 </td>
-                                <th>차</th>
+                                <th>차종</th>
                                 <td>
-                                    <input type="text" style="width: 80%">
+                                    <input type="text" style="width: 80%" name="car_drive_type">
                                 </td>
                             </tr>
                             <tr>
                                 <th>연식 (형식)</th>
                                 <td>
-                                    <input type="text" style="width: 80%;">
+                                    <input type="text" style="width: 80%;" name="car_year">
                                 </td>
                                 <th>변속기</th>
                                 <td>
-                                    <input type="text" style="width: 80%;">
+                                    <input type="text" style="width: 80%;" name="car_transmission">
                                 </td>
                             </tr>
                             <tr>
                                 <th>사용연료</th>
                                 <td>
-                                    <input type="text" style="width: 80%;">
+                                    <input type="text" style="width: 80%;" name="car_fueltype">
                                 </td>
                                 <th>배기량 (cc)</th>
                                 <td>
-                                    <input type="text" style="width: 80%;">
+                                    <input type="text" style="width: 80%;" name="car_output">
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+
+
+                        <div class="text-right">
+                            <button class="btn btn-primary text-right" type="submit">저장</button>
+                        </div>
+                        {!! Form::close() !!}
                     </div>
                     {{--이력 정보--}}
                     <div class='col-md-12'>
                         <h2>이력 정보</h2>
+                        {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-history', 'enctype'=>"multipart/form-data"]) !!}
                         <table class="table table-bordered">
                             <colgroup>
                                 <col style='width:175px;'>
@@ -993,29 +997,29 @@
                             <tr>
                                 <th>보험사고 이력</th>
                                 <td colspan="3">
-                                    <input type="text">건 &nbsp;&nbsp;&nbsp;
+                                    <input type="text" name="history_insurance">건 &nbsp;&nbsp;&nbsp;
                                     <button>사고이력 이미지 업로드</button>
                                 </td>
                             </tr>
                             <tr>
                                 <th>소유자 이력</th>
                                 <td colspan="3">
-                                    <input type="text">명
+                                    <input type="text" name="history_owner">명
                                 </td>
                             </tr>
                             <tr>
                                 <th>정비 이력</th>
                                 <td colspan="3">
-                                    <input type="text">번
+                                    <input type="text" name="history_maintance">번
                                 </td>
                             </tr>
                             <tr>
                                 <th>용도변경이력</th>
                                 <td colspan="3">
-                                    <input type="radio" name="ck">있음
-                                    <input type="radio" name="ck">없음
+                                    <input type="radio" name="purpose_true">있음
+                                    <input type="radio" name="purpose_false">없음
                                     <br>
-                                    <select>
+                                    <select name="history_purpose">
                                         <option selected> -- 선택하세요 -- </option>
                                     </select>
                                     <br>
@@ -1025,10 +1029,10 @@
                             <tr>
                                 <th>차고지 이력</th>
                                 <td colspan="3">
-                                    <select>
+                                    <select name="history_garage_1">
                                         <option selected> -- 선택하세요 -- </option>
                                     </select>
-                                    <select>
+                                    <select name="history_garage_2">
                                         <option selected> -- 선택하세요 -- </option>
                                     </select>
                                     <br>
@@ -1037,10 +1041,16 @@
                             </tr>
                             </tbody>
                         </table>
+
+                        <div class="text-right">
+                            <button class="btn btn-primary text-right" type="submit">저장</button>
+                        </div>
+                        {!! Form::close() !!}
                     </div>
                     {{--가격 산정--}}
                     <div class='col-md-12'>
                         <h2>가격 산정</h2>
+                        {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-price', 'enctype'=>"multipart/form-data"]) !!}
                         <table class="table table-bordered">
                             <colgroup>
                                 <col style='width:175px;'>
@@ -1052,76 +1062,76 @@
                             <tr>
                                 <th>기준가격(Pst)</th>
                                 <td colspan="3">
-                                    <input type="text">만원
+                                    <input type="text" name="pst">만원
                                 </td>
                             </tr>
                             <tr>
                                 <th rowspan='4'>기본평가(A)</th>
                                 <td>
-                                    <input type="checkbox"> 신차출고가격
+                                    <input type="checkbox" name="new_car_price"> 신차출고가격
                                 </td>
                                 <td>
                                     부가세
-                                    <input type="radio">포함
-                                    <input type="radio">제와
+                                    <input type="radio" name="true">포함
+                                    <input type="radio" name="false">제외
                                 </td>
                                 <td>
-                                    <input type="text">만원
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="checkbox"> 등록일 보정(+)
-                                </td>
-                                <td>
-                                    <input type="radio">표준
-                                    <input type="radio">초과
-                                    <input type="radio">미달
-                                </td>
-                                <td>
-                                    <input type="text">만원
+                                    <input type="text" name="car_tax">만원
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox"> 장착품(추가옵션)
+                                    <input type="checkbox" name="regist_revise"> 등록일 보정(+)
+                                </td>
+                                <td>
+                                    <input type="radio" name="standard">표준
+                                    <input type="radio" name="excess">초과
+                                    <input type="radio" name="shortfall">미달
+                                </td>
+                                <td>
+                                    <input type="text" name="revise_price">만원
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="basic_mounting_cd"> 장착품(추가옵션)
                                 </td>
                                 <td colspan="2">
-                                    <input type="text">만원
+                                    <input type="text" name="option_price">만원
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox"> 색상 등 기타
+                                    <input type="checkbox" name="basic_etc"> 색상 등 기타
                                 </td>
                                 <td colspan="2">
-                                    <input type="text">만원
+                                    <input type="text" name="color_price">만원
                                 </td>
                             </tr>
 
                             <tr>
                                 <th rowspan="3">사용이력</th>
                                 <td>
-                                    <input type="checkbox"> 주행거리 (+)
+                                    <input type="checkbox" name="usage_mileage_cd"> 주행거리 (+)
                                 </td>
                                 <td>
-                                    <input type="radio">표준
-                                    <input type="radio">초과
-                                    <input type="radio">미달
+                                    <input type="radio" name="standard">표준
+                                    <input type="radio" name="excess">초과
+                                    <input type="radio" name="shortfall">미달
                                 </td>
                                 <td>
-                                    <input type="text">만원
+                                    <input type="text" name="usage_mileage_depreciation">만원
                                 </td>
                             </tr>
                             <tr>
                                 <td rowspan="2">
-                                    <input type="checkbox"> 사고/수리이력
+                                    <input type="checkbox" name="usage_history_cd"> 사고/수리이력
                                 </td>
                                 <td colspan="2">
-                                    무사고 <input type="checkbox">
-                                    단순교환 <input type="checkbox">
-                                    중손상 <input type="checkbox">
-                                    대손상 <input type="checkbox">
+                                    무사고 <input type="checkbox" name="none">
+                                    단순교환 <input type="checkbox" name="simpe_swap">
+                                    중손상 <input type="checkbox" name="middle_damage">
+                                    대손상 <input type="checkbox" name="big_damage">
                                 </td>
                                 <td>
                                 </td>
@@ -1129,48 +1139,48 @@
                             <tr>
                                 <td>감가금액</td>
                                 <td>
-                                    <input type="text">만원
+                                    <input type="text" name="usage_history_depreciation">만원
                                 </td>
                             </tr>
                             <tr>
                                 <th rowspan="6">차량 성능 상태(C)</th>
                                 <td>
-                                    <input type="checkbox"> 휠/타이
+                                    <input type="checkbox" name="performance_tire_cd"> 휠/타이어
                                 </td>
                                 <td colspan="2">
-                                    양호 <input type="checkbox">
-                                    보통 <input type="checkbox">
-                                    불량/정비요 <input type="checkbox">
+                                    양호 <input type="checkbox" name="good">
+                                    보통 <input type="checkbox" name="normal">
+                                    불량/정비요 <input type="checkbox" name="maintenance">
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox"> 외관(외장)
+                                    <input type="checkbox" name="performance_exterior_cd"> 외관(외장)
                                 </td>
                                 <td colspan="2">
-                                    양호 <input type="checkbox">
-                                    보통 <input type="checkbox">
-                                    불량/정비요 <input type="checkbox">
+                                    양호 <input type="checkbox" name="good">
+                                    보통 <input type="checkbox" name="normal">
+                                    불량/정비요 <input type="checkbox" name="maintenance">
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox"> 실내/내장
+                                    <input type="checkbox" name="performance_interior_cd"> 실내/내장
                                 </td>
                                 <td colspan="2">
-                                    양호 <input type="checkbox">
-                                    보통 <input type="checkbox">
-                                    불량/정비요 <input type="checkbox">
+                                    양호 <input type="checkbox" name="good">
+                                    보통 <input type="checkbox" name="noraml">
+                                    불량/정비요 <input type="checkbox" name="maintenance">
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox"> 주요장치/성능
+                                    <input type="checkbox" name="performance_device_cd"> 주요장치/성능
                                 </td>
                                 <td colspan="2">
-                                    양호 <input type="checkbox">
-                                    보통 <input type="checkbox">
-                                    불량/정비요 <input type="checkbox">
+                                    양호 <input type="checkbox" name="good">
+                                    보통 <input type="checkbox" name="normal">
+                                    불량/정비요 <input type="checkbox" name="maintenance">
                                 </td>
                             </tr>
                             <tr>
@@ -1179,20 +1189,20 @@
                             <tr>
                                 <td>감가금액</td>
                                 <td colspan="2">
-                                    <input type="text">만원
+                                    <input type="text" name="performance_depreciation">만원
                                 </td>
                             </tr>
                             <tr>
                                 <th>평가금액</th>
                                 <td colspan="2">V=Pst+(A+B+C+S)</td>
                                 <td>
-                                    <input type="text">만원
+                                    <input type="text" name="valuation">만원
                                 </td>
                             </tr>
                             <tr>
                                 <th>종합 의견</th>
                                 <td colspan="3">
-                                    <input type="text">
+                                    <input type="text" name="opinion">
                                 </td>
                             </tr>
                             </tbody>
@@ -1204,7 +1214,7 @@
         </div>
 
 
-
+        {!! Form::close() !!}
     </div>
 
 
