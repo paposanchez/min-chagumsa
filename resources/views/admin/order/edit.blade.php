@@ -1084,9 +1084,9 @@
                                     <input type="checkbox" name="regist_revise"> 등록일 보정(+)
                                 </td>
                                 <td>
-                                    <input type="radio" name="standard">표준
-                                    <input type="radio" name="excess">초과
-                                    <input type="radio" name="shortfall">미달
+                                    <input type="radio" name="regist_ck" value="standard">표준
+                                    <input type="radio" name="regist_ck" value="excess">초과
+                                    <input type="radio" name="regist_ck" value="shortfall">미달
                                 </td>
                                 <td>
                                     <input type="text" name="revise_price">만원
@@ -1115,9 +1115,9 @@
                                     <input type="checkbox" name="usage_mileage_cd"> 주행거리 (+)
                                 </td>
                                 <td>
-                                    <input type="radio" name="standard">표준
-                                    <input type="radio" name="excess">초과
-                                    <input type="radio" name="shortfall">미달
+                                    <input type="radio" name="mileage_ck" value="standard">표준
+                                    <input type="radio" name="mileage_ck" value="excess">초과
+                                    <input type="radio" name="mileage_ck" value="shortfall">미달
                                 </td>
                                 <td>
                                     <input type="text" name="usage_mileage_depreciation">만원
@@ -1143,7 +1143,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th rowspan="6">차량 성능 상태(C)</th>
+                                <th rowspan="5">차량 성능 상태(C)</th>
                                 <td>
                                     <input type="checkbox" name="performance_tire_cd"> 휠/타이어
                                 </td>
@@ -1184,14 +1184,44 @@
                                 </td>
                             </tr>
                             <tr>
-
-                            </tr>
-                            <tr>
                                 <td>감가금액</td>
                                 <td colspan="2">
                                     <input type="text" name="performance_depreciation">만원
                                 </td>
                             </tr>
+
+                            <tr>
+                                <th rowspan="3">특별요인(S)</th>
+                                <td colspan="3">
+                                    <input type="checkbox" name="special_flooded_cd"> 침수차량
+                                    <input type="checkbox" name="special_fire_cd"> 화재차량
+                                    <input type="checkbox" name="special_fulllose_cd"> 전손차량
+                                    <input type="checkbox" name="special_remodel_cd"> 불법개조
+                                    <input type="checkbox" name="special_etc_cd"> 기타요인
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="ck"> 변경이력
+                                </td>
+                                <td>
+                                    <input type="radio" name="change_ck" value="rent"> 대여/랜트 <input type="text">
+                                    <input type="radio" name="change_ck" value="sales"> 영업용 <input type="text">
+                                    <input type="radio" name="change_ck" value="display"> 관용 <input type="text">
+                                    <br>
+                                    <input type="radio" name="change_ck" value="law_firm"> 법인 <input type="text">
+                                    <input type="radio" name="change_ck" value="etc"> 기타 <input type="text">
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>감가금액</td>
+                                <td colspan="2">
+                                    <input type="text" name="special_depreciation">만원
+                                </td>
+                            </tr>
+
                             <tr>
                                 <th>평가금액</th>
                                 <td colspan="2">V=Pst+(A+B+C+S)</td>
@@ -1212,7 +1242,9 @@
                 </div>
             </div>
         </div>
-
+        <div class="text-right">
+            <button class="btn btn-primary text-right" type="submit">저장</button>
+        </div>
 
         {!! Form::close() !!}
     </div>

@@ -105,9 +105,9 @@ return [
         'other' => 'Other/Unknown'
     ],
     'diagnosis' => [
-        'info' => '자동자 등록정보',
-        'cover_panel' => '주요외판',
-        'inner_panel' => '주요 내판 및 골격상태',
+        'diagnosis_info' => '자동자 등록정보',
+        'diagnosis_exterior' => '주요외판',
+        'diagnosis_interior' => '주요 내판 및 골격상태',
         'diagnosis_check' => '차량 내외부 점검',
         'diagnosis_driving' => '주행 테스트',
         'diagnosis_operation' => '차량 작동상태 점검',
@@ -115,68 +115,151 @@ return [
         'diagnosis_review' => '성능점검 종합의견'
     ],
     'diagnosis_info' => [
-        'car_info' => '자동차 등록정보',
-        'useage' => '주행거리',
-        'attachment_status' => '차대번호',
-        'diagnosis_info_color' => '색상',
-        'repair_status' => '추가옵션'
+        'diagnosis_info_info' => '자동차 등록정보',
+        'diagnosis_info_mileage' => '주행거리',
+        'attachment_status_cd' => '차대번호',
+        'diagnosis_info_color_cd' => '색상',
+        'diagnosis_info_option' => '추가옵션'
+    ],
+    'diagnosis_info_option' => [
+        'repair_status_cd' => '수리진단코드'
     ],
     'diagnosis_exterior' => [
-        'diagnosis_exterior_picture' => '추가외판사진',
-        'diagnosis_exterior_status' => '엔진외판'
+        'diagnosis_exterior_picture' => '주요외판사진',
+        'diagnosis_exterior_status' => '주요외판상태'
+    ],
+    'diagnosis_exterior_pickture' => [
+        'diagnosis_exterior_picture_cd' => '외판사진코드'
+    ],
+    'diagnosis_exterior_status' => [
+        'history_status_cd' => '상태이력진단코드',
+        'diagnosis_exterior_posiotion' => '외장제품코드',
+        'diagnosis_part_status_cd' => '교환진단코드'
     ],
     'diagnosis_interior' => [
-        'car_bottom' => '차량하단',
-        'engine_room' => '엔진룸',
-        'inner_panel_status' => '주요 내판 및 골격 상'
+        'diagnosis_interior_car_bottom' => '차량하단',
+        'diagnosis_interior_engine_room' => '엔진룸',
+        'diagnosis_interior_status' => '주요 내판 및 골격 상태'
+    ],
+    'diagnosis_interior_status' => [
+        'history_status_cd' => '상태이력진단코드',
+        'diagnosis_interior_position' => '내장제부품코드',
+        'diagnosis_part_status_cd' => '교환진단코드'
     ],
     'diagnosis_check' => [
-        'immersion_repair_status' => '사고수리 및 상태',
+        'diagnosis_check_status' => '사고수리 및 상태',
         'diagnosis_check_immersion' => '침수흔적 점검',
-        'immersion_scratch_status' => '차량 외판 점검',
-        'grade' => '차량 실내 점검'
+        'diagnosis_check_exterior' => '차량 외판 점검',
+        'diagnosis_check_interior' => '차량 실내 점검'
+    ],
+    'diagnosis_check_status' => [
+        'repair_status_cd' => '수리진단코드'
+    ],
+    'diagnosis_check_immersion' => [
+        'diagnosis_check_immersion_stink' => '실내악취',
+        'diagnosis_check_immersion_front_floor' => '앞좌석 실내바닥',
+        'diagnosis_check_immersion_trunk_floor' => '트렁크 실내바닥',
+        'diagnosis_check_immersion_engine_room' => '엔진룸'
+    ],
+    'diagnosis_check_immersion_stink' => [
+        'stink_status_cd' => '악취진단코드',
+    ],
+    'diagnosis_check_immersion_front_floor' => [
+        'water_status_cd' => '수분오염진단코드',
+    ],
+    'diagnosis_check_immersion_trunk_floor' => [
+        'water_status_cd' => '수분오염진단코드',
+    ],
+    'diagnosis_check_immersion_engine_room' => [
+        'dirt_status_cd' => '이물질진단코드',
+    ],
+    'diagnosis_check_exterior' => [
+        'scratch_status_cd' => '흠집진단코드'
+    ],
+    'diagnosis_check_interior' => [
+        'grade_cd' => '등급코드'
     ],
     'diagnosis_driving' => [
-        'noise_status' => '엔진(원동기) 작동상태',
-        'noise_status' => '변속기 작동상태',
-        'operation_status' => '브레이크 작동상태',
-        'operation_status' => '얼라인먼트',
-        'operation_status' => '조향장치 작동상태',
-        'operation_opinion' => '작동상태 의견',
+        'diagnosis_driving_engine' => '엔진(원동기) 작동상태',
+        'diagnosis_driving_transmission' => '변속기 작동상태',
+        'diagnosis_driving_break' => '브레이크 작동상태',
+        'diagnosis_driving_alignment' => '얼라인먼트',
+        'diagnosis_driving_steering' => '조향장치 작동상태',
+        'diagnosis_driving_opinion' => '작동상태 의견',
+    ],
+    'diagnosis_driving_engine' => [
+        'noise_status_cd' => '소음진단코드'
+    ],
+    'diagnosis_driving_transmission' => [
+        'noise_status_cd' => '소음진단코드'
+    ],
+    'diagnosis_driving_break' => [
+        'operation_status_cd' => '동작진단코드'
+    ],
+    'diagnosis_driving_alignment' => [
+        'operation_status_cd' => '동작진단코드'
+    ],
+    'diagnosis_driving_steering' => [
+        'operation_status_cd' => '동작진단코드'
     ],
     'diagnosis_operation' => [
-        'noise_status' => '엔진(원동기) 작동상태',
-        'noise_status' => '변속기 작동상태',
-        'operation_status' => '브레이크 작동상태',
-        'operation_status' => '조향장치 작동상태',
-        'leakage_status' => '오일 등 누유 상태'
+        'diagnosis_operation_egine' => '엔진(원동기) 작동상태',
+        'diagnosis_operation_transmission' => '변속기 작동상태',
+        'diagnosis_operation_break' => '브레이크 작동상태',
+        'diagnosis_operation_steering' => '조향장치 작동상태',
+        'diagnosis_operation_leakage' => '오일 등 누유 상태'
+    ],
+    'diagnosis_operation_egine' => [
+        'noise_status_cd' => '소음진단코드'
+    ],
+    'diagnosis_operation_transmission' => [
+        'noise_status_cd' => '소음진단코드'
+    ],
+    'diagnosis_operation_break' => [
+        'operation_status_cd' => '동작진단코드'
+    ],
+    'diagnosis_operation_steering' => [
+        'operation_status_cd' => '동작진단코드'
+    ],
+    'diagnosis_operation_leakage' => [
+        'leakage_status_cd' => '누유진단코드'
     ],
     'diagnosis_expendables' => [
-        'replacement_status' => '타이어 상태',
-        'pollution_status' => '엔진오일 상태',
-        'pollution_status' => '냉각수 상태',
-        'replacement_status' => '브레이크패드 상태',
-        'replacement_status' => '배터리 상태'
+        'diagnosis_expendables_tire' => '타이어 상태',
+        'diagnosis_expendables_oil' => '엔진오일 상태',
+        'diagnosis_expendables_water' => '냉각수 상태',
+        'diagnosis_expendables_break' => '브레이크패드 상태',
+        'diagnosis_expendables_battery' => '배터리 상태'
     ],
-    'diagnosis_exterior_picture' => [
+    'diagnosis_expendables_tire' => [
+        'replacement_status_cd' => '교체진단코드'
+    ],
+    'diagnosis_expendables_oil' => [
+        'pollution_status_cd' => '오염진단코드'
+    ],
+    'diagnosis_expendables_water' => [
+        'pollution_status_cd' => '오염진단코드'
+    ],
+    'diagnosis_expendables_break' => [
+        'replacement_status_cd' => '교체진단코드'
+    ],
+    'diagnosis_expendables_battery' => [
+        'replacement_status_cd' => '교체진단코드'
+    ],
+    'diagnosis_exterior_picture_cd' => [
         'front' => '전',
         'rear' => '후',
         'left' => '좌',
         'right' => '우'
     ],
-    'diagnosis_check_immersion' => [
-        'immersion_stink_status' => '실내악취',
-        'immersion_water_status' => '앞좌석 실내바닥',
-        'immersion_water_status' => '트렁크 실내바닥',
-        'immersion_dirt_status' => '엔진룸'
-    ],
-    'attachment_status' => [
+
+    'attachment_status_cd' => [
         'good' => '양호',
         'different' => '상이',
         'corrosion' => '부식',
         'modulation' => '훼손(오손), 변조(변타)'
     ],
-    'diagnosis_info_color' => [
+    'diagnosis_info_color_cd' => [
         'white' => '흰색',
         'black' => '검정',
         'gray' => '회색',
@@ -184,16 +267,16 @@ return [
         'blue' => '파랑색',
         'etc' => '기'
     ],
-    'repair_status' => [
+    'repair_status_cd' => [
         'good' => '양호',
         'repair' => '수리필요',
         'none' => '없음'
     ],
-    'history_status' => [
+    'history_status_cd' => [
         'good' => '전체양호',
         'history' => '상태이력있음'
     ],
-    'diagnosis_exterior_posion' => [
+    'exterior_position_cd' => [
         'hood' => '후드',
         'front_fender_left' => '프론트펜더 좌',
         'front_fender_right' => '프론트펜더 우',
@@ -208,7 +291,7 @@ return [
         'roof_panel' => '루프패널',
         'trunk_lead' => '트렁크리드'
     ],
-    'diagnosis_interior_posion' => [
+    'interior_position_cd' => [
         'front_panel' => '프론트패널',
         'hill_house_front/left' => '힐하우스 전-좌',
         'hill_house_front/right' => '힐하우스 전-우',
@@ -230,63 +313,63 @@ return [
         'trunk_floor' => '트렁크플로어',
         'rear_panel' => '리어패널'
     ],
-    'diangnosis_part_status' => [
+    'diagnosis_part_status_cd' => [
         'replacement' => '교환',
         'welding' => '용접/판금 수리',
         'need_repair' => '수리필요 (교환/판금)',
         'scratch' => '긁힘 (상처)',
         'corrosion' => '부식'
     ],
-    'immersion_repair_status' => [
+    'immersion_repair_status_cd' => [
         'none' => '없음',
         'simple' => '단순외판교환',
         'core' => '주요골격수리'
     ],
-    'immersion_repair_status' => [
+    'stink_status_cd' => [
         'none' => '없음',
         'yes' => '있음',
         'suspicion' => '의심'
     ],
-    'immersion_water_status' => [
+    'water_status_cd' => [
         'no' => '수분/오염 없음',
         'yes' => '수분/오염 있음',
         'suspicion' => '의심'
     ],
-    'immersion_dirt_status' => [
+    'dirt_status_cd' => [
         'no' => '흙먼지 이물질 없음',
         'yes' => '흙먼지 이물질 있음'
     ],
-    'immersion_scratch_status' => [
+    'scratch_status_cd' => [
         'good' => '양호',
         'scratch' => '긁힘/부식',
         'corrosion' => '부식',
         'maintenance' => '정비요'
     ],
-    'grade' => [
+    'grade_cd' => [
         'top' => '상',
         'middle' => '중',
         'bottom' => '하'
     ],
-    'noise_status' => [
+    'noise_status_cd' => [
         'good' => '양호',
         'noise' => '소음',
         'maintenance' => '정비요'
     ],
-    'operation_status' => [
+    'operation_status_cd' => [
         'good' => '양호',
         'maintenance' => '정비요'
     ],
-    'leackage_status' => [
+    'leakage_status_cd' => [
         'good' => '양호',
         'fineleak' => '미세누유',
         'leak' => '누유'
     ],
-    'replacement_status' => [
+    'replacement_status_cd' => [
         'good' => '양호',
         'normal' => '보통',
         'maintenance' => '교환요'
     ],
-    'pollution_status' => [
+    'pollution_status_cd' => [
         'good' => '양호',
         'pollution' => '오염',
         'maintenance' => '교환요'
