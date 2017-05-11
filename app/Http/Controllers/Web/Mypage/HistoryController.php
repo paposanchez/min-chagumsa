@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Web\Mypage;
 
 use App\Models\ActivityLog;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class HistoryController extends Controller {

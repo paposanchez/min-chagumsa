@@ -1,0 +1,62 @@
+@charset "utf-8";
+
+/*
+=============================================
+|  조성민    SungMin Jo                    |
+|  Cell: +82-10-8837-4565, 010-8837-4565    |
+|  Home: http://www.alitaz.com              |
+|  e-mail: miracle_runa@naver.com           |
+=============================================
+*/
+
+#main_wrap {width:100%;position:relative;}
+
+#main_visual_wrap {width:100%;background:url('../img/main/mv_bg.png') top center no-repeat;height:212px;background-size:100% auto;}
+.main_visual {width:100%;text-align:center;padding:20px 0 0 0;position:relative;}
+
+.main_visual img {height:235px;}
+
+.mv_cert_wrap {padding:65px 14px 20px 14px;}
+.mv_cert_wrap img {display:block;margin-bottom:45px;}
+.mv_cert_box {width:100%;height:50px;line-height:50px;overflow:hidden;}
+.mv_cert_box a {display:block;border-radius:5px;}
+.mv_cert_btn1 {background:#41b1fd;color:#fff;position:relative;font-size:14px;padding:0 15px;}
+.mv_cert_btn1::after {font-family:"FontAwesome";content:'\f054';position:absolute;right:17px;top:2px;}
+.mv_cert_btn1:hover {background:#50b8ff;}
+
+.mv_cert_search_wrap {height:48px;border-radius:5px;border:1px solid #bbb;overflow:hidden;position:relative;}
+.mv_cert_search_wrap input {padding-left:15px;width:100%;height:48px;line-height:48px;box-sizing:border-box;font-size:14px;background:none;border:0;}
+.mv_cert_search_wrap button {position:absolute;border:0;top:0;right:0;color:#01355f;background:none;width:50px;height:50px;line-height:50px;text-align:center;font-size:19px;}
+.mv_cert_search_wrap button i {position:relative;top:-2px;}
+
+.mv_report_wrap {position:absolute;width:707px;height:452px;top:20px;right:-102px;background:url('../img/main/mv_report_bg.png') center center no-repeat;}
+.mv_report {position:relative;}
+.mv_report a {position:absolute;top:-10px;right:105px;}
+
+#main_standard_wrap {width:100%;background:url('../img/main/main_standard_bg.png') top center no-repeat #0b4777;background-size:100% auto;}
+.main_standard {text-align:center;margin:0 auto;}
+.main_standard strong {padding:40px 0 15px 0;height:38px;line-height:22px;font-size:22px;display:block;color:#fff;}
+.main_standard strong span {color:#a4cd17;}
+.main_standard p {color:#fff;font-size:13px;}
+.main_standard ul {overflow:hidden;padding-bottom:30px;}
+.main_standard ul li {margin:10px;font-size:13px;color:#fff;width:148px;height:36px;line-height:36px;display:inline-block;background:rgba(95,180,238,0.33);border:1px solid rgba(255,255,255,0.25);border-radius:56px;box-shadow:0px 0px 8px rgba(0,0,0,0.25);text-align:center;font-weight:bold;}
+
+
+#main_service_wrap {height:332px;position:relative;}
+#main_service_wrap nav {position:absolute;top:82px;width:100%;z-index:9999;overflow:hidden;}
+#main_service_wrap nav div {width:14px;height:28.5px;display:block;background-size:100%;background-repeat:no-repeat;margin:0 20px;}
+#main_service_wrap nav div.msb_prev {float:left;background-image:url('../img/main/nav_prev.png');}
+#main_service_wrap nav div.msb_next {float:right;background-image:url('../img/main/nav_next.png');}
+.main_service_box {display:none;width:100%;position:absolute;top:0;left:0;}
+.msb_top {line-height:192px;text-align:center;height:192px;background-repeat:no-repeat;background-size:100%;}
+.msb_top img {height:96px;}
+.msb_btm {text-align:center;}
+.msb_btm img {padding-top:25px;}
+#msb_1 .msb_btm img {height:77px;}
+#msb_2 .msb_btm img {height:101px;position:relative;top:-10px;}
+#msb_3 .msb_btm img {height:81px;}
+
+#msb_1 {display:block;}
+#msb_1 .msb_top {background-image:url('../img/main/msb_bg1.png');}
+#msb_2 .msb_top {background-image:url('../img/main/msb_bg2.png');}
+#msb_3 .msb_top {background-image:url('../img/main/msb_bg3.png');}

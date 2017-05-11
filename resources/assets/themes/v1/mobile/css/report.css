@@ -1,0 +1,70 @@
+@charset "utf-8";
+
+/*
+=============================================
+|  조성민    SungMin Jo                    |
+|  Cell: +82-10-8837-4565, 010-8837-4565    |
+|  Home: http://www.alitaz.com              |
+|  e-mail: miracle_runa@naver.com           |
+=============================================
+*/
+
+.fcol_navy {color:#0b4777 !important;}
+.fcol_pale {color:#bbb !important;}
+.fsize_23 {font-size:23px !important;display:inline-block;height:23px;line-height:23px;}
+
+.report_head_wrap {background:#0b4777;}
+.report_head_wrap h1 {text-align:center;height:60px;line-height:70px;}
+.report_head_wrap h1 img {height:23px;}
+
+.report_menu_wrap {overflow:hidden;background:#0b4777;}
+.report_menu_wrap li {float:left;width:50%;}
+.report_menu_wrap li a {display:block;height:48px;line-height:48px;text-align:center;color:#fff;font-size:14px;box-sizing:border-box;border-bottom:3px solid #09395f;}
+.report_menu_wrap li.select a {color:#9cc414;border-bottom:5px solid #9cc414;}
+
+.report_title_type1 {height:40px;padding:0 14px;line-height:40px;font-size:17px;color:#444;position:relative;}
+.report_title_type2 {font-size:14px;font-weight:bold;color:#0b4777;padding:5px 14px;}
+
+.report_table {}
+.report_table table {width:100%;}
+.report_table table tbody th, .report_table table tbody td {padding:13px;border:1px solid #ddd;}
+.report_table table tbody th {background:#f6f6f6;color:#444;font-size:12px;line-height:15px;vertical-align:middle;text-align:left;}
+.report_table table tbody td {color:#444;}
+.report_table table tbody td span.exp {content:'만료';background:#e33131;font-weight:bold;padding:2px 4px;color:#fff;margin-left:10px;}
+
+.img_type1 img {width:80px;height:60px;margin:0 4px 4px 0;}
+
+.report_desc {font-size:14px;line-height:20px;padding:0 14px;color:#444;}
+
+.status_good, .status_warn, .status_bad {line-height:15px;padding-left:30px;display:block;font-size:13px;position:relative;}
+.status_good:before, .status_warn:before, .status_bad:before {position:absolute;left:0;top:50%;width:23px;height:23px;content:'';background-image:url('../../img/report/status_icon.png');background-repeat:no-repeat;-webkit-transform:translateY(-55%);-ms-transform:translateY(-55%);transform:translateY(-55%);}
+.status_good {color:#49bb1c;}
+.status_good:before {}
+.status_warn {color:#e3aa31;}
+.status_warn:before {background-position:0 -23px;}
+.status_bad {color:#e33131;}
+.status_bad:before {background-position:0 -46px;}
+
+.bubble_desc {position:relative;}
+.bubble_desc dt {color:#0b4777;font-size:12px;letter-spacing:-1px;}
+.bubble_desc dd {display:none;position:absolute;z-index:99;left:0;top:30px;width:400%;line-height:17px;box-sizing:border-box;padding:12px 20px 12px 14px;background:#fffcd5;box-shadow:0px 0px 3px 0px rgba(0,0,0,0.3);color:#444;}
+.bubble_desc.right dd {left:-185%;}
+.bubble_desc dd:before {position:absolute;left:22px;content:'▲';color:#fffcd5;top:-15px;text-shadow:2px -1px 3px rgba(0,0,0,0.3);}
+.bubble_desc.right dd:before {right:45%;left:auto;}
+.bubble_desc dd:after {position:absolute;width:22px;height:22px;text-align:center;line-height:22px;right:-8px;top:-8px;content:'Ｘ';background:#6c6c6c;border-radius:100%;color:#fff;}
+
+.stamp_line_wrap {border-top:1px solid #e5e5e5;}
+.stamp_line_cont {position:relative;text-align:center;padding:16px 0;}
+.stamp_line_box {display:inline-block;text-align:left;padding-top:5px;}
+
+.stamp_line_info {}
+.stamp_line_info span {color:#444;font-size:14px;padding-right:20px;}
+.stamp_line_info span strong {color:#0b4777;padding-right:5px;}
+
+.stamp_line_cont .stamp_wrap {display:inline-block;padding-right:40px;line-height:68px;height:68px;background:url('../../img/report/report_stamp.png') center right no-repeat;background-size:36px;font-size:14px;color:#0b4777;}
+.stamp_line_cont .stamp_wrap span {position:relative;top:-6px;font-weight:bold;}
+.stamp_line_cont .stamp_wrap strong {padding-left:15px;font-size:30px;letter-spacing:20px;color:#444;font-weight:normal;}
+
+.report_foot_wrap {border-top:1px solid #e5e5e5;padding:30px 0;text-align:center;font-size:13px;}
+.report_foot_wrap span {color:#444;}
+.report_foot_wrap p {color:#bbb;}

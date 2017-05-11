@@ -4,6 +4,14 @@ namespace App\Helpers;
 
 class Helper {
 
+    public static function theme_web($path) {
+        return app('url')->asset("assets/themes/v1/web" . $path);
+    }
+
+    public static function theme_mobile($path) {
+        return app('url')->asset("assets/themes/v1/mobile" . $path);
+    }
+
     public static function assets($path, $secure = null) {
         return app('url')->asset("assets/" . $path, $secure);
     }

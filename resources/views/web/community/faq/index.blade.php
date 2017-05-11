@@ -1,76 +1,120 @@
 @extends( 'web.layouts.default' )
 
-@section('breadcrumbs')
-@includeIf('/vendor/breadcrumbs/default', ['breadcrumbs' => Breadcrumbs::generate('web.community.'.$board_namespace)])
-@endsection
-
 @section( 'content' )
-<div class="container">
 
-    <div class="row">
+<div id='sub_title_wrap'><h2>고객센터<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> 고객센터 <i class="fa fa-angle-right"></i> <span>공지사항</span></div></h2></div>
 
-        <div class="col-md-3 hidden-sm hidden-xs">
-            @include( 'web.partials.submenu.community' )
-        </div>
+<div id='sub_wrap'>
 
-        <div class="col-md-9">
+    <ul class='menu_tab_wrap'>
+        <li><a class='' href='{{ route('notice.index') }}'>공지사항</a></li>
+        <li><a class='select' href='{{ route('faq.index') }}'>FAQ</a></li>
+        <li><a class='' href='{{ route('inquire.index') }}'>1:1 문의</a></li>
+    </ul>
 
-            <!--<h3>FAQ <small>자주하는 질문을 찾아보세요.</small></h3>-->
-            <h3 class="">&nbsp;</h3>
+    <div class='br30'></div>
 
-            <table class="table">
-                <colgroup>
-                    <col width="10%"/>
-                    <col width=""/>
-                    <col width="10%"/>
-                    <col width="10%"/>
-                    <col width="10%"/>
-                </colgroup>
+    <div class='board_wrap'>
+        <table>
+            <colgroup>
+                <col style='width:110px;'>
+                <col style='width:695px;'>
+                <col style='width:135px;'>
+                <col style='width:130px;'>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성일</th>
+                    <th>조회</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th><span>공지</span></th>
+                    <td>카검사 사이트 오픈 준비 중입니다.</td>
+                    <th>2017년 2월 10일</th>
+                    <th>120</th>
+                </tr>
+                <tr>
+                    <th>9</th>
+                    <td>카검사 사이트 오픈 준비 중입니다.</td>
+                    <th>2017년 2월 10일</th>
+                    <th>120</th>
+                </tr>
+                <tr>
+                    <th>9</th>
+                    <td>카검사 사이트 오픈 준비 중입니다.</td>
+                    <th>2017년 2월 10일</th>
+                    <th>120</th>
+                </tr>
+                <tr>
+                    <th>9</th>
+                    <td>카검사 사이트 오픈 준비 중입니다.</td>
+                    <th>2017년 2월 10일</th>
+                    <th>120</th>
+                </tr>
+                <tr>
+                    <th>9</th>
+                    <td>카검사 사이트 오픈 준비 중입니다.</td>
+                    <th>2017년 2월 10일</th>
+                    <th>120</th>
+                </tr>
+                <tr>
+                    <th>9</th>
+                    <td>카검사 사이트 오픈 준비 중입니다.</td>
+                    <th>2017년 2월 10일</th>
+                    <th>120</th>
+                </tr>
+                <tr>
+                    <th>9</th>
+                    <td>카검사 사이트 오픈 준비 중입니다.</td>
+                    <th>2017년 2월 10일</th>
+                    <th>120</th>
+                </tr>
+                <tr>
+                    <th>9</th>
+                    <td>카검사 사이트 오픈 준비 중입니다.</td>
+                    <th>2017년 2월 10일</th>
+                    <th>120</th>
+                </tr>
+                <tr>
+                    <th>9</th>
+                    <td>카검사 사이트 오픈 준비 중입니다.</td>
+                    <th>2017년 2월 10일</th>
+                    <th>120</th>
+                </tr>
+                <tr>
+                    <th>9</th>
+                    <td>카검사 사이트 오픈 준비 중입니다.</td>
+                    <th>2017년 2월 10일</th>
+                    <th>120</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-                <thead>
-                    <tr class="active">
-                        <th>번호</th>
-                        <th class="text-left">제목</th>
-                        <th>구분</th>
-                        <th>등록일</th>
-                        <th>조회</th>
-                    </tr>
-                </thead>
+    <div class='br30'></div>
 
-                <tbody>
-                    @unless (count($entrys) > 0)
-                    <tr>
-                        <td colspan="5" class="no-result">등록된 게시물이 없습니다.</td>
-                    </tr>
-                    @endunless
-
-                    @foreach($entrys as $n => $entry)
-                    <tr>
-                        <td>{{ $entry->post_num }}</td>
-                        <td class="text-left"><a href="{{ route('seller.shop.notice.show', $entry->post_num) }}">{{ $entry->subject }}</a></td>
-                        <td>{{ $entry->post_kind->code_name }}</td>
-                        <td>{{ $entry->created_at->format('Y-m-d') }}</td>
-                        <td>{{ number_format($entry->hits) }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-
-            </table>
-            <div class="text-center margin-vertical">
-                @include('vendor.pagination.default', ['paginator' => $entrys])
-            </div>
-
-        </div>
-
+    <div class='board_pagination_wrap'>
+        <ul>
+            <li><a href=''><i class="fa fa-angle-double-left"></i></a></li>
+            <li><a href='' class='select'>1</a></li>
+            <li><a href=''>2</a></li>
+            <li><a href=''>3</a></li>
+            <li><a href=''>4</a></li>
+            <li><a href=''>5</a></li>
+            <li><a href=''><i class="fa fa-angle-double-right"></i></a></li>
+        </ul>
     </div>
 
 </div>
 @endsection
 
-@section( 'footer-script' )
-<script type="text/javascript">
-    $(function () {
 
-    });
-</script>
-@endsection
+@push( 'header-script' )
+@endpush
+
+@push( 'footer-script' )
+@endpush
