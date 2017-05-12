@@ -30,7 +30,9 @@ class Receiver {
 
     public function receiveSingle($name, Closure $handler) {
         if ($this->request->file($name)) {
-            return $handler($this->request->file($name), $this->path_prefix, $this->path, $this->getNewFilename($name));
+            $file = $this->request->file($name);
+            $renameName = $this->getNewFilename($file->getClientOriginalName());
+            return $handler($file, $this->path_prefix, $this->path, $renameName);
         }
         return false;
     }
@@ -55,7 +57,7 @@ class Receiver {
             $file = $this->request->file($name);
             $chunk = (int) $this->request->get('chunk', false);
             $chunks = (int) $this->request->get('chunks', false);
-            $renameName = $this->getNewFilename($this->request->get('name'));
+            $renameName = $this->getNewFilename($file->getClientOriginalName());
             $filePath = $this->path_prefix . $this->path . '/' . $renameName . '.part';
             $this->removeOldData($filePath);
             $this->appendData($filePath, $file);
@@ -96,7 +98,7 @@ class Receiver {
      * @return string 50byte(real 45byte)
      */
     public function getNewFilename($name) {
-        $newname = md5($name);
+        $newname = md5($name.str_random(2));
         return $this->uptime->format('is') . '-' . $newname . '-' . str_random(7);
     }
 

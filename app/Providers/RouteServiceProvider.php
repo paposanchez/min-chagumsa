@@ -53,6 +53,7 @@ class RouteServiceProvider extends ServiceProvider {
                 ], function ($router) {
             require base_path('routes/web.php');
         });
+        
     }
 
     protected function mapAdminRoutes() {

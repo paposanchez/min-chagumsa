@@ -12,21 +12,34 @@ class Code extends Model {
         'name'
     ];
 
-    public function getAvailabilityAttribute() {
-        return $this->calculateAvailability();
+    public function display() {
+        return trans('code.' . $this->group . '.' . $this->name);
     }
 
-//    public static function getCodesByGroup($group) {
-//        $codes = DB::table('codes')
+//    public static function getCodesWithDisplayNameByGroup($group) {
+//        $results = DB::table('codes')
 //                ->where("group", $group)
 //                ->orderBy('id')
-//                ->pluck("name", 'id');
+//                ->get();
 //
-//        foreach ($codes as $seq => &$code) {
-//            $code->display_name = trans(implode('.', ['code', $group, $code]));
+//
+//        $return = [];
+//        foreach ($results as $entry) {
+//            $return[$entry->id] = [
+//                $entry->id,
+//                trans('code.' . $entry->group . '.' . $entry->name)
+//            ];
 //        }
-//        return $codes;
+//
+//        return $return;
 //    }
+
+    public static function getByGroup($group) {
+        return DB::table('codes')
+                        ->where("group", $group)
+                        ->orderBy('id')
+                        ->get();
+    }
 
     public static function getCodesByGroup($group) {
         return DB::table('codes')
@@ -45,10 +58,6 @@ class Code extends Model {
         } else {
             return $return->orderBy('id')->pluck('id');
         }
-    }
-
-    public function translate($code){
-
     }
 
 }
