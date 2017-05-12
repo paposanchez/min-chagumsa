@@ -220,10 +220,6 @@ var ZFOOP = {
             html += '</div>';
             var body = document.body || document.getElementsByTagName('body')[0];
             body.insertBefore(html, document.getElementById('header'));
-
-            if (autoclose) {
-
-            }
         }
 
     }
@@ -245,95 +241,8 @@ $(function () {
         document.getElementsByTagName("head")[ 0 ].appendChild(msViewportStyle);
     }
 
-
-    /*Scroll Up*/
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 300) {
-            $('body').addClass('layout-header-fixed');
-        } else {
-            $('body').removeClass('layout-header-fixed');
-        }
-    });
-
-
-    // fullscreen
-    $(document).on("click", "#fullscreen-toggle", function (e) {
-        e.preventDefault();
-        var dc = document;
-        var el = dc.documentElement;
-        var rfs;
-        var $this_container = $(this).closest('li');
-        if ($this_container.hasClass("active")) {
-            $this_container.removeClass("active");
-
-            rfs = dc.cancelFullScreen
-                    || dc.webkitCancelFullScreen
-                    || dc.mozCancelFullScreen
-                    || dc.exitFullscreen;
-            rfs.call(dc);
-        } else {
-            $this_container.addClass("active");
-            rfs = el.requestFullScreen
-                    || el.webkitRequestFullScreen
-                    || el.mozRequestFullScreen
-                    || el.msRequestFullscreen;
-
-            rfs.call(el);
-
-        }
-
-    });
-
-
-
-
-    // sidebar menu //
-    $(window).resize(aside_trigger);
-    function aside_trigger() {
-        if ($(window).width() < 768) {
-            $('body').addClass('layout-aside-mobile');
-        } else {
-            $('body').removeClass('layout-aside-mobile');
-        }
-    }
-    aside_trigger();
-
-    $(document).on("click", "#aside-toggle-left", function (e) {
-        e.preventDefault();
-        $("body").toggleClass("layout-aside-left");
-    });
-    $(document).on("click", "#aside-toggle-right", function (e) {
-        e.preventDefault();
-
-        $("body").toggleClass("layout-aside-right");
-    });
-
-    $(document).on("click", "#zfp-overlay", function (e) {
-        e.preventDefault();
-        $("body")
-                .removeClass("layout-aside-left")
-                .removeClass("layout-aside-right");
-    });
-
-    var $overlay = $('#zfp-overlay');
-    $(document).on("ining", function (e) {
-        $overlay.show('fast');
-    });
-    $(document).on("outing", function (e) {
-        $overlay.hide('fast');
-    });
-
-
-    $('.perfect-scrollbar').perfectScrollbar();
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="popover"]').popover();
-    $('[data-toggle="knob"]').knob();
-
-    // lightbox
-    $(document).on('click', '[data-toggle="lightbox"]', function (e) {
-        e.preventDefault();
-        $(this).ekkoLightbox();
-    });
 
     // page alert
     $(document).on('click', '[data-toggle="alert"]', function (e) {
@@ -458,43 +367,6 @@ $(function () {
     });
 
 
-    //########## Touch Spin
-    $(".bootstrap-touchspin").each(function () {
-        var opt = {};
-        if ($(this).data('min')) {
-            opt.min = $(this).data('min');
-        }
-        if ($(this).data('max')) {
-            opt.max = $(this).data('max');
-        }
-        if ($(this).data('step')) {
-            opt.step = $(this).data('step');
-        }
-        if ($(this).data('decimals')) {
-            opt.decimals = $(this).data('decimals');
-        }
-        if ($(this).data('boostat')) {
-            opt.boostat = $(this).data('boostat');
-        }
-        if ($(this).data('maxboostedstep')) {
-            opt.maxboostedstep = $(this).data('maxboostedstep');
-        }
-        if ($(this).data('postfix')) {
-            opt.postfix = $(this).data('postfix');
-        }
-        if ($(this).data('prefix')) {
-            opt.prefix = $(this).data('prefix');
-        }
-        if ($(this).data('vertical')) {
-            opt.verticalbuttons = true;
-        }
-        if ($(this).data('vertical-icon')) {
-            opt.verticalupclass = 'fa fa-plus';
-            opt.verticaldownclass = 'fa fa-minus';
-        }
-        $(this).TouchSpin(opt);
-    });
-
     //########## datepicker
     $('.datepicker').each(function (index, element) {
         var opt = {
@@ -517,48 +389,5 @@ $(function () {
     });
 
 
-    /* wysiwyg */
-    //########## wysiwig
-    if ($('.wysiwyg').length > 0) {
-        $('.wysiwyg').each(function () {
-            var $this = $(this);
-            $this.summernote({
-                height: 200,
-                lang: 'ko-KR', // default: 'en-US'
-                callbacks: {
-                    onImageUpload: function (files, editor, welEditable) {
-
-                        var editor = $(this);
-                        var data = new FormData();
-                        $.each(files, function (k, file) {
-                            data.append("upfile[]", file);
-                        });
-
-                        $.ajax({
-                            data: data,
-                            type: "POST",
-                            url: "/upload/image",
-                            dataType: 'json',
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            success: function (response) {
-                                if (response) {
-                                    $.each(response, function (key, value) {
-                                        editor.summernote('insertImage', value, function ($image) {
-                                            $image.css('width', '');
-                                        });
-                                    });
-                                }
-                            }
-                        });
-                    },
-                    onChange: function (contents, $editable) {
-                        $this.val(contents);
-                    }
-                }
-            });
-        });
-    }
 
 });

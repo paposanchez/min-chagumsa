@@ -29,6 +29,7 @@ class UserController extends Controller {
         return view('admin.user.create', compact('roles', 'status_cd_list'));
     }
 
+
     public function store(Request $request) {
 
         $this->validate($request, [

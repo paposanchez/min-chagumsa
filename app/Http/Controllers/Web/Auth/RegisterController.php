@@ -17,7 +17,11 @@ class RegisterController extends Controller {
     }
 
     public function showRegistrationForm() {
-        return view('web.auth.register');
+        return view('web.auth.agreement');
+    }
+    
+      public function join() {
+        return view('web.auth.join');
     }
 
     /**
@@ -43,12 +47,17 @@ class RegisterController extends Controller {
         ]);
         return $validator;
     }
+    
+    
+    
 
     public function registered(Request $request, $user) {
 
-        $user->notify(new ConfirmEmail());
+//        $user->notify(new ConfirmEmail());
+
+//        return redirect('/')->with('ok', trans('web/verify.message'));
         
-        return redirect('/')->with('ok', trans('web/verify.message'));
+         return view('web.auth.register.registered');
     }
 
     /**

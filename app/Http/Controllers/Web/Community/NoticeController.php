@@ -12,6 +12,6 @@ class NoticeController extends PostController {
     protected $board_id = 1;
     protected $board_namespace = "notice";
     protected $config;
-    protected $view_path = 'web.community.default.';
+    protected $view_path = 'web.community.notice.';
 
 }

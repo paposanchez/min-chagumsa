@@ -14,16 +14,7 @@ use Illuminate\Http\Request;
 */
 
 
-Class UserJson {
-    
-}
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    
-    
-    
-    
-    
-    return $request->user();
-    
+Route::middleware('auth:api')->get('/user/', function (Request $request) {
+	 Route::resource('free', App/User::class);
+//    return $request->user();
 });

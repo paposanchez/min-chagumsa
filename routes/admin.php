@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::resource('tag', 'TagController');
         // 사용자로그
         Route::resource('active', 'ActiveController');
+        
     });
 
     // JSON : 회원목록
@@ -42,9 +43,12 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     });
 
     // 파일
-    Route::post('file/upload', 'FileController@upload')->name("file/upload");
-    Route::get('file/download/{id?}', 'FileController@download')->name("file/download");
-    Route::delete('file/delete/{id}', 'FileController@delete')->name("file/delete");
+    Route::post('file/thumbnail', '\App\Http\Controllers\FileController@thumbnail')->name("file/thumbnail");
+    Route::post('file/upload', '\App\Http\Controllers\FileController@upload')->name("file/upload");
+    Route::post('file/image', '\App\Http\Controllers\FileController@image')->name("file/image");
+    Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");
+    Route::delete('file/delete/{id}', '\App\Http\Controllers\FileController@delete')->name("file/delete");
+
 
     // Avatar
     Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
