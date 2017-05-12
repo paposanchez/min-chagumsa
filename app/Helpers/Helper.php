@@ -11,6 +11,15 @@ class Helper {
     public static function assets_upload($path) {
         return '/upload/' . $path;
     }
+    
+    
+    public static function theme_web($path) {
+        return app('url')->asset("assets/themes/v1/web" . $path);
+    }
+
+    public static function theme_mobile($path) {
+        return app('url')->asset("assets/themes/v1/mobile" . $path);
+    }
 
     /**
      * Format bytes to kb, mb, gb, tb
