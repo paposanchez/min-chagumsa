@@ -6,7 +6,7 @@
 
 	<div class='login_box_wrap'>
 
-		<h3><img src='../img/sub/logo_big.png'></h3>
+		<h3>{{ Html::image(Helper::theme_web( '/img/sub/logo_big.png')) }}</h3>
 		<div class='br30'></div>
 		<div class='ipt_line br10'>
 			<input type='text' class='ipt' placeholder='아이디 (이메일)'>

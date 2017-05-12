@@ -14,12 +14,11 @@ class CreatePermissionsTable extends Migration {
 	{
 		Schema::create('permissions', function(Blueprint $table)
 		{
-			$table->increments('id')->unsigned();
-			$table->string('name')->unique();
-			$table->string('display_name')->nullable();
-			$table->string('description')->nullable();
-			 $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+			$table->increments('id');
+			$table->string('name', 191)->unique();
+			$table->string('display_name', 191)->nullable();
+			$table->string('description', 191)->nullable();
+			$table->timestamps();
 		});
 	}
 

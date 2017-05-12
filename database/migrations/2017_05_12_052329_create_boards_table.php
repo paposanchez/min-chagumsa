@@ -14,7 +14,7 @@ class CreateBoardsTable extends Migration {
 	{
 		Schema::create('boards', function(Blueprint $table)
 		{
-			$table->increments('id')->unsigned();
+			$table->increments('id');
 			$table->string('name', 250);
 			$table->boolean('use_secret')->default(0);
 			$table->boolean('use_captcha')->default(0);
@@ -27,8 +27,7 @@ class CreateBoardsTable extends Migration {
 			$table->integer('upload_max_filesize')->default(0);
 			$table->boolean('upload_max_limit')->default(0);
 			$table->integer('status_cd');
-			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+			$table->timestamps();
 		});
 	}
 

@@ -14,12 +14,11 @@ class CreatePointsTable extends Migration {
 	{
 		Schema::create('points', function(Blueprint $table)
 		{
-			$table->bigInteger('id', true)->increments()->unsigned();
+			$table->bigInteger('id', true)->unsigned();
 			$table->bigInteger('user_id')->unsigned();
 			$table->decimal('point', 10)->default(0.00)->index('points');
 			$table->string('description', 250)->nullable();
-			 $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+			$table->timestamps();
 		});
 	}
 

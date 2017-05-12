@@ -14,7 +14,7 @@ class CreateCommentsTable extends Migration {
 	{
 		Schema::create('comments', function(Blueprint $table)
 		{
-			$table->bigInteger('id', true)->increments()->unsigned();
+			$table->bigInteger('id', true)->unsigned();
 			$table->bigInteger('post_id')->unsigned();
 			$table->bigInteger('parent')->nullable();
 			$table->text('content', 65535);
@@ -22,8 +22,7 @@ class CreateCommentsTable extends Migration {
 			$table->string('email', 100)->nullable();
 			$table->string('passwd', 50)->nullable();
 			$table->string('ip', 20)->nullable();
-			 $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+			$table->timestamps();
 		});
 	}
 

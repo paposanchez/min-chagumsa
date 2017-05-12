@@ -23,14 +23,13 @@ class CreatePostsTable extends Migration {
 			$table->integer('is_shown')->nullable();
 			$table->bigInteger('thumbnail')->nullable();
 			$table->string('subject', 250);
-			$table->text('content');
+			$table->text('content', 65535);
 			$table->string('name', 100)->nullable();
 			$table->string('email', 100)->nullable();
 			$table->string('password', 100)->nullable();
 			$table->integer('hit')->default(0);
 			$table->string('ip', 20);
-			 $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+			$table->timestamps();
 			$table->softDeletes();
 		});
 	}
