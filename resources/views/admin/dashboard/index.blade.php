@@ -9,77 +9,135 @@
 
     <div class="row">
 
-        <!-- START Revenue -->
-        <div class="col-lg-4 col-md-4 col-sm-4">
+        {{-- 최근 문의사항 --}}
+        <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="panel panel-primary">
-                <div class="panel-heading">Total Revenue <small class="pull-right text-gray-lighter">22 - 29 May 2016</small></div>
-                <div class="panel-body">
-                    <h2 class="m-t-0 f-w-300">IDR 10,215,845</h2>
-                    <i class="fa fa-fw fa-caret-up text-success"></i> <span class="text-success m-r-1">33,87%</span> <small>from last week</small>
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-question-sign"></span> 최근 1:1문의 <span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
                 </div>
-            </div>
-        </div>
-        <!-- END Revenue -->
+                <div class="panel-body">
+                    <table class="table">
+                        <colgroup>
+                            <col width="*">
+                            <col width="70px">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
+                            <td>2017.05.12</td>
+                        </tr>
 
-        <!-- START Total Item Sold -->
-        <div class="col-lg-4 col-md-4  col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Total Item Sold <small class="pull-right text-gray-lighter">22 - 29 May 2016</small></div>
-                <div class="panel-body">
-                    <h2 class="m-t-0 f-w-300">128,980</h2>
-                    <i class="fa fa-fw fa-caret-down text-danger"></i> <span class="text-danger m-r-1">33,87%</span> <small>from last week</small>
+                        <tr>
+                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
+                            <td>2017.05.12</td>
+                        </tr>
+                        <tr>
+                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
+                            <td>2017.05.12</td>
+                        </tr>
+                        <tr>
+                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
+                            <td>2017.05.12</td>
+                        </tr>
+                        <tr>
+                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
+                            <td>2017.05.12</td>
+                        </tr>
+                        <tr>
+                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
+                            <td>2017.05.12</td>
+                        </tr>
+                        <tr>
+                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
+                            <td>2017.05.12</td>
+                        </tr>
+                        <tr>
+                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
+                            <td>2017.05.12</td>
+                        </tr>
+                        <tr>
+                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
+                            <td>2017.05.12</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        <!-- END Total Item Sold -->
 
-        <!-- START Total Visitor -->
-        <div class="col-lg-4 col-md-4  col-sm-4">
+        {{-- 최근 정산현황 --}}
+        <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="panel panel-primary">
-                <div class="panel-heading">Total Visitor <small class="pull-right text-gray-lighter">22 - 29 May 2016</small></div>
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-question-sign"></span> 최근 정산현황 <span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                </div>
                 <div class="panel-body">
-                    <h2 class="m-t-0 f-w-300">2,905,895</h2>
-                    <i class="fa fa-fw fa-caret-up text-success"></i> <span class="text-success m-r-1">92,01%</span> <small>from last week</small>
+                    <table class="table">
+                        <colgroup>
+                            <col width="*">
+                            <col width="70px">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
+                            <td>2017.05.12</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        <!-- END Total Visitor -->
 
     </div>
 
 
     <div class="row">
-        <div class="col-sm-6 col-lg-3">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Default Example <small>You can type anything here...</small></h2>
+        {{-- 최근 게시물 --}}
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-question-sign"></span> 최근 게시물<span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <colgroup>
+                            <col width="*">
+                            <col width="70px">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
+                            <td>2017.05.12</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-6 col-lg-3">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Default Example <small>You can type anything here...</small></h2>
+        {{-- 인증서 발급현황 --}}
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-question-sign"></span> 인증서 발급현 <span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <colgroup>
+                            <col width="*">
+                            <col width="70px">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
+                            <td>2017.05.12</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-6 col-lg-3">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Default Example <small>You can type anything here...</small></h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-lg-3">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Default Example <small>You can type anything here...</small></h2>
-                </div>
-            </div>
-        </div>
     </div>
 
 </div>

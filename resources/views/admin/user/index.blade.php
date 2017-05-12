@@ -62,7 +62,7 @@
                         </td>
 
                         <td class="">
-                            {{ $data->created_at->format('Y.m.d') }}
+                            {{ isset($data->created_at) ? $data->created_at->format('Y.m.d')  : '-' }}
                         </td>
 
                         <td>
