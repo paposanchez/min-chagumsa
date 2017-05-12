@@ -73,6 +73,6 @@ Route::get('register/join', 'Auth\RegisterController@join')->name('register.join
 // 회원가입완료
 Route::get('register/registered', 'Auth\RegisterController@registered')->name('register.registered');
 // 이메일 인증
-Route::get('verify', 'Auth\VerifyController');
+Route::get('verify', 'Auth\VerifyController@__invoke');
 
 Route::get('/', 'WelcomeController');
