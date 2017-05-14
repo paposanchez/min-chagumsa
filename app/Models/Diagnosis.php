@@ -8,8 +8,34 @@
 
 namespace App\Models;
 
+use DB;
+use Illuminate\Database\Eloquent\Model;
 
-class Diagnosis
+use App\Models\Order;
+use App\Models\DiagnosisDetails;
+
+class Diagnosis extends Model
 {
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        'id',
+        'orders_id',
+        'name_cd',
+        'sound_file',
+        'extraction',
+        'created_at',
+        'updated_at',
+    ];
 
+    protected $dates = [
+        'created_at', 'updated_at'
+    ];
+
+    public function order(){
+        return $this->belongsTo(\App\Models\Order::class);
+    }
+
+    public function diagnosis_detail(){
+        return $this->hasMany(DiagnosisDetails::class);
+    }
 }

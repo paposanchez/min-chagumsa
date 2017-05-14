@@ -11,7 +11,23 @@ namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Models;
+use App\Models\Car;
+
 class Detail Extends Model
 {
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        'id',
+        'model_id',
+        'name',
+    ];
 
+    public function models(){
+        return $this->belongsTo(Models::class);
+    }
+
+    public function car(){
+        return $this->hasOne(\App\Models\Car::class);
+    }
 }

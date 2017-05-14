@@ -10,6 +10,7 @@ namespace App\Models;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CarFeature;
 
 
 class Feature Extends Model
@@ -20,4 +21,7 @@ class Feature Extends Model
     ];
     protected $dates = ['created_at', 'updated_at'];
 
+    public function car_feature(){
+        return $this->hasOne(\App\Models\CarFeature::class);
+    }
 }

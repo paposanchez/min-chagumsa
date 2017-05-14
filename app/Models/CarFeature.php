@@ -11,6 +11,9 @@ namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Feature;
+use App\Models\Order;
+
 
 class CarFeature extends Model
 {
@@ -18,4 +21,16 @@ class CarFeature extends Model
         'features_id',
         'orders_id'
     ];
+
+    protected $dates = [
+        'created_at', 'updated_at'
+    ];
+
+    public function feature(){
+        return $this->belongsTo(\App\Models\Feature::class);
+    }
+
+    public function order(){
+        return $this->belongsTo(\App\Models\Order::class);
+    }
 }

@@ -38,9 +38,22 @@ Breadcrumbs::register('admin.config.permission', function($breadcrumbs) {
     $breadcrumbs->push(trans("admin/permission.title"), route('permission.index'));
 });
 Breadcrumbs::register('admin.config.tag', function($breadcrumbs) {
-    $breadcrumbs->parent('admin.config');
+    $breadcrumbs->parent('admin');
     $breadcrumbs->push(trans("admin/tag.title"), route('tag.index'));
 });
+
+
+
+Breadcrumbs::register('admin.order', function($breadcrumbs) {
+    $breadcrumbs->parent('admin');
+    $breadcrumbs->push(trans("admin/order.title"), route('order.index'));
+});
+Breadcrumbs::register('admin.calculation', function($breadcrumbs) {
+    $breadcrumbs->parent('admin');
+    $breadcrumbs->push(trans("admin/calculation.title"), route('calculation.index'));
+});
+
+
 
 //############################## Web
 Breadcrumbs::register('web', function($breadcrumbs) {

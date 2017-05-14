@@ -8,8 +8,29 @@
 
 namespace App\Models;
 
+use DB;
+use Illuminate\Database\Eloquent\Model;
 
-class SettlementFeature
+use App\Models\Order;
+use App\Models\Settlement;
+
+class SettlementFeature extends Model
 {
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        'settlements_id',
+        'orders_id',
+    ];
 
+    protected $dates = [
+        'created_at', 'updated_at'
+    ];
+
+    public function order(){
+        return $this->belongsTo(\App\Models\Order::class);
+    }
+
+    public function settlement(){
+        return $this->hasOne(\App\Models\Settlement::class);
+    }
 }

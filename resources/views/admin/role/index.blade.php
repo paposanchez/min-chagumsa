@@ -49,7 +49,7 @@
                         
                         <td class="text-left">{{ $data->description }}</td>
                         
-                        <td>{{ $data->created_at->format('Y.m.d') }}</td>
+                        <td>{{ isset($data->created_at)? $data->created_at->format('Y.m.d'): '-' }}</td>
                         
                         <td>
                             <a href="{{ route('role.edit', $data->id) }}" class="btn btn-default"  data-tooltip="{pos:'top'}" title="{{ trans('common.button.edit') }}">{{ trans('common.button.edit') }}</a>

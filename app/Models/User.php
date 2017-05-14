@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Storage;
+use App\Models\UserExtra;
 
 class User extends Authenticatable {
 
@@ -94,6 +95,13 @@ class User extends Authenticatable {
         }
 
         return storage_path('app/' . $folderPath);
+    }
+
+    /**
+     *
+     */
+    public function userExtras(){
+        return $this->hasOne(UserExtra::class);
     }
 
 //    public function getFilesDirectory() {

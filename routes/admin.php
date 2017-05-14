@@ -53,6 +53,11 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     // Avatar
     Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
     Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
+
+
+    Route::resource('order', 'OrderController');
+    Route::resource('calculation', 'CalculationController');
+
 });
 
 // After login in administrator's
@@ -78,6 +83,8 @@ Route::group(['middleware' => ['guest.admin']], function () {
 
 
     Route::get('/', 'WelcomeController');
+
+//    Route::get('order/', 'OrderController@index');
 });
 
 Route::get('logout', 'Auth\LoginController@logout')->name("admin.logout");

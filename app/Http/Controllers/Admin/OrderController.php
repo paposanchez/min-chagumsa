@@ -11,6 +11,7 @@ use App\Models\Code;
 class OrderController extends Controller
 {
     public function index(){
+
         $yn_list = Code::getCodesByGroup('yn');
         $shown_role_list = Code::getCodesByGroup('post_shown_role');
         $search_fields = Code::getCodesByGroup('post_search_field');

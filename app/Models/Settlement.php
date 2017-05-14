@@ -11,6 +11,8 @@ namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\SettlementFeature;
+
 class Settlement extends Model
 {
     protected $fillable = [
@@ -19,11 +21,13 @@ class Settlement extends Model
         'amount',
         'description',
         'status_cd',
-        'created_id',
-        'updated_id'
     ];
 
     protected $dates = [
         'created_at', 'updated_at'
     ];
+
+    public function settlement_feature(){
+        return $this->hasOne(\App\Models\SettlementFeature::class);
+    }
 }

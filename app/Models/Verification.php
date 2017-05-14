@@ -5,19 +5,19 @@ namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-class Opinion extends Model {
 
+class Verification extends Model
+{
     protected $primaryKey = 'id';
     protected $fillable = [
-        'post_id',
-        'user_id',
-        'opinion',
-        'ip',
+        'id',
+        'key',
+        'content',
         'created_at',
         'updated_at',
     ];
-
     protected $dates = [
         'created_at', 'updated_at'
     ];
+
 }

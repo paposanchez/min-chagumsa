@@ -4,7 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Model extends Model {
+use App\Models\Brand;
+use App\Models\Detail;
+
+class Models extends Model {
 
     public function getCreatedAtAttribute($date) {
         return Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
@@ -12,6 +15,14 @@ class Model extends Model {
 
     public function getUpdatedAtAttribute($date) {
         return Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
+    }
+
+    public function brand(){
+        return $this->belongsTo(\App\Models\Brand::class);
+    }
+
+    public function detail(){
+        return $this->hasOne(\App\Models\Detail::class);
     }
 
 }

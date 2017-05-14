@@ -8,8 +8,27 @@
 
 namespace App\Models;
 
+use DB;
+use Illuminate\Database\Eloquent\Model;
 
-class Item
+use App\Models\Order;
+
+class Item extends Model
 {
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        'id',
+        'name',
+        'price',
+        'layout',
+        'created_id',
+    ];
 
+    protected $dates = [
+        'created_at', 'updated_at'
+    ];
+
+    public function order(){
+        return $this->hasOne(\App\Models\Order::class);
+    }
 }

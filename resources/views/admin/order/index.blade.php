@@ -1,7 +1,7 @@
 @extends( 'admin.layouts.default' )
 
 @section('breadcrumbs')
-@include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.order')])
+    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.order')])
 @endsection
 
 @section( 'content' )
