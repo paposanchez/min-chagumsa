@@ -17,7 +17,7 @@ class CreateFeaturesTable extends Migration {
 			$table->increments('id');
 			$table->string('name', 150);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

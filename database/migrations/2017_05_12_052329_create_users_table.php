@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration {
 			$table->integer('avatar')->nullable();
 			$table->integer('status_cd');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 			$table->softDeletes();
 		});
 	}

@@ -17,7 +17,7 @@ class CreateApplicationVerificationTable extends Migration {
 			$table->bigInteger('user_id')->unsigned()->primary()->comment('사용자 seq');
 			$table->text('link', 65535)->nullable()->comment('다운로드 링크');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 			$table->softDeletes();
 		});
 	}

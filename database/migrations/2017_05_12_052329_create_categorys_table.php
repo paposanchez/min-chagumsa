@@ -20,7 +20,7 @@ class CreateCategorysTable extends Migration {
 			$table->integer('rgt')->nullable()->index();
 			$table->integer('depth')->nullable();
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

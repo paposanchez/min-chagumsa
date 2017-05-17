@@ -20,8 +20,9 @@ class CreateSettlementsTable extends Migration {
 			$table->text('description', 65535)->nullable()->comment('설명');
 			$table->integer('status_cd')->comment('정산여부');
 			$table->bigInteger('created_id')->comment('정산생성자');
-			$table->timestamps();
 			$table->bigInteger('updated_id')->unsigned()->nullable()->comment('정산처리자');
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

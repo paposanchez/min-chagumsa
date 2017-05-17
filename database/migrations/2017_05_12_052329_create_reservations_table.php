@@ -19,7 +19,7 @@ class CreateReservationsTable extends Migration {
 			$table->bigInteger('garage_id');
 			$table->dateTime('reservation_at')->comment('입고희망일');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 			$table->unique(['orders_id','reservation_at'], 'uk');
 		});
 	}

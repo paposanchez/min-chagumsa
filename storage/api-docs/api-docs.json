@@ -184,12 +184,10 @@
                 "parameters": [
                     {
                         "name": "user_id",
-                        "in": "body",
+                        "in": "path",
                         "description": "User id. ",
                         "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
+                        "type": "integer"
                     }
                 ],
                 "responses": {

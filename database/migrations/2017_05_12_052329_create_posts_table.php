@@ -30,7 +30,7 @@ class CreatePostsTable extends Migration {
 			$table->integer('hit')->default(0);
 			$table->string('ip', 20);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 			$table->softDeletes();
 		});
 	}

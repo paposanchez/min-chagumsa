@@ -22,7 +22,7 @@ class CreateDiagnosisFilesTable extends Migration {
 			$table->string('size', 45)->nullable();
 			$table->string('mime', 45)->nullable();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
             
 		});
 	}

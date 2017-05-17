@@ -20,7 +20,7 @@ class CreateItemsTable extends Migration {
 			$table->text('layout', 65535)->comment('진단레이아웃');
 			$table->bigInteger('created_id');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

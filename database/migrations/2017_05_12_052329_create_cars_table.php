@@ -32,7 +32,7 @@ class CreateCarsTable extends Migration {
 			$table->string('output', 45)->nullable()->comment('정격출력');
 			$table->decimal('fuel_consumption', 4, 1)->nullable()->comment('연비');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

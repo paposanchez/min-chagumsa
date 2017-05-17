@@ -20,8 +20,8 @@ class CreatePurchasesTable extends Migration {
             $table->string('refund_account', 45)->nullable();
             $table->string('refund_bank', 45)->nullable();
             $table->integer('status')->comment('결제상태');
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
+           $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 

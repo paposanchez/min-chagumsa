@@ -32,7 +32,7 @@ class CreateOrdersTable extends Migration {
 			$table->bigInteger('verification_id')->nullable()->comment('주문자 실명인증 seq');
 			$table->integer('status_cd')->default(10)->comment('주문상태 코드');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 			$table->unique(['datekey','car_number'], 'uk');
 		});
 	}
