@@ -19,7 +19,8 @@ class CreateItemsTable extends Migration {
 			$table->integer('price')->default(0)->comment('상품가');
 			$table->text('layout', 65535)->comment('진단레이아웃');
 			$table->bigInteger('created_id');
-			$table->timestamps();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

@@ -25,7 +25,8 @@ class CreateFilesTable extends Migration {
 			$table->integer('download')->unsigned()->default(0);
 			$table->string('group', 10)->nullable();
 			$table->bigInteger('group_id')->nullable();
-			$table->timestamps();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

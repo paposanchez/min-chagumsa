@@ -27,7 +27,8 @@ class CreateBoardsTable extends Migration {
 			$table->integer('upload_max_filesize')->default(0);
 			$table->boolean('upload_max_limit')->default(0);
 			$table->integer('status_cd');
-			$table->timestamps();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

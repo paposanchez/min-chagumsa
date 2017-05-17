@@ -27,7 +27,7 @@ Route::get('/post/{board_id}/{id}', "PostController@getPost");
 
 Route::group(['middleware' => ['web']], function () {
     Route::post('/login', "UserController@login");
-    Route::get('/user/{user_id?}', "UserController@user");
+    Route::get('/user/{user_id?}', "UserController@getUser");
     Route::post('/logout', "UserController@logout");
 });
 

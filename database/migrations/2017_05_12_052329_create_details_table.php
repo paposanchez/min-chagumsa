@@ -17,7 +17,8 @@ class CreateDetailsTable extends Migration {
 			$table->increments('id');
 			$table->integer('model_id')->unsigned()->index('fk_details_models1_idx');
 			$table->string('name', 250);
-			$table->timestamps();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

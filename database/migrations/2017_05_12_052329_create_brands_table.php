@@ -16,7 +16,8 @@ class CreateBrandsTable extends Migration {
 		{
 			$table->integer('id')->unsigned()->primary();
 			$table->string('name', 250);
-			$table->timestamps();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

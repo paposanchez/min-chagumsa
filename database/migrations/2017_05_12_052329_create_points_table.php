@@ -18,7 +18,7 @@ class CreatePointsTable extends Migration {
 			$table->bigInteger('user_id')->unsigned();
 			$table->decimal('point', 10)->default(0.00)->index('points');
 			$table->string('description', 250)->nullable();
-			$table->timestamps();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 		});
 	}
 

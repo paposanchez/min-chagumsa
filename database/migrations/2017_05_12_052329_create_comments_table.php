@@ -22,7 +22,8 @@ class CreateCommentsTable extends Migration {
 			$table->string('email', 100)->nullable();
 			$table->string('passwd', 50)->nullable();
 			$table->string('ip', 20)->nullable();
-			$table->timestamps();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

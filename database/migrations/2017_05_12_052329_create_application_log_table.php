@@ -16,7 +16,8 @@ class CreateApplicationLogTable extends Migration {
 		{
 			$table->bigInteger('id', true)->unsigned();
 			$table->bigInteger('user_id')->unsigned()->comment('사용자 seq');
-			$table->timestamps();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

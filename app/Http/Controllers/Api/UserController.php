@@ -184,10 +184,10 @@ class UserController extends Controller {
      *   produces={"application/xml", "application/json"},
      *   @SWG\Parameter(
      *     name="user_id",
-     *     in="body",
+     *     in="path",
      *     description="User id. ",
      *     required=true,
-     *     @SWG\Schema(ref="#/definitions/User")
+     *     type="integer"
      *   ),
      *   @SWG\Response(response=200, description="successful", @SWG\Schema(ref="#/definitions/User")),
      *   @SWG\Response(response=400, description="Invalid user id supplied"),
@@ -195,7 +195,7 @@ class UserController extends Controller {
      * )
      */
     public function getUser($user_id) {
-        return App\Models\User::findOrFail($user_id);
+        return User::findOrFail($user_id);
     }
 
     /**
