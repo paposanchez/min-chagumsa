@@ -41,12 +41,19 @@ class Handler extends ExceptionHandler {
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception) {
-        
+    public function render($request, Exception $e) {
+
 //        if ($exception instanceof TokenMismatchException) {
 //            return redirect()->route('/')->with('error', trans('auth.token-mismatch'));
 //        }
-        return parent::render($request, $exception);
+//        return parent::render($request, $exception);
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(
+                            $this->getJsonMessage($e), $this->getExceptionHTTPStatusCode($e)
+            );
+        }
+        return parent::render($request, $e);
     }
 
     /**
@@ -62,6 +69,21 @@ class Handler extends ExceptionHandler {
         }
 
         return redirect()->guest(route('login'));
+    }
+
+    protected function getJsonMessage($e) {
+        // You may add in the code, but it's duplication
+        return [
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ];
+    }
+
+    protected function getExceptionHTTPStatusCode($e) {
+        // Not all Exceptions have a http status code
+        // We will give Error 500 if none found
+        return method_exists($e, 'getStatusCode') ?
+                $e->getStatusCode() : 500;
     }
 
 }

@@ -25,7 +25,8 @@
         "nesbot/carbon": "^1.22",
         "zizaco/entrust": "5.2.x-dev",
         "spatie/laravel-activitylog": "^1.12",
-        "rtconner/laravel-tagging": "~2.2"
+        "rtconner/laravel-tagging": "~2.2",
+        "darkaonline/l5-swagger" : "~4.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

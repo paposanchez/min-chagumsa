@@ -81,10 +81,13 @@ class RouteServiceProvider extends ServiceProvider {
             'middleware' => 'api',
             'namespace' => $namespace,
             'domain' => 'api.' . config('app.domain'),
-            'prefix' => 'api',
+//            'prefix' => 'api',
                 ], function ($router) {
             require base_path('routes/api.php');
         });
+        
+        app('config')->set('L5_SWAGGER_GENERATE_ALWAYS', TRUE);
+//        config('L5_SWAGGER_GENERATE_ALWAYS', TRUE);
     }
 
 }

@@ -169,6 +169,8 @@ return [
         Baum\Providers\BaumServiceProvider::class,
         // Tags
         Conner\Tagging\Providers\TaggingServiceProvider::class,
+        // Swagger
+        L5Swagger\L5SwaggerServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------

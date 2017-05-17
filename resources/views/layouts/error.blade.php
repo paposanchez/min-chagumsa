@@ -11,8 +11,6 @@
 </div>
 
 {{-- 본문의 사이드 --}}
-@includeIf( 'web.partials.left' )
-@includeIf( 'web.partials.right' )
 @endsection
 
 @section( 'content-header-script' )

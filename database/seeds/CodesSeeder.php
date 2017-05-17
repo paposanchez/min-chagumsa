@@ -24,6 +24,9 @@ class CodesSeeder extends Seeder {
         DB::table('codes')->insert(['group' => 'post_search_field', 'name' => 'subject']);
         DB::table('codes')->insert(['group' => 'post_search_field', 'name' => 'content']);
         DB::table('codes')->insert(['group' => 'post_search_field', 'name' => 'writer_name']);
+        
+        
+        
     }
 
 }
