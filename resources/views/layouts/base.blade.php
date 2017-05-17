@@ -14,8 +14,8 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
         <!-- Styles -->
-<!--        {{ Html::style(Helper::assets('css/app.css')) }}
-        {{ Html::style(Helper::assets('css/vendor.css')) }}-->
+        {{ Html::style(Helper::assets('css/app.css')) }}
+        {{ Html::style(Helper::assets('css/vendor.css')) }}
         
 
         <!-- Scripts -->

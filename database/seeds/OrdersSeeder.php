@@ -15,3 +15,7 @@ class OrdersSeeder extends Seeder
     }
 
 }
+
+[
+    'datekey' => '', 'car_number' => '', 'car_id' => '', 'item_id' => '', 'purchase_id' => '', 'registration_file_cd' => '', 'open_cd' => ''
+];
