@@ -12,7 +12,7 @@ class DetailsSeeder extends Seeder
     public function run(){
         DB::table('details')->insert([
             'model_id' => 1,
-            'name' => '아반떼 HD'
+            'name' => '아반떼 HD 프리미엄(세부)'
         ]);
     }
 

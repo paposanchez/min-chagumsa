@@ -33,7 +33,7 @@ class RegisterController extends Controller {
     protected function validator(array $data) {
         $validator = Validator::make($data, [
                     'email' => 'required|email|max:255|unique:users',
-                    'name' => 'required|max:100',
+                    'name' => 'max:100',
                     'password' => 'required|min:6|confirmed',
                     'password_confirmation' => 'required|min:6|same:password',
                     'mobile' => 'confirmed',
@@ -47,9 +47,26 @@ class RegisterController extends Controller {
         ]);
         return $validator;
     }
-    
-    
-    
+
+    /**
+     * 회원정보 저장
+     * @param Request $request
+     */
+    public function register(Request $request)
+    {
+        dd($request->all());
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        dd($user);
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
+    }
+
 
     public function registered(Request $request, $user) {
 

@@ -11,6 +11,7 @@ class BrandsSeeder extends Seeder
 {
     public function run(){
         DB::table('brands')->insert([
+            'id' => 1,
             'name' => '현대자동차'
         ]);
     }
