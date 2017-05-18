@@ -19,6 +19,574 @@
         "https"
     ],
     "paths": {
+        "/community/notice/{notice_id}/{page}/{num_notice}": {
+            "get": {
+                "tags": [
+                    "Community"
+                ],
+                "summary": "\uace0\uac1d\uc13c\ud130 - \uacf5\uc9c0\uc0ac\ud56d \ub9ac\uc2a4\ud2b8",
+                "description": "\uacf5\uc9c0\uc0ac\ud56d\uc758 \uae00 \ubaa9\ub85d \ucd9c\ub825",
+                "operationId": "noticeList",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "notice_id",
+                        "in": "path",
+                        "description": "Notice Id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "Page Number",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "num_notice",
+                        "in": "path",
+                        "description": "Notice number of a request",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/community/notice/view/{notice_id}": {
+            "get": {
+                "tags": [
+                    "Community"
+                ],
+                "summary": "\uc0c1\uc138\ubcf4\uae30",
+                "description": "\uacf5\uc9c0\uc0ac\ud56d \uc0c1\uc138\ubcf4\uae30",
+                "operationId": "noticeDetail",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "notice_id",
+                        "in": "path",
+                        "description": "Notice Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/community/faq/{categori_id}/{faq_id}/{page}/{num_faq}": {
+            "get": {
+                "tags": [
+                    "Community"
+                ],
+                "summary": "\uace0\uac1d\uc13c\ud130 - FAQ \ub9ac\uc2a4\ud2b8",
+                "description": "FAQ \uae00 \ubaa9\ub85d \ucd9c\ub825",
+                "operationId": "faqList",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "category_id",
+                        "in": "path",
+                        "description": "Category Id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "faq_id",
+                        "in": "path",
+                        "description": "Faq Id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "Page Number",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "num_faq",
+                        "in": "path",
+                        "description": "Faq number of a request",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/community/faq/view/{faq_id}": {
+            "get": {
+                "tags": [
+                    "Community"
+                ],
+                "summary": "\uc0c1\uc138\ubcf4\uae30",
+                "description": "FAQ \uc0c1\uc138\ubcf4\uae30",
+                "operationId": "faqDeatail",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "faq_id",
+                        "in": "path",
+                        "description": "Faq Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/community/inquire/{inquire_id}/{page}/{num_inquire}": {
+            "get": {
+                "tags": [
+                    "Community"
+                ],
+                "summary": "\uace0\uac1d\uc13c\ud130 - 1:1 \ubb38\uc758\ud558\uae30 \ub9ac\uc2a4\ud2b8",
+                "description": "1:1 \ubb38\uc758 \uae00 \ubaa9\ub85d \ucd9c\ub825",
+                "operationId": "inquireList",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "inquire_id",
+                        "in": "path",
+                        "description": "Inquire Id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "Page Number",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "inquire_faq",
+                        "in": "path",
+                        "description": "Inquire number of a request",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/community/inquire/view/{inquire_id}": {
+            "get": {
+                "tags": [
+                    "Community"
+                ],
+                "summary": "\uc0c1\uc138\ubcf4\uae30",
+                "description": "1:1 \ubb38\uc758 \uc0c1\uc138\ubcf4\uae30",
+                "operationId": "inquireDetail",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "inquire_id",
+                        "in": "path",
+                        "description": "Inquire Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/community/inquire/write": {
+            "put": {
+                "tags": [
+                    "Community"
+                ],
+                "summary": "\ubb38\uc758\ud558\uae30",
+                "description": "1:1 \ubb38\uc758\ud558\uae30",
+                "operationId": "sendInquire",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "post",
+                        "in": "body",
+                        "description": "Inquire Context",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Post"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/myreport/{page}/{user_id}": {
+            "get": {
+                "tags": [
+                    "MyReport"
+                ],
+                "summary": "My \uc778\uc99d\uc11c",
+                "description": "\uc2e0\uccad\ub0b4\uc5ed\uc744 \ucd9c\ub825",
+                "operationId": "getReports",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "Page",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/myreport/view/{order_id}": {
+            "get": {
+                "tags": [
+                    "MyReport"
+                ],
+                "summary": "\uc778\uc99d\uc11c \uc0c1\uc138\ubcf4\uae30",
+                "description": "\uc778\uc99d\uc11c\uc758 \uc0c1\uc138\ub0d0\uc5ed\uc744 \ucd9c\ub825\ud55c\ub2e4",
+                "operationId": "getReports",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "Page",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/mypage/order/{page}/{order_id}/{num_post}": {
+            "get": {
+                "tags": [
+                    "Mypage"
+                ],
+                "summary": "MyPage-\uc8fc\ubb38\ubaa9\ub85d",
+                "description": "\ub098\uc758 \uc8fc\ubb38\ubaa9\ub85d\uc758 \uc0c1\ud0dc\ub97c \ucd9c\ub825",
+                "operationId": "orderList",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order Id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "Page Number",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "num_order",
+                        "in": "path",
+                        "description": "order number of a request",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/mypage/order/view/{order_id}": {
+            "get": {
+                "tags": [
+                    "Mypage"
+                ],
+                "summary": "\uc0c1\uc138\ubcf4\uae30",
+                "description": "\uc8fc\ubb38\uc5d0 \ub300\ud55c \uc0c1\uc138\ubaa9\ub85d \ucd9c\ub825",
+                "operationId": "orderList",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/mypage/order/ch-car-info/{order_id}": {
+            "put": {
+                "tags": [
+                    "Mypage"
+                ],
+                "summary": "\ucc28\ub7c9 \uc815\ubcf4 \ubcc0\uacbd",
+                "description": "\uae30\ubcf8\uc815\ubcf4 \uc785\ub825 \ub0b4\uc6a9\uc744 \ub2e4\uc2dc \uc124\uc815",
+                "operationId": "changeCarInfo",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/mypage/order/ch-stock-info/{order_id}": {
+            "put": {
+                "tags": [
+                    "Mypage"
+                ],
+                "summary": "\uc785\uace0 \uc815\ubcf4 \ubcc0\uacbd",
+                "description": "\uc785\uace0\ud558\uace0\uc790 \ud558\ub294 \uc815\ube44\uc18c\ub97c \ubcc0\uacbd",
+                "operationId": "changeStockInfo",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/mypage/order/cansel/{order_id}": {
+            "post": {
+                "tags": [
+                    "Mypage"
+                ],
+                "summary": "\ucde8\uc18c \uc2e0\uccad",
+                "description": "\ucc28\ub7c9 \uc778\uc99d\uc11c \uc2e0\uccad\uc744 \ucde8\uc18c",
+                "operationId": "orderCansel",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/mypage/edit": {
+            "put": {
+                "tags": [
+                    "Mypage"
+                ],
+                "summary": "\ud68c\uc6d0\uc815\ubcf4 \uc218\uc815",
+                "description": "\ube44\ubc00\ubc88\ud638\ub97c \ubcc0\uacbd",
+                "operationId": "edit",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/order": {
+            "put": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "\uc778\uc99d\uc11c - \uae30\ubcf8\uc815\ubcf4 \uc785\ub825",
+                "description": "\uc778\uc99d \ubc1b\uace0\uc790 \ud558\ub294 \ucc28\ub7c9\uc758 \uc815\ubcf4 \uc785\ub825",
+                "operationId": "order",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/order/reservation": {
+            "put": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "\uc785\uace0\uc815\ubcf4 \uc120\ud0dd",
+                "description": "\uc5b4\ub290 \uc815\ube44\uc18c\uc5d0 \ub9e1\uae38 \uac83\uc778\uc9c0\ub97c \ucc44\ud06c",
+                "operationId": "reservationEdit",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/order/purchase/": {
+            "put": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "\uacb0\uc81c\ud558\uae30",
+                "description": "\uc2e0\uccad\uc815\ubcf4\ub97c \ud655\uc778\ud558\uba70, \uacb0\uc81c \uc9c4\ud589",
+                "operationId": "getPosts",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/order/complete/{order_id}": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "\uc8fc\ubb38 \uc644\ub8cc",
+                "description": "\uc8fc\ubb38 \uc644\ub8cc \ud6c4 \uacb0\uc81c\uc815\ubcf4",
+                "operationId": "getPosts",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "board_id",
+                        "in": "path",
+                        "description": "Board Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
         "/posts/{board_id}/{page}/{num_post}": {
             "get": {
                 "tags": [
