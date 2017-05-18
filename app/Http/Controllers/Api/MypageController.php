@@ -11,7 +11,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use Illuminate\Http\Request;
 
 class MypageController extends Controller
 {
@@ -56,8 +55,8 @@ class MypageController extends Controller
     /**
      * @SWG\Get(path="/mypage/order/view/{order_id}",
      *   tags={"Mypage"},
-     *   summary="상세보기",
-     *   description="주문에 대한 상세목록 출력",
+     *   summary="MyPage-주문목록",
+     *   description="나의 주문목록의 상태를 출력",
      *   operationId="orderList",
      *   produces={"application/xml", "application/json"},
      *   @SWG\Parameter(

@@ -19,6 +19,76 @@
         "https"
     ],
     "paths": {
+        "/calculation/{order_id}/{page}": {
+            "get": {
+                "tags": [
+                    "Calculation"
+                ],
+                "summary": "\uc815\uc0b0\uad00\ub9ac \ubaa9\ub85d",
+                "description": "\uc815\uc0b0\uad00\ub9ac \ubaa9\ub85d \ucd9c\ub825",
+                "operationId": "calculationList",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order Id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "Page Number",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "num_order",
+                        "in": "path",
+                        "description": "Post number of a request",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/calculation/view/{order_id}": {
+            "get": {
+                "tags": [
+                    "Calculation"
+                ],
+                "summary": "\uc0c1\uc138\ubcf4\uae30",
+                "description": "\uc815\uc0b0\uad00\ub9ac\uc5d0 \ub300\ud55c \uc0c1\uc138\ubaa9\ub85d \ucd9c\ub825",
+                "operationId": "calculationDetail",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
         "/community/notice/{notice_id}/{page}/{num_notice}": {
             "get": {
                 "tags": [
@@ -266,6 +336,276 @@
                 }
             }
         },
+        "/diagnosis/{engineer_id}": {
+            "get": {
+                "tags": [
+                    "Diagnosis"
+                ],
+                "summary": "\uc9c4\ub2e8\ubaa9\ub85d",
+                "description": "\uc9c4\ub2e8\ud558\uae30\ub97c \ub20c\ub7ec \uc9c4\ub2e8\uc744 \uc2dc\ud589\ud55c \uc8fc\ubb38 \ucd9c\ub825",
+                "operationId": "diagnosisList",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "engineer_id",
+                        "in": "path",
+                        "description": "Engineer Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/start-diagnosis/{order_id}": {
+            "get": {
+                "tags": [
+                    "Diagnosis"
+                ],
+                "summary": "\uc9c4\ub2e8\ud560 \ubaa9\ub85d \uc120\ud0dd",
+                "description": "\uc9c4\ub2e8\ud558\uae30 \uc120\ud0dd \ud6c4 \uc9c4\ub2e8\ud560 \ud56d\ubaa9 \ucd9c\ub825",
+                "operationId": "diagnosisItem",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/diagnosis-detail/{detail_id}": {
+            "get": {
+                "tags": [
+                    "Diagnosis"
+                ],
+                "summary": "\uc9c4\ub2e8 \uc0c1\uc138\ubaa9\ub85d",
+                "description": "\uc9c4\ub2e8 \uc0c1\uc138\ubaa9\ub85d\uc744 \ucd9c\ub825",
+                "operationId": "diagnosisDetail",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "detail_id",
+                        "in": "path",
+                        "description": "Detail Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/setDiagnosis/{order_id}": {
+            "put": {
+                "tags": [
+                    "Diagnosis"
+                ],
+                "summary": "\uc9c4\ub2e8 \uc800\uc7a5",
+                "description": "\uc9c4\ub2e8 \ud56d\ubaa9\ub4e4\uc758 \uac12\uc744 \uc800\uc7a5\ud55c\ub2e4",
+                "operationId": "setDiagnosis",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "diagnosisdetail",
+                        "in": "body",
+                        "description": "DiagnosisDetail Context",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/DiagnosisDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/complete-diagnosis/{order_id}": {
+            "get": {
+                "tags": [
+                    "Diagnosis"
+                ],
+                "summary": "\uc9c4\ub2e8\uc644\ub8cc \ubaa9\ub85d",
+                "description": "\uc9c4\ub2e8\uc774 \uc644\ub8cc\ub41c \uc8fc\ubb38 \ubaa9\ub85d",
+                "operationId": "completeDiagnosisList",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/member/{user_id}/{page}": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "\ud68c\uc6d0\uad00\ub9ac \ubaa9\ub85d",
+                "description": "\ud68c\uc6d0\uad00\ub9ac \ubaa9\ub85d \ucd9c\ub825",
+                "operationId": "memberList",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "Page Number",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "num_member",
+                        "in": "path",
+                        "description": "Member number of a request",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/member/{user_id}/edit": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "\uc0c1\uc138\ubcf4\uae30 \ubc0f \uc218\uc815",
+                "description": "\ud68c\uc6d0\uc758 \uc815\ubcf4 \uc218\uc815 \uac00\ub2a5",
+                "operationId": "calculationDetail",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/member/add-mem": {
+            "put": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "\ud68c\uc6d0 \ucd94\uac00",
+                "description": "\ud68c\uc6d0 \uc815\ubcf4 \ucd94\uac00",
+                "operationId": "addMember",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "User",
+                        "in": "body",
+                        "description": "\uc0ac\uc6a9\uc790 \uc815\ubcf4",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/member/del-mem/{user_id}": {
+            "post": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "\ud68c\uc6d0 \uc0ad\uc81c",
+                "description": "\ud68c\uc6d0\uc758 \uc815\ubcf4 \uc0ad\uc81c",
+                "operationId": "delMember",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
         "/myreport/{page}/{user_id}": {
             "get": {
                 "tags": [
@@ -376,8 +716,8 @@
                 "tags": [
                     "Mypage"
                 ],
-                "summary": "\uc0c1\uc138\ubcf4\uae30",
-                "description": "\uc8fc\ubb38\uc5d0 \ub300\ud55c \uc0c1\uc138\ubaa9\ub85d \ucd9c\ub825",
+                "summary": "MyPage-\uc8fc\ubb38\ubaa9\ub85d",
+                "description": "\ub098\uc758 \uc8fc\ubb38\ubaa9\ub85d\uc758 \uc0c1\ud0dc\ub97c \ucd9c\ub825",
                 "operationId": "orderList",
                 "produces": [
                     "application/xml",
@@ -576,6 +916,134 @@
                         "name": "board_id",
                         "in": "path",
                         "description": "Board Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/order/{order_id}/{page}": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "\uc8fc\ubb38\uad00\ub9ac \ubaa9\ub85d",
+                "description": "\uc8fc\ubb38\uad00\ub9ac \ubaa9\ub85d \ucd9c\ub825",
+                "operationId": "orderList",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order Id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "Page Number",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "num_order",
+                        "in": "path",
+                        "description": "Post number of a request",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/order/view/{order_id}": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "\uc0c1\uc138\ubcf4\uae30",
+                "description": "\uc8fc\ubb38\uc5d0 \ub300\ud55c \uc0c1\uc138\ubaa9\ub85d \ucd9c\ub825",
+                "operationId": "orderDetail",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/order/{order_id}/edit": {
+            "put": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "\uc8fc\ubb38\uad00\ub9ac \ub0b4\uc6a9 \uc218\uc815",
+                "description": "\uc8fc\ubb38\uad00\ub9ac\uc5d0 \ub300\ud55c \ub0b4\uc6a9 \uc218\uc815",
+                "operationId": "orderEdit",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order",
+                        "in": "body",
+                        "description": "Inquire Context",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Order"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/diagnosis-reservation/{order_id}": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "\uc785\uace0\uc608\uc57d",
+                "description": "\uc785\uace0\uc608\uc57d\ub41c \uc8fc\ubb38 \ubaa9\ub85d \ucd9c\ub825",
+                "operationId": "diagnosisReservationList",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order Id",
                         "required": true,
                         "type": "integer"
                     }
