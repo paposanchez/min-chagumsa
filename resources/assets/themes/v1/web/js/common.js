@@ -1,4 +1,4 @@
-$(window).load(function(){
+$(window).on('load', function() {
 
 	$(window.location.hash).find('a').click();
 
@@ -19,10 +19,3 @@ $(window).load(function(){
 	});
 
 });
-
-$(document).ready(function(){
-
-
-
-});
-
