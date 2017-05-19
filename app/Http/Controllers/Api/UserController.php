@@ -234,4 +234,57 @@ class UserController extends Controller {
         return;
     }
 
+    /**
+     * @SWG\Put(path="/profile/{engineer_id}",
+     *   tags={"User"},
+     *   summary="정비사 프로필",
+     *   description="정비사의 정보를 출력",
+     *   operationId="getProfile",
+     *   produces={"application/xml", "application/json"},
+     *   @SWG\Parameter(
+     *     name="engineer_id",
+     *     in="path",
+     *     description="정비사 번호",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Response(response=400, description="Invalid user supplied"),
+     *   @SWG\Response(response=404, description="User not found")
+     * )
+     */
+    public function getProfile($engineer_id){
+        return $user = User::find($engineer_id)->json();
+    }
+
+    /**
+     * @SWG\Put(path="/password/{engineer_id}",
+     *   tags={"User"},
+     *   summary="정비사 비밀번호 변경",
+     *   description="정비사의 비밀번호를 변경 가능",
+     *   operationId="changePassword",
+     *   produces={"application/xml", "application/json"},
+     *   @SWG\Parameter(
+     *     name="engineer_id",
+     *     in="path",
+     *     description="정비사 번호",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="body",
+     *     name="password",
+     *     description="변경할 비밀번호 정보",
+     *     required=true,
+     *     @SWG\Schema(ref="#/definitions/Password")
+     *   ),
+     *   @SWG\Response(response=400, description="Invalid user supplied"),
+     *   @SWG\Response(response=404, description="User not found")
+     * )
+     */
+    public function changePassword($engineer_id, Request $request){
+//        $user = User::find($engineer_id)->json();
+    }
+
+
+
 }

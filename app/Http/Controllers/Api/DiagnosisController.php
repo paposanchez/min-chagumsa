@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dev
- * Date: 2017. 5. 18.
- * Time: PM 8:07
- */
+
 
 namespace App\Http\Controllers\Api;
 
@@ -13,76 +8,101 @@ use App\Http\Controllers\Controller;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisDetails;
 use App\Models\Order;
+use Illuminate\Http\Request;
 
 class DiagnosisController extends Controller
 {
 
     /**
-     * @SWG\Get(path="/diagnosis/{engineer_id}",
+     * @SWG\Get(path="/diagnosises/{대리점번호}/{page?}/{date?}",
      *   tags={"Diagnosis"},
-     *   summary="진단목록",
-     *   description="진단하기를 눌러 진단을 시행한 주문 출력",
-     *   operationId="diagnosisList",
+     *   summary="입고예약 목록",
+     *   description="정비소에 입고되어진 주문 목록, 오늘부터 미래의 주문 출력",
+     *   operationId="getDiagnosises",
      *   produces={"application/xml", "application/json"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="engineer_id",
-     *     description="Engineer Id",
+     *     name="garage_id",
+     *     description="Garage Id",
      *     required=true,
      *     type="integer"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="path",
+     *     name="page",
+     *     description="Page Number",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="path",
+     *     name="date",
+     *     description="Date",
+     *     required=true,
+     *     type="string"
      *   ),
      *   @SWG\Response(response="default", description="successful")
      * )
      */
-    public function diagnosisList($engineer_id){
-        return $order_list = Order::where('engineer_id', $engineer_id)->json();
+    public function getDiagnosises($garage_id, $page = 1, $date = null){
+        return $diagnosises = Order::where('engineer_id', $garage_id)->json();
     }
 
     /**
-     * @SWG\Get(path="/start-diagnosis/{order_id}",
+     * @SWG\Get(path="/diagnosises-complete/{대리점번호}/{page?}/{date?}/",
      *   tags={"Diagnosis"},
-     *   summary="진단할 목록 선택",
-     *   description="진단하기 선택 후 진단할 항목 출력",
-     *   operationId="diagnosisItem",
+     *   summary="진단완료 목록",
+     *   description="진단이 완료된 주문 목록, 오늘부터 과거의 주문 출력",
+     *   operationId="getCompletedDiagnosises",
      *   produces={"application/xml", "application/json"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="order_id",
-     *     description="Order Id",
+     *     name="garage_id",
+     *     description="Garage Id",
      *     required=true,
      *     type="integer"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="path",
+     *     name="page",
+     *     description="Page Number",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="path",
+     *     name="date",
+     *     description="Date",
+     *     required=true,
+     *     type="string"
      *   ),
      *   @SWG\Response(response="default", description="successful")
      * )
      */
-    public function diagnosisItem($order_id){
-        return $diagnosis_item = Diagnosis::where($order_id)->json();
+    public function getCompletedDiagnosises($garage_id, $page = 1, $date = null){
+        return $completedDiagnosises = Diagnosis::where($garage_id)->json();
     }
-
-//    public function diagnosisGroup($detail_id){
-//        return $detail_items = DiagnosisDetails::where('id', $detail_id)->json();
-//    }
 
 
     /**
-     * @SWG\Get(path="/diagnosis-detail/{detail_id}",
+     * @SWG\Get(path="/diagnosis",
      *   tags={"Diagnosis"},
-     *   summary="진단 상세목록",
-     *   description="진단 상세목록을 출력",
-     *   operationId="diagnosisDetail",
+     *   summary="진단 내역",
+     *   description="개별주문 주문 내역 출력",
+     *   operationId="getDiagnosis",
      *   produces={"application/xml", "application/json"},
      *   @SWG\Parameter(
-     *     in="path",
-     *     name="detail_id",
-     *     description="Detail Id",
+     *     in="body",
+     *     name="diagnosis",
+     *     description="진단 정보",
      *     required=true,
-     *     type="integer"
+     *     @SWG\Schema(ref="#/definitions/Diagnosis")
      *   ),
      *   @SWG\Response(response="default", description="successful")
      * )
      */
-    public function diagnosisDetail($detail_id){
-        return $detail_items = DiagnosisDetails::where('id', $detail_id)->json();
+    public function getDiagnosis($order_id){
+        return $diagnosis = DiagnosisDetails::where('id', $order_id)->json();
     }
 
     /**
@@ -102,24 +122,17 @@ class DiagnosisController extends Controller
      *   @SWG\Response(response="default", description="successful")
      * )
      */
-    public function setDiagnosis(){
+    public function setDiagnosis(Request $request){
 
     }
 
-//    public function setDiagnosisGroup(){
-//
-//    }
-
-//    public function setDiagnosisDetail(){
-//
-//    }
 
     /**
-     * @SWG\Get(path="/complete-diagnosis/{order_id}",
+     * @SWG\Put(path="/upload/{order_id}",
      *   tags={"Diagnosis"},
-     *   summary="진단완료 목록",
-     *   description="진단이 완료된 주문 목록",
-     *   operationId="completeDiagnosisList",
+     *   summary="진단데이터 개별 저장",
+     *   description="진단항목에 대한 개별 데이터 저장",
+     *   operationId="setUpload",
      *   produces={"application/xml", "application/json"},
      *   @SWG\Parameter(
      *     in="path",
@@ -131,9 +144,10 @@ class DiagnosisController extends Controller
      *   @SWG\Response(response="default", description="successful")
      * )
      */
-    public function completeDiagnosisList($order_id){
+    public function setUpload($order_id){
 //        return $complete_order = Order::where('id', $order_id)->where('status_cd', default)->json();
     }
+
 
 
 
