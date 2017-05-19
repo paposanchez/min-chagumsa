@@ -11,6 +11,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class MypageController extends Controller
 {
@@ -55,8 +57,8 @@ class MypageController extends Controller
     /**
      * @SWG\Get(path="/mypage/order/view/{order_id}",
      *   tags={"Mypage"},
-     *   summary="MyPage-주문목록",
-     *   description="나의 주문목록의 상태를 출력",
+     *   summary="주문목록 상세",
+     *   description="주문목록의 상세정보 출",
      *   operationId="orderList",
      *   produces={"application/xml", "application/json"},
      *   @SWG\Parameter(
@@ -88,10 +90,17 @@ class MypageController extends Controller
      *     required=true,
      *     type="integer"
      *   ),
+     *   @SWG\Parameter(
+     *     in="body",
+     *     name="order",
+     *     description="기본정보 변경 값",
+     *     required=true,
+     *     @SWG\Schema(ref="#/definitions/DiagnosisDetail")
+     *   ),
      *   @SWG\Response(response="default", description="successful")
      * )
      */
-    public function changeCarInfo($order_id){
+    public function changeCarInfo($order_id, Request $request){
 
     }
 
@@ -109,10 +118,17 @@ class MypageController extends Controller
      *     required=true,
      *     type="integer"
      *   ),
+     *   @SWG\Parameter(
+     *     in="body",
+     *     name="order",
+     *     description="입고정보 변경 값",
+     *     required=true,
+     *     @SWG\Schema(ref="#/definitions/DiagnosisDetail")
+     *   ),
      *   @SWG\Response(response="default", description="successful")
      * )
      */
-    public function changeStockInfo($order_id){
+    public function changeStockInfo($order_id, Request $request){
 
     }
 
@@ -149,6 +165,65 @@ class MypageController extends Controller
      */
     public function edit(Request $request){
 
+    }
+
+    //mobile
+
+
+    /**
+     * @SWG\Get(path="/mypage-information/{user_id}",
+     *   tags={"Mypage"},
+     *   summary="모바일 마이페이지",
+     *   description="정비사의 정보를 출력",
+     *   operationId="mypageInfo",
+     *   produces={"application/xml", "application/json"},
+     *   @SWG\Parameter(
+     *     in="path",
+     *     name="user_id",
+     *     description="User Id",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Response(response="default", description="successful")
+     * )
+     */
+    public function mypageInfo($user_id){
+        return $user = User::where('id', $user_id)->first()->json();
+    }
+
+    /**
+     * @SWG\Put(path="/mypage-change-password/{user_id}/{password}/{password2}",
+     *   tags={"Mypage"},
+     *   summary="모바일 패스워드 변경",
+     *   description="정비사의 정보를 출력",
+     *   operationId="changePassword",
+     *   produces={"application/xml", "application/json"},
+     *   @SWG\Parameter(
+     *     in="path",
+     *     name="user_id",
+     *     description="User Id",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="path",
+     *     name="password",
+     *     description="password",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="path",
+     *     name="password2",
+     *     description="Password2",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Response(response="default", description="successful")
+     * )
+     */
+    public function changePassword($user_id, $password, $password2){
+//        $user = User::where('id', $user_id);
     }
 
 

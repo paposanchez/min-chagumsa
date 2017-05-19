@@ -716,8 +716,8 @@
                 "tags": [
                     "Mypage"
                 ],
-                "summary": "MyPage-\uc8fc\ubb38\ubaa9\ub85d",
-                "description": "\ub098\uc758 \uc8fc\ubb38\ubaa9\ub85d\uc758 \uc0c1\ud0dc\ub97c \ucd9c\ub825",
+                "summary": "\uc8fc\ubb38\ubaa9\ub85d \uc0c1\uc138",
+                "description": "\uc8fc\ubb38\ubaa9\ub85d\uc758 \uc0c1\uc138\uc815\ubcf4 \ucd9c",
                 "operationId": "orderList",
                 "produces": [
                     "application/xml",
@@ -758,6 +758,15 @@
                         "description": "Order Id",
                         "required": true,
                         "type": "integer"
+                    },
+                    {
+                        "name": "order",
+                        "in": "body",
+                        "description": "\uae30\ubcf8\uc815\ubcf4 \ubcc0\uacbd \uac12",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/DiagnosisDetail"
+                        }
                     }
                 ],
                 "responses": {
@@ -786,6 +795,15 @@
                         "description": "Order Id",
                         "required": true,
                         "type": "integer"
+                    },
+                    {
+                        "name": "order",
+                        "in": "body",
+                        "description": "\uc785\uace0\uc815\ubcf4 \ubcc0\uacbd \uac12",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/DiagnosisDetail"
+                        }
                     }
                 ],
                 "responses": {
@@ -834,6 +852,76 @@
                 "produces": [
                     "application/xml",
                     "application/json"
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/mypage-information/{user_id}": {
+            "get": {
+                "tags": [
+                    "Mypage"
+                ],
+                "summary": "\ubaa8\ubc14\uc77c \ub9c8\uc774\ud398\uc774\uc9c0",
+                "description": "\uc815\ube44\uc0ac\uc758 \uc815\ubcf4\ub97c \ucd9c\ub825",
+                "operationId": "mypageInfo",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        },
+        "/mypage-change-password/{user_id}/{password}/{password2}": {
+            "put": {
+                "tags": [
+                    "Mypage"
+                ],
+                "summary": "\ubaa8\ubc14\uc77c \ud328\uc2a4\uc6cc\ub4dc \ubcc0\uacbd",
+                "description": "\uc815\ube44\uc0ac\uc758 \uc815\ubcf4\ub97c \ucd9c\ub825",
+                "operationId": "changePassword",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "password",
+                        "in": "path",
+                        "description": "password",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password2",
+                        "in": "path",
+                        "description": "Password2",
+                        "required": true,
+                        "type": "string"
+                    }
                 ],
                 "responses": {
                     "default": {
