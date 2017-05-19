@@ -32,13 +32,10 @@ class RouteServiceProvider extends ServiceProvider {
      * @return void
      */
     public function map() {
-        $this->mapApiRoutes();
+//        $this->mapApiRoutes();
         $this->mapWebRoutes();
-
-
         $this->mapAllianceRoutes();
         $this->mapGarageeRoutes();
-        $this->mapAdminRoutes();
         $this->mapAdminRoutes();
     }
 
@@ -115,8 +112,7 @@ class RouteServiceProvider extends ServiceProvider {
             require base_path('routes/api.php');
         });
         
-        app('config')->set('L5_SWAGGER_GENERATE_ALWAYS', TRUE);
-//        config('L5_SWAGGER_GENERATE_ALWAYS', TRUE);
+//        app('config')->set('L5_SWAGGER_GENERATE_ALWAYS', TRUE);
     }
 
 }
