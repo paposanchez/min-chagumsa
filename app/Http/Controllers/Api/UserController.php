@@ -10,12 +10,12 @@ use Hash;
 use Image;
 use Carbon\Carbon;
 use Laracasts\Flash\Flash;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
-class UserController extends Controller {
+class UserController extends ApiController {
 
     use AuthenticatesUsers;
 

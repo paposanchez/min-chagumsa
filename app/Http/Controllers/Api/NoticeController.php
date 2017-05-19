@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use App\Models\Board;
 
-class NoticeController extends Controller
+class NoticeController extends ApiController
 {
 
     /**

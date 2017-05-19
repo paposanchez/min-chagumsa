@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use App\Models\Post;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
-class CodeController extends Controller {
+class CodeController extends ApiController {
 
     /**
      * @SWG\Get(path="/codes",

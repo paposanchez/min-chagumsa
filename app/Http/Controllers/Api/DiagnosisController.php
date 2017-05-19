@@ -4,13 +4,13 @@
 namespace App\Http\Controllers\Api;
 
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisDetails;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
-class DiagnosisController extends Controller
+class DiagnosisController extends ApiController
 {
 
     /**
