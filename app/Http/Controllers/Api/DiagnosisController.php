@@ -83,6 +83,42 @@ class DiagnosisController extends ApiController
         return $completedDiagnosises = Diagnosis::where($garage_id)->json();
     }
 
+    /**
+     * @SWG\Get(path="/diagnosises-working/{대리점번호}/{page?}/{date?}/",
+     *   tags={"Diagnosis"},
+     *   summary="진단중 목록",
+     *   description="진단을 시작한 주문 목록",
+     *   operationId="getWorkingDiagnosises",
+     *   produces={"application/xml", "application/json"},
+     *   @SWG\Parameter(
+     *     in="path",
+     *     name="garage_id",
+     *     description="Garage Id",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="path",
+     *     name="page",
+     *     description="Page Number",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="path",
+     *     name="date",
+     *     description="Date",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Response(response="default", description="successful")
+     * )
+     */
+    public function getWorkingDiagnosises($garage_id, $page = 1, $date = null){
+        return $completedDiagnosises = Diagnosis::where($garage_id)->json();
+    }
+
+
 
     /**
      * @SWG\Get(path="/diagnosis",
