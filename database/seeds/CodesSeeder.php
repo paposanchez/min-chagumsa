@@ -28,7 +28,7 @@ class CodesSeeder extends Seeder {
         
         DB::table('codes')->insert([
             ['group' => 'user_status', 'name' => 'active'],
-            ['group' => 'user_status', 'name' => 'wait'],
+            ['group' => 'user_status', 'name' => 'unactive'],
             ['group' => 'yn', 'name' => 'yes'],
             ['group' => 'yn', 'name' => 'no'],
             ['group' => 'post_shown_role', 'name' => 'secret'],
