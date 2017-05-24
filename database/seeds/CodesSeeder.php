@@ -10,37 +10,41 @@ class CodesSeeder extends Seeder {
      * @return void
      */
     public function run() {
-
-        // DB::table('codes')->insert();
-        // DB::table('codes')->insert();
-        
-        // DB::table('codes')->insert(['group' => 'yn', 'name' => 'yes']);
-        // DB::table('codes')->insert(['group' => 'yn', 'name' => 'no']);
-        // DB::table('codes')->insert(['group' => 'post_shown_role', 'name' => 'private']);
-        // DB::table('codes')->insert(['group' => 'post_shown_role', 'name' => 'secret']);
-        // DB::table('codes')->insert(['group' => 'post_shown_role', 'name' => 'public']);
-        
-        // // 8,9,10
-        // DB::table('codes')->insert(['group' => 'post_search_field', 'name' => 'subject']);
-        // DB::table('codes')->insert(['group' => 'post_search_field', 'name' => 'content']);
-        // DB::table('codes')->insert(['group' => 'post_search_field', 'name' => 'writer_name']);
-        
         
         DB::table('codes')->insert([
-            ['group' => 'user_status', 'name' => 'active'],
-            ['group' => 'user_status', 'name' => 'unactive'],
-            ['group' => 'yn', 'name' => 'yes'],
-            ['group' => 'yn', 'name' => 'no'],
-            ['group' => 'post_shown_role', 'name' => 'secret'],
-            ['group' => 'post_shown_role', 'name' => 'public'],
-            ['group' => 'post_shown_role', 'name' => 'private'],
-            ['group' => 'post_search_field', 'name' => 'subject'],
-            ['group' => 'post_search_field', 'name' => 'content'],
-            ['group' => 'post_search_field', 'name' => 'writer_name']
+            ['id'=>1, 'group' => 'user_status', 'name' => 'active'],
+            ['id'=>2, 'group' => 'user_status', 'name' => 'unactive'],
+            ['id'=>3, 'group' => 'yn', 'name' => 'yes'],
+            ['id'=>4, 'group' => 'yn', 'name' => 'no'],
+            ['id'=>5, 'group' => 'post_shown_role', 'name' => 'secret'],
+            ['id'=>6, 'group' => 'post_shown_role', 'name' => 'public'],
+            ['id'=>7, 'group' => 'post_shown_role', 'name' => 'private'],
+            ['id'=>8, 'group' => 'post_search_field', 'name' => 'subject'],
+            ['id'=>9, 'group' => 'post_search_field', 'name' => 'content'],
+            ['id'=>10, 'group' => 'post_search_field', 'name' => 'writer_name']
         ]);
 
+       
+
+
         DB::table('codes')->insert([
-            ['group' => 'car_option', 'name' => 'appearence'],
+            ['id'=>100, 'group' => 'order_status', 'name' => 'canceled'],     // 주문취소
+            ['id'=>101, 'group' => 'order_status', 'name' => 'standby'],      // 주문신청
+            ['id'=>102, 'group' => 'order_status', 'name' => 'ordered'],      // 주문완료
+            ['id'=>103, 'group' => 'order_status', 'name' => 'request'],      // 예약확인
+            ['id'=>104, 'group' => 'order_status', 'name' => 'reserved'],     // 입고대기
+            ['id'=>105, 'group' => 'order_status', 'name' => 'arrived'],      // 입고
+            ['id'=>106, 'group' => 'order_status', 'name' => 'diagnosing'],   // 진단중
+            ['id'=>107, 'group' => 'order_status', 'name' => 'diagnosed'],    // 진단완료,발급요청
+            ['id'=>108, 'group' => 'order_status', 'name' => 'certificating'],// 검토중
+            ['id'=>109, 'group' => 'order_status', 'name' => 'certificated'], // 인증발급완료
+        ]);
+
+
+        // 옵션코드의 시퀀스 변경
+
+        DB::table('codes')->insert( ['id'=>1000, 'group' => 'car_option', 'name' => 'appearence']);
+        DB::table('codes')->insert([           
             ['group' => 'car_option', 'name' => 'multimedia'],
             ['group' => 'car_option', 'name' => 'built-in'],
             ['group' => 'car_option', 'name' => 'safety'],
@@ -271,6 +275,7 @@ class CodesSeeder extends Seeder {
             ['group' => 'pollution_status_cd', 'name' => 'maintenance']
         ]);
         
+
         
     }
 
