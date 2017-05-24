@@ -31,66 +31,26 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<th><span>공지</span></th>
-					<td>카검사 사이트 오픈 준비 중입니다.</td>
-					<th>2017년 2월 10일</th>
-					<th>120</th>
-				</tr>
-				<tr>
-					<th>9</th>
-					<td>카검사 사이트 오픈 준비 중입니다.</td>
-					<th>2017년 2월 10일</th>
-					<th>120</th>
-				</tr>
-				<tr>
-					<th>9</th>
-					<td>카검사 사이트 오픈 준비 중입니다.</td>
-					<th>2017년 2월 10일</th>
-					<th>120</th>
-				</tr>
-				<tr>
-					<th>9</th>
-					<td>카검사 사이트 오픈 준비 중입니다.</td>
-					<th>2017년 2월 10일</th>
-					<th>120</th>
-				</tr>
-				<tr>
-					<th>9</th>
-					<td>카검사 사이트 오픈 준비 중입니다.</td>
-					<th>2017년 2월 10일</th>
-					<th>120</th>
-				</tr>
-				<tr>
-					<th>9</th>
-					<td>카검사 사이트 오픈 준비 중입니다.</td>
-					<th>2017년 2월 10일</th>
-					<th>120</th>
-				</tr>
-				<tr>
-					<th>9</th>
-					<td>카검사 사이트 오픈 준비 중입니다.</td>
-					<th>2017년 2월 10일</th>
-					<th>120</th>
-				</tr>
-				<tr>
-					<th>9</th>
-					<td>카검사 사이트 오픈 준비 중입니다.</td>
-					<th>2017년 2월 10일</th>
-					<th>120</th>
-				</tr>
-				<tr>
-					<th>9</th>
-					<td>카검사 사이트 오픈 준비 중입니다.</td>
-					<th>2017년 2월 10일</th>
-					<th>120</th>
-				</tr>
-				<tr>
-					<th>9</th>
-					<td>카검사 사이트 오픈 준비 중입니다.</td>
-					<th>2017년 2월 10일</th>
-					<th>120</th>
-				</tr>
+			<tr>
+				<th><span>공지사항</span></th>
+				<td>차검사 사이트 오픈 준비중입니다.</td>
+				<th>2017-05-22</th>
+				<th>120</th>
+			</tr>
+				@if($entrys->total())
+					@foreach($entrys as $key => $row)
+					<tr>
+						<th>{{ $start_num - $key }}</th>
+						{{--<th><span>공지사항</span></th>--}}
+						<td><a href="{{ route("notice.show", ["id" => $row->id]) }}">{{ mb_strimwidth($row->subject, 0, 30, '...') }}</a></td>
+						<th>{{ \App\Helpers\Helper::getDbDate($row->created_at, $row->updated_at) }}</th>
+						<th>{{ number_format($row->hit) }}</th>
+					</tr>
+					@endforeach
+				@else
+					<th colspan="4">등록된 공지사항이 없습니다.</th>
+				@endif
+
 			</tbody>
 		</table>
 	</div>
@@ -98,15 +58,8 @@
 	<div class='br30'></div>
 
 	<div class='board_pagination_wrap'>
-		<ul>
-			<li><a href=''><i class="fa fa-angle-double-left"></i></a></li>
-			<li><a href='' class='select'>1</a></li>
-			<li><a href=''>2</a></li>
-			<li><a href=''>3</a></li>
-			<li><a href=''>4</a></li>
-			<li><a href=''>5</a></li>
-			<li><a href=''><i class="fa fa-angle-double-right"></i></a></li>
-		</ul>
+		{{--{!! $entrys->render() !!}--}}
+		@include('vendor.pagination.web-page', ['paginator' => $entrys])
 	</div>
 
 </div>

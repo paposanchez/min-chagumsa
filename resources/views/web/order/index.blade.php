@@ -31,7 +31,8 @@
 		<div class='br30'></div>
 		<div class='br20'></div>
 
-        <form action="{{ route("order.reservation") }}">
+		{!! Form::open(['route' => ["order.reservation"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+
 		<div class='order_info_box'>
 			<div class='order_info_title'>
 				<strong>주문자 정보</strong>
@@ -202,7 +203,7 @@
 			<button type="submit" class='btns btns_green' style='display:inline-block;'>다음</button>
 		</div>
         
-        </form>
+        {!! Form::close() !!}
 
 	</div>
 

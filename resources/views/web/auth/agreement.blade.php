@@ -27,7 +27,7 @@
 		<div class='br30'></div>
 		<div class='br20'></div>
 
-		{!! Form::open(['url' => route('register.join'), 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+		{!! Form::open(['method' => 'POST','route' => ['register.join'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data", "autocomplete" => "off", 'role' => 'form', 'id'=>'join-form']) !!}
 		<div class='join_term_wrap'>
 			<label>이용약관</label>
 			<div class='term_area'>
@@ -38,7 +38,8 @@
 			<div class='ipt_line'>
 				<label>
 					<input type='checkbox' class='psk' name="term_use">
-					<span class='lbl'> 이용약관에 동의합니다.</span>
+					<span class='lbl' id="term_use-span"> 이용약관에 동의합니다.</span>
+					<div id='errorContainer'></div>
 				</label>
 			</div>
 		</div>
@@ -56,7 +57,7 @@
 			<div class='ipt_line'>
 				<label>
 					<input type='checkbox' class='psk' name="term_info">
-					<span class='lbl'> 개인정보 수집/이용에 동의합니다.</span>
+					<span class='lbl' id="term_info-span"> 개인정보 수집/이용에 동의합니다.</span>
 				</label>
 			</div>
 		</div>
@@ -83,7 +84,8 @@
 @push( 'footer-script' )
 <script type="text/javascript">
 	$(function () {
-        $("form").validate({
+        $("#join-form").validate({
+//			debug: true,
             rules: {
                 term_use: "required",
                 term_info: "required"
@@ -92,6 +94,14 @@
 				term_use: "이용약관 동의를 체크해주세요.",
 				term_info: "개인정보 수집/이용 동의를 체크해 주세요."
 			},
+            errorPlacement: function(error, element) {
+			    var chk_name = element.attr("name");
+			    var checked = $("input[name="+chk_name+"]").is(":checked");
+			    if(checked == false){
+                    $('#'+chk_name+'-span').text(error.text()).css({'color': 'red'});
+				}
+
+            },
 			submitHandler: function(form){
 				form.submit();
 			}

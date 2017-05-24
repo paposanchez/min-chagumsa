@@ -71,6 +71,13 @@ Breadcrumbs::register('web.community.notice', function($breadcrumbs) {
     $breadcrumbs->parent('web.community');
     $breadcrumbs->push(trans("web/notice.title"), route('notice.index'), ['desc' => trans("web/notice.desc")]);
 });
+
+
+Breadcrumbs::register('web.community.inquire', function($breadcrumbs) {
+    $breadcrumbs->parent('web.community');
+    $breadcrumbs->push(trans("web/inquire.title"), route('notice.index'), ['desc' => trans("web/inquire.desc")]);
+});
+
 Breadcrumbs::register('web.community.faq', function($breadcrumbs) {
     $breadcrumbs->parent('web.community');
     $breadcrumbs->push(trans("web/faq.title"), route('faq.index'), ['desc' => trans("web/faq.desc")]);

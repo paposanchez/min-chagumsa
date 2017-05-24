@@ -14,61 +14,65 @@
 	<div class='br30'></div>
 
 	<div class='psk_table_wrap'>
-	<table>
-		<colgroup>
-			<col style='width:140px;'>
-			<col style='width:800px;'>
-		</colgroup>
-		<tbody>
-			<tr>
-				<th>아이디</th>
-				<td style='padding-left:25px !important;'>
-					user01@gmail.com
-				</td>
-			</tr>
-			<tr>
-				<th>비밀번호 변경</th>
-				<td>
+		{!! Form::open([ 'route' => ['mypage.profile.store'], 'class' =>'form-horizontal', 'method' => 'POST', 'role' => 'form', 'id' => 'user-form']) !!}
+		<input type="hidden" name="id" value="{{ $profile->id }}">
+		<input type="hidden" name="email" value="{{ $profile->email }}">
+		<table>
+			<colgroup>
+				<col style='width:140px;'>
+				<col style='width:800px;'>
+			</colgroup>
+			<tbody>
+				<tr>
+					<th>아이디</th>
+					<td style='padding-left:25px !important;'>
+						{{ $profile->email }}
+					</td>
+				</tr>
+				<tr>
+					<th>비밀번호 변경</th>
+					<td>
 
-					<div class='psk_table_wrap'>
-					<table>
-						<colgroup>
-							<col style='width:140px;'>
-							<col style='width:800px;'>
-						</colgroup>
-						<tbody>
-							<tr>
-								<th>현재 비밀번호</th>
-								<td>
-									<input type='password' class='ipt wid33' placeholder=''><span class='ipt_msg'>8~16자리의 영문/숫자/특수문자를 두 가지 이상 조합하세요</span>
-								</td>
-							</tr>
-							<tr>
-								<th>변경할 비밀번호</th>
-								<td>
-									<input type='password' class='ipt wid33' placeholder=''><span class='ipt_msg'></span>
-								</td>
-							</tr>
-							<tr>
-								<th>비밀번호 재입력</th>
-								<td>
-									<input type='password' class='ipt wid33' placeholder=''><span class='ipt_msg'></span>
-								</td>
-							</tr>
-							<tr>
-								<th></th>
-								<td>
-									<button class='btns btns_skyblue' style='display:inline-block;'>비밀번호 변경</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					</div>
+						<div class='psk_table_wrap'>
+						<table>
+							<colgroup>
+								<col style='width:140px;'>
+								<col style='width:800px;'>
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>현재 비밀번호</th>
+									<td>
+										<input type='password' name="old_password" class='ipt wid33' placeholder=''>{{-- <span class='ipt_msg'>8~16자리의 영문/숫자/특수문자를 두 가지 이상 조합하세요</span> --}}
+									</td>
+								</tr>
+								<tr>
+									<th>변경할 비밀번호</th>
+									<td>
+										<input type='password' name="password" class='ipt wid33' placeholder=''><span class='ipt_msg'></span>
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호 재입력</th>
+									<td>
+										<input type='password' name="password_confirmation" class='ipt wid33' placeholder=''><span class='ipt_msg'></span>
+									</td>
+								</tr>
+								<tr>
+									<th></th>
+									<td>
+										<button class='btns btns_skyblue' style='display:inline-block;'>비밀번호 변경</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						</div>
 
-				</td>
-			</tr>
-		</tbody>
-	</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		{!! Form::close() !!}
 	</div>
 
 	<div class='br20'></div>
@@ -84,7 +88,6 @@
 
 </div>
 
-<!-- ──────────────────────
 @endsection
 
 
@@ -92,4 +95,70 @@
 @endpush
 
 @push( 'footer-script' )
+<script type="text/javascript">
+$(function(){
+	$("#user-form").validate({
+		debug: true,
+		rules: {
+		    old_password:{
+		        required: true,
+                minlength: 8,
+                maxlength: 16,
+				remote: {
+		            url: "{!! URL::route("mypage.profile.chk-pwd") !!}",
+					type: "post",
+					data: {
+		                "old_password": function(){
+		                    return $(":input[name='old_password']").val();
+						},
+						"email": $(":input[name='email']").val(),
+						"_token": "{{ csrf_token() }}"
+					}
+//					,dataFilter: function(data){
+//		                var json = JSON.parse(data);
+//		                if(json.status='error'){
+//		                    return json.message;
+//						}else{
+//		                    return success;
+//						}
+//					}
+				}
+			},
+            password: {
+                required: true,
+                minlength: 8,
+                maxlength: 16
+            },
+            password_confirmation: {
+                minlength: 8,
+                maxlength: 16,
+                equalTo: "[name='password']"
+            },
+		},
+		messages:{
+		    old_password: {
+		        required: "현재 사용중인 비밀번호를 입력해 주세요.....",
+				old_password: "비밀번호는 8~16자리의 영문/숫자/특수문자 입니다.",
+				remote: "현재 비밀번호와 입력된 비밀번호가 다릅니다."
+			},
+            password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)",
+            password_confirmation: "입력된 비밀번호 확인값이 틀립니다."
+		},
+		submitHandler: function(form){
+
+		    if($(":input[name='old_password']").val() == $(":input[name='password']").val()){
+		        //todo 메세지 수정해야 함.
+		        alert('현재 비밀번호와 변경할 비밀번호가 동일합니다.');
+		        $(":input[name='password']").select();
+		        $(":input[name='password_confirmation']").val('');
+		        return false;
+			}
+
+		    form.submit();
+		}
+	});
+});
+</script>
+
+
 @endpush

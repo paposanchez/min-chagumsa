@@ -30,12 +30,13 @@
             </ul>
 
             <div class='gnb_login_wrap'>
-                <a href='{{ route('login') }}'>로그인</a>
-                <a href='{{ route('register') }}'>회원가입</a>
-                <!--
-                <a href='../member/login.php'>마이페이지</a>
-                <a href='../member/join.php'>로그아웃</a>
-                -->
+                @if(Auth::check())
+                    <a href='{{ route('mypage.order.index') }}'>마이페이지</a>
+                    <a href='{{ route('logout') }}'>로그아웃</a>
+                @else
+                    <a href='{{ route('login') }}'>로그인</a>
+                    <a href='{{ route('register') }}'>회원가입</a>
+                @endif
             </div>
             <form action="{{ route('search.index') }}">
                 <div class='gnb_search_wrap'>

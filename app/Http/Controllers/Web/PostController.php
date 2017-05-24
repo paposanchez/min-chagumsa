@@ -34,6 +34,7 @@ class PostController extends Controller {
         $data->increment('hit');
 
         $board_namespace = $this->board_namespace;
+
         return view($this->view_path . 'show', compact('data', 'board_namespace'));
     }
 

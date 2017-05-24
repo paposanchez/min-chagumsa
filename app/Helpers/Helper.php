@@ -40,4 +40,50 @@ class Helper {
         }
     }
 
+    /**
+     * 게시판 rowCount처리 메소드
+     * @param int $total
+     * @param int $page
+     * @param int $limit
+     * @return integer
+     */
+    public static function getStartNum($rows){
+        $total = $rows->total();
+        $page = $rows->currentPage();
+        $limit = $rows->perPage();
+        return $total - (($page -1) * $limit);
+    }
+
+    /**
+     * 등록일 처리 helper
+     * @param string $create
+     * @param string $update
+     * @param string $format
+     * @return string
+     */
+    public static function getDbDate($create, $update='', $format='Y-m-d'){
+
+        if($update){
+            $ctime = strtotime($create);
+            $utime = strtotime($update);
+            if($ctime > $utime){
+                $db_time = date($format, $ctime);
+            }else{
+                $db_time = date($format, $utime);
+            }
+        }else{
+            $db_time = date($format, strtotime($create));
+        }
+
+        return $db_time;
+    }
+
+    //'R', 'L', 'I', 'M', 'P', 'O', 'F', 'G'
+    public static function faqSelect($code, $faq_div){
+        if($faq_div == $code){
+            return 'select';
+        }else{
+            return '';
+        }
+    }
 }

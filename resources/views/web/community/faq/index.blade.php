@@ -14,99 +14,42 @@
 
     <div class='br30'></div>
 
-    <div class='board_wrap'>
-        <table>
-            <colgroup>
-                <col style='width:110px;'>
-                <col style='width:695px;'>
-                <col style='width:135px;'>
-                <col style='width:130px;'>
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>제목</th>
-                    <th>작성일</th>
-                    <th>조회</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th><span>공지</span></th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-            </tbody>
-        </table>
+    <ul class="faq_menu">
+
+        <li>
+            <strong>회원관련</strong>
+            <a href="{{ route("faq.index", ['faq_div' => 'R']) }}" class="{{ \App\Helpers\Helper::faqSelect('R', $faq_div) }}">가입/탈퇴</a>
+            <a href="{{ route("faq.index", ['faq_div' => 'L']) }}" class="{{ \App\Helpers\Helper::faqSelect('L', $faq_div) }}">로그인</a>
+            <a href="{{ route("faq.index", ['faq_div' => 'I']) }}" class="{{ \App\Helpers\Helper::faqSelect('I', $faq_div) }}">아이디/비밀번호찾기</a>
+            <a href="{{ route("faq.index", ['faq_div' => 'M']) }}" class="{{ \App\Helpers\Helper::faqSelect('M', $faq_div) }}">회원정보관리</a>
+        </li>
+        <li>
+            <strong>결제</strong>
+            <a href="{{ route("faq.index", ['faq_div' => 'P']) }}" class="{{ \App\Helpers\Helper::faqSelect('P', $faq_div) }}">결제관련</a>
+            <a href="{{ route("faq.index", ['faq_div' => 'O']) }}" class="{{ \App\Helpers\Helper::faqSelect('O', $faq_div) }}">주문상태</a>
+            <a href="{{ route("faq.index", ['faq_div' => 'F']) }}" class="{{ \App\Helpers\Helper::faqSelect('F', $faq_div) }}">환불규정</a>
+        </li>
+        <li>
+            <strong>인증서신청</strong>
+            <a href="{{ route("faq.index", ['faq_div' => 'G']) }}" class="{{ \App\Helpers\Helper::faqSelect('G', $faq_div) }}">가이드</a>
+        </li>
+    </ul>
+
+    <div class="faq_wrap">
+        <dl class="faq_dl">
+            @foreach($entrys as $key => $row)
+            <dt class="">{{ $row->subject }}</dt>
+            <dd style="display: none;">
+                {!! nl2br($row->content) !!}
+            </dd>
+            @endforeach
+        </dl>
     </div>
 
     <div class='br30'></div>
 
     <div class='board_pagination_wrap'>
-        <ul>
-            <li><a href=''><i class="fa fa-angle-double-left"></i></a></li>
-            <li><a href='' class='select'>1</a></li>
-            <li><a href=''>2</a></li>
-            <li><a href=''>3</a></li>
-            <li><a href=''>4</a></li>
-            <li><a href=''>5</a></li>
-            <li><a href=''><i class="fa fa-angle-double-right"></i></a></li>
-        </ul>
+        @include('vendor.pagination.web-page', ['paginator' => $entrys])
     </div>
 
 </div>

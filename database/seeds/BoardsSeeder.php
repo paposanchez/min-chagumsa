@@ -12,7 +12,7 @@ class BoardsSeeder extends Seeder {
     public function run() {
         DB::table('boards')->insert(['name' => '공지사항', 'status_cd' => 3]);
         DB::table('boards')->insert(['name' => 'FAQ', 'status_cd' => 3]);
-        DB::table('boards')->insert(['name' => '자유게시판', 'status_cd' => 3]);
+        DB::table('boards')->insert(['name' => '1:1문의', 'status_cd' => 3]);
     }
 
 }

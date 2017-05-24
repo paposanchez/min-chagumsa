@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Web\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -20,8 +22,15 @@ class RegisterController extends Controller {
         return view('web.auth.agreement');
     }
     
-      public function join() {
-        return view('web.auth.join');
+      public function join(Request $request) {
+
+        if($request->get('term_use')=='on' && $request->get('term_info') == 'on'){
+            return view('web.auth.join');
+        }else{
+            return \redirect()->route('register.index');
+        }
+
+
     }
 
     /**
@@ -51,20 +60,41 @@ class RegisterController extends Controller {
     /**
      * 회원정보 저장
      * @param Request $request
+     * @return \HttpResponse
      */
     public function register(Request $request)
     {
-        dd($request->all());
-        $this->validator($request->all())->validate();
+        $user = $this->validator($request->all())->validate();
+//
+//        event(new Registered($user = $this->create($request->all())));
 
-        event(new Registered($user = $this->create($request->all())));
+        $user_info = User::where("email", $request->email)->first();
 
-        dd($user);
+        if($user_info){
+            return Redirect::back();
+        }else{
+            $user_info = new User();
+            $user_info->email = $request->email;
+            $user_info->name = "web_user";
+            $user_info->password = bcrypt($request->password);
 
-        $this->guard()->login($user);
+            //todo email confirm이 없다면 값을 변경함.
+            $user_info->status_cd = 2; // 1 - active
+            $user_info->save();
 
-        return $this->registered($request, $user)
-            ?: redirect($this->redirectPath());
+            //todo email confirm 보내야 함.
+
+        }
+
+
+//        $this->guard()->login($request);
+        Auth::login($user_info, true);
+
+        //dd($user);
+
+        //todo registerd 페이지를 찾아 연동해야 함.
+        return $this->registered($request, $user_info);
+//            ?: redirect($this->redirectPath());
     }
 
 
@@ -76,6 +106,7 @@ class RegisterController extends Controller {
         
          return view('web.auth.register.registered');
     }
+
 
     /**
      * Handle a confirmation request
