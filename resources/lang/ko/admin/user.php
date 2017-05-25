@@ -16,6 +16,7 @@ return [
     'created' => '사용자가 생성되었습니다.',
     'updated' => '사용자 정보가 수정되었습니다.',
     'destroyed' => '사용자가 삭제되었습니다.',
+    'can_not_destroyed' => '사용자를 삭제할 수 없습니다.',
     'confirmed' => '확인되었습니다.',
     'created_at' => '생성일',
     'updated_at' => '수정일',

@@ -203,12 +203,12 @@
 
 @push( 'header-script' )
 <link rel="stylesheet" href="{{ Helper::assets( 'vendor/summernote/summernote.css' ) }}" />
-<link rel="stylesheet" href="{{ Helper::assets( 'vendor/select2/select2.min.css' ) }}" />
+<link rel="stylesheet" href="{{ Helper::assets( 'vendor/select2/css/select2.min.css' ) }}" />
 @endpush
 
 @push( 'footer-script' )
 <script src="{{ Helper::assets( 'vendor/summernote/summernote.min.js' ) }}"></script>
-<script src="{{ Helper::assets( 'vendor/select2/select2.full.min.js' ) }}"></script>
+<script src="{{ Helper::assets( 'vendor/select2/js/select2.full.min.js' ) }}"></script>
 <script src="{{ Helper::assets( 'vendor/select2/js/i18n/ko.js' ) }}"></script>
 <script type="text/template" id="qq-template">@include("partials/files", ['files'=> $post->files])</script>
 <link rel="stylesheet" href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}" />

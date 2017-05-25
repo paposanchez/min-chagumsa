@@ -47,12 +47,12 @@ class Handler extends ExceptionHandler {
 //            return redirect()->route('/')->with('error', trans('auth.token-mismatch'));
 //        }
 //        return parent::render($request, $exception);
-
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json(
                             $this->getJsonMessage($e), $this->getExceptionHTTPStatusCode($e)
             );
         }
+
         return parent::render($request, $e);
     }
 

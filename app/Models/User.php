@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use App\Notifications\ConfirmEmail as ConfirmEmailNotification;
 use App\Models\Role;
+use App\Models\RoleUser;
+use App\Models\Code;
 use App\Models\Post;
 use App\Models\Comment;
 use Illuminate\Notifications\Notifiable;
@@ -40,8 +42,13 @@ class User extends Authenticatable {
     protected $dates = ['created_at', 'updated_at'];
 
     public function status() {
-        return $this->hasOne('App\Models\Code', 'id', 'status_cd')->where('group', 'user_status');
+        return $this->hasOne(Code::class, 'id', 'status_cd')->where('group', 'user_status');
     }
+
+    public function user_extra() {
+        return $this->hasOne(UserExtra::class, 'users_id', 'id');
+    }
+
 
     /**
      * One to Many relation
@@ -95,13 +102,6 @@ class User extends Authenticatable {
         }
 
         return storage_path('app/' . $folderPath);
-    }
-
-    /**
-     *
-     */
-    public function userExtras(){
-        return $this->hasOne(UserExtra::class);
     }
 
 //    public function getFilesDirectory() {

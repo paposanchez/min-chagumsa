@@ -49,7 +49,7 @@ class PostController extends Controller {
         }
 
 
-        $entrys = $where->paginate(25);
+        $entrys = $where->paginate(10);
 
 
         return view('admin.post.index', compact('entrys', 'board_list', 'shown_role_list', 'yn_list', 'request', 'search_fields'));
@@ -122,7 +122,9 @@ class PostController extends Controller {
 
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
 
-        $yn_list = Code::getCodesByGroup('yn');
+//        $yn_list = Code::getCodesByGroup('yn');
+        $yn_list = Code::getSelectList('yn');
+        
         $shown_role_list = Code::getCodesByGroup('post_shown_role');
 
         return view('admin.post.edit', compact('post', 'board_list', 'shown_role_list', 'yn_list'));
@@ -185,5 +187,3 @@ class PostController extends Controller {
     }
 
 }
-
-

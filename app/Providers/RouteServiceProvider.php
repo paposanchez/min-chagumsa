@@ -32,7 +32,7 @@ class RouteServiceProvider extends ServiceProvider {
      * @return void
      */
     public function map() {
-//        $this->mapApiRoutes();
+        $this->mapApiRoutes();
         $this->mapWebRoutes();
         $this->mapAllianceRoutes();
         $this->mapGarageeRoutes();

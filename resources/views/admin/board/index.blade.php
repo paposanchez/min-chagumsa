@@ -56,7 +56,7 @@
                         </td>
 
                         <td class="">
-                            {{ $data->status->name }}
+                            {{ $data->status->display() }}
                         </td>
 
                         <td class="">

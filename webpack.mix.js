@@ -25,9 +25,9 @@ mix
         .copy(nodeDir + 'summernote/dist/lang', distDir + 'vendor/summernote/lang', false)
         .copy(nodeDir + 'summernote/dist/plugin', distDir + 'vendor/summernote/plugin', false)
 
-//        .copy(nodeDir + 'select2/dist/', distDir + 'vendor/select2', false)
-//        .copy(nodeDir + 'select2/src/scss', distDir + 'vendor/select2/scss', false)
-//        .sass(distDir + 'vendor/select2/scss/core.scss', distDir + 'vendor/select2/css')
+        .copy(nodeDir + 'select2/dist/', distDir + 'vendor/select2', false)
+        .copy(nodeDir + 'select2/src/scss', distDir + 'vendor/select2/scss', false)
+        .sass(distDir + 'vendor/select2/scss/core.scss', distDir + 'vendor/select2/css')
 
         // uploader
         .copy(nodeDir + 'fine-uploader/', distDir + 'vendor/fine-uploader', false)
@@ -48,7 +48,6 @@ mix
         // js plugins
         .copy(assetsDir + 'js/plugin/', distDir + 'js/plugin')
 
-//        .sass(nodeDir + 'perfect-scrollbar/src/css/main.scss', distDir + 'vendor/select2/css')
         .combine([
                 nodeDir + 'animate.css/animate.css',
 //                nodeDir + 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css',

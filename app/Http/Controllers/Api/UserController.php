@@ -5,168 +5,113 @@ namespace App\Http\Controllers\Api;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Code;
+use App\Models\UserSequence;
+use Carbon\Carbon;
 use DB;
 use Hash;
 use Image;
-use Carbon\Carbon;
 use Laracasts\Flash\Flash;
 use App\Http\Controllers\ApiController;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends ApiController {
 
-    use AuthenticatesUsers;
-
     /**
-     * @SWG\Get(path="/login",
-     *   tags={"User"},
-     *   summary="Logs user into the system",
-     *   description="",
-     *   operationId="loginUser",
-     *   produces={"application/xml", "application/json"},
-     *   @SWG\Parameter(
-     *     name="user_id",
-     *     in="query",
-     *     description="The user name for login",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     name="password",
-     *     in="query",
-     *     description="The password for login in clear text",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *   @SWG\Response(
-     *     response=200,
-     *     description="successful operation",
-     *     @SWG\Schema(type="string"),
-     *     @SWG\Header(
-     *       header="X-Rate-Limit",
-     *       type="integer",
-     *       format="int32",
-     *       description="calls per hour allowed by the user"
+     * @SWG\Post(
+     *     path="/login",
+     *     tags={"User"},
+     *     summary="로그인",
+     *     description="로그인",
+     *     operationId="login",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="garage_seq",in="query",description="대리점 seq",required=true,type="integer",format="int"),
+     *     @SWG\Parameter(name="seq",in="query",description="엔지니어 seq",required=true,type="integer",format="int"),
+     *     @SWG\Parameter(name="password",in="query",description="비밀번호",required=true,type="string",format="string"),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/User"))
      *     ),
-     *     @SWG\Header(
-     *       header="X-Expires-After",
-     *       type="string",
-     *       format="date-time",
-     *       description="date in UTC when token expires"
-     *     )
-     *   ),
-     *   @SWG\Response(response=400, description="Invalid username/password supplied")
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *       {"api_key": "123123123123"}
+     *     }
      * )
      */
-    public function loginUser(Request $request) {
+    public function login(Request $request) {
 
-        if (Auth::check(['email' => $request->email, 'password' => $request->password])) {
-            //$user = Student::where('email',$request->email)->first();
-            $user = Auth::user();
-            $user->api_token = str_random(60);
-            $user->save();
-            return response([
-                'status' => Response::HTTP_OK,
-                'response_time' => microtime(true) - LARAVEL_START,
-                'user' => $user
-                    ], Response::HTTP_OK);
+        // 정비소 seq
+        $garage_seq = $request->get("garage_seq");
+        // 엔지니어 seq
+        $seq = $request->get("seq");
+        // 엔지니어 패스워드
+        $password = $request->get("password");
+
+        try {
+
+            $user_seq = UserSequence::where("seq", $seq)->where("garage_seq", $garage_seq)->first();
+            
+
+            if (!$user_seq) {
+                return abort(404, trans('auth.not-found'));
+            }
+
+            if (Auth::attempt(['id' => $user_seq->users_id, 'password' => $password])) {
+                $user = Auth::user();
+
+//                if (!$user->hasRole("engineer")) {
+//                    return abort(401, trans('auth.status.unauthorized'));
+//                }
+
+                if ($user->status->name != 'active') {
+                    return abort(401, trans('auth.status.unauthorized'));
+                }
+
+                // 앱에서 로그인 정보 갱신
+                $user_seq->update([
+                    'logined_at' => Carbon::now()
+                ]);
+
+                $return = [
+                    "name" => $user->name,
+                    "email" => $user->email,
+                    "mobile" => $user->mobile,
+                    "status" => $user->status,
+                    "garage" => $user->user_extra->garage,
+                ];
+
+
+                return response()->json($return);
+            }
+
+            return abort(404, trans('auth.not-found'));
+
+            // 앱에서는 간단하게 
+        } catch (Exception $ex) {
+            return abort(404, trans('auth.not-found'));
         }
-
-        return response([
-            'status' => Response::HTTP_BAD_REQUEST,
-            'response_time' => microtime(true) - LARAVEL_START,
-            'error' => 'Wrong email or password',
-            'request' => $request->all()
-                ], Response::HTTP_BAD_REQUEST);
     }
 
     /**
-     * Validate the user login request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     */
-    protected function validateLogin(Request $request) {
-        $this->validate($request, [
-            $this->username() => 'required|string',
-            'password' => 'required|string',
-        ]);
-    }
-
-    /**
-     * Attempt to log the user into the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
-     */
-    protected function attemptLogin(Request $request) {
-        return $this->guard()->attempt(
-                        $this->credentials($request), $request->has('remember')
-        );
-    }
-
-    /**
-     * Get the needed authorization credentials from the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    protected function credentials(Request $request) {
-        return $request->only($this->username(), 'password');
-    }
-
-    /**
-     * Send the response after the user was authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    protected function sendLoginResponse(Request $request) {
-        $request->session()->regenerate();
-
-        $this->clearLoginAttempts($request);
-
-        return $this->authenticated($request, $this->guard()->user())
-                ? : redirect()->intended($this->redirectPath());
-    }
-
-    /**
-     * The user has been authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user8
-     * @return mixed
-     */
-    protected function authenticated(Request $request, $user) {
-        //
-    }
-
-    /**
-     * Get the failed login response instance.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    protected function sendFailedLoginResponse(Request $request) {
-        $errors = [$this->username() => trans('auth.failed')];
-
-        return response()->json($errors, 422);
-    }
-
-    /**
-     * @SWG\Post(path="/logout",
+     * @SWG\GET(path="/logout",
      *   tags={"User"},
-     *   summary="Logs out current logged in user session",
-     *   description="",
-     *   operationId="logoutUser",
-     *   produces={"application/xml", "application/json"},
-     *   parameters={},
-     *   @SWG\Response(response="default", description="successful")
+     *   summary="로그아웃",
+     *   description="로그아웃",
+     *   operationId="logout",
+     *   produces={"application/json"},
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
      * )
      */
-    public function logoutUser(Request $request) {
+    public function logout(Request $request) {
         $this->guard()->logout();
 
         $request->session()->flush();
@@ -176,115 +121,50 @@ class UserController extends ApiController {
     }
 
     /**
-     * @SWG\Get(path="/user/{user_id}",
+     * @SWG\POST(path="/password/{engineer_id}",
      *   tags={"User"},
-     *   summary="Get user by user id",
-     *   description="",
-     *   operationId="getUser",
-     *   produces={"application/xml", "application/json"},
-     *   @SWG\Parameter(
-     *     name="user_id",
-     *     in="path",
-     *     description="User id. ",
-     *     required=true,
-     *     type="integer"
-     *   ),
-     *   @SWG\Response(response=200, description="successful", @SWG\Schema(ref="#/definitions/User")),
-     *   @SWG\Response(response=400, description="Invalid user id supplied"),
-     *   @SWG\Response(response=404, description="User not found")
-     * )
-     */
-    public function getUser($user_id) {
-        return User::findOrFail($user_id);
-    }
-
-    /**
-     * @SWG\Put(path="/user/{user_id}",
-     *   tags={"User"},
-     *   summary="Updated user",
-     *   description="This can only be done by the logged in user.",
-     *   operationId="updateUser",
-     *   produces={"application/xml", "application/json"},
-     *   @SWG\Parameter(
-     *     name="username",
-     *     in="path",
-     *     description="name that need to be updated",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="body",
-     *     name="user",
-     *     description="Updated user object",
-     *     required=true,
-     *     @SWG\Schema(ref="#/definitions/User")
-     *   ),
-     *   @SWG\Response(response=400, description="Invalid user supplied"),
-     *   @SWG\Response(response=404, description="User not found")
-     * )
-     */
-    public function updateUser(Request $request, $user_id) {
-
-        $user = App\Models\User::find($user_id);
-
-        if ($user) {
-            $user->update($request->all());
-        }
-
-        return;
-    }
-
-    /**
-     * @SWG\Put(path="/profile/{engineer_id}",
-     *   tags={"User"},
-     *   summary="정비사 프로필",
-     *   description="정비사의 정보를 출력",
-     *   operationId="getProfile",
-     *   produces={"application/xml", "application/json"},
-     *   @SWG\Parameter(
-     *     name="engineer_id",
-     *     in="path",
-     *     description="정비사 번호",
-     *     required=true,
-     *     type="integer"
-     *   ),
-     *   @SWG\Response(response=400, description="Invalid user supplied"),
-     *   @SWG\Response(response=404, description="User not found")
-     * )
-     */
-    public function getProfile($engineer_id){
-        return $user = User::find($engineer_id)->json();
-    }
-
-    /**
-     * @SWG\Put(path="/password/{engineer_id}",
-     *   tags={"User"},
-     *   summary="정비사 비밀번호 변경",
+     *   summary="비밀번호 변경",
      *   description="정비사의 비밀번호를 변경 가능",
      *   operationId="changePassword",
-     *   produces={"application/xml", "application/json"},
-     *   @SWG\Parameter(
-     *     name="engineer_id",
-     *     in="path",
-     *     description="정비사 번호",
-     *     required=true,
-     *     type="integer"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="body",
-     *     name="password",
-     *     description="변경할 비밀번호 정보",
-     *     required=true,
-     *     @SWG\Schema(ref="#/definitions/Password")
-     *   ),
-     *   @SWG\Response(response=400, description="Invalid user supplied"),
-     *   @SWG\Response(response=404, description="User not found")
+     *   produces={"application/json"},
+     *   @SWG\Parameter(name="password",in="query",description="비밀번호",required=true,type="string",format="string"),
+     *   @SWG\Parameter(name="password_new",in="query",description="비밀번호",required=true,type="string",format="string"),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
      * )
      */
-    public function changePassword($engineer_id, Request $request){
-//        $user = User::find($engineer_id)->json();
+    public function changePassword(Request $request, $engineer_id) {
+        try {
+
+
+            if (Auth::attempt(['id' => $engineer_id, 'password' => $request->get('password')])) {
+                $user = Auth::user();
+
+                if ($user->status->name != 'active') {
+                    return abort(401, trans('auth.status.unauthorized'));
+                }
+
+                // 앱에서 로그인 정보 갱신
+                $user->update([
+                    'password' => bcrypt($request->get('password_new')),
+                    'updated_at' => Carbon::now()
+                ]);
+
+                return response()->json($user);
+            }
+
+            return abort(404, trans('auth.not-found'));
+
+            // 앱에서는 간단하게 
+        } catch (Exception $e) {
+            return abort(404, trans('auth.not-found'));
+        }
+
+        return response()->json();
     }
-
-
 
 }
