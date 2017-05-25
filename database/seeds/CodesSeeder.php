@@ -192,6 +192,7 @@ class CodesSeeder extends Seeder {
             ['group' => 'attachment_status_cd', 'name' => 'different'],
             ['group' => 'attachment_status_cd', 'name' => 'corrosion'],
             ['group' => 'attachment_status_cd', 'name' => 'modulation'],
+            ['group' => 'attachment_status_cd', 'name' => 'damage'],
             ['group' => 'diagnosis_info_color_cd','name' =>  'white'],
             ['group' => 'diagnosis_info_color_cd', 'name' => 'black'],
             ['group' => 'diagnosis_info_color_cd','name' =>  'gray'],
