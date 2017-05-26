@@ -202,6 +202,8 @@ class CodesSeeder extends Seeder {
             ['group' => 'repair_status_cd', 'name' => 'good'],
             ['group' => 'repair_status_cd', 'name' => 'repair'],
             ['group' => 'repair_status_cd', 'name' => 'none'],
+            ['group' => 'history_status_cd', 'name' => 'good'],
+            ['group' => 'history_status_cd', 'name' => 'history'],
             ['group' => 'exterior_position_cd', 'name' => 'good'],
             ['group' => 'exterior_position_cd', 'name' => 'history'],
             ['group' => 'exterior_position_cd', 'name' => 'hood'],
