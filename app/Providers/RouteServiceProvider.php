@@ -55,7 +55,6 @@ class RouteServiceProvider extends ServiceProvider {
                 ], function ($router) {
             require base_path('routes/web.php');
         });
-        
     }
 
     protected function mapAdminRoutes() {
@@ -111,8 +110,6 @@ class RouteServiceProvider extends ServiceProvider {
                 ], function ($router) {
             require base_path('routes/api.php');
         });
-        
-//        app('config')->set('L5_SWAGGER_GENERATE_ALWAYS', TRUE);
     }
 
 }

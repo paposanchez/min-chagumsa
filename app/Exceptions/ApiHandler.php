@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
-class Handler extends ExceptionHandler {
+class ApiHandler extends ExceptionHandler {
 
     /**
      * A list of the exception types that should not be reported.
@@ -42,21 +42,9 @@ class Handler extends ExceptionHandler {
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e) {
-
-//        if ($exception instanceof TokenMismatchException) {
-//            return redirect()->route('/')->with('error', trans('auth.token-mismatch'));
-//        }
-//        return parent::render($request, $exception);
-        
-        
-//        dd($request->getUri());
-        if ($request->ajax() || $request->wantsJson()) {
-            return response()->json(
-                            $this->getJsonMessage($e), $this->getExceptionHTTPStatusCode($e)
-            );
-        }
-
-        return parent::render($request, $e);
+        return response()->json(
+                        $this->getJsonMessage($e), $this->getExceptionHTTPStatusCode($e)
+        );
     }
 
     /**

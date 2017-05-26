@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-
 /**
  * @SWG\Swagger(
  *   basePath="/",
@@ -35,6 +34,8 @@ use App\Http\Controllers\Controller;
  * 
  * )
  */
+use App\Exceptions\ApiHandler;
+
 class ApiController extends Controller {
-    
+
 }

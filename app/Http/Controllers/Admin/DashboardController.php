@@ -15,11 +15,6 @@ class DashboardController extends Controller {
      */
     public function index() {
 
-
-        $return = \App\Models\User::find()->garage_seq();
-
-        var_dump($return);
-
 //        $handler = new \App\Models\UserSequence();
 //        $garage_id = $handler->setNewGarageSeq(1);
 //        $garage_id = $handler->setNewGarageSeq(3);
