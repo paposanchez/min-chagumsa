@@ -35,7 +35,7 @@ mix
         .copy(nodeDir + 'pikaday/', distDir + 'vendor/pikaday', false)
 
         // charts
-//        .copy(nodeDir + 'highcharts/', distDir + 'vendor/highcharts', false)
+        .copy(nodeDir + 'highcharts/', distDir + 'vendor/highcharts', false)
 //        .copy(nodeDir + 'd3/', distDir + 'vendor/d3', false)
 //        // d3기반 차트 http://metricsgraphicsjs.org/examples.htm
 //        .copy(nodeDir + 'metrics-graphics/dist', distDir + 'vendor/metrics-graphics', false)
@@ -52,7 +52,7 @@ mix
                 nodeDir + 'animate.css/animate.css',
 //                nodeDir + 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css',
 //                nodeDir + 'perfect-scrollbar/dist/css/perfect-scrollbar.scss',
-//                nodeDir + 'titatoggle/dist/titatoggle-dist.css'
+                nodeDir + 'titatoggle/dist/titatoggle-dist.css'
         ], distDir + 'css/vendor.css')
 
         .sass(assetsDir + 'scss/app.scss', distDir + 'css')
@@ -69,13 +69,13 @@ mix
 //                nodeDir + 'perfect-scrollbar/dist/js/perfect-scrollbar.jquery.js',
                 nodeDir + 'moment/min/moment-with-locales.js',
                 nodeDir + 'pikaday/pikaday.js',
-//                nodeDir + 'jquery-knob/js/jquery.knob.js',
-//                nodeDir + 'bootstrap-notify/bootstrap-notify.js',
-//                nodeDir + 'bootstrap-touchspin/src/jquery.bootstrap-touchspin.js',
-//                nodeDir + 'jquery-file-download/src/Scripts/jquery.fileDownload.js',
-//                nodeDir + 'ekko-lightbox/dist/ekko-lightbox.js',
-//                assetsDir + 'vendor/jasny/js/fileinput.js',
-//                assetsDir + 'vendor/jasny/js/inputmask.js',
+                nodeDir + 'jquery-knob/js/jquery.knob.js',
+                nodeDir + 'bootstrap-notify/bootstrap-notify.js',
+                nodeDir + 'bootstrap-touchspin/src/jquery.bootstrap-touchspin.js',
+                nodeDir + 'jquery-file-download/src/Scripts/jquery.fileDownload.js',
+                nodeDir + 'ekko-lightbox/dist/ekko-lightbox.js',
+                assetsDir + 'vendor/jasny/js/fileinput.js',
+                assetsDir + 'vendor/jasny/js/inputmask.js',
                 assetsDir + 'js/app.js'
         ], distDir + 'js/app.js');
         if (mix.config.inProduction) {
