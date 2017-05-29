@@ -25,9 +25,9 @@ class UserController extends ApiController {
      *     description="로그인",
      *     operationId="login",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="garage_seq",in="body",description="대리점 seq",required=true,type="integer",format="int"),
-     *     @SWG\Parameter(name="seq",in="body",description="엔지니어 seq",required=true,type="integer",format="int"),
-     *     @SWG\Parameter(name="password",in="body",description="비밀번호",required=true,type="string",format="string"),
+     *     @SWG\Parameter(name="garage_seq",in="formData",description="대리점 seq",required=true,type="integer",format="int"),
+     *     @SWG\Parameter(name="seq",in="formData",description="엔지니어 seq",required=true,type="integer",format="int"),
+     *     @SWG\Parameter(name="password",in="formData",description="비밀번호",required=true,type="string",format="string"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/User"))
      *     ),
