@@ -25,9 +25,9 @@ class UserController extends ApiController {
      *     description="로그인",
      *     operationId="login",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="garage_seq",in="query",description="대리점 seq",required=true,type="integer",format="int"),
-     *     @SWG\Parameter(name="seq",in="query",description="엔지니어 seq",required=true,type="integer",format="int"),
-     *     @SWG\Parameter(name="password",in="query",description="비밀번호",required=true,type="string",format="string"),
+     *     @SWG\Parameter(name="garage_seq",in="body",description="대리점 seq",required=true,type="integer",format="int"),
+     *     @SWG\Parameter(name="seq",in="body",description="엔지니어 seq",required=true,type="integer",format="int"),
+     *     @SWG\Parameter(name="password",in="body",description="비밀번호",required=true,type="string",format="string"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/User"))
      *     ),
@@ -50,6 +50,26 @@ class UserController extends ApiController {
         $seq = $request->get("seq");
         // 엔지니어 패스워드
         $password = $request->get("password");
+
+        // Dummy data send
+        $user = User::findOrFail(1);
+        $return = [
+            "name" => $user->name,
+            "email" => $user->email,
+            "mobile" => $user->mobile,
+            "status" => $user->status,
+            "garage" => [
+                 "id" => 77777,
+                 "name" => "일산정비소",
+                 "address" => "경기도 일산 서구 장항동 웨스턴타워 1차",
+                 "tel" => "02-123-2902"
+            ]
+        ];
+        return response()->json($return);
+
+
+
+
 
         try {
 
