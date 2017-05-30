@@ -157,10 +157,10 @@ class UserController extends Controller {
             return redirect()
                             ->route('user.index')
                             ->with('success', trans('admin/user.destroyed'));
-        }else{
+        } else {
             return redirect()
-                        ->route('user.index')
-                        ->with('success', trans('admin/user.can_not_destroyed'));
+                            ->route('user.index')
+                            ->with('success', trans('admin/user.can_not_destroyed'));
         }
     }
 
