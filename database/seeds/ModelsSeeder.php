@@ -11,11 +11,13 @@ class ModelsSeeder extends \Illuminate\Database\Seeder
     public function run(){
         DB::table('models')->insert([
             'id' => '1',
+            'brand_id' => '1',
             'name' => '포르테'
         ]);
 
         DB::table('models')->insert([
             'id' => '2',
+            'brand_id' => '2',
             'name' => '아반떼'
         ]);
     }
