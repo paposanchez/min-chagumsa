@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\ApiController;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisDetails;
+use App\Models\Item;
 use App\Repositories\DiagnosisRepository;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -271,6 +272,36 @@ class DiagnosisController extends ApiController {
 
 //        $this->image(Request $request);
 //        return $complete_order = Order::where('id', $order_id)->where('status_cd', default)->json();
+    }
+
+
+    /**
+     * @SWG\Get(
+     *     path="/get_layout/{order_id}",
+     *     tags={"Diagnosis"},
+     *     summary="진단 레이아웃",
+     *     description="주문번호에 대한 진단 레이아웃 호출",
+     *     operationId="getLayout",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="order_id",in="path",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="object",@SWG\Items(ref="#/definitions/Item"))
+     *     ),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *       {"api_key": "1e212e12e123"}
+     *     }
+     * )
+     */
+    public function getLayout($order_id) {
+        $order_num = Order::find($order_id)->item_id;
+        $layout = Item::find($order_num)->layout;
+        return response()->json($layout);
     }
 
 }
