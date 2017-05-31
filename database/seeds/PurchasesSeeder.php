@@ -16,7 +16,7 @@ class PurchasesSeeder extends \Illuminate\Database\Seeder
             'refund_name' => '홍길동',
             'refund_account' => '123123123-123123',
             'refund_bank' => '국민',
-            'status' => '1'
+            'status_cd' => '1'
         ]);
 
         DB::table('purchases')->insert([
@@ -26,7 +26,7 @@ class PurchasesSeeder extends \Illuminate\Database\Seeder
             'refund_name' => '홍길순',
             'refund_account' => '234234234-234234',
             'refund_bank' => '농협',
-            'status' => '3'
+            'status_cd' => '3'
         ]);
     }
 }
