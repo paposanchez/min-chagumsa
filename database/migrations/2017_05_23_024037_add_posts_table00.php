@@ -21,7 +21,7 @@ class AddPostsTable00 extends Migration
              * P- 결제, O- 주문상태, F- 환불규정, G - 가이드
              */
             $table->enum('faq_group', ['U', 'P', 'C', ''])->default('');
-            $table->enum("faq_div", ['R', 'L', 'I', 'M', 'P', 'O', 'F', ''])->default('');
+            $table->enum("faq_div", ['R', 'L', 'I', 'M', 'P', 'O', 'F','G', ''])->default('');
         });
     }
 
