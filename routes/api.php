@@ -57,6 +57,8 @@ Route::get('notice/{post_id}', "NoticeController@show")->name('notice.show');
         //주문 엔지니어에 할당
         Route::post('/grant/{order_id}/{engineer_id}/', "DiagnosisController@setDiagnosisEngineer")->name('diagnosis.grant');
 
+        Route::post('/get_layout/{order_id}', "DiagnosisController@getLayout")->name('diagnosis.getLayout');
+
 
         Route::post('/login', "UserController@login");
         Route::post('/logout', "UserController@logout");

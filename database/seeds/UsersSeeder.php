@@ -20,12 +20,12 @@ class UsersSeeder extends Seeder {
         DB::table('roles')->insert(['name' => 'technician', 'display_name' => 'technician', 'description' => '기술사']);
 
         // 회원
-        DB::table('users')->insert(['name' => 'Administrator', 'email' => 'admin@2by.kr', 'password' => bcrypt('asd#123'), 'status_cd' => 1]);
-        DB::table('users')->insert(['name' => 'Daily Jude', 'email' => 'user@2by.kr', 'password' => bcrypt('asd#123'), 'status_cd' => 1]);
-        DB::table('users')->insert(['name' => 'Holy Bravo', 'email' => 'bravo@2by.kr', 'password' => bcrypt('asd#123'), 'status_cd' => 1]);
-        DB::table('users')->insert(['name' => 'Tailer Moon', 'email' => 'moon@2by.kr', 'password' => bcrypt('asd#123'), 'status_cd' => 1]);
-        DB::table('users')->insert(['name' => 'Kang Tuigeare', 'email' => 'kang@2by.kr', 'password' => bcrypt('asd#123'), 'status_cd' => 1]);
-        DB::table('users')->insert(['name' => 'Mike Taison', 'email' => 'taison@2by.kr', 'password' => bcrypt('asd#123'), 'status_cd' => 1]);
+        DB::table('users')->insert(['name' => 'Administrator', 'email' => 'admin@2by.kr', 'password' => bcrypt('asd#123'), 'status_cd' => 1, 'mobile' => '010-1234-1234']);
+        DB::table('users')->insert(['name' => 'Daily Jude', 'email' => 'user@2by.kr', 'password' => bcrypt('asd#123'), 'status_cd' => 1, 'mobile' => '010-2345-2345']);
+        DB::table('users')->insert(['name' => 'Holy Bravo', 'email' => 'bravo@2by.kr', 'password' => bcrypt('asd#123'), 'status_cd' => 1, 'mobile' => '010-3456-3456']);
+        DB::table('users')->insert(['name' => 'Tailer Moon', 'email' => 'moon@2by.kr', 'password' => bcrypt('asd#123'), 'status_cd' => 1, 'mobile' => '010-456-3456']);
+        DB::table('users')->insert(['name' => 'Kang Tuigeare', 'email' => 'kang@2by.kr', 'password' => bcrypt('asd#123'), 'status_cd' => 1, 'mobile' => '010-1364-1124']);
+        DB::table('users')->insert(['name' => 'Mike Taison', 'email' => 'taison@2by.kr', 'password' => bcrypt('asd#123'), 'status_cd' => 1, 'mobile' => '010-1213-5674']);
 
         // Role
         DB::table('role_user')->insert(['user_id' => 1, 'role_id' => 1]);

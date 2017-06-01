@@ -17,7 +17,7 @@ class CarsSeeder extends \Illuminate\Database\Seeder
 
         DB::table('cars')->insert([
             'id' => '2',
-            'name' => '2',
+            'kind_cd' => '2',
             'detail_id' => '2'
         ]);
     }
