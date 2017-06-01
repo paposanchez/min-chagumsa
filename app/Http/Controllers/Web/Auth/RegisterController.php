@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -9,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+
+use Illuminate\Support\Facades\Mail;
+use App\Notifications\ConfirmEmail;
 
 class RegisterController extends Controller {
 
@@ -99,31 +103,52 @@ class RegisterController extends Controller {
 
 
     public function registered(Request $request, $user) {
-
-//        $user->notify(new ConfirmEmail());
+//        $confirmation_code = str_random(30);
+//
+//        $user->notify(new ConfirmEmail($confirmation_code));
 
 //        return redirect('/')->with('ok', trans('web/verify.message'));
-        
-         return view('web.auth.register.registered');
+//        dd('aaa');
+        //verification email
+
+        // 인증메일 관련 부분 향후에
+        $confirmation_code = str_random(30);
+
+        $confirm_user = Post::find($user->id);
+        if($confirm_user){
+            $confirm_user->verification_code = $confirmation_code;
+            $confirm_user->save();
+
+            Mail::send('email.verify', $confirmation_code, function($message) use ($user) {
+                $message->to($user->email)
+                    ->subject("[카검사 ]회원 인증 메일입니다");
+            });
+
+        }else{
+            //
+        }
+
+
+        return view('web.auth.registered', compact("user"));
     }
 
 
     /**
      * Handle a confirmation request
      *
-     * @param  \App\Repositories\UserRepository $userRepository
+     * @param UserRepository $userRepository
      * @param  string  $confirmation_code
      * @return \Illuminate\Http\Response
      */
     public function confirm(UserRepository $userRepository, $confirmation_code) {
         $userRepository->confirm($confirmation_code);
-        return redirect('/')->with('ok', trans('web/verify.success'));
+        //return redirect('/')->with('ok', trans('web/verify.success'));
     }
 
     /**
      * Handle a resend request
      *
-     * @param  \App\Repositories\UserRepository $userRepository
+     * @param  UserRepository $userRepository
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */

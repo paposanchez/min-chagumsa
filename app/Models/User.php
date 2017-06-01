@@ -13,6 +13,8 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Storage;
 use App\Models\UserExtra;
 
+use Illuminate\Support\Facades\Mail;
+
 class User extends Authenticatable {
 
     use Notifiable,
@@ -102,6 +104,17 @@ class User extends Authenticatable {
      */
     public function userExtras(){
         return $this->hasOne(UserExtra::class);
+    }
+
+    public function sendVerificationEmail(){
+
+        Mail::send('emails.userverification',
+            ['verification_code' => $this->verification_code],
+            function ($message){
+                $message->to($this->email)->subject("[카검사] 회원 인증 메일입니다.");
+                return true;
+            }
+        );
     }
 
 //    public function getFilesDirectory() {
