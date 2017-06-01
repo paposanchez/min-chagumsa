@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 /**
@@ -18,7 +18,7 @@ use App\Http\Controllers\Controller;
  *             type="string"
  *         ),
  *         @SWG\Property(
- *             property="msg",
+ *             property="msg",q
  *             type="string"
  *         ),
  *         @SWG\Property(
