@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Api\ApiController;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisDetails;
 use App\Models\Item;

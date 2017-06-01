@@ -11,7 +11,7 @@ use DB;
 use Hash;
 use Image;
 use Laracasts\Flash\Flash;
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
