@@ -10,6 +10,7 @@ use App\Repositories\DiagnosisRepository;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Traits\Uploader;
+use Validator;
 
 class DiagnosisController extends ApiController {
 
@@ -24,6 +25,9 @@ class DiagnosisController extends ApiController {
      *     operationId="show",
      *     produces={"application/json"},
      *     @SWG\Parameter(name="order_id",in="path",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Diagnosis"))
+     *     ),
      *     @SWG\Response(response=401, description="unauthorized"),
      *     @SWG\Response(response=404, description="not found"),
      *     @SWG\Response(response=500, description="internal server error"),
@@ -41,7 +45,7 @@ class DiagnosisController extends ApiController {
 
         return response()->json($return);
     }
-
+    
     /**
      * @SWG\Post(
      *     path="/diagnosis/{order_id}",
