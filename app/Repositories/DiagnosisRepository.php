@@ -28,7 +28,7 @@ class DiagnosisRepository {
         if ($this->validate($decrypt_data, $order->item->layout)) {
             return $decrypt_data;
         } else {
-            return false;
+            return null;
         }
     }
 
