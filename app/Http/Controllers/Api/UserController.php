@@ -44,35 +44,17 @@ class UserController extends ApiController {
      */
     public function login(Request $request) {
 
-        // 정비소 seq
-        $garage_seq = $request->get("garage_seq");
-        // 엔지니어 seq
-        $seq = $request->get("seq");
-        // 엔지니어 패스워드
-        $password = $request->get("password");
-
-        // Dummy data send
-        $user = User::findOrFail(1);
-        $return = [
-            "name" => $user->name,
-            "email" => $user->email,
-            "mobile" => $user->mobile,
-            "status" => $user->status,
-            "garage" => [
-                 "id" => 77777,
-                 "name" => "일산정비소",
-                 "address" => "경기도 일산 서구 장항동 웨스턴타워 1차",
-                 "tel" => "02-123-2902"
-            ]
-        ];
-        return response()->json($return);
-
-
-
-
-
         try {
 
+            // 정비소 seq
+            $garage_seq = $request->get("garage_seq");
+            // 엔지니어 seq
+            $seq = $request->get("seq");
+            // 엔지니어 패스워드
+            $password = $request->get("password");
+
+
+            //====== 1 : 사용자 조회
             $user_seq = UserSequence::where("seq", $seq)->where("garage_seq", $garage_seq)->first();
             
 
@@ -80,39 +62,43 @@ class UserController extends ApiController {
                 return abort(404, trans('auth.not-found'));
             }
 
+            //====== 2 : 사용자 인증 
             if (Auth::attempt(['id' => $user_seq->users_id, 'password' => $password])) {
+                
                 $user = Auth::user();
 
-//                if (!$user->hasRole("engineer")) {
-//                    return abort(401, trans('auth.status.unauthorized'));
-//                }
+                // 엔지니어롤
+                if (!$user->hasRole("engineer")) {
+                    return abort(401, trans('auth.status.unauthorized'));
+                }
 
+                // 활성여부
                 if ($user->status->name != 'active') {
                     return abort(401, trans('auth.status.unauthorized'));
                 }
 
-                // 앱에서 로그인 정보 갱신
+                // 로그인 정보 갱신
                 $user_seq->update([
                     'logined_at' => Carbon::now()
                 ]);
 
                 $return = [
-                    "name" => $user->name,
-                    "email" => $user->email,
-                    "mobile" => $user->mobile,
-                    "status" => $user->status,
-                    "garage" => $user->user_extra->garage,
+                    "name"      => $user->name,
+                    "email"     => $user->email,
+                    "mobile"    => $user->mobile,
+                    "status"    => $user->status,
+                    "garage"    => $user->user_extra->garage,
                 ];
-
 
                 return response()->json($return);
             }
 
             return abort(404, trans('auth.not-found'));
 
-            // 앱에서는 간단하게 
         } catch (Exception $ex) {
+
             return abort(404, trans('auth.not-found'));
+
         }
     }
 
