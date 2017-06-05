@@ -22,14 +22,14 @@ class DiagnosisRepository {
 
         // 주문조회
         $order = Order::findOrFail($order_id);
-
-        $decrypt_data = $this->generate($order);
-
-        if ($this->validate($decrypt_data, $order->item->layout)) {
-            return $decrypt_data;
-        } else {
-            return null;
-        }
+        return response()->json($order);
+//        $decrypt_data = $this->generate($order);
+//
+//        if ($this->validate($decrypt_data, $order->item->layout)) {
+//            return $decrypt_data;
+//        } else {
+//            return null;
+//        }
     }
 
     public function set($encrypt_data, $order_id) {
