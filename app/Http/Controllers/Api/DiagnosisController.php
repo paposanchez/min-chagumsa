@@ -84,11 +84,9 @@ class DiagnosisController extends ApiController {
      *     description="정비소에 입고되어진 주문 목록, 오늘부터 미래의 주문 출력",
      *     operationId="getDiagnoses",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="garage_id",in="path",description="페이지번호",required=false,default=1,type="integer",format="int64"),
-     *     @SWG\Parameter(name="page",in="query",description="페이지번호",required=false,default=1,type="integer",format="int64"),
-     *     @SWG\Parameter(name="date",in="query",description="날짜",required=false,type="integer",format="int64"),
+     *     @SWG\Parameter(name="garage_id",in="path",description="정비소 번호",required=true, default=1, type="integer",format="int32"),
      *     @SWG\Response(response=200,description="success",
-     *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
+     *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Orders"))
      *     ),
      *     @SWG\Response(response=401, description="unauthorized"),
      *     @SWG\Response(response=500, description="internal server error"),
@@ -102,8 +100,11 @@ class DiagnosisController extends ApiController {
      */
     public function getDiagnoses(Request $request, $garage_id) {
 
-        $where = Diagnosis::orderBy('id', 'desc')->where('garage_id', $garage_id);
-        $entrys = $where->paginate($limit);
+//        $return = Order::orderBy('id', 'desc')->where('garage_id', $garage_id);
+//        return response()->json($return);
+        $where = Order::orderBy('id', 'desc')->where('garage_id', $garage_id);
+        $entrys = $where->paginate($request->get('limit'));
+
 
         return response()->json($entrys);
     }

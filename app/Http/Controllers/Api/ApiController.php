@@ -18,7 +18,7 @@ use App\Http\Controllers\Controller;
  *             type="string"
  *         ),
  *         @SWG\Property(
- *             property="msg",q
+ *             property="msg",
  *             type="string"
  *         ),
  *         @SWG\Property(
