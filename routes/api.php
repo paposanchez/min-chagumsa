@@ -23,7 +23,8 @@ Route::get('codes', "CodeController")->name('code');
 //Route::get('code/group/{group}', "CodeController@group")->name('code.group');
 
 Route::get('notice', "NoticeController@index");
-Route::get('notice/{post_id}', "NoticeController@show")->name('notice.show');
+Route::get('notice/news', "NoticeController@news");
+Route::get('notice/{post_id}', "NoticeController@show")->where('post_id', '[0-9]+')->name('notice.show');
 
 //Route::group(['middleware' => ['auth:api']], function () {
 //

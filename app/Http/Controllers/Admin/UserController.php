@@ -67,6 +67,9 @@ class UserController extends Controller {
 
         if ($request->file('avatar')) {
             Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
+
+            $user->avatar = 1;
+            $user->save();
         }
 
         return redirect()
@@ -111,6 +114,7 @@ class UserController extends Controller {
 
 
         $input = $request->all();
+        
         // 비밀번호 변경
         if (!empty($input['password'])) {
             $input['password'] = bcrypt($input['password']);
@@ -127,18 +131,15 @@ class UserController extends Controller {
             foreach ($input['roles'] as $key => $value) {
                 $user->attachRole($value);
             }
-
-            // role 처리
-            DB::table('role_user')->where('user_id', $id)->delete();
-            foreach ($request->input('roles') as $key => $value) {
-                $user->attachRole($value);
-            }
         }
 
 
         // 아바타 변경
         if ($request->file('avatar')) {
             Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
+
+            $user->avatar = 1;
+            $user->save();
         }
 
         return redirect()
