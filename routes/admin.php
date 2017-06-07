@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     // 대시보드
-    Route::resource('dashboard', 'DashboardController');
+    Route::get('dashboard', 'DashboardController@__invoke')->name('dashboard.index');
 
     // 사용자
     Route::resource('user', 'UserController', ['except' => ['show']]);
@@ -30,8 +30,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         // tag
         Route::resource('tag', 'TagController');
         // 사용자로그
-        Route::resource('active', 'ActiveController');
-        
+        Route::resource('active', 'ActiveController');        
     });
 
     // JSON : 회원목록
@@ -69,10 +68,10 @@ Route::group(['middleware' => ['guest.admin']], function () {
     Route::post('login', 'Auth\LoginController@login');
 
     // 회원정보 분실
-    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+    // Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+    // Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+    // Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+    // Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
     // Email confirmation 
     //Route::get('resend', 'Auth\RegisterController@resend');
@@ -81,7 +80,7 @@ Route::group(['middleware' => ['guest.admin']], function () {
     //Route::get('notifications/{user}', 'NotificationController@index');
     //Route::put('notifications/{notification}', 'NotificationController@update');
 
-
+    // 로그인 페이지
     Route::get('/', 'WelcomeController');
 
 //    Route::get('order/', 'OrderController@index');

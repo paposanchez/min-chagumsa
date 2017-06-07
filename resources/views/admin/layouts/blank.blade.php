@@ -1,5 +1,5 @@
 {{-- LAYOUT --}}
-@extends( 'layouts.base' )
+@extends( 'layouts.admin-base' )
 
 @section( 'body-title' ){{ config("app.name") }}@endsection
 

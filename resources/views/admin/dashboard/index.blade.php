@@ -13,7 +13,7 @@
         <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <span class="glyphicon glyphicon-question-sign"></span> 최근 1:1문의 <span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                    <span class="fa fa-question"></span> 최근 1:1문의 <span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
                 </div>
                 <div class="panel-body">
                     <table class="table">
@@ -69,7 +69,7 @@
         <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <span class="glyphicon glyphicon-question-sign"></span> 최근 정산현황 <span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                    <span class="fa fa-question"></span> 최근 정산현황 <span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
                 </div>
                 <div class="panel-body">
                     <table class="table">
@@ -96,7 +96,7 @@
         <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <span class="glyphicon glyphicon-question-sign"></span> 최근 게시물<span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                    <span class="fa fa-question"></span> 최근 게시물<span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
                 </div>
                 <div class="panel-body">
                     <table class="table">
@@ -119,7 +119,7 @@
         <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <span class="glyphicon glyphicon-question-sign"></span> 인증서 발급현 <span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                    <span class="fa fa-question"></span> 인증서 발급현 <span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
                 </div>
                 <div class="panel-body">
                     <table class="table">

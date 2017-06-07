@@ -1,7 +1,4 @@
-const {
-mix
-        }
-= require('laravel-mix')
+const {mix} = require('laravel-mix')
         assetsDir = 'resources/assets/',
         nodeDir = 'node_modules/',
         publicDir = 'public/',
@@ -15,9 +12,9 @@ mix
         //##### 이미지
         .copy(assetsDir + 'img/', distDir + 'img', false)
         //##### 폰트 
-//        .copy(nodeDir + 'bootstrap-sass/assets/fonts/', distDir + 'fonts/bootstrap')
-//        .copy(nodeDir + 'lato-font/fonts/', distDir + 'fonts/lato')
-//        .copy(nodeDir + 'material-design-icons/iconfont/', distDir + 'fonts/material-design-icons')
+       .copy(nodeDir + 'bootstrap-sass/assets/fonts/', distDir + 'fonts/bootstrap')
+       .copy(nodeDir + 'lato-font/fonts/', distDir + 'fonts/lato')
+       .copy(nodeDir + 'material-design-icons/iconfont/', distDir + 'fonts/material-design-icons')
         .copy(nodeDir + 'font-awesome/fonts/', distDir + 'fonts/font-awesome')
 
         //##### vendor
@@ -50,7 +47,7 @@ mix
 
         .combine([
                 nodeDir + 'animate.css/animate.css',
-//                nodeDir + 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css',
+               nodeDir + 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css',
 //                nodeDir + 'perfect-scrollbar/dist/css/perfect-scrollbar.scss',
                 nodeDir + 'titatoggle/dist/titatoggle-dist.css'
         ], distDir + 'css/vendor.css')
