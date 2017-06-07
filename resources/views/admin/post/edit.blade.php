@@ -184,6 +184,34 @@
 
                 </div>
 
+
+
+                <div class="form-group ">
+                    <label for="" class="control-label col-md-3">{{ trans('admin/post.created_at') }}</label>
+
+                    <div class="col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
+                                <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD HH:II:SS" placeholder="{{ trans('admin/post.created_at') }}" name='created_at' value='{{ $post->created_at }}'>
+                            </div>
+                    </div>
+
+                </div>
+                <div class="form-group ">
+                    <label for="" class="control-label col-md-3">{{ trans('admin/post.updated_at') }}</label>
+
+                    <div class="col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
+                                <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD HH:II:SS" placeholder="{{ trans('admin/post.updated_at') }}" name='updated_at' value='{{ $post->updated_at }}'>
+                            </div>
+                    </div>
+
+                </div>
+
+
+
+
                 <div class="form-group">
                     <div class="col-md-9 col-md-offset-3">
                         <a href="{{ route('post.index') }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ trans('common.button.back') }}</a>
