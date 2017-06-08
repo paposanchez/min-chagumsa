@@ -8,6 +8,11 @@ use App\Models\DiagnosisDetails;
 use App\Models\Item;
 use App\Repositories\DiagnosisRepository;
 use App\Models\Order;
+use App\Models\User;
+use App\Models\Reservation;
+use DB;
+use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use App\Traits\Uploader;
 use Validator;
@@ -282,10 +287,10 @@ class DiagnosisController extends ApiController {
 
     /**
      * @SWG\Get(
-     *     path="/get_layout/{order_id}",
+     *     path="/diagnosis/item/{order_id}",
      *     tags={"Diagnosis"},
      *     summary="진단 레이아웃",
-     *     description="주문번호에 대한 진단 레이아웃 호출",
+     *     description="주문번호에 대한 상품 진단레이아웃 조회",
      *     operationId="getLayout",
      *     produces={"application/json"},
      *     @SWG\Parameter(name="order_id",in="path",description="주문 번호",required=true,type="integer",format="int32"),
@@ -299,14 +304,60 @@ class DiagnosisController extends ApiController {
      *          @SWG\Schema(ref="#/definitions/Error")
      *     ),
      *     security={
-     *       {"api_key": "1e212e12e123"}
      *     }
      * )
      */
-    public function getLayout($order_id) {
-        $order_num = Order::find($order_id)->item_id;
-        $layout = Item::find($order_num)->layout;
-        return response()->json($layout);
+    public function getItem($order_id) {
+        $diagnosis = new DiagnosisRepository();
+        $return = $diagnosis->get($order_id);
+
+        return response()->json($return->item);
+    }
+
+
+
+
+    /**
+     * @SWG\Get(
+     *     path="/diagnosis/count/{user_id}",
+     *     tags={"Diagnosis"},
+     *     summary="오늘과 내일의 입고예약 갯수",
+     *     description="특정정비소의 오늘과 내일의 입고예약 갯수",
+     *     operationId="getReservationCount",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="user_id",in="path",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="array")
+     *     ),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *     }
+     * )
+     */
+    public function getReservationCount($user_id) {
+        // $order_num = Order::find($order_id)->item_id;
+        // $layout = Item::find($order_num)->layout;
+        // return Order::findOrFail($order_id)->item->layout;
+
+        $return = array(
+            "today" => '00',
+            "tomorrow" => '00'
+        );
+
+        $user = User::where("id", $user_id)->first();
+
+        $today = Reservation::where("garage_id", $user->user_extra->garage_id)->whereNotNull('updated_at')->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), Carbon::today()->format('Y-m-d'))->count();
+        $tomorrow = Reservation::where("garage_id", $user->user_extra->garage_id)->whereNotNull('updated_at')->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), Carbon::tomorrow()->format('Y-m-d'))->count();
+
+        $return["today"] = str_pad($today, 2, '0');
+        $return["tomorrow"] = str_pad($tomorrow, 2, '0');
+
+        return response()->json($return);
     }
 
 }

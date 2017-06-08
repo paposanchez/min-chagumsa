@@ -7,7 +7,7 @@
         <div class="aside-profile-info">
             <a href="{{ route("user.edit", [Auth::id()]) }}" class="aside-profile-info-name">{{ Auth::user()->name }}</a>
             <a href="{{ url("logout") }}" class="text-danger"><i class="fa fa-power-off"></i></a>
-            <small class="aside-profile-info-desc">{{ Auth::user()->email }} <span class="text-info">/ {{ Auth::user()->status->name }}</span></small>
+            <small class="aside-profile-info-desc">{{ Auth::user()->email }} <span class="text-info">/ {{ Auth::user()->status->display() }}</span></small>
         </div>
 
     </div>

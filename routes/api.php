@@ -55,10 +55,14 @@ Route::get('notice/{post_id}', "NoticeController@show")->where('post_id', '[0-9]
 
         //개별파일업로드
         Route::post('/upload/{order_id}', "DiagnosisController@upload")->name('diagnosis.upload');
+        Route::get('/diagnosis/item/{order_id}', "DiagnosisController@getItem")->name('diagnosis.item');
+        Route::get('/diagnosis/count/{user_id}', "DiagnosisController@getReservationCount")->name('diagnosis.count');
+
         //주문 엔지니어에 할당
         Route::post('/grant/{order_id}/{engineer_id}/', "DiagnosisController@setDiagnosisEngineer")->name('diagnosis.grant');
 
-        Route::post('/get_layout/{order_id}', "DiagnosisController@getLayout")->name('diagnosis.getLayout');
+
+
 
 
         Route::post('/login', "UserController@login");
