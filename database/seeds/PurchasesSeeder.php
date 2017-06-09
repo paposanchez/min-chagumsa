@@ -10,23 +10,15 @@ class PurchasesSeeder extends \Illuminate\Database\Seeder
 {
     public function run(){
         DB::table('purchases')->insert([
-            'transaction_id' => '11',
+            'transaction_id' => '1',
             'amount' => '100000',
-            'type' => '3',
-            'refund_name' => '홍길동',
+            'type' => '1',
+            'refund_name' => 'Daily Jude',
             'refund_account' => '123123123-123123',
             'refund_bank' => '국민',
-            'status_cd' => '1'
+            'status' => '102'
         ]);
 
-        DB::table('purchases')->insert([
-            'transaction_id' => '13',
-            'amount' => '200000',
-            'type' => '3',
-            'refund_name' => '홍길순',
-            'refund_account' => '234234234-234234',
-            'refund_bank' => '농협',
-            'status_cd' => '3'
-        ]);
+        
     }
 }

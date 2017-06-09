@@ -12,13 +12,24 @@ class CarsSeeder extends \Illuminate\Database\Seeder
         DB::table('cars')->insert([
             'id' => '1',
             'kind_cd' => '1',
-            'detail_id' => '1'
-        ]);
-
-        DB::table('cars')->insert([
-            'id' => '2',
-            'kind_cd' => '2',
-            'detail_id' => '2'
+            'detail_id' => '138',
+            // 'imported_vin_number' = > '0000',
+            'fueltype_cd' => '61',
+            // 'engin_cd' = > '',
+            'transmission_cd' => '75',
+            // 'drivetype_cd' = > '',
+            'interior_color_cd' => '1150',
+            'exterior_color_cd' => '1150',
+            'year' => '2017-03',
+            'registration_date' => '2017-03',
+            // 'type_cd' = > '',
+            // 'usage_cd' = > '',
+            'passenger' => '5',
+            'output' => '190ps/4000rpm',
+            'fuel_consumption' => '14.0'
         ]);
     }
 }
+
+
+
