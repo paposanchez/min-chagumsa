@@ -16,6 +16,7 @@ class NoticeController extends ApiController {
      * @SWG\Get(
      *     path="/notice",
      *     tags={"Board"},
+     *     summary="공지사항 목록", 
      *     description="공지사항 목록",
      *     operationId="index",
      *     produces={"application/json"},
@@ -42,12 +43,13 @@ class NoticeController extends ApiController {
 
     /**
      * @SWG\Get(
-     *     path="/notice/{post_id}",
+     *     path="/notice/show",
      *     tags={"Board"},
+     *     summary="공지사항 상세내용", 
      *     description="공지사항 상세내용",
      *     operationId="show",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="post_id",in="path",description="게시물 번호",required=true,type="integer",format="int"),
+     *     @SWG\Parameter(name="post_id",in="query",description="게시물 번호",required=true,type="integer",format="int"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="object",@SWG\Items(ref="#/definitions/Post"))
      *     ),
@@ -62,8 +64,8 @@ class NoticeController extends ApiController {
      *     }
      * )
      */
-    public function show($post_id) {
-        $post = Post::whereId($post_id)->first();
+    public function show(Request $request) {
+        $post = Post::whereId($request->get('post_id'))->first();
         if (!$post) {
             return abort(404, trans('common.no-result'));
         }
@@ -74,6 +76,7 @@ class NoticeController extends ApiController {
      * @SWG\Get(
      *     path="/notice/news",
      *     tags={"Board"},
+     *     summary="공지사항 신규게시물 갯수", 
      *     description="공지사항 신규게시물 갯수",
      *     operationId="news",
      *     produces={"application/json"},

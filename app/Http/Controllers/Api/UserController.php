@@ -38,7 +38,6 @@ class UserController extends ApiController {
      *          @SWG\Schema(ref="#/definitions/Error")
      *     ),
      *     security={
-     *       {"api_key": "123123123123"}
      *     }
      * )
      */
@@ -118,23 +117,25 @@ class UserController extends ApiController {
      * )
      */
     public function logout(Request $request) {
-        $this->guard()->logout();
+        
+        // $this->guard()->logout();
 
-        $request->session()->flush();
-        $request->session()->regenerate();
+        // $request->session()->flush();
+        // $request->session()->regenerate();
 
-        return;
+        return response()->json(true);
     }
 
     /**
-     * @SWG\POST(path="/password/{engineer_id}",
+     * @SWG\POST(path="/password",
      *   tags={"User"},
      *   summary="비밀번호 변경",
      *   description="정비사의 비밀번호를 변경 가능",
      *   operationId="changePassword",
      *   produces={"application/json"},
-     *   @SWG\Parameter(name="password",in="query",description="비밀번호",required=true,type="string",format="string"),
-     *   @SWG\Parameter(name="password_new",in="query",description="비밀번호",required=true,type="string",format="string"),
+     *   @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+     *   @SWG\Parameter(name="password",in="query",description="현재 비밀번호",required=true,type="string",format="password"),
+     *   @SWG\Parameter(name="password_new",in="query",description="새 비밀번호",required=true,type="string",format="password"),
      *     @SWG\Response(response=401, description="unauthorized"),
      *     @SWG\Response(response=404, description="not found"),
      *     @SWG\Response(response=500, description="internal server error"),
@@ -143,11 +144,11 @@ class UserController extends ApiController {
      *     ),
      * )
      */
-    public function changePassword(Request $request, $engineer_id) {
+    public function changePassword(Request $request) {
+        
         try {
 
-
-            if (Auth::attempt(['id' => $engineer_id, 'password' => $request->get('password')])) {
+            if (Auth::attempt(['id' => $request->get('engineer_id'), 'password' => $request->get('password')])) {
                 $user = Auth::user();
 
                 if ($user->status->name != 'active') {
@@ -164,13 +165,10 @@ class UserController extends ApiController {
             }
 
             return abort(404, trans('auth.not-found'));
-
             // 앱에서는 간단하게 
         } catch (Exception $e) {
             return abort(404, trans('auth.not-found'));
         }
-
-        return response()->json();
     }
 
 }

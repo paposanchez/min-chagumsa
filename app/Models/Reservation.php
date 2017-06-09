@@ -20,6 +20,9 @@ class Reservation extends Model
         'orders_id',
         'garage_id',
         'reservation_at',
+        'comment',
+        'created_id',
+        'updated_id'
     ];
 
     protected $dates = [
@@ -29,4 +32,24 @@ class Reservation extends Model
     public function order(){
         return $this->belongsTo(\App\Models\Order::class);
     }
+
+    public function creater(){
+        return $this->hasOne(User::class, 'created_id', 'id');
+    }
+
+    public function updater(){
+        return $this->hasOne(User::class, 'updated_id', 'id');
+    }
+
+    /**
+     * 예약확정여부
+     */
+    public function isFinal() {
+        if(is_null($this->updated_at) === false) {
+            return true;
+        }
+        return false;
+
+    }
+
 }
