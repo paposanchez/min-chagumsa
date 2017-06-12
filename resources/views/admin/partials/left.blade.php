@@ -24,6 +24,8 @@
 
                 <li class="{{ Request::is('calculation*') ? ' active':''}}"><a href="/calculation"><i class="fa fa-line-chart"></i><span class="nav-label">{{ trans('admin/calculation.title') }}</span></a></li>
 
+                <li class="{{ Request::is('item*') ? ' active':''}}"><a href="/item"><i class="fa fa-address-card-o"></i><span class="nav-label">{{ trans('admin/item.title') }}</span></a></li>
+
                 <li class="{{ Request::is('user*') ? ' active':''}}"><a href="/user"><i class="fa fa-group"></i><span class="nav-label">{{ trans('admin/user.title') }}</span></a></li>
 
                 <li class="{{ Request::is('post*') ? ' active':''}}"><a href="/post"><i class="fa fa-pencil"></i><span class="nav-label">{{ trans('admin/post.title') }}</span></a></li>

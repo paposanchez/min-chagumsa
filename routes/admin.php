@@ -53,9 +53,16 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
     Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 
-
+    // 주문관리
     Route::resource('order', 'OrderController');
+
+    // 정산관리
     Route::resource('calculation', 'CalculationController');
+
+    // 아이템 관리
+    Route::resource('item', 'ItemController');
+
+
 
 });
 
