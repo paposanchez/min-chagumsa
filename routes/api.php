@@ -24,7 +24,8 @@ Route::get('codes', "CodeController")->name('code');
 
 Route::get('notice', "NoticeController@index");
 Route::get('notice/news', "NoticeController@news");
-Route::get('notice/{post_id}', "NoticeController@show")->where('post_id', '[0-9]+')->name('notice.show');
+Route::get('notice/show', "NoticeController@show")->name('notice.show');
+// Route::get('notice/{post_id}', "NoticeController@show")->where('post_id', '[0-9]+')->name('notice.show');
 
 //Route::group(['middleware' => ['auth:api']], function () {
 //
@@ -35,39 +36,39 @@ Route::get('notice/{post_id}', "NoticeController@show")->where('post_id', '[0-9]
         // 특정 엔지니어의 진단중 목록 : 진단중
         // 특정 엔지니어의 진단완료 목록 : 진단완료
         // 대리점번호 : 해당 대리점의 회원아이디
-        // page : 페이지번호
         // date : 한번에 가져올 날짜수
         // 오늘부터 미래로
         //예약목록
-        Route::get('/diagnoses/{garage_id}', "DiagnosisController@getDiagnoses")->name('diagnosises');
+        Route::get('diagnosis/reservation', "DiagnosisController@getDiagnosesReservation")->name('diagnosis.reservation');
+        // 예약카운트 
+        Route::get('diagnosis/count', "DiagnosisController@getReservationCount")->name('diagnosis.count');
+
         //진단중목록
-        Route::get('/diagnoses/working/{engineer_id}', "DiagnosisController@getWorkingDiagnoses")->name('diagnosises.working');
-        //나의 진단중목록
-//        Route::get('/diagnoses/myworking/{engineer_id}', "DiagnosisController@getWorkingDiagnoses")->name('diagnosises.working');
+        Route::get('diagnosis/working', "DiagnosisController@getDiagnosesWorking")->name('diagnosis.working');
         //진단완료목록
-        Route::get('/diagnoses/complete/{garage_id}', "DiagnosisController@getCompletedDiagnoses")->name('diagnosises.complete');
+        Route::get('diagnosis/complete', "DiagnosisController@getDiagnosesComplete")->name('diagnosis.complete');
 
         //개별주문조회
-        Route::get('/diagnosis/{order_id}', "DiagnosisController@show")->name('diagnosis');
+        Route::get('diagnosis', "DiagnosisController@show")->where('order_id', '[0-9]+')->name('diagnosis');
 
         //개별주문저장
-        Route::post('/diagnosis/{order_id}', "DiagnosisController@update")->name('diagnosis.update');
+        Route::post('diagnosis', "DiagnosisController@update")->name('diagnosis.update');
 
         //개별파일업로드
-        Route::post('/upload/{order_id}', "DiagnosisController@upload")->name('diagnosis.upload');
-        Route::get('/diagnosis/item/{order_id}', "DiagnosisController@getItem")->name('diagnosis.item');
-        Route::get('/diagnosis/count/{user_id}', "DiagnosisController@getReservationCount")->name('diagnosis.count');
+        Route::post('diagnosis/upload', "DiagnosisController@upload")->name('diagnosis.upload');
+        // 주문상품조
+        Route::get('diagnosis/item', "DiagnosisController@getItem")->name('diagnosis.item');
 
         //주문 엔지니어에 할당
-        Route::post('/grant/{order_id}/{engineer_id}/', "DiagnosisController@setDiagnosisEngineer")->name('diagnosis.grant');
+        Route::post('diagnosis/grant', "DiagnosisController@setDiagnosisEngineer")->name('diagnosis.grant');
 
 
 
 
 
-        Route::post('/login', "UserController@login");
-        Route::post('/logout', "UserController@logout");
-        Route::post('/password/{engineer_id}', "UserController@changePassword")->name('password');
+        Route::post('login', "UserController@login");
+        Route::get('logout', "UserController@logout");
+        Route::post('password', "UserController@changePassword")->name('password');
 //        Route::post('/profile/{engineer_id}', "UserController@getProfile")->name('profile');
 
 

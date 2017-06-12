@@ -24,8 +24,6 @@ class CodesSeeder extends Seeder {
             ['id'=>10, 'group' => 'post_search_field', 'name' => 'writer_name']
         ]);
 
-       
-
 
         DB::table('codes')->insert([
             ['id'=>100, 'group' => 'order_status', 'name' => 'canceled'],     // 주문취소
@@ -42,7 +40,6 @@ class CodesSeeder extends Seeder {
 
 
         // 옵션코드의 시퀀스 변경
-
         DB::table('codes')->insert( ['id'=>1000, 'group' => 'car_option', 'name' => 'appearence']);
         DB::table('codes')->insert([           
             ['group' => 'car_option', 'name' => 'multimedia'],
