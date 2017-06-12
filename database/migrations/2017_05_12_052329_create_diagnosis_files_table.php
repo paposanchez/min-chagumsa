@@ -19,9 +19,11 @@ class CreateDiagnosisFilesTable extends Migration {
 			$table->string('original', 200)->comment('원본파일명');
 			$table->string('source', 200)->nullable()->comment('업로드파일명');
 			$table->string('path', 200)->nullable();
-			$table->timestamps();
 			$table->string('size', 45)->nullable();
 			$table->string('mime', 45)->nullable();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
+            
 		});
 	}
 

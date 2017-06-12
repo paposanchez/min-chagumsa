@@ -17,7 +17,7 @@
 
                 <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
                     <label for="inputId" class="control-label col-md-3">{{ trans('admin/board.id') }}</label>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <input type="text" class="form-control" placeholder="{{ trans('admin/board.id') }}" disabled="" id="inputId" value="{{ $board->id or old('id') }}">
 
                         @if ($errors->has('id'))
@@ -31,7 +31,7 @@
 
                 <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                     <label for="inputName" class="control-label col-md-3">{{ trans('admin/board.name') }}</label>
-                    <div class="col-md-6">
+                    <div class="col-md-9">
                         <input type="name" class="form-control" placeholder="{{ trans('admin/board.name') }}" name="name" id="inputName" value="{{ $board->name or old('name') }}">
 
                         @if ($errors->has('name'))
@@ -222,7 +222,7 @@
                         <div class="btn-group" data-toggle="buttons">
                             @foreach($status_cd_list as $code)
                             <label class="btn btn-default {{ $board->status_cd == $code->id ? 'active' : '' }}">
-                                <input type="radio" name="status_cd" autocomplete="off" {{ $board->status_cd == $code->id ? 'checked' : '' }} value="{{ $code->id }}"> {{ trans("code.".$code->id) }}
+                                <input type="radio" name="status_cd" autocomplete="off" {{ $board->status_cd == $code->id ? 'checked' : '' }} value="{{ $code->id }}"> {{ $code->display() }}
                             </label>
                             @endforeach
                         </div>
@@ -247,7 +247,7 @@
                 <div class="form-group">
                     <label for="input" class="control-label col-md-3">{{ trans('admin/board.updated_at') }}</label>
                     <div class="col-md-4">
-                        <p class='form-control-static'>{{ $board->updated_at }}</p>
+                        <p class='form-control-static'>{{ $board->updated_at or '-' }}</p>
                     </div>
                 </div>
 

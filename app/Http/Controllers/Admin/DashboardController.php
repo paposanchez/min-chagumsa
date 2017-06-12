@@ -13,7 +13,16 @@ class DashboardController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function __invoke() {
+
+//        $handler = new \App\Models\UserSequence();
+//        $garage_id = $handler->setNewGarageSeq(1);
+//        $garage_id = $handler->setNewGarageSeq(3);
+//        $garage_id = $handler->setNewGarageSeq(6);
+//        $handler->setNewEngineerSeq(2, 1);
+//        $handler->setNewEngineerSeq(4, 1);
+//        $handler->setNewEngineerSeq(5, 1);
+
         return view('admin.dashboard.index');
     }
 

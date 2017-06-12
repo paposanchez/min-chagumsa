@@ -184,6 +184,34 @@
 
                 </div>
 
+
+
+                <div class="form-group ">
+                    <label for="" class="control-label col-md-3">{{ trans('admin/post.created_at') }}</label>
+
+                    <div class="col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
+                                <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD HH:II:SS" placeholder="{{ trans('admin/post.created_at') }}" name='created_at' value='{{ $post->created_at }}'>
+                            </div>
+                    </div>
+
+                </div>
+                <div class="form-group ">
+                    <label for="" class="control-label col-md-3">{{ trans('admin/post.updated_at') }}</label>
+
+                    <div class="col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
+                                <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD HH:II:SS" placeholder="{{ trans('admin/post.updated_at') }}" name='updated_at' value='{{ $post->updated_at }}'>
+                            </div>
+                    </div>
+
+                </div>
+
+
+
+
                 <div class="form-group">
                     <div class="col-md-9 col-md-offset-3">
                         <a href="{{ route('post.index') }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ trans('common.button.back') }}</a>
@@ -203,12 +231,12 @@
 
 @push( 'header-script' )
 <link rel="stylesheet" href="{{ Helper::assets( 'vendor/summernote/summernote.css' ) }}" />
-<link rel="stylesheet" href="{{ Helper::assets( 'vendor/select2/select2.min.css' ) }}" />
+<link rel="stylesheet" href="{{ Helper::assets( 'vendor/select2/css/select2.min.css' ) }}" />
 @endpush
 
 @push( 'footer-script' )
 <script src="{{ Helper::assets( 'vendor/summernote/summernote.min.js' ) }}"></script>
-<script src="{{ Helper::assets( 'vendor/select2/select2.full.min.js' ) }}"></script>
+<script src="{{ Helper::assets( 'vendor/select2/js/select2.full.min.js' ) }}"></script>
 <script src="{{ Helper::assets( 'vendor/select2/js/i18n/ko.js' ) }}"></script>
 <script type="text/template" id="qq-template">@include("partials/files", ['files'=> $post->files])</script>
 <link rel="stylesheet" href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}" />

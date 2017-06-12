@@ -373,7 +373,18 @@ return [
         'good' => '양호',
         'pollution' => '오염',
         'maintenance' => '교환요'
+    ],
+    'order_status' => [
+        'canceled' => '주문취소',
+        'standby' => '주문신청',
+        'ordered' => '주문완료',
+        'request' => '예약확인',
+        'reserved' => '입고대기',
+        'arrived' => '입고',
+        'diagnosing' => '진단중',
+        'diagnosed' => '진단완료, 발급요청',
+        'certificating' => '검토중',
+        'certificated' => '인증발급완료'
     ]
-
 
 ];

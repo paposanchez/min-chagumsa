@@ -248,11 +248,6 @@ trait Uploader {
     // 파일삭제
     public function delete(Request $request, $id) {
 
-
-
-        dd($request->get('fid'));
-        exit;
-
         $file = File::findOrFail($id);
 
         if ($file) {

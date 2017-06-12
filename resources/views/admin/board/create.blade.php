@@ -14,9 +14,9 @@
             {!! Form::open(['method' => 'POST','route' => ['board.store'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
 
             <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                <label for="inputName" class="control-label col-md-3">{{ trans('admin/boards.name') }}</label>
+                <label for="inputName" class="control-label col-md-3">{{ trans('admin/board.name') }}</label>
                 <div class="col-md-6">
-                    <input type="name" class="form-control" placeholder="{{ trans('admin/boards.name') }}" name="name" id="inputName" value="{{ old('name') }}">
+                    <input type="name" class="form-control" placeholder="{{ trans('admin/board.name') }}" name="name" id="inputName" value="{{ old('name') }}">
 
                     @if ($errors->has('name'))
                     <span class="help-block">
@@ -28,7 +28,7 @@
 
 
             <div class="form-group {{ $errors->has('use_secret') ? 'has-error' : '' }}">
-                <label for="" class="control-label col-md-3">{{ trans('admin/boards.use_secret') }}</label>
+                <label for="" class="control-label col-md-3">{{ trans('admin/board.use_secret') }}</label>
                 <div class="col-md-6">
                     <div class="checkbox checkbox-slider--b-flat">
                         <label>
@@ -46,7 +46,7 @@
 
 
             <div class="form-group {{ $errors->has('use_captcha') ? 'has-error' : '' }}">
-                <label for="" class="control-label col-md-3">{{ trans('admin/boards.use_captcha') }}</label>
+                <label for="" class="control-label col-md-3">{{ trans('admin/board.use_captcha') }}</label>
                 <div class="col-md-6">
                     <div class="checkbox checkbox-slider--b-flat">
                         <label>
@@ -63,7 +63,7 @@
             </div>
 
             <div class="form-group {{ $errors->has('use_comment') ? 'has-error' : '' }}">
-                <label for="" class="control-label col-md-3">{{ trans('admin/boards.use_comment') }}</label>
+                <label for="" class="control-label col-md-3">{{ trans('admin/board.use_comment') }}</label>
                 <div class="col-md-6">
                     <div class="checkbox checkbox-slider--b-flat">
                         <label>
@@ -81,7 +81,7 @@
 
 
             <div class="form-group {{ $errors->has('use_opinion') ? 'has-error' : '' }}">
-                <label for="" class="control-label col-md-3">{{ trans('admin/boards.use_opinion') }}</label>
+                <label for="" class="control-label col-md-3">{{ trans('admin/board.use_opinion') }}</label>
                 <div class="col-md-6">
                     <div class="checkbox checkbox-slider--b-flat">
                         <label>
@@ -98,7 +98,7 @@
             </div>
 
             <div class="form-group {{ $errors->has('use_tag') ? 'has-error' : '' }}">
-                <label for="" class="control-label col-md-3">{{ trans('admin/boards.use_tag') }}</label>
+                <label for="" class="control-label col-md-3">{{ trans('admin/board.use_tag') }}</label>
                 <div class="col-md-6">
                     <div class="checkbox checkbox-slider--b-flat">
                         <label>
@@ -116,7 +116,7 @@
 
 
             <div class="form-group {{ $errors->has('use_category') ? 'has-error' : '' }}">
-                <label for="" class="control-label col-md-3">{{ trans('admin/boards.use_category') }}</label>
+                <label for="" class="control-label col-md-3">{{ trans('admin/board.use_category') }}</label>
                 <div class="col-md-6">
                     <div class="checkbox checkbox-slider--b-flat">
                         <label>
@@ -134,7 +134,7 @@
 
 
             <div class="form-group {{ $errors->has('use_upload') ? 'has-error' : '' }}">
-                <label for="" class="control-label col-md-3">{{ trans('admin/boards.use_upload') }}</label>
+                <label for="" class="control-label col-md-3">{{ trans('admin/board.use_upload') }}</label>
                 <div class="col-md-6">
                     <div class="checkbox checkbox-slider--b-flat">
                         <label>
@@ -151,7 +151,7 @@
             </div>
 
             <div class="form-group {{ $errors->has('use_thumbnail') ? 'has-error' : '' }}">
-                <label for="" class="control-label col-md-3">{{ trans('admin/boards.use_thumbnail') }}</label>
+                <label for="" class="control-label col-md-3">{{ trans('admin/board.use_thumbnail') }}</label>
                 <div class="col-md-6">
                     <div class="checkbox checkbox-slider--b-flat">
                         <label>
@@ -169,11 +169,11 @@
 
 
             <div class="form-group {{ $errors->has('upload_max_filesize') ? 'has-error' : '' }}">
-                <label for="inputUploadMaxFilesize" class="control-label col-md-3">{{ trans('admin/boards.upload_max_filesize') }}</label>
+                <label for="inputUploadMaxFilesize" class="control-label col-md-3">{{ trans('admin/board.upload_max_filesize') }}</label>
                 <div class="col-md-4">
 
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="{{ trans('admin/boards.upload_max_filesize') }}" name="upload_max_filesize" id="inputUploadMaxFilesize" value="{{ old('upload_max_filesize') ? old('upload_max_filesize') : 0 }}">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/board.upload_max_filesize') }}" name="upload_max_filesize" id="inputUploadMaxFilesize" value="{{ old('upload_max_filesize') ? old('upload_max_filesize') : 0 }}">
                         <span class="input-group-addon">kb</span>
                     </div>
 
@@ -187,9 +187,9 @@
 
 
             <div class="form-group {{ $errors->has('upload_max_limit') ? 'has-error' : '' }}">
-                <label for="inputUploadMaxLimit" class="control-label col-md-3">{{ trans('admin/boards.upload_max_limit') }}</label>
+                <label for="inputUploadMaxLimit" class="control-label col-md-3">{{ trans('admin/board.upload_max_limit') }}</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="{{ trans('admin/boards.upload_max_limit') }}" name="upload_max_limit" id="inputUploadMaxLimit" value="{{ old('upload_max_limit') ? old('upload_max_limit') : 0 }}">                        
+                    <input type="text" class="form-control" placeholder="{{ trans('admin/board.upload_max_limit') }}" name="upload_max_limit" id="inputUploadMaxLimit" value="{{ old('upload_max_limit') ? old('upload_max_limit') : 0 }}">                        
 
                     @if ($errors->has('upload_max_limit'))
                     <span class="help-block">
@@ -199,19 +199,29 @@
                 </div>
             </div>
 
-            <div class="form-group {{ $errors->has('status_cd') ? 'has-error' : '' }}">
-                <label for="inputStatusCd" class="control-label col-md-3">{{ trans('admin/boards.status_cd') }}</label>
-                <div class="col-md-4">
-                    {!! Form::select('status_cd', $status_cd_list, '', ['class'=>'form-control', 'id'=>'inputStatusCd']) !!}
+            
+            
+            
+             <div class="form-group {{ $errors->has('status_cd') ? 'has-error' : '' }}">
+                    <label for="inputStatusCd" class="control-label col-md-3">{{ trans('admin/board.status_cd') }}</label>
+                    <div class="col-md-4">
+
+                        <div class="btn-group" data-toggle="buttons">
+                            @foreach($status_cd_list as $code)
+                            <label class="btn btn-default">
+                                <input type="radio" name="status_cd" autocomplete="off" value="{{ $code->id }}"> {{ $code->display() }}
+                            </label>
+                            @endforeach
+                        </div>
 
 
-                    @if ($errors->has('status_cd'))
-                    <span class="help-block">
-                        {{ $errors->first('status_cd') }}
-                    </span>
-                    @endif
+                        @if ($errors->has('status_cd'))
+                        <span class="help-block">
+                            {{ $errors->first('status_cd') }}
+                        </span>
+                        @endif
+                    </div>
                 </div>
-            </div>
 
 
 

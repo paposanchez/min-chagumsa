@@ -42,15 +42,15 @@ class Order Extends Model
         'status_cd',
     ];
     protected $dates = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at','diagnose_at', 'diagnosed_at'
     ];
 
     public function certificates(){
         return $this->hasOne(Certification::class);
     }
 
-    public function car_feature(){
-        return $this->hasOne(CarFeature::class);
+    public function order_feature(){
+        return $this->hasMany(OrderFeature::class);
     }
 
     public function diagnosis(){
@@ -74,6 +74,20 @@ class Order Extends Model
     }
 
     public function reservation(){
-        return $this->hasOne(\App\Models\Reservation::class);
+        return $this->hasMany(\App\Models\Reservation::class);
     }
+
+    public function getReservation($order_id) {
+        return Reservation::whereNotNull("updated_at")->where('order_id', $order_id)->last();
+    }
+
+    public function getReservationDate($order_id) {
+        $reservation = Reservation::whereNotNull("updated_at")->where('order_id', $order_id)->last();
+        return ($reservation ? $reservation->reservation_at : null);
+    }
+
+    public function getOrderNumber() {
+        return $this->datekey . '-' . $this->car_number;
+    }
+
 }

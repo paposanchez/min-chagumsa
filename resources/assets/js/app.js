@@ -389,5 +389,42 @@ $(function () {
     });
 
 
+    /* wysiwyg */
+    //########## wysiwig
+    if ($('.wysiwyg').length > 0) {
+        $('.wysiwyg').each(function () {
+            var $this = $(this);
+            $this.summernote({
+                height: 300,
+                lang: 'ko-KR', // default: 'en-US'
+                callbacks: {
+                    onImageUpload: function (files, editor, welEditable) {
+
+                        var editor = $(this);
+                        var data = new FormData();
+                        data.append("upfile", files[0]);
+                        $.ajax({
+                            data: data,
+                            type: "POST",
+                            url: "/file/image",
+                            dataType: 'json',
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function (response) {
+                                if (response && response.success == true) {
+                                    $this.summernote('insertImage', '/thumbnail/' + response.data.id);
+                                }
+                            }
+                        });
+                    },
+                    onChange: function (contents, $editable) {
+                        $this.val(contents);
+                    }
+                }
+            });
+        });
+    }
+
 
 });

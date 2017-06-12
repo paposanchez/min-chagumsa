@@ -34,6 +34,8 @@ class RouteServiceProvider extends ServiceProvider {
     public function map() {
         $this->mapApiRoutes();
         $this->mapWebRoutes();
+        $this->mapAllianceRoutes();
+        $this->mapGarageeRoutes();
         $this->mapAdminRoutes();
     }
 
@@ -53,7 +55,6 @@ class RouteServiceProvider extends ServiceProvider {
                 ], function ($router) {
             require base_path('routes/web.php');
         });
-        
     }
 
     protected function mapAdminRoutes() {
@@ -65,6 +66,30 @@ class RouteServiceProvider extends ServiceProvider {
             'domain' => 'admin.' . config('app.domain'),
                 ], function ($router) {
             require base_path('routes/admin.php');
+        });
+    }
+
+    protected function mapAllianceRoutes() {
+        $namespace = $this->namespace . '\Admin';
+
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $namespace,
+            'domain' => 'alliance.' . config('app.domain'),
+                ], function ($router) {
+            require base_path('routes/alliance.php');
+        });
+    }
+
+    protected function mapGarageeRoutes() {
+        $namespace = $this->namespace . '\Admin';
+
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $namespace,
+            'domain' => 'garage.' . config('app.domain'),
+                ], function ($router) {
+            require base_path('routes/garage.php');
         });
     }
 
@@ -85,9 +110,6 @@ class RouteServiceProvider extends ServiceProvider {
                 ], function ($router) {
             require base_path('routes/api.php');
         });
-        
-        app('config')->set('L5_SWAGGER_GENERATE_ALWAYS', TRUE);
-//        config('L5_SWAGGER_GENERATE_ALWAYS', TRUE);
     }
 
 }

@@ -18,7 +18,8 @@ class CreateOpinionsTable extends Migration {
 			$table->bigInteger('user_id')->unsigned();
 			$table->integer('opinion')->nullable();
 			$table->string('ip', 45)->nullable();
-			$table->timestamps();
+          $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 			$table->unique(['post_id','user_id'], 'uid');
 		});
 	}

@@ -18,9 +18,9 @@
             <table class="table text-middle text-center">
                 <colgroup>
                     <col width="10%">
+                    <col width="20%" class="">
+                    <col width="20%" class=" ">
                     <col width="*">
-                    <col width="10%" class="">
-                    <col width="10%" class=" ">
                     <col width="10%" class="">
                     <col width="10%">
                 </colgroup>
@@ -30,6 +30,7 @@
                         <th class="text-center">#</th>
                         <th class="">이메일</th>
                         <th class="text-center">닉네임</th>
+                        <th class="text-center">역활</th>
                         <th class="text-center">상태</th>
                         <th class="text-center">등록일</th>
                         <th class="text-center">처리</th>
@@ -58,7 +59,12 @@
                         </td>
 
                         <td class="">
-                            <span class="label {{ $data->status_cd == 'A' ? 'label-success' : 'label-default' }}">{{ $data->status->name }}</span>
+                            
+                            <span class="label label-default">{{ Helper::roles($data->roles) }}</span>
+                        </td>
+
+                        <td class="">
+                            <span class="label label-info">{{ $data->status->display() }}</span>
                         </td>
 
                         <td class="">

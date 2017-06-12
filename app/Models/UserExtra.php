@@ -8,9 +8,6 @@ use App\Models\User;
 
 class UserExtra extends Model {
 
-    use Notifiable,
-        EntrustUserTrait;
-
     protected $primaryKey = 'id';
     protected $fillable = [
         'registration_number',
@@ -28,7 +25,24 @@ class UserExtra extends Model {
         'garage_id',
     ];
 
-    public function user(){
+    public function user() {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * 정비소의 경우 user_extra.aliance_id로 조회
+     * @return type
+     */
+    public function aliance() {
+        return $this->hasOne(User::class, 'id', 'aliance_id');
+    }
+
+    /**
+     * 엔지니어의 경우 user_extra.garage_id로 조회
+     * @return type
+     */
+    public function garage() {
+        return $this->hasOne(User::class, 'id', 'garage_id');
+    }
+
 }

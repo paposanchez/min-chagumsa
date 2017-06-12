@@ -7,7 +7,7 @@
         <div class="aside-profile-info">
             <a href="{{ route("user.edit", [Auth::id()]) }}" class="aside-profile-info-name">{{ Auth::user()->name }}</a>
             <a href="{{ url("logout") }}" class="text-danger"><i class="fa fa-power-off"></i></a>
-            <small class="aside-profile-info-desc">{{ Auth::user()->email }} <span class="text-info">/ {{ Auth::user()->status->name }}</span></small>
+            <small class="aside-profile-info-desc">{{ Auth::user()->email }} <span class="text-info">/ {{ Auth::user()->status->display() }}</span></small>
         </div>
 
     </div>
@@ -23,6 +23,8 @@
                 <li class="{{ Request::is('order*') ? ' active':''}}"><a href="/order"><i class="fa fa-shopping-basket"></i><span class="nav-label">{{ trans('admin/order.title') }}</span></a></li>
 
                 <li class="{{ Request::is('calculation*') ? ' active':''}}"><a href="/calculation"><i class="fa fa-line-chart"></i><span class="nav-label">{{ trans('admin/calculation.title') }}</span></a></li>
+
+                <li class="{{ Request::is('item*') ? ' active':''}}"><a href="/item"><i class="fa fa-address-card-o"></i><span class="nav-label">{{ trans('admin/item.title') }}</span></a></li>
 
                 <li class="{{ Request::is('user*') ? ' active':''}}"><a href="/user"><i class="fa fa-group"></i><span class="nav-label">{{ trans('admin/user.title') }}</span></a></li>
 

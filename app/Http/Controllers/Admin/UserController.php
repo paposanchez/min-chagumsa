@@ -29,7 +29,6 @@ class UserController extends Controller {
         return view('admin.user.create', compact('roles', 'status_cd_list'));
     }
 
-
     public function store(Request $request) {
 
         $this->validate($request, [
@@ -68,6 +67,9 @@ class UserController extends Controller {
 
         if ($request->file('avatar')) {
             Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
+
+            $user->avatar = 1;
+            $user->save();
         }
 
         return redirect()
@@ -80,9 +82,8 @@ class UserController extends Controller {
         $user = User::findorFail($id);
 
         $status_cd_list = Code::whereGroup('user_status')->get();
-
         $roles = Role::getArrayByName();
-        $userRole = $user->roles->pluck('id', 'id')->toArray();
+        $userRole = $user->roles->pluck('id', 'name')->toArray();
 
         return view('admin.user.edit', compact('user', 'roles', 'userRole', 'status_cd_list'));
     }
@@ -113,6 +114,7 @@ class UserController extends Controller {
 
 
         $input = $request->all();
+        
         // 비밀번호 변경
         if (!empty($input['password'])) {
             $input['password'] = bcrypt($input['password']);
@@ -123,21 +125,21 @@ class UserController extends Controller {
         $user = User::findOrFail($id);
         $user->update($input);
 
-        // roles
-        DB::table('role_user')->where('user_id', $id)->delete();
-        foreach ($input['roles'] as $key => $value) {
-            $user->attachRole($value);
+        if ($user->id != 1) {
+            // roles
+            DB::table('role_user')->where('user_id', $id)->delete();
+            foreach ($input['roles'] as $key => $value) {
+                $user->attachRole($value);
+            }
         }
 
-        // role 처리
-        DB::table('role_user')->where('user_id', $id)->delete();
-        foreach ($request->input('roles') as $key => $value) {
-            $user->attachRole($value);
-        }
 
         // 아바타 변경
         if ($request->file('avatar')) {
             Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
+
+            $user->avatar = 1;
+            $user->save();
         }
 
         return redirect()
@@ -148,12 +150,19 @@ class UserController extends Controller {
     public function destroy(Request $request, $id) {
         $user = User::findOrFail($id);
 
-        DB::table('role_user')->where('user_id', $id)->delete();
-        $user->delete();
+        if ($user->id != 1) {
 
-        return redirect()
-                        ->route('user.index')
-                        ->with('success', trans('admin/user.destroyed'));
+            DB::table('role_user')->where('user_id', $id)->delete();
+            $user->delete();
+
+            return redirect()
+                            ->route('user.index')
+                            ->with('success', trans('admin/user.destroyed'));
+        } else {
+            return redirect()
+                            ->route('user.index')
+                            ->with('success', trans('admin/user.can_not_destroyed'));
+        }
     }
 
 }

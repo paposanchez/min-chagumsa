@@ -18,25 +18,25 @@
 
             <table class="table text-center">
                 <colgroup>
-                    <col width="10%">
+                    <col width="15%">
+                    <col width="25%">
                     <col width="25%">
                     <col width="*"> 
-                    <col width="20%">
                 </colgroup>
 
                 <thead>
                     <tr class="active">
-                        <th class="text-center">#</th>
+                        <th class="text-center">ID</th>
                         <th class="text-center">GROUP</th>                        
-                        <th class="text-center">NAME</th>
-                        <th class="text-center">수정일</th>
+                        <th class="text-center">NAME</th>                        
+                        <th class="text-center">Display</th>
                     </tr>
                 </thead>
 
                 <tbody>
 
                     @unless(count($entrys) >0)
-                    <tr><td colspan="3" class="no-result">{{ trans('common.no-result') }}</td></tr>
+                    <tr><td colspan="4" class="no-result">{{ trans('common.no-result') }}</td></tr>
                     @endunless
 
                     @foreach($entrys as $n => $data)
@@ -53,8 +53,9 @@
                         </td>
 
                         <td>
-                            {{ $data->updated_at }}
+                            {{ trans('code.'.$data->group.'.'.$data->name) }}
                         </td>
+
                     </tr>
                     @endforeach
                 </tbody>

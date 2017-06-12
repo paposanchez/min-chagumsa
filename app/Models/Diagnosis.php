@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by IntelliJ IDEA.
  * User: dev
@@ -10,12 +11,12 @@ namespace App\Models;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
-
 use App\Models\Order;
 use App\Models\DiagnosisDetails;
 
-class Diagnosis extends Model
-{
+class Diagnosis extends Model {
+
+    protected $table = 'diagnosises';
     protected $primaryKey = 'id';
     protected $fillable = [
         'id',
@@ -26,16 +27,16 @@ class Diagnosis extends Model
         'created_at',
         'updated_at',
     ];
-
     protected $dates = [
         'created_at', 'updated_at'
     ];
 
-    public function order(){
+    public function order() {
         return $this->belongsTo(\App\Models\Order::class);
     }
 
-    public function diagnosis_detail(){
+    public function diagnosis_detail() {
         return $this->hasMany(DiagnosisDetails::class);
     }
+
 }

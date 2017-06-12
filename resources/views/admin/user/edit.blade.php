@@ -69,7 +69,12 @@
                     <label for="inputRoles" class="control-label col-md-3">{{ trans('admin/user.roles') }}</label>
                     <div class="col-md-6">
 
+                        @if ($user->id == 1)
+                        {!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'disabled'=>'disabled',  'id'=>'user-role']) !!}
+                        @else
                         {!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'id'=>'user-role']) !!}
+                        @endif
+
 
                         @if ($errors->has('roles'))
                         <span class="help-block">
@@ -86,7 +91,7 @@
                         <div class="btn-group" data-toggle="buttons">
                             @foreach($status_cd_list as $code)
                             <label class="btn btn-default {{ $user->status_cd == $code->id ? 'active' : '' }}">
-                                <input type="radio" name="status_cd" autocomplete="off" {{ $user->status_cd == $code->id ? 'checked' : '' }} value="{{ $code->id }}"> {{ $code->name }}
+                                <input type="radio" name="status_cd" autocomplete="off" {{ $user->status_cd == $code->id ? 'checked' : '' }} value="{{ $code->id }}"> {{ $code->display() }}
                             </label>
                             @endforeach
                         </div>
@@ -155,17 +160,20 @@
                         <p class='form-control-static'>{{ $user->updated_at }}</p>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-3">
-                        <a href="{{ route('user.index') }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ trans('common.button.back') }}</a>                  
-                        <button class="btn btn-primary" data-loading-text="{{ trans('common.button.loading') }}" type="submit">{{ trans('common.button.save') }}</button>
-
-
-                        <button class="btn btn-danger pull-right" id="btn-user-destory" data-loading-text="{{ trans('common.button.loading') }}">{{ trans('common.button.destroy') }}</button>
-                    </div>
-                </div>
             </fieldset>
+
+
+            <div class="form-group">
+                <div class="col-md-6 col-md-offset-3">
+                    <a href="{{ route('user.index') }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ trans('common.button.back') }}</a>                  
+                    <button class="btn btn-primary" data-loading-text="{{ trans('common.button.loading') }}" type="submit">{{ trans('common.button.save') }}</button>
+
+                    @if ($user->id != 1)
+                    <button class="btn btn-danger pull-right" id="btn-user-destory" data-loading-text="{{ trans('common.button.loading') }}">{{ trans('common.button.destroy') }}</button>
+                    @endif
+
+                </div>
+            </div>
             {!! Form::close() !!}
 
         </div>

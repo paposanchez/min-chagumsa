@@ -18,7 +18,6 @@ class CreateCertificatesTable extends Migration {
 			$table->integer('price')->default(0)->comment('차량평가액');
 			$table->string('grade', 5)->nullable()->comment('평가등급');
 			$table->boolean('expire_period')->default(30)->comment('인증보장기간, 일단위');
-			$table->timestamps();
 			$table->text('opinion', 65535)->nullable()->comment('종합의견');
 			$table->boolean('history_insurance')->default(0)->comment('보험사고이력 갯수');
 			$table->boolean('history_insurance_file')->default(0)->comment('사고이력 이미지 업로드여부');
@@ -46,6 +45,8 @@ class CreateCertificatesTable extends Migration {
 			$table->integer('special_remodel_cd')->nullable()->comment('불법개조');
 			$table->integer('special_etc_cd')->nullable()->comment('기타요인');
 			$table->integer('special_depreciation')->nullable()->comment('특별요인 감가금액');
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

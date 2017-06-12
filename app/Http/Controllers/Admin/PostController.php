@@ -16,9 +16,9 @@ class PostController extends Controller {
     public function index(Request $request, $page = 1) {
 
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
-        $yn_list = Code::getCodesByGroup('yn');
-        $shown_role_list = Code::getCodesByGroup('post_shown_role');
-        $search_fields = Code::getCodesByGroup('post_search_field');
+        $yn_list = Code::getSelectList('yn');
+        $shown_role_list = Code::getSelectList('post_shown_role');
+        $search_fields = Code::getSelectList('post_search_field');
 
         $where = Post::orderBy('id', 'desc');
 
@@ -49,7 +49,7 @@ class PostController extends Controller {
         }
 
 
-        $entrys = $where->paginate(25);
+        $entrys = $where->paginate(10);
 
 
         return view('admin.post.index', compact('entrys', 'board_list', 'shown_role_list', 'yn_list', 'request', 'search_fields'));
@@ -59,8 +59,8 @@ class PostController extends Controller {
 
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
 
-        $yn_list = Code::getCodesByGroup('yn');
-        $shown_role_list = Code::getCodesByGroup('post_shown_role');
+        $yn_list = Code::getSelectList('yn');
+        $shown_role_list = Code::getSelectList('post_shown_role');
 
         return view('admin.post.create', compact('board_list', 'shown_role_list', 'yn_list'));
     }
@@ -122,8 +122,10 @@ class PostController extends Controller {
 
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
 
-        $yn_list = Code::getCodesByGroup('yn');
-        $shown_role_list = Code::getCodesByGroup('post_shown_role');
+//        $yn_list = Code::getCodesByGroup('yn');
+        $yn_list = Code::getSelectList('yn');
+        
+        $shown_role_list = Code::getSelectList('post_shown_role');
 
         return view('admin.post.edit', compact('post', 'board_list', 'shown_role_list', 'yn_list'));
     }
@@ -185,5 +187,3 @@ class PostController extends Controller {
     }
 
 }
-
-

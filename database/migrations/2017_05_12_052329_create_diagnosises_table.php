@@ -19,7 +19,8 @@ class CreateDiagnosisesTable extends Migration {
 			$table->integer('name_cd')->comment('그룹항목명');
 			$table->integer('sound_file')->nullable()->comment('점검의견 음성파일 여부');
 			$table->text('extraction', 65535)->nullable()->comment('점검의견');
-			$table->timestamps();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
 		});
 	}
 

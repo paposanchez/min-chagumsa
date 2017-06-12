@@ -130,19 +130,22 @@
                             <a href="/order/view/{{$data->id}}">{{ $data->datekey }}-{{ $data->car_number }}</a>
                         </td>
                         <td class="">
-                            {{ $data-> orderer_name }}
+                            {{ $data->orderer_name }}
                         </td>
                         <td class="">
-                            {{ $data-> orderer_mobile }}
+                            {{ $data->orderer_mobile }}
                         </td>
+
                         <td class="">
-                            <span class="label label-default"></span>
+                            {{ $data->engineer->name }}
                         </td>
+
                         <td class="">
+                            {{ $data->technicion->name }}
                         </td>
 
                         <td>
-                            {{ $data-> status_cd }}
+                            {{ $data->status->display() }}
                         </td>
                     </tr>
                     @endforeach

@@ -10,6 +10,27 @@ use App\Models\Comment;
 use App\Models\Code;
 use App\Models\Board;
 
+/**
+ *
+ *   @SWG\Definition(
+ *         definition="Post",
+ *         required={"id"}
+ *         @SWG\Property( property="id", type="int64"),
+ *         @SWG\Property( property="board", type="int64"),
+ *         @SWG\Property( property="user", type="int64"),
+ *         @SWG\Property( property="category", type="int64"),
+ *         @SWG\Property( property="is_answered", type="int64"),
+ *         @SWG\Property( property="is_shown", type="int64"),
+ *         @SWG\Property( property="thumbnail", type="int64"),
+ *         @SWG\Property( property="subject", type="int64"),
+ *         @SWG\Property( property="content", type="int64"),
+ *         @SWG\Property( property="name", type="int64"),
+ *         @SWG\Property( property="email", type="int64"),
+ *         @SWG\Property( property="hit", type="int64"),
+ *         @SWG\Property( property="ip", type="int64")
+ *     )
+ *
+ */
 class Post extends Model {
 
     protected $fillable = [
