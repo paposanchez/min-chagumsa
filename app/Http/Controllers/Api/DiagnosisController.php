@@ -325,8 +325,16 @@ class DiagnosisController extends ApiController {
                 }
 
                 $user = User::findOrFail($user_id);
-
+                
                 // DB::table('orders')
+
+                // $orders = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
+                // ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+                // ->whereNotNull("reservations.updated_at")
+                // ->where('orders.garage_id', $user->user_extra->garage_id)
+                // ->whereIn('orders.status_cd', [104,105])
+                // ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
+                // ->get(); //입고대기, 입고
 
                 $orders = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
                 ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
@@ -336,6 +344,9 @@ class DiagnosisController extends ApiController {
                 ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
                 ->get(); //입고대기, 입고
 
+                // dd($orders);
+
+                
 
                 // $orders = Order::leftJoin('reservations', 'orders.id', '=', 'reservations.orders_id')
                 // ->where('orders.garage_id', $user->user_extra->garage_id)
@@ -351,28 +362,35 @@ class DiagnosisController extends ApiController {
                 // ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
                 // ->get(); //입고대기, 입고
 
+                
 
                 $returns = [];
+
                 foreach($orders as $order) {
                     $returns[] = array(
                         'id' => $order->id,
-                        'order_num' => $order->getOrderNumber(),
-                        'datekey' => $order->datekey,
+                        'order_num' => $order->datekey . '-' . $order->car_number,
+                        // 'order_num' => $order->getOrderNumber(),
+                        // 'datekey' => $order->datekey,
                         'car_number' => $order->car_number,
                         'orderer_name' => $order->orderer_name,
                         'orderer_mobile' => $order->orderer_mobile,
-                        'status' => $order->status->display(),
+                        // 'status' => $order->status->display(),
+                        'status' => $order->status_cd,
 
-                        //차명
+                        // //차명
+                        'car_name' => $order->car_id,
 
-
-                        'created_at' => $order->created_at, // 주문일
-                        'purchased_at' => $order->purchase->updated_at, // 주문완료일
-                        'reservation_date' => $order->getFinalReservationDate($order->id), // 예약일
+                        // 'created_at' => $order->created_at, // 주문일
+                        // 'purchased_at' => $order->purchase->updated_at, // 주문완료일
+                        // 'reservation_date' => $order->getFinalReservationDate($order->id), // 예약일
                         'diagnose_at' => $order->diagnose_at, // 진단시작일
                         'diagnosed_at' => $order->diagnosed_at, // 진단완료일
                     );
                 }
+                
+                
+                // dd($returns);
                 
                 return response()->json(array(
                     'date' => $date,
@@ -386,6 +404,7 @@ class DiagnosisController extends ApiController {
             }
 
     }
+
 
     /**
      * @SWG\Get(
