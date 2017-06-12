@@ -36,8 +36,10 @@
                 <tr>
                     <th>{{ $start_num - $key }}</th>
                     <td>
-                        @if($row->email == Auth::user()->email)
-                            <a href="{{ route("inquire.show", ["id" => $row->id]) }}">{{ mb_strimwidth($row->subject, 0, 30, '...') }}</a>
+                        @if(Auth::user() !== null)
+                            @if($row->email == Auth::user()->email)
+                                <a href="{{ route("inquire.show", ["id" => $row->id]) }}">{{ mb_strimwidth($row->subject, 0, 30, '...') }}</a>
+                            @endif
                         @else
                             {{ mb_strimwidth($row->subject, 0, 30, '...') }}
                         @endif
