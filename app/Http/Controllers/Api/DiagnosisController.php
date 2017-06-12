@@ -319,7 +319,6 @@ class DiagnosisController extends ApiController {
                 ]);
 
 
-
                 if ($validator->fails()) {
                     $errors = $validator->errors()->all();
                    throw new Exception($errors[0]);
@@ -328,6 +327,16 @@ class DiagnosisController extends ApiController {
                 $user = User::findOrFail($user_id);
 
                 // DB::table('orders')
+
+                $orders = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
+                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+                ->whereNotNull("reservations.updated_at")
+                ->where('orders.garage_id', $user->user_extra->garage_id)
+                ->whereIn('orders.status_cd', [104,105])
+                ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
+                ->get(); //입고대기, 입고
+
+
                 // $orders = Order::leftJoin('reservations', 'orders.id', '=', 'reservations.orders_id')
                 // ->where('orders.garage_id', $user->user_extra->garage_id)
                 // ->whereIn('orders.status_cd', [104,105])
@@ -336,11 +345,11 @@ class DiagnosisController extends ApiController {
                 // ->get(); //입고대기, 입고
 
                 // @TODO 위 조인문으로 수정해야함
-                $orders = Order::where('garage_id', $user->user_extra->garage_id)
-                ->whereIn('status_cd', [104,105])
-                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
-                ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
-                ->get(); //입고대기, 입고
+                // $orders = Order::where('garage_id', $user->user_extra->garage_id)
+                // ->whereIn('status_cd', [104,105])
+                // ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+                // ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
+                // ->get(); //입고대기, 입고
 
 
                 $returns = [];
