@@ -218,13 +218,34 @@ class DiagnosisController extends ApiController {
      * )
      */
     public function getItem(Request $request) {
+//        $diagnosis = new DiagnosisRepository();
+//        $return = $diagnosis->get($order_id);
+//
+//        return response()->json($return->item);
+        try{
+            $order_id = $request->get('order_id');
 
-        $order_id = $request->get('order_id');
+            $item = Order::findOrFail($order_id)->item;
 
-        $diagnosis = new DiagnosisRepository();
-        $return = $diagnosis->get($order_id);
+            $returns = [];
 
-        return response()->json($return->item);
+            $returns[] = array(
+                'id' => $item->id,
+                'name' => $item->name,
+                'price' => $item->price,
+                'layout' => $item->layout,
+                'created_at' => $item->created_at
+            );
+
+            return response()->json(array(
+                'order_id' => $order_id,
+                'item' => $returns
+            ));
+
+        }catch (Exception $e) {
+            return abort(404, trans('item.not-found'));
+        }
+
     }
 
     /**
@@ -250,7 +271,6 @@ class DiagnosisController extends ApiController {
     public function setDiagnosisEngineer(Request $request) {
 
         try {
-
             $order_id = $request->get('order_id');
             $user_id = $request->get('user_id');
 
@@ -370,8 +390,8 @@ class DiagnosisController extends ApiController {
                     $returns[] = array(
                         'id' => $order->id,
                         'order_num' => $order->datekey . '-' . $order->car_number,
-                        // 'order_num' => $order->getOrderNumber(),
-                        // 'datekey' => $order->datekey,
+//                        'order_num' => $order->getOrderNumber(),
+//                        'datekey' => $order->datekey,
                         'car_number' => $order->car_number,
                         'orderer_name' => $order->orderer_name,
                         'orderer_mobile' => $order->orderer_mobile,

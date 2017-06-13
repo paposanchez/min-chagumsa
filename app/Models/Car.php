@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Detail;
 use App\Models\Order;
+use App\Models\Grade;
 
 class Car Extends Model
 {
@@ -44,4 +45,8 @@ class Car Extends Model
     public function order(){
         return $this->hasOne(\App\Models\Order::class);
     }
+
+    public function grade(){
+        return $this->hasOne(\App\Models\Grade::class);
+    }    
 }
