@@ -27,7 +27,7 @@ class UserController extends ApiController {
      *     produces={"application/json"},
      *     @SWG\Parameter(name="garage_seq",in="formData",description="대리점 seq",required=true,type="integer",format="int"),
      *     @SWG\Parameter(name="seq",in="formData",description="엔지니어 seq",required=true,type="integer",format="int"),
-     *     @SWG\Parameter(name="password",in="formData",description="비밀번호",required=true,type="string",format="string"),
+     *     @SWG\Parameter(name="password",in="formData",description="비밀번호",required=true,type="string",format="password"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/User"))
      *     ),
@@ -52,10 +52,8 @@ class UserController extends ApiController {
             // 엔지니어 패스워드
             $password = $request->get("password");
 
-
             //====== 1 : 사용자 조회
             $user_seq = UserSequence::where("seq", $seq)->where("garage_seq", $garage_seq)->first();
-            
 
             if (!$user_seq) {
                 return abort(404, trans('auth.not-found'));
@@ -81,15 +79,13 @@ class UserController extends ApiController {
                     'logined_at' => Carbon::now()
                 ]);
 
-                $return = [
+                return response()->json([
                     "name"      => $user->name,
                     "email"     => $user->email,
                     "mobile"    => $user->mobile,
                     "status"    => $user->status,
                     "garage"    => $user->user_extra->garage,
-                ];
-
-                return response()->json($return);
+                ]);
             }
 
             return abort(404, trans('auth.not-found'));
