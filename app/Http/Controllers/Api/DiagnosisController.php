@@ -229,11 +229,13 @@ class DiagnosisController extends ApiController {
 
             $returns = [];
 
+
             $returns[] = array(
                 'id' => $item->id,
                 'name' => $item->name,
                 'price' => $item->price,
-                'layout' => $item->layout,
+//                'layout' => $item->layout,
+                'layout' => str_replace(array("\r\n","\r","\n"),'',$item->layout),
                 'created_at' => $item->created_at
             );
 
