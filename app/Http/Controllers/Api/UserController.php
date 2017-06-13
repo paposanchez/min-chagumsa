@@ -27,7 +27,7 @@ class UserController extends ApiController {
      *     produces={"application/json"},
      *     @SWG\Parameter(name="garage_seq",in="formData",description="대리점 seq",required=true,type="integer",format="int"),
      *     @SWG\Parameter(name="seq",in="formData",description="엔지니어 seq",required=true,type="integer",format="int"),
-     *     @SWG\Parameter(name="password",in="formData",description="비밀번호",required=true,type="string",format="string"),
+     *     @SWG\Parameter(name="password",in="formData",description="비밀번호",required=true,type="string",format="password"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/User"))
      *     ),
@@ -52,10 +52,8 @@ class UserController extends ApiController {
             // 엔지니어 패스워드
             $password = $request->get("password");
 
-
             //====== 1 : 사용자 조회
             $user_seq = UserSequence::where("seq", $seq)->where("garage_seq", $garage_seq)->first();
-            
 
             if (!$user_seq) {
                 return abort(404, trans('auth.not-found'));
@@ -81,15 +79,22 @@ class UserController extends ApiController {
                     'logined_at' => Carbon::now()
                 ]);
 
-                $return = [
+
+                $garage = $user->user_extra->garage;
+
+                return response()->json([
+                    "id"      => $user->id,
                     "name"      => $user->name,
                     "email"     => $user->email,
                     "mobile"    => $user->mobile,
-                    "status"    => $user->status,
-                    "garage"    => $user->user_extra->garage,
-                ];
-
-                return response()->json($return);
+                    "status"    => $user->status->display(),
+                    "garage"    => [
+                        "id" => $garage->id,
+                        "name" => $garage->name,
+                        "phone" => $garage->user_extra->phone,
+                        "address" => "(".$garage->user_extra->zipcode.")".$garage->user_extra->address                   
+                    ],
+                ]);
             }
 
             return abort(404, trans('auth.not-found'));
@@ -126,6 +131,61 @@ class UserController extends ApiController {
 
         return response()->json(true);
     }
+
+
+
+    /**
+     * @SWG\POST(path="/user",
+     *   tags={"User"},
+     *   summary="회원정보조회",
+     *   description="정비사회원정보 조회",
+     *   operationId="show",
+     *   produces={"application/json"},
+     *   @SWG\Parameter(name="user_id",in="formData",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     * )
+     */
+    public function show(Request $request) {
+        
+        try {
+
+            $user_id = $request->get('user_id');
+
+            $user = User::findOrFail($user_id);
+
+            if($user->hasRole("engineer")) {
+
+
+                $garage = $user->user_extra->garage;
+
+                return response()->json([
+
+                    "id" => $user->id,
+                    "name" => $user->name,
+                    "mobile" => $user->mobile,
+                    'garage' => [
+                        "id" => $garage->id,
+                        "name" => $garage->name,
+                        "phone" => $garage->user_extra->phone,
+                        "address" => "(".$garage->user_extra->zipcode.")".$garage->user_extra->address                   
+                    ]
+                ]);
+
+            }
+
+
+            return abort(404, trans('auth.not-found'));
+            // 앱에서는 간단하게 
+        } catch (Exception $e) {
+            return abort(404, trans('auth.not-found'));
+        }
+    }
+
 
     /**
      * @SWG\POST(path="/password",

@@ -25,7 +25,7 @@ class Detail Extends Model
     ];
 
     public function models(){
-        return $this->belongsTo(Models::class);
+        return $this->belongsTo(\App\Models\Models::class);
     }
 
     public function car(){

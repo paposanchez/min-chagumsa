@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Car;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisDetails;
 use App\Models\Item;
@@ -10,6 +11,7 @@ use App\Repositories\DiagnosisRepository;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Reservation;
+use App\Models\Code;
 use DB;
 use Carbon\Carbon;
 
@@ -218,13 +220,31 @@ class DiagnosisController extends ApiController {
      * )
      */
     public function getItem(Request $request) {
+//        $diagnosis = new DiagnosisRepository();
+//        $return = $diagnosis->get($order_id);
+//
+//        return response()->json($return->item);
+        try{
+            $order_id = $request->get('order_id');
 
-        $order_id = $request->get('order_id');
+            $item = Order::findOrFail($order_id)->item;
 
-        $diagnosis = new DiagnosisRepository();
-        $return = $diagnosis->get($order_id);
+//             return response()->json([
+//                                 'id' => $item->id,
+//                 'name' => $item->name,
+//                 'price' => $item->price,
+// //                'layout' => $item->layout, 
+//                 'layout' => json_encode(str_replace(["\r\n","\r","\n", "\""], ["", "", "", "'"] ,stripcslashes($item->layout))),
+//                 'created_at' => $item->created_at
+// ]);
 
-        return response()->json($return->item);
+
+            return response()->json(json_decode($item->layout));
+
+        }catch (Exception $e) {
+            return abort(404, trans('item.not-found'));
+        }
+
     }
 
     /**
@@ -250,7 +270,6 @@ class DiagnosisController extends ApiController {
     public function setDiagnosisEngineer(Request $request) {
 
         try {
-
             $order_id = $request->get('order_id');
             $user_id = $request->get('user_id');
 
@@ -306,7 +325,6 @@ class DiagnosisController extends ApiController {
      * )
      */
     public function getDiagnosesReservation(Request $request) {
-            
             try {
 
                 $date = $request->get('date');
@@ -321,12 +339,15 @@ class DiagnosisController extends ApiController {
 
                 if ($validator->fails()) {
                     $errors = $validator->errors()->all();
-                   throw new Exception($errors[0]);
+                    return response()->json(array(
+                        'date' => $date,
+                        'count' =>0,
+                        'orders' => []
+                    ));
                 }
 
                 $user = User::findOrFail($user_id);
 
-                // DB::table('orders')
 
                 $orders = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
                 ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
@@ -337,55 +358,33 @@ class DiagnosisController extends ApiController {
                 ->get(); //입고대기, 입고
 
 
-                // $orders = Order::leftJoin('reservations', 'orders.id', '=', 'reservations.orders_id')
-                // ->where('orders.garage_id', $user->user_extra->garage_id)
-                // ->whereIn('orders.status_cd', [104,105])
-                // ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
-                // ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
-                // ->get(); //입고대기, 입고
-
-                // @TODO 위 조인문으로 수정해야함
-                // $orders = Order::where('garage_id', $user->user_extra->garage_id)
-                // ->whereIn('status_cd', [104,105])
-                // ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
-                // ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
-                // ->get(); //입고대기, 입고
-
-
                 $returns = [];
+
                 foreach($orders as $order) {
                     $returns[] = array(
                         'id' => $order->id,
-                        'order_num' => $order->getOrderNumber(),
-                        'datekey' => $order->datekey,
+                        'order_num' => $order->datekey . '-' . $order->car_number,
                         'car_number' => $order->car_number,
                         'orderer_name' => $order->orderer_name,
                         'orderer_mobile' => $order->orderer_mobile,
-                        'status' => $order->status->display(),
-
-                        //차명
-
-
-                        'created_at' => $order->created_at, // 주문일
-                        'purchased_at' => $order->purchase->updated_at, // 주문완료일
-                        'reservation_date' => $order->getFinalReservationDate($order->id), // 예약일
+                        'status' => Code::findOrFail($order->status_cd)->display(),
+                        // //차명
+                        'car_name' => Car::findOrFail($order->car_id)->detail->name,
                         'diagnose_at' => $order->diagnose_at, // 진단시작일
                         'diagnosed_at' => $order->diagnosed_at, // 진단완료일
                     );
                 }
-                
                 return response()->json(array(
                     'date' => $date,
                     'count' =>count($returns),
                     'orders' => $returns
                 ));
-                
                 // 앱에서는 간단하게 
             } catch (Exception $e) {
                 return abort(404, trans('diagnosis.not-found'));
             }
-
     }
+
 
     /**
      * @SWG\Get(

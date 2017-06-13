@@ -66,6 +66,7 @@ Route::get('notice/show', "NoticeController@show")->name('notice.show');
 
 
 
+        Route::post('user', "UserController@show");
         Route::post('login', "UserController@login");
         Route::get('logout', "UserController@logout");
         Route::post('password', "UserController@changePassword")->name('password');
