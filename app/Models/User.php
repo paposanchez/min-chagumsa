@@ -104,6 +104,10 @@ class User extends Authenticatable {
         return storage_path('app/' . $folderPath);
     }
 
+    public function order(){
+        return $this->belongsTo(Order::class, "id");
+    }
+
 //    public function getFilesDirectory() {
 //        $folderPath = 'user/' . $this->id;
 //        if (!in_array($folderPath, Storage::disk('files')->directories())) {

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Models;
 use App\Models\Car;
+use App\Models\Grade;
 
 class Detail Extends Model
 {
@@ -29,5 +30,9 @@ class Detail Extends Model
 
     public function car(){
         return $this->hasOne(\App\Models\Car::class);
+    }
+
+    public function grade(){
+        return $this->hasOne(Grade::class);
     }
 }

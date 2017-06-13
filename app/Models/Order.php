@@ -90,4 +90,17 @@ class Order Extends Model
         return $this->datekey . '-' . $this->car_number;
     }
 
+    public function engineer(){
+        return $this->hasOne(User::class, 'id', 'engineer_id');
+    }
+    public function technicion(){
+        return $this->hasOne(User::class, 'id', 'technist_id');
+    }
+
+    public function status(){
+        $code = $this->hasOne(Code::class, 'id', 'status_cd');
+        return $code;
+
+    }
+
 }
