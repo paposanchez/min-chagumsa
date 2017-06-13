@@ -127,6 +127,61 @@ class UserController extends ApiController {
         return response()->json(true);
     }
 
+
+
+    /**
+     * @SWG\POST(path="/user",
+     *   tags={"User"},
+     *   summary="회원정보조회",
+     *   description="정비사회원정보 조회",
+     *   operationId="show",
+     *   produces={"application/json"},
+     *   @SWG\Parameter(name="user_id",in="formData",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     * )
+     */
+    public function show(Request $request) {
+        
+        try {
+
+            $user_id = $request->get('user_id');
+
+            $user = User::findOrFail($user_id);
+
+            if($user->hasRole("engineer")) {
+
+
+                $garage = $user->user_extra->garage;
+
+                return response()->json([
+
+                    "id" => $user->id,
+                    "name" => $user->name,
+                    "mobile" => $user->mobile,
+                    'garage' => [
+                        "id" => $garage->id,
+                        "name" => $garage->name,
+                        "phone" => $garage->user_extra->phone,
+                        "address" => "(".$garage->user_extra->zipcode.")".$garage->user_extra->address                   
+                    ]
+                ]);
+
+            }
+
+
+            return abort(404, trans('auth.not-found'));
+            // 앱에서는 간단하게 
+        } catch (Exception $e) {
+            return abort(404, trans('auth.not-found'));
+        }
+    }
+
+
     /**
      * @SWG\POST(path="/password",
      *   tags={"User"},
