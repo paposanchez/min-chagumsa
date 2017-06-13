@@ -79,12 +79,21 @@ class UserController extends ApiController {
                     'logined_at' => Carbon::now()
                 ]);
 
+
+                $garage = $user->user_extra->garage;
+
                 return response()->json([
+                    "id"      => $user->id,
                     "name"      => $user->name,
                     "email"     => $user->email,
                     "mobile"    => $user->mobile,
-                    "status"    => $user->status,
-                    "garage"    => $user->user_extra->garage,
+                    "status"    => $user->status->display(),
+                    "garage"    => [
+                        "id" => $garage->id,
+                        "name" => $garage->name,
+                        "phone" => $garage->user_extra->phone,
+                        "address" => "(".$garage->user_extra->zipcode.")".$garage->user_extra->address                   
+                    ],
                 ]);
             }
 
