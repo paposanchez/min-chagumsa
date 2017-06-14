@@ -79,11 +79,8 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
 
         $car = $order->car;
-        $detail = $car->detail;
-        $grade = $detail->grade;
-        $model = $detail->model;
-//        dd($model->toArray());
-//        $brand = $model->brand;
+
+
 
         return view('admin.order.detail', compact('order'));
     }

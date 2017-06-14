@@ -31,4 +31,8 @@ class Models extends Model {
         return $this->hasOne(\App\Models\Detail::class);
     }
 
+    public function car(){
+        return $this->belongsTo(\App\Models\Car::class);
+    }
+
 }

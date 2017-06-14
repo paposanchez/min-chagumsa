@@ -20,7 +20,7 @@ class Detail Extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'id',
-        'model_id',
+        'models_id',
         'name',
     ];
 
@@ -29,7 +29,7 @@ class Detail Extends Model
     }
 
     public function car(){
-        return $this->hasOne(\App\Models\Car::class);
+        return $this->belongsTo(\App\Models\Car::class);
     }
 
     public function grade(){

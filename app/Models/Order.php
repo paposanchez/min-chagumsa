@@ -54,7 +54,7 @@ class Order Extends Model
     }
 
     public function diagnosis(){
-        return $this->hasMany(\App\Models\Diagnosis::class);
+        return $this->hasMany(\App\Models\Diagnosis::class, 'id', 'orders_id');
     }
 
     public function settlement_features(){
@@ -70,7 +70,7 @@ class Order Extends Model
     }
 
     public function car(){
-        return $this->belongsTo(\App\Models\Car::class);
+        return $this->belongsTo(\App\Models\Car::class, 'cars_id', 'id');
     }
 
     public function reservation(){

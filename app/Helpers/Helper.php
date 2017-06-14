@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Mockery\Exception;
+
 class Helper {
 
     public static function assets($path, $secure = null) {
@@ -99,5 +101,37 @@ class Helper {
         }else{
             return '';
         }
+    }
+
+    public static function getCarModel($car){
+
+        try{
+            $car_txt = $car->brand->name . " / ";
+        }catch (\Exception $e){
+            $car_txt = '';
+        }
+
+        try {
+            if ($car->model->name == $car->detail->name) {
+                $car_txt .= $car->model->name;
+            } else {
+                $car_txt .= $car->model->name . " / " . $car->detail->name;
+            }
+        }catch (\Exception $e){
+            try{
+                $car_txt .= $car->model->name;
+            }catch (\Exception $e){
+//                dd('aaa');
+//                $car_txt .= "[".$e->getMessage()."]";
+            }
+        }
+
+
+        if($car->grade){
+            $car_txt .= " / " .$car->grade->name;
+        }
+        return $car_txt;
+
+
     }
 }
