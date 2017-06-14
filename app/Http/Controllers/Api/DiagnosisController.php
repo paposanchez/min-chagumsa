@@ -586,9 +586,18 @@ class DiagnosisController extends ApiController {
         $today = Reservation::where("garage_id", $user->user_extra->garage_id)->whereNotNull('updated_at')->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), Carbon::today()->format('Y-m-d'))->count();
         $tomorrow = Reservation::where("garage_id", $user->user_extra->garage_id)->whereNotNull('updated_at')->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), Carbon::tomorrow()->format('Y-m-d'))->count();
 
+        $today = rand(0,99);
+        $tomorrow = rand(0,99);
+        
         return response()->json([
-            'today' => str_pad($today, 2, '0'),
-            'tomorrow' => str_pad($tomorrow, 2, '0')
+            'today' => [
+                "left" => ($today >= 10 ? $today/10 : '0'),
+                "right" => ($today >= 10 ? $today%10 : $today)
+            ],
+            'tomorrow' => [
+                "left" => ($tomorrow >= 10 ? $tomorrow/10 : '0'),
+                "right" => ($tomorrow >= 10 ? $tomorrow%10 : $tomorrow)
+            ]
         ]);
     }
 

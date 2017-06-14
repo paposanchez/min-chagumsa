@@ -96,6 +96,7 @@ class NoticeController extends ApiController {
      */
     public function news(Request $request) {
         $return = Post::where('board_id', $this->board_id)->where('created_at', ">=", Carbon::yesterday())->count();
+        $return = rand(0,99);
         return response()->json($return);
     }
 
