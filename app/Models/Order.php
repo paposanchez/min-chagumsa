@@ -46,7 +46,7 @@ class Order Extends Model
     ];
 
     public function certificates(){
-        return $this->hasOne(Certification::class);
+        return $this->hasOne(Certificate::class, 'orders_id', 'id');
     }
 
     public function order_feature(){

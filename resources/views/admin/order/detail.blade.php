@@ -23,6 +23,7 @@
                     <div class="input-group">
                         <span class="input-group-addon">주문번호</span>
                         <input type="text" class="form-control" placeholder="" value="{{ $order->datekey }}-{{ $order->car_number }}" style="background-color: #fff;" disabled>
+                        <span class="input-group-btn"><button class="btn btn-info" type="button" id="order-purchase">결제졍보</button></span>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">주문상태</span>
@@ -52,11 +53,11 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">주문일 / 입고일</span>
-                        <input type="text" class="form-control" placeholder="" value="{{ $order->created_at }} / {{ $order->purchase->reservation_at }}" style="background-color: #fff;" disabled>
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->created_at }} / {{ $order->diagnose_at ? $order->diagnose_at : '입고대기' }}" style="background-color: #fff;" disabled>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">진단일 / 인증서 발급일</span>
-                        <input type="text" class="form-control" placeholder="" value="{{ $order->diagnose_at }} / {{ $order->certificates->updated_at }}" style="background-color: #fff;" disabled>
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->diagnosed_at ? $order->diagnosed_at : '입고대기' }} / {{ $order->certificates ? $order->certificates->updated_at : '인증대기' }}" style="background-color: #fff;" disabled>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">정비사 / 기술사</span>
@@ -78,13 +79,15 @@
         </div>
 
         <div class="col-sm-6 text-right">
-            <a href="{{ route('order.edit', $order->id) }}" class="btn btn-default" style="margin-right: 15px;">진단 결과 보기</a>
+            {{--@if($order->certificates)--}}
+                <a href="{{ route('order.edit', $order->id) }}" class="btn btn-default" style="margin-right: 15px;">진단 결과 보기</a>
+            {{--@endif--}}
         </div>
 
     </div>
 
     {{-- 주문상태 변경 modal --}}
-    <div class="modal fade bs-example-modal-lg in order-modal" id="order-modal" tabindex="-1" role="dialog" aria-labelledby="zip-modal" aria-hidden="true">
+    <div class="modal fade bs-example-modal-lg in order-modal" id="order-modal" tabindex="-1" role="dialog" aria-labelledby="order-modal" aria-hidden="true">
         <div class="modal-dialog modal-lg form-group">
             <div class="modal-content">
                 <div class="modal-header">
@@ -105,7 +108,60 @@
             </div>
         </div>
     </div>
-    {{----}}
+
+    {{-- 결제정보 모달 --}}
+    <div class="modal fade bs-example-modal-lg in purchase-modal" id="purchase-modal" tabindex="-1" role="dialog" aria-labelledby="purchase-modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg form-group">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title" id="myModalLabel">주문 결제 정보</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col width="15%">
+                            <col width="35%">
+                            <col width="15%">
+                            <col width="35%">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th class="text-center">결제번호</th>
+                            <td>{{ $order->purchase->transaction_id }}</td>
+                            <th class="text-center">결제금액</th>
+                            <td>{{ number_format($order->purchase->amount) }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">결제방법</th>
+                            <td>{{ $order->purchase->type }}</td>
+                            <th class="text-center">상태</th>
+                            <td>{{ $order->purchase->status_cd }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">결제일</th>
+                            <td colspan="3">{{ $order->purchase->created_at }}</td>
+                        </tr>
+                        <tr style="background-color: #f1f1f1;"><th colspan="4" class="text-center">환불정보</th> </tr>
+                        <tr>
+                            <th class="text-center">환불자 성명</th>
+                            <td colspan="3">{{ $order->purchase->refund_name }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">환불 은행</th>
+                            <td>{{ $order->purchase->refund_bank }}</td>
+                            <th class="text-center">환불계좌</th>
+                            <td>{{ $order->purchase->refund_account }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-primary order-close" data-dismiss="modal" id="purchase-modal-close">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div><!-- container -->
 @endsection
@@ -116,6 +172,10 @@
         $("#order-modify").on("click", function () {
             $("#order-modal").modal();
         });
+
+        $("#order-purchase").on("click", function(){
+            $("#purchase-modal").modal();
+        })
         //주문상태 form 초기화
         $("#order-modal").on("hide.bs.modal", function () {
             $("#order_status").val('');
