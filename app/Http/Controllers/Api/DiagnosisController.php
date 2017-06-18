@@ -337,62 +337,62 @@ class DiagnosisController extends ApiController {
      * )
      */
     public function getDiagnosisReservation(Request $request) {
-            try {
+        try {
 
-                $date = $request->get('date');
-                $user_id = $request->get('user_id');
-
-
-                $validator = Validator::make($request->all(), [
-                   'user_id' => 'required|exists:users,id',
-                   'date' => 'required|date_format:Y-m-d'
-                ]);
+            $date = $request->get('date');
+            $user_id = $request->get('user_id');
 
 
-                if ($validator->fails()) {
-                    $errors = $validator->errors()->all();
-                    return response()->json(array(
-                        'date' => $date,
-                        'count' =>0,
-                        'orders' => []
-                    ));
-                }
+            $validator = Validator::make($request->all(), [
+               'user_id' => 'required|exists:users,id',
+               'date' => 'required|date_format:Y-m-d'
+            ]);
 
-                $user = User::findOrFail($user_id);
 
-                $orders = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
-                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
-                ->whereNotNull("reservations.updated_at")
-                ->where('orders.garage_id', $user->user_extra->garage_id)
-                ->whereIn('orders.status_cd', [104,105])
-                ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
-                ->get(); //입고대기, 입고
-
-                $returns = [];
-
-                foreach($orders as $order) {
-                    $returns[] = array(
-                        'id' => $order->id,
-                        'order_num' => $order->datekey . '-' . $order->car_number,
-                        'car_number' => $order->car_number,
-                        'orderer_name' => $order->orderer_name,
-                        'orderer_mobile' => $order->orderer_mobile,
-                        'status' => $order->status->display(),
-                        //차명
-                        'car_name' => Car::findOrFail($order->car_id)->detail->name,
-                        'diagnose_at' => $order->diagnose_at, // 진단시작일
-                        'diagnosed_at' => $order->diagnosed_at, // 진단완료일
-                    );
-                }
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
                 return response()->json(array(
                     'date' => $date,
-                    'count' =>count($returns),
-                    'orders' => $returns
+                    'count' =>0,
+                    'orders' => []
                 ));
-                // 앱에서는 간단하게 
-            } catch (Exception $e) {
-                return abort(404, trans('diagnosis.not-found'));
             }
+
+            $user = User::findOrFail($user_id);
+
+            $orders = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
+            ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+            ->whereNotNull("reservations.updated_at")
+            ->where('orders.garage_id', $user->user_extra->garage_id)
+            ->whereIn('orders.status_cd', [104,105])
+            ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
+            ->get(); //입고대기, 입고
+
+            $returns = [];
+
+            foreach($orders as $order) {
+                $returns[] = array(
+                    'id' => $order->id,
+                    'order_num' => $order->datekey . '-' . $order->car_number,
+                    'car_number' => $order->car_number,
+                    'orderer_name' => $order->orderer_name,
+                    'orderer_mobile' => $order->orderer_mobile,
+                    'status' => $order->status->display(),
+                    //차명
+                    'car_name' => Car::findOrFail($order->car_id)->detail->name,
+                    'diagnose_at' => $order->diagnose_at, // 진단시작일
+                    'diagnosed_at' => $order->diagnosed_at, // 진단완료일
+                );
+            }
+            return response()->json(array(
+                'date' => $date,
+                'count' =>count($returns),
+                'orders' => $returns
+            ));
+            // 앱에서는 간단하게 
+        } catch (Exception $e) {
+            return abort(404, trans('diagnosis.not-found'));
+        }
     }
 
 
@@ -422,62 +422,60 @@ class DiagnosisController extends ApiController {
     public function getDiagnosisWorking(Request $request) {
         try {
 
-                $date = $request->get('date');
-                $user_id = $request->get('user_id');
-
-                $validator = Validator::make($request->all(), [
-                   'user_id' => 'required|unique:users',
-                   'date' => 'required|date_format:Y-m-d'
-                ]);
-                if ($validator->fails()) {
-                    $errors = $validator->errors()->all();
-                   throw new Exception($errors[0]);
-                }
-
-                $user = User::findOrFail("id", $user_id);
+            $date = $request->get('date');
+            $user_id = $request->get('user_id');
 
 
-                // DB::table('orders')
-                $orders = Order::leftJoin('reservations', 'orders.id', '=', 'reservations.orders_id')
-                ->where('orders.garage_id', $user->garage_id)
-                ->whereIn('orders.status_cd', [106])
-                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
-                ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
-                ->get(); //입고대기, 입고
+            $validator = Validator::make($request->all(), [
+               'user_id' => 'required|exists:users,id',
+               'date' => 'required|date_format:Y-m-d'
+            ]);
 
 
-                $returns = [];
-                foreach($orders as $order) {
-                    $returns[] = array(
-                        'id' => $order->id,
-                        'order_num' => $order->getOrderNumber(),
-                        'datekey' => $order->datekey,
-                        'car_number' => $order->car_number,
-                        'orderer_name' => $order->orderer_name,
-                        'orderer_mobile' => $order->orderer_mobile,
-                        'status' => $order->status->display(),
-
-                        //차명
-
-
-                        'created_at' => $order->created_at, // 주문일
-                        'purchased_at' => $order->purchase->updated_at, // 주문완료일
-                        'reservation_date' => $order->getFinalReservationDate($order->id), // 예약일
-                        'diagnose_at' => $order->diagnose_at, // 진단시작일
-                        'diagnosed_at' => $order->diagnosed_at, // 진단완료일
-                    );
-                }
-                
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
                 return response()->json(array(
                     'date' => $date,
-                    'count' =>count($returns),
-                    'orders' => $returns
+                    'count' =>0,
+                    'orders' => []
                 ));
-                
-                // 앱에서는 간단하게 
-            } catch (Exception $e) {
-                return abort(404, trans('diagnosis.not-found'));
             }
+
+            $user = User::findOrFail($user_id);
+
+            $orders = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
+            ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+            ->whereNotNull("reservations.updated_at")
+            ->where('orders.garage_id', $user->user_extra->garage_id)
+            ->whereIn('orders.status_cd', [106])
+            ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
+            ->get(); //입고대기, 입고
+
+            $returns = [];
+
+            foreach($orders as $order) {
+                $returns[] = array(
+                    'id' => $order->id,
+                    'order_num' => $order->datekey . '-' . $order->car_number,
+                    'car_number' => $order->car_number,
+                    'orderer_name' => $order->orderer_name,
+                    'orderer_mobile' => $order->orderer_mobile,
+                    'status' => $order->status->display(),
+                    //차명
+                    'car_name' => Car::findOrFail($order->car_id)->detail->name,
+                    'diagnose_at' => $order->diagnose_at, // 진단시작일
+                    'diagnosed_at' => $order->diagnosed_at, // 진단완료일
+                );
+            }
+            return response()->json(array(
+                'date' => $date,
+                'count' =>count($returns),
+                'orders' => $returns
+            ));
+            // 앱에서는 간단하게 
+        } catch (Exception $e) {
+            return abort(404, trans('diagnosis.not-found'));
+        }
     }
 
     /**
@@ -505,66 +503,63 @@ class DiagnosisController extends ApiController {
      * )
      */
     public function getDiagnosisComplete(Request $request) {
-           try {
+        try {
 
-                $date = $request->get('date');
-                $user_id = $request->get('user_id');
-                $s = $request->get('s');
+            $date = $request->get('date');
+            $user_id = $request->get('user_id');
+            $s = $request->get('s');
 
-                $validator = Validator::make($request->all(), [
-                   'user_id' => 'required|unique:users',
-                   'date' => 'required|date_format:Y-m-d',
-                   's' => 'min:1'
-                ]);
-                if ($validator->fails()) {
-                    $errors = $validator->errors()->all();
-                   throw new Exception($errors[0]);
-                }
-
-                $user = User::findOrFail("id", $user_id);
+            $validator = Validator::make($request->all(), [
+               'user_id' => 'required|exists:users,id',
+               'date' => 'required|date_format:Y-m-d',
+               's' => 'min:1'
+            ]);
 
 
-                // DB::table('orders')
-                $orders = Order::leftJoin('reservations', 'orders.id', '=', 'reservations.orders_id')
-                ->where('orders.garage_id', $user->garage_id)
-                ->whereIn('orders.status_cd', ">=", 107)
-                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
-                ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
-                ->get();
-
-
-                $returns = [];
-                foreach($orders as $order) {
-                    $returns[] = array(
-                        'id' => $order->id,
-                        'order_num' => $order->getOrderNumber(),
-                        'datekey' => $order->datekey,
-                        'car_number' => $order->car_number,
-                        'orderer_name' => $order->orderer_name,
-                        'orderer_mobile' => $order->orderer_mobile,
-                        'status' => $order->status->display(),
-
-                        //차명
-
-
-                        'created_at' => $order->created_at, // 주문일
-                        'purchased_at' => $order->purchase->updated_at, // 주문완료일
-                        'reservation_date' => $order->getFinalReservationDate($order->id), // 예약일
-                        'diagnose_at' => $order->diagnose_at, // 진단시작일
-                        'diagnosed_at' => $order->diagnosed_at, // 진단완료일
-                    );
-                }
-                
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
                 return response()->json(array(
                     'date' => $date,
-                    'count' =>count($returns),
-                    'orders' => $returns
+                    'count' =>0,
+                    'orders' => []
                 ));
-                
-                // 앱에서는 간단하게 
-            } catch (Exception $e) {
-                return abort(404, trans('diagnosis.not-found'));
             }
+
+            $user = User::findOrFail($user_id);
+
+            $orders = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
+            ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+            ->whereNotNull("reservations.updated_at")
+            ->where('orders.garage_id', $user->user_extra->garage_id)
+            ->where('orders.status_cd', ">=", 107)
+            ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
+            ->get(); //입고대기, 입고
+
+            $returns = [];
+
+            foreach($orders as $order) {
+                $returns[] = array(
+                    'id' => $order->id,
+                    'order_num' => $order->datekey . '-' . $order->car_number,
+                    'car_number' => $order->car_number,
+                    'orderer_name' => $order->orderer_name,
+                    'orderer_mobile' => $order->orderer_mobile,
+                    'status' => $order->status->display(),
+                    //차명
+                    'car_name' => Car::findOrFail($order->car_id)->detail->name,
+                    'diagnose_at' => $order->diagnose_at, // 진단시작일
+                    'diagnosed_at' => $order->diagnosed_at, // 진단완료일
+                );
+            }
+            return response()->json(array(
+                'date' => $date,
+                'count' =>count($returns),
+                'orders' => $returns
+            ));
+            // 앱에서는 간단하게 
+        } catch (Exception $e) {
+            return abort(404, trans('diagnosis.not-found'));
+        }
     }
 
 
