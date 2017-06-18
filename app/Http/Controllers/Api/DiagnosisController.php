@@ -53,10 +53,22 @@ class DiagnosisController extends ApiController {
 
         $order_id = $request->get('order_id');
 
-        $diagnosis = new DiagnosisRepository();
-        $return = $diagnosis->get($order_id);
 
-        return response()->json($return);
+        $order = Order::findOrFail($order_id);
+
+
+        $return = [
+트
+
+
+        ];
+
+
+
+        // $diagnosis = new DiagnosisRepository();
+        // $return = $diagnosis->get($order_id);
+
+        return response()->json($order);
     }
     
     /**
@@ -307,7 +319,7 @@ class DiagnosisController extends ApiController {
      *     tags={"Diagnosis"},
      *     summary="입고예약 목록",
      *     description="정비소에 입고되어진 주문 목록, 오늘부터 미래의 주문 출력",
-     *     operationId="getDiagnosesReservation",
+     *     operationId="getDiagnosisReservation",
      *     produces={"application/json"},
      *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
      *     @SWG\Parameter(name="date",in="query",description="날짜",required=true,type="string",format="varchar"),
@@ -324,7 +336,7 @@ class DiagnosisController extends ApiController {
      *     }
      * )
      */
-    public function getDiagnosesReservation(Request $request) {
+    public function getDiagnosisReservation(Request $request) {
             try {
 
                 $date = $request->get('date');
@@ -348,7 +360,6 @@ class DiagnosisController extends ApiController {
 
                 $user = User::findOrFail($user_id);
 
-
                 $orders = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
                 ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
                 ->whereNotNull("reservations.updated_at")
@@ -356,7 +367,6 @@ class DiagnosisController extends ApiController {
                 ->whereIn('orders.status_cd', [104,105])
                 ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
                 ->get(); //입고대기, 입고
-
 
                 $returns = [];
 
@@ -367,8 +377,8 @@ class DiagnosisController extends ApiController {
                         'car_number' => $order->car_number,
                         'orderer_name' => $order->orderer_name,
                         'orderer_mobile' => $order->orderer_mobile,
-                        'status' => Code::findOrFail($order->status_cd)->display(),
-                        // //차명
+                        'status' => $order->status->display(),
+                        //차명
                         'car_name' => Car::findOrFail($order->car_id)->detail->name,
                         'diagnose_at' => $order->diagnose_at, // 진단시작일
                         'diagnosed_at' => $order->diagnosed_at, // 진단완료일
@@ -392,7 +402,7 @@ class DiagnosisController extends ApiController {
      *     tags={"Diagnosis"},
      *     summary="진단중 목록",
      *     description="엔지니어 개인의 진단중 주문 목록, 오늘부터 과거의 주문 출력",
-     *     operationId="getDiagnosesWorking",
+     *     operationId="getDiagnosisWorking",
      *     produces={"application/json"},
      *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
      *     @SWG\Parameter(name="date",in="query",description="날짜",required=true,type="integer",format="int64"),
@@ -409,7 +419,7 @@ class DiagnosisController extends ApiController {
      *     }
      * )
      */
-    public function getDiagnosesWorking(Request $request) {
+    public function getDiagnosisWorking(Request $request) {
         try {
 
                 $date = $request->get('date');
@@ -476,10 +486,11 @@ class DiagnosisController extends ApiController {
      *     tags={"Diagnosis"},
      *     summary="진단완료 목록",
      *     description="진단이 완료된 주문 목록, 오늘부터 과거의 주문 출력",
-     *     operationId="getDiagnosesComplete",
+     *     operationId="getDiagnosisComplete",
      *     produces={"application/json"},
      *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
      *     @SWG\Parameter(name="date",in="query",description="날짜",required=true,type="integer",format="int64"),
+     *     @SWG\Parameter(name="s",in="query",description="검색어",required=false,type="string",format="text"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
      *     ),
@@ -493,15 +504,17 @@ class DiagnosisController extends ApiController {
      *     }
      * )
      */
-    public function getDiagnosesComplete(Request $request) {
+    public function getDiagnosisComplete(Request $request) {
            try {
 
                 $date = $request->get('date');
                 $user_id = $request->get('user_id');
+                $s = $request->get('s');
 
                 $validator = Validator::make($request->all(), [
                    'user_id' => 'required|unique:users',
-                   'date' => 'required|date_format:Y-m-d'
+                   'date' => 'required|date_format:Y-m-d',
+                   's' => 'min:1'
                 ]);
                 if ($validator->fails()) {
                     $errors = $validator->errors()->all();
