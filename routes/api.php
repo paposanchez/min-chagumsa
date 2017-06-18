@@ -39,14 +39,14 @@ Route::get('notice/show', "NoticeController@show")->name('notice.show');
         // date : 한번에 가져올 날짜수
         // 오늘부터 미래로
         //예약목록
-        Route::get('diagnosis/reservation', "DiagnosisController@getDiagnosesReservation")->name('diagnosis.reservation');
+        Route::get('diagnosis/reservation', "DiagnosisController@getDiagnosisReservation")->name('diagnosis.reservation');
         // 예약카운트 
         Route::get('diagnosis/count', "DiagnosisController@getReservationCount")->name('diagnosis.count');
 
         //진단중목록
-        Route::get('diagnosis/working', "DiagnosisController@getDiagnosesWorking")->name('diagnosis.working');
+        Route::get('diagnosis/working', "DiagnosisController@getDiagnosisWorking")->name('diagnosis.working');
         //진단완료목록
-        Route::get('diagnosis/complete', "DiagnosisController@getDiagnosesComplete")->name('diagnosis.complete');
+        Route::get('diagnosis/complete', "DiagnosisController@getDiagnosisComplete")->name('diagnosis.complete');
 
         //개별주문조회
         Route::get('diagnosis', "DiagnosisController@show")->where('order_id', '[0-9]+')->name('diagnosis');
