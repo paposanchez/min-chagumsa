@@ -398,7 +398,7 @@ class DiagnosisController extends ApiController {
 
     /**
      * @SWG\Get(
-     *     path="/diagnoses/working",
+     *     path="/diagnosis/working",
      *     tags={"Diagnosis"},
      *     summary="진단중 목록",
      *     description="엔지니어 개인의 진단중 주문 목록, 오늘부터 과거의 주문 출력",
@@ -482,7 +482,7 @@ class DiagnosisController extends ApiController {
 
     /**
      * @SWG\Get(
-     *     path="/diagnoses/complete",
+     *     path="/diagnosis/complete",
      *     tags={"Diagnosis"},
      *     summary="진단완료 목록",
      *     description="진단이 완료된 주문 목록, 오늘부터 과거의 주문 출력",
