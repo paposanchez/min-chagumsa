@@ -41,14 +41,16 @@ class DiagnosisRepository {
 
 
     // 주문데이터의 진단정보를 조회
-    public function order() {        
+    public function order() {
+
         return array(
             'id' => $this->order->id,
             'order_num' => $this->order->getOrderNumber(),
             'car_number' => $this->order->car_number,
             'orderer_name' => $this->order->orderer_name,
             'orderer_mobile' => $this->order->orderer_mobile,
-            'status' => $this->order->status_cd,
+            'status_cd' => $this->order->status_cd,
+            'status' => $this->order->status->display(),
             'car_name' => $this->order->getCarFullName(),
             'reservation_at' => $this->order->getReservation($this->order->id)->reservation_at, // 예약일
             'diagnose_at' => $this->order->diagnose_at, // 진단시작일
@@ -75,8 +77,6 @@ class DiagnosisRepository {
             // $new_return["total"] = 0;
             // $new_return["completed"] = 0;
             $return[] = $new_return;
-
-
         }
         return $return;
 

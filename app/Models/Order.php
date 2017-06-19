@@ -85,6 +85,10 @@ class Order Extends Model
         return $this->datekey . '-' . $this->car_number;
     }
 
+    public function status() {
+        return $this->hasOne(Code::class, 'id', 'status_cd')->where('group', 'order_status');
+    }
+
     //========================== 아래는 검증안된 메쏘드
 
 

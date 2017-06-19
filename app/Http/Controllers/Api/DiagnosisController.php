@@ -362,22 +362,7 @@ class DiagnosisController extends ApiController {
             $diagnosis = new DiagnosisRepository();
 
             foreach($reservations as $reservation) {
-
                 $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
-            
-
-                // $returns[] = array(
-                //     'id' => $reservation->order->id,
-                //     'order_num' => $reservation->order->getOrderNumber(),
-                //     'car_number' => $reservation->order->car_number,
-                //     'orderer_name' => $reservation->order->orderer_name,
-                //     'orderer_mobile' => $reservation->order->orderer_mobile,
-                //     'status' => $reservation->order->status->display(),
-                //     'car_name' => $reservation->order->getCarFullName(),
-                //     'reservation_at' => $reservation->reservation_at, // 예약일
-                //     'diagnose_at' => $reservation->order->diagnose_at, // 진단시작일
-                //     'diagnosed_at' => $reservation->order->diagnosed_at, // 진단완료일
-                // );
             }
 
             return response()->json(array(
