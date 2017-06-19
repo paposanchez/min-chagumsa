@@ -272,7 +272,12 @@ class CodesSeeder extends Seeder {
             ['group' => 'replacement_status_cd', 'name' => 'maintenance'],
             ['group' => 'pollution_status_cd','name' =>  'good'],
             ['group' => 'pollution_status_cd','name' =>  'pollution'],
-            ['group' => 'pollution_status_cd', 'name' => 'maintenance']
+            ['group' => 'pollution_status_cd', 'name' => 'maintenance'],
+
+            //주행거리 및 평가항목 코드 추가함
+            ['grpup' => 'standard_cd', 'name' => 'excess'], // 초과
+            ['grpup' => 'standard_cd', 'name' => 'standard'],// 평균
+            ['grpup' => 'standard_cd', 'name' => 'shortfall'], // 미달
         ]);
         
 
