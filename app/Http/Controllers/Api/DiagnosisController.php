@@ -435,19 +435,10 @@ class DiagnosisController extends ApiController {
 
             $returns = [];
 
+            $diagnosis = new DiagnosisRepository();
+
             foreach($reservations as $reservation) {
-                $returns[] = array(
-                    'id' => $reservation->order->id,
-                    'order_num' => $reservation->order->order_num,
-                    'car_number' => $reservation->order->car_number,
-                    'orderer_name' => $reservation->order->orderer_name,
-                    'orderer_mobile' => $reservation->order->orderer_mobile,
-                    'status' => $reservation->order->status_cd,
-                    'car_name' => $reservation->order->getCarFullName(),
-                    'reservation_at' => $reservation->reservation_at, // 예약일
-                    'diagnose_at' => $reservation->order->diagnose_at, // 진단시작일
-                    'diagnosed_at' => $reservation->order->diagnosed_at, // 진단완료일
-                );
+                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
             }
 
             return response()->json(array(
@@ -525,20 +516,12 @@ class DiagnosisController extends ApiController {
 
             $returns = [];
 
+            $diagnosis = new DiagnosisRepository();
+
             foreach($reservations as $reservation) {
-                $returns[] = array(
-                    'id' => $reservation->order->id,
-                    'order_num' => $reservation->order->order_num,
-                    'car_number' => $reservation->order->car_number,
-                    'orderer_name' => $reservation->order->orderer_name,
-                    'orderer_mobile' => $reservation->order->orderer_mobile,
-                    'status' => $reservation->order->status_cd,
-                    'car_name' => $reservation->order->getCarFullName(),
-                    'reservation_at' => $reservation->reservation_at, // 예약일
-                    'diagnose_at' => $reservation->order->diagnose_at, // 진단시작일
-                    'diagnosed_at' => $reservation->order->diagnosed_at, // 진단완료일
-                );
+                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
             }
+            
             return response()->json(array(
                 'date' => $date,
                 'count' =>count($returns),
