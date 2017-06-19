@@ -385,6 +385,12 @@ return [
         'diagnosed' => '진단완료, 발급요청',
         'certificating' => '검토중',
         'certificated' => '인증발급완료'
+    ],
+    //주행거리 추가
+    'usage_mileage_cd' => [
+        'exceed' => '초과',
+        'average' => '평균',
+        'under' => '미달'
     ]
 
 ];
