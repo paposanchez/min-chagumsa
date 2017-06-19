@@ -363,7 +363,7 @@ class DiagnosisController extends ApiController {
 
             foreach($reservations as $reservation) {
 
-                $returns[] = $diagnosis->prepare($reservation->order_id)->order();
+                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
             
 
                 // $returns[] = array(
@@ -379,7 +379,6 @@ class DiagnosisController extends ApiController {
                 //     'diagnosed_at' => $reservation->order->diagnosed_at, // 진단완료일
                 // );
             }
-
 
             return response()->json(array(
                 'date' => $date,

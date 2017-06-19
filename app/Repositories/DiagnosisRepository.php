@@ -41,8 +41,7 @@ class DiagnosisRepository {
 
 
     // 주문데이터의 진단정보를 조회
-    public function order() {
-        
+    public function order() {        
         return array(
             'id' => $this->order->id,
             'order_num' => $this->order->getOrderNumber(),
