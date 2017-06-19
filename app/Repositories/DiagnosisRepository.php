@@ -21,7 +21,7 @@ class DiagnosisRepository {
 
     protected $order;
     
-    public function order($order_id) {
+    public function prepare($order_id) {
         $this->order = Order::findOrFail($order_id);
         return $this;
     }
@@ -31,7 +31,19 @@ class DiagnosisRepository {
     public function get() {
 
         // 주문정보
-        $return = array(
+        $return = $this->order();
+
+        // 진단그룹
+        $return['details'] = $this->details();
+
+        return $return;
+    }
+
+
+    // 주문데이터의 진단정보를 조회
+    public function order() {
+        
+        return array(
             'id' => $this->order->id,
             'order_num' => $this->order->getOrderNumber(),
             'car_number' => $this->order->car_number,
@@ -39,14 +51,12 @@ class DiagnosisRepository {
             'orderer_mobile' => $this->order->orderer_mobile,
             'status' => $this->order->status_cd,
             'car_name' => $this->order->getCarFullName(),
-            'reservation_at' => $this->order->getReservation($this->order->id), // 예약일
+            'reservation_at' => $this->order->getReservation($this->order->id)->reservation_at, // 예약일
             'diagnose_at' => $this->order->diagnose_at, // 진단시작일
-            'diagnosed_at' => $this->order->diagnosed_at, // 진단완료일
-            'details' => $this->details()
+            'diagnosed_at' => $this->order->diagnosed_at // 진단완료일
         );
-
-        return $return;
     }
+
 
     private function details() {
         $return = [];
@@ -60,7 +70,7 @@ class DiagnosisRepository {
                 "orders_id"     => $entry->order_id,
                 "total"         => 0,
                 "completed"     => 0,
-                "entrys"        => $entry->detail()
+                "entrys"        => $entry->detail($entry)
             );
 
             // $new_return["total"] = 0;
@@ -72,13 +82,19 @@ class DiagnosisRepository {
         return $return;
 
     }
-    private function detail() {
+
+    // 진단목록
+    private function detail($details) {
+
+
 
     }
+
+
+
     private function detailItem() {
 
     }
-
 
 
 

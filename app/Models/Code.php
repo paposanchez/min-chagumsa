@@ -40,6 +40,31 @@ class Code extends Model {
         return trans('code.' . $this->group . '.' . $this->name);
     }
 
+
+  // `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  // `group` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  // `name` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  // `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  // `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+
+
+  //   public function get() {
+
+  //       return [
+
+  //         'id',
+  //         'group',
+  //         'name',
+  //         'created_at',
+  //         'updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+
+  //       ]
+
+          
+  //       return trans('code.' . $this->group . '.' . $this->name);
+  //   }
+
+
     public static function getSelectList($group = '') {
 
         $where = DB::table('codes')->orderBy('id');

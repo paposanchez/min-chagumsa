@@ -50,14 +50,8 @@ class Order Extends Model
 
 
 
-
-
-
-
-
-
     public function details(){
-        return $this->hasMany(DiagnosisDetails::class,'orders_id', '');
+        return $this->hasMany(DiagnosisDetails::class,'orders_id');
     }
 
 
