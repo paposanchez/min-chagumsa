@@ -35,22 +35,21 @@ class DiagnosisRepository {
 
         // 진단그룹
         $return['details'] = $this->details();
-
+        dd($return);
         return $return;
     }
 
 
     // 주문데이터의 진단정보를 조회
     public function order() {
-
-    return $this->obj;
-
         return array(
             'id' => $this->obj->id,
-            'obj_num' => $this->obj->getobjNumber(),
+            'engineer_id' => $this->obj->engineer_id,
+            'diagnosis_process' => $this->obj->diagnosis_status(),
+            'obj_num' => $this->obj->getOrderNumber(),
             'car_number' => $this->obj->car_number,
-            'objer_name' => $this->obj->objer_name,
-            'objer_mobile' => $this->obj->objer_mobile,
+            'orderer_name' => $this->obj->orderer_name,
+            'orderer_mobile' => $this->obj->orderer_mobile,
             'status_cd' => $this->obj->status_cd,
             'status' => $this->obj->status->display(),
             'car_name' => $this->obj->getCarFullName(),
@@ -64,6 +63,7 @@ class DiagnosisRepository {
     private function details() {
         $return = [];
         $details = $this->obj->details;
+        dd($details);
         foreach ($details as $entry) {
 
             $new_return = array(
@@ -73,7 +73,7 @@ class DiagnosisRepository {
                 "orders_id"     => $entry->order_id,
 //                "total"         => 0,
                 "completed"     => 0,
-                "entrys"        => $entry->detail($entry)
+                "entrys"        => [], //$entry->detail($entry)
             );
 
             // $new_return["total"] = 0;

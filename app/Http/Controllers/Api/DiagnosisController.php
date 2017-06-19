@@ -53,17 +53,17 @@ class DiagnosisController extends ApiController {
     public function show(Request $request) {
         try{
             $order_id = $request->get('order_id');
-            $user_id = $request->get('user_id');
+
 
             $validator = Validator::make($request->all(), [
-                'user_id' => 'required|exists:users,id',
+                'user_id' => 'required|exists:orders,engineer_id',
                 'order_id' => 'required|exists:orders,id'
             ]);
 
-//            if ($validator->fails()) {
-//                $errors = $validator->errors()->all();
-//                throw new Exception($errors[0]);
-//            }
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
+                throw new Exception($errors[0]);
+            }
 
             $diagnosis = new DiagnosisRepository();
             $return = $diagnosis->prepare($order_id)->get();
