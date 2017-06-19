@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Models\Detail;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Grade extends Model
@@ -18,6 +18,7 @@ class Grade extends Model
     ];
 
     public function detail(){
-        return $this->belongsTo(Detail::class);
+        return $this->belongsTo(Detail::class, 'detail_id');
     }
+
 }

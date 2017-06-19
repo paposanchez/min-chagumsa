@@ -9,6 +9,8 @@ use App\Models\DiagnosisFile;
 
 class DiagnosisDetail extends Model
 {
+
+    protected $table = 'diagnosis_detail';
     protected $primaryKey = 'id';
     protected $fillable = [
         'id',

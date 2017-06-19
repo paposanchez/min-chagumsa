@@ -24,10 +24,10 @@ class Detail Extends Model
     ];
 
     public function models(){
-        return $this->belongsTo(\App\Models\Models::class);
+        return $this->belongsTo(\App\Models\Models::class, 'model_id');
     }
 
-    public function car(){
-        return $this->hasOne(\App\Models\Car::class);
+    public function grade(){
+        return $this->hasMany(\App\Models\Grade::class, 'detail_id', 'id');
     }
 }

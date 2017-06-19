@@ -4,10 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Brand;
-use App\Models\Detail;
-
 class Models extends Model {
+
+    protected $table = 'models';
     protected $primaryKey = 'id';
     protected $fillable = [
         'brand_id',
@@ -15,20 +14,13 @@ class Models extends Model {
     ];
     protected $dates = ['created_at', 'updated_at'];
 
-//    public function getCreatedAtAttribute($date) {
-//        return Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
-//    }
-//
-//    public function getUpdatedAtAttribute($date) {
-//        return Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
-//    }
 
     public function brand(){
-        return $this->belongsTo(\App\Models\Brand::class);
+        return $this->belongsTo(\App\Models\Brand::class, 'brand_id');
     }
 
     public function detail(){
-        return $this->hasOne(\App\Models\Detail::class);
+        return $this->hasMany(\App\Models\Detail::class, 'model_id', 'id');
     }
 
 }

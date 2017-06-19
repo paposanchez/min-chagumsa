@@ -30,7 +30,7 @@ class Reservation extends Model
     ];
 
     public function order(){
-        return $this->belongsTo(\App\Models\Order::class);
+        return $this->belongsTo(Order::class, 'orders_id', 'id');
     }
 
     public function creater(){

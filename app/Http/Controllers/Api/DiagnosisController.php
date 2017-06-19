@@ -53,22 +53,10 @@ class DiagnosisController extends ApiController {
 
         $order_id = $request->get('order_id');
 
+        $diagnosis = new DiagnosisRepository($order_id);
+        $return = $diagnosis->order($order_id)->get();
 
-        $order = Order::findOrFail($order_id);
-
-
-        $return = [
-트
-
-
-        ];
-
-
-
-        // $diagnosis = new DiagnosisRepository();
-        // $return = $diagnosis->get($order_id);
-
-        return response()->json($order);
+        return response()->json($return);
     }
     
     /**
@@ -360,30 +348,34 @@ class DiagnosisController extends ApiController {
 
             $user = User::findOrFail($user_id);
 
-            $orders = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
+            $reservations = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
             ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
             ->whereNotNull("reservations.updated_at")
             ->where('orders.garage_id', $user->user_extra->garage_id)
             ->whereIn('orders.status_cd', [104,105])
-            ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
+            ->select('reservations.*')
             ->get(); //입고대기, 입고
 
             $returns = [];
 
-            foreach($orders as $order) {
+
+
+            foreach($reservations as $reservation) {
                 $returns[] = array(
-                    'id' => $order->id,
-                    'order_num' => $order->datekey . '-' . $order->car_number,
-                    'car_number' => $order->car_number,
-                    'orderer_name' => $order->orderer_name,
-                    'orderer_mobile' => $order->orderer_mobile,
-                    'status' => $order->status->display(),
-                    //차명
-                    'car_name' => Car::findOrFail($order->car_id)->detail->name,
-                    'diagnose_at' => $order->diagnose_at, // 진단시작일
-                    'diagnosed_at' => $order->diagnosed_at, // 진단완료일
+                    'id' => $reservation->order->id,
+                    'order_num' => $reservation->order->order_num,
+                    'car_number' => $reservation->order->car_number,
+                    'orderer_name' => $reservation->order->orderer_name,
+                    'orderer_mobile' => $reservation->order->orderer_mobile,
+                    'status' => $reservation->order->status_cd,
+                    'car_name' => $reservation->order->getCarFullName(),
+                    'reservation_at' => $reservation->reservation_at, // 예약일
+                    'diagnose_at' => $reservation->order->diagnose_at, // 진단시작일
+                    'diagnosed_at' => $reservation->order->diagnosed_at, // 진단완료일
                 );
             }
+
+
             return response()->json(array(
                 'date' => $date,
                 'count' =>count($returns),
@@ -443,30 +435,32 @@ class DiagnosisController extends ApiController {
 
             $user = User::findOrFail($user_id);
 
-            $orders = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
+            $reservations = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
             ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
             ->whereNotNull("reservations.updated_at")
             ->where('orders.garage_id', $user->user_extra->garage_id)
+            ->where('orders.engineer_id', $user->id) // 엔지니어 자기 진단중 정보만
             ->whereIn('orders.status_cd', [106])
-            ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
-            ->get(); //입고대기, 입고
+            ->select('reservations.*')
+            ->get(); //진단중
 
             $returns = [];
 
-            foreach($orders as $order) {
+            foreach($reservations as $reservation) {
                 $returns[] = array(
-                    'id' => $order->id,
-                    'order_num' => $order->datekey . '-' . $order->car_number,
-                    'car_number' => $order->car_number,
-                    'orderer_name' => $order->orderer_name,
-                    'orderer_mobile' => $order->orderer_mobile,
-                    'status' => $order->status->display(),
-                    //차명
-                    'car_name' => Car::findOrFail($order->car_id)->detail->name,
-                    'diagnose_at' => $order->diagnose_at, // 진단시작일
-                    'diagnosed_at' => $order->diagnosed_at, // 진단완료일
+                    'id' => $reservation->order->id,
+                    'order_num' => $reservation->order->order_num,
+                    'car_number' => $reservation->order->car_number,
+                    'orderer_name' => $reservation->order->orderer_name,
+                    'orderer_mobile' => $reservation->order->orderer_mobile,
+                    'status' => $reservation->order->status_cd,
+                    'car_name' => $reservation->order->getCarFullName(),
+                    'reservation_at' => $reservation->reservation_at, // 예약일
+                    'diagnose_at' => $reservation->order->diagnose_at, // 진단시작일
+                    'diagnosed_at' => $reservation->order->diagnosed_at, // 진단완료일
                 );
             }
+
             return response()->json(array(
                 'date' => $date,
                 'count' =>count($returns),
@@ -515,7 +509,6 @@ class DiagnosisController extends ApiController {
                's' => 'min:1'
             ]);
 
-
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
                 return response()->json(array(
@@ -527,28 +520,34 @@ class DiagnosisController extends ApiController {
 
             $user = User::findOrFail($user_id);
 
-            $orders = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
+            $where = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
             ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
             ->whereNotNull("reservations.updated_at")
             ->where('orders.garage_id', $user->user_extra->garage_id)
             ->where('orders.status_cd', ">=", 107)
-            ->select('orders.*', 'reservations.reservation_at', 'reservations.updated_at')
-            ->get(); //입고대기, 입고
+            ->select('reservations.*');
+
+            if($s) {
+                $where->where('orders.car_number', $s);
+            }
+
+            $reservations = $where->get(); //진단완료이후
+
 
             $returns = [];
 
-            foreach($orders as $order) {
+            foreach($reservations as $reservation) {
                 $returns[] = array(
-                    'id' => $order->id,
-                    'order_num' => $order->datekey . '-' . $order->car_number,
-                    'car_number' => $order->car_number,
-                    'orderer_name' => $order->orderer_name,
-                    'orderer_mobile' => $order->orderer_mobile,
-                    'status' => $order->status->display(),
-                    //차명
-                    'car_name' => Car::findOrFail($order->car_id)->detail->name,
-                    'diagnose_at' => $order->diagnose_at, // 진단시작일
-                    'diagnosed_at' => $order->diagnosed_at, // 진단완료일
+                    'id' => $reservation->order->id,
+                    'order_num' => $reservation->order->order_num,
+                    'car_number' => $reservation->order->car_number,
+                    'orderer_name' => $reservation->order->orderer_name,
+                    'orderer_mobile' => $reservation->order->orderer_mobile,
+                    'status' => $reservation->order->status_cd,
+                    'car_name' => $reservation->order->getCarFullName(),
+                    'reservation_at' => $reservation->reservation_at, // 예약일
+                    'diagnose_at' => $reservation->order->diagnose_at, // 진단시작일
+                    'diagnosed_at' => $reservation->order->diagnosed_at, // 진단완료일
                 );
             }
             return response()->json(array(

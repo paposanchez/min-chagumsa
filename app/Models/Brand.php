@@ -10,7 +10,6 @@ namespace App\Models;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Models;
 
 class Brand extends Model
 {
@@ -20,7 +19,7 @@ class Brand extends Model
     ];
     protected $dates = ['created_at', 'updated_at'];
 
-    public function model(){
-        return $this->hasOne(\App\Models\Models::class);
+    public function models(){
+        return $this->hasMany(\App\Models\Models::class, 'brand_id', 'id');
     }
 }

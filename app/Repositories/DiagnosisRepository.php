@@ -18,40 +18,64 @@ use App\Models\Item;
 
 class DiagnosisRepository {
 
+
     protected $order;
-
-    public function __init(Order $order) {
-        $this->order = $order;
+    
+    public function order($order_id) {
+        $this->order = Order::findOrFail($order_id);
+        return $this;
     }
 
-    public function layout() {    
-        return $this->order->item->layout;        
-    }
 
+    // 주문데이터의 진단정보를 조회
     public function get() {
 
-        $return = $this->order->item->layout;
+        // 주문정보
+        $return = array(
+            'id' => $this->order->id,
+            'order_num' => $this->order->getOrderNumber(),
+            'car_number' => $this->order->car_number,
+            'orderer_name' => $this->order->orderer_name,
+            'orderer_mobile' => $this->order->orderer_mobile,
+            'status' => $this->order->status_cd,
+            'car_name' => $this->order->getCarFullName(),
+            'reservation_at' => $this->order->getReservation($this->order->id), // 예약일
+            'diagnose_at' => $this->order->diagnose_at, // 진단시작일
+            'diagnosed_at' => $this->order->diagnosed_at, // 진단완료일
+            'details' => $this->details()
+        );
 
-        // 진단완료이후, 진단데이터를 생성해서 줘야함
-        if($this->order->status_cd >= 107) {
+        return $return;
+    }
 
+    private function details() {
+        $return = [];
+        $details = $this->order->details;
+        foreach ($details as $entry) {
+
+            $new_return = array(
+                "id"            => $entry->id,
+                "name_cd"       => $entry->name_cd,
+                "name"          => $entry->name->display(),
+                "orders_id"     => $entry->order_id,
+                "total"         => 0,
+                "completed"     => 0,
+                "entrys"        => $entry->detail()
+            );
+
+            // $new_return["total"] = 0;
+            // $new_return["completed"] = 0;
+            $return[] = $new_return;
 
 
         }
+        return $return;
 
     }
-
-
-    private function order($data) {
+    private function detail() {
 
     }
-    private function details($data) {
-
-    }
-    private function detail($data) {
-
-    }
-    private function detailItem($data) {
+    private function detailItem() {
 
     }
 
@@ -65,6 +89,11 @@ class DiagnosisRepository {
 
 
 
+
+    
+    public function layout() {    
+        return $this->order->item->layout;        
+    }
 
 
 

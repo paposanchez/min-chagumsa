@@ -1,22 +1,13 @@
 <?php
 
-/**
- * Created by IntelliJ IDEA.
- * User: dev
- * Date: 2017. 4. 12.
- * Time: PM 2:58
- */
-
 namespace App\Models;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Order;
-use App\Models\DiagnosisDetails;
 
 class DiagnosisDetails extends Model {
 
-    protected $table = 'diagnosises';
+    protected $table = 'diagnosis_details';
     protected $primaryKey = 'id';
     protected $fillable = [
         'id',
@@ -32,11 +23,15 @@ class DiagnosisDetails extends Model {
     ];
 
     public function order() {
-        return $this->belongsTo(\App\Models\Order::class);
+        return $this->belongsTo(\App\Models\Order::class, 'orders_id', 'id');
     }
 
-    public function diagnosis_detail() {
-        return $this->hasMany(DiagnosisDetails::class);
+    public function detail() {
+        return $this->hasMany(\App\Models\DiagnosisDetails::class, 'id', 'diagnosis_details_id');
+    }
+
+    public function name() {
+        return $this->hasOne(\App\Models\Code::class, 'id', 'name_cd');
     }
 
 }
