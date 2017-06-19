@@ -387,10 +387,17 @@ return [
         'certificated' => '인증발급완료'
     ],
     //주행거리 추가
-    'usage_mileage_cd' => [
+    'standard_cd' => [
         'excess' => '초과',
         'standard' => '평균',
         'shortfall' => '미달'
+    ],
+    //사고 코드
+    'accident_cd' => [
+        'none' => '무사고',
+        'simple_damage' => '단순교환',
+        'damage' => '중손상',
+        'major_damage' => '대손상'
     ]
 
 ];

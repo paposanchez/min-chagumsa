@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Models\Code;
+use App\Models\Models;
 use Mockery\Exception;
 
 class Helper {
@@ -171,5 +173,28 @@ class Helper {
         }else{
             return false;
         }
+    }
+
+    /**
+     * code 값을 기준으로 checkbox checked 여부 판단
+     * @param Models $standard
+     * @param string $key
+     * @param string $value
+     * @param bool $default
+     * @return string
+     */
+    public static function displayRadioChecked($standard, $key, $value, $default=false){
+
+        if($default === true){
+            return ' checked';
+        }else{
+            if($standard !== null){
+                $code = Code::orderBy('id', 'desc')->where('group', $key)->where('name', $value)->first();
+                if($standard->$key == $code->id){
+                    return ' checked';
+                }
+            }
+        }
+        return '';
     }
 }

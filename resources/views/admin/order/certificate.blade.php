@@ -264,12 +264,12 @@
                     <input type="checkbox" name="usage_mileage_cd"> 주행거리 (+)
                 </td>
                 <td>
-                    <input type="radio" name="mileage_ck" value="standard">표준
-                    <input type="radio" name="mileage_ck" value="excess">초과
-                    <input type="radio" name="mileage_ck" value="shortfall">미달
+                    <input type="radio" name="mileage_ck" value="standard"{{ \App\Helpers\Helper::displayRadioChecked($order->certificates, 'usage_mileage_cd', 'standard') }}>표준
+                    <input type="radio" name="mileage_ck" value="excess"{{ \App\Helpers\Helper::displayRadioChecked($order->certificates, 'usage_mileage_cd', 'excess') }}>초과
+                    <input type="radio" name="mileage_ck" value="shortfall"{{ \App\Helpers\Helper::displayRadioChecked($order->certificates, 'usage_mileage_cd', 'shortfall', true) }}>미달
                 </td>
                 <td>
-                    <input type="text" name="usage_mileage_depreciation">만원
+                    <input type="text" name="usage_mileage_depreciation" value="{{ $order->certificates ? $order->certificates->usage_mileage_depreciation : 0 }}">만원
                 </td>
             </tr>
             <tr>
