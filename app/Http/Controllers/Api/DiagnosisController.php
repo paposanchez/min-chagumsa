@@ -381,9 +381,7 @@ class DiagnosisController extends ApiController {
             $diagnosis = new DiagnosisRepository();
 
             foreach($reservations as $reservation) {
-
                 $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
-//                $returns[] = $diagnosis->prepare($reservation->orders_id);
             }
 
             return response()->json(array(
@@ -407,7 +405,6 @@ class DiagnosisController extends ApiController {
      *     operationId="getDiagnosisWorking",
      *     produces={"application/json"},
      *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
-     *     @SWG\Parameter(name="date",in="query",description="날짜",required=true,type="integer",format="int64"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
      *     ),
@@ -424,46 +421,38 @@ class DiagnosisController extends ApiController {
     public function getDiagnosisWorking(Request $request) {
         try {
 
-            $date = $request->get('date');
+
             $user_id = $request->get('user_id');
 
 
             $validator = Validator::make($request->all(), [
-               'user_id' => 'required|exists:users,id',
-               'date' => 'required|date_format:Y-m-d'
+                'user_id' => 'required|exists:users,id'
             ]);
 
 
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
                 return response()->json(array(
-                    'date' => $date,
                     'count' =>0,
                     'orders' => []
                 ));
             }
 
-            $user = User::findOrFail($user_id);
 
-            $reservations = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
-            ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
-            ->whereNotNull("reservations.updated_at")
-            ->where('orders.garage_id', $user->user_extra->garage_id)
-            ->where('orders.engineer_id', $user->id) // 엔지니어 자기 진단중 정보만
-            ->whereIn('orders.status_cd', [106])
-            ->select('reservations.*')
-            ->get(); //진단중
+            $orders = Order::where('engineer_id', $user_id)
+                    ->where('status_cd', [106])
+                    ->where('diagnose_at', null)
+                    ->get();
 
             $returns = [];
 
             $diagnosis = new DiagnosisRepository();
 
-            foreach($reservations as $reservation) {
-                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
+            foreach($orders as $order) {
+                $returns[] = $diagnosis->prepare($order->id)->order();
             }
 
             return response()->json(array(
-                'date' => $date,
                 'count' =>count($returns),
                 'orders' => $returns
             ));
