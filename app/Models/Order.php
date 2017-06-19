@@ -92,6 +92,18 @@ class Order Extends Model
     //========================== 아래는 검증안된 메쏘드
 
 
+    public function diagnosis_status() {
+//        dd($this->engineer_id);
+        if($this->engineer_id == null) {
+            return 'Y';
+        }elseif ($this->diagnose_at) {
+            return 'M';
+        }elseif ($this->diagnosed_at) {
+            return 'C';
+        }else{
+            return 'N';
+        }
+    }
 
 
 

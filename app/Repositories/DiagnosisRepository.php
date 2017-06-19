@@ -19,10 +19,10 @@ use App\Models\Item;
 class DiagnosisRepository {
 
 
-    protected $order;
+    protected $obj;
     
     public function prepare($order_id) {
-        $this->order = Order::findOrFail($order_id);
+        $this->obj = Order::findOrFail($order_id);
         return $this;
     }
 
@@ -44,24 +44,27 @@ class DiagnosisRepository {
     public function order() {
 
         return array(
-            'id' => $this->order->id,
-            'order_num' => $this->order->getOrderNumber(),
-            'car_number' => $this->order->car_number,
-            'orderer_name' => $this->order->orderer_name,
-            'orderer_mobile' => $this->order->orderer_mobile,
-            'status_cd' => $this->order->status_cd,
-            'status' => $this->order->status->display(),
-            'car_name' => $this->order->getCarFullName(),
-            'reservation_at' => $this->order->getReservation($this->order->id)->reservation_at, // 예약일
-            'diagnose_at' => $this->order->diagnose_at, // 진단시작일
-            'diagnosed_at' => $this->order->diagnosed_at // 진단완료일
+            'id' => $this->obj->id,
+            'engineer_id' => $this->obj->engineer_id,
+            'diagnosis_process' => $this->obj->diagnosis_status(),
+            'order_num' => $this->obj->getOrderNumber(),
+            'car_number' => $this->obj->car_number,
+            'orderer_name' => $this->obj->orderer_name,
+            'orderer_mobile' => $this->obj->orderer_mobile,
+            'status_cd' => $this->obj->status_cd,
+            'status' => $this->obj->status->display(),
+            'car_name' => $this->obj->getCarFullName(),
+            'reservation_at' => $this->obj->getReservation($this->obj->id)->reservation_at, // 예약일
+            'diagnose_at' => $this->obj->diagnose_at, // 진단시작일
+            'diagnosed_at' => $this->obj->diagnosed_at // 진단완료일
         );
     }
 
 
     private function details() {
         $return = [];
-        $details = $this->order->details;
+        $details = $this->obj->details;
+
         foreach ($details as $entry) {
 
             $new_return = array(
@@ -69,9 +72,9 @@ class DiagnosisRepository {
                 "name_cd"       => $entry->name_cd,
                 "name"          => $entry->name->display(),
                 "orders_id"     => $entry->order_id,
-                "total"         => 0,
+//                "total"         => 0,
                 "completed"     => 0,
-                "entrys"        => $entry->detail($entry)
+                "entrys"        => [], //$entry->detail($entry)
             );
 
             // $new_return["total"] = 0;
@@ -84,15 +87,53 @@ class DiagnosisRepository {
 
     // 진단목록
     private function detail($details) {
+        $return = [];
+        $detail = $this->obj->detail;
 
+        foreach ($detail as $entry) {
+            $new_return = array(
+                "id"            => $entry->id,
+                "parent_id"     => $entry->parent_id,
+                "option_cd"     => $entry->option_cd->display(),
+                "discription"   => $entry->discription,
+                "name_cd"       => $entry->name_cd,
+                "name"          => $entry->name->display(),
+                "detail_id"     => $entry->diagnosis_details_id,
+                "completed"     => 0,
+                "use_picture_upload" => $entry->use_picture_upload,
+                "use_picture_required" => $entry->use_picture_required,
+                "use_sound_upload" => $entry->use_sound_upload,
+                "entrys"        => [], //$entry->detail($entry)
+            );
 
-
+            // $new_return["total"] = 0;
+            // $new_return["completed"] = 0;
+            $return[] = $new_return;
+        }
+        return $return;
     }
 
 
 
-    private function detailItem() {
+    private function detailItem($detail) {
+        $return = [];
+        $items = $this->obj->items;
 
+        foreach ($items as $entry) {
+            $new_return = array(
+                "id"            => $entry->id,
+                "name_cd"       => $entry->name_cd,
+                "name"          => $entry->name->display(),
+                "orders_id"     => $entry->order_id,
+                "completed"     => 0,
+                "entrys"        => [], //$entry->detail($entry)
+            );
+
+            // $new_return["total"] = 0;
+            // $new_return["completed"] = 0;
+            $return[] = $new_return;
+        }
+        return $return;
     }
 
 
