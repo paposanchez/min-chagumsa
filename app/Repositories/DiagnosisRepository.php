@@ -14,13 +14,15 @@ namespace App\Repositories;
 
 use App\Services\Encrypter;
 use App\Models\Order;
-use App\Models\Item;
+
 
 class DiagnosisRepository {
 
 
     protected $obj;
-    
+    protected $return;
+
+
     public function prepare($order_id) {
         $this->obj = Order::findOrFail($order_id);
         return $this;
@@ -34,7 +36,7 @@ class DiagnosisRepository {
         $return = $this->order();
 
         // 진단그룹
-        $return['details'] = $this->details();
+        $return['entrys'] = $this->details();
 
         return $return;
     }
@@ -43,7 +45,7 @@ class DiagnosisRepository {
     // 주문데이터의 진단정보를 조회
     public function order() {
 
-        return array(
+        $this->return = array(
             'id' => $this->obj->id,
             'engineer_id' => $this->obj->engineer_id,
             'diagnosis_process' => $this->obj->diagnosis_status(),
@@ -58,6 +60,9 @@ class DiagnosisRepository {
             'diagnose_at' => $this->obj->diagnose_at, // 진단시작일
             'diagnosed_at' => $this->obj->diagnosed_at // 진단완료일
         );
+
+
+        return $this->return;
     }
 
 
@@ -66,15 +71,15 @@ class DiagnosisRepository {
         $details = $this->obj->details;
 
         foreach ($details as $entry) {
-
+//            dd($entry->);
             $new_return = array(
                 "id"            => $entry->id,
                 "name_cd"       => $entry->name_cd,
                 "name"          => $entry->name->display(),
-                "orders_id"     => $entry->order_id,
-//                "total"         => 0,
+                "orders_id"     => $entry->orders_id,
                 "completed"     => 0,
-                "entrys"        => [], //$entry->detail($entry)
+                "entrys"        => $this->getDetail($entry->detail)
+//                "entrys"        => [] //$entry->detail()
             );
 
             // $new_return["total"] = 0;
@@ -86,28 +91,19 @@ class DiagnosisRepository {
     }
 
     // 진단목록
-    private function detail($details) {
-        $return = [];
-        $detail = $this->obj->detail;
+    public function getDetail($detail) {
 
+        $return = [];
         foreach ($detail as $entry) {
             $new_return = array(
                 "id"            => $entry->id,
-                "parent_id"     => $entry->parent_id,
-                "option_cd"     => $entry->option_cd->display(),
-                "discription"   => $entry->discription,
                 "name_cd"       => $entry->name_cd,
                 "name"          => $entry->name->display(),
-                "detail_id"     => $entry->diagnosis_details_id,
-                "completed"     => 0,
-                "use_picture_upload" => $entry->use_picture_upload,
-                "use_picture_required" => $entry->use_picture_required,
-                "use_sound_upload" => $entry->use_sound_upload,
-                "entrys"        => [], //$entry->detail($entry)
+                "details_id"    => $entry->diagnosis_details_id,
+                "description"   => $entry->description,
+                "entrys"        => [] //$this->getDetailItem($entry->diagnosis_file)
             );
 
-            // $new_return["total"] = 0;
-            // $new_return["completed"] = 0;
             $return[] = $new_return;
         }
         return $return;
@@ -115,18 +111,16 @@ class DiagnosisRepository {
 
 
 
-    private function detailItem($detail) {
+    private function getDetailItem($files) {
         $return = [];
-        $items = $this->obj->items;
 
-        foreach ($items as $entry) {
+        foreach ($files as $entry) {
             $new_return = array(
                 "id"            => $entry->id,
                 "name_cd"       => $entry->name_cd,
                 "name"          => $entry->name->display(),
                 "orders_id"     => $entry->order_id,
                 "completed"     => 0,
-                "entrys"        => [], //$entry->detail($entry)
             );
 
             // $new_return["total"] = 0;
