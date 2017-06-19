@@ -52,6 +52,7 @@ class Helper {
 
             return round(pow(1024, $base - floor($base)), $precision) . $suffixes[floor($base)];
         } else {
+
             return $size;
         }
     }
@@ -155,5 +156,20 @@ class Helper {
         $dist = ($nowY-$postY)*12 + ($nowM-$postM);
 
         return $dist;
+    }
+
+    /**
+     * 용도변경이력 소유자이력 차고지 이력 등 리스트 출력
+     * @param $garage
+     * @param string $div
+     * @return array|bool
+     */
+    public static function displayHistoryItem($garage, $div=';'){
+
+        if($garage){
+            return explode($div, $garage);
+        }else{
+            return false;
+        }
     }
 }

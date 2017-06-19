@@ -62,7 +62,7 @@
                 </td>
                 <th>세부모델</th>
                 <td>
-                    <input type="text" style="width: 80%" name="model_name" value="{{ $order->car->model->name }}">
+                    <input type="text" style="width: 80%" name="model_name" value="{{ $order->car->models->name }}">
                 </td>
             </tr>
             <tr>
@@ -140,39 +140,52 @@
             <tr>
                 <th>정비 이력</th>
                 <td colspan="3">
-                    <input type="text" name="history_maintance" value="{{ $order->certificates ? $order->certificates->history_maintance : 0 }}">번
+                    <input type="text" name="history_maintance" value="{{ $order->certificates ? $order->certificates->history_maintance : 0 }}">번0
                 </td>
             </tr>
             <tr>
                 <th>용도변경이력</th>
                 <td colspan="3">
-                    @if($order->certificates)
-                    <input type="radio" name="purpose_true"{{ $order->certificates->history_purpose ? ' checked': '' }}>있음
-                    <input type="radio" name="purpose_false"{{ $order->certificates->history_purpose ? ' ': ' checked' }}>없음
+                    @if($order->certifacates)
+                        <ul>
+                            @foreach(\App\Helpers\Helper::displayHistoryItem($order->certifacates->history_purpose) as $key => $garage_row)
+                                <li>{{ $garage_row }}</li>
+                            @endforeach
+                        </ul>
                     @else
-                        <input type="radio" name="purpose_false" checked>없음
+                        <p><strong class="text-danger">용도변경 이력이 없습니다.</strong></p>
                     @endif
 
-                    <br>
-                    <select name="history_purpose">
-                        {{--todo 용도변경 select option 부문 작업해야 함--}}
-                        <option selected> -- 선택하세요 -- </option>
-                    </select>
-                    <br>
-                    <button>이력 추가</button>
+                    <div class="input-group">
+                        <input type="text" name="certificates_history_purpose" class="form-control" id="certificates_history_purpose" placeholder="용도변경 정보를 입력해주세요.">
+                        <span class="input-group-btn">
+                            <button class="btn btn-info" type="button" id="history_purpose_add">용도변경 이력 추가</button>
+                        </span>
+                    </div>
+
+
                 </td>
             </tr>
             <tr>
                 <th>차고지 이력</th>
                 <td colspan="3">
-                    <select name="history_garage_1">
-                        <option selected> -- 선택하세요 -- </option>
-                    </select>
-                    <select name="history_garage_2">
-                        <option selected> -- 선택하세요 -- </option>
-                    </select>
-                    <br>
-                    <button>이력 추가</button>
+                    @if($order->certifacates)
+                    <ul>
+                        @foreach(\App\Helpers\Helper::displayHistoryItem($order->certifacates->history_garage) as $key => $garage_row)
+                            <li>{{ $garage_row }}</li>
+                        @endforeach
+                    </ul>
+                    @else
+                        <p><strong class="text-danger">차고지 이력이 없습니다.</strong></p>
+                    @endif
+
+                    <div class="input-group">
+                        <input type="text" name="certificates_history_garage" class="form-control" id="certificates_history_garage" placeholder="차고지 주소 및 정보를 입력해주세요.">
+                        <span class="input-group-btn">
+                            <button class="btn btn-info" type="button" id="history_garage_add">차고지 이력 추가</button>
+                        </span>
+                    </div>
+
                 </td>
             </tr>
             </tbody>

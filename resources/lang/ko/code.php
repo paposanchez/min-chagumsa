@@ -265,7 +265,7 @@ return [
         'gray' => '회색',
         'red' => '적색',
         'blue' => '파랑색',
-        'etc' => '기'
+        'etc' => '기타'
     ],
     'repair_status_cd' => [
         'good' => '양호',
