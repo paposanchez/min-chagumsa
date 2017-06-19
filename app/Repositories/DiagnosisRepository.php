@@ -35,7 +35,7 @@ class DiagnosisRepository {
 
         // 진단그룹
         $return['details'] = $this->details();
-        dd($return);
+        
         return $return;
     }
 
@@ -63,7 +63,7 @@ class DiagnosisRepository {
     private function details() {
         $return = [];
         $details = $this->obj->details;
-        dd($details);
+
         foreach ($details as $entry) {
 
             $new_return = array(
