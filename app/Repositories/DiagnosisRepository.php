@@ -71,7 +71,6 @@ class DiagnosisRepository {
         $details = $this->obj->details;
 
         foreach ($details as $entry) {
-//            dd($entry->);
             $new_return = array(
                 "id"            => $entry->id,
                 "name_cd"       => $entry->name_cd,
@@ -79,11 +78,8 @@ class DiagnosisRepository {
                 "orders_id"     => $entry->orders_id,
                 "completed"     => 0,
                 "entrys"        => $this->getDetail($entry->detail)
-//                "entrys"        => [] //$entry->detail()
             );
 
-            // $new_return["total"] = 0;
-            // $new_return["completed"] = 0;
             $return[] = $new_return;
         }
         return $return;
@@ -116,20 +112,19 @@ class DiagnosisRepository {
 
         foreach ($items as $entry) {
             $new_return = array(
-                "id"            => $entry->id,
-                "name_cd"       => $entry->name_cd,
-                "name"          => $entry->name->display(),
-                "orders_id"     => $entry->order_id,
-                "completed"     => 0,
+                "id"                => $entry->id,
+                "diagnosises_id"    => $entry->diagnosises_id,
+                "name_cd"           => $entry->name_cd,
+                "name"              => $entry->name->display(),
+                "value_cd"          => $entry->value_cd,
+                "option_cd"         => $entry->option_cd,
+                "option_value_cd"   => $entry->option_value_cd
             );
 
             $return[] = $new_return;
         }
         return $return;
     }
-
-
-
 
 
     public function save() {
