@@ -16,7 +16,7 @@ use App\Models\Car;
 use App\Models\CarFeature;
 use App\Models\Purchase;
 use App\Models\SettlementFeature;
-use App\Models\Diagnosis;
+use App\Models\DiagnosisDetails;
 use App\Models\Item;
 use App\Models\Reservation;
 
@@ -26,7 +26,7 @@ class Order Extends Model
         'id',
         'datekey',
         'car_number',
-        'car_id',
+        'cars_id',
         'garage_id',
         'item_id',
         'purchase_id',
@@ -45,49 +45,81 @@ class Order Extends Model
         'created_at', 'updated_at','diagnose_at', 'diagnosed_at'
     ];
 
-    public function certificates(){
-        return $this->hasOne(Certificate::class, 'orders_id', 'id');
+
+
+
+
+
+
+
+
+
+
+
+    public function details(){
+        return $this->hasMany(DiagnosisDetails::class,'orders_id', '');
     }
 
-    public function order_feature(){
-        return $this->hasMany(OrderFeature::class);
-    }
 
-    public function diagnosis(){
-        return $this->hasMany(\App\Models\Diagnosis::class, 'id', 'orders_id');
-    }
 
-    public function settlement_features(){
-        return $this->hasMany(\App\Models\SettlementFeature::class);
-    }
+    // 해당 주문의 차량 풀네임을 조회
+    public function getCarFullName() {
 
-    public function item(){
-        return $this->belongsTo(\App\Models\Item::class);
-    }
+        $fullname = array();
 
-    public function purchase(){
-        return $this->belongsTo(\App\Models\Purchase::class);
-    }
+        if($this->car->brand) {
+            $fullname[] = $this->car->brand->name;
+        }
+        if($this->car->models) {
+            $fullname[] = $this->car->models->name;
+        }
+        if($this->car->detail) {
+            $fullname[] = $this->car->detail->name;
+        }
+        if($this->car->grade) {
+            $fullname[] = $this->car->grade->name;
+        }
 
-    public function car(){
-        return $this->belongsTo(\App\Models\Car::class, 'cars_id', 'id');
-    }
-
-    public function reservation(){
-        return $this->hasMany(\App\Models\Reservation::class);
+        return implode(" ", $fullname);
     }
 
     public function getReservation($order_id) {
-        return Reservation::whereNotNull("updated_at")->where('order_id', $order_id)->last();
-    }
-
-    public function getReservationDate($order_id) {
-        $reservation = Reservation::whereNotNull("updated_at")->where('order_id', $order_id)->last();
-        return ($reservation ? $reservation->reservation_at : null);
+        return Reservation::whereNotNull("updated_at")->where('orders_id', $order_id)->first();
     }
 
     public function getOrderNumber() {
         return $this->datekey . '-' . $this->car_number;
+    }
+
+    //========================== 아래는 검증안된 메쏘드
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function certificates(){
+        return $this->hasOne(Certificate::class, 'orders_id', 'id');
+    }
+
+    public function diagnosis_details(){
+        return $this->hasMany(\App\Models\Diagnosis::class, 'id', 'orders_id');
+    }
+
+    public function order_feature(){
+        return $this->hasMany(OrderFeature::class);
     }
 
     public function engineer(){
@@ -102,5 +134,33 @@ class Order Extends Model
         return $code;
 
     }
+
+
+    public function settlement_features(){
+        return $this->hasMany(\App\Models\SettlementFeature::class);
+    }
+
+    public function item(){
+        return $this->belongsTo(\App\Models\Item::class);
+    }
+
+    public function purchase(){
+        return $this->belongsTo(\App\Models\Purchase::class);
+    }
+
+    public function car(){
+        return $this->hasOne(\App\Models\Car::class, 'id','cars_id');
+    }
+
+    public function reservation(){
+        return $this->hasMany(\App\Models\Reservation::class, 'orders_id','id');
+    }
+
+    public function getReservationDate($order_id) {
+        $reservation = Reservation::whereNotNull("updated_at")->where('orders_id', $order_id)->last();
+        return ($reservation ? $reservation->reservation_at : null);
+    }
+
+
 
 }

@@ -13,26 +13,25 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Models;
 use App\Models\Car;
-use App\Models\Grade;
 
 class Detail Extends Model
 {
     protected $primaryKey = 'id';
     protected $fillable = [
         'id',
-        'models_id',
+        'model_id',
         'name',
     ];
 
     public function models(){
-        return $this->belongsTo(\App\Models\Models::class);
+        return $this->belongsTo(\App\Models\Models::class, 'model_id');
+    }
+
+    public function grade(){
+        return $this->hasMany(\App\Models\Grade::class, 'detail_id', 'id');
     }
 
     public function car(){
         return $this->belongsTo(\App\Models\Car::class);
-    }
-
-    public function grade(){
-        return $this->hasOne(Grade::class);
     }
 }

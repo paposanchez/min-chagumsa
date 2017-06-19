@@ -1,41 +1,37 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: dev
- * Date: 2017. 4. 12.
- * Time: PM 2:57
- */
 
 namespace App\Models;
+
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Diagnosis;
-use App\Models\DiagnosisFile;
+class DiagnosisDetails extends Model {
 
-class DiagnosisDetails extends Model
-{
+    protected $table = 'diagnosis_details';
     protected $primaryKey = 'id';
     protected $fillable = [
         'id',
-        'diagnosises_id',
+        'orders_id',
         'name_cd',
-        'value_cd',
-        'option_cd',
-        'option_value_cd',
+        'sound_file',
+        'extraction',
         'created_at',
         'updated_at',
     ];
-
     protected $dates = [
         'created_at', 'updated_at'
     ];
 
-    public function diagnosis(){
-        return $this->belongsTo(\App\Models\Diagnosis::class);
+    public function order() {
+        return $this->belongsTo(\App\Models\Order::class, 'orders_id', 'id');
     }
 
-    public function diagnosis_file(){
-        return $this->hasMany(\App\Models\DiagnosisFile::class);
+    public function detail() {
+        return $this->hasMany(\App\Models\DiagnosisDetails::class, 'id', 'diagnosis_details_id');
     }
+
+    public function name() {
+        return $this->hasOne(\App\Models\Code::class, 'id', 'name_cd');
+    }
+
 }
