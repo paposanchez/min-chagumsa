@@ -265,7 +265,7 @@ return [
         'gray' => '회색',
         'red' => '적색',
         'blue' => '파랑색',
-        'etc' => '기타'
+        'etc' => '기'
     ],
     'repair_status_cd' => [
         'good' => '양호',
@@ -385,6 +385,12 @@ return [
         'diagnosed' => '진단완료, 발급요청',
         'certificating' => '검토중',
         'certificated' => '인증발급완료'
+    ],
+    //주행거리 추가
+    'usage_mileage_cd' => [
+        'excess' => '초과',
+        'standard' => '평균',
+        'shortfall' => '미달'
     ]
 
 ];
