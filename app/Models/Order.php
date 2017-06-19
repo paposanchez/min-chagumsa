@@ -127,11 +127,11 @@ class Order Extends Model
         return $this->hasOne(User::class, 'id', 'technist_id');
     }
 
-    public function status(){
-        $code = $this->hasOne(Code::class, 'id', 'status_cd');
-        return $code;
-
-    }
+//    public function status(){
+//        $code = $this->hasOne(Code::class, 'id', 'status_cd');
+//        return $code;
+//
+//    }
 
 
     public function settlement_features(){
