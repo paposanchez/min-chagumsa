@@ -101,7 +101,7 @@ class DiagnosisRepository {
                 "name"          => $entry->name->display(),
                 "details_id"    => $entry->diagnosis_details_id,
                 "description"   => $entry->description,
-                "entrys"        => [] //$this->getDetailItem($entry->diagnosis_file)
+                "entrys"        => [] //$this->getDetailItem($entry->diagnosis_item)
             );
 
             $return[] = $new_return;
@@ -111,10 +111,10 @@ class DiagnosisRepository {
 
 
 
-    private function getDetailItem($files) {
+    private function getDetailItem($items) {
         $return = [];
 
-        foreach ($files as $entry) {
+        foreach ($items as $entry) {
             $new_return = array(
                 "id"            => $entry->id,
                 "name_cd"       => $entry->name_cd,
@@ -123,8 +123,6 @@ class DiagnosisRepository {
                 "completed"     => 0,
             );
 
-            // $new_return["total"] = 0;
-            // $new_return["completed"] = 0;
             $return[] = $new_return;
         }
         return $return;

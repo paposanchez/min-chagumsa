@@ -452,10 +452,7 @@ class DiagnosisController extends ApiController {
                 $returns[] = $diagnosis->prepare($order->id)->order();
             }
 
-            return response()->json(array(
-                'count' =>count($returns),
-                'orders' => $returns
-            ));
+            return response()->json($returns);
             // 앱에서는 간단하게 
         } catch (Exception $e) {
             return abort(404, trans('diagnosis.not-found'));
