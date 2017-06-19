@@ -50,14 +50,8 @@ class Order Extends Model
 
 
 
-
-
-
-
-
-
     public function details(){
-        return $this->hasMany(DiagnosisDetails::class,'orders_id', '');
+        return $this->hasMany(DiagnosisDetails::class,'orders_id');
     }
 
 
@@ -89,6 +83,10 @@ class Order Extends Model
 
     public function getOrderNumber() {
         return $this->datekey . '-' . $this->car_number;
+    }
+
+    public function status() {
+        return $this->hasOne(Code::class, 'id', 'status_cd')->where('group', 'order_status');
     }
 
     //========================== 아래는 검증안된 메쏘드

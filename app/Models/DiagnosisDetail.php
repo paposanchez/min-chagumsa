@@ -14,11 +14,9 @@ class DiagnosisDetail extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'id',
-        'diagnosises_id',
+        'diagnosis_details_id',
         'name_cd',
-        'value_cd',
-        'option_cd',
-        'option_value_cd',
+        'description',
         'created_at',
         'updated_at',
     ];
@@ -26,10 +24,6 @@ class DiagnosisDetail extends Model
     protected $dates = [
         'created_at', 'updated_at'
     ];
-
-    public function diagnosis(){
-        return $this->belongsTo(\App\Models\Diagnosis::class);
-    }
 
     // 일반진단항목
     public function selections(){
