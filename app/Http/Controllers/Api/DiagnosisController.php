@@ -35,6 +35,7 @@ class DiagnosisController extends ApiController {
      *     operationId="show",
      *     produces={"application/json"},
      *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Diagnosis"))
      *     ),
@@ -50,13 +51,31 @@ class DiagnosisController extends ApiController {
      * )
      */
     public function show(Request $request) {
+        try{
+            $order_id = $request->get('order_id');
+            $user_id = $request->get('user_id');
 
-        $order_id = $request->get('order_id');
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|exists:users,id',
+                'order_id' => 'required|exists:orders,id'
+            ]);
 
-        $diagnosis = new DiagnosisRepository();
-        $return = $diagnosis->prepare($order_id)->get();
+//            if ($validator->fails()) {
+//                $errors = $validator->errors()->all();
+//                throw new Exception($errors[0]);
+//            }
 
-        return response()->json($return);
+            $diagnosis = new DiagnosisRepository();
+            $return = $diagnosis->prepare($order_id)->get();
+
+            return response()->json($return);
+
+
+        }catch (Exception $e){
+            return abort(404, trans('order.not-found'));
+        }
+
+
     }
     
     /**
@@ -362,7 +381,9 @@ class DiagnosisController extends ApiController {
             $diagnosis = new DiagnosisRepository();
 
             foreach($reservations as $reservation) {
-                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
+
+//                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
+                $returns[] = $diagnosis->prepare($reservation->orders_id);
             }
 
             return response()->json(array(

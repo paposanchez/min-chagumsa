@@ -19,10 +19,10 @@ use App\Models\Item;
 class DiagnosisRepository {
 
 
-    protected $order;
+    protected $obj;
     
     public function prepare($order_id) {
-        $this->order = Order::findOrFail($order_id);
+        $this->obj = Order::findOrFail($order_id);
         return $this;
     }
 
@@ -43,25 +43,27 @@ class DiagnosisRepository {
     // 주문데이터의 진단정보를 조회
     public function order() {
 
+    return $this->obj;
+
         return array(
-            'id' => $this->order->id,
-            'order_num' => $this->order->getOrderNumber(),
-            'car_number' => $this->order->car_number,
-            'orderer_name' => $this->order->orderer_name,
-            'orderer_mobile' => $this->order->orderer_mobile,
-            'status_cd' => $this->order->status_cd,
-            'status' => $this->order->status->display(),
-            'car_name' => $this->order->getCarFullName(),
-            'reservation_at' => $this->order->getReservation($this->order->id)->reservation_at, // 예약일
-            'diagnose_at' => $this->order->diagnose_at, // 진단시작일
-            'diagnosed_at' => $this->order->diagnosed_at // 진단완료일
+            'id' => $this->obj->id,
+            'obj_num' => $this->obj->getobjNumber(),
+            'car_number' => $this->obj->car_number,
+            'objer_name' => $this->obj->objer_name,
+            'objer_mobile' => $this->obj->objer_mobile,
+            'status_cd' => $this->obj->status_cd,
+            'status' => $this->obj->status->display(),
+            'car_name' => $this->obj->getCarFullName(),
+            'reservation_at' => $this->obj->getReservation($this->obj->id)->reservation_at, // 예약일
+            'diagnose_at' => $this->obj->diagnose_at, // 진단시작일
+            'diagnosed_at' => $this->obj->diagnosed_at // 진단완료일
         );
     }
 
 
     private function details() {
         $return = [];
-        $details = $this->order->details;
+        $details = $this->obj->details;
         foreach ($details as $entry) {
 
             $new_return = array(
@@ -69,7 +71,7 @@ class DiagnosisRepository {
                 "name_cd"       => $entry->name_cd,
                 "name"          => $entry->name->display(),
                 "orders_id"     => $entry->order_id,
-                "total"         => 0,
+//                "total"         => 0,
                 "completed"     => 0,
                 "entrys"        => $entry->detail($entry)
             );
