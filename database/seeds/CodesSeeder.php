@@ -278,6 +278,11 @@ class CodesSeeder extends Seeder {
             ['grpup' => 'standard_cd', 'name' => 'excess'], // 초과
             ['grpup' => 'standard_cd', 'name' => 'standard'],// 평균
             ['grpup' => 'standard_cd', 'name' => 'shortfall'], // 미달
+            //사고코드추가
+            ['group' => 'accident_cd', 'name' => 'none'], //무사고
+            ['group' => 'accident_cd', 'name' => 'simple_damage'], //단순교환
+            ['group' => 'accident_cd', 'name' => 'damage'], //중손상
+            ['group' => 'accident_cd', 'name' => 'major_damage'], //대손상
         ]);
         
 
