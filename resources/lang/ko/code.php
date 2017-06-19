@@ -395,9 +395,9 @@ return [
     //사고 코드
     'accident_cd' => [
         'none' => '무사고',
-        'simple_damage' => '단순교환',
-        'damage' => '중손상',
-        'major_damage' => '대손상'
+        'simple_swap' => '단순교환',
+        'middle_damage' => '중손상',
+        'big_damage' => '대손상'
     ]
 
 ];
