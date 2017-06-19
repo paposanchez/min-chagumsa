@@ -103,6 +103,11 @@ class Helper {
         }
     }
 
+    /**
+     * 차량의 제조사/모델/세부모델/등급을 출력 메소드
+     * @param $car
+     * @return string
+     */
     public static function getCarModel($car){
 
         try{
@@ -133,5 +138,22 @@ class Helper {
         return $car_txt;
 
 
+    }
+
+    /**
+     * 개월수를 구하는 메소드
+     * @param $date yyyy-mm-dd
+     * @return integer
+     */
+    public static function getMonthNum($date){
+        $nowY = date("y");
+        $nowM = date("m");
+
+        $postY = date("y", strtotime($date));
+        $postM = date("m", strtotime($date));
+
+        $dist = ($nowY-$postY)*12 + ($nowM-$postM);
+
+        return $dist;
     }
 }

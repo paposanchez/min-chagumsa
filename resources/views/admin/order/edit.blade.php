@@ -63,7 +63,7 @@
                 </div>
 
                 {{--차량 인증--}}
-                @include("admin.order.certificate");
+                @include("admin.order.certificate", ["order" => $order]);
             </div>
         </div>
         <div class="text-right">

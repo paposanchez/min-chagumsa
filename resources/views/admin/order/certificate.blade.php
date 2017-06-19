@@ -22,17 +22,20 @@
             <tr>
                 <th>자동차 등록번호</th>
                 <td>
-                    <input type="text" style="width: 80%;" name="car_number">
+                    <input type="text" style="width: 80%;" name="order_car_number" value="{{ $order->car_number }}">
                 </td>
                 <th>주행거리(km)</th>
                 <td>
-                    <input type="text" style="width: 80%;" name="mileage">
+                    <input type="text" style="width: 80%;" name="order_mileage" value="{{ $order->mileage }}">
                 </td>
             </tr>
             <tr>
                 <th>차대번호</th>
                 <td>
-                    <input type="text" style="width: 80%;" name="car_id">
+                    <input type="text" style="width: 80%;" name="car.vin_number" value="{{ $order->car->vin_number }}">
+                    @if($order->car->imported_vin_number)
+                        <p><input type="text" style="width: 80%;" name="car_imported_vin_number" value="{{ $order->car->imported_vin_number }}"></p>
+                    @endif
                 </td>
                 <th>동일성확인</th>
                 <td>
@@ -44,52 +47,60 @@
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
-                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" style="width: 78%;" name="car_registration_date">
+                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" style="width: 78%;" name="cars_registration_date" value="{{ $order->car->registration_date }}">
                     </div>
                 </td>
                 <th>사용월수</th>
                 <td>
-                    <input type="text" style="width: 80%;" name="car_history">
+                    <input type="text" style="width: 80%;" name="car_history" value="{{ \App\Helpers\Helper::getMonthNum($order->car->registration_date) }}">
                 </td>
             </tr>
             <tr>
                 <th>차명</th>
                 <td>
-                    <input type="text" style="width: 80%;" name="detail_name">
+                    <input type="text" style="width: 80%;" name="detail_name" value="{{ $order->car->detail->name }}">
                 </td>
                 <th>세부모델</th>
                 <td>
-                    <input type="text" style="width: 80%" name="model_name">
+                    <input type="text" style="width: 80%" name="model_name" value="{{ $order->car->model->name }}">
                 </td>
             </tr>
             <tr>
                 <th>색상</th>
                 <td>
-                    {!! Form::select('car_exterior_color', $select_color, [], ['class'=>'form-control']) !!}
+                    {!! Form::select('cars_exterior_color', $select_color, [], ['class'=>'form-control']) !!}
                 </td>
                 <th>차종</th>
                 <td>
-                    <input type="text" style="width: 80%" name="car_drive_type">
+                    {{--todo 차종부문 필드맵핑 해야 함--}}
+                    <input type="text" style="width: 80%" name="car_drive_type" value="{{ $order->car->brand->name }}">
                 </td>
             </tr>
             <tr>
                 <th>연식 (형식)</th>
                 <td>
-                    <input type="text" style="width: 80%;" name="car_year">
+                    <input type="text" style="width: 80%;" name="car_year" value="{{ $order->car->year }}" >
                 </td>
                 <th>변속기</th>
                 <td>
-                    <input type="text" style="width: 80%;" name="car_transmission">
+                    <input type="text" style="width: 80%;" name="car_transmission_cd" value="{{ $order->car->getTransmission ? $order->car->getTransmission->display() : '' }}">
                 </td>
             </tr>
             <tr>
                 <th>사용연료</th>
                 <td>
-                    <input type="text" style="width: 80%;" name="car_fueltype">
+                    <input type="text" style="width: 80%;" name="car_fueltype_cd" value="{{ $order->car->getFuelType ?  $order->car->getFuelType->display() : '' }}">
                 </td>
-                <th>배기량 (cc)</th>
+                <th>출력</th>
                 <td>
-                    <input type="text" style="width: 80%;" name="car_output">
+                    <input type="text" style="width: 80%;" name="car_output" value="{{ $order->car->output }}">
+                </td>
+            </tr>
+            <tr>
+                <th>배기량 (cc)</th>
+                <td colspan="3">
+                    {{-- todo cars에 배기량 필드 있어야 함. --}}
+                    <input type="text" style="width: 80%;" name="car_output" value="">
                 </td>
             </tr>
             </tbody>
