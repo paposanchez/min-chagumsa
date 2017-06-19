@@ -275,9 +275,9 @@ class CodesSeeder extends Seeder {
             ['group' => 'pollution_status_cd', 'name' => 'maintenance'],
 
             //주행거리 코드 추가함
-            ['grpup' => 'usage_mileage_cd', 'name' => 'exceed'], //주행거리 초과
-            ['grpup' => 'usage_mileage_cd', 'name' => 'average'],//주행거리 평균
-            ['grpup' => 'usage_mileage_cd', 'name' => 'under'], //주행거리 미달
+            ['grpup' => 'usage_mileage_cd', 'name' => 'excess'], //주행거리 초과
+            ['grpup' => 'usage_mileage_cd', 'name' => 'standard'],//주행거리 평균
+            ['grpup' => 'usage_mileage_cd', 'name' => 'shortfall'], //주행거리 미달
         ]);
         
 

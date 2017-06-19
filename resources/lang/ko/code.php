@@ -388,9 +388,9 @@ return [
     ],
     //주행거리 추가
     'usage_mileage_cd' => [
-        'exceed' => '초과',
-        'average' => '평균',
-        'under' => '미달'
+        'excess' => '초과',
+        'standard' => '평균',
+        'shortfall' => '미달'
     ]
 
 ];
