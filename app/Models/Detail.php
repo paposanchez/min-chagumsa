@@ -30,4 +30,8 @@ class Detail Extends Model
     public function grade(){
         return $this->hasMany(\App\Models\Grade::class, 'detail_id', 'id');
     }
+
+    public function car(){
+        return $this->belongsTo(\App\Models\Car::class);
+    }
 }

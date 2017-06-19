@@ -111,16 +111,30 @@ class Order Extends Model
 
 
     public function certificates(){
-        return $this->hasOne(Certification::class);
+        return $this->hasOne(Certificate::class, 'orders_id', 'id');
+    }
+
+    public function diagnosis_details(){
+        return $this->hasMany(\App\Models\Diagnosis::class, 'id', 'orders_id');
     }
 
     public function order_feature(){
         return $this->hasMany(OrderFeature::class);
     }
 
-    public function diagnosis(){
-        return $this->hasMany(\App\Models\Diagnosis::class);
+    public function engineer(){
+        return $this->hasOne(User::class, 'id', 'engineer_id');
     }
+    public function technicion(){
+        return $this->hasOne(User::class, 'id', 'technist_id');
+    }
+
+    public function status(){
+        $code = $this->hasOne(Code::class, 'id', 'status_cd');
+        return $code;
+
+    }
+
 
     public function settlement_features(){
         return $this->hasMany(\App\Models\SettlementFeature::class);
