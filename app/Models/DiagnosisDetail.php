@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisFile;
 
+
 class DiagnosisDetail extends Model
 {
 
@@ -35,7 +36,11 @@ class DiagnosisDetail extends Model
         return $this->hasMany(\App\Models\Codes::class, "id", "options_cd");
     }
 
-    public function diagnosis_file(){
-        return $this->hasMany(\App\Models\DiagnosisFile::class);
+    public function diagnosis_item(){
+        return $this->hasMany(DiagnosisDetailItem::class,"diagnosis_detail_id", "id");
+    }
+
+    public function name() {
+        return $this->hasOne(\App\Models\Code::class, 'id', 'name_cd');
     }
 }
