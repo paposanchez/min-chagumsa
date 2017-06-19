@@ -10,7 +10,7 @@ class CodesSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        
+
         DB::table('codes')->insert([
             ['id'=>1, 'group' => 'user_status', 'name' => 'active'],
             ['id'=>2, 'group' => 'user_status', 'name' => 'unactive'],
@@ -41,7 +41,7 @@ class CodesSeeder extends Seeder {
 
         // 옵션코드의 시퀀스 변경
         DB::table('codes')->insert( ['id'=>1000, 'group' => 'car_option', 'name' => 'appearence']);
-        DB::table('codes')->insert([           
+        DB::table('codes')->insert([
             ['group' => 'car_option', 'name' => 'multimedia'],
             ['group' => 'car_option', 'name' => 'built-in'],
             ['group' => 'car_option', 'name' => 'safety'],
@@ -272,11 +272,22 @@ class CodesSeeder extends Seeder {
             ['group' => 'replacement_status_cd', 'name' => 'maintenance'],
             ['group' => 'pollution_status_cd','name' =>  'good'],
             ['group' => 'pollution_status_cd','name' =>  'pollution'],
-            ['group' => 'pollution_status_cd', 'name' => 'maintenance']
-        ]);
-        
+            ['group' => 'pollution_status_cd', 'name' => 'maintenance'],
 
-        
+            //주행거리 및 평가항목 코드 추가함
+            ['grpup' => 'standard_cd', 'name' => 'excess'], // 초과
+            ['grpup' => 'standard_cd', 'name' => 'standard'],// 평균
+            ['grpup' => 'standard_cd', 'name' => 'shortfall'], // 미달
+            //사고코드추가
+            ['group' => 'accident_cd', 'name' => 'none'], //무사고
+            ['group' => 'accident_cd', 'name' => 'simple_damage'], //단순교환
+            ['group' => 'accident_cd', 'name' => 'damage'], //중손상
+            ['group' => 'accident_cd', 'name' => 'major_damage'], //대손상
+        ]);
+
+
+
     }
 
 }
+
