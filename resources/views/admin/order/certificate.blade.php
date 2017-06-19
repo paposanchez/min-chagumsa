@@ -127,29 +127,35 @@
             <tr>
                 <th>보험사고 이력</th>
                 <td colspan="3">
-                    <input type="text" name="history_insurance">건 &nbsp;&nbsp;&nbsp;
+                    <input type="text" name="history_insurance" value="{{ $order->certificates ? $order->certificates->history_insurance : 0 }}">건 &nbsp;&nbsp;&nbsp;
                     <button>사고이력 이미지 업로드</button>
                 </td>
             </tr>
             <tr>
                 <th>소유자 이력</th>
                 <td colspan="3">
-                    <input type="text" name="history_owner">명
+                    <input type="text" name="history_owner" value="{{ $order->certificates ? $order->certificates->history_owner : 0 }}">명
                 </td>
             </tr>
             <tr>
                 <th>정비 이력</th>
                 <td colspan="3">
-                    <input type="text" name="history_maintance">번
+                    <input type="text" name="history_maintance" value="{{ $order->certificates ? $order->certificates->history_maintance : 0 }}">번
                 </td>
             </tr>
             <tr>
                 <th>용도변경이력</th>
                 <td colspan="3">
-                    <input type="radio" name="purpose_true">있음
-                    <input type="radio" name="purpose_false">없음
+                    @if($order->certificates)
+                    <input type="radio" name="purpose_true"{{ $order->certificates->history_purpose ? ' checked': '' }}>있음
+                    <input type="radio" name="purpose_false"{{ $order->certificates->history_purpose ? ' ': ' checked' }}>없음
+                    @else
+                        <input type="radio" name="purpose_false" checked>없음
+                    @endif
+
                     <br>
                     <select name="history_purpose">
+                        {{--todo 용도변경 select option 부문 작업해야 함--}}
                         <option selected> -- 선택하세요 -- </option>
                     </select>
                     <br>
@@ -192,13 +198,13 @@
             <tr>
                 <th>기준가격(Pst)</th>
                 <td colspan="3">
-                    <input type="text" name="pst">만원
+                    <input type="text" name="pst" value="{{ $order->certificates ? number_format($order->certificates->valuation) : 0 }}">만원
                 </td>
             </tr>
             <tr>
                 <th rowspan='4'>기본평가(A)</th>
                 <td>
-                    <input type="checkbox" name="new_car_price"> 신차출고가격
+                    <input type="checkbox" name="new_car_price" value=""> 신차출고가격
                 </td>
                 <td>
                     부가세
