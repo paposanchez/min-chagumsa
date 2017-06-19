@@ -387,7 +387,7 @@ return [
         'certificated' => '인증발급완료'
     ],
     //주행거리 추가
-    'usage_mileage_cd' => [
+    'standard_cd' => [
         'excess' => '초과',
         'standard' => '평균',
         'shortfall' => '미달'
