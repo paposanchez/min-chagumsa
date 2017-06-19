@@ -35,18 +35,19 @@ class DiagnosisRepository {
 
         // 진단그룹
         $return['details'] = $this->details();
-        
+
         return $return;
     }
 
 
     // 주문데이터의 진단정보를 조회
     public function order() {
+
         return array(
             'id' => $this->obj->id,
             'engineer_id' => $this->obj->engineer_id,
             'diagnosis_process' => $this->obj->diagnosis_status(),
-            'obj_num' => $this->obj->getOrderNumber(),
+            'order_num' => $this->obj->getOrderNumber(),
             'car_number' => $this->obj->car_number,
             'orderer_name' => $this->obj->orderer_name,
             'orderer_mobile' => $this->obj->orderer_mobile,
@@ -86,15 +87,53 @@ class DiagnosisRepository {
 
     // 진단목록
     private function detail($details) {
+        $return = [];
+        $detail = $this->obj->detail;
 
+        foreach ($detail as $entry) {
+            $new_return = array(
+                "id"            => $entry->id,
+                "parent_id"     => $entry->parent_id,
+                "option_cd"     => $entry->option_cd->display(),
+                "discription"   => $entry->discription,
+                "name_cd"       => $entry->name_cd,
+                "name"          => $entry->name->display(),
+                "detail_id"     => $entry->diagnosis_details_id,
+                "completed"     => 0,
+                "use_picture_upload" => $entry->use_picture_upload,
+                "use_picture_required" => $entry->use_picture_required,
+                "use_sound_upload" => $entry->use_sound_upload,
+                "entrys"        => [], //$entry->detail($entry)
+            );
 
-
+            // $new_return["total"] = 0;
+            // $new_return["completed"] = 0;
+            $return[] = $new_return;
+        }
+        return $return;
     }
 
 
 
-    private function detailItem() {
+    private function detailItem($detail) {
+        $return = [];
+        $items = $this->obj->items;
 
+        foreach ($items as $entry) {
+            $new_return = array(
+                "id"            => $entry->id,
+                "name_cd"       => $entry->name_cd,
+                "name"          => $entry->name->display(),
+                "orders_id"     => $entry->order_id,
+                "completed"     => 0,
+                "entrys"        => [], //$entry->detail($entry)
+            );
+
+            // $new_return["total"] = 0;
+            // $new_return["completed"] = 0;
+            $return[] = $new_return;
+        }
+        return $return;
     }
 
 

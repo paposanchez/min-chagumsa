@@ -382,8 +382,8 @@ class DiagnosisController extends ApiController {
 
             foreach($reservations as $reservation) {
 
-//                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
-                $returns[] = $diagnosis->prepare($reservation->orders_id);
+                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
+//                $returns[] = $diagnosis->prepare($reservation->orders_id);
             }
 
             return response()->json(array(
