@@ -207,6 +207,7 @@ class CodesSeeder extends Seeder {
             ['group' => 'replacement_status_cd', 'name' => 'maintenance'],
             ['group' => 'pollution_status_cd','name' =>  'good'],
             ['group' => 'pollution_status_cd','name' =>  'pollution'],
+<<<<<<< HEAD
             ['group' => 'pollution_status_cd', 'name' => 'maintenance']
 
 
@@ -437,6 +438,19 @@ class CodesSeeder extends Seeder {
 
 
 
+=======
+            ['group' => 'pollution_status_cd', 'name' => 'maintenance'],
+
+            //주행거리 및 평가항목 코드 추가함
+            ['grpup' => 'standard_cd', 'name' => 'excess'], // 초과
+            ['grpup' => 'standard_cd', 'name' => 'standard'],// 평균
+            ['grpup' => 'standard_cd', 'name' => 'shortfall'], // 미달
+            //사고코드추가
+            ['group' => 'accident_cd', 'name' => 'none'], //무사고
+            ['group' => 'accident_cd', 'name' => 'simpe_swap'], //단순교환
+            ['group' => 'accident_cd', 'name' => 'middle_damage'], //중손상
+            ['group' => 'accident_cd', 'name' => 'big_damage'], //대손상
+>>>>>>> 699c9c6a61f9ab362f2434a58cac9d4cb03bd79c
         ]);
         
 

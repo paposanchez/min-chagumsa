@@ -27,7 +27,7 @@ class DiagnosisDetails extends Model {
     }
 
     public function detail() {
-        return $this->hasMany(\App\Models\DiagnosisDetails::class, 'id', 'diagnosis_details_id');
+        return $this->hasMany(\App\Models\DiagnosisDetail::class, 'diagnosis_details_id', 'id');
     }
 
     public function name() {

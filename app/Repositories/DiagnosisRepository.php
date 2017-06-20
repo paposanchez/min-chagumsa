@@ -14,15 +14,17 @@ namespace App\Repositories;
 
 use App\Services\Encrypter;
 use App\Models\Order;
-use App\Models\Item;
+
 
 class DiagnosisRepository {
 
 
-    protected $order;
-    
+    protected $obj;
+    protected $return;
+
+
     public function prepare($order_id) {
-        $this->order = Order::findOrFail($order_id);
+        $this->obj = Order::findOrFail($order_id);
         return $this;
     }
 
@@ -34,7 +36,7 @@ class DiagnosisRepository {
         $return = $this->order();
 
         // 진단그룹
-        $return['details'] = $this->details();
+        $return['entrys'] = $this->details();
 
         return $return;
     }
@@ -43,39 +45,41 @@ class DiagnosisRepository {
     // 주문데이터의 진단정보를 조회
     public function order() {
 
-        return array(
-            'id' => $this->order->id,
-            'order_num' => $this->order->getOrderNumber(),
-            'car_number' => $this->order->car_number,
-            'orderer_name' => $this->order->orderer_name,
-            'orderer_mobile' => $this->order->orderer_mobile,
-            'status_cd' => $this->order->status_cd,
-            'status' => $this->order->status->display(),
-            'car_name' => $this->order->getCarFullName(),
-            'reservation_at' => $this->order->getReservation($this->order->id)->reservation_at, // 예약일
-            'diagnose_at' => $this->order->diagnose_at, // 진단시작일
-            'diagnosed_at' => $this->order->diagnosed_at // 진단완료일
+        $this->return = array(
+            'id' => $this->obj->id,
+            'engineer_id' => $this->obj->engineer_id,
+            'diagnosis_process' => $this->obj->diagnosis_status(),
+            'order_num' => $this->obj->getOrderNumber(),
+            'car_number' => $this->obj->car_number,
+            'orderer_name' => $this->obj->orderer_name,
+            'orderer_mobile' => $this->obj->orderer_mobile,
+            'status_cd' => $this->obj->status_cd,
+            'status' => $this->obj->status->display(),
+            'car_name' => $this->obj->getCarFullName(),
+            'reservation_at' => $this->obj->getReservation($this->obj->id)->reservation_at, // 예약일
+            'diagnose_at' => $this->obj->diagnose_at, // 진단시작일
+            'diagnosed_at' => $this->obj->diagnosed_at // 진단완료일
         );
+
+
+        return $this->return;
     }
 
 
     private function details() {
         $return = [];
-        $details = $this->order->details;
-        foreach ($details as $entry) {
+        $details = $this->obj->details;
 
+        foreach ($details as $entry) {
             $new_return = array(
                 "id"            => $entry->id,
                 "name_cd"       => $entry->name_cd,
                 "name"          => $entry->name->display(),
-                "orders_id"     => $entry->order_id,
-                "total"         => 0,
+                "orders_id"     => $entry->orders_id,
                 "completed"     => 0,
-                "entrys"        => $entry->detail($entry)
+                "entrys"        => $this->getDetail($entry->detail)
             );
 
-            // $new_return["total"] = 0;
-            // $new_return["completed"] = 0;
             $return[] = $new_return;
         }
         return $return;
@@ -83,20 +87,44 @@ class DiagnosisRepository {
     }
 
     // 진단목록
-    private function detail($details) {
+    public function getDetail($detail) {
 
+        $return = [];
+        foreach ($detail as $entry) {
+            $new_return = array(
+                "id"            => $entry->id,
+                "name_cd"       => $entry->name_cd,
+                "name"          => $entry->name->display(),
+                "details_id"    => $entry->diagnosis_details_id,
+                "description"   => $entry->description,
+                "entrys"        => [] //$this->getDetailItem($entry->diagnosis_item)
+            );
 
-
+            $return[] = $new_return;
+        }
+        return $return;
     }
 
 
 
-    private function detailItem() {
+    private function getDetailItem($items) {
+        $return = [];
 
+        foreach ($items as $entry) {
+            $new_return = array(
+                "id"                => $entry->id,
+                "diagnosises_id"    => $entry->diagnosises_id,
+                "name_cd"           => $entry->name_cd,
+                "name"              => $entry->name->display(),
+                "value_cd"          => $entry->value_cd,
+                "option_cd"         => $entry->option_cd,
+                "option_value_cd"   => $entry->option_value_cd
+            );
+
+            $return[] = $new_return;
+        }
+        return $return;
     }
-
-
-
 
 
     public function save() {

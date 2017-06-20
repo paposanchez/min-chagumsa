@@ -48,10 +48,74 @@ class Car Extends Model
     public function detail(){
         return $this->hasOne(\App\Models\Detail::class, 'id','details_id');
     }
-    
+
     public function grade(){
         return $this->hasOne(\App\Models\Grade::class, 'id','grades_id');
-    }    
+    }
+
+    /**
+     * 내장색상 출력
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getInteriorColor(){
+        return $this->hasOne(Code::class, 'id', 'interior_color_cd');
+    }
+
+    /**
+     * 외장색상 출력
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getExteriorColor(){
+        return $this->hasOne(Code::class, 'id', 'exterior_color_cd');
+    }
+
+    /**
+     * 연료타입 출력
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getFuelType(){
+        return $this->hasOne(Code::class, 'id', 'fueltype_cd');
+    }
+
+    /**
+     * 엔진타입 출력
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getEnginge(){
+        return $this->hasOne(Code::class, 'id', 'engine_cd');
+    }
+
+    /**
+     * 변속기타입 출력
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getTransmission(){
+        return $this->hasOne(Code::class, 'id', 'transmission_cd');
+    }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getDriveType(){
+        return $this->hasOne(Code::class, 'id', 'drivetype_cd');
+    }
+
+    /**
+     * 용도 출력
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getType(){
+        return $this->hasOne(Code::class, 'id', 'type_cd');
+    }
+
+    /**
+     * 자가용/영업용
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getUsage(){
+        return $this->hasOne(Code::class, 'id', 'usage_cd');
+    }
 }
 
 
