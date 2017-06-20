@@ -209,11 +209,11 @@ class CodesSeeder extends Seeder {
             ['group' => 'pollution_status_cd','name' =>  'pollution'],
 
             ['group' => 'pollution_status_cd', 'name' => 'maintenance'],
-                //주행거리 및 평가항목 코드 추가함
+
             ['grpup' => 'standard_cd', 'name' => 'excess'], // 초과
             ['grpup' => 'standard_cd', 'name' => 'standard'],// 평균
             ['grpup' => 'standard_cd', 'name' => 'shortfall'], // 미달
-            //사고코드추가
+
             ['group' => 'accident_cd', 'name' => 'none'], //무사고
             ['group' => 'accident_cd', 'name' => 'simpe_swap'], //단순교환
             ['group' => 'accident_cd', 'name' => 'middle_damage'], //중손상
@@ -293,7 +293,7 @@ class CodesSeeder extends Seeder {
                     ['group' => 'diagnosis_powermover_oil', 'name' => 'diagnosis_oil_rocker_arm_gasket'],
                     ['group' => 'diagnosis_powermover_oil', 'name' => 'diagnosis_oil_engine_oil_pan_gasket'],
                     ['group' => 'diagnosis_powermover_oil', 'name' => 'diagnosis_oil_egine_oil_cooler_gasket'],
-                    ['group' => 'diagnosis_powermover_oil', 'name' => 'diagnosis_oil_cylinder_gasket'],
+                    ['group' => 'diagnosis_powermover_oil', 'name' => 'diagnosis_oil_cylinder_block'],
                 ['group' => 'diagnosis_powermover', 'name' => 'diagnosis_powermover_cooling_water'],
                     ['group' => 'diagnosis_powermover_cooling_water', 'name' => 'diagnosis_cooling_water_cylinder_block'],
                     ['group' => 'diagnosis_powermover_cooling_water', 'name' => 'diagnosis_cooling_water_cylinder_head'],
@@ -368,7 +368,8 @@ class CodesSeeder extends Seeder {
                 ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_power_transmission'],
                 ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_opinion'],
 
-            ['group' => 'diagnosis', 'name' => 'diagnosis_review']
+            ['group' => 'diagnosis', 'name' => 'diagnosis_review'],
+                ['group' => 'diagnosis_review', 'name' => 'diagnosis_review_opinion']
 
         ]);
         
