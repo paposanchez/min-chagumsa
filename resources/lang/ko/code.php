@@ -104,6 +104,138 @@ return [
         'cvt' => 'CVT',
         'other' => 'Other/Unknown'
     ],
+
+    'diagnosis_exterior_picture_cd' => [
+        'front' => '전',
+        'rear' => '후',
+        'left' => '좌',
+        'right' => '우'
+    ],
+
+    'attachment_status_cd' => [
+        'good' => '양호',
+        'different' => '상이',
+        'corrosion' => '부식',
+        'modulation' => '훼손(오손), 변조(변타)'
+    ],
+    'diagnosis_info_color_cd' => [
+        'white' => '흰색',
+        'black' => '검정',
+        'gray' => '회색',
+        'red' => '적색',
+        'blue' => '파랑색',
+        'etc' => '기'
+    ],
+    'repair_status_cd' => [
+        'good' => '양호',
+        'repair' => '수리필요',
+        'none' => '없음'
+    ],
+    'history_status_cd' => [
+        'good' => '전체양호',
+        'history' => '상태이력있음'
+    ],
+    'exterior_position_cd' => [
+        'hood' => '후드',
+        'front_fender_left' => '프론트펜더 좌',
+        'front_fender_right' => '프론트펜더 우',
+        'front_door_left' => '프론트도어 좌',
+        'front_door_right ' => '프론트도어 우',
+        'rear_door_left' => '리어도어 좌',
+        'rear_door_right' => '리어도어 우',
+        'side_seats_left' => '사이드시트 좌',
+        'side_seats_right' => '사이트시트 우',
+        'quarter_panel_left' => '쿼터패널 좌',
+        'quarter_panel_right' => '쿼터패널 우',
+        'roof_panel' => '루프패널',
+        'trunk_lead' => '트렁크리드'
+    ],
+    'interior_position_cd' => [
+        'front_panel' => '프론트패널',
+        'hill_house_front/left' => '힐하우스 전-좌',
+        'hill_house_front/right' => '힐하우스 전-우',
+        'hill_house_rear/left' => '힐하우스 후-좌',
+        'hill_house_rear/right' => '힐하우스 후-우',
+        'cross_member_front' => '크로스 멤버 전',
+        'cross_member_back' => '크로스 멤버 후',
+        'side_member_front/left' => '사이드멤버 전-좌',
+        'side_member_front/right' => '사이드멤버 전-우',
+        'side_member_rear/left' => '사이드멤버 후-좌',
+        'side_member_rear/right' => '사이드멤버 후-우',
+        'filler_a-left' => 'A필러 좌',
+        'filler_a-right' => 'A필러 우',
+        'filler_b-left' => 'B필러 좌',
+        'filler_b-right' => 'B필러 우',
+        'filler_c-left' => 'C필러 좌',
+        'filler_c-right' => 'C필러 우',
+        'dash_panel' => '대쉬패널',
+        'trunk_floor' => '트렁크플로어',
+        'rear_panel' => '리어패널'
+    ],
+    'diagnosis_part_status_cd' => [
+        'replacement' => '교환',
+        'welding' => '용접/판금 수리',
+        'need_repair' => '수리필요 (교환/판금)',
+        'scratch' => '긁힘 (상처)',
+        'corrosion' => '부식'
+    ],
+    'immersion_repair_status_cd' => [
+        'none' => '없음',
+        'simple' => '단순외판교환',
+        'core' => '주요골격수리'
+    ],
+    'stink_status_cd' => [
+        'none' => '없음',
+        'yes' => '있음',
+        'suspicion' => '의심'
+    ],
+    'water_status_cd' => [
+        'no' => '수분/오염 없음',
+        'yes' => '수분/오염 있음',
+        'suspicion' => '의심'
+    ],
+    'dirt_status_cd' => [
+        'no' => '흙먼지 이물질 없음',
+        'yes' => '흙먼지 이물질 있음'
+    ],
+    'scratch_status_cd' => [
+        'good' => '양호',
+        'scratch' => '긁힘/부식',
+        'corrosion' => '부식',
+        'maintenance' => '정비요'
+    ],
+    'grade_cd' => [
+        'top' => '상',
+        'middle' => '중',
+        'bottom' => '하'
+    ],
+    'noise_status_cd' => [
+        'good' => '양호',
+        'noise' => '소음',
+        'maintenance' => '정비요'
+    ],
+    'operation_status_cd' => [
+        'good' => '양호',
+        'maintenance' => '정비요'
+    ],
+    'leakage_status_cd' => [
+        'good' => '양호',
+        'fineleak' => '미세누유',
+        'leak' => '누유'
+    ],
+    'replacement_status_cd' => [
+        'good' => '양호',
+        'normal' => '보통',
+        'maintenance' => '교환요'
+    ],
+    'pollution_status_cd' => [
+        'good' => '양호',
+        'pollution' => '오염',
+        'maintenance' => '교환요'
+    ],
+
+    //진단 항목 코드
+
     'diagnosis' => [
         'diagnosis_info'    => '자동차등록정보',
         'diagnosis_exterior'    => '주요외판',
@@ -122,8 +254,6 @@ return [
         'diagnosis_driving' => '주행테스트',
         'diagnosis_review'  => '성능점검 종합의견',
     ],
-    ////////////////시작
-
     'diagnosis_info' => [
         'diagnosis_info_info' => '자동차 등록정보',
         'diagnosis_info_mileage' => '주행거리',
