@@ -207,241 +207,9 @@ class CodesSeeder extends Seeder {
             ['group' => 'replacement_status_cd', 'name' => 'maintenance'],
             ['group' => 'pollution_status_cd','name' =>  'good'],
             ['group' => 'pollution_status_cd','name' =>  'pollution'],
-<<<<<<< HEAD
-            ['group' => 'pollution_status_cd', 'name' => 'maintenance']
 
-
-
-
-            ['group' => 'diagnosis', 'name' => 'diagnosis_info'],
-                  ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_info'],
-                  ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_mileage'],
-                  ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_vinnumber'],
-                  ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_color'],
-                  ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_option'],
-                  ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_opinion'],
-            ['group' => 'diagnosis', 'name' => 'diagnosis_exterior'],
-                  ['group' => 'diagnosis_exterior', 'name' => 'diagnosis_exterior_picture'],
-                  ['group' => 'diagnosis_exterior', 'name' => 'diagnosis_exterior_status'],
-                  ['group' => 'diagnosis_exterior', 'name' => 'diagnosis_exterior_opinion'],
-
-            ['group' => 'diagnosis', 'name' => 'diagnosis_interior'],
-                  ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_car_bottom'],
-                  ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_engine_room'],
-                  ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_status'],
-                  ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_opinion'],
-
-            ['group' => 'diagnosis', 'name' => 'diagnosis_check'],
-                  ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_status'],
-                  ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_immersion'],
-                        실내악취
-                        앞좌석 실내바닥
-                        트렁크 실내바닥
-                        엔진룸(휴즈박스)
-                  ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_exterior'],
-                        외판(도장)
-                        등화
-                        범퍼
-                        유리(후사경포함)
-                  ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_interior'],
-                        계기패널
-                        콘솔박스
-                        내장∙트림
-                        시트
-                        매트
-                  ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_opinion'],
-
-            ['group' => 'diagnosis', 'name' => 'diagnosis_plugin'],
-                  도어록 작동상태
-                  유리기어 작동상태
-                  리모콘 작동상태
-                  와이퍼 작동상태
-                  와이퍼 작동상태
-                  사이드미러 작동상태
-                  선루프(순정)
-                  네비게이션∙AV시스템(순정)
-                  전동시트∙열선∙통풍순정)
-                  후방카메라(순정)
-                  기타 추가장착품
-                  작동상태 의견
-            ['group' => 'diagnosis', 'name' => 'diagnosis_expendables'],
-            엔진오일 상태
-            냉각수 상태
-            브레이크패드 상태
-            배터리 상태
-            타이밍벨트
-            팬벨트 및 텐서너
-            상태 의견
-            ['group' => 'diagnosis', 'name' => 'diagnosis_troubleshoot'],
-            엔진
-            변속기
-            고장진단상태의견
-            ['group' => 'diagnosis', 'name' => 'diagnosis_powermover'],
-            작동상태(공회전)
-            오일누유
-                  실린더헤드가스켓
-                  로커암커버카스켓
-                  엔진오일팬카스켓
-                  엔진오일쿨러카스켓
-                  실린더 블럭
-            냉각수누수
-                  실린더 블럭
-                  실린더 헤드/가스켓
-                  워터펌프
-                  냉각쿨러(라디에이터)
-                  냉각호스 및 히터호스
-                  냉각수량 및 오염
-            오일유량 및 오염
-            엔진마운트
-            상태 의견
-            ['group' => 'diagnosis', 'name' => 'diagnosis_transmission'],
-            자동변속기(A/T)
-                  오일누유
-                  오일유량 및 상태
-                  작동상태(시운전)
-                  변속기마운트
-            수동변속기(M/T)
-                  오일누유
-                  오일유량 및 상태
-                  기어변속장치
-                  작동상태(시운전)
-            상태 의견
-            ['group' => 'diagnosis', 'name' => 'diagnosis_power_transmission'],
-            등속조인트
-            추진축 및 베어링
-            상태 의견
-            ['group' => 'diagnosis', 'name' => 'diagnosis_steering'],
-            휠얼라인먼트
-            작동상태
-                  스티어링 기어
-                  MDPS 모듈
-                  스티어링 펌프
-                  로워암
-                  스테이빌라이저링크
-                  스트럿트 암
-                  어퍼암
-                  속업쇼바(에어쇼바)
-                  타이로드엔드/볼죠인트
-            상태 의견
-            ['group' => 'diagnosis', 'name' => 'diagnosis_braking'],
-            브레이크 오일 유량상태
-            EPB 모듈
-            SBC 모듈
-            브레이크 디스크
-            브레이크 오일누유
-            배력장치 상태
-            상태 의견
-            ['group' => 'diagnosis', 'name' => 'diagnosis_electronices'],
-            발전기 출력
-            시동모터
-            실내송풍 모터
-            라디에이터 팬 모터
-            상태 의견
-            ['group' => 'diagnosis', 'name' => 'diagnosis_wheeltire'],
-            휠(wheel) 손상
-            타이어 편마모
-            타이어 접지면 깊이
-            타이어 제조일(DOT)
-            상태 의견            
-            ['group' => 'diagnosis', 'name' => 'diagnosis_driving'],
-            엔진
-            변속기
-            브레이크
-            조향장치
-            동력전달장치
-            상태의견
-            ['group' => 'diagnosis', 'name' => 'diagnosis_review'],
-
-
-
-            //======================================================================================
-
-                  
-                        ['group' => 'diagnosis_exterior_picture', 'name' => 'diagnosis_exterior_picture_cd'],
-                        ['group' => 'diagnosis_exterior_status', 'name' => 'history_status_cd'],
-                        ['group' => 'diagnosis_exterior_status', 'name' => 'diagnosis_exterior_position'],
-                        ['group' => 'diagnosis_exterior_status', 'name' => 'diagnosis_part_status_cd'],
-
-                  ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_car_bottom'],
-                  ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_engine_room'],
-                  ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_status'],
-                  ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_opinion'],
-                        ['group' => 'diagnosis_interior_status', 'name' => 'history_status_cd'],
-                        ['group' => 'diagnosis_interior_status', 'name' => 'diagnosis_interior_position'],
-                        ['group' => 'diagnosis_interior_status', 'name' => 'diagnosis_part_status_cd'],
-                  
-                  ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_status'],
-                  ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_immersion'],
-                  ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_exterior'],
-                  ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_opinion'],
-                  ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_interior'],
-                        // ['group' => 'diagnosis_check_status', 'name' => 'repair_status_cd'],
-                        ['group' => 'diagnosis_check_immersion', 'name' => 'diagnosis_check_immersion_stink'],
-                        ['group' => 'diagnosis_check_immersion', 'name' => 'diagnosis_check_immersion_front_floor'],
-                        ['group' => 'diagnosis_check_immersion', 'name' => 'diagnosis_check_immersion_trunk_floor'],
-                        ['group' => 'diagnosis_check_immersion', 'name' => 'diagnosis_check_immersion_engine_room'],
-                        // ['group' => 'diagnosis_check_immersion_stink', 'stink_status_cd'],
-                        // ['group' => 'diagnosis_check_immersion_front_floor', 'name' => 'water_status_cd'],
-                        // ['group' => 'diagnosis_check_immersion_trunk_floor', 'name' => 'water_status_cd'],
-                        // ['group' => 'diagnosis_check_immersion_engine_room', 'name' => 'dirt_status_cd'],
-                        // ['group' => 'diagnosis_check_exterior', 'name' => 'scratch_status_cd'],
-                        // ['group' => 'diagnosis_check_interior', 'name' => 'grade_cd'],
-
-                  ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_engine'],
-                  ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_transmission'],
-                  ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_break'],
-                  ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_alignment'],
-                  ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_steering'],
-                  ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_opinion'],
-                        // ['group' => 'diagnosis_driving_engine', 'name' => 'noise_status_cd'],
-                        // ['group' => 'diagnosis_driving_transmission', 'name' => 'noise_status_cd'],
-                        // ['group' => 'diagnosis_driving_break', 'name' => 'operation_status_cd'],
-                        // ['group' => 'diagnosis_driving_alignment', 'name' => 'operation_status_cd'],
-                        // ['group' => 'diagnosis_driving_steering', 'name' => 'operation_status_cd'],
-                        
-                  ['group' => 'diagnosis_operation','name' =>  'diagnosis_operation_egine'],
-                  ['group' => 'diagnosis_operation', 'name' => 'diagnosis_operation_transmission'],
-                  ['group' => 'diagnosis_operation', 'name' => 'diagnosis_operation_break'],
-                  ['group' => 'diagnosis_operation','name' =>  'diagnosis_operation_steering'],
-                  ['group' => 'diagnosis_operation','name' =>  'diagnosis_operation_leakage'],
-                  ['group' => 'diagnosis_operation','name' =>  'diagnosis_operation_leakage'],
-                  ['group' => 'diagnosis_operation', 'name' => 'diagnosis_operation_opinion'],
-                        // ['group' => 'diagnosis_operation_egine', 'name' => 'noise_status_cd'],
-                        // ['group' => 'diagnosis_operation_transmission', 'name' => 'noise_status_cd'],
-                        // ['group' => 'diagnosis_operation_break', 'name' => 'operation_status_cd'],
-                        // ['group' => 'diagnosis_operation_steering', 'name' => 'operation_status_cd'],
-                        // ['group' => 'diagnosis_operation_leakage', 'name' => 'leakage_status_cd'],
-
-                  ['group' => 'diagnosis_expendables', 'name' => 'diagnosis_expendables_tire'],
-                  ['group' => 'diagnosis_expendables', 'name' => 'diagnosis_expendables_oil'],
-                  ['group' => 'diagnosis_expendables', 'name' => 'diagnosis_expendables_water'],
-                  ['group' => 'diagnosis_expendables', 'name' => 'diagnosis_expendables_break'],
-                  ['group' => 'diagnosis_expendables', 'name' => 'diagnosis_expendables_battery'],
-
-                        // ['group' => 'diagnosis_expendables_tire', 'name' => 'replacement_status_cd'],
-                        // ['group' => 'diagnosis_expendables_oil', 'name' => 'pollution_status_cd'],
-                        // ['group' => 'diagnosis_expendables_water', 'name' => 'pollution_status_cd'],
-                        // ['group' => 'diagnosis_expendables_break', 'name' => 'replacement_status_cd'],
-                        // ['group' => 'diagnosis_expendables_battery', 'name' => 'replacement_status_cd'],
-
-                  ['group' => 'diagnosis_review', 'name' => 'diagnosis_review_opinion'],
-                  
-
-
-
-
-
-
-
-
-
-
-
-
-=======
             ['group' => 'pollution_status_cd', 'name' => 'maintenance'],
-
-            //주행거리 및 평가항목 코드 추가함
+                //주행거리 및 평가항목 코드 추가함
             ['grpup' => 'standard_cd', 'name' => 'excess'], // 초과
             ['grpup' => 'standard_cd', 'name' => 'standard'],// 평균
             ['grpup' => 'standard_cd', 'name' => 'shortfall'], // 미달
@@ -450,7 +218,158 @@ class CodesSeeder extends Seeder {
             ['group' => 'accident_cd', 'name' => 'simpe_swap'], //단순교환
             ['group' => 'accident_cd', 'name' => 'middle_damage'], //중손상
             ['group' => 'accident_cd', 'name' => 'big_damage'], //대손상
->>>>>>> 699c9c6a61f9ab362f2434a58cac9d4cb03bd79c
+
+
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_info'],
+                ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_info'],
+                ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_mileage'],
+                ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_vinnumber'],
+                ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_color'],
+                ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_option'],
+                ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_opinion'],
+            ['group' => 'diagnosis', 'name' => 'diagnosis_exterior'],
+                ['group' => 'diagnosis_exterior', 'name' => 'diagnosis_exterior_picture'],
+                ['group' => 'diagnosis_exterior', 'name' => 'diagnosis_exterior_status'],
+                ['group' => 'diagnosis_exterior', 'name' => 'diagnosis_exterior_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_interior'],
+                ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_car_bottom'],
+                ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_engine_room'],
+                ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_status'],
+                ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_check'],
+                ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_status'],
+                ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_immersion'],
+                    ['group' => 'diagnosis_check_immersion', 'name' => 'diagnosis_immersion_stink'],
+                    ['group' => 'diagnosis_check_immersion', 'name' => 'diagnosis_immersion_front_floor'],
+                    ['group' => 'diagnosis_check_immersion', 'name' => 'diagnosis_immersion_trunk_floor'],
+                    ['group' => 'diagnosis_check_immersion', 'name' => 'diagnosis_immersion_engine_room'],
+                ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_exterior'],
+                    ['group' => 'diagnosis_check_exterior', 'name' => 'diagnosis_exterior_external_plate'],
+                    ['group' => 'diagnosis_check_exterior', 'name' => 'diagnosis_exterior_lamp'],
+                    ['group' => 'diagnosis_check_exterior', 'name' => 'diagnosis_exterior_bumper'],
+                    ['group' => 'diagnosis_check_exterior', 'name' => 'diagnosis_exterior_mirror'],
+                ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_interior'],
+                    ['group' => 'diagnosis_check_interior', 'name' => 'diagnosis_interior_instrument_panel'],
+                    ['group' => 'diagnosis_check_interior', 'name' => 'diagnosis_interior_console_box'],
+                    ['group' => 'diagnosis_check_interior', 'name' => 'diagnosis_interior_Built_in_trim'],
+                    ['group' => 'diagnosis_check_interior', 'name' => 'diagnosis_interior_sheet'],
+                    ['group' => 'diagnosis_check_interior', 'name' => 'diagnosis_interior_mat'],
+                ['group' => 'diagnosis_check', 'name' => 'diagnosis_check_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_plugin'],
+                ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_door_rock'],
+                ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_glass_gear'],
+                ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_remote'],
+                ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_wiper'],
+                ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_side_mirror'],
+                ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_sun_roof'],
+                ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_navigation'],
+                ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_sheet'],
+                ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_rear_camera'],
+                ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_etc'],
+                ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_expendables'],
+                ['group' => 'diagnosis_expendables', 'name' => 'diagnosis_expendables_engine_oil'],
+                ['group' => 'diagnosis_expendables', 'name' => 'diagnosis_expendables_cooling_water'],
+                ['group' => 'diagnosis_expendables', 'name' => 'diagnosis_expendables_break_pad'],
+                ['group' => 'diagnosis_expendables', 'name' => 'diagnosis_expendables_battery'],
+                ['group' => 'diagnosis_expendables', 'name' => 'diagnosis_expendables_timing_belt'],
+                ['group' => 'diagnosis_expendables', 'name' => 'diagnosis_expendables_pan_belt'],
+                ['group' => 'diagnosis_expendables', 'name' => 'diagnosis_expendables_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_troubleshoot'],
+                ['group' => 'diagnosis_troubleshoot', 'name' => 'diagnosis_troubleshoot_engin'],
+                ['group' => 'diagnosis_troubleshoot', 'name' => 'diagnosis_troubleshoot_transmission'],
+                ['group' => 'diagnosis_troubleshoot', 'name' => 'diagnosis_troubleshoot_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_powermover'],
+                ['group' => 'diagnosis_powermover', 'name' => 'diagnosis_powermover_operation'],
+                ['group' => 'diagnosis_powermover', 'name' => 'diagnosis_powermover_oil'],
+                    ['group' => 'diagnosis_powermover_oil', 'name' => 'diagnosis_oil_cylinder_gasket'],
+                    ['group' => 'diagnosis_powermover_oil', 'name' => 'diagnosis_oil_rocker_arm_gasket'],
+                    ['group' => 'diagnosis_powermover_oil', 'name' => 'diagnosis_oil_engine_oil_pan_gasket'],
+                    ['group' => 'diagnosis_powermover_oil', 'name' => 'diagnosis_oil_egine_oil_cooler_gasket'],
+                    ['group' => 'diagnosis_powermover_oil', 'name' => 'diagnosis_oil_cylinder_gasket'],
+                ['group' => 'diagnosis_powermover', 'name' => 'diagnosis_powermover_cooling_water'],
+                    ['group' => 'diagnosis_powermover_cooling_water', 'name' => 'diagnosis_cooling_water_cylinder_block'],
+                    ['group' => 'diagnosis_powermover_cooling_water', 'name' => 'diagnosis_cooling_water_cylinder_head'],
+                    ['group' => 'diagnosis_powermover_cooling_water', 'name' => 'diagnosis_cooling_water_water_pump'],
+                    ['group' => 'diagnosis_powermover_cooling_water', 'name' => 'diagnosis_cooling_water_cooler'],
+                    ['group' => 'diagnosis_powermover_cooling_water', 'name' => 'diagnosis_cooling_water_cooling_hose'],
+                    ['group' => 'diagnosis_powermover_cooling_water', 'name' => 'diagnosis_cooling_water_cooling_water_status'],
+                ['group' => 'diagnosis_powermover', 'name' => 'diagnosis_powermover_oil_polution'],
+                ['group' => 'diagnosis_powermover', 'name' => 'diagnosis_powermover_engine_mount'],
+                ['group' => 'diagnosis_powermover', 'name' => 'diagnosis_powermover_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_transmission'],
+                ['group' => 'diagnosis_transmission', 'name' => 'diagnosis_transmission_auto_transmission'],
+                    ['group' => 'diagnosis_transmission_auto_transmission', 'name' => 'diagnosis_auto_transmission_oil'],
+                    ['group' => 'diagnosis_transmission_auto_transmission', 'name' => 'diagnosis_auto_transmission_oil_status'],
+                    ['group' => 'diagnosis_transmission_auto_transmission', 'name' => 'diagnosis_auto_transmission_operation'],
+                    ['group' => 'diagnosis_transmission_auto_transmission', 'name' => 'diagnosis_auto_transmission_mount'],
+                ['group' => 'diagnosis_transmission', 'name' => 'diagnosis_transmission_transmission'],
+                    ['group' => 'diagnosis_transmission_transmission', 'name' => 'diagnosis_transmission_oil'],
+                    ['group' => 'diagnosis_transmission_transmission', 'name' => 'diagnosis_transmission_oil_status'],
+                    ['group' => 'diagnosis_transmission_transmission', 'name' => 'diagnosis_transmission_function'],
+                    ['group' => 'diagnosis_transmission_transmission', 'name' => 'diagnosis_transmission_operation'],
+                ['group' => 'diagnosis_transmission', 'name' => 'diagnosis_transmission_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_power_transmission'],
+                ['group' => 'diagnosis_power_transmission', 'name' => 'diagnosis_power_transmission_velocity_joint'],
+                ['group' => 'diagnosis_power_transmission', 'name' => 'diagnosis_power_transmission_propeller_shaft'],
+                ['group' => 'diagnosis_power_transmission', 'name' => 'diagnosis_power_transmission_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_steering'],
+                ['group' => 'diagnosis_steering', 'name' => 'diagnosis_steering_alignment'],
+                ['group' => 'diagnosis_steering', 'name' => 'diagnosis_steering_operation'],
+                    ['group' => 'diagnosis_steering_operation', 'name' => 'diagnosis_operation_steering_gear'],
+                    ['group' => 'diagnosis_steering_operation', 'name' => 'diagnosis_operation_mdps'],
+                    ['group' => 'diagnosis_steering_operation', 'name' => 'diagnosis_operation_steering_pump'],
+                    ['group' => 'diagnosis_steering_operation', 'name' => 'diagnosis_operation_lower_arm'],
+                    ['group' => 'diagnosis_steering_operation', 'name' => 'diagnosis_operation_staybiller_link'],
+                    ['group' => 'diagnosis_steering_operation', 'name' => 'diagnosis_operation_strut_arm'],
+                    ['group' => 'diagnosis_steering_operation', 'name' => 'diagnosis_operation_upper_arm'],
+                    ['group' => 'diagnosis_steering_operation', 'name' => 'diagnosis_operation_air_absorber'],
+                    ['group' => 'diagnosis_steering_operation', 'name' => 'diagnosis_operation_tierodend'],
+                ['group' => 'diagnosis_steering', 'name' => 'diagnosis_steering_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_braking'],
+                ['group' => 'diagnosis_braking', 'name' => 'diagnosis_braking_break_oil_status'],
+                ['group' => 'diagnosis_braking', 'name' => 'diagnosis_braking_ebp'],
+                ['group' => 'diagnosis_braking', 'name' => 'diagnosis_braking_sbc'],
+                ['group' => 'diagnosis_braking', 'name' => 'diagnosis_braking_break_disk'],
+                ['group' => 'diagnosis_braking', 'name' => 'diagnosis_braking_break_oil'],
+                ['group' => 'diagnosis_braking', 'name' => 'diagnosis_braking_booster'],
+                ['group' => 'diagnosis_braking', 'name' => 'diagnosis_braking_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_electronices'],
+                ['group' => 'diagnosis_electronices', 'name' => 'diagnosis_electronices_generator'],
+                ['group' => 'diagnosis_electronices', 'name' => 'diagnosis_electronices_start_motor'],
+                ['group' => 'diagnosis_electronices', 'name' => 'diagnosis_electronices_ventilation_motor'],
+                ['group' => 'diagnosis_electronices', 'name' => 'diagnosis_electronices_radiator_motor'],
+                ['group' => 'diagnosis_electronices', 'name' => 'diagnosis_electronices_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_wheeltire'],
+                ['group' => 'diagnosis_wheeltire', 'name' => 'diagnosis_wheeltire_damage'],
+                ['group' => 'diagnosis_wheeltire', 'name' => 'diagnosis_wheeltire_onesided_wear'],
+                ['group' => 'diagnosis_wheeltire', 'name' => 'diagnosis_wheeltire_sipe'],
+                ['group' => 'diagnosis_wheeltire', 'name' => 'diagnosis_wheeltire_dot'],
+                ['group' => 'diagnosis_wheeltire', 'name' => 'diagnosis_wheeltire_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_driving'],
+                ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_engine'],
+                ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_transmission'],
+                ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_break'],
+                ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_steering'],
+                ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_power_transmission'],
+                ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_opinion'],
+
+            ['group' => 'diagnosis', 'name' => 'diagnosis_review']
+
         ]);
         
 
