@@ -205,20 +205,93 @@ return [
         'diagnosis_powermover_opinion' => '점검의견'
     ],
     'diagnosis_powermover_oil' => [
-        'diagnosis_oil_cylinder_gasket' => '',
-        'diagnosis_oil_rocker_arm_gasket' => '',
-        'diagnosis_oil_engine_oil_pan_gasket' => '',
-        'diagnosis_oil_egine_oil_cooler_gasket' => '',
-        'diagnosis_oil_cylinder_gasket' => ''
+        'diagnosis_oil_cylinder_gasket' => '실린더헤드가스켓',
+        'diagnosis_oil_rocker_arm_gasket' => '로커암커버가스켓',
+        'diagnosis_oil_engine_oil_pan_gasket' => '엔진오일팬가스켓',
+        'diagnosis_oil_egine_oil_cooler_gasket' => '엔진오일쿨러가스켓',
+        'diagnosis_oil_cylinder_block' => '실린더 블럭'
     ],
     'diagnosis_powermover_cooling_water' => [
-        'diagnosis_cooling_water_cylinder_block' => '',
-        'diagnosis_cooling_water_cylinder_head' => '',
-        'diagnosis_cooling_water_water_pump' => '',
-        'diagnosis_cooling_water_cooler' => '',
-        'diagnosis_cooling_water_cooling_hose' => '',
-        'diagnosis_cooling_water_cooling_water_status' => ''
+        'diagnosis_cooling_water_cylinder_block' => '냉각수 실린저 블럭',
+        'diagnosis_cooling_water_cylinder_head' => '실린더 헤드/가스켓',
+        'diagnosis_cooling_water_water_pump' => '워터펌프',
+        'diagnosis_cooling_water_cooler' => '냉각쿨러(라디에이터)',
+        'diagnosis_cooling_water_cooling_hose' => '냉각호스 및 히터호스',
+        'diagnosis_cooling_water_cooling_water_status' => '냉각수량 및 오염'
     ],
+    'diagnosis_transmission' => [
+        'diagnosis_transmission_auto_transmission' => '자동변속기(A/T)',
+        'diagnosis_transmission_transmission' => '수동변속기(M/T)',
+        'diagnosis_transmission_opinion' => '점검의견'
+    ],
+    'diagnosis_transmission_auto_transmission' => [
+        'diagnosis_auto_transmission_oil' => '오일누유',
+        'diagnosis_auto_transmission_oil_status' => '오일유량 및 상태',
+        'diagnosis_auto_transmission_operation' => '작동상태(시운전)',
+        'diagnosis_auto_transmission_mount' => '변속기마운트'
+    ],
+    'diagnosis_transmission_transmission' => [
+        'diagnosis_transmission_oil' => '오일누유',
+        'diagnosis_transmission_oil_status' => '오일유량 및 상태',
+        'diagnosis_transmission_function' => '기어변속장치',
+        'diagnosis_transmission_operation' => '작동상태(시운전)'
+    ],
+
+    'diagnosis_power_transmission' => [
+        'diagnosis_power_transmission_velocity_joint' => '등속조인트',
+        'diagnosis_power_transmission_propeller_shaft' => '추진축 및 베어링',
+        'diagnosis_power_transmission_opinion' => '점검의견'
+    ],
+    'diagnosis_steering' => [
+        'diagnosis_steering_alignment' => '휠얼라인먼트',
+        'diagnosis_steering_operation' => '작동상태',
+        'diagnosis_steering_opinion' => '점검의견'
+    ],
+    'diagnosis_steering_operation' => [
+        'diagnosis_operation_steering_gear' => '스티어링기어',
+        'diagnosis_operation_mdps' => 'MDPS 모듈',
+        'diagnosis_operation_steering_pump' => '스디어링 펌프',
+        'diagnosis_operation_lower_arm' => '로워암',
+        'diagnosis_operation_staybiller_link' => '스테이빌라이저링크',
+        'diagnosis_operation_strut_arm' => '스트럿트 암',
+        'diagnosis_operation_upper_arm' => '어퍼암',
+        'diagnosis_operation_air_absorber' => '속업쇼바(에어쇼바)',
+        'diagnosis_operation_tierodend' => '타이로드엔드/볼죠인트'
+    ],
+    'diagnosis_braking' => [
+        'diagnosis_braking_break_oil_status' => '브레이크 오일유량 상태',
+        'diagnosis_braking_ebp' => 'EPB 모듈',
+        'diagnosis_braking_sbc' => 'SBC 모듈',
+        'diagnosis_braking_break_disk' => '브레이크 디스크',
+        'diagnosis_braking_break_oil' => '브레이크 오일누유',
+        'diagnosis_braking_booster' => '배력장치 상태',
+        'diagnosis_braking_opinion' => '점검의견'
+    ],
+    'diagnosis_electronices' => [
+        'diagnosis_electronices_generator' => '발전기 출력',
+        'diagnosis_electronices_start_motor' => '시동모터',
+        'diagnosis_electronices_ventilation_motor' => '실내송풍 모터',
+        'diagnosis_electronices_radiator_motor' => '다리에이터 팬 모터',
+        'diagnosis_electronices_opinion' => '점검의견'
+    ],
+    'diagnosis_wheeltire' => [
+        'diagnosis_wheeltire_damage' => '휠 손상',
+        'diagnosis_wheeltire_onesided_wear' => '타이어 편마모',
+        'diagnosis_wheeltire_sipe' => '타이어 접지면 깊이',
+        'diagnosis_wheeltire_dot' => '타이어 제조일(DOT)',
+        'diagnosis_wheeltire_opinion' => '점검의견'
+    ],
+    'diagnosis_driving' => [
+        'diagnosis_driving_engine' => '엔진',
+        'diagnosis_driving_transmission' => '변속기',
+        'diagnosis_driving_break' => '브레이크',
+        'diagnosis_driving_steering' => '조향장치',
+        'diagnosis_driving_power_transmission' => '동력전달장치',
+        'diagnosis_driving_opinion' => '점검의견'
+    ],
+    'diagnosis_review' => [
+        'diagnosis_review_opinion' => '성능점검 종합의견'
+    ]
 
 
 ];
