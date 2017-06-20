@@ -2033,6 +2033,14 @@ class CodesTableSeeder extends Seeder
                 'created_at' => '2017-06-01 22:55:12',
                 'updated_at' => NULL,
             ),
+            252 => 
+            array (
+                'id' => 1232,
+                'group' => 'diagnosis_review',
+                'name' => 'diagnosis_review_opinion',
+                'created_at' => '2017-06-01 22:55:12',
+                'updated_at' => NULL,
+            ),
         ));
         
         

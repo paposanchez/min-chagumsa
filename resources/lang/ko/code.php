@@ -113,6 +113,59 @@ return [
         'diagnosis_operation' => '차량 작동상태 점검',
         'diagnosis_expendables' => '소모품 상태 점검',
         'diagnosis_review' => '성능점검 종합의견'
+
+
+
+
+
+
+
+
+
+
+
+
+
+차량 내외부 점검
+전장∙장착품 작동상태점검
+소모품 상태점검
+고장진단(진단기)
+원동기
+변속기
+동력전달
+조향장치
+제동장치
+전기장치
+휠&타이어
+주행 테스트
+성능점검 종합의견
+
+
+'diagnosis_info'                => '자동차등록정보',
+'diagnosis_exterior'            => '주요외판',
+'diagnosis_interior'            => '주요 내판 및 골격상태',
+'diagnosis_check'               => '',
+'diagnosis_plugin'              => '',
+'diagnosis_expendables'         => '',
+'diagnosis_troubleshoot'     => '',
+'diagnosis_powermover'       => '',
+'diagnosis_transmission'         => '',
+'diagnosis_power_transmission'       => '',
+'diagnosis_steering'         => '',
+'diagnosis_braking'      => '',
+'diagnosis_electronices'         => '',
+'diagnosis_wheeltire'        => '',
+'diagnosis_driving'      => '',
+'diagnosis_review'       => '',
+
+          
+
+
+
+    ],
+
+    'diagnosis_review' => [
+        'diagnosis_review_opinion' => '종합의견'
     ],
     'diagnosis_info' => [
         'diagnosis_info_info' => '자동차 등록정보',
@@ -265,7 +318,7 @@ return [
         'gray' => '회색',
         'red' => '적색',
         'blue' => '파랑색',
-        'etc' => '기'
+        'etc' => '기타'
     ],
     'repair_status_cd' => [
         'good' => '양호',
