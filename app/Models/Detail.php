@@ -22,16 +22,13 @@ class Detail Extends Model
         'model_id',
         'name',
     ];
-
+    protected $dates = ['created_at', 'updated_at'];
+    
     public function models(){
-        return $this->belongsTo(\App\Models\Models::class, 'model_id');
+        return $this->belongsTo(\App\Models\Models::class,'id', 'model_id');
     }
 
     public function grade(){
         return $this->hasMany(\App\Models\Grade::class, 'detail_id', 'id');
-    }
-
-    public function car(){
-        return $this->belongsTo(\App\Models\Car::class);
     }
 }

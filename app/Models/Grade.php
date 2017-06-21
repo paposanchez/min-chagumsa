@@ -13,12 +13,10 @@ class Grade extends Model
         'name',
     ];
 
-    protected $dates = [
-        'created_at', 'updated_at'
-    ];
+    protected $dates = ['created_at', 'updated_at'];
 
     public function detail(){
-        return $this->belongsTo(Detail::class, 'detail_id');
+        return $this->belongsTo(Detail::class, 'id', 'detail_id');
     }
 
 }
