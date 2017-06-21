@@ -26,7 +26,7 @@ class DiagnosisDetails extends Model {
         return $this->belongsTo(\App\Models\Order::class, 'orders_id', 'id');
     }
 
-    public function detail() {
+    public function diagnosis_detail() {
         return $this->hasMany(\App\Models\DiagnosisDetail::class, 'diagnosis_details_id', 'id');
     }
 

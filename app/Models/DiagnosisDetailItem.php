@@ -5,19 +5,19 @@ namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Diagnosis;
-use App\Models\DiagnosisFile;
-
 class DiagnosisDetailItem extends Model
 {
     protected $primaryKey = 'id';
     protected $fillable = [
         'id',
-        'diagnosises_id',
-        'name_cd',
-        'value_cd',
-        'option_cd',
-        'option_value_cd',
+        'diagnosis_detail_id',
+        'use_image',
+        'use_voice',
+        // 'name_cd',
+        'options_cd',
+        'selected',
+        'required_image_options',
+        'description',
         'created_at',
         'updated_at',
     ];
@@ -26,21 +26,17 @@ class DiagnosisDetailItem extends Model
         'created_at', 'updated_at'
     ];
 
-    public function diagnosis(){
-        return $this->belongsTo(\App\Models\Diagnosis::class);
+    public function diagnosis_detail(){
+        return $this->belongsTo(\App\Models\DiagnosisDetail::class, "id", "diagnosis_detail_id");
     }
 
-    // 일반진단항목
-    public function selections(){
-        return $this->hasMany(\App\Models\Codes::class, "id", "name_cd");
-    }
-
-    // 추가선택항목
-    public function options(){
-        return $this->hasMany(\App\Models\Codes::class, "id", "options_cd");
-    }
-
+    // 파일
     public function diagnosis_file(){
-        return $this->hasMany(\App\Models\DiagnosisFile::class);
+        return $this->hasMany(\App\Models\DiagnosisFile::class, 'diagnosis_detail_items_id', 'id');
+    }
+
+     // 추가선택항목
+    public function options(){
+        return $this->hasMany(\App\Models\Codes::class, "group", "options_cd");
     }
 }

@@ -174,7 +174,7 @@ return [
         'front_fender_left' => '프론트펜더 좌',
         'front_fender_right' => '프론트펜더 우',
         'front_door_left' => '프론트도어 좌',
-        'front_door_right ' => '프론트도어 우',
+        'front_door_right' => '프론트도어 우',
         'rear_door_left' => '리어도어 좌',
         'rear_door_right' => '리어도어 우',
         'side_seats_left' => '사이드시트 좌',

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Car;
-use App\Models\Diagnosis;
 use App\Models\DiagnosisDetails;
+use App\Models\DiagnosisDetail;
+use App\Models\DiagnosisDetailItem;
+use App\Models\DiagnosisFile;
 use App\Models\Item;
 use App\Repositories\DiagnosisRepository;
 use App\Models\Order;
@@ -104,7 +106,7 @@ class DiagnosisController extends ApiController {
         $encrypt_json = $request->get('diagnosis');
         
         $diagnosis = new DiagnosisRepository();
-        $return = $diagnosis->set($order_id, $encrypt_json);
+        $return = $diagnosis->prepare($order_id)->save($encrypt_json);
 
         return response()->json($return);
     }
