@@ -26,6 +26,10 @@ class DiagnosisDetailItem extends Model
         'created_at', 'updated_at'
     ];
 
+    public function name() {
+        return $this->hasOne(\App\Models\Code::class, 'id', 'name_cd');
+    }
+
     public function diagnosis_detail(){
         return $this->belongsTo(\App\Models\DiagnosisDetail::class, "id", "diagnosis_detail_id");
     }

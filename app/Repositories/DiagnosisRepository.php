@@ -154,12 +154,16 @@ class DiagnosisRepository {
             foreach ($items as $entry) {
                 $new_return = array(
                     "id"                    => $entry->id,
-                    "diagnosis_detail_id"   => $entry->diagnosis_detail_id,
-                    "name_cd"               => $entry->name_cd,
-                    "name"                  => $entry->name->display(),
-                    "value_cd"              => $entry->value_cd,
-                    "option_cd"             => $entry->option_cd,
-                    "option_value_cd"       => $entry->option_value_cd
+                    'diagnosis_detail_id'   => $entry->diagnosis_detail_id,
+                    'use_image'   => $entry->use_image,
+                    'use_voice'   => $entry->use_voice,
+                    'options_cd'   => $entry->options_cd,
+                    'options'   => $entry->options,
+                    'selected'   => $entry->selected,
+                    'required_image_options'   => $entry->required_image_options,
+                    'description'   => $entry->description,
+                    'created_at'   => $entry->created_at,
+                    'updated_at'   => $entry->updated_at
                 );
 
                 $return[] = $new_return;
