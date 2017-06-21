@@ -37,6 +37,7 @@ class DiagnosisDetail extends Model
         return $this->hasOne(\App\Models\Code::class, 'id', 'name_cd');
     }
 
+    // 같은 detail에서 parent_id가 NUll이 아닌 대상
     public function children(){
         return $this->hasMany(\App\Models\DiagnosisDetail::class,"parent_id", "id");
     }
