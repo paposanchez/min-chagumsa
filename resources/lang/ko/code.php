@@ -312,6 +312,12 @@ return [
         'diagnosis_wheeltire'   => '휠&타이어',
         'diagnosis_driving' => '주행테스트',
         'diagnosis_review'  => '성능점검 종합의견',
+        'exterior_position_left_cd' => '외장재부품 좌측 코드',
+        'exterior_position_center_cd' => '외장재부품 중앙 코드',
+        'exterior_position_right_cd' => '외장재부품 우측 코드',
+        'interior_position_left_cd' => '내장재부품 좌측 코드',
+        'interior_position_center_cd' => '내장재부품 중앙 코드',
+        'interior_position_right_cd' => '내장재부품 우측 코드'
     ],
     'diagnosis_info' => [
         'diagnosis_info_info' => '자동차 등록정보',
@@ -331,6 +337,7 @@ return [
         'diagnosis_exterior_center' => '중앙',
         'diagnosis_exterior_right' => '우측'
     ],
+
     'diagnosis_interior' => [
         'diagnosis_interior_car_bottom' => '차량하단',
         'diagnosis_interior_engine_room' => '엔진룸',
