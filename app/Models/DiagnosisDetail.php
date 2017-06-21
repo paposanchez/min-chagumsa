@@ -37,6 +37,10 @@ class DiagnosisDetail extends Model
         return $this->hasOne(\App\Models\Code::class, 'id', 'name_cd');
     }
 
+    public function children(){
+        return $this->hasMany(\App\Models\DiagnosisDetail::class,"parent_id", "id");
+    }
+
     public function parents(){
         return $this->belongsTo(\App\Models\DiagnosisDetail::class,"id", "parent_id");
     }
