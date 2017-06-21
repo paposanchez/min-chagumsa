@@ -46,16 +46,6 @@ class Order Extends Model
     ];
 
 
-
-
-
-
-    public function details(){
-        return $this->hasMany(DiagnosisDetails::class,'orders_id');
-    }
-
-
-
     // 해당 주문의 차량 풀네임을 조회
     public function getCarFullName() {
 
@@ -87,48 +77,14 @@ class Order Extends Model
 
     public function status() {
         return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd'); 
-}
-    //========================== 아래는 검증안된 메쏘드
-
-
-    public function diagnosis_status() {
-//        dd($this->engineer_id);
-        if($this->engineer_id == null) {
-            return 'Y';
-        }elseif ($this->diagnose_at) {
-            return 'M';
-        }elseif ($this->diagnosed_at) {
-            return 'C';
-        }else{
-            return 'N';
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function certificates(){
-        return $this->hasOne(Certificate::class, 'orders_id', 'id');
     }
 
     public function diagnosis_details(){
-        return $this->hasMany(\App\Models\Diagnosis::class, 'id', 'orders_id');
+        return $this->hasMany(\App\Models\DiagnosisDetails::class, 'orders_id', 'id');
     }
 
-    public function order_feature(){
-        return $this->hasMany(OrderFeature::class);
+    public function certificates(){
+        return $this->hasOne(Certificate::class, 'orders_id', 'id');
     }
 
     public function engineer(){
@@ -136,6 +92,30 @@ class Order Extends Model
     }
     public function technicion(){
         return $this->hasOne(User::class, 'id', 'technist_id');
+    }
+
+    public function item(){
+        return $this->hasOne(\App\Models\Item::class, 'id','item_id');
+    }
+
+    public function purchase(){
+        return $this->hasOne(\App\Models\Purchase::class, 'id','purchase_id');
+    }
+
+    public function car(){
+        return $this->hasOne(\App\Models\Car::class, 'id','cars_id');
+    }
+
+    public function reservation(){
+        return $this->hasMany(\App\Models\Reservation::class, 'orders_id','id');
+    }
+
+
+    //========================== 아래는 검증안된 메쏘드
+   
+
+    public function order_feature(){
+        return $this->hasMany(OrderFeature::class);
     }
 
 //    public function status(){
@@ -147,22 +127,6 @@ class Order Extends Model
 
     public function settlement_features(){
         return $this->hasMany(\App\Models\SettlementFeature::class);
-    }
-
-    public function item(){
-        return $this->belongsTo(\App\Models\Item::class);
-    }
-
-    public function purchase(){
-        return $this->belongsTo(\App\Models\Purchase::class);
-    }
-
-    public function car(){
-        return $this->hasOne(\App\Models\Car::class, 'id','cars_id');
-    }
-
-    public function reservation(){
-        return $this->hasMany(\App\Models\Reservation::class, 'orders_id','id');
     }
 
     public function getReservationDate($order_id) {

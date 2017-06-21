@@ -105,8 +105,7 @@ class DiagnosisRepository {
 
     private function details() {
         $return = [];
-        $details = $this->obj->details;
-
+        $details = $this->obj->diagnosis_details;
 
         foreach ($details as $entry) {
             $new_return = array(
