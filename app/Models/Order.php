@@ -46,16 +46,6 @@ class Order Extends Model
     ];
 
 
-
-
-
-
-    public function details(){
-        return $this->hasMany(DiagnosisDetails::class,'orders_id');
-    }
-
-
-
     // 해당 주문의 차량 풀네임을 조회
     public function getCarFullName() {
 
