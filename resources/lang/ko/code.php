@@ -326,11 +326,21 @@ return [
         'diagnosis_exterior_status' => '주요외판상태',
         'diagnosis_exterior_opinion' => '점검의견'
     ],
+    'diagnosis_exterior_status' => [
+        'diagnosis_exterior_left' => '좌측',
+        'diagnosis_exterior_center' => '중앙',
+        'diagnosis_exterior_right' => '우측'
+    ],
     'diagnosis_interior' => [
         'diagnosis_interior_car_bottom' => '차량하단',
         'diagnosis_interior_engine_room' => '엔진룸',
         'diagnosis_interior_status' => '주요 내판 및 골격 상태',
         'diagnosis_interior_opinion' => '점검의견'
+    ],
+    'diagnosis_interior_status' => [
+        'diagnosis_interior_left' => '좌측',
+        'diagnosis_interior_center' => '중앙',
+        'diagnosis_interior_right' => '우측'
     ],
     'diagnosis_check' => [
         'diagnosis_check_status' => '사고수리 및 상태',

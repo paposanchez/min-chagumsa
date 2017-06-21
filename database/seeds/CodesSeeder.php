@@ -256,12 +256,18 @@ class CodesSeeder extends Seeder {
             ['group' => 'diagnosis', 'name' => 'diagnosis_exterior'],
                 ['group' => 'diagnosis_exterior', 'name' => 'diagnosis_exterior_picture'],
                 ['group' => 'diagnosis_exterior', 'name' => 'diagnosis_exterior_status'],
+                    ['group' => 'diagnosis_exterior_status', 'name' => 'diagnosis_exterior_left'],
+                    ['group' => 'diagnosis_exterior_status', 'name' => 'diagnosis_exterior_center'],
+                    ['group' => 'diagnosis_exterior_status', 'name' => 'diagnosis_exterior_right'],
                 ['group' => 'diagnosis_exterior', 'name' => 'diagnosis_exterior_opinion'],
 
             ['group' => 'diagnosis', 'name' => 'diagnosis_interior'],
                 ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_car_bottom'],
                 ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_engine_room'],
                 ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_status'],
+                    ['group' => 'diagnosis_interior_status', 'name' => 'diagnosis_interior_left'],
+                    ['group' => 'diagnosis_interior_status', 'name' => 'diagnosis_interior_center'],
+                    ['group' => 'diagnosis_interior_status', 'name' => 'diagnosis_interior_right'],
                 ['group' => 'diagnosis_interior', 'name' => 'diagnosis_interior_opinion'],
 
             ['group' => 'diagnosis', 'name' => 'diagnosis_check'],
