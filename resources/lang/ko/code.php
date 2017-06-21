@@ -21,6 +21,7 @@ return [
     ],
 
     'diagnosis_status_group' => [
+        'car_option' => '차량옵션',
         'car_option_exterior' => '차량외관옵션',
         'car_option_multimedia' => '차량옵션 멀티미디어',
         'car_option_interior' => '차량옵션 내장',
