@@ -42,6 +42,30 @@ class CodesSeeder extends Seeder {
         // 진단코드의 시퀀스 변경
         DB::table('codes')->insert( ['id'=>1000, 'group' => 'car_option', 'name' => 'appearence']);
         DB::table('codes')->insert([
+            ['group' => 'diagnosis_status_group', 'name' => 'car_option'],
+            ['group' => 'diagnosis_status_group', 'name' => 'car_option_exterior'],
+            ['group' => 'diagnosis_status_group', 'name' => 'car_option_multimedia'],
+            ['group' => 'diagnosis_status_group', 'name' => 'car_option_interior'],
+            ['group' => 'diagnosis_status_group', 'name' => 'car_option_safety'],
+            ['group' => 'diagnosis_status_group', 'name' => 'car_option_facilities'],
+            ['group' => 'diagnosis_status_group', 'name' => 'fuel_type'],
+            ['group' => 'diagnosis_status_group', 'name' => 'drivetrain'],
+            ['group' => 'diagnosis_status_group', 'name' => 'transmission'],
+            ['group' => 'diagnosis_status_group', 'name' => 'car_picture_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'attachment_status_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'diagnosis_info_color_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'repair_status_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'history_status_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'exterior_position_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'interior_position_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'diagnosis_part_status_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'immersion_repair_status_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'stink_status_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'water_status_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'dirt_status_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'scratch_status_cd'],
+
+
             ['group' => 'car_option', 'name' => 'multimedia'],
             ['group' => 'car_option', 'name' => 'built-in'],
             ['group' => 'car_option', 'name' => 'safety'],
@@ -66,12 +90,12 @@ class CodesSeeder extends Seeder {
             ['group' => 'car_option_interior', 'name' => 'powered_seat_in_driver'],
             ['group' => 'car_option_interior', 'name' => 'powered_seat_in_passenger'],
             ['group' => 'car_option_interior', 'name' => 'hit_seat_in_front'],
-            ['group' => 'car_option_interior', 'name' => 'git_seat_in_rear'],
+            ['group' => 'car_option_interior', 'name' => 'hit_seat_in_rear'],
             ['group' => 'car_option_interior', 'name' => 'memory_seat'],
             ['group' => 'car_option_interior', 'name' => 'ventilation_seat_in_front'],
             ['group' => 'car_option_safety', 'name' => 'airbag_in_driver'],
             ['group' => 'car_option_safety', 'name' => 'airbag_in_passenger'],
-            ['group' => 'car_option_safety', 'name' => 'airbah_side'],
+            ['group' => 'car_option_safety', 'name' => 'airbag_side'],
             ['group' => 'car_option_safety', 'name' => 'curtain_airbag'],
             ['group' => 'car_option_safety', 'name' => 'rear_sensor'],
             ['group' => 'car_option_safety', 'name' => 'rear_camera'],
@@ -136,8 +160,6 @@ class CodesSeeder extends Seeder {
             ['group' => 'repair_status_cd', 'name' => 'none'],
             ['group' => 'history_status_cd', 'name' => 'good'],
             ['group' => 'history_status_cd', 'name' => 'history'],
-            ['group' => 'exterior_position_cd', 'name' => 'good'],
-            ['group' => 'exterior_position_cd', 'name' => 'history'],
             ['group' => 'exterior_position_cd', 'name' => 'hood'],
             ['group' => 'exterior_position_cd', 'name' => 'front_fender_left'],
             ['group' => 'exterior_position_cd', 'name' => 'front_fender_right'],
@@ -156,8 +178,8 @@ class CodesSeeder extends Seeder {
             ['group' => 'interior_position_cd', 'name' => 'hill_house_front/right'],
             ['group' => 'interior_position_cd', 'name' => 'hill_house_rear/left'],
             ['group' => 'interior_position_cd', 'name' => 'hill_house_rear/right'],
-            ['group' => 'interior_position_cd', 'name' => 'cross_memeber_front'],
-            ['group' => 'interior_position_cd', 'name' => 'cross_memeber_back'],
+            ['group' => 'interior_position_cd', 'name' => 'cross_member_front'],
+            ['group' => 'interior_position_cd', 'name' => 'cross_member_back'],
             ['group' => 'interior_position_cd', 'name' => 'side_member_front/left'],
             ['group' => 'interior_position_cd', 'name' => 'side_member_front/right'],
             ['group' => 'interior_position_cd', 'name' => 'side_member_rear/left'],
@@ -215,10 +237,13 @@ class CodesSeeder extends Seeder {
             ['grpup' => 'standard_cd', 'name' => 'shortfall'], // 미달
 
             ['group' => 'accident_cd', 'name' => 'none'], //무사고
-            ['group' => 'accident_cd', 'name' => 'simpe_swap'], //단순교환
+            ['group' => 'accident_cd', 'name' => 'simple_swap'], //단순교환
             ['group' => 'accident_cd', 'name' => 'middle_damage'], //중손상
             ['group' => 'accident_cd', 'name' => 'big_damage'], //대손상
 
+
+
+            ////////////////////////
 
 
             ['group' => 'diagnosis', 'name' => 'diagnosis_info'],

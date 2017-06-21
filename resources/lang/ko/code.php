@@ -19,6 +19,37 @@ return [
         'content' => '본문',
         'writer_name' => '작성자명'
     ],
+
+    'diagnosis_status_group' => [
+        'car_option_exterior' => '차량외관옵션',
+        'car_option_multimedia' => '차량옵션 멀티미디어',
+        'car_option_interior' => '차량옵션 내장',
+        'car_option_safety' => '차량옵션 안전',
+        'car_option_facilities' => '차량옵션 편의',
+        'fuel_type' => '연료',
+        'drivetrain' => '구동계',
+        'transmission' => '변속기',
+        'car_picture_cd' => '외판사진코드',
+        'attachment_status_cd' => '차대번호 손상여부',
+        'diagnosis_info_color_cd' => '색상진단코드',
+        'repair_status_cd' => '수리진단코드',
+        'history_status_cd' => '상태이력진단코드',
+        'exterior_position_cd' => '외장재부품코드',
+        'interior_position_cd' => '내장재부품코드',
+        'diagnosis_part_status_cd' => '교환진단코드',
+        'immersion_repair_status_cd' => '수리진단코드',
+        'stink_status_cd' => '악취진단코드',
+        'water_status_cd' => '수분오염진단코드',
+        'dirt_status_cd' => '이물질진단코드',
+        'scratch_status_cd' => '흠집진단코드',
+        'grade_cd' => '등급코드',
+        'noise_status_cd' => '소음진단코드',
+        'operation_status_cd' => '동작진단코드',
+        'leakage_status_cd' => '누유진단코드',
+        'replacement_status_cd' => '교체진단코드',
+        'pollution_status_cd' => '오염진단코드',
+    ],
+
     'car_option' => [
         'appearence' => '외관',
         'multimedia' => '멀티미디어',
@@ -40,11 +71,11 @@ return [
         'av_system' => 'AV시스템(순정)',
         'rear_tv' => '뒷자석TV',
         'aux_socket' => 'AUX단자',
-        'usb_sochet' => 'USB단자',
+        'usb_socket' => 'USB단자',
         'ipod_socket' => 'iPOD단자'
     ],
     'car_option_interior' => [
-        'steering_whell_remotecontroller' => '스티어링휠 리모컨',
+        'steering_wheel_remotecontroller' => '스티어링휠 리모컨',
         'power_steering' => '파워 스티어링',
         'ecm' => 'ECM',
         'leather_sheet' => '가죽시트',
@@ -101,11 +132,12 @@ return [
     'transmission' => [
         'manual' => 'Manual',
         'automatic' => 'Autiomatic',
+        'automanual' => 'Automanual',
         'cvt' => 'CVT',
         'other' => 'Other/Unknown'
     ],
 
-    'diagnosis_exterior_picture_cd' => [
+    'car_picture_cd' => [
         'front' => '전',
         'rear' => '후',
         'left' => '좌',
@@ -116,7 +148,8 @@ return [
         'good' => '양호',
         'different' => '상이',
         'corrosion' => '부식',
-        'modulation' => '훼손(오손), 변조(변타)'
+        'damage' => '훼손(오손)',
+        'modulation' => '변조(변타)'
     ],
     'diagnosis_info_color_cd' => [
         'white' => '흰색',
@@ -124,7 +157,7 @@ return [
         'gray' => '회색',
         'red' => '적색',
         'blue' => '파랑색',
-        'etc' => '기'
+        'etc' => '기타'
     ],
     'repair_status_cd' => [
         'good' => '양호',
@@ -228,11 +261,36 @@ return [
         'normal' => '보통',
         'maintenance' => '교환요'
     ],
+    'standard_cd' => [
+        'excess' => '초과',
+        'standard' => '평균',
+        'shortfall' => '미달'
+    ],
+    'accident_cd' => [
+        'none' => '무사고',
+        'simple_swap' => '단순교환',
+        'middle_damage' => '중손상',
+        'big_damage' => '대손상'
+    ],
     'pollution_status_cd' => [
         'good' => '양호',
         'pollution' => '오염',
         'maintenance' => '교환요'
     ],
+    'order_status' => [
+        'canceled' => '주문취소',
+        'standby' => '주문신청',
+        'ordered' => '주문완료',
+        'request' => '예약확인',
+        'reserved' => '입고대기',
+        'arrived' => '입고',
+        'diagnosing' => '진단중',
+        'diagnosed' => '진단완료, 발급요청',
+        'certificating' => '검토중',
+        'certificated' => '인증발급완'
+    ],
+
+
 
     //진단 항목 코드
 
