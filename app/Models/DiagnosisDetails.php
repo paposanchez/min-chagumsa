@@ -30,7 +30,7 @@ class DiagnosisDetails extends Model {
         return $this->hasMany(\App\Models\DiagnosisDetail::class, 'diagnosis_details_id', 'id');
     }
 
-    // detail에서 parent_id가 NULL인 대상, parent_id가 NULL이 아니면 detail에서 다시 조회해야함
+    // detail에서 parent_id가 NULL인 대상, parent_id가 NULL이 아니면 detail에서 다시 조회해야
     public function diagnosis_detail_children() {
         return $this->hasMany(\App\Models\DiagnosisDetail::class, 'diagnosis_details_id', 'id')->whereNull('diagnosis_detail.parent_id');
     }

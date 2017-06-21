@@ -137,7 +137,7 @@ class DiagnosisRepository {
                     "details_id"    => $entry->diagnosis_details_id,
                     "description"   => $entry->description,
                     "entrys"        => $this->getDetailItem($entry->diagnosis_item),
-                    "children"      => $this->getDetailItem($entry->children),
+                    "children"      => $this->getDetail($entry->children),
                 );
 
                 $return[] = $new_return;
