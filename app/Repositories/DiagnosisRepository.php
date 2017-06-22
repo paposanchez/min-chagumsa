@@ -161,8 +161,8 @@ class DiagnosisRepository {
                     'selected'   => $entry->selected,
                     'required_image_options'   => $entry->required_image_options,
                     'description'   => $entry->description,
-                    'created_at'   => $entry->created_at,
-                    'updated_at'   => $entry->updated_at
+                    'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
+                    'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : '')
                 );
 
                 $return[] = $new_return;
@@ -195,9 +195,9 @@ class DiagnosisRepository {
 
                         foreach($detail['entrys'] as $item) {
 
-                            // DB::table('diagnosis_detail_items')->update(['votes' => 1]);
+                            // DB::table('diagnosis_detail_items')->where("id", $item['id'])->update(['votes' => 1]);
 
-                            foreach($detail['entrys'] as $file) {
+                            foreach($item['files'] as $file) {
 
                                 // DB::table('diagnosis_files')->update(['votes' => 1]);
                                
@@ -213,7 +213,7 @@ class DiagnosisRepository {
 
                                     // DB::table('diagnosis_detail_items')->update(['votes' => 1]);
 
-                                    foreach($detail['entrys'] as $file) {
+                                    foreach($item['files'] as $file) {
 
                                         // DB::table('diagnosis_files')->update(['votes' => 1]);
                                        
@@ -236,7 +236,6 @@ class DiagnosisRepository {
 
                 DB::rollBack();
                 return false;
-
 
             }
 
