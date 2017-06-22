@@ -114,25 +114,26 @@ class Helper {
     public static function getCarModel($car){
 
         try{
-            $car_txt = $car->brand->name . " / ";
+            $car_txt = $car->brand->name . ' / ' ;
         }catch (\Exception $e){
             $car_txt = '';
         }
 
         try {
-            if ($car->model->name == $car->detail->name) {
-                $car_txt .= $car->model->name;
+            if ($car->models->name == $car->detail->name) {
+                $car_txt .= $car->models->name ;
             } else {
-                $car_txt .= $car->model->name . " / " . $car->detail->name;
+                $car_txt .= $car->models->name . " / " . $car->detail->name;
             }
         }catch (\Exception $e){
             try{
-                $car_txt .= $car->model->name;
+                $car_txt .= $car->models->name;
             }catch (\Exception $e){
 //                dd('aaa');
 //                $car_txt .= "[".$e->getMessage()."]";
             }
         }
+
 
 
         if($car->grade){
@@ -181,20 +182,42 @@ class Helper {
      * @param string $key
      * @param string $value
      * @param bool $default
+     * @param string checked|selected
      * @return string
      */
-    public static function displayRadioChecked($standard, $key, $value, $default=false){
+    public static function displayChecked($standard, $key, $value='', $default=false, $option='checked'){
 
         if($default === true){
-            return ' checked';
+            return ' '.$option;
         }else{
             if($standard !== null){
-                $code = Code::orderBy('id', 'desc')->where('group', $key)->where('name', $value)->first();
+                if($value){
+                    $code = Code::orderBy('id', 'desc')->where('group', $key)->where('name', $value)->first();
+                }else{
+                    $code = Code::orderBy('id', 'desc')->where('group', $key)->first();
+                }
+
                 if($standard->$key == $code->id){
-                    return ' checked';
+                    return ' '.$option;
                 }
             }
         }
         return '';
+    }
+
+    /**
+     * codes ID를 리턴하는 메소드
+     * @param $group
+     * @param $name
+     * @return int|null
+     */
+    public static function getCodeValue($group, $name){
+
+        $code = Code::orderBy('id', 'desc')->where('group', $group)->where('name', $name)->first();
+        if($code){
+            return $code->id;
+        }else{
+            return null;
+        }
     }
 }

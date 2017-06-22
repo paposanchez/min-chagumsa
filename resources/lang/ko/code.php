@@ -265,7 +265,7 @@ return [
         'gray' => '회색',
         'red' => '적색',
         'blue' => '파랑색',
-        'etc' => '기'
+        'etc' => '기타'
     ],
     'repair_status_cd' => [
         'good' => '양호',
@@ -386,7 +386,7 @@ return [
         'certificating' => '검토중',
         'certificated' => '인증발급완료'
     ],
-    //주행거리 추가
+    //주행거리, 등록일보정 추가
     'standard_cd' => [
         'excess' => '초과',
         'standard' => '평균',
@@ -395,9 +395,9 @@ return [
     //사고 코드
     'accident_cd' => [
         'none' => '무사고',
-        'simple_damage' => '단순교환',
-        'damage' => '중손상',
-        'major_damage' => '대손상'
+        'simple_swap' => '단순교환',
+        'middle_damage' => '중손상',
+        'big_damage' => '대손상'
     ]
 
 ];

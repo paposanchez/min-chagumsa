@@ -24,7 +24,7 @@ class Car Extends Model
         'type_cd', //'용도',
         'usage_cd', //,
         'passenger', //'승차정원',
-        'output', //'정격출력',
+        'displacement', //'배기량',
         'fuel_consumption', //'연비',
         'brands_id',
         'models_id', //

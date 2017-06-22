@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Mixapply\Uploader\Receiver;
+use App\Models\Certificate;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,9 +12,9 @@ use App\Models\Code;
 use Mockery\Exception;
 use Illuminate\Support\Facades\Redirect;
 
-
 class OrderController extends Controller
 {
+
     public function index(Request $request){
 
         $search_fields = [
@@ -87,8 +89,8 @@ class OrderController extends Controller
 
     public function edit($id){
         $order = Order::findOrFail($id);
-        $select_color = Code::getCodesByGroup('diagnosis_info_color');
-        $select_attachment_status = Code::getCodesByGroup('attachment_status');
+        $select_color = Code::getCodesByGroup('diagnosis_info_color_cd');
+        $select_attachment_status = Code::getCodesByGroup('attachment_status_cd');
 
         return view('admin.order.edit', compact('order', 'select_color', 'select_attachment_status'));
     }
@@ -114,6 +116,167 @@ class OrderController extends Controller
 
     }
 
+    /**
+     * 인증서 데이터 갱신
+     * @param Request $request
+     */
+    public function update(Request $request){
+        dd($request->all());
+    }
 
+    /**
+     * 보험사고 이력 이미지 등록
+     * @param Request $request
+     * @return array
+     */
+    public function insuranceFile(Request $request){
+
+        $result = [
+            'success' => '',
+            'msg' => '',
+            'id' => '',
+            'name' => '',
+            'preview' => '',
+            'size' => 0,
+            'mime' => '',
+            'type' => ''
+        ];
+
+        $id = $request->get('');
+        if($id){
+
+            try{
+                $uploader_name = "insurance_file";
+                $uploader = new Receiver($request);
+                $response = $uploader->receive($uploader_name, function ($file, $path_prefix, $path, $file_new_name) {
+                    // 파일이동
+                    $file->move($path_prefix . $path, $file_new_name);
+
+                    try {
+                        $file_size = $file->getClientSize();
+                    } catch (RuntimeException $ex) {
+                        $file_size = 0;
+                    }
+
+                    return [
+                        'original' => $file->getClientOriginalName(),
+                        'source' => $file_new_name,
+                        'path' => $path,
+                        'size' => $file_size,
+                        'extension' => $file->getClientOriginalExtension(),
+                        'mime' => $file->getClientMimeType(),
+                        //@TODO 실제파일이 아닌 파일
+                        'hash' => md5($file)
+                    ];
+                });
+
+                // 업로드 성공시
+                if ($response['result']) {
+                    $certificate_row = Certificate::find('id', $id);
+                    if($certificate_row){
+                        $certificate_row->history_insurance = $certificate_row->history_insurance +1;
+                        if($certificate_row->history_insurance_file){
+//                            $certificate_row->history_insurance_file = $certificate_row->history_insurance_file . ";". $response["result"]["path"];
+                            $file_list = json_decode($certificate_row->history_insurance_file);
+                            $file_list[] = ["path" => $response["result"]["path"]];
+                        }else{
+                            $file_list = [
+                                ["path" => $response["result"]["path"]]
+                            ];
+                        }
+                        $certificate_row->history_insurance_file = json_encode($file_list);
+
+                        $certificate_row->save();
+
+                        $result["success"] = true;
+                        $result["msg"] = "Done";
+                    }else{
+                        //보험사고이력 이미지 등록 실패
+                        $result["success"] = false;
+                        $result["msg"] = "등록 실패";
+                    }
+
+                }else{
+                    $result['success'] = false;
+                    $result['msg'] = "upload fail";
+                }
+
+            }catch (\Exception $e){
+                $result['success'] = false;
+                $result['msg'] = "upload fail: ".$e->getMessage();
+            }
+
+        }else{
+            $result['success'] = false;
+            $result['msg'] = 'id not found';
+        }
+        return $result;
+    }
+
+    /**
+     * 보험사고 이력 이미지 삭제
+     * @param Request $request
+     * @return array
+     */
+    public function insuranceFileDelete(Request $request){
+        $id = $request->get('id');
+        $file_index = $request->get("index");
+        $where = Certificate::findOrFail($id);
+        if($where){
+            $file_list = json_decode($where->history_insurance_file);
+            unset($file_list[$file_index]);
+            $where->history_insurance_file = json_encode($file_list);
+            $where->save();
+
+            $result = [
+                'success' => true, 'msg' => 'Done'
+            ];
+        }else{
+            $result = [
+                'success' => false, 'msg' => 'fail'
+            ];
+        }
+        return $result;
+    }
+
+    /**
+     * 용도변경이력, 차고지이력 등록 갱신
+     * @param Request $request
+     * @return array
+     */
+    public function history(Request $request){
+        $method = $request->get('method');
+        $id = $request->get('id');
+        $data = $request->get('data');
+
+        $result = [
+            'success' => false, 'msg' => ''
+        ];
+
+        if($method && $id && $data){
+            $where = Certificate::findOrFail($id);
+            if($where){
+                $history = $where->$method;
+                $history_ex = explode(";", $history);
+                if(count($history_ex) > 0){
+                    $where->$method = $where->$method . ';' . $data;
+                }else{
+                    $where->$method = $data;
+                }
+                $where->save();
+
+                $result["success"] = true;
+                $result["msg"] = "Done";
+            }else{
+                $result["success"] = false;
+                $result["msg"] = "해당 인증서가 없습니다.";
+            }
+        }else{
+            //비정상 값 입력
+            $result["success"] = false;
+            $result["msg"] = "필수 파라미터 입력 오류입니다.";
+        }
+        return $result;
+    }
 
 }

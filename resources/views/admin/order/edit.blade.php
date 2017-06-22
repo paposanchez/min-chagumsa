@@ -7,7 +7,7 @@
 @section( 'content' )
 <div class="container-fluid">
     <div class="row">
-        <div role="tabpanel">
+        <div role="tabpanel" id="certi_tab">
             <ul class="nav nav-pills" role="tablist">
                 <li class="active"><a href="#diagnosis" aria-controls="diagnosis" role="tab" data-toggle="tab">진단 정보</a></li>
                 <li role="presentation" class=""><a href="#certification" aria-controls="certification" role="tab" data-toggle="tab">차량 인증</a></li>
@@ -63,7 +63,9 @@
                 </div>
 
                 {{--차량 인증--}}
-                @include("admin.order.certificate", ["order" => $order]);
+                <div role="tabpanel" class="tab-pane" id="certification">
+                    @include("admin.order.certificate", ["order" => $order])
+                </div>
             </div>
         </div>
         <div class="text-right">
@@ -94,7 +96,25 @@
 </div><!-- container -->
 @endsection
 
+@push( 'footer-script' )
+    <script type="text/javascript">
+        /**
+         * 최종 tab panel 클릭 history 처리
+         */
+        $("#certi_tab").click(function(e){
+//            e.preventDefault();
+//            $(this).tab(show);
+        });
 
+        $("ul.nav-pills > li >a").on("shown.bs.tab", function (e) {
+            var id = $(e.target).attr("href").substr(1);
+            window.location.hash = id;
+        })
+
+        var hash = window.location.hash;
+        $("#certi_tab a[href='" + hash + "']").tab('show');
+    </script>
+@endpush
 
 
 
