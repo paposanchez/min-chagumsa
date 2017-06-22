@@ -40,9 +40,8 @@ class CodesSeeder extends Seeder {
 
 
         // 진단코드의 시퀀스 변경
-        DB::table('codes')->insert( ['id'=>1000, 'group' => 'car_option', 'name' => 'appearence']);
+        DB::table('codes')->insert( ['id'=>1000, 'group' => 'diagnosis_status_group', 'name' => 'car_option']);
         DB::table('codes')->insert([
-            ['group' => 'diagnosis_status_group', 'name' => 'car_option'],
             ['group' => 'diagnosis_status_group', 'name' => 'car_option_exterior'],
             ['group' => 'diagnosis_status_group', 'name' => 'car_option_multimedia'],
             ['group' => 'diagnosis_status_group', 'name' => 'car_option_interior'],
@@ -53,7 +52,7 @@ class CodesSeeder extends Seeder {
             ['group' => 'diagnosis_status_group', 'name' => 'transmission'],
             ['group' => 'diagnosis_status_group', 'name' => 'car_picture_cd'],
             ['group' => 'diagnosis_status_group', 'name' => 'attachment_status_cd'],
-            ['group' => 'diagnosis_status_group', 'name' => 'diagnosis_info_color_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'color_cd'],
             ['group' => 'diagnosis_status_group', 'name' => 'repair_status_cd'],
             ['group' => 'diagnosis_status_group', 'name' => 'history_status_cd'],
             ['group' => 'diagnosis_status_group', 'name' => 'exterior_position_left_cd'],
@@ -62,12 +61,37 @@ class CodesSeeder extends Seeder {
             ['group' => 'diagnosis_status_group', 'name' => 'interior_position_left_cd'],
             ['group' => 'diagnosis_status_group', 'name' => 'interior_position_center_cd'],
             ['group' => 'diagnosis_status_group', 'name' => 'interior_position_right_cd'],
-            ['group' => 'diagnosis_status_group', 'name' => 'diagnosis_part_status_cd'],
-            ['group' => 'diagnosis_status_group', 'name' => 'immersion_repair_status_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'part_status_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'accident_repair_status_cd'],
             ['group' => 'diagnosis_status_group', 'name' => 'stink_status_cd'],
             ['group' => 'diagnosis_status_group', 'name' => 'water_status_cd'],
             ['group' => 'diagnosis_status_group', 'name' => 'dirt_status_cd'],
             ['group' => 'diagnosis_status_group', 'name' => 'scratch_status_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'noise_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'operation_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'replacement_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'pollution_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'crack_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'interior_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'leather_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'working_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'leackoil_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'leakwater_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'leakwater_leak_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'leakwater_noise_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'water_amount_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'vibration_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'oil_amount_state'],
+            ['group' => 'diagnosis_status_group', 'name' => 'shock_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'transmission_state'],
+            ['group' => 'diagnosis_status_group', 'name' => 'gear_transmission_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'gear_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'steering_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'pump_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'shoba_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'sbc_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'break_oil_state_cd'],
+            ['group' => 'diagnosis_status_group', 'name' => 'engine_state_cd'],
 
 
             ['group' => 'car_option', 'name' => 'multimedia'],
@@ -151,18 +175,20 @@ class CodesSeeder extends Seeder {
             ['group' => 'car_picture_cd', 'name' => 'left'],
             ['group' => 'car_picture_cd', 'name' => 'right'],
 
+            /////////////////////////////////////////////////////////////
+
             ['group' => 'attachment_status_cd', 'name' => 'good'],
             ['group' => 'attachment_status_cd', 'name' => 'different'],
             ['group' => 'attachment_status_cd', 'name' => 'corrosion'],
             ['group' => 'attachment_status_cd', 'name' => 'modulation'],
             ['group' => 'attachment_status_cd', 'name' => 'damage'],
 
-            ['group' => 'diagnosis_info_color_cd','name' =>  'white'],
-            ['group' => 'diagnosis_info_color_cd', 'name' => 'black'],
-            ['group' => 'diagnosis_info_color_cd','name' =>  'gray'],
-            ['group' => 'diagnosis_info_color_cd', 'name' => 'red'],
-            ['group' => 'diagnosis_info_color_cd','name' =>  'blue'],
-            ['group' => 'diagnosis_info_color_cd','name' =>  'etc'],
+            ['group' => 'color_cd','name' =>  'white'],
+            ['group' => 'color_cd', 'name' => 'black'],
+            ['group' => 'color_cd','name' =>  'gray'],
+            ['group' => 'color_cd', 'name' => 'red'],
+            ['group' => 'color_cd','name' =>  'blue'],
+            ['group' => 'color_cd','name' =>  'etc'],
 
             ['group' => 'repair_status_cd', 'name' => 'good'],
             ['group' => 'repair_status_cd', 'name' => 'repair'],
@@ -211,15 +237,16 @@ class CodesSeeder extends Seeder {
             ['group' => 'interior_position_right_cd', 'name' => 'filler_b-right'],
             ['group' => 'interior_position_right_cd', 'name' => 'filler_c-right'],
 
-            ['group' => 'diagnosis_part_status_cd', 'name' => 'replacement'],
-            ['group' => 'diagnosis_part_status_cd', 'name' => 'welding'],
-            ['group' => 'diagnosis_part_status_cd', 'name' => 'need_repair'],
-            ['group' => 'diagnosis_part_status_cd', 'name' => 'scratch'],
-            ['group' => 'diagnosis_part_status_cd', 'name' => 'corrosion'],
+            ['group' => 'part_status_cd', 'name' => 'replacement'],
+            ['group' => 'part_status_cd', 'name' => 'welding'],
+            ['group' => 'part_status_cd', 'name' => 'need_repair'],
+            ['group' => 'part_status_cd', 'name' => 'scratch'],
+            ['group' => 'part_status_cd', 'name' => 'corrosion'],
 
-            ['group' => 'immersion_repair_status_cd', 'name' => 'none'],
-            ['group' => 'immersion_repair_status_cd', 'name' => 'simple'],
-            ['group' => 'immersion_repair_status_cd', 'name' => 'core'],
+            ['group' => 'accident_repair_status_cd', 'name' => 'none'],
+            ['group' => 'accident_repair_status_cd', 'name' => 'simple'],
+            ['group' => 'accident_repair_status_cd', 'name' => 'basic'],
+            ['group' => 'accident_repair_status_cd', 'name' => 'core'],
 
             ['group' => 'stink_status_cd','name' =>  'none'],
             ['group' => 'stink_status_cd', 'name' => 'yes'],
@@ -237,20 +264,12 @@ class CodesSeeder extends Seeder {
             ['group' => 'scratch_status_cd', 'name' => 'corrosion'],
             ['group' => 'scratch_status_cd', 'name' => 'maintenance'],
 
-            ['group' => 'grade_cd', 'name' => 'top'],
-            ['group' => 'grade_cd', 'name' => 'middle'],
-            ['group' => 'grade_cd', 'name' => 'bottom'],
-
             ['group' => 'noise_status_cd', 'name' => 'good'],
             ['group' => 'noise_status_cd', 'name' => 'noise'],
             ['group' => 'noise_status_cd', 'name' => 'maintenance'],
 
             ['group' => 'operation_status_cd','name' =>  'good'],
             ['group' => 'operation_status_cd','name' =>  'maintenance'],
-
-            ['group' => 'leakage_status_cd', 'name' => 'good'],
-            ['group' => 'leakage_status_cd', 'name' => 'fineleak'],
-            ['group' => 'leakage_status_cd', 'name' => 'leak'],
 
             ['group' => 'replacement_status_cd', 'name' => 'good'],
             ['group' => 'replacement_status_cd', 'name' => 'normal'],
@@ -259,6 +278,106 @@ class CodesSeeder extends Seeder {
             ['group' => 'pollution_status_cd','name' =>  'good'],
             ['group' => 'pollution_status_cd','name' =>  'pollution'],
             ['group' => 'pollution_status_cd', 'name' => 'maintenance'],
+
+            ['group' => 'crack_state_cd', 'name' => 'good'],
+            ['group' => 'crack_state_cd', 'name' => 'scratch'],
+            ['group' => 'crack_state_cd', 'name' => 'crack'],
+            ['group' => 'crack_state_cd', 'name' => 'maintenance'],
+
+            ['group' => 'interior_state_cd', 'name' => 'good'],
+            ['group' => 'interior_state_cd', 'name' => 'pollution'],
+            ['group' => 'interior_state_cd', 'name' => 'wide_scratch'],
+            ['group' => 'interior_state_cd', 'name' => 'crack'],
+
+            ['group' => 'leather_state_cd', 'name' => 'good'],
+            ['group' => 'leather_state_cd', 'name' => 'scratch'],
+            ['group' => 'leather_state_cd', 'name' => 'wide_scratch'],
+            ['group' => 'leather_state_cd', 'name' => 'damaged'],
+
+            ['group' => 'working_state_cd', 'name' => 'good'],
+            ['group' => 'working_state_cd', 'name' => 'trouble'],
+
+            ['group' => 'leackoil_state_cd', 'name' => 'none'],
+            ['group' => 'leackoil_state_cd', 'name' => 'micro_leak'],
+            ['group' => 'leackoil_state_cd', 'name' => 'leak'],
+            ['group' => 'leackoil_state_cd', 'name' => 'maintenance'],
+
+            ['group' => 'leakwater_state_cd', 'name' => 'none'],
+            ['group' => 'leakwater_state_cd', 'name' => 'micro_leak'],
+            ['group' => 'leakwater_state_cd', 'name' => 'maintenance'],
+
+            ['group' => 'leakwater_leak_state_cd', 'name' => 'none'],
+            ['group' => 'leakwater_leak_state_cd', 'name' => 'micro_leak'],
+            ['group' => 'leakwater_leak_state_cd', 'name' => 'leak'],
+
+            ['group' => 'leakwater_noise_state_cd', 'name' => 'none'],
+            ['group' => 'leakwater_noise_state_cd', 'name' => 'micro_leak'],
+            ['group' => 'leakwater_noise_state_cd', 'name' => 'leak'],
+            ['group' => 'leakwater_noise_state_cd', 'name' => 'noise'],
+
+            ['group' => 'water_amount_cd', 'name' => 'optimum'],
+            ['group' => 'water_amount_cd', 'name' => 'lack'],
+            ['group' => 'water_amount_cd', 'name' => 'pollution'],
+            ['group' => 'water_amount_cd', 'name' => 'replace'],
+
+            ['group' => 'vibration_state_cd', 'name' => 'good'],
+            ['group' => 'vibration_state_cd', 'name' => 'micro_damaged'],
+            ['group' => 'vibration_state_cd', 'name' => 'engine_vibe'],
+            ['group' => 'vibration_state_cd', 'name' => 'maintenance'],
+
+            ['group' => 'oil_amount_state', 'name' => 'optimum'],
+            ['group' => 'oil_amount_state', 'name' => 'lack'],
+            ['group' => 'oil_amount_state', 'name' => 'excess'],
+            ['group' => 'oil_amount_state', 'name' => 'pollution'],
+
+            ['group' => 'shock_state_cd', 'name' => 'good'],
+            ['group' => 'shock_state_cd', 'name' => 'noise'],
+            ['group' => 'shock_state_cd', 'name' => 'shock'],
+            ['group' => 'shock_state_cd', 'name' => 'maintenance'],
+
+            ['group' => 'transmission_state', 'name' => 'good'],
+            ['group' => 'transmission_state', 'name' => 'micro_damaged'],
+            ['group' => 'transmission_state', 'name' => 'noise'],
+            ['group' => 'transmission_state', 'name' => 'maintenance'],
+
+            ['group' => 'gear_transmission_state_cd', 'name' => 'good'],
+            ['group' => 'gear_transmission_state_cd', 'name' => 'omission'],
+            ['group' => 'gear_transmission_state_cd', 'name' => 'noise'],
+            ['group' => 'gear_transmission_state_cd', 'name' => 'maintenance'],
+
+            ['group' => 'gear_state_cd', 'name' => 'good'],
+            ['group' => 'gear_state_cd', 'name' => 'noise'],
+            ['group' => 'gear_state_cd', 'name' => 'gap'],
+            ['group' => 'gear_state_cd', 'name' => 'maintenance'],
+
+            ['group' => 'steering_state_cd', 'name' => 'good'],
+            ['group' => 'steering_state_cd', 'name' => 'noise'],
+            ['group' => 'steering_state_cd', 'name' => 'gap'],
+
+            ['group' => 'pump_state_cd', 'name' => 'good'],
+            ['group' => 'pump_state_cd', 'name' => 'noise'],
+
+            ['group' => 'shoba_state_cd', 'name' => 'good'],
+            ['group' => 'shoba_state_cd', 'name' => 'noise'],
+            ['group' => 'shoba_state_cd', 'name' => 'air_leak'],
+            ['group' => 'shoba_state_cd', 'name' => 'maintenance'],
+
+            ['group' => 'sbc_state_cd', 'name' => 'good'],
+            ['group' => 'sbc_state_cd', 'name' => 'warning'],
+            ['group' => 'sbc_state_cd', 'name' => 'maintenance'],
+
+            ['group' => 'break_oil_state_cd', 'name' => 'none'],
+            ['group' => 'break_oil_state_cd', 'name' => 'leak'],
+            ['group' => 'break_oil_state_cd', 'name' => 'maintenance'],
+
+            ['group' => 'engine_state_cd', 'name' => 'good'],
+            ['group' => 'engine_state_cd', 'name' => 'noise'],
+            ['group' => 'engine_state_cd', 'name' => 'engine_relief'],
+            ['group' => 'engine_state_cd', 'name' => 'maintenance'],
+
+            ['group' => 'grade_cd', 'name' => 'top'],
+            ['group' => 'grade_cd', 'name' => 'middle'],
+            ['group' => 'grade_cd', 'name' => 'bottom'],
 
             ['grpup' => 'standard_cd', 'name' => 'excess'], // 초과
             ['grpup' => 'standard_cd', 'name' => 'standard'],// 평균
@@ -269,12 +388,13 @@ class CodesSeeder extends Seeder {
             ['group' => 'accident_cd', 'name' => 'middle_damage'], //중손상
             ['group' => 'accident_cd', 'name' => 'big_damage'], //대손상
 
+        ]);
+
 
 
             ////////////////////////
-
-
-            ['group' => 'diagnosis', 'name' => 'diagnosis_info'],
+        DB::table('codes')->insert( ['id'=>2000, 'group' => 'diagnosis', 'name' => 'diagnosis_info']);
+        DB::table('codes')->insert([
                 ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_info'],
                 ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_mileage'],
                 ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_vinnumber'],

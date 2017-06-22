@@ -32,23 +32,51 @@ return [
         'transmission' => '변속기',
         'car_picture_cd' => '외판사진코드',
         'attachment_status_cd' => '차대번호 손상여부',
-        'diagnosis_info_color_cd' => '색상진단코드',
+        'color_cd' => '색상진단코드',
         'repair_status_cd' => '수리진단코드',
         'history_status_cd' => '상태이력진단코드',
+        'exterior_position_left_cd' => '외판좌측진단코드',
+        'exterior_position_center_cd' => '외판중앙진단코드',
+        'exterior_position_right_cd' => '외판우측진단코드',
+        'interior_position_left_cd' => '내판좌측진단코드',
+        'interior_position_center_cd' => '내판중앙진단코드',
+        'interior_position_right_cd' => '내판우측진단코드',
         'exterior_position_cd' => '외장재부품코드',
         'interior_position_cd' => '내장재부품코드',
-        'diagnosis_part_status_cd' => '교환진단코드',
-        'immersion_repair_status_cd' => '수리진단코드',
+        'part_status_cd' => '교환진단코드',
+        'accident_repair_status_cd' => '수리진단코드',
         'stink_status_cd' => '악취진단코드',
         'water_status_cd' => '수분오염진단코드',
         'dirt_status_cd' => '이물질진단코드',
         'scratch_status_cd' => '흠집진단코드',
+        'noise_state_cd' => '소음진단코드',
         'grade_cd' => '등급코드',
         'noise_status_cd' => '소음진단코드',
-        'operation_status_cd' => '동작진단코드',
+        'operation_state_cd' => '동작진단코드',
         'leakage_status_cd' => '누유진단코드',
-        'replacement_status_cd' => '교체진단코드',
-        'pollution_status_cd' => '오염진단코드',
+        'replacement_state_cd' => '교체진단코드',
+        'pollution_state_cd' => '오염진단코드',
+        'crack_state_cd' => '균열진단코드',
+        'interior_state_cd' => '내부진단코드',
+        'leather_state_cd' => '가죽진단코드',
+        'working_state_cd' => '작동진단코드',
+        'leackoil_state_cd' => '누유진단코드',
+        'leakwater_state_cd' => '누수진단코드',
+        'leakwater_leak_state_cd' => '누수(누수)진단코드',
+        'leakwater_noise_state_cd' => '누수(소음)진단코드',
+        'water_amount_cd' => '냉각수량진단코드',
+        'vibration_state_cd' => '진동진단코드',
+        'oil_amount_state' => '오일량진단코드',
+        'shock_state_cd' => '충격진단코드',
+        'transmission_state' => '변속기진단코드',
+        'gear_transmission_state_cd' => '기어변속기진단코드',
+        'gear_state_cd' => '기어진단코드',
+        'steering_state_cd' => '조향장치진단코드',
+        'pump_state_cd' => '펌프진단코드',
+        'shoba_state_cd' => '쇼바진단코드',
+        'sbc_state_cd' => 'sbc진단코드',
+        'break_oil_state_cd' => '브레이크오일진단코드',
+        'engine_state_cd' => '엔진진단코드'
     ],
 
     'car_option' => [
@@ -144,6 +172,7 @@ return [
         'left' => '좌',
         'right' => '우'
     ],
+    ///////////////////////////////////////////
 
     'attachment_status_cd' => [
         'good' => '양호',
@@ -152,7 +181,7 @@ return [
         'damage' => '훼손(오손)',
         'modulation' => '변조(변타)'
     ],
-    'diagnosis_info_color_cd' => [
+    'color_cd' => [
         'white' => '흰색',
         'black' => '검정',
         'gray' => '회색',
@@ -166,25 +195,34 @@ return [
         'none' => '없음'
     ],
     'history_status_cd' => [
-        'good' => '전체양호',
-        'history' => '상태이력있음'
+        'good' => '전체 양호',
+        'history' => '상태 이력 있음'
     ],
-    'exterior_position_cd' => [
-        'hood' => '후드',
+    'exterior_position_left_cd' => [
         'front_fender_left' => '프론트펜더 좌',
-        'front_fender_right' => '프론트펜더 우',
         'front_door_left' => '프론트도어 좌',
-        'front_door_right' => '프론트도어 우',
         'rear_door_left' => '리어도어 좌',
-        'rear_door_right' => '리어도어 우',
         'side_seats_left' => '사이드시트 좌',
-        'side_seats_right' => '사이트시트 우',
         'quarter_panel_left' => '쿼터패널 좌',
-        'quarter_panel_right' => '쿼터패널 우',
+    ],
+    'exterior_position_center_cd' => [
+        'hood' => '후드',
         'roof_panel' => '루프패널',
         'trunk_lead' => '트렁크리드'
     ],
-    'interior_position_cd' => [
+    'exterior_position_right_cd' => [
+        'front_fender_right' => '프론트펜더 우',
+        'front_door_right' => '프론트도어 우',
+        'rear_door_right' => '리어도어 우',
+        'side_seats_right' => '사이트시트 우',
+        'quarter_panel_right' => '쿼터패널 우'
+    ],
+    'interior_position_left_cd' => [
+        'filler_a-left' => 'A필러 좌',
+        'filler_b-left' => 'B필러 좌',
+        'filler_c-left' => 'C필러 좌'
+    ],
+    'interior_position_center_cd' => [
         'front_panel' => '프론트패널',
         'hill_house_front/left' => '힐하우스 전-좌',
         'hill_house_front/right' => '힐하우스 전-우',
@@ -196,27 +234,27 @@ return [
         'side_member_front/right' => '사이드멤버 전-우',
         'side_member_rear/left' => '사이드멤버 후-좌',
         'side_member_rear/right' => '사이드멤버 후-우',
-        'filler_a-left' => 'A필러 좌',
-        'filler_a-right' => 'A필러 우',
-        'filler_b-left' => 'B필러 좌',
-        'filler_b-right' => 'B필러 우',
-        'filler_c-left' => 'C필러 좌',
-        'filler_c-right' => 'C필러 우',
         'dash_panel' => '대쉬패널',
         'trunk_floor' => '트렁크플로어',
         'rear_panel' => '리어패널'
     ],
-    'diagnosis_part_status_cd' => [
-        'replacement' => '교환',
-        'welding' => '용접/판금 수리',
-        'need_repair' => '수리필요 (교환/판금)',
-        'scratch' => '긁힘 (상처)',
+    'interior_position_right_cd' => [
+        'filler_a-right' => 'A필러 우',
+        'filler_b-right' => 'B필러 우',
+        'filler_c-right' => 'C필러 우'
+    ],
+    'part_status_cd' => [
+        'replacement' => '교환수리이력',
+        'welding' => '용접∙판금 수리이력',
+        'need_repair' => '수리필요(교환/판금)',
+        'scratch' => '긁힘(상처)',
         'corrosion' => '부식'
     ],
-    'immersion_repair_status_cd' => [
-        'none' => '없음',
-        'simple' => '단순외판교환',
-        'core' => '주요골격수리'
+    'accident_repair_status_cd' => [
+        'none' => '수리이력없음',
+        'simple' => '단순수리',
+        'basic' => '기본자체판금',
+        'core' => '차체교환∙골격수리'
     ],
     'stink_status_cd' => [
         'none' => '없음',
@@ -224,8 +262,8 @@ return [
         'suspicion' => '의심'
     ],
     'water_status_cd' => [
-        'no' => '수분/오염 없음',
-        'yes' => '수분/오염 있음',
+        'no' => '수분∙오염 없음',
+        'yes' => '수분∙오염 있음',
         'suspicion' => '의심'
     ],
     'dirt_status_cd' => [
@@ -234,14 +272,9 @@ return [
     ],
     'scratch_status_cd' => [
         'good' => '양호',
-        'scratch' => '긁힘/부식',
+        'scratch' => '긁힘∙부식',
         'corrosion' => '부식',
         'maintenance' => '정비요'
-    ],
-    'grade_cd' => [
-        'top' => '상',
-        'middle' => '중',
-        'bottom' => '하'
     ],
     'noise_status_cd' => [
         'good' => '양호',
@@ -252,15 +285,137 @@ return [
         'good' => '양호',
         'maintenance' => '정비요'
     ],
-    'leakage_status_cd' => [
-        'good' => '양호',
-        'fineleak' => '미세누유',
-        'leak' => '누유'
-    ],
     'replacement_status_cd' => [
         'good' => '양호',
         'normal' => '보통',
         'maintenance' => '교환요'
+    ],
+    'pollution_status_cd' => [
+        'good' => '양호',
+        'pollution' => '오염',
+        'maintenance' => '교환요'
+    ],
+    'crack_state_cd' => [
+        'good' => '양호',
+        'scratch' => '긁힘∙상처',
+        'crack' => '깨짐∙균열',
+        'maintenance' => '교환∙정비요'
+    ],
+    'interior_state_cd' => [
+        'good' => '양호',
+        'pollution' => '긁힘∙오염',
+        'wide_scratch' => '넓은 긁힘∙오염',
+        'crack' => '깨짐∙균열'
+    ],
+    'leather_state_cd' => [
+        'good' => '양호',
+        'scratch' => '긁힘∙오염',
+        'wide_scratch' => '넗은 긁힘∙오염',
+        'damaged' => '찢어짐∙균열'
+    ],
+    'working_state_cd' => [
+        'good' => '양호',
+        'trouble' => '고장'
+    ],
+    'leackoil_state_cd' => [
+        'none' => '없음',
+        'micro_leak' => '미세누유',
+        'leak' => '누유',
+        'maintenance' => '정비요'
+    ],
+    'leakwater_state_cd' => [
+        'none' => '없음',
+        'micro_leak' => '미세누수',
+        'maintenance' => '정비요'
+    ],
+    'leakwater_leak_state_cd' => [
+        'none' => '없음',
+        'micro_leak' => '미세누수',
+        'leak' => '누수'
+    ],
+    'leakwater_noise_state_cd' => [
+        'none' => '없음',
+        'micro_leak' => '미세누수',
+        'leak' => '누수',
+        'noise' => '소음'
+    ],
+    'water_amount_cd' => [
+        'optimum' => '적정',
+        'lack' => '부족',
+        'pollution' => '오염',
+        'replace' => '교환요'
+    ],
+    'vibration_state_cd' => [
+        'good' => '양호',
+        'micro_damaged' => '미세손상',
+        'engine_vibe' => '엔진진동',
+        'maintenance' => '정비요'
+    ],
+    'oil_amount_state' => [
+        'optimum' => '적정',
+        'lack' => '부족',
+        'excess' => '초과',
+        'pollution' => '오염'
+    ],
+    'shock_state_cd' => [
+        'good' => '양호',
+        'noise' => '소음',
+        'shock' => '충격',
+        'maintenance' => '정비요'
+    ],
+    'transmission_state' => [
+        'good' => '양호',
+        'micro_damaged' => '미세손상',
+        'noise' => '소음',
+        'maintenance' => '정비요'
+    ],
+    'gear_transmission_state_cd' => [
+        'good' => '양호',
+        'omission' => '물림∙빠짐 이상',
+        'noise' => '소음',
+        'maintenance' => '정비요'
+    ],
+    'gear_state_cd' => [
+        'good' => '양호',
+        'noise' => '소음',
+        'gap' => '유격',
+        'maintenance' => '정비요'
+    ],
+    'steering_state_cd' => [
+        'good' => '양호',
+        'noise' => '소음',
+        'gap' => '유격'
+    ],
+    'pump_state_cd' => [
+        'good' => '양호',
+        'noise' => '소음'
+    ],
+    'shoba_state_cd' => [
+        'good' => '양호',
+        'noise' => '소음',
+        'air_leak' => '에어누출',
+        'maintenance' => '정비요'
+    ],
+    'sbc_state_cd' => [
+        'good' => '양호',
+        'warning' => '경고등',
+        'maintenance' => '정비요'
+    ],
+    'break_oil_state_cd' => [
+        'none' => '없음',
+        'leak' => '누유',
+        'maintenance' => '정비요'
+    ],
+    'engine_state_cd' => [
+        'good' => '양호',
+        'noise' => '소음',
+        'engine_relief' => '부조',
+        'maintenance' => '정비요'
+    ],
+    'grade_cd' => [
+        'top' => '상',
+        'middle' => '중',
+        'bottom' => '하'
     ],
     'standard_cd' => [
         'excess' => '초과',
@@ -272,11 +427,6 @@ return [
         'simple_swap' => '단순교환',
         'middle_damage' => '중손상',
         'big_damage' => '대손상'
-    ],
-    'pollution_status_cd' => [
-        'good' => '양호',
-        'pollution' => '오염',
-        'maintenance' => '교환요'
     ],
     'order_status' => [
         'canceled' => '주문취소',
@@ -290,6 +440,7 @@ return [
         'certificating' => '검토중',
         'certificated' => '인증발급완'
     ],
+
 
 
 
