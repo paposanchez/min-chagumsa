@@ -48,6 +48,8 @@ class Certificate Extends Model
         'special_remodel_cd',
         'special_etc_cd',
         'special_depreciation',
+        'new_car_price',
+        'vat'
     ];
     protected $dates = [
         'created_at', 'updated_at'
