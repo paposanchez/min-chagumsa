@@ -162,11 +162,35 @@ class DiagnosisRepository {
                     'required_image_options'   => $entry->required_image_options,
                     'description'   => $entry->description,
                     'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
-                    'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : '')
+                    'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
+                    'files' => $this->getDetailFile($entry->diagnosis_file)
                 );
 
                 $return[] = $new_return;
             }            
+        }
+
+        return $return;
+    }
+
+    public function getDetailFile($files) {
+        $return = [];
+
+        if($files) {
+            foreach ($files as $entry) {
+                $new_return = array(
+                    'id'    => $entry->id,
+                    'diagnosis_detail_items_id'   => $entry->diagnosis_detail_items_id,
+                    'original'   => $entry->original,
+                    'source'   => $entry->source,
+                    'path'   => $entry->path,
+                    'mime'   => $entry->mime,
+                    'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
+                    'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
+                );
+
+                $return[] = $new_return;
+            }
         }
 
         return $return;

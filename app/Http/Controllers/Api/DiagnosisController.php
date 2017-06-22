@@ -406,7 +406,7 @@ class DiagnosisController extends ApiController {
      *     description="엔지니어 개인의 진단중 주문 목록, 오늘부터 과거의 주문 출력",
      *     operationId="getDiagnosisWorking",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="garage_id",in="query",description="정비소 번호",required=true,type="integer",format="int32"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
      *     ),
@@ -422,26 +422,18 @@ class DiagnosisController extends ApiController {
      */
     public function getDiagnosisWorking(Request $request) {
         try {
-
-
-            $user_id = $request->get('user_id');
-
+            $garage_id = $request->get('garage_id');
 
             $validator = Validator::make($request->all(), [
-                'user_id' => 'required|exists:users,id'
+                'garage_id' => 'required|exists:user_extras,garage_id'
             ]);
-
 
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
-                return response()->json(array(
-                    'count' =>0,
-                    'orders' => []
-                ));
+                throw new Exception($errors[0]);
             }
 
-
-            $orders = Order::where('engineer_id', $user_id)
+            $orders = Order::where('garage_id', $garage_id)
                     ->where('status_cd', [106])
                     ->where('diagnose_at', null)
                     ->get();
@@ -457,7 +449,7 @@ class DiagnosisController extends ApiController {
             return response()->json($returns);
             // 앱에서는 간단하게 
         } catch (Exception $e) {
-            return abort(404, trans('diagnosis.not-found'));
+            return abort(404, trans('garage_id.not-found'));
         }
     }
 
