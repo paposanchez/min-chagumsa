@@ -41,6 +41,6 @@ class DiagnosisDetailItem extends Model
 
      // 추가선택항목
     public function options(){
-        return $this->hasMany(\App\Models\Code::class, "group", "options_cd");
+        return $this->hasMany(\App\Models\Code::class, "id", "options_cd");
     }
 }
