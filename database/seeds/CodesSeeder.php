@@ -388,6 +388,14 @@ class CodesSeeder extends Seeder {
             ['group' => 'accident_cd', 'name' => 'middle_damage'], //중손상
             ['group' => 'accident_cd', 'name' => 'big_damage'], //대손상
 
+            ['group' => 'wear_state_cd', 'name' => 'good'],
+            ['group' => 'wear_state_cd', 'name' => 'lack'],
+            ['group' => 'wear_state_cd', 'name' => 'pollution'],
+            ['group' => 'wear_state_cd', 'name' => 'maintenance'],
+
+
+            ////////////////// 추가 진단 그룹코드
+            ['group' => 'diagnosis_status_group', 'name' => 'wear_state_cd'],
         ]);
 
 

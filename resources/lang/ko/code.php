@@ -440,6 +440,12 @@ return [
         'certificating' => '검토중',
         'certificated' => '인증발급완'
     ],
+    'wear_state_cd' => [
+        'good' => '적정',
+        'lack' => '부족',
+        'pollution' => '오염',
+        'maintenance' => '교환요'
+    ],
 
 
 
