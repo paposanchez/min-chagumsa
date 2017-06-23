@@ -4,8 +4,7 @@ namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Diagnosis;
-use App\Models\DiagnosisFile;
+
 
 class DiagnosisDetail extends Model
 {
@@ -14,11 +13,10 @@ class DiagnosisDetail extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'id',
-        'diagnosises_id',
+        'diagnosis_details_id',
+        'parent_id',
         'name_cd',
-        'value_cd',
-        'option_cd',
-        'option_value_cd',
+        'description',
         'created_at',
         'updated_at',
     ];
@@ -27,21 +25,25 @@ class DiagnosisDetail extends Model
         'created_at', 'updated_at'
     ];
 
-    public function diagnosis(){
-        return $this->belongsTo(\App\Models\Diagnosis::class);
+    public function diagnosis_details(){
+        return $this->belongsTo(\App\Models\DiagnosisDetails::class, "id", "diagnosis_details_id");
     }
 
-    // 일반진단항목
-    public function selections(){
-        return $this->hasMany(\App\Models\Codes::class, "id", "name_cd");
+    public function diagnosis_item(){
+        return $this->hasMany(\App\Models\DiagnosisDetailItem::class,"diagnosis_detail_id", "id");
     }
 
-    // 추가선택항목
-    public function options(){
-        return $this->hasMany(\App\Models\Codes::class, "id", "options_cd");
+    public function name() {
+        return $this->hasOne(\App\Models\Code::class, 'id', 'name_cd');
     }
 
-    public function diagnosis_file(){
-        return $this->hasMany(\App\Models\DiagnosisFile::class);
+    // 같은 detail에서 parent_id가 NUll이 아닌 대상
+    public function children(){
+        return $this->hasMany(\App\Models\DiagnosisDetail::class,"parent_id", "id");
     }
+
+    public function parents(){
+        return $this->belongsTo(\App\Models\DiagnosisDetail::class,"id", "parent_id");
+    }
+
 }

@@ -91,35 +91,16 @@ class Order Extends Model
         return $this->datekey . '-' . $this->car_number;
     }
 
-    //========================== 아래는 검증안된 메쏘드
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function certificates(){
-        return $this->hasOne(Certificate::class, 'orders_id', 'id');
+    public function status() {
+        return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd');
     }
 
     public function diagnosis_details(){
-        return $this->hasMany(\App\Models\Diagnosis::class, 'id', 'orders_id');
+        return $this->hasMany(\App\Models\DiagnosisDetails::class, 'orders_id', 'id');
     }
 
-    public function order_feature(){
-        return $this->hasMany(OrderFeature::class);
+    public function certificates(){
+        return $this->hasOne(Certificate::class, 'orders_id', 'id');
     }
 
     public function engineer(){
@@ -129,23 +110,12 @@ class Order Extends Model
         return $this->hasOne(User::class, 'id', 'technist_id');
     }
 
-    public function status(){
-        $code = $this->hasOne(Code::class, 'id', 'status_cd');
-        return $code;
-
-    }
-
-
-    public function settlement_features(){
-        return $this->hasMany(\App\Models\SettlementFeature::class);
-    }
-
     public function item(){
-        return $this->belongsTo(\App\Models\Item::class);
+        return $this->hasOne(\App\Models\Item::class, 'id','item_id');
     }
 
     public function purchase(){
-        return $this->belongsTo(\App\Models\Purchase::class);
+        return $this->hasOne(\App\Models\Purchase::class, 'id','purchase_id');
     }
 
     public function car(){
@@ -161,6 +131,9 @@ class Order Extends Model
         return ($reservation ? $reservation->reservation_at : null);
     }
 
+    public function order_feature(){
+        return $this->hasMany(OrderFeature::class);
+    }
 
 
 }

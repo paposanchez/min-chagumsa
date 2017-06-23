@@ -11,21 +11,16 @@ namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\DiagnosisDetails;
-
 class DiagnosisFile extends Model
 {
     protected $primaryKey = 'id';
     protected $fillable = [
-        'id',
-        'diagnosis_details_id',
+        'diagnosis_detail_items_id',
         'original',
         'source',
         'path',
-        'created_at',
-        'updated_at',
-        'size',
         'mime',
+        'size'
     ];
 
     protected $dates = [
@@ -33,6 +28,6 @@ class DiagnosisFile extends Model
     ];
 
     public function diagnosisDetail(){
-        return $this->belongsTo(Diagnosis::class);
+        return $this->belongsTo(\App\Models\DiagnosisDetailItem::class, 'id', 'diagnosis_detail_items_id');
     }
 }
