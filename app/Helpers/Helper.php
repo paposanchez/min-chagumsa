@@ -220,4 +220,18 @@ class Helper {
             return null;
         }
     }
+
+    public static function getCodeSelectArray($code_group, $group_name, $default=''){
+
+        if($default){
+            $select_list = ['' => $default];
+        }else{
+            $select_list = [];
+        }
+
+        foreach ($code_group as $id => $name){
+            $select_list[$id] = trans('code.'. $group_name .'.' . $name);
+        }
+        return $select_list;
+    }
 }

@@ -101,6 +101,7 @@ return [
     'transmission' => [
         'manual' => 'Manual',
         'automatic' => 'Autiomatic',
+        'automanual' => 'Automanual',
         'cvt' => 'CVT',
         'other' => 'Other/Unknown'
     ],

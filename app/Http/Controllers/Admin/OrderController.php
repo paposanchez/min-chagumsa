@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Helper;
 use App\Mixapply\Uploader\Receiver;
 use App\Models\Certificate;
 use App\Models\Order;
@@ -89,10 +90,20 @@ class OrderController extends Controller
 
     public function edit($id){
         $order = Order::findOrFail($id);
-        $select_color = Code::getCodesByGroup('diagnosis_info_color_cd');
-        $select_attachment_status = Code::getCodesByGroup('attachment_status_cd');
+        $select_color = Helper::getCodeSelectArray(Code::getCodesByGroup('diagnosis_info_color_cd'), 'diagnosis_info_color_cd', '외부색상을 선택해 주세요.');
 
-        return view('admin.order.edit', compact('order', 'select_color', 'select_attachment_status'));
+        $select_vin_yn = Helper::getCodeSelectArray(Code::getCodesByGroup('yn'), 'yn', '차대번호 동일성을 확인해 주세요.');
+        $select_transmission = Helper::getCodeSelectArray(Code::getCodesByGroup("transmission"),'transmission', '변속기 타입을 선택해 주세요.');
+        $select_fueltype = Helper::getCodeSelectArray(Code::getCodesByGroup('fuel_type'), 'fuel_type', '사용연료 타입을 선택해 주세요.');
+
+        if($order->certificates) {
+            $vin_yn_cd = $order->certificates->vin_yn_cd;
+        }else{
+            $vin_yn_cd = '';
+        }
+
+
+        return view('admin.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd'));
     }
 
     public function store(Request $request){

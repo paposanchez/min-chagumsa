@@ -68,9 +68,6 @@
                 </div>
             </div>
         </div>
-        <div class="text-right">
-            <button class="btn btn-primary text-right" type="submit">저장</button>
-        </div>
 
         {!! Form::close() !!}
     </div>
