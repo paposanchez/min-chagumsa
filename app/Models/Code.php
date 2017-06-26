@@ -88,7 +88,7 @@ class Code extends Model {
                 "id" => $entry->id,
                 "group" => $entry->group,
                 "name" => $entry->name,
-                "display" => $entry->display()
+                "display" => trans('code.' . $entry->group . '.' . $entry->name)
             );
         }
 
