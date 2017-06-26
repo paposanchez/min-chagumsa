@@ -51,7 +51,7 @@ class DiagnosisDetailItem extends Model
     public function getOptions($options_cd){
         if($options_cd) {
             $option = \App\Models\Code::find($options_cd);
-            return \App\Models\Code::where("group", $option->name)->get();            
+            return \App\Models\Code::getSelectList($option->name);            
         }else{
             return null;
         }
