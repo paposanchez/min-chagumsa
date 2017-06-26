@@ -40,30 +40,13 @@ class Code extends Model {
         return trans('code.' . $this->group . '.' . $this->name);
     }
 
+    public function children() {
+        return $this->hasMany(\App\Models\Code::class, "group", $this->name);
+    }
 
-  // `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  // `group` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  // `name` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  // `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  // `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-
-
-  //   public function get() {
-
-  //       return [
-
-  //         'id',
-  //         'group',
-  //         'name',
-  //         'created_at',
-  //         'updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-
-  //       ]
-
-          
-  //       return trans('code.' . $this->group . '.' . $this->name);
-  //   }
-
+    public function parents() {
+        return $this->hasMany(\App\Models\Code::class, "name", $this->group);
+    }
 
     public static function getSelectList($group = '') {
 
@@ -111,21 +94,4 @@ class Code extends Model {
         }
     }
 
-//    public static function getCodesWithDisplayNameByGroup($group) {
-//        $results = DB::table('codes')
-//                ->where("group", $group)
-//                ->orderBy('id')
-//                ->get();
-//
-//
-//        $return = [];
-//        foreach ($results as $entry) {
-//            $return[$entry->id] = [
-//                $entry->id,
-//                trans('code.' . $entry->group . '.' . $entry->name)
-//            ];
-//        }
-//
-//        return $return;
-//    }
 }

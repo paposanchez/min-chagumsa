@@ -157,7 +157,7 @@ class DiagnosisRepository {
                     'use_image'   => $entry->use_image,
                     'use_voice'   => $entry->use_voice,
                     'options_cd'   => $entry->options_cd,
-                    'options'   => $entry->options,
+                    'options'   => $entry->options->children,
                     'selected'   => $entry->selected,
                     'required_image_options'   => $entry->required_image_options,
                     'description'   => $entry->description,
