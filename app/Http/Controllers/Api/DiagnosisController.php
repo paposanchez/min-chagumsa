@@ -406,7 +406,7 @@ class DiagnosisController extends ApiController {
      *     description="엔지니어 개인의 진단중 주문 목록, 오늘부터 과거의 주문 출력",
      *     operationId="getDiagnosisWorking",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="garage_id",in="query",description="정비소 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
      *     ),
@@ -424,8 +424,9 @@ class DiagnosisController extends ApiController {
         try {
             $garage_id = $request->get('garage_id');
 
+           
             $validator = Validator::make($request->all(), [
-                'garage_id' => 'required|exists:user_extras,garage_id'
+               'user_id' => 'required|exists:users,id'
             ]);
 
             if ($validator->fails()) {
@@ -433,7 +434,9 @@ class DiagnosisController extends ApiController {
                 throw new Exception($errors[0]);
             }
 
-            $orders = Order::where('garage_id', $garage_id)
+            $user = User::findOrFail($user_id);
+
+            $orders = Order::where('orders.garage_id', $user->user_extra->garage_id)
                     ->where('status_cd', [106])
                     ->where('diagnose_at', null)
                     ->get();
