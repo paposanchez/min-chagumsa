@@ -50,7 +50,7 @@ class DiagnosisDetailItem extends Model
 
     public function getOptions($options_cd){
         $option = \App\Models\Code::find($options_cd);
-        return \App\Models\Code::where("group")->get();
+        return \App\Models\Code::where("group", $option->name)->get();
         // return $this->hasMany(\App\Models\Code::class, "id", "options_cd");
     }
 }
