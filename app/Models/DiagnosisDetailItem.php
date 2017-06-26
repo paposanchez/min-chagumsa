@@ -39,12 +39,18 @@ class DiagnosisDetailItem extends Model
         return $this->hasMany(\App\Models\DiagnosisFile::class, 'diagnosis_detail_items_id', 'id');
     }
 
-     // 추가선택항목
+    public function selected_code(){
+        return $this->hasOne(\App\Models\Code::class, "id", "selected");
+    }
+
+    // 추가선택항목
     public function options(){
         return $this->hasOne(\App\Models\Code::class, "id", "options_cd");
     }
 
-    public function selected_code(){
-        return $this->hasOne(\App\Models\Code::class, "id", "selected");
+    public function getOptions($options_cd){
+        $option = \App\Models\Code::find($options_cd);
+        return \App\Models\Code::where("group")->get();
+        // return $this->hasMany(\App\Models\Code::class, "id", "options_cd");
     }
 }
