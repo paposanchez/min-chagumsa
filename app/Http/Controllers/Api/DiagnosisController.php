@@ -422,8 +422,8 @@ class DiagnosisController extends ApiController {
      */
     public function getDiagnosisWorking(Request $request) {
         try {
-            $garage_id = $request->get('garage_id');
-
+            
+            $user_id = $request->get('user_id');
            
             $validator = Validator::make($request->all(), [
                'user_id' => 'required|exists:users,id'
