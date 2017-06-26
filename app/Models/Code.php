@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Illuminate\Support\Facades\Cache;
 
 /**
  *
@@ -73,6 +74,41 @@ class Code extends Model {
 
         return $return;
     }
+
+    public static function getByGroupArray($group) {
+        $entrys = DB::table('codes')
+                ->where("group", $group)
+                ->orderBy('id')
+                ->get();
+
+        $return = [];
+
+        foreach($entrys as $entry) {
+            $return[] = array(
+                "id" => $entry->id,
+                "group" => $entry->group,
+                "name" => $entry->name,
+                "display" => $entry->display()
+            );
+        }
+
+
+        return $return;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //=======================
 
     public static function getCodesByGroup($group) {
         $return = DB::table('codes')
