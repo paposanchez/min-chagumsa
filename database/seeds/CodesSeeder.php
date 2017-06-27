@@ -12,8 +12,8 @@ class CodesSeeder extends Seeder {
     public function run() {
         
         DB::table('codes')->insert([
-            ['id'=>1, 'group' => 'user_state', 'name' => 'active'],
-            ['id'=>2, 'group' => 'user_state', 'name' => 'unactive'],
+            ['id'=>1, 'group' => 'user_status', 'name' => 'active'],
+            ['id'=>2, 'group' => 'user_status', 'name' => 'unactive'],
             ['id'=>3, 'group' => 'yn', 'name' => 'yes'],
             ['id'=>4, 'group' => 'yn', 'name' => 'no'],
             ['id'=>5, 'group' => 'post_shown_role', 'name' => 'secret'],

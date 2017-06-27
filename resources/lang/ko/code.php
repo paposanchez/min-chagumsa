@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'user_state' => [
+    'user_status' => [
         'active' => '활성',
         'unactive' => '비활성'
     ],
