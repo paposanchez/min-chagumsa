@@ -436,7 +436,7 @@ return [
         'reserved' => '입고대기',
         'arrived' => '입고',
         'diagnosing' => '진단중',
-        'diagnosed' => '진단완료, 발급요청',
+        'diagnosed' => '진단완료',
         'certificating' => '검토중',
         'certificated' => '인증발급완'
     ],
