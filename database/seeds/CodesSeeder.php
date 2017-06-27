@@ -451,6 +451,8 @@ class CodesSeeder extends Seeder {
                 ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_glass_gear'],
                 ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_remote'],
                 ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_wiper'],
+                    ['group' => 'diagnosis_plugin_wiper', 'name' => 'diagnosis_wiper_steering'],
+                    ['group' => 'diagnosis_plugin_wiper', 'name' => 'diagnosis_wiper_oil'],
                 ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_side_mirror'],
                 ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_sun_roof'],
                 ['group' => 'diagnosis_plugin', 'name' => 'diagnosis_plugin_navigation'],

@@ -528,7 +528,7 @@ return [
     'diagnosis_check_interior' => [
         'diagnosis_interior_instrument_panel' => '계기패널',
         'diagnosis_interior_console_box' => '콘솔박스',
-        'diagnosis_interior_Built_in_trim' => '내장&트림',
+        'diagnosis_interior_Built_in_trim' => '내장∙트림',
         'diagnosis_interior_sheet' => '시트',
         'diagnosis_interior_mat' => '메트'
     ],
@@ -544,6 +544,10 @@ return [
         'diagnosis_plugin_rear_camera' => '후방카메라(순정)',
         'diagnosis_plugin_etc' => '기타 추가장착품',
         'diagnosis_plugin_opinion' => '점검의견'
+    ],
+    'diagnosis_plugin_wiper' => [
+        'diagnosis_wiper_steering' => '와이퍼 조향장치',
+        'diagnosis_wiper_oil' => '와이퍼 오일'
     ],
     'diagnosis_expendables' => [
         'diagnosis_expendables_engine_oil' => '엔진오일 상태',
@@ -575,7 +579,7 @@ return [
         'diagnosis_oil_cylinder_block' => '실린더 블럭'
     ],
     'diagnosis_powermover_cooling_water' => [
-        'diagnosis_cooling_water_cylinder_block' => '냉각수 실린저 블럭',
+        'diagnosis_cooling_water_cylinder_block' => '냉각수 실린더 블럭',
         'diagnosis_cooling_water_cylinder_head' => '실린더 헤드/가스켓',
         'diagnosis_cooling_water_water_pump' => '워터펌프',
         'diagnosis_cooling_water_cooler' => '냉각쿨러(라디에이터)',
