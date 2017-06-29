@@ -53,6 +53,7 @@ class DiagnosisController extends ApiController {
      * )
      */
     public function show(Request $request) {
+
         try{
             $order_id = $request->get('order_id');
 
@@ -71,7 +72,6 @@ class DiagnosisController extends ApiController {
             $return = $diagnosis->prepare($order_id)->get();
 
             return response()->json($return);
-
 
         }catch (Exception $e){
             return abort(404, trans('order.not-found'));
@@ -269,15 +269,15 @@ class DiagnosisController extends ApiController {
     }
 
     /**
-     * @SWG\Get(
+     * @SWG\Post(
      *     path="/diagnosis/grant",
      *     tags={"Diagnosis"},
      *     summary="주문의 엔지니어 설정",
      *     description="특정주문의 진단이 시직되면 헤당 엔지니어에게 사용자 설정을 한다.",
-     *     operationId="getReservationCount",
+     *     operationId="setDiagnosisEngineer",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
-     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="order_id",in="formData",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="formData",description="사용자 번호",required=true,type="integer",format="int32"),
      *     @SWG\Response(response=401, description="unauthorized"),
      *     @SWG\Response(response=404, description="not found"),
      *     @SWG\Response(response=500, description="internal server error"),
@@ -305,11 +305,11 @@ class DiagnosisController extends ApiController {
 
             $diagnosis = new DiagnosisRepository();
             $return = $diagnosis->get($order_id);
-            
+
             $return->engineer_id = $user_id;
             $return->status = 106;
             $return->save();
-            
+
             return response()->json(true);
             
             // 앱에서는 간단하게 
@@ -582,6 +582,39 @@ class DiagnosisController extends ApiController {
                 "right" => ($tomorrow >= 10 ? $tomorrow%10 : $tomorrow)
             ]
         ]);
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/diagnosis/make",
+     *     tags={"Diagnosis"},
+     *     summary="진단데이터 생성",
+     *     description="주문번호를 이용한 진단데이터 생성",
+     *     operationId="saveDiagnosisDate",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="order_id",in="query",description="주문번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="object")
+     *     ),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *     }
+     * )
+     */
+    public function saveDiagnosisDate(Request $request){
+        $order_id = $request->get('order_id');
+        $order = Order::findOrFail($order_id);
+        $item_layout = $order->item->layout;
+
+        $diagnosis = new DiagnosisRepository();
+        $diagnosis->save($order_id, $item_layout);
+
+        return response()->json(true);
     }
 
 
