@@ -354,7 +354,7 @@ return [
     'oil_amount_state' => [
         'optimum' => '적정',
         'lack' => '부족',
-        'excess' => '초과',
+        'excess' => '과다',
         'pollution' => '오염'
     ],
     'shock_state_cd' => [
