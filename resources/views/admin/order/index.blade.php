@@ -32,14 +32,22 @@
                     <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/order.status') }}</label>
                     <div class="col-sm-6">
 {{--                        {!! Form::select('board_id', [null=>trans('common.search.first_select')] + $board_list, $request->query('board_id'), ['class'=>'form-control', 'id'=>'inputBoardId']) !!}--}}
-                        <button class="btn btn-default">전체</button>
-                        <button class="btn btn-default">입고대기</button>
-                        <button class="btn btn-default">진단중</button>
-                        <button class="btn btn-default">진단완료</button>
-                        <button class="btn btn-default">발급대기</button>
-                        <button class="btn btn-default">검토중</button>
-                        <button class="btn btn-default">발급완료</button>
-                        <button class="btn btn-default">주문취소</button>
+                        <!--
+                        case 100: $code_msg = '주문취소';break;
+            case 101: $code_msg = '발급대기';break;
+            case 102: $code_msg = '주문완료';break;
+            case 103: $code_msg = '주문요청';break;
+            case 105: $code_msg = '차량입고';break;
+                        -->
+                        <button class="btn btn-default" name="status_cd" value="">전체</button>
+                        <button class="btn btn-default" name="status_cd" value="100">주문취소</button>
+                        <button class="btn btn-default" name="status_cd" value="101">주문신청</button>
+                        <button class="btn btn-default" name="status_cd" value="102">주문완</button>
+                        <button class="btn btn-default" name="status_cd" value="104">입고대기</button>
+                        <button class="btn btn-default" name="status_cd" value="106">진단중</button>
+                        <button class="btn btn-default" name="status_cd" value="107">진단완료</button>
+                        <button class="btn btn-default" name="status_cd" value="108">검토중</button>
+                        <button class="btn btn-default" name="status_cd" value="109">인증발급완료</button>
                     </div>
                 </div>
 
@@ -121,13 +129,13 @@
                     @endunless
 
                     @foreach($entrys as $data)
+
                     <tr>
                         {{--<td class="">--}}
                             {{--<input type="checkbox">--}}
                         {{--</td>--}}
                         <td class="text-center">
-                            {{--<a href="{{ route('order.edit', $data->id) }}">{{ $data->datekey }}-{{ $data->car_number }}</a>--}}
-                            <a href="/order/view/{{$data->id}}">{{ $data->datekey }}-{{ $data->car_number }}</a>
+                            <a href="{{ route('order.show', $data->id) }}">{{ $data->getOrderNumber() }}</a>
                         </td>
                         <td class="">
                             {{ $data->orderer_name }}

@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+
+use Illuminate\Support\Facades\Mail;
+use App\Notifications\ConfirmEmail;
 
 class RegisterController extends Controller {
 
@@ -20,8 +26,15 @@ class RegisterController extends Controller {
         return view('web.auth.agreement');
     }
     
-      public function join() {
-        return view('web.auth.join');
+      public function join(Request $request) {
+
+        if($request->get('term_use')=='on' && $request->get('term_info') == 'on'){
+            return view('web.auth.join');
+        }else{
+            return \redirect()->route('register.index');
+        }
+
+
     }
 
     /**
@@ -33,7 +46,7 @@ class RegisterController extends Controller {
     protected function validator(array $data) {
         $validator = Validator::make($data, [
                     'email' => 'required|email|max:255|unique:users',
-                    'name' => 'required|max:100',
+                    'name' => 'max:100',
                     'password' => 'required|min:6|confirmed',
                     'password_confirmation' => 'required|min:6|same:password',
                     'mobile' => 'confirmed',
@@ -47,35 +60,95 @@ class RegisterController extends Controller {
         ]);
         return $validator;
     }
-    
-    
-    
+
+    /**
+     * 회원정보 저장
+     * @param Request $request
+     * @return \HttpResponse
+     */
+    public function register(Request $request)
+    {
+        $user = $this->validator($request->all())->validate();
+//
+//        event(new Registered($user = $this->create($request->all())));
+
+        $user_info = User::where("email", $request->email)->first();
+
+        if($user_info){
+            return Redirect::back();
+        }else{
+            $user_info = new User();
+            $user_info->email = $request->email;
+            $user_info->name = "web_user";
+            $user_info->password = bcrypt($request->password);
+
+            //todo email confirm이 없다면 값을 변경함.
+            $user_info->status_cd = 2; // 1 - active
+            $user_info->save();
+
+            //todo email confirm 보내야 함.
+
+        }
+
+
+//        $this->guard()->login($request);
+        Auth::login($user_info, true);
+
+        //dd($user);
+
+        //todo registerd 페이지를 찾아 연동해야 함.
+        return $this->registered($request, $user_info);
+//            ?: redirect($this->redirectPath());
+    }
+
 
     public function registered(Request $request, $user) {
-
-//        $user->notify(new ConfirmEmail());
+//        $confirmation_code = str_random(30);
+//
+//        $user->notify(new ConfirmEmail($confirmation_code));
 
 //        return redirect('/')->with('ok', trans('web/verify.message'));
-        
-         return view('web.auth.register.registered');
+//        dd('aaa');
+        //verification email
+
+        // 인증메일 관련 부분 향후에
+        $confirmation_code = str_random(30);
+
+        $confirm_user = Post::find($user->id);
+        if($confirm_user){
+            $confirm_user->verification_code = $confirmation_code;
+            $confirm_user->save();
+
+            Mail::send('email.verify', $confirmation_code, function($message) use ($user) {
+                $message->to($user->email)
+                    ->subject("[카검사 ]회원 인증 메일입니다");
+            });
+
+        }else{
+            //
+        }
+
+
+        return view('web.auth.registered', compact("user"));
     }
+
 
     /**
      * Handle a confirmation request
      *
-     * @param  \App\Repositories\UserRepository $userRepository
+     * @param UserRepository $userRepository
      * @param  string  $confirmation_code
      * @return \Illuminate\Http\Response
      */
     public function confirm(UserRepository $userRepository, $confirmation_code) {
         $userRepository->confirm($confirmation_code);
-        return redirect('/')->with('ok', trans('web/verify.success'));
+        //return redirect('/')->with('ok', trans('web/verify.success'));
     }
 
     /**
      * Handle a resend request
      *
-     * @param  \App\Repositories\UserRepository $userRepository
+     * @param  UserRepository $userRepository
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */

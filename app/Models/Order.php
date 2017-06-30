@@ -35,7 +35,7 @@ class Order Extends Model
         'orderer_id',
         'orderer_name',
         'orderer_mobile',
-        'registration_file_cd',
+        'registration_file',
         'mileage',
         'open_cd',
         'verification_id',
@@ -44,6 +44,12 @@ class Order Extends Model
     protected $dates = [
         'created_at', 'updated_at','diagnose_at', 'diagnosed_at'
     ];
+
+
+    public function details(){
+        return $this->hasMany(DiagnosisDetails::class,'orders_id', '');
+    }
+
 
 
     // 해당 주문의 차량 풀네임을 조회
@@ -67,6 +73,7 @@ class Order Extends Model
         return implode(" ", $fullname);
     }
 
+
     public function getReservation($order_id) {
         return Reservation::whereNotNull("updated_at")->where('orders_id', $order_id)->first();
     }
@@ -76,7 +83,7 @@ class Order Extends Model
     }
 
     public function status() {
-        return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd'); 
+        return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd');
     }
 
     public function diagnosis_details(){
@@ -133,7 +140,4 @@ class Order Extends Model
         $reservation = Reservation::whereNotNull("updated_at")->where('orders_id', $order_id)->last();
         return ($reservation ? $reservation->reservation_at : null);
     }
-
-
-
 }

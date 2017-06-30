@@ -23,4 +23,7 @@ class Models extends Model {
         return $this->hasMany(\App\Models\Detail::class, 'model_id', 'id');
     }
 
+    public function car(){
+        return $this->belongsTo(\App\Models\Car::class);
+    }
 }

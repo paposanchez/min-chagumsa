@@ -16,7 +16,7 @@ class NoticeController extends ApiController {
      * @SWG\Get(
      *     path="/notice",
      *     tags={"Board"},
-     *     summary="공지사항 목록", 
+     *     summary="공지사항 목록",
      *     description="공지사항 목록",
      *     operationId="index",
      *     produces={"application/json"},
@@ -45,7 +45,7 @@ class NoticeController extends ApiController {
      * @SWG\Get(
      *     path="/notice/show",
      *     tags={"Board"},
-     *     summary="공지사항 상세내용", 
+     *     summary="공지사항 상세내용",
      *     description="공지사항 상세내용",
      *     operationId="show",
      *     produces={"application/json"},
@@ -76,7 +76,7 @@ class NoticeController extends ApiController {
      * @SWG\Get(
      *     path="/notice/news",
      *     tags={"Board"},
-     *     summary="공지사항 신규게시물 갯수", 
+     *     summary="공지사항 신규게시물 갯수",
      *     description="공지사항 신규게시물 갯수",
      *     operationId="news",
      *     produces={"application/json"},

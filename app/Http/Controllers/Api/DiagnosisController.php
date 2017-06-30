@@ -78,12 +78,12 @@ class DiagnosisController extends ApiController {
 
 
     }
-    
+
     /**
      * @SWG\Post(
      *     path="/diagnosis",
      *     tags={"Diagnosis"},
-     *     summary="개별주문에 대한 저장", 
+     *     summary="개별주문에 대한 저장",
      *     description="개별주문에 진단 저장",
      *     operationId="update",
      *     produces={"application/json"},
@@ -103,7 +103,7 @@ class DiagnosisController extends ApiController {
 
         $order_id = $request->get('order_id');
         $encrypt_json = $request->get('diagnosis');
-        
+
         $diagnosis = new DiagnosisRepository();
         $return = $diagnosis->prepare($order_id)->save($encrypt_json);
 
@@ -111,11 +111,11 @@ class DiagnosisController extends ApiController {
     }
 
 
-     /**
+    /**
      * @SWG\Post(
      *     path="/diagnosis/upload",
      *     tags={"Diagnosis"},
-     *     summary="진단데이터의 파일업로드 핸들러", 
+     *     summary="진단데이터의 파일업로드 핸들러",
      *     description="진단데이터의 이미지, 음성파일을 스토리지로 업로드한다",
      *     produces={"application/json"},
      *     @SWG\Parameter(name="order_id",in="query",description="주문번호",required=true,type="integer"),
@@ -150,13 +150,13 @@ class DiagnosisController extends ApiController {
             $uploader_group_id = $order_id;
 
             $validator = Validator::make($request->all(), [
-                        $uploader_name => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                $uploader_name => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
 
 
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
-               throw new Exception($errors[0]);
+                throw new Exception($errors[0]);
             }
 
             $uploader = new Receiver($request);
@@ -187,16 +187,16 @@ class DiagnosisController extends ApiController {
 
                 // Save the record to the db
                 $data = File::create([
-                            'original' => $response['result']['original'],
-                            'source' => $response['result']['source'],
-                            'path' => $response['result']['path'],
-                            'size' => $response['result']['size'],
-                            'extension' => $response['result']['extension'],
-                            'mime' => $response['result']['mime'],
-                            'hash' => $response['result']['hash'],
-                            'download' => 0,
-                            'group' => ($uploader_group ? $uploader_group : NULL),
-                            'group_id' => ($uploader_group_id ? $uploader_group_id : NULL)
+                    'original' => $response['result']['original'],
+                    'source' => $response['result']['source'],
+                    'path' => $response['result']['path'],
+                    'size' => $response['result']['size'],
+                    'extension' => $response['result']['extension'],
+                    'mime' => $response['result']['mime'],
+                    'hash' => $response['result']['hash'],
+                    'download' => 0,
+                    'group' => ($uploader_group ? $uploader_group : NULL),
+                    'group_id' => ($uploader_group_id ? $uploader_group_id : NULL)
                 ]);
                 $data->save();
 
@@ -253,7 +253,7 @@ class DiagnosisController extends ApiController {
 //                                 'id' => $item->id,
 //                 'name' => $item->name,
 //                 'price' => $item->price,
-// //                'layout' => $item->layout, 
+// //                'layout' => $item->layout,
 //                 'layout' => json_encode(str_replace(["\r\n","\r","\n", "\""], ["", "", "", "'"] ,stripcslashes($item->layout))),
 //                 'created_at' => $item->created_at
 // ]);
@@ -294,12 +294,13 @@ class DiagnosisController extends ApiController {
             $user_id = $request->get('user_id');
 
             $validator = Validator::make($request->all(), [
-               'user_id' => 'required|exists:users,id'
+                'user_id' => 'required|unique:users'
             ]);
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
-               throw new Exception($errors[0]);
+                throw new Exception($errors[0]);
             }
+
 
 
 //            $diagnosis = new DiagnosisRepository();
@@ -311,12 +312,12 @@ class DiagnosisController extends ApiController {
 
             return response()->json($order);
             
-            // 앱에서는 간단하게 
+            // 앱에서는 간단하게
         } catch (Exception $e) {
             return abort(404, trans('diagnosis.not-found'));
         }
     }
-    
+
 
 
 
@@ -346,16 +347,13 @@ class DiagnosisController extends ApiController {
      */
     public function getDiagnosisReservation(Request $request) {
         try {
-
             $date = $request->get('date');
             $user_id = $request->get('user_id');
-
 
             $validator = Validator::make($request->all(), [
                'user_id' => 'required|exists:users,id',
                'date' => 'required|date_format:Y-m-d'
             ]);
-
 
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
@@ -384,13 +382,12 @@ class DiagnosisController extends ApiController {
             foreach($reservations as $reservation) {
                 $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
             }
-
             return response()->json(array(
                 'date' => $date,
                 'count' =>count($returns),
                 'orders' => $returns
             ));
-            // 앱에서는 간단하게 
+            // 앱에서는 간단하게
         } catch (Exception $e) {
             return abort(404, trans('diagnosis.not-found'));
         }
@@ -405,7 +402,7 @@ class DiagnosisController extends ApiController {
      *     description="엔지니어 개인의 진단중 주문 목록, 오늘부터 과거의 주문 출력",
      *     operationId="getDiagnosisWorking",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="garage_id",in="query",description="정비소 번호",required=true,type="integer",format="int32"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
      *     ),
@@ -421,11 +418,10 @@ class DiagnosisController extends ApiController {
      */
     public function getDiagnosisWorking(Request $request) {
         try {
-            
-            $user_id = $request->get('user_id');
-           
+            $garage_id = $request->get('garage_id');
+
             $validator = Validator::make($request->all(), [
-               'user_id' => 'required|exists:users,id'
+                'garage_id' => 'required|exists:user_extras,garage_id'
             ]);
 
             if ($validator->fails()) {
@@ -433,12 +429,11 @@ class DiagnosisController extends ApiController {
                 throw new Exception($errors[0]);
             }
 
-            $user = User::findOrFail($user_id);
+            $orders = Order::where('garage_id', $garage_id)
+                ->where('status_cd', [106])
+                ->where('diagnose_at', null)
+                ->get();
 
-            $orders = Order::where('orders.garage_id', $user->user_extra->garage_id)
-                    ->where('status_cd', [106])
-                    ->where('diagnose_at', null)
-                    ->get();
 
             $returns = [];
 
@@ -449,7 +444,9 @@ class DiagnosisController extends ApiController {
             }
 
             return response()->json($returns);
-            // 앱에서는 간단하게 
+
+            // 앱에서는 간단하게
+
         } catch (Exception $e) {
             return abort(404, trans('garage_id.not-found'));
         }
@@ -487,9 +484,9 @@ class DiagnosisController extends ApiController {
             $s = $request->get('s');
 
             $validator = Validator::make($request->all(), [
-               'user_id' => 'required|exists:users,id',
-               'date' => 'required|date_format:Y-m-d',
-               's' => 'min:1'
+                'user_id' => 'required|exists:users,id',
+                'date' => 'required|date_format:Y-m-d',
+                's' => 'min:1'
             ]);
 
             if ($validator->fails()) {
@@ -504,11 +501,12 @@ class DiagnosisController extends ApiController {
             $user = User::findOrFail($user_id);
 
             $where = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
-            ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
-            ->whereNotNull("reservations.updated_at")
-            ->where('orders.garage_id', $user->user_extra->garage_id)
-            ->where('orders.status_cd', ">=", 107)
-            ->select('reservations.*');
+                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+                ->whereNotNull("reservations.updated_at")
+                ->where('orders.garage_id', $user->user_extra->garage_id)
+                ->where('orders.status_cd', ">=", 107)
+                ->select('reservations.*');
+
 
             if($s) {
                 $where->where('orders.car_number', $s);
@@ -524,13 +522,14 @@ class DiagnosisController extends ApiController {
             foreach($reservations as $reservation) {
                 $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
             }
-            
+
+
             return response()->json(array(
                 'date' => $date,
                 'count' =>count($returns),
                 'orders' => $returns
             ));
-            // 앱에서는 간단하게 
+            // 앱에서는 간단하게
         } catch (Exception $e) {
             return abort(404, trans('diagnosis.not-found'));
         }
@@ -570,7 +569,7 @@ class DiagnosisController extends ApiController {
 
         $today = rand(0,99);
         $tomorrow = rand(0,99);
-        
+
         return response()->json([
             'today' => [
                 "left" => ($today >= 10 ? $today/10 : '0'),

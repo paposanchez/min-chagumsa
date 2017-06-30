@@ -4,6 +4,9 @@
 Route::group(['middleware' => ['auth']], function () {
     Route::get('mypage', 'MypageController@index')->name("mypage");
     Route::group(['namespace' => 'Mypage', 'prefix' => 'mypage', 'as' => 'mypage.'], function () {
+
+
+        Route::post('profile/chk-pwd', ['as' => 'profile.chk-pwd', 'uses' => 'ProfileController@chkPwd']);
         Route::resource('profile', 'ProfileController');
         Route::resource('history', 'HistoryController');
         Route::resource('order', 'OrderController');
@@ -69,10 +72,10 @@ Route::get('search{q?}', 'SearchController@index')->name('search.index');
 Route::get('logout', 'Auth\LoginController@logout');
 Auth::routes();
 // 회원가입폼
-Route::get('register/join', 'Auth\RegisterController@join')->name('register.join');
+Route::post('register/join', 'Auth\RegisterController@join')->name('register.join');
 // 회원가입완료
 Route::get('register/registered', 'Auth\RegisterController@registered')->name('register.registered');
 // 이메일 인증
-Route::get('verify', 'Auth\VerifyController@__invoke');
+Route::get('verify', 'Auth\VerifyController@emailCheck');
 
 Route::get('/', 'WelcomeController');

@@ -14,7 +14,7 @@ class Car Extends Model
         'imported_vin_number', //'수입차 VIN 번호',
         'kind_cd', //
         'fueltype_cd', //'연료타입',
-        'engine_cd', //'엔진타입',
+        'engine_type', //'엔진타입',
         'transmission_cd', //'변속기',
         'drivetype_cd', //
         'interior_color_cd', //'내장색',

@@ -14,7 +14,9 @@
         "php": ">=7.0.0",
         "barryvdh/laravel-debugbar": "^2.3",
         "baum/baum": "~1.1",
+        "darkaonline/l5-swagger": "~4.0",
         "davejamesmiller/laravel-breadcrumbs": "^3.0.1",
+        "guzzlehttp/guzzle": "~6.0",
         "intervention/image": "^2.3.11",
         "jenssegers/agent": "^2.3",
         "laracasts/flash": "^2.0",
@@ -23,10 +25,9 @@
         "laravelcollective/html": "^5.4",
         "maatwebsite/excel": "^2.1",
         "nesbot/carbon": "^1.22",
-        "zizaco/entrust": "5.2.x-dev",
-        "spatie/laravel-activitylog": "^1.12",
         "rtconner/laravel-tagging": "~2.2",
-        "darkaonline/l5-swagger" : "~4.0"
+        "spatie/laravel-activitylog": "^1.12",
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

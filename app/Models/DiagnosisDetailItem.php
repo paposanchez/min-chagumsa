@@ -39,6 +39,7 @@ class DiagnosisDetailItem extends Model
         return $this->hasMany(\App\Models\DiagnosisFile::class, 'diagnosis_detail_items_id', 'id');
     }
 
+
     public function selected_code(){
         return $this->hasOne(\App\Models\Code::class, "id", "selected");
     }
@@ -56,5 +57,6 @@ class DiagnosisDetailItem extends Model
             return null;
         }
         // return $this->hasMany(\App\Models\Code::class, "id", "options_cd");
+
     }
 }

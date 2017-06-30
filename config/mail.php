@@ -50,8 +50,8 @@ return [
       |
      */
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'admin@2by.kr'),
-        'name' => env('MAIL_FROM_NAME', 'ZLARA'),
+        'address' => env('MAIL_FROM_ADDRESS', 'admin@cargumsa.com'),
+        'name' => env('MAIL_FROM_NAME', 'Cargumsa'),
     ],
     /*
       |--------------------------------------------------------------------------

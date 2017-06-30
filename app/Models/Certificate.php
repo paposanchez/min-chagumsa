@@ -52,6 +52,7 @@ class Certificate Extends Model
         'vat',
         'vin_yn_cd'
     ];
+    protected $primaryKey = 'orders_id';
     protected $dates = [
         'created_at', 'updated_at'
     ];

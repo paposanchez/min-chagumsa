@@ -24,18 +24,20 @@
             
             <ul>
                 <li><a href='{{ route('information.index') }}'>카검사 소개</a></li>
-                <li><a href='{{ route('order.index') }}'>인증서 신청</a></li>
+                {{--<li><a href='{{ route('order.index') }}'>인증서 신청</a></li>--}}
+                <li><a href='{{ url("/order") }}'>인증서 신청</a></li>
                 <li><a href='{{ route('mypage.order.index') }}'>My 인증서</a></li>
                 <li><a href='{{ route('notice.index') }}'>고객센터</a></li>
             </ul>
 
             <div class='gnb_login_wrap'>
-                <a href='{{ route('login') }}'>로그인</a>
-                <a href='{{ route('register') }}'>회원가입</a>
-                <!--
-                <a href='../member/login.php'>마이페이지</a>
-                <a href='../member/join.php'>로그아웃</a>
-                -->
+                @if(Auth::check())
+                    <a href='{{ route('mypage.order.index') }}'>마이페이지</a>
+                    <a href='{{ route('logout') }}'>로그아웃</a>
+                @else
+                    <a href='{{ route('login') }}'>로그인</a>
+                    <a href='{{ route('register') }}'>회원가입</a>
+                @endif
             </div>
             <form action="{{ route('search.index') }}">
                 <div class='gnb_search_wrap'>

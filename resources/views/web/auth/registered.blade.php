@@ -33,7 +33,7 @@
 		
 		<dl class='simple_info'>
 			<dt>이메일</dt>
-			<dd>user01@gmail.com</dd>
+			<dd>{{ $user->email }}</dd>
 		</dl>
 
 		<div class='br20'></div>

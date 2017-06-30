@@ -1,420 +1,623 @@
 <?php
+namespace App\Http\Controllers\Api;
 
-namespace App\Repositories;
-
-/*
- *
- * @Project        cargumsa
- * @Copyright      leechanrin
- * @Created        2017-05-24 오후 5:17:35 
- * @Filename       DiagnosisRepository.php
- * @Description    진단데이터에 대한 암호화 복호화 검증등을 진한하는 Diagnosis Repository
- *
- */
-
-use App\Services\Encrypter;
-use App\Models\Order;
-use Carbon\Carbon;
+use App\Http\Controllers\Api\ApiController;
+use App\Models\Car;
 use App\Models\DiagnosisDetails;
 use App\Models\DiagnosisDetail;
 use App\Models\DiagnosisDetailItem;
 use App\Models\DiagnosisFile;
+use App\Models\Item;
+use App\Repositories\DiagnosisRepository;
+use App\Models\Order;
+use App\Models\User;
+use App\Models\Reservation;
+use App\Models\Code;
 use DB;
-
-class DiagnosisRepository {
-
-
-    protected $obj;
-    protected $return;
+use Carbon\Carbon;
 
 
-    public function prepare($order_id) {
-        $this->obj = Order::findOrFail($order_id);
-        return $this;
-    }
+// use App\Exceptions\ApiHandler AS ApiException;
+use Exception;
+use Illuminate\Http\Request;
+use App\Traits\Uploader;
+use Validator;
 
+class DiagnosisController extends ApiController {
 
-    // 주문데이터의 진단정보를 조회
-    public function get() {
+    use Uploader;
 
-        // 주문정보
-        $return = $this->order();
+    /**
+     * @SWG\Get(
+     *     path="/diagnosis",
+     *     tags={"Diagnosis"},
+     *     summary="개별주문 진단내역 조회",
+     *     description="개별주문 진단내역 조회",
+     *     operationId="show",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Diagnosis"))
+     *     ),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *       {"api_key": {}}
+     *     }
+     * )
+     */
+    public function show(Request $request) {
 
-        // 진단그룹
-        $return['entrys'] = $this->details();
+        try{
+            $order_id = $request->get('order_id');
 
-        return $return;
-    }
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|exists:orders,engineer_id',
+                'order_id' => 'required|exists:orders,id'
+            ]);
 
-
-    // 주문데이터의 진단정보를 조회
-    public function order() {
-
-        $reservation_date = $this->obj->getReservation($this->obj->id)->reservation_at;
-
-        $this->return = array(
-            'id' => $this->obj->id,
-            'engineer_id' => $this->obj->engineer_id,
-            'diagnosis_process' => $this->getDiagnosisProcess($reservation_date),
-            'order_num' => $this->obj->getOrderNumber(),
-            'car_number' => $this->obj->car_number,
-            'orderer_name' => $this->obj->orderer_name,
-            'orderer_mobile' => $this->obj->orderer_mobile,
-            'status_cd' => $this->obj->status_cd,
-            'status' => $this->obj->status->display(),
-            'car_name' => $this->obj->getCarFullName(),
-            'reservation_at' => $reservation_date, // 예약일
-            'diagnose_at' => $this->obj->diagnose_at, // 진단시작일
-            'diagnosed_at' => $this->obj->diagnosed_at // 진단완료일
-        );
-
-
-        return $this->return;
-    }
-
-
-    // 앱내에서 진단시작과 관련한 상태코
-    // 상세보기 가능
-    //     완료후의 모든 주문 V
-    // 수정
-    //     진행중의 내꺼만 M
-    // 시작가능
-    //     예약일자이면서 누구의것도 아닌것 Y
-    // 기타
-    //     그외 X
-    private function getDiagnosisProcess($reservation_date) {
-
-        if($this->obj->status_cd >= 107) {
-            return 'V';
-        }elseif(in_array($this->obj->status_cd, [106])) {
-            // 내꺼 여부를 판단한 수 없음, 앱에서 해야
-            return 'M';
-        }else {
-
-            // 시작가능한것들중 오늘것과 아닌것
-            $dt = Carbon::parse($reservation_date);
-            if($dt->isToday()) {
-                return 'Y';
-            }else{
-                return 'X';
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
+                throw new Exception($errors[0]);
             }
 
+            $diagnosis = new DiagnosisRepository();
+            $return = $diagnosis->prepare($order_id)->get();
+
+            return response()->json($return);
+
+        }catch (Exception $e){
+            return abort(404, trans('order.not-found'));
         }
+
 
     }
 
+    /**
+     * @SWG\Post(
+     *     path="/diagnosis",
+     *     tags={"Diagnosis"},
+     *     summary="개별주문에 대한 저장",
+     *     description="개별주문에 진단 저장",
+     *     operationId="update",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *       {"api_key": {}}
+     *     }
+     * )
+     */
+    public function update(Request $request) {
 
-    private function details() {
-        $return = [];
-        $details = $this->obj->diagnosis_details;
+        $order_id = $request->get('order_id');
+        $encrypt_json = $request->get('diagnosis');
 
-        foreach ($details as $entry) {
-            $new_return = array(
-                "id"            => $entry->id,
-                "name_cd"       => $entry->name_cd,
-                "name"          => $entry->name->display(),
-                "orders_id"     => $entry->orders_id,
-                "completed"     => 0,
-                "entrys"        => $this->getDetail($entry->diagnosis_detail_children)
-            );
+        $diagnosis = new DiagnosisRepository();
+        $return = $diagnosis->prepare($order_id)->save($encrypt_json);
 
-            $return[] = $new_return;
-        }
-        return $return;
-
+        return response()->json($return);
     }
 
-    // 진단목록
-    public function getDetail($detail) {
 
-        $return = [];
+    /**
+     * @SWG\Post(
+     *     path="/diagnosis/upload",
+     *     tags={"Diagnosis"},
+     *     summary="진단데이터의 파일업로드 핸들러",
+     *     description="진단데이터의 이미지, 음성파일을 스토리지로 업로드한다",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="order_id",in="query",description="주문번호",required=true,type="integer"),
+     *     @SWG\Parameter(
+     *         description="업로드파일",
+     *         in="formData",
+     *         name="upfile",
+     *         required=true,
+     *         type="file"
+     *     ),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Code"))
+     *     ),
+     *     @SWG\Response(response=404, description="no result"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/ErrorModel")
+     *     )
+     * )
+     */
+    public function upload(Request $request) {
 
-        if($detail) {
-            foreach ($detail as $entry) {
-                $new_return = array(
-                    "id"            => $entry->id,
-                    "name_cd"       => $entry->name_cd,
-                    "name"          => $entry->name->display(),
-                    "details_id"    => $entry->diagnosis_details_id,
-                    "description"   => $entry->description,
-                    "entrys"        => $this->getDetailItem($entry->diagnosis_item),
-                    "children"      => $this->getDetail($entry->children),
-                );
+        $order_id = $request->get('order_id');
 
-                $return[] = $new_return;
-            }            
-        }
-        return $return;
-    }
+        $return = [
+            'status' => '',
+            'msg' => ''
+        ];
 
-    private function getDetailItem($items) {
-        $return = [];
+        try {
+            $uploader_name = 'upfile';
+            $uploader_group = 'diagnosis';
+            $uploader_group_id = $order_id;
 
-        if($items) {
-            foreach ($items as $entry) {
-                $new_return = array(
-                    "id"                    => $entry->id,
-                    'diagnosis_detail_id'   => $entry->diagnosis_detail_id,
-                    'use_image'   => $entry->use_image,
-                    'use_voice'   => $entry->use_voice,
-                    'options_cd'   => $entry->options_cd,
-                    'options'   => $entry->getOptions($entry->options_cd),
-                    'selected'   => $entry->selected,
-                    'required_image_options'   => $entry->required_image_options,
-                    'description'   => $entry->description,
-                    'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
-                    'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
-                    'files' => $this->getDetailFile($entry->diagnosis_file)
-                );
+            $validator = Validator::make($request->all(), [
+                $uploader_name => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
 
-                $return[] = $new_return;
-            }            
-        }
 
-        return $return;
-    }
-
-    public function getDetailFile($files) {
-        $return = [];
-
-        if($files) {
-            foreach ($files as $entry) {
-                $new_return = array(
-                    'id'    => $entry->id,
-                    'diagnosis_detail_items_id'   => $entry->diagnosis_detail_items_id,
-                    'original'   => $entry->original,
-                    'source'   => $entry->source,
-                    'path'   => $entry->path,
-                    'mime'   => $entry->mime,
-                    'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
-                    'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
-                );
-
-                $return[] = $new_return;
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
+                throw new Exception($errors[0]);
             }
-        }
 
-        return $return;
-    }
+            $uploader = new Receiver($request);
+            $response = $uploader->receive($uploader_name, function ($file, $path_prefix, $path, $file_new_name) {
+                // 파일이동
+                $file->move($path_prefix . $path, $file_new_name);
 
-
-    public function save($order_id, $save_data) {
-
-        $json_save_data = json_decode($save_data, true);
-
-
-        if($json_save_data) {
-
-            // 주문데이터를 기준으로 가져간 형태로 보내진다
-            // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
-            // 실제저장할 데이터를 모두 detail_item과 detail_file이다
-
-//            DB::beginTransaction();
-
-
-            try{
-                foreach($json_save_data as $details) {
-                    $inserted_details = DiagnosisDetails::create([
-                        'name_cd' => $details['name_cd'],
-                        'orders_id' => $order_id
-                    ]);
-                    $inserted_details->save();
-
-
-                    foreach($details['entrys'] as $detail) {
-                        $inserted_detail = DiagnosisDetail::create([
-                            'name_cd' => $detail['name_cd'],
-                            'diagnosis_details_id' => $inserted_details->id,
-                            'description' => $detail['description']
-                        ]);
-                        $inserted_detail->save();
-
-                        foreach($detail['entrys'] as $item) {
-                            if($item['options_cd'] != null){
-                                $inserted_item = DiagnosisDetailItem::create([
-                                    'diagnosis_detail_id' => $inserted_detail->id,
-                                    'use_image' => $item['use_image'],
-                                    'use_voice' => $item['use_voice'],
-                                    'options_cd' => $item['options_cd'],
-                                    'name_cd' => 0,
-                                    'description' => $item['description']
-                                ]);
-                            }else{
-                                $inserted_item = DiagnosisDetailItem::create([
-                                    'diagnosis_detail_id' => $inserted_detail->id,
-                                    'use_image' => $item['use_image'],
-                                    'use_voice' => $item['use_voice'],
-                                    'name_cd' => 0,
-                                    'description' => $item['description']
-                                ]);
-                            }
-
-
-                            $inserted_item->save();
-
-                        }
-
-                        if($detail['children']) {
-
-                            foreach($detail['children'] as $children_detail) {
-                                $inserted_children_detail = DiagnosisDetail::create([
-                                    'parent_id' => $inserted_detail->id,
-                                    'name_cd' => $children_detail['name_cd'],
-                                    'diagnosis_details_id' => $inserted_details->id,
-                                    'description' => $children_detail['description']
-                                ]);
-                                $inserted_children_detail->save();
-
-
-                                foreach($children_detail['entrys'] as $children_item) {
-                                    $inserted_children_item = DiagnosisDetailItem::create([
-                                        'diagnosis_detail_id' => $inserted_detail->id,
-                                        'use_image' => $children_item['use_image'],
-                                        'use_voice' => $children_item['use_voice'],
-                                        'options_cd' => $children_item['options_cd'],
-                                        'description' => $children_item['description']
-                                    ]);
-                                    $inserted_children_item->save();
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
+                try {
+                    $file_size = $file->getClientSize();
+                } catch (RuntimeException $ex) {
+                    $file_size = 0;
                 }
 
-                DB::commit();
-                return true;
+                return [
+                    'original' => $file->getClientOriginalName(),
+                    'source' => $file_new_name,
+                    'path' => $path,
+                    'size' => $file_size,
+                    'extension' => $file->getClientOriginalExtension(),
+                    'mime' => $file->getClientMimeType(),
+                    //@TODO 실제파일이 아닌 파일
+                    'hash' => md5($file)
+                ];
+            });
 
-            }catch(Exception $e) {
+            // 업로드 성공시
+            if ($response['result']) {
 
-                DB::rollBack();
-                return false;
+                // Save the record to the db
+                $data = File::create([
+                    'original' => $response['result']['original'],
+                    'source' => $response['result']['source'],
+                    'path' => $response['result']['path'],
+                    'size' => $response['result']['size'],
+                    'extension' => $response['result']['extension'],
+                    'mime' => $response['result']['mime'],
+                    'hash' => $response['result']['hash'],
+                    'download' => 0,
+                    'group' => ($uploader_group ? $uploader_group : NULL),
+                    'group_id' => ($uploader_group_id ? $uploader_group_id : NULL)
+                ]);
+                $data->save();
 
+                $return = [
+                    'status' => 'success',
+                    'msg' => trans('file.upload_success'),
+                    'data' => $data->toArray()
+                ];
             }
 
+            return response()->json($return);
+        } catch (Exception $ex) {
+
+            $return = [
+                'status' => 'error',
+                'msg' => $ex->getMessage(),
+            ];
+
+            return response()->json($return);
         }
-
-
-        return false;
     }
 
-    public function update($save_data) {
 
-        $json_save_data = json_decode($save_data, true);
+    /**
+     * @SWG\Get(
+     *     path="/diagnosis/item",
+     *     tags={"Diagnosis"},
+     *     summary="주문의 상품정보조회",
+     *     description="주문번호에 대한 상품 진단레이아웃 조회",
+     *     operationId="getItem",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *     }
+     * )
+     */
+    public function getItem(Request $request) {
+//        $diagnosis = new DiagnosisRepository();
+//        $return = $diagnosis->get($order_id);
+//
+//        return response()->json($return->item);
+        try{
+            $order_id = $request->get('order_id');
+
+            $item = Order::findOrFail($order_id)->item;
+
+//             return response()->json([
+//                                 'id' => $item->id,
+//                 'name' => $item->name,
+//                 'price' => $item->price,
+// //                'layout' => $item->layout,
+//                 'layout' => json_encode(str_replace(["\r\n","\r","\n", "\""], ["", "", "", "'"] ,stripcslashes($item->layout))),
+//                 'created_at' => $item->created_at
+// ]);
 
 
-        if($json_save_data) {
+            return response()->json(json_decode($item->layout,true));
 
-            // 주문데이터를 기준으로 가져간 형태로 보내진다
-            // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
-            // 실제저장할 데이터를 모두 detail_item과 detail_file이다
+        }catch (Exception $e) {
+            return abort(404, trans('item.not-found'));
+        }
 
-            DB::beginTransaction();
+    }
 
+    /**
+     * @SWG\Post(
+     *     path="/diagnosis/grant",
+     *     tags={"Diagnosis"},
+     *     summary="주문의 엔지니어 설정",
+     *     description="특정주문의 진단이 시직되면 헤당 엔지니어에게 사용자 설정을 한다.",
+     *     operationId="setDiagnosisEngineer",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="order_id",in="formData",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="formData",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *     }
+     * )
+     */
+    public function setDiagnosisEngineer(Request $request) {
 
-            try{
+        try {
+            $order_id = $request->get('order_id');
+            $user_id = $request->get('user_id');
 
-                foreach($json_save_data['entrys'] as $details) {
-
-                    foreach($details['entrys'] as $detail) {
-
-                        foreach($detail['entrys'] as $item) {
-
-                            // DB::table('diagnosis_detail_items')->where("id", $item['id'])->update(['votes' => 1]);
-
-                            foreach($item['files'] as $file) {
-
-                                // DB::table('diagnosis_files')->update(['votes' => 1]);
-
-                            }
-
-                        }
-
-                        if($detail['children']) {
-
-                            foreach($detail['children'] as $children_detail) {
-
-                                foreach($children_detail['entrys'] as $item) {
-
-                                    // DB::table('diagnosis_detail_items')->update(['votes' => 1]);
-
-                                    foreach($item['files'] as $file) {
-
-                                        // DB::table('diagnosis_files')->update(['votes' => 1]);
-
-                                    }
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                DB::commit();
-                return true;
-
-            }catch(Exception $e) {
-
-                DB::rollBack();
-                return false;
-
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|exists:users,id'
+            ]);
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
+                throw new Exception($errors[0]);
             }
 
+
+//            $diagnosis = new DiagnosisRepository();
+//            $return = $diagnosis->prepare($order_id)->get();
+            $order = Order::findOrFail($order_id);
+            $order->engineer_id = $user_id;
+            $order->status_cd = 106;
+            $order->save();
+
+            return response()->json($order);
+
+            // 앱에서는 간단하게
+        } catch (Exception $e) {
+            return abort(404, trans('diagnosis.not-found'));
         }
-
-
-        return false;
     }
-   
-    public function layout() {    
-        return $this->order->item->layout;        
-    }
-
-
-
-
-    //============================================
 
 
 
 
 
     /**
-     * 진단데이터에 대한 데이터 레이아웃을 검증
-     * @param type $decrypt_data
-     * @return boolean
+     * @SWG\Get(
+     *     path="/diagnosis/reservation",
+     *     tags={"Diagnosis"},
+     *     summary="입고예약 목록",
+     *     description="정비소에 입고되어진 주문 목록, 오늘부터 미래의 주문 출력",
+     *     operationId="getDiagnosisReservation",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="date",in="query",description="날짜",required=true,type="string",format="varchar"),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Orders"))
+     *     ),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *       {"api_key": {}}
+     *     }
+     * )
      */
-    private function validate($decrypt_data, $layout) {
-        return false;
+    public function getDiagnosisReservation(Request $request) {
+        try {
+
+            $date = $request->get('date');
+            $user_id = $request->get('user_id');
+
+
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|exists:users,id',
+                'date' => 'required|date_format:Y-m-d'
+            ]);
+
+
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
+                return response()->json(array(
+                    'date' => $date,
+                    'count' =>0,
+                    'orders' => []
+                ));
+            }
+
+            $user = User::findOrFail($user_id);
+
+            $reservations = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
+                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+                ->whereNotNull("reservations.updated_at")
+                ->where('orders.garage_id', $user->user_extra->garage_id)
+                ->whereIn('orders.status_cd', [104,105])
+                ->select('reservations.*')
+                ->get(); //입고대기, 입고
+
+            $returns = [];
+
+
+            $diagnosis = new DiagnosisRepository();
+
+            foreach($reservations as $reservation) {
+                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
+            }
+
+            return response()->json(array(
+                'date' => $date,
+                'count' =>count($returns),
+                'orders' => $returns
+            ));
+            // 앱에서는 간단하게
+        } catch (Exception $e) {
+            return abort(404, trans('diagnosis.not-found'));
+        }
     }
 
 
     /**
-     * 배열로 구성된 검증된 주문진단데이터를 암호화 문자열로 리턴
-     * @param array $decrypt_data 상품레이아웃으로 검증된 원형 주문진단데이터
-     * @return string 암호화된 검증된 주문진단데이터
+     * @SWG\Get(
+     *     path="/diagnosis/working",
+     *     tags={"Diagnosis"},
+     *     summary="진단중 목록",
+     *     description="엔지니어 개인의 진단중 주문 목록, 오늘부터 과거의 주문 출력",
+     *     operationId="getDiagnosisWorking",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
+     *     ),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *       {"api_key": {}}
+     *     }
+     * )
      */
-    public function encryt($decrypt_data) {
-        $return = Encrypter::encryption($decrypt_data);
-        return $return;
+    public function getDiagnosisWorking(Request $request) {
+        try {
+
+            $user_id = $request->get('user_id');
+
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|exists:users,id'
+            ]);
+
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
+                throw new Exception($errors[0]);
+            }
+
+            $user = User::findOrFail($user_id);
+
+            $orders = Order::where('orders.garage_id', $user->user_extra->garage_id)
+                ->where('status_cd', [106])
+                ->where('diagnose_at', null)
+                ->get();
+
+            $returns = [];
+
+            $diagnosis = new DiagnosisRepository();
+
+            foreach($orders as $order) {
+                $returns[] = $diagnosis->prepare($order->id)->order();
+            }
+
+            return response()->json($returns);
+            // 앱에서는 간단하게
+        } catch (Exception $e) {
+            return abort(404, trans('garage_id.not-found'));
+        }
     }
 
     /**
-     * 암호화된 주문진단데이터를 해독해 배열로 구성된 주문진단데이터로 리턴
-     * @param type $encrypt_data 암호화된 주문진단데이터
-     * @return array 원형 주문진단데이터
+     * @SWG\Get(
+     *     path="/diagnosis/complete",
+     *     tags={"Diagnosis"},
+     *     summary="진단완료 목록",
+     *     description="진단이 완료된 주문 목록, 오늘부터 과거의 주문 출력",
+     *     operationId="getDiagnosisComplete",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="date",in="query",description="날짜",required=true,type="integer",format="int64"),
+     *     @SWG\Parameter(name="s",in="query",description="검색어",required=false,type="string",format="text"),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
+     *     ),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *       {"api_key": {}}
+     *     }
+     * )
      */
-    public function decryt($encrypt_data) {
-        $return = Encrypter::decryption($encrypt_data);
-        return $return;
+    public function getDiagnosisComplete(Request $request) {
+        try {
+
+            $date = $request->get('date');
+            $user_id = $request->get('user_id');
+            $s = $request->get('s');
+
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|exists:users,id',
+                'date' => 'required|date_format:Y-m-d',
+                's' => 'min:1'
+            ]);
+
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
+                return response()->json(array(
+                    'date' => $date,
+                    'count' =>0,
+                    'orders' => []
+                ));
+            }
+
+            $user = User::findOrFail($user_id);
+
+            $where = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
+                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+                ->whereNotNull("reservations.updated_at")
+                ->where('orders.garage_id', $user->user_extra->garage_id)
+                ->where('orders.status_cd', ">=", 107)
+                ->select('reservations.*');
+
+            if($s) {
+                $where->where('orders.car_number', $s);
+            }
+
+            $reservations = $where->get(); //진단완료이후
+
+
+            $returns = [];
+
+            $diagnosis = new DiagnosisRepository();
+
+            foreach($reservations as $reservation) {
+                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
+            }
+
+            return response()->json(array(
+                'date' => $date,
+                'count' =>count($returns),
+                'orders' => $returns
+            ));
+            // 앱에서는 간단하게
+        } catch (Exception $e) {
+            return abort(404, trans('diagnosis.not-found'));
+        }
     }
+
+
+    /**
+     * @SWG\Get(
+     *     path="/diagnosis/count",
+     *     tags={"Diagnosis"},
+     *     summary="오늘과 내일의 입고예약 갯수",
+     *     description="특정정비소의 오늘과 내일의 입고예약 갯수",
+     *     operationId="getReservationCount",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="object")
+     *     ),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *     }
+     * )
+     */
+    public function getReservationCount(Request $request) {
+        // $order_num = Order::find($order_id)->item_id;
+        // $layout = Item::find($order_num)->layout;
+        // return Order::findOrFail($order_id)->item->layout;
+        $user = User::where("id", $request->get('user_id'))->first();
+
+        $today = Reservation::where("garage_id", $user->user_extra->garage_id)->whereNotNull('updated_at')->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), Carbon::today()->format('Y-m-d'))->count();
+        $tomorrow = Reservation::where("garage_id", $user->user_extra->garage_id)->whereNotNull('updated_at')->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), Carbon::tomorrow()->format('Y-m-d'))->count();
+
+        $today = rand(0,99);
+        $tomorrow = rand(0,99);
+
+        return response()->json([
+            'today' => [
+                "left" => ($today >= 10 ? $today/10 : '0'),
+                "right" => ($today >= 10 ? $today%10 : $today)
+            ],
+            'tomorrow' => [
+                "left" => ($tomorrow >= 10 ? $tomorrow/10 : '0'),
+                "right" => ($tomorrow >= 10 ? $tomorrow%10 : $tomorrow)
+            ]
+        ]);
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/diagnosis/make",
+     *     tags={"Diagnosis"},
+     *     summary="진단데이터 생성",
+     *     description="주문번호를 이용한 진단데이터 생성",
+     *     operationId="saveDiagnosisDate",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="order_id",in="formData",description="주문번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="object")
+     *     ),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *     }
+     * )
+     */
+    public function saveDiagnosisDate(Request $request){
+        try {
+            $order_id = $request->get('order_id');
+            $order = Order::findOrFail($order_id);
+            $item_layout = $order->item->layout;
+
+            $diagnosis = new DiagnosisRepository();
+            $diagnosis->save($order_id, $item_layout);
+
+            return response()->json($diagnosis->prepare($order_id)->get());
+        } catch (Exception $e){
+            return abort(404, trans('diagnosis.not-making'));
+        }
+    }
+
 
 }

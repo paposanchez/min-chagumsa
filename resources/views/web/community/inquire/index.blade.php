@@ -27,70 +27,30 @@
                     <th>번호</th>
                     <th>제목</th>
                     <th>작성일</th>
-                    <th>조회</th>
+                    <th>답변</th>
                 </tr>
             </thead>
             <tbody>
+            @if($entrys->total())
+                @foreach($entrys as $key => $row)
                 <tr>
-                    <th><span>공지</span></th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
+                    <th>{{ $start_num - $key }}</th>
+                    <td>
+                        @if(Auth::user() !== null)
+                            @if($row->email == Auth::user()->email)
+                                <a href="{{ route("inquire.show", ["id" => $row->id]) }}">{{ mb_strimwidth($row->subject, 0, 30, '...') }}</a>
+                            @endif
+                        @else
+                            {{ mb_strimwidth($row->subject, 0, 30, '...') }}
+                        @endif
+                    </td>
+                    <th>{{ \App\Helpers\Helper::getDbDate($row->created_at, $row->updated_at) }}</th>
+                    <th>{{ ($row->is_answered)? "완료": "대기중" }}</th>
                 </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
-                <tr>
-                    <th>9</th>
-                    <td>카검사 사이트 오픈 준비 중입니다.</td>
-                    <th>2017년 2월 10일</th>
-                    <th>120</th>
-                </tr>
+                @endforeach
+            @else
+                <th colspan="4">1:1문의 내용이 없습니다.</th>
+            @endif
             </tbody>
         </table>
     </div>
@@ -98,15 +58,7 @@
     <div class='br30'></div>
 
     <div class='board_pagination_wrap'>
-        <ul>
-            <li><a href=''><i class="fa fa-angle-double-left"></i></a></li>
-            <li><a href='' class='select'>1</a></li>
-            <li><a href=''>2</a></li>
-            <li><a href=''>3</a></li>
-            <li><a href=''>4</a></li>
-            <li><a href=''>5</a></li>
-            <li><a href=''><i class="fa fa-angle-double-right"></i></a></li>
-        </ul>
+        @include('vendor.pagination.web-page', ['paginator' => $entrys])
     </div>
 
 </div>
@@ -117,4 +69,11 @@
 @endpush
 
 @push( 'footer-script' )
+
+<script type="text/javascript">
+    $(function(){
+
+    });
+</script>
+
 @endpush

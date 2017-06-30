@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Models\User;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -47,4 +48,13 @@ class VerifyController extends Controller {
         }
     }
 
+    public function emailCheck(Request $request){
+        $where = User::where('email', $request->get('email'))->first();
+        if($where){
+            $result = false;
+        }else{
+            $result = true;
+        }
+        return \response()->json($result);
+    }
 }

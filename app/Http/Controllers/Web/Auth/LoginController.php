@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller {
     /*
@@ -41,15 +43,38 @@ use AuthenticatesUsers;
         return view('web.auth.login');
     }
 
+    public function login(Request $request)
+    {
+        $is_auth = Auth::attempt(array('email' => $request->get('email'), 'password' => $request->get('password')));
+        if($is_auth === true){
+            $user = User::where('email', $request->get('email'))->first();
+            $this->authenticated($request, $user); // 회원상태 확인
+
+            //session save
+            $user->updated_at = \Carbon\Carbon::now();
+
+            Auth::login($user, true);
+
+            return redirect('/');
+
+        }else{
+            dd('aaa');
+            return redirect('/')->with('error', trans('auth.failed'));
+        }
+    }
+
     protected function authenticated(Request $request, User $user) {
 
-        if ($user->status_cd == 'U') {
+
+        if ($user->status_cd == 2) {
             $this->guard()->logout();
             $request->session()->flush();
             $request->session()->regenerate();
             return redirect('/')->with('error', trans('auth.status.unactive'));
         }
 
+        /*
+         * 1과 2로만 제어함
         if ($user->status_cd == 'W') {
             $this->guard()->logout();
             $request->session()->flush();
@@ -63,6 +88,7 @@ use AuthenticatesUsers;
             $request->session()->regenerate();
             return redirect('/')->with('error', trans('auth.status.leaved'));
         }
+        */
     }
 
 }
