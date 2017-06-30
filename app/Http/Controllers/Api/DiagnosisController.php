@@ -294,7 +294,7 @@ class DiagnosisController extends ApiController {
             $user_id = $request->get('user_id');
 
             $validator = Validator::make($request->all(), [
-               'user_id' => 'required|unique:users'
+               'user_id' => 'required|exists:users,id'
             ]);
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
@@ -302,14 +302,14 @@ class DiagnosisController extends ApiController {
             }
 
 
-            $diagnosis = new DiagnosisRepository();
-            $return = $diagnosis->get($order_id);
+//            $diagnosis = new DiagnosisRepository();
+//            $return = $diagnosis->prepare($order_id)->get();
+            $order = Order::findOrFail($order_id);
+            $order->engineer_id = $user_id;
+            $order->status_cd = 106;
+            $order->save();
 
-            $return->engineer_id = $user_id;
-            $return->status = 106;
-            $return->save();
-
-            return response()->json(true);
+            return response()->json($order);
             
             // 앱에서는 간단하게 
         } catch (Exception $e) {
@@ -584,14 +584,14 @@ class DiagnosisController extends ApiController {
     }
 
     /**
-     * @SWG\Get(
+     * @SWG\Post(
      *     path="/diagnosis/make",
      *     tags={"Diagnosis"},
      *     summary="진단데이터 생성",
      *     description="주문번호를 이용한 진단데이터 생성",
      *     operationId="saveDiagnosisDate",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="order_id",in="query",description="주문번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="order_id",in="formData",description="주문번호",required=true,type="integer",format="int32"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="object")
      *     ),
@@ -614,7 +614,7 @@ class DiagnosisController extends ApiController {
             $diagnosis = new DiagnosisRepository();
             $diagnosis->save($order_id, $item_layout);
 
-            return response()->json(true);
+            return response()->json($diagnosis->prepare($order_id)->get());
         } catch (Exception $e){
             return abort(404, trans('diagnosis.not-making'));
         }

@@ -63,7 +63,7 @@ Route::get('notice/show', "NoticeController@show")->name('notice.show');
         Route::post('diagnosis/grant', "DiagnosisController@setDiagnosisEngineer")->name('diagnosis.grant');
 
         //진단데이터 생성
-        Route::get('diagnosis/make', "DiagnosisController@saveDiagnosisDate")->name('diagnosis.make');
+        Route::post('diagnosis/make', "DiagnosisController@saveDiagnosisDate")->name('diagnosis.make');
 
 
 
