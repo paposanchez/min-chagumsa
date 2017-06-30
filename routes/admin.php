@@ -55,12 +55,12 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     //보험이력파일처리
     Route::post('order/insurance-file', 'OrderController@insuranceFile')->name('order/insurance-file');
-    Route::post('order/insurance-file-delete', 'OrderController@insuranceFileDelete')->name('order/insurance-file-delete');
+    Route::get('order/insurance-file-view/{id}', 'OrderController@insuranceFileView')->name('order/insurance-file-view');
     //용도변경, 차고지 이력 추가
     Route::post('order/history', 'OrderController@history')->name('order/history');
 
     //인증서 데이터 갱신
-    Route::patch('order/update', 'OrderController@update')->name('order/update');
+    Route::patch('order/update/{id}', 'OrderController@update')->name('order/update');
 
     // 주문관리
     Route::resource('order', 'OrderController');

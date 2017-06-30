@@ -35,7 +35,7 @@ class Order Extends Model
         'orderer_id',
         'orderer_name',
         'orderer_mobile',
-        'registration_file_cd',
+        'registration_file',
         'mileage',
         'open_cd',
         'verification_id',
@@ -44,17 +44,6 @@ class Order Extends Model
     protected $dates = [
         'created_at', 'updated_at','diagnose_at', 'diagnosed_at'
     ];
-
-
-
-
-
-
-
-
-
-
-
 
     public function details(){
         return $this->hasMany(DiagnosisDetails::class,'orders_id', '');

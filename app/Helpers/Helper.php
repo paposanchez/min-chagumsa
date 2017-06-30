@@ -158,7 +158,8 @@ class Helper {
 
         $dist = ($nowY-$postY)*12 + ($nowM-$postM);
 
-        return $dist;
+
+        return $dist +1;
     }
 
     /**
@@ -174,35 +175,6 @@ class Helper {
         }else{
             return false;
         }
-    }
-
-    /**
-     * code 값을 기준으로 checkbox checked 여부 판단
-     * @param Models $standard
-     * @param string $key
-     * @param string $value
-     * @param bool $default
-     * @param string checked|selected
-     * @return string
-     */
-    public static function displayChecked($standard, $key, $value='', $default=false, $option='checked'){
-
-        if($default === true){
-            return ' '.$option;
-        }else{
-            if($standard !== null){
-                if($value){
-                    $code = Code::orderBy('id', 'desc')->where('group', $key)->where('name', $value)->first();
-                }else{
-                    $code = Code::orderBy('id', 'desc')->where('group', $key)->first();
-                }
-
-                if($standard->$key == $code->id){
-                    return ' '.$option;
-                }
-            }
-        }
-        return '';
     }
 
     /**
@@ -233,5 +205,13 @@ class Helper {
             $select_list[$id] = trans('code.'. $group_name .'.' . $name);
         }
         return $select_list;
+    }
+
+    public static function isCheckd($checkd, $data){
+        if($checkd == $data){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

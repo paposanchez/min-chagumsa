@@ -26,7 +26,7 @@ class CreateOrdersTable extends Migration {
 			$table->bigInteger('orderer_id')->comment('주문자 회원번호');
 			$table->string('orderer_name', 100)->comment('주문자명');
 			$table->string('orderer_mobile', 15)->comment('주문자 휴대전화번호');
-			$table->integer('registration_file_cd')->unsigned()->comment('차량등록증 업로드여부, 공통파일명으로 저장');
+			$table->integer('registration_file')->unsigned()->comment('차량등록증 업로드여부, 공통파일명으로 저장');
 			$table->integer('mileage')->unsigned()->nullable()->comment('주행거리');
 			$table->integer('open_cd')->unsigned()->comment('인증서 공개여부');
 			$table->bigInteger('verification_id')->nullable()->comment('주문자 실명인증 seq');

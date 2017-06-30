@@ -16,8 +16,12 @@
             <div class="tab-content">
                 {{--진단 정보--}}
                 <div role="tabpanel" class="tab-pane active" id="diagnosis">
+
+                    @foreach($return['entrys'][0] as $key => $val)
+                        {{--{{  dd($key, $val) }}--}}
+                    @endforeach
                     {{-- 기본정보 --}}
-                    @include("admin.order.diagnosis-basic")
+                    @include("admin.order.diagnosis-basic", [$return])
 
                     {{--주요외판--}}
                     @include("admin.order.diagnosis-outer")
@@ -98,10 +102,6 @@
         /**
          * 최종 tab panel 클릭 history 처리
          */
-        $("#certi_tab").click(function(e){
-//            e.preventDefault();
-//            $(this).tab(show);
-        });
 
         $("ul.nav-pills > li >a").on("shown.bs.tab", function (e) {
             var id = $(e.target).attr("href").substr(1);

@@ -24,7 +24,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -43,7 +43,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -61,7 +61,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -78,7 +78,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -96,7 +96,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -113,7 +113,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -131,7 +131,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -148,7 +148,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -167,7 +167,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -184,7 +184,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -206,7 +206,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '105' //주문상태
@@ -223,7 +223,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '105' //주문상태
@@ -241,7 +241,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -258,7 +258,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -276,7 +276,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
@@ -293,7 +293,7 @@ class OrdersSeeder extends Seeder
             'orderer_id' => '2',
             'orderer_name' => 'Daily Jude',
             'orderer_mobile' => '010-2345-2345',
-            'registration_file_cd' => '3',
+            'registration_file' => 0,
             'mileage' => '100000',
             'open_cd' => '3',
             'status_cd' => '104' //주문상태
