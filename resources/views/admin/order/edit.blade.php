@@ -17,53 +17,38 @@
                 {{--진단 정보--}}
                 <div role="tabpanel" class="tab-pane active" id="diagnosis">
 
-                    @foreach($return['entrys'][0] as $key => $val)
+                    {{--@foreach($return as $key => $val)--}}
                         {{--{{  dd($key, $val) }}--}}
-                    @endforeach
+                    {{--@endforeach--}}
+                    {{--@foreach($return as $key => $val)--}}
+                        {{--{{  dd($return['entrys'][0]['id']) }}--}}
+                    {{--@endforeach--}}
+
                     {{-- 기본정보 --}}
                     @include("admin.order.diagnosis-basic", [$return])
 
                     {{--주요외판--}}
-                    @include("admin.order.diagnosis-outer")
+                    {{--@include("admin.order.diagnosis-outer")--}}
 
                     {{--주요내판--}}
-                    @include("admin.order.diagnosis-inner")
+                    {{--@include("admin.order.diagnosis-inner")--}}
 
                     {{--침수--}}
-                    @include("admin.order.diagnosis-water")
+                    {{--@include("admin.order.diagnosis-water")--}}
 
 
                     {{--내외부점검--}}
-                    @include("admin.order.diagnosis-check")
+                    {{--@include("admin.order.diagnosis-check")--}}
 
                     {{--주행테스트--}}
-                    @include("admin.order.diagnosis-drive-test")
+                    {{--@include("admin.order.diagnosis-drive-test")--}}
 
                     {{--작동상태: 엔진/변속기/브레이크/조향장치/누유--}}
-                    @include("admin.order.diagnosis-status")
+                    {{--@include("admin.order.diagnosis-status")--}}
 
                     {{--작동상태: 타이어/엔진오일/냉각수/브레이크패드/배터리--}}
-                    @include("admin.order.diagnosis-status-inner")
+                    {{--@include("admin.order.diagnosis-status-inner")--}}
 
-                    <div class="col-md-12">
-                        <h2>차량 작동상태 점검</h2>
-                        <table class="table table-bordered">
-                            <colgroup>
-                                <col style='width:120px;'>
-                                <col style='width:100px;'>
-                                <col style='width:120px;'>
-                                <col style='width:120px;'>
-                            </colgroup>
-                            <tbody>
-                            <tr>
-                                <th>타이어 상태</th>
-                                <td colspan="3">
-                                    <audio controls></audio>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
 
                 {{--차량 인증--}}
