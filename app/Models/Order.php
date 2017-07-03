@@ -45,6 +45,7 @@ class Order Extends Model
         'created_at', 'updated_at','diagnose_at', 'diagnosed_at'
     ];
 
+
     public function details(){
         return $this->hasMany(DiagnosisDetails::class,'orders_id', '');
     }
@@ -71,6 +72,7 @@ class Order Extends Model
 
         return implode(" ", $fullname);
     }
+
 
     public function getReservation($order_id) {
         return Reservation::whereNotNull("updated_at")->where('orders_id', $order_id)->first();
@@ -115,14 +117,27 @@ class Order Extends Model
         return $this->hasMany(\App\Models\Reservation::class, 'orders_id','id');
     }
 
-    public function getReservationDate($order_id) {
-        $reservation = Reservation::whereNotNull("updated_at")->where('orders_id', $order_id)->last();
-        return ($reservation ? $reservation->reservation_at : null);
-    }
+
+    //========================== 아래는 검증안된 메쏘드
+   
 
     public function order_feature(){
         return $this->hasMany(OrderFeature::class);
     }
 
+//    public function status(){
+//        $code = $this->hasOne(Code::class, 'id', 'status_cd');
+//        return $code;
+//
+//    }
 
+
+    public function settlement_features(){
+        return $this->hasMany(\App\Models\SettlementFeature::class);
+    }
+
+    public function getReservationDate($order_id) {
+        $reservation = Reservation::whereNotNull("updated_at")->where('orders_id', $order_id)->last();
+        return ($reservation ? $reservation->reservation_at : null);
+    }
 }

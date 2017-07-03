@@ -6,7 +6,7 @@ namespace App\Repositories;
  *
  * @Project        cargumsa
  * @Copyright      leechanrin
- * @Created        2017-05-24 오후 5:17:35 
+ * @Created        2017-05-24 오후 5:17:35
  * @Filename       DiagnosisRepository.php
  * @Description    진단데이터에 대한 암호화 복호화 검증등을 진한하는 Diagnosis Repository
  *
@@ -19,6 +19,7 @@ use App\Models\DiagnosisDetails;
 use App\Models\DiagnosisDetail;
 use App\Models\DiagnosisDetailItem;
 use App\Models\DiagnosisFile;
+use DB;
 
 class DiagnosisRepository {
 
@@ -157,7 +158,7 @@ class DiagnosisRepository {
                     'use_image'   => $entry->use_image,
                     'use_voice'   => $entry->use_voice,
                     'options_cd'   => $entry->options_cd,
-                    'options'   => $entry->options,
+                    'options'   => $entry->getOptions($entry->options_cd),
                     'selected'   => $entry->selected,
                     'required_image_options'   => $entry->required_image_options,
                     'description'   => $entry->description,
@@ -197,7 +198,111 @@ class DiagnosisRepository {
     }
 
 
-    public function save($save_data) {
+    public function save($order_id, $save_data) {
+
+        $json_save_data = json_decode($save_data, true);
+
+
+        if($json_save_data) {
+
+            // 주문데이터를 기준으로 가져간 형태로 보내진다
+            // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
+            // 실제저장할 데이터를 모두 detail_item과 detail_file이다
+
+//            DB::beginTransaction();
+
+
+            try{
+                foreach($json_save_data as $details) {
+                    $inserted_details = DiagnosisDetails::create([
+                        'name_cd' => $details['name_cd'],
+                        'orders_id' => $order_id
+                    ]);
+                    $inserted_details->save();
+
+
+                    foreach($details['entrys'] as $detail) {
+                        $inserted_detail = DiagnosisDetail::create([
+                            'name_cd' => $detail['name_cd'],
+                            'diagnosis_details_id' => $inserted_details->id,
+                            'description' => $detail['description']
+                        ]);
+                        $inserted_detail->save();
+
+                        foreach($detail['entrys'] as $item) {
+                            if($item['options_cd'] != null){
+                                $inserted_item = DiagnosisDetailItem::create([
+                                    'diagnosis_detail_id' => $inserted_detail->id,
+                                    'use_image' => $item['use_image'],
+                                    'use_voice' => $item['use_voice'],
+                                    'options_cd' => $item['options_cd'],
+                                    'name_cd' => 0,
+                                    'description' => $item['description']
+                                ]);
+                            }else{
+                                $inserted_item = DiagnosisDetailItem::create([
+                                    'diagnosis_detail_id' => $inserted_detail->id,
+                                    'use_image' => $item['use_image'],
+                                    'use_voice' => $item['use_voice'],
+                                    'name_cd' => 0,
+                                    'description' => $item['description']
+                                ]);
+                            }
+
+
+                            $inserted_item->save();
+
+                        }
+
+                        if($detail['children']) {
+
+                            foreach($detail['children'] as $children_detail) {
+                                $inserted_children_detail = DiagnosisDetail::create([
+                                    'parent_id' => $inserted_detail->id,
+                                    'name_cd' => $children_detail['name_cd'],
+                                    'diagnosis_details_id' => $inserted_details->id,
+                                    'description' => $children_detail['description']
+                                ]);
+                                $inserted_children_detail->save();
+
+
+                                foreach($children_detail['entrys'] as $children_item) {
+                                    $inserted_children_item = DiagnosisDetailItem::create([
+                                        'diagnosis_detail_id' => $inserted_detail->id,
+                                        'use_image' => $children_item['use_image'],
+                                        'use_voice' => $children_item['use_voice'],
+                                        'options_cd' => $children_item['options_cd'],
+                                        'description' => $children_item['description']
+                                    ]);
+                                    $inserted_children_item->save();
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                DB::commit();
+                return true;
+
+            }catch(Exception $e) {
+
+                DB::rollBack();
+                return false;
+
+            }
+
+        }
+
+
+        return false;
+    }
+
+    public function update($save_data) {
 
         $json_save_data = json_decode($save_data, true);
 
@@ -233,7 +338,7 @@ class DiagnosisRepository {
 
                             foreach($detail['children'] as $children_detail) {
 
-                                 foreach($children_detail['entrys'] as $item) {
+                                foreach($children_detail['entrys'] as $item) {
 
                                     // DB::table('diagnosis_detail_items')->update(['votes' => 1]);
 

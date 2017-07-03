@@ -53,9 +53,9 @@ class DiagnosisController extends ApiController {
      * )
      */
     public function show(Request $request) {
+
         try{
             $order_id = $request->get('order_id');
-
 
             $validator = Validator::make($request->all(), [
                 'user_id' => 'required|exists:orders,engineer_id',
@@ -71,7 +71,6 @@ class DiagnosisController extends ApiController {
             $return = $diagnosis->prepare($order_id)->get();
 
             return response()->json($return);
-
 
         }catch (Exception $e){
             return abort(404, trans('order.not-found'));
@@ -260,7 +259,7 @@ class DiagnosisController extends ApiController {
 // ]);
 
 
-            return response()->json(json_decode($item->layout));
+            return response()->json(json_decode($item->layout,true));
 
         }catch (Exception $e) {
             return abort(404, trans('item.not-found'));
@@ -269,15 +268,15 @@ class DiagnosisController extends ApiController {
     }
 
     /**
-     * @SWG\Get(
+     * @SWG\Post(
      *     path="/diagnosis/grant",
      *     tags={"Diagnosis"},
      *     summary="주문의 엔지니어 설정",
      *     description="특정주문의 진단이 시직되면 헤당 엔지니어에게 사용자 설정을 한다.",
-     *     operationId="getReservationCount",
+     *     operationId="setDiagnosisEngineer",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
-     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="order_id",in="formData",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="formData",description="사용자 번호",required=true,type="integer",format="int32"),
      *     @SWG\Response(response=401, description="unauthorized"),
      *     @SWG\Response(response=404, description="not found"),
      *     @SWG\Response(response=500, description="internal server error"),
@@ -303,15 +302,16 @@ class DiagnosisController extends ApiController {
             }
 
 
-            $diagnosis = new DiagnosisRepository();
-            $return = $diagnosis->get($order_id);
 
-            $return->engineer_id = $user_id;
-            $return->status = 106;
-            $return->save();
+//            $diagnosis = new DiagnosisRepository();
+//            $return = $diagnosis->prepare($order_id)->get();
+            $order = Order::findOrFail($order_id);
+            $order->engineer_id = $user_id;
+            $order->status_cd = 106;
+            $order->save();
 
-            return response()->json(true);
-
+            return response()->json($order);
+            
             // 앱에서는 간단하게
         } catch (Exception $e) {
             return abort(404, trans('diagnosis.not-found'));
@@ -347,16 +347,13 @@ class DiagnosisController extends ApiController {
      */
     public function getDiagnosisReservation(Request $request) {
         try {
-
             $date = $request->get('date');
             $user_id = $request->get('user_id');
 
-
             $validator = Validator::make($request->all(), [
-                'user_id' => 'required|exists:users,id',
-                'date' => 'required|date_format:Y-m-d'
+               'user_id' => 'required|exists:users,id',
+               'date' => 'required|date_format:Y-m-d'
             ]);
-
 
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
@@ -370,12 +367,12 @@ class DiagnosisController extends ApiController {
             $user = User::findOrFail($user_id);
 
             $reservations = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
-                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
-                ->whereNotNull("reservations.updated_at")
-                ->where('orders.garage_id', $user->user_extra->garage_id)
-                ->whereIn('orders.status_cd', [104,105])
-                ->select('reservations.*')
-                ->get(); //입고대기, 입고
+            ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+            ->whereNotNull("reservations.updated_at")
+            ->where('orders.garage_id', $user->user_extra->garage_id)
+            ->whereIn('orders.status_cd', [104,105])
+            ->select('reservations.*')
+            ->get(); //입고대기, 입고
 
             $returns = [];
 
@@ -385,7 +382,6 @@ class DiagnosisController extends ApiController {
             foreach($reservations as $reservation) {
                 $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
             }
-
             return response()->json(array(
                 'date' => $date,
                 'count' =>count($returns),
@@ -438,6 +434,7 @@ class DiagnosisController extends ApiController {
                 ->where('diagnose_at', null)
                 ->get();
 
+
             $returns = [];
 
             $diagnosis = new DiagnosisRepository();
@@ -447,7 +444,9 @@ class DiagnosisController extends ApiController {
             }
 
             return response()->json($returns);
+
             // 앱에서는 간단하게
+
         } catch (Exception $e) {
             return abort(404, trans('garage_id.not-found'));
         }
@@ -508,6 +507,7 @@ class DiagnosisController extends ApiController {
                 ->where('orders.status_cd', ">=", 107)
                 ->select('reservations.*');
 
+
             if($s) {
                 $where->where('orders.car_number', $s);
             }
@@ -522,6 +522,7 @@ class DiagnosisController extends ApiController {
             foreach($reservations as $reservation) {
                 $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
             }
+
 
             return response()->json(array(
                 'date' => $date,
@@ -579,6 +580,43 @@ class DiagnosisController extends ApiController {
                 "right" => ($tomorrow >= 10 ? $tomorrow%10 : $tomorrow)
             ]
         ]);
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/diagnosis/make",
+     *     tags={"Diagnosis"},
+     *     summary="진단데이터 생성",
+     *     description="주문번호를 이용한 진단데이터 생성",
+     *     operationId="saveDiagnosisDate",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="order_id",in="formData",description="주문번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=200,description="success",
+     *          @SWG\Schema(type="object")
+     *     ),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *     }
+     * )
+     */
+    public function saveDiagnosisDate(Request $request){
+        try {
+            $order_id = $request->get('order_id');
+            $order = Order::findOrFail($order_id);
+            $item_layout = $order->item->layout;
+
+            $diagnosis = new DiagnosisRepository();
+            $diagnosis->save($order_id, $item_layout);
+
+            return response()->json($diagnosis->prepare($order_id)->get());
+        } catch (Exception $e){
+            return abort(404, trans('diagnosis.not-making'));
+        }
     }
 
 
