@@ -133,14 +133,15 @@ class Code extends Model {
 
 
     public function getName() {
+
         $return = [];
+
         $return[] = array(
             'id' => $this->id,
             'name' => $this->name,
             'display' => $this->display()
         );
 
-
-        return $return;
+        return $return[0];
     }
 }

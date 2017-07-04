@@ -111,8 +111,6 @@ class DiagnosisRepository {
         foreach ($details as $entry) {
             $new_return = array(
                 "id"            => $entry->id,
-                "name_cd"       => $entry->name_cd,
-//                "name"          => $entry->name->display(),
                 "name"          => $entry->name->getName(),
                 "orders_id"     => $entry->orders_id,
                 "completed"     => 0,
@@ -134,8 +132,6 @@ class DiagnosisRepository {
             foreach ($detail as $entry) {
                 $new_return = array(
                     "id"            => $entry->id,
-                    "name_cd"       => $entry->name_cd,
-//                    "name"          => $entry->name->display(),
                     "name"          => $entry->name->getName(),
                     "details_id"    => $entry->diagnosis_details_id,
                     "description"   => $entry->description,
