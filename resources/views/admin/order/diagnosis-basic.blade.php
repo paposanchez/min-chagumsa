@@ -1,6 +1,6 @@
 @foreach($return['entrys'] as $detail)
 <div class="col-md-12">
-    <h2>{{$detail['name']}}</h2>
+    <h2>{{$detail['name']['display']}}</h2>
     @foreach($detail['entrys'] as $item)
     <table class="table table-bordered" style="background-color: #fff">
         {{--@foreach($item as $entrys)--}}
