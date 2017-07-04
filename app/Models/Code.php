@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Illuminate\Support\Facades\Cache;
+use function Sodium\add;
 
 /**
  *
@@ -130,4 +131,16 @@ class Code extends Model {
         }
     }
 
+
+    public function getName() {
+        $return = [];
+        $return[] = array(
+            'id' => $this->id,
+            'name' => $this->name,
+            'display' => $this->display()
+        );
+
+
+        return $return;
+    }
 }

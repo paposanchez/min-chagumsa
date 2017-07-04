@@ -65,6 +65,9 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     // 주문관리
     Route::resource('order', 'OrderController');
 
+    // 진단관리
+    Route::resource('diagnosis', 'DiagnosesController');
+
     // 정산관리
     Route::resource('calculation', 'CalculationController');
 

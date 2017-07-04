@@ -54,6 +54,12 @@ Breadcrumbs::register('admin.calculation', function($breadcrumbs) {
 });
 
 
+Breadcrumbs::register('admin.diagnosis', function($breadcrumbs) {
+    $breadcrumbs->parent('admin');
+    $breadcrumbs->push(trans("admin/diagnosis.title"), route('diagnosis.index'));
+});
+
+
 
 //############################## Web
 Breadcrumbs::register('web', function($breadcrumbs) {
