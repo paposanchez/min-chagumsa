@@ -1,0 +1,27 @@
+// label 2단으로 붙일때 text 출력 박스 수정함
+.control-label-2{
+  margin-bottom: 0px !important;padding-top: 9px !important;
+}
+
+@mixin no-padding($side) {
+  @if $side == 'all' {
+    .no-padding {
+      padding: 0 !important;
+    }
+  } @else {
+    .no-padding-#{$side} {
+      padding-#{$side}: 0 !important;
+    }
+  }
+}
+
+@include no-padding("left");
+@include no-padding("right");
+@include no-padding("top");
+@include no-padding("bottom");
+@include no-padding("all");
+
+
+.thumb-public {
+  border-width: 3px; margin-right: 3px; border-color: rgb(192, 192, 192);
+}

@@ -16,55 +16,89 @@
             <input type="hidden" name="order_status" id="order_status">
             <input type="hidden" name="id" value="{{ $order->id }}">
 
-            <div class="form-group " >
-                {{--<label for="inputSubject" class="control-label col-md-3">{{ trans('admin/post.subject') }}</label>--}}
-                <div class="col-md-12">
 
+
+
+            <div class="form-group">
+                <!-- 유형선택 -->
+                <label for="inputName" class="control-label col-md-2 text-left">주문번호</label>
+                <div class="col-md-4">
                     <div class="input-group">
-                        <span class="input-group-addon">주문번호</span>
                         <input type="text" class="form-control" placeholder="" value="{{ $order->datekey }}-{{ $order->car_number }}" style="background-color: #fff;" disabled>
                         <span class="input-group-btn"><button class="btn btn-info" type="button" id="order-purchase">결제졍보</button></span>
                     </div>
+
+                </div>
+                <label for="inputName" class="control-label-2 col-md-2 text-left">주문상태</label>
+                <div class="col-md-4">
                     <div class="input-group">
-                        <span class="input-group-addon">주문상태</span>
                         <input type="text" class="form-control" placeholder="" value="{{ $order->status->display() }}" style="background-color: #fff;" disabled>
                         {{-- todo Admin에서만 나오도록 분기문 삽입해야 함. --}}
                         <span class="input-group-btn"><button class="btn btn-primary" type="button" id="order-modify">주문상태 변경</button></span>
                     </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">주문자</span>
-                        <input type="text" class="form-control" placeholder="" value="{{ $order->orderer_name }}" style="background-color: #fff;" disabled>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">차량번호</span>
-                        <input type="text" class="form-control" placeholder="" value="{{ $order->car_number }}" style="background-color: #fff;" disabled>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">모델명</span>
-                        <input type="text" class="form-control" placeholder="" value="{{ \App\Helpers\Helper::getCarModel($order->car) }}" style="background-color: #fff;" disabled>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">색상</span>
-                        <input type="text" class="form-control" placeholder="" value="외장: {{ $order->car->getExteriorColor ? $order->car->getExteriorColor->display() : '' }} / 내장: {{ $order->car->getInteriorColor ? $order->car->getInteriorColor->display() : '' }}" style="background-color: #fff;" disabled>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">옵션</span>
-                        <input type="text" class="form-control" placeholder="" value="연로타입: {{ $order->car->getFuelType ?  $order->car->getFuelType->display() : '미입력' }} / 엔진타입: {{ $order->car->getEngine ? $order->car->getEngine->display() : '미입력' }} / 변속기타입: {{ $order->car->getTransmission ? $order->car->getTransmission->display() : '미입력' }} / 용도 {{ $order->car->getType ? $order->car->getType->display() : '미입력' }}" style="background-color: #fff;" disabled>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">주문일 / 입고일</span>
-                        <input type="text" class="form-control" placeholder="" value="{{ $order->created_at }} / {{ $order->diagnose_at ? $order->diagnose_at : '입고대기' }}" style="background-color: #fff;" disabled>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">진단일 / 인증서 발급일</span>
-                        <input type="text" class="form-control" placeholder="" value="{{ $order->diagnosed_at ? $order->diagnosed_at : '입고대기' }} / {{ $order->certificates ? $order->certificates->updated_at : '인증대기' }}" style="background-color: #fff;" disabled>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">정비사 / 기술사</span>
-                        <input type="text" class="form-control" placeholder="" value="{{ $order->engineer->name }} / {{ $order->technicion->name }}" style="background-color: #fff;" disabled>
-                    </div>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label for="inputName" class="control-label col-md-2 text-left">
+                    주문자
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="{{ $order->orderer_name }}" style="background-color: #fff;" disabled>
+                </div>
+                <label for="inputName" class="control-label-2 col-md-2 text-left">
+                    차량번호
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="{{ $order->car_number }}" style="background-color: #fff;" disabled>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName" class="control-label col-md-2 text-left">
+                    모델명
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="{{ \App\Helpers\Helper::getCarModel($order->car) }}" style="background-color: #fff;" disabled>
+                </div>
+                <label for="inputName" class="control-label-2 col-md-2 text-left">
+                    색상
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="외장: {{ $order->car->getExteriorColor ? $order->car->getExteriorColor->display() : '' }} / 내장: {{ $order->car->getInteriorColor ? $order->car->getInteriorColor->display() : '' }}" style="background-color: #fff;" disabled>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName" class="control-label col-md-2 text-left">
+                    옵션
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="연로타입: {{ $order->car->getFuelType ?  $order->car->getFuelType->display() : '미입력' }} / 엔진타입: {{ $order->car->getEngine ? $order->car->getEngine->display() : '미입력' }} / 변속기타입: {{ $order->car->getTransmission ? $order->car->getTransmission->display() : '미입력' }} / 용도 {{ $order->car->getType ? $order->car->getType->display() : '미입력' }}" style="background-color: #fff;" disabled>
+                </div>
+                <label for="inputName" class="control-label-2 col-md-2 text-left">
+                    주문일 / 입고일
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="{{ $order->created_at }} / {{ $order->diagnose_at ? $order->diagnose_at : '입고대기' }}" style="background-color: #fff;" disabled>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName" class="control-label col-md-2 text-left">
+                    진단일 / 인증서 발급일
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="{{ $order->diagnosed_at ? $order->diagnosed_at : '입고대기' }} / {{ $order->certificates ? $order->certificates->updated_at : '인증대기' }}" style="background-color: #fff;" disabled>
+                </div>
+                <label for="inputName" class="control-label-2 col-md-2 text-left">
+                    정비사 / 기술사
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="{{ $order->engineer->name }} / {{ $order->technicion->name }}" style="background-color: #fff;" disabled>
+                </div>
+            </div>
+
             {!! Form::close() !!}
         </div>
     </div>
