@@ -49,7 +49,7 @@ class DiagnosisRepository {
         $return['entrys'] = json_decode($this->obj->item->layout, true);
 
         // 진단완료 이상이면 진단데이터 조회 아니면 레이아웃만 조회
-        if($return['status'] => 107) {
+        if($return['status'] == 107) {
 
             foreach($return['entrys'] as &$details) {
 
