@@ -41,46 +41,11 @@ class DiagnosisRepository {
         // 레이아웃 적용
         $return['entrys'] = json_decode($this->obj->item->layout, true);
 
-
-        // for($i=0; $i<count($return['entrys']); $i++) {
-
-        //     $details = $return['entrys'][$i];
-        //     $details['name'] = $this->getName($details['name_cd']);
-
-        //     foreach($details as &$detail) {
-
-        //         $detail['name'] = $this->getName($detail['name_cd']);
-        
-        //         // 진단완료 이상이면 진단데이터 조회 아니면 레이아웃만 조회
-        //         if($return['status'] == 107) {
-        //             // 레이아웃으로 인해 들어간 entrys를 덮어버린다
-        //             $detail['entrys'] = $this->getDiagnosesArray($detail['name_cd']);
-        //         }
-            
-        //         foreach($detail['children'] as &$children) {
-                    
-        //             $children['name'] = $this->getName($children['name_cd']);
-
-        //             // 진단완료 이상이면 진단데이터 조회 아니면 레이아웃만 조회
-        //             if($return['status'] == 107) {
-        //                 // 레이아웃으로 인해 들어간 entrys를 덮어버린다
-        //                 $children['entrys'] = $this->getDiagnosesArray($children['name_cd']);
-        //             }
-
-        //         }
-
-
-        //     }
-
-
-        // }
-
-
         foreach($return['entrys'] as &$details) {
 
             $details['name'] = $this->getName($details['name_cd']);
 
-            foreach($details as &$detail) {
+            foreach($details['entrys'] as &$detail) {
 
                 $detail['name'] = $this->getName($detail['name_cd']);
         
@@ -108,7 +73,6 @@ class DiagnosisRepository {
         
         return $return;
     }
-
 
     // 주문데이터의 진단정보를 조회
     public function order() {
