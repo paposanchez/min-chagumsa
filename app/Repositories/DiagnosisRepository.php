@@ -101,7 +101,7 @@ class DiagnosisRepository {
             $new_return = array(
                 "id"            => $entry->id,
                 'orders_id'     => $entry->orders_id,
-                'group'         => $entry->group,다
+                'group'         => $entry->group,
                 'use_image'     => $entry->use_image,
                 'use_voice'     => $entry->use_voice,
                 'options_cd'    => $entry->options_cd,
