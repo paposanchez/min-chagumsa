@@ -154,7 +154,14 @@ class DiagnosisRepository {
         foreach($this->diagnoses as $diagnosis) {
 
             if($group == $diagnosis->group) {
-                $return[] = $diagnosis;
+
+                $d = $diagnosis;
+
+                if(empty($d->options_cd) === false) {
+                     $d['options'] = Code::getByGroupArray($d->options_cd);
+                }
+
+                $return[] = $d;
             }
 
         }
@@ -304,9 +311,6 @@ class DiagnosisRepository {
 
 
     //============================================
-
-
-
 
 
     /**
