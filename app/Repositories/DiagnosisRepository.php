@@ -41,14 +41,15 @@ class DiagnosisRepository {
     }
 
     // 주문데이터의 진단정보를 조회
-    public function get($withdata = false) {
+    public function get() {
 
         $return = $this->order();
         
         // 레이아웃 적용
-        $return['entrys'] = json_decode($this->obj->layout, true);
+        $return['entrys'] = json_decode($this->obj->item->layout, true);
 
-        if($withdata) {
+        // 진단완료 이상이면 진단데이터 조회 아니면 레이아웃만 조회
+        if($return['status'] => 107) {
 
             foreach($return['entrys'] as &$details) {
 
@@ -67,20 +68,6 @@ class DiagnosisRepository {
         return $return;
     }
 
-    private function getDiagnosesArray($group) {
-        
-        $return = [];
-        foreach($this->diagnoses as $diagnosis) {
-
-            if($group == $diagnosis->group) {
-                $return[] = $diagnosis;
-            }
-
-        }
-
-        return $return;
-
-    }
 
 
     // 주문데이터의 진단정보를 조회
@@ -114,7 +101,7 @@ class DiagnosisRepository {
             $new_return = array(
                 "id"            => $entry->id,
                 'orders_id'     => $entry->orders_id,
-                'group'         => $entry->group,
+                'group'         => $entry->group,다
                 'use_image'     => $entry->use_image,
                 'use_voice'     => $entry->use_voice,
                 'options_cd'    => $entry->options_cd,
@@ -164,7 +151,21 @@ class DiagnosisRepository {
 
 
 
+    // 진단내역중 $group(name_cd) 에 따른 항목을 만들어 온
+    private function getDiagnosesArray($group) {
+        
+        $return = [];
+        foreach($this->diagnoses as $diagnosis) {
 
+            if($group == $diagnosis->group) {
+                $return[] = $diagnosis;
+            }
+
+        }
+
+        return $return;
+
+    }
 
 
 
