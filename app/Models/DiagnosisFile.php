@@ -15,7 +15,7 @@ class DiagnosisFile extends Model
 {
     protected $primaryKey = 'id';
     protected $fillable = [
-        'diagnosis_detail_items_id',
+        'diagnoses_id',
         'original',
         'source',
         'path',

@@ -29,7 +29,7 @@ class Diagnosis extends Model
 
     // 파일
     public function diagnosis_file(){
-        return $this->hasMany(\App\Models\DiagnosisFile::class, 'diagnosis_items_id', 'id');
+        return $this->hasMany(\App\Models\DiagnosisFile::class, 'diagnosis_id', 'id');
     }
 
     public function name() {
