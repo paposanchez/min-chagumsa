@@ -97,35 +97,44 @@ class DiagnosisRepository {
     }
 
 
-    private function diagnosis() {
+     // 진단내역중 $group(name_cd) 에 따른 항목을 만들어 온
+    private function getDiagnosesArray($group) {
+        
         $return = [];
-        $entrys = $this->obj->diagnosis;
+        foreach($this->diagnoses as $diagnosis) {
 
-        foreach ($entrys as $entry) {
-            $new_return = array(
-                "id"            => $entry->id,
-                'orders_id'     => $entry->orders_id,
-                'group'         => $entry->group,
-                'use_image'     => $entry->use_image,
-                'use_voice'     => $entry->use_voice,
-                'options_cd'    => $entry->options_cd,
-                'options'       => $entry->getOptions($entry->options_cd),
-                'selected'      => $entry->selected,
-                'except_options'=> $entry->except_options,
-                'description'   => $entry->description,
-                'created_at'    => $entry->created_at->format("Y-m-d H:i:s"),
-                'updated_at'    => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
-                'files'         => $this->files($entry->files)
-            );
+            if($group == $diagnosis->group) {
+                $return[] = $this->diagnosis($diagnosis);
+            }
 
-            $return[] = $new_return;
         }
+
         return $return;
+
+    }
+
+
+    private function diagnosis($entry) {
+        return array(
+            "id"            => ($entry->id ? $entry->id : null),
+            'orders_id'     => $entry->orders_id,
+            'group'         => $entry->group,
+            'use_image'     => $entry->use_image,
+            'use_voice'     => $entry->use_voice,
+            'options_cd'    => $entry->options_cd,
+            'options'       => $entry->getOptions($entry->options_cd),
+            'selected'      => $entry->selected,
+            'except_options'=> $entry->except_options,
+            'description'   => $entry->description,
+            'created_at'    => $entry->created_at->format("Y-m-d H:i:s"),
+            'updated_at'    => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
+            'files'         => $this->files($entry->files)
+        );
+
     }
 
     private function files($files) {
         $return = [];
-
         if($files) {
             foreach ($files as $entry) {
                 $new_return = array(
@@ -145,31 +154,6 @@ class DiagnosisRepository {
 
         return $return;
     }
-
-
-    // 진단내역중 $group(name_cd) 에 따른 항목을 만들어 온
-    private function getDiagnosesArray($group) {
-        
-        $return = [];
-        foreach($this->diagnoses as $diagnosis) {
-
-            if($group == $diagnosis->group) {
-
-                $d = $diagnosis;
-
-                if(empty($d->options_cd) === false) {
-                     $d['options'] = Code::getByGroupArray($d->options_cd);
-                }
-
-                $return[] = $d;
-            }
-
-        }
-
-        return $return;
-
-    }
-
 
 
     // 앱내에서 진단시작과 관련한 상태코
