@@ -107,7 +107,7 @@ class DiagnosisRepository {
             foreach ($files as $entry) {
                 $new_return = array(
                     'id'            => $entry->id,
-                    'diagnosis_id'  => $entry->diagnosis_id,
+                    'diagnoses_id'  => $entry->diagnoses_id,
                     'original'      => $entry->original,
                     'source'        => $entry->source,
                     'path'          => $entry->path,
