@@ -193,7 +193,7 @@ class DiagnosisRepository {
     }
 
     public function getName($name_cd) {
-        return Code::where("id" $name_cd)->first();
+        return Code::where("id", $name_cd)->first();
     }
 
 
