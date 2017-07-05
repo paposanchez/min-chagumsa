@@ -111,7 +111,7 @@ class DiagnosisRepository {
                 'description'   => $entry->description,
                 'created_at'    => $entry->created_at->format("Y-m-d H:i:s"),
                 'updated_at'    => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
-                'files'         => $this->getDetailFile($entry->diagnosis_file)
+                'files'         => $this->files($entry->files)
             );
 
             $return[] = $new_return;
