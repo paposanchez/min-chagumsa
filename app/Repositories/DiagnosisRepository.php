@@ -19,14 +19,7 @@ use Carbon\Carbon;
 
 use App\Models\Diagnosis;
 use App\Models\DiagnosisFile;
-
-
-
-
-
-use App\Models\DiagnosisDetails;
-use App\Models\DiagnosisDetail;
-use App\Models\DiagnosisDetailItem;
+use App\Models\Code;
 use DB;
 
 class DiagnosisRepository {
@@ -53,11 +46,19 @@ class DiagnosisRepository {
 
             foreach($return['entrys'] as &$details) {
 
+                $details['name'] = $this->getName($details['name_cd']),
+
                 foreach($details as &$detail) {
-                
+
                     // 레이아웃으로 인해 들어간 entrys를 덮어버린다
                     $detail['entrys'] = $this->getDiagnosesArray($detail['name_cd']);
-                    $detail['children']['entrys'] = $this->getDiagnosesArray($detail['children']['name_cd']);
+                    $detail['name'] = $this->getName($detail['name_cd']),
+                
+                    foreach($detail['children'] as &$children) {
+                        $children['entrys'] = $this->getDiagnosesArray($children['name_cd']);
+                        $children['name'] = $this->getName($children['name_cd']),
+                    }
+
 
                 }
 
@@ -143,14 +144,6 @@ class DiagnosisRepository {
     }
 
 
-
-
-
-
-
-
-
-
     // 진단내역중 $group(name_cd) 에 따른 항목을 만들어 온
     private function getDiagnosesArray($group) {
         
@@ -197,6 +190,10 @@ class DiagnosisRepository {
 
         }
 
+    }
+
+    public function getName($name_cd) {
+        return Code::where("id" $name_cd)->first();
     }
 
 
@@ -414,102 +411,102 @@ class DiagnosisRepository {
 
     //=============================================== 제거할 func
 
-    public function getDetailFile($files) {
-        $return = [];
+    // public function getDetailFile($files) {
+    //     $return = [];
 
-        if($files) {
-            foreach ($files as $entry) {
-                $new_return = array(
-                    'id'    => $entry->id,
-                    'diagnosis_detail_items_id'   => $entry->diagnosis_detail_items_id,
-                    'original'   => $entry->original,
-                    'source'   => $entry->source,
-                    'path'   => $entry->path,
-                    'mime'   => $entry->mime,
-                    'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
-                    'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
-                );
+    //     if($files) {
+    //         foreach ($files as $entry) {
+    //             $new_return = array(
+    //                 'id'    => $entry->id,
+    //                 'diagnosis_detail_items_id'   => $entry->diagnosis_detail_items_id,
+    //                 'original'   => $entry->original,
+    //                 'source'   => $entry->source,
+    //                 'path'   => $entry->path,
+    //                 'mime'   => $entry->mime,
+    //                 'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
+    //                 'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
+    //             );
 
-                $return[] = $new_return;
-            }
-        }
+    //             $return[] = $new_return;
+    //         }
+    //     }
 
-        return $return;
-    }
-
-
-
-
-    private function details() {
-        $return = [];
-        $details = $this->obj->diagnosis_details;
-
-        foreach ($details as $entry) {
-            $new_return = array(
-                "id"            => $entry->id,
-                "name"          => $entry->name->getName(),
-                "orders_id"     => $entry->orders_id,
-                "completed"     => 0,
-                "entrys"        => $this->getDetail($entry->diagnosis_detail_children)
-            );
-
-            $return[] = $new_return;
-        }
-        return $return;
-
-    }
+    //     return $return;
+    // }
 
 
 
-    // 진단목록
-    public function getDetail($detail) {
 
-        $return = [];
+    // private function details() {
+    //     $return = [];
+    //     $details = $this->obj->diagnosis_details;
 
-        if($detail) {
-            foreach ($detail as $entry) {
-                $new_return = array(
-                    "id"            => $entry->id,
-                    "name"          => $entry->name->getName(),
-                    "details_id"    => $entry->diagnosis_details_id,
-                    "description"   => $entry->description,
-                    "entrys"        => $this->getDetailItem($entry->diagnosis_item),
-                    "children"      => $this->getDetail($entry->children),
-                );
+    //     foreach ($details as $entry) {
+    //         $new_return = array(
+    //             "id"            => $entry->id,
+    //             "name"          => $entry->name->getName(),
+    //             "orders_id"     => $entry->orders_id,
+    //             "completed"     => 0,
+    //             "entrys"        => $this->getDetail($entry->diagnosis_detail_children)
+    //         );
 
-                $return[] = $new_return;
-            }
-        }
-        return $return;
-    }
+    //         $return[] = $new_return;
+    //     }
+    //     return $return;
+
+    // }
 
 
-    private function getDetailItem($items) {
-        $return = [];
 
-        if($items) {
-            foreach ($items as $entry) {
-                $new_return = array(
-                    "id"                    => $entry->id,
-                    'diagnosis_detail_id'   => $entry->diagnosis_detail_id,
-                    'use_image'   => $entry->use_image,
-                    'use_voice'   => $entry->use_voice,
-                    'options_cd'   => $entry->options_cd,
-                    'options'   => $entry->getOptions($entry->options_cd),
-                    'selected'   => $entry->selected,
-                    'required_image_options'   => $entry->required_image_options,
-                    'description'   => $entry->description,
-                    'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
-                    'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
-                    'files' => $this->getDetailFile($entry->diagnosis_file)
-                );
+    // // 진단목록
+    // public function getDetail($detail) {
 
-                $return[] = $new_return;
-            }
-        }
+    //     $return = [];
 
-        return $return;
-    }
+    //     if($detail) {
+    //         foreach ($detail as $entry) {
+    //             $new_return = array(
+    //                 "id"            => $entry->id,
+    //                 "name"          => $entry->name->getName(),
+    //                 "details_id"    => $entry->diagnosis_details_id,
+    //                 "description"   => $entry->description,
+    //                 "entrys"        => $this->getDetailItem($entry->diagnosis_item),
+    //                 "children"      => $this->getDetail($entry->children),
+    //             );
+
+    //             $return[] = $new_return;
+    //         }
+    //     }
+    //     return $return;
+    // }
+
+
+    // private function getDetailItem($items) {
+    //     $return = [];
+
+    //     if($items) {
+    //         foreach ($items as $entry) {
+    //             $new_return = array(
+    //                 "id"                    => $entry->id,
+    //                 'diagnosis_detail_id'   => $entry->diagnosis_detail_id,
+    //                 'use_image'   => $entry->use_image,
+    //                 'use_voice'   => $entry->use_voice,
+    //                 'options_cd'   => $entry->options_cd,
+    //                 'options'   => $entry->getOptions($entry->options_cd),
+    //                 'selected'   => $entry->selected,
+    //                 'required_image_options'   => $entry->required_image_options,
+    //                 'description'   => $entry->description,
+    //                 'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
+    //                 'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
+    //                 'files' => $this->getDetailFile($entry->diagnosis_file)
+    //             );
+
+    //             $return[] = $new_return;
+    //         }
+    //     }
+
+    //     return $return;
+    // }
 
 
 }
