@@ -13,6 +13,7 @@ class Diagnosis extends Model
         'id',
         'order_id',
         'group',
+        'name_cd',
         'use_image',
         'use_voice',
         'options_cd',

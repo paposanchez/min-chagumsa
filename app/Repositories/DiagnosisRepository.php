@@ -112,6 +112,7 @@ class DiagnosisRepository {
         return array(
             "id"            => ($entry->id ? $entry->id : null),
             'orders_id'     => $entry->orders_id,
+            'name'          => ($entry->name_cd ? $this->getName($entry->name_cd) : ''),
             'group'         => $entry->group,
             'use_image'     => $entry->use_image,
             'use_voice'     => $entry->use_voice,
@@ -183,7 +184,7 @@ class DiagnosisRepository {
         if($code) {
             return  Code::getArray($code);
         }
-        return [];
+        return '';
     }
 
 
