@@ -43,27 +43,21 @@ class DiagnosisRepository {
 
         foreach($return['entrys'] as &$details) {
 
+            // 이름코드 데이터
             $details['name'] = $this->getName($details['name_cd']);
 
             foreach($details['entrys'] as &$detail) {
 
+                // 이름코드 데이터
                 $detail['name'] = $this->getName($detail['name_cd']);
-        
-                // 진단완료 이상이면 진단데이터 조회 아니면 레이아웃만 조회
-                if($return['status'] == 107) {
-                    // 레이아웃으로 인해 들어간 entrys를 덮어버린다
-                    $detail['entrys'] = $this->getDiagnosesArray($detail['name_cd']);
-                }
+
+                // 레이아웃에 덮을 데이터가 있을지 말지 판단
+                $detail['entrys'] = $this->getDiagnoses($detail['name_cd']);
             
                 foreach($detail['children'] as &$children) {
                     
                     $children['name'] = $this->getName($children['name_cd']);
-
-                    // 진단완료 이상이면 진단데이터 조회 아니면 레이아웃만 조회
-                    if($return['status'] == 107) {
-                        // 레이아웃으로 인해 들어간 entrys를 덮어버린다
-                        $children['entrys'] = $this->getDiagnosesArray($children['name_cd']);
-                    }
+                    $children['entrys'] = $this->getDiagnoses($children['name_cd']);
 
                 }
 
@@ -98,7 +92,7 @@ class DiagnosisRepository {
 
 
      // 진단내역중 $group(name_cd) 에 따른 항목을 만들어 온
-    private function getDiagnosesArray($group) {
+    private function getDiagnoses($group) {
         
         $return = [];
         foreach($this->diagnoses as $diagnosis) {
