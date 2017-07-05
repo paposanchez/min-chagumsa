@@ -46,7 +46,7 @@ class DiagnosisRepository {
         $return = $this->order();
         
         // 레이아웃 적용
-        $return['entrys'] = json_decode($this->obj->layout->, true)
+        $return['entrys'] = json_decode($this->obj->layout->, true);
 
         if($withdata) {
 
