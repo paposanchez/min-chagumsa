@@ -46,17 +46,17 @@ class DiagnosisRepository {
 
             foreach($return['entrys'] as &$details) {
 
-                $details['name'] = $this->getName($details['name_cd']),
+                $details['name'] = $this->getName($details['name_cd']);
 
                 foreach($details as &$detail) {
 
                     // 레이아웃으로 인해 들어간 entrys를 덮어버린다
                     $detail['entrys'] = $this->getDiagnosesArray($detail['name_cd']);
-                    $detail['name'] = $this->getName($detail['name_cd']),
+                    $detail['name'] = $this->getName($detail['name_cd']);
                 
                     foreach($detail['children'] as &$children) {
                         $children['entrys'] = $this->getDiagnosesArray($children['name_cd']);
-                        $children['name'] = $this->getName($children['name_cd']),
+                        $children['name'] = $this->getName($children['name_cd']);
                     }
 
 
