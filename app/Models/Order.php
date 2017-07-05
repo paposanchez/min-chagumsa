@@ -121,19 +121,19 @@ class Order Extends Model
     //========================== 진단 수정중
 
 
-    public function diagnosis(){
+    public function diagnoses(){
         return $this->hasMany(\App\Models\Diagnosis::class, 'orders_id', 'id');
     }
 
 
 
-    public function diagnosis_items(){
-        return $this->hasMany(\App\Models\DiagnosisItems::class, 'orders_id', 'id');
-    }    
+    // public function diagnosis_items(){
+    //     return $this->hasMany(\App\Models\DiagnosisItems::class, 'orders_id', 'id');
+    // }    
 
-    public function diagnosis_details(){
-        return $this->hasMany(\App\Models\DiagnosisDetails::class, 'orders_id', 'id');
-    }
+    // public function diagnosis_details(){
+    //     return $this->hasMany(\App\Models\DiagnosisDetails::class, 'orders_id', 'id');
+    // }
 
 
     //========================== 아래는 검증안된 메쏘드

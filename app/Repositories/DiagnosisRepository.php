@@ -15,37 +15,71 @@ namespace App\Repositories;
 use App\Services\Encrypter;
 use App\Models\Order;
 use Carbon\Carbon;
+
+
+use App\Models\Diagnosis;
+use App\Models\DiagnosisFile;
+
+
+
+
+
 use App\Models\DiagnosisDetails;
 use App\Models\DiagnosisDetail;
 use App\Models\DiagnosisDetailItem;
-use App\Models\DiagnosisFile;
 use DB;
 
 class DiagnosisRepository {
 
-
     protected $obj;
-    protected $return;
 
 
     public function prepare($order_id) {
         $this->obj = Order::findOrFail($order_id);
+        $this->diagnoses = $this->obj->diagnoses;
         return $this;
     }
 
-
     // 주문데이터의 진단정보를 조회
-    public function get() {
+    public function get($withdata = false) {
 
-        // 주문정보
         $return = $this->order();
+        
+        // 레이아웃 적용
+        $return['entrys'] = json_decode($this->obj->layout->, true)
 
-        // 진단그룹
-        // $return['entrys'] = $this->details();
-        $return['entrys'] = $this->diagnosis();
+        if($withdata) {
 
+            foreach($return['entrys'] as &$details) {
+
+                foreach($details as &$detail) {
+                
+                    // 레이아웃으로 인해 들어간 entrys를 덮어버린다
+                    $detail['entrys'] = $this->getDiagnosesArray($detail['name_cd']);
+                    $detail['children']['entrys'] = $this->getDiagnosesArray($detail['children']['name_cd']);
+
+                }
+
+            }
+
+        }
+        
+        return $return;
+    }
+
+    private function getDiagnosesArray($group) {
+        
+        $return = [];
+        foreach($this->diagnoses as $diagnosis) {
+
+            if($group == $diagnosis->group) {
+                $return[] = $diagnosis;
+            }
+
+        }
 
         return $return;
+
     }
 
 
@@ -54,7 +88,7 @@ class DiagnosisRepository {
 
         $reservation_date = $this->obj->getReservation($this->obj->id)->reservation_at;
 
-        $this->return = array(
+        return array(
             'id' => $this->obj->id,
             'engineer_id' => $this->obj->engineer_id,
             'diagnosis_process' => $this->getDiagnosisProcess($reservation_date),
@@ -69,8 +103,6 @@ class DiagnosisRepository {
             'diagnose_at' => $this->obj->diagnose_at, // 진단시작일
             'diagnosed_at' => $this->obj->diagnosed_at // 진단완료일
         );
-
-        return $this->return;
     }
 
 
@@ -100,7 +132,7 @@ class DiagnosisRepository {
         return $return;
     }
 
-    public function files($files) {
+    private function files($files) {
         $return = [];
 
         if($files) {
@@ -122,6 +154,15 @@ class DiagnosisRepository {
 
         return $return;
     }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -159,25 +200,220 @@ class DiagnosisRepository {
 
 
 
+    // 진단데이터 최초 생성 
+    public function save($order_id, $save_data) {
+
+        $json_save_data = json_decode($save_data, true);
+
+
+        if($json_save_data) {
+
+            // 주문데이터를 기준으로 가져간 형태로 보내진다
+            // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
+            // 실제저장할 데이터를 모두 detail_item과 detail_file이다
+
+//            DB::beginTransaction();
+
+
+            try{
+
+                foreach($json_save_data as $details) {
+
+                    $inserted_item = Diagnosis::create([
+                        'orders_id' => $item['orders_id'],
+                        'group'     => $item['group'],
+                        'use_image' => $item['use_image'],
+                        'use_voice' => $item['use_voice'],
+                        'options_cd' => $item['options_cd'],
+                        'name_cd' => 0,
+                        'description' => $item['description']
+                    ]);
+
+                    $inserted_item->save();
+
+                
+
+
+                    // $inserted_details = DiagnosisDetails::create([
+                    //     'name_cd' => $details['name_cd'],
+                    //     'orders_id' => $order_id
+                    // ]);
+                    // $inserted_details->save();
+
+
+                    // foreach($details['entrys'] as $detail) {
+                    //     $inserted_detail = DiagnosisDetail::create([
+                    //         'name_cd' => $detail['name_cd'],
+                    //         'diagnosis_details_id' => $inserted_details->id,
+                    //         'description' => $detail['description']
+                    //     ]);
+                    //     $inserted_detail->save();
+
+                    //     foreach($detail['entrys'] as $item) {
+                    //         if($item['options_cd'] != null){
+                    //             $inserted_item = DiagnosisDetailItem::create([
+                    //                 'diagnosis_detail_id' => $inserted_detail->id,
+                    //                 'use_image' => $item['use_image'],
+                    //                 'use_voice' => $item['use_voice'],
+                    //                 'options_cd' => $item['options_cd'],
+                    //                 'name_cd' => 0,
+                    //                 'description' => $item['description']
+                    //             ]);
+                    //         }else{
+                    //             $inserted_item = DiagnosisDetailItem::create([
+                    //                 'diagnosis_detail_id' => $inserted_detail->id,
+                    //                 'use_image' => $item['use_image'],
+                    //                 'use_voice' => $item['use_voice'],
+                    //                 'name_cd' => 0,
+                    //                 'description' => $item['description']
+                    //             ]);
+                    //         }
+
+
+                    //         $inserted_item->save();
+
+                    //     }
+
+                    //     if($detail['children']) {
+
+                    //         foreach($detail['children'] as $children_detail) {
+                    //             $inserted_children_detail = DiagnosisDetail::create([
+                    //                 'parent_id' => $inserted_detail->id,
+                    //                 'name_cd' => $children_detail['name_cd'],
+                    //                 'diagnosis_details_id' => $inserted_details->id,
+                    //                 'description' => $children_detail['description']
+                    //             ]);
+                    //             $inserted_children_detail->save();
+
+
+                    //             foreach($children_detail['entrys'] as $children_item) {
+                    //                 $inserted_children_item = DiagnosisDetailItem::create([
+                    //                     'diagnosis_detail_id' => $inserted_detail->id,
+                    //                     'use_image' => $children_item['use_image'],
+                    //                     'use_voice' => $children_item['use_voice'],
+                    //                     'options_cd' => $children_item['options_cd'],
+                    //                     'description' => $children_item['description']
+                    //                 ]);
+                    //                 $inserted_children_item->save();
+
+                    //             }
+
+                    //         }
+
+                    //     }
+
+                    // }
+
+                }
+
+                DB::commit();
+                return true;
+
+            }catch(Exception $e) {
+
+                DB::rollBack();
+                return false;
+
+            }
+
+        }
+
+
+        return false;
+    }
+
+    // 진단데이터 수정
+    public function update($save_data) {
+
+        $json_save_data = json_decode($save_data, true);
+
+
+        if($json_save_data) {
+
+            // 주문데이터를 기준으로 가져간 형태로 보내진다
+            // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
+            // 실제저장할 데이터를 모두 detail_item과 detail_file이다
+
+            DB::beginTransaction();
+
+
+            try{
+
+                foreach($detail['entrys'] as $item) {
+
+                    // DB::table('diagnosis_detail_items')->where("id", $item['id'])->update(['votes' => 1]);
+
+                    foreach($item['files'] as $file) {
+
+                        // DB::table('diagnosis_files')->update(['votes' => 1]);
+
+                    }
+
+                }
+
+                DB::commit();
+                return true;
+
+            }catch(Exception $e) {
+
+                DB::rollBack();
+                return false;
+
+            }
+
+        }
+
+
+        return false;
+    }
+
+    public function layout() {
+        return $this->order->item->layout;
+    }
+
+
+
+
+    //============================================
 
 
 
 
 
+    /**
+     * 진단데이터에 대한 데이터 레이아웃을 검증
+     * @param type $decrypt_data
+     * @return boolean
+     */
+    private function validate($decrypt_data, $layout) {
+        return false;
+    }
 
 
+    /**
+     * 배열로 구성된 검증된 주문진단데이터를 암호화 문자열로 리턴
+     * @param array $decrypt_data 상품레이아웃으로 검증된 원형 주문진단데이터
+     * @return string 암호화된 검증된 주문진단데이터
+     */
+    public function encryt($decrypt_data) {
+        $return = Encrypter::encryption($decrypt_data);
+        return $return;
+    }
+
+    /**
+     * 암호화된 주문진단데이터를 해독해 배열로 구성된 주문진단데이터로 리턴
+     * @param type $encrypt_data 암호화된 주문진단데이터
+     * @return array 원형 주문진단데이터
+     */
+    public function decryt($encrypt_data) {
+        $return = Encrypter::decryption($encrypt_data);
+        return $return;
+    }
 
 
+    //=============================================== 제거할 func
 
-
-
-
-
-
-
-
-
-     public function getDetailFile($files) {
+    public function getDetailFile($files) {
         $return = [];
 
         if($files) {
@@ -274,225 +510,5 @@ class DiagnosisRepository {
         return $return;
     }
 
-   
-
-    public function save($order_id, $save_data) {
-
-        $json_save_data = json_decode($save_data, true);
-
-
-        if($json_save_data) {
-
-            // 주문데이터를 기준으로 가져간 형태로 보내진다
-            // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
-            // 실제저장할 데이터를 모두 detail_item과 detail_file이다
-
-//            DB::beginTransaction();
-
-
-            try{
-                foreach($json_save_data as $details) {
-                    $inserted_details = DiagnosisDetails::create([
-                        'name_cd' => $details['name_cd'],
-                        'orders_id' => $order_id
-                    ]);
-                    $inserted_details->save();
-
-
-                    foreach($details['entrys'] as $detail) {
-                        $inserted_detail = DiagnosisDetail::create([
-                            'name_cd' => $detail['name_cd'],
-                            'diagnosis_details_id' => $inserted_details->id,
-                            'description' => $detail['description']
-                        ]);
-                        $inserted_detail->save();
-
-                        foreach($detail['entrys'] as $item) {
-                            if($item['options_cd'] != null){
-                                $inserted_item = DiagnosisDetailItem::create([
-                                    'diagnosis_detail_id' => $inserted_detail->id,
-                                    'use_image' => $item['use_image'],
-                                    'use_voice' => $item['use_voice'],
-                                    'options_cd' => $item['options_cd'],
-                                    'name_cd' => 0,
-                                    'description' => $item['description']
-                                ]);
-                            }else{
-                                $inserted_item = DiagnosisDetailItem::create([
-                                    'diagnosis_detail_id' => $inserted_detail->id,
-                                    'use_image' => $item['use_image'],
-                                    'use_voice' => $item['use_voice'],
-                                    'name_cd' => 0,
-                                    'description' => $item['description']
-                                ]);
-                            }
-
-
-                            $inserted_item->save();
-
-                        }
-
-                        if($detail['children']) {
-
-                            foreach($detail['children'] as $children_detail) {
-                                $inserted_children_detail = DiagnosisDetail::create([
-                                    'parent_id' => $inserted_detail->id,
-                                    'name_cd' => $children_detail['name_cd'],
-                                    'diagnosis_details_id' => $inserted_details->id,
-                                    'description' => $children_detail['description']
-                                ]);
-                                $inserted_children_detail->save();
-
-
-                                foreach($children_detail['entrys'] as $children_item) {
-                                    $inserted_children_item = DiagnosisDetailItem::create([
-                                        'diagnosis_detail_id' => $inserted_detail->id,
-                                        'use_image' => $children_item['use_image'],
-                                        'use_voice' => $children_item['use_voice'],
-                                        'options_cd' => $children_item['options_cd'],
-                                        'description' => $children_item['description']
-                                    ]);
-                                    $inserted_children_item->save();
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                DB::commit();
-                return true;
-
-            }catch(Exception $e) {
-
-                DB::rollBack();
-                return false;
-
-            }
-
-        }
-
-
-        return false;
-    }
-
-    public function update($save_data) {
-
-        $json_save_data = json_decode($save_data, true);
-
-
-        if($json_save_data) {
-
-            // 주문데이터를 기준으로 가져간 형태로 보내진다
-            // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
-            // 실제저장할 데이터를 모두 detail_item과 detail_file이다
-
-            DB::beginTransaction();
-
-
-            try{
-
-                foreach($json_save_data['entrys'] as $details) {
-
-                    foreach($details['entrys'] as $detail) {
-
-                        foreach($detail['entrys'] as $item) {
-
-                            // DB::table('diagnosis_detail_items')->where("id", $item['id'])->update(['votes' => 1]);
-
-                            foreach($item['files'] as $file) {
-
-                                // DB::table('diagnosis_files')->update(['votes' => 1]);
-
-                            }
-
-                        }
-
-                        if($detail['children']) {
-
-                            foreach($detail['children'] as $children_detail) {
-
-                                foreach($children_detail['entrys'] as $item) {
-
-                                    // DB::table('diagnosis_detail_items')->update(['votes' => 1]);
-
-                                    foreach($item['files'] as $file) {
-
-                                        // DB::table('diagnosis_files')->update(['votes' => 1]);
-
-                                    }
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                DB::commit();
-                return true;
-
-            }catch(Exception $e) {
-
-                DB::rollBack();
-                return false;
-
-            }
-
-        }
-
-
-        return false;
-    }
-
-    public function layout() {
-        return $this->order->item->layout;
-    }
-
-
-
-
-    //============================================
-
-
-
-
-
-    /**
-     * 진단데이터에 대한 데이터 레이아웃을 검증
-     * @param type $decrypt_data
-     * @return boolean
-     */
-    private function validate($decrypt_data, $layout) {
-        return false;
-    }
-
-
-    /**
-     * 배열로 구성된 검증된 주문진단데이터를 암호화 문자열로 리턴
-     * @param array $decrypt_data 상품레이아웃으로 검증된 원형 주문진단데이터
-     * @return string 암호화된 검증된 주문진단데이터
-     */
-    public function encryt($decrypt_data) {
-        $return = Encrypter::encryption($decrypt_data);
-        return $return;
-    }
-
-    /**
-     * 암호화된 주문진단데이터를 해독해 배열로 구성된 주문진단데이터로 리턴
-     * @param type $encrypt_data 암호화된 주문진단데이터
-     * @return array 원형 주문진단데이터
-     */
-    public function decryt($encrypt_data) {
-        $return = Encrypter::decryption($encrypt_data);
-        return $return;
-    }
 
 }
