@@ -28,8 +28,8 @@ class Diagnosis extends Model
     ];
 
     // 파일
-    public function diagnosis_file(){
-        return $this->hasMany(\App\Models\DiagnosisFile::class, 'diagnosis_id', 'id');
+    public function diagnosis_files(){
+        return $this->hasMany(\App\Models\DiagnosisFile::class, 'diagnoses_id', 'id');
     }
 
     public function name() {
