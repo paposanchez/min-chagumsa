@@ -41,7 +41,9 @@ class DiagnosisRepository {
         $return = $this->order();
 
         // 진단그룹
-        $return['entrys'] = $this->details();
+        // $return['entrys'] = $this->details();
+        $return['entrys'] = $this->diagnosis();
+
 
         return $return;
     }
@@ -68,9 +70,61 @@ class DiagnosisRepository {
             'diagnosed_at' => $this->obj->diagnosed_at // 진단완료일
         );
 
-
         return $this->return;
     }
+
+
+    private function diagnosis() {
+        $return = [];
+        $entrys = $this->obj->diagnosis;
+
+        foreach ($entrys as $entry) {
+            $new_return = array(
+                "id"            => $entry->id,
+                'orders_id'     => $entry->orders_id,
+                'group'         => $entry->group,
+                'use_image'     => $entry->use_image,
+                'use_voice'     => $entry->use_voice,
+                'options_cd'    => $entry->options_cd,
+                'options'       => $entry->getOptions($entry->options_cd),
+                'selected'      => $entry->selected,
+                'except_options'=> $entry->except_options,
+                'description'   => $entry->description,
+                'created_at'    => $entry->created_at->format("Y-m-d H:i:s"),
+                'updated_at'    => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
+                'files'         => $this->getDetailFile($entry->diagnosis_file)
+            );
+
+            $return[] = $new_return;
+        }
+        return $return;
+    }
+
+    public function files($files) {
+        $return = [];
+
+        if($files) {
+            foreach ($files as $entry) {
+                $new_return = array(
+                    'id'            => $entry->id,
+                    'diagnosis_id'  => $entry->diagnosis_id,
+                    'original'      => $entry->original,
+                    'source'        => $entry->source,
+                    'path'          => $entry->path,
+                    'mime'          => $entry->mime,
+                    'created_at'    => $entry->created_at->format("Y-m-d H:i:s"),
+                    'updated_at'    => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
+                );
+
+                $return[] = $new_return;
+            }
+        }
+
+        return $return;
+    }
+
+
+
 
 
     // 앱내에서 진단시작과 관련한 상태코
@@ -104,6 +158,51 @@ class DiagnosisRepository {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     public function getDetailFile($files) {
+        $return = [];
+
+        if($files) {
+            foreach ($files as $entry) {
+                $new_return = array(
+                    'id'    => $entry->id,
+                    'diagnosis_detail_items_id'   => $entry->diagnosis_detail_items_id,
+                    'original'   => $entry->original,
+                    'source'   => $entry->source,
+                    'path'   => $entry->path,
+                    'mime'   => $entry->mime,
+                    'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
+                    'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
+                );
+
+                $return[] = $new_return;
+            }
+        }
+
+        return $return;
+    }
+
+
+
+
     private function details() {
         $return = [];
         $details = $this->obj->diagnosis_details;
@@ -122,6 +221,8 @@ class DiagnosisRepository {
         return $return;
 
     }
+
+
 
     // 진단목록
     public function getDetail($detail) {
@@ -144,6 +245,7 @@ class DiagnosisRepository {
         }
         return $return;
     }
+
 
     private function getDetailItem($items) {
         $return = [];
@@ -172,29 +274,7 @@ class DiagnosisRepository {
         return $return;
     }
 
-    public function getDetailFile($files) {
-        $return = [];
-
-        if($files) {
-            foreach ($files as $entry) {
-                $new_return = array(
-                    'id'    => $entry->id,
-                    'diagnosis_detail_items_id'   => $entry->diagnosis_detail_items_id,
-                    'original'   => $entry->original,
-                    'source'   => $entry->source,
-                    'path'   => $entry->path,
-                    'mime'   => $entry->mime,
-                    'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
-                    'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
-                );
-
-                $return[] = $new_return;
-            }
-        }
-
-        return $return;
-    }
-
+   
 
     public function save($order_id, $save_data) {
 

@@ -86,9 +86,6 @@ class Order Extends Model
         return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd');
     }
 
-    public function diagnosis_details(){
-        return $this->hasMany(\App\Models\DiagnosisDetails::class, 'orders_id', 'id');
-    }
 
     public function certificates(){
         return $this->hasOne(Certificate::class, 'orders_id', 'id');
@@ -115,6 +112,27 @@ class Order Extends Model
 
     public function reservation(){
         return $this->hasMany(\App\Models\Reservation::class, 'orders_id','id');
+    }
+
+
+
+
+
+    //========================== 진단 수정중
+
+
+    public function diagnosis(){
+        return $this->hasMany(\App\Models\Diagnosis::class, 'orders_id', 'id');
+    }
+
+
+
+    public function diagnosis_items(){
+        return $this->hasMany(\App\Models\DiagnosisItems::class, 'orders_id', 'id');
+    }    
+
+    public function diagnosis_details(){
+        return $this->hasMany(\App\Models\DiagnosisDetails::class, 'orders_id', 'id');
     }
 
 
