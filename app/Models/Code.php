@@ -81,7 +81,6 @@ class Code extends Model {
                 ->get();
 
         $return = [];
-
         foreach($entrys as $entry) {
             $return[] = self::getArray($entry);
         }

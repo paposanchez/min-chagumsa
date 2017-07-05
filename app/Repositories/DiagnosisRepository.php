@@ -137,7 +137,7 @@ class DiagnosisRepository {
         $return = [];
         if($files) {
             foreach ($files as $entry) {
-                $new_return = array(
+                $return[] = array(
                     'id'            => $entry->id,
                     'diagnoses_id'  => $entry->diagnoses_id,
                     'original'      => $entry->original,
@@ -147,8 +147,6 @@ class DiagnosisRepository {
                     'created_at'    => $entry->created_at->format("Y-m-d H:i:s"),
                     'updated_at'    => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
                 );
-
-                $return[] = $new_return;
             }
         }
 
