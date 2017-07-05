@@ -71,8 +71,6 @@ class Code extends Model {
                 ->where("group", $group)
                 ->orderBy('id')
                 ->get();
-
-
         return $return;
     }
 
@@ -85,16 +83,19 @@ class Code extends Model {
         $return = [];
 
         foreach($entrys as $entry) {
-            $return[] = array(
-                "id" => $entry->id,
-                "group" => $entry->group,
-                "name" => $entry->name,
-                "display" => trans('code.' . $entry->group . '.' . $entry->name)
-            );
+            $return[] = self::getArray($entry);
         }
 
-
         return $return;
+    }
+
+    public static function getArray($code) {
+        return array(
+            "id" => $code->id,
+            "group" => $code->group,
+            "name" => $code->name,
+            "display" => trans('code.' . $code->group . '.' . $code->name)
+        );
     }
 
 
