@@ -41,8 +41,6 @@ class DiagnosisRepository {
         // 레이아웃 적용
         $return['entrys'] = json_decode($this->obj->item->layout, true);
 
-        // 진단완료 이상이면 진단데이터 조회 아니면 레이아웃만 조회
-        if($return['status'] == 107) {
 
             foreach($return['entrys'] as &$details) {
 
@@ -50,25 +48,33 @@ class DiagnosisRepository {
 
                 foreach($details as &$detail) {
 
-                    // 레이아웃으로 인해 들어간 entrys를 덮어버린다
-                    $detail['entrys'] = $this->getDiagnosesArray($detail['name_cd']);
                     $detail['name'] = $this->getName($detail['name_cd']);
+            
+                    // 진단완료 이상이면 진단데이터 조회 아니면 레이아웃만 조회
+                    if($return['status'] == 107) {
+                        // 레이아웃으로 인해 들어간 entrys를 덮어버린다
+                        $detail['entrys'] = $this->getDiagnosesArray($detail['name_cd']);
+                    }
                 
                     foreach($detail['children'] as &$children) {
-                        $children['entrys'] = $this->getDiagnosesArray($children['name_cd']);
+                        
                         $children['name'] = $this->getName($children['name_cd']);
+
+                        // 진단완료 이상이면 진단데이터 조회 아니면 레이아웃만 조회
+                        if($return['status'] == 107) {
+                            // 레이아웃으로 인해 들어간 entrys를 덮어버린다
+                            $children['entrys'] = $this->getDiagnosesArray($children['name_cd']);
+                        }
+
                     }
 
 
                 }
 
-            }
-
         }
         
         return $return;
     }
-
 
 
     // 주문데이터의 진단정보를 조회
@@ -210,8 +216,7 @@ class DiagnosisRepository {
             // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
             // 실제저장할 데이터를 모두 detail_item과 detail_file이다
 
-//            DB::beginTransaction();
-
+            DB::beginTransaction();
 
             try{
 
@@ -223,85 +228,10 @@ class DiagnosisRepository {
                         'use_image' => $item['use_image'],
                         'use_voice' => $item['use_voice'],
                         'options_cd' => $item['options_cd'],
-                        'name_cd' => 0,
                         'description' => $item['description']
                     ]);
 
                     $inserted_item->save();
-
-                
-
-
-                    // $inserted_details = DiagnosisDetails::create([
-                    //     'name_cd' => $details['name_cd'],
-                    //     'orders_id' => $order_id
-                    // ]);
-                    // $inserted_details->save();
-
-
-                    // foreach($details['entrys'] as $detail) {
-                    //     $inserted_detail = DiagnosisDetail::create([
-                    //         'name_cd' => $detail['name_cd'],
-                    //         'diagnosis_details_id' => $inserted_details->id,
-                    //         'description' => $detail['description']
-                    //     ]);
-                    //     $inserted_detail->save();
-
-                    //     foreach($detail['entrys'] as $item) {
-                    //         if($item['options_cd'] != null){
-                    //             $inserted_item = DiagnosisDetailItem::create([
-                    //                 'diagnosis_detail_id' => $inserted_detail->id,
-                    //                 'use_image' => $item['use_image'],
-                    //                 'use_voice' => $item['use_voice'],
-                    //                 'options_cd' => $item['options_cd'],
-                    //                 'name_cd' => 0,
-                    //                 'description' => $item['description']
-                    //             ]);
-                    //         }else{
-                    //             $inserted_item = DiagnosisDetailItem::create([
-                    //                 'diagnosis_detail_id' => $inserted_detail->id,
-                    //                 'use_image' => $item['use_image'],
-                    //                 'use_voice' => $item['use_voice'],
-                    //                 'name_cd' => 0,
-                    //                 'description' => $item['description']
-                    //             ]);
-                    //         }
-
-
-                    //         $inserted_item->save();
-
-                    //     }
-
-                    //     if($detail['children']) {
-
-                    //         foreach($detail['children'] as $children_detail) {
-                    //             $inserted_children_detail = DiagnosisDetail::create([
-                    //                 'parent_id' => $inserted_detail->id,
-                    //                 'name_cd' => $children_detail['name_cd'],
-                    //                 'diagnosis_details_id' => $inserted_details->id,
-                    //                 'description' => $children_detail['description']
-                    //             ]);
-                    //             $inserted_children_detail->save();
-
-
-                    //             foreach($children_detail['entrys'] as $children_item) {
-                    //                 $inserted_children_item = DiagnosisDetailItem::create([
-                    //                     'diagnosis_detail_id' => $inserted_detail->id,
-                    //                     'use_image' => $children_item['use_image'],
-                    //                     'use_voice' => $children_item['use_voice'],
-                    //                     'options_cd' => $children_item['options_cd'],
-                    //                     'description' => $children_item['description']
-                    //                 ]);
-                    //                 $inserted_children_item->save();
-
-                    //             }
-
-                    //         }
-
-                    //     }
-
-                    // }
-
                 }
 
                 DB::commit();
@@ -408,105 +338,6 @@ class DiagnosisRepository {
         return $return;
     }
 
-
-    //=============================================== 제거할 func
-
-    // public function getDetailFile($files) {
-    //     $return = [];
-
-    //     if($files) {
-    //         foreach ($files as $entry) {
-    //             $new_return = array(
-    //                 'id'    => $entry->id,
-    //                 'diagnosis_detail_items_id'   => $entry->diagnosis_detail_items_id,
-    //                 'original'   => $entry->original,
-    //                 'source'   => $entry->source,
-    //                 'path'   => $entry->path,
-    //                 'mime'   => $entry->mime,
-    //                 'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
-    //                 'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
-    //             );
-
-    //             $return[] = $new_return;
-    //         }
-    //     }
-
-    //     return $return;
-    // }
-
-
-
-
-    // private function details() {
-    //     $return = [];
-    //     $details = $this->obj->diagnosis_details;
-
-    //     foreach ($details as $entry) {
-    //         $new_return = array(
-    //             "id"            => $entry->id,
-    //             "name"          => $entry->name->getName(),
-    //             "orders_id"     => $entry->orders_id,
-    //             "completed"     => 0,
-    //             "entrys"        => $this->getDetail($entry->diagnosis_detail_children)
-    //         );
-
-    //         $return[] = $new_return;
-    //     }
-    //     return $return;
-
-    // }
-
-
-
-    // // 진단목록
-    // public function getDetail($detail) {
-
-    //     $return = [];
-
-    //     if($detail) {
-    //         foreach ($detail as $entry) {
-    //             $new_return = array(
-    //                 "id"            => $entry->id,
-    //                 "name"          => $entry->name->getName(),
-    //                 "details_id"    => $entry->diagnosis_details_id,
-    //                 "description"   => $entry->description,
-    //                 "entrys"        => $this->getDetailItem($entry->diagnosis_item),
-    //                 "children"      => $this->getDetail($entry->children),
-    //             );
-
-    //             $return[] = $new_return;
-    //         }
-    //     }
-    //     return $return;
-    // }
-
-
-    // private function getDetailItem($items) {
-    //     $return = [];
-
-    //     if($items) {
-    //         foreach ($items as $entry) {
-    //             $new_return = array(
-    //                 "id"                    => $entry->id,
-    //                 'diagnosis_detail_id'   => $entry->diagnosis_detail_id,
-    //                 'use_image'   => $entry->use_image,
-    //                 'use_voice'   => $entry->use_voice,
-    //                 'options_cd'   => $entry->options_cd,
-    //                 'options'   => $entry->getOptions($entry->options_cd),
-    //                 'selected'   => $entry->selected,
-    //                 'required_image_options'   => $entry->required_image_options,
-    //                 'description'   => $entry->description,
-    //                 'created_at'   => $entry->created_at->format("Y-m-d H:i:s"),
-    //                 'updated_at'   => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
-    //                 'files' => $this->getDetailFile($entry->diagnosis_file)
-    //             );
-
-    //             $return[] = $new_return;
-    //         }
-    //     }
-
-    //     return $return;
-    // }
 
 
 }
