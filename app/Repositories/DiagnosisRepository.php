@@ -74,19 +74,19 @@ class DiagnosisRepository {
         $reservation_date = $this->obj->getReservation($this->obj->id)->reservation_at;
 
         return array(
-            'id' => $this->obj->id,
-            'engineer_id' => $this->obj->engineer_id,
+            'id'                => $this->obj->id,
+            'engineer_id'       => $this->obj->engineer_id,
             'diagnosis_process' => $this->getDiagnosisProcess($reservation_date),
-            'order_num' => $this->obj->getOrderNumber(),
-            'car_number' => $this->obj->car_number,
-            'orderer_name' => $this->obj->orderer_name,
-            'orderer_mobile' => $this->obj->orderer_mobile,
-            'status_cd' => $this->obj->status_cd,
-            'status' => $this->obj->status->display(),
-            'car_name' => $this->obj->getCarFullName(),
-            'reservation_at' => $reservation_date, // 예약일
-            'diagnose_at' => $this->obj->diagnose_at, // 진단시작일
-            'diagnosed_at' => $this->obj->diagnosed_at // 진단완료일
+            'order_num'         => $this->obj->getOrderNumber(),
+            'car_number'        => $this->obj->car_number,
+            'orderer_name'      => $this->obj->orderer_name,
+            'orderer_mobile'    => $this->obj->orderer_mobile,
+            'status_cd'         => $this->obj->status_cd,
+            'status'            => $this->obj->status->display(),
+            'car_name'          => $this->obj->getCarFullName(),
+            'reservation_at'    => $reservation_date, // 예약일
+            'diagnose_at'       => $this->obj->diagnose_at->format("Y-m-d H:i:s"),
+            'diagnosed_at'      => ($this->obj->diagnosed_at ? $this->obj->diagnosed_at->format("Y-m-d H:i:s") : ''),
         );
     }
 
