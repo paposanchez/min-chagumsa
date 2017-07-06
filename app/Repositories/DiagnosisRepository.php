@@ -190,9 +190,9 @@ class DiagnosisRepository {
 
 
     // 레이아웃 json으로 부터 신규 진단데이터 생성
-    public function create($order_id, $save_data) {
+    public function create() {
 
-        $json_save_data = json_decode($save_data, true);
+        $json_save_data =  json_decode($this->obj->item->layout, true);
 
         if($this->validate($json_save_data)) {
 
@@ -207,7 +207,7 @@ class DiagnosisRepository {
                 foreach($json_save_data as $item) {
 
                     $inserted_item = Diagnosis::create([
-                        'orders_id'     => $order_id,
+                        'orders_id'     => $this->obj->id,
                         'group'         => $item['group'],
                         'name_cd'       => $item['name_cd'],
                         'use_image'     => $item['use_image'],
@@ -284,7 +284,6 @@ class DiagnosisRepository {
     public function layout() {
         return $this->order->item->layout;
     }
-
 
     //============================================
 

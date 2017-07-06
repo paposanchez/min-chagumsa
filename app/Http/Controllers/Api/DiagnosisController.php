@@ -294,7 +294,7 @@ class DiagnosisController extends ApiController {
             $user_id = $request->get('user_id');
 
             $validator = Validator::make($request->all(), [
-                'user_id' => 'required|unique:users'
+                'user_id' => 'required|exists:users,id',
             ]);
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
@@ -309,8 +309,8 @@ class DiagnosisController extends ApiController {
 
             //@TODO 추후에 주문이 생성되는 시점으로 변경해야함
             // 진단 생성            
-           $diagnosis = new DiagnosisRepository();
-           $diagnosis->prepare($order_id)->create();
+            $diagnosis = new DiagnosisRepository();
+            $diagnosis->prepare($order_id)->create($order_id);
 
 
             return response()->json($order);
