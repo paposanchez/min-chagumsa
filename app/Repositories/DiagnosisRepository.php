@@ -196,14 +196,19 @@ class DiagnosisRepository {
 
         if($this->validate($json_save_data)) {
 
-            // 주문데이터를 기준으로 가져간 형태로 보내진다
-            // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
-            // 실제저장할 데이터를 모두 detail_item과 detail_file이다
-
             DB::beginTransaction();
 
             try{
 
+                //@TODO 진단데이터가 존제하는지 체크되어야함
+                // 기존에 등록된 진단데이터가 있는 경우 모두 삭제되어야 하므로 꼭 확인필요
+                DB::table('diagnoses')->where('orders_id', '=', $this->obj->id)->delete();
+
+
+
+                // 주문데이터를 기준으로 가져간 형태로 보내진다
+                // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
+                // 실제저장할 데이터를 모두 detail_item과 detail_file이다
                 foreach($json_save_data as $details) {
 
                     foreach($details['entrys'] as $detail) {
@@ -212,8 +217,7 @@ class DiagnosisRepository {
                             $inserted_item = Diagnosis::create([
                                 'orders_id'     => $this->obj->id,
                                 'group'         => $detail['name_cd'],
-
-                                'name_cd'       => $item['name_cd'],
+                                'name_cd'       => ($item['name_cd'] ? $item['name_cd'] : NULL),
                                 'use_image'     => $item['use_image'],
                                 'use_voice'     => $item['use_voice'],
                                 'options_cd'    => $item['options_cd'],
@@ -225,13 +229,13 @@ class DiagnosisRepository {
                         }
 
 
-                         foreach($detail['children'] as $children) {
+                         foreach($detail['children'] as $childrens) {
 
-                            foreach($children['entrys'] as $item) {
+                            foreach($childrens['entrys'] as $item) {
                                 $inserted_item = Diagnosis::create([
                                     'orders_id'     => $this->obj->id,
                                     'group'         => $children['name_cd'],
-                                    'name_cd'       => $item['name_cd'],
+                                    'name_cd'       => ($item['name_cd'] ? $item['name_cd'] : NULL),
                                     'use_image'     => $item['use_image'],
                                     'use_voice'     => $item['use_voice'],
                                     'options_cd'    => $item['options_cd'],
