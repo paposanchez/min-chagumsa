@@ -225,27 +225,29 @@ class DiagnosisRepository {
                         }
 
 
-                         foreach($detail['children'] as $children) {
+                         foreach($detail['children'] as $childrens) {
 
-                             foreach($children['entrys'] as $item) {
-                                $inserted_item = Diagnosis::create([
-                                    'orders_id'     => $this->obj->id,
-                                    'group'         => $children['name_cd'],
-                                    'name_cd'       => $item['name_cd'],
-                                    'use_image'     => $item['use_image'],
-                                    'use_voice'     => $item['use_voice'],
-                                    'options_cd'    => $item['options_cd'],
-                                    'selected'      => $item['selected'],
-                                    'except_options'=> $item['except_options'],
-                                    'description'   => $item['description']
-                                ]);
-                                $inserted_item->save();
+                            foreach($childrens as $children) {
+
+                                foreach($children['entrys'] as $item) {
+                                    $inserted_item = Diagnosis::create([
+                                        'orders_id'     => $this->obj->id,
+                                        'group'         => $children['name_cd'],
+                                        'name_cd'       => $item['name_cd'],
+                                        'use_image'     => $item['use_image'],
+                                        'use_voice'     => $item['use_voice'],
+                                        'options_cd'    => $item['options_cd'],
+                                        'selected'      => $item['selected'],
+                                        'except_options'=> $item['except_options'],
+                                        'description'   => $item['description']
+                                    ]);
+                                    $inserted_item->save();
+                                }
+
                             }
-
 
                         }
                     
-
                     }
 
                 }
