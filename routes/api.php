@@ -56,16 +56,12 @@ Route::get('notice/show', "NoticeController@show")->name('notice.show');
 
         //개별파일업로드
         Route::post('diagnosis/upload', "DiagnosisController@upload")->name('diagnosis.upload');
-        // 주문상품조
+
+        // 주문상품
         Route::get('diagnosis/item', "DiagnosisController@getItem")->name('diagnosis.item');
 
         //주문 엔지니어에 할당
         Route::post('diagnosis/grant', "DiagnosisController@setDiagnosisEngineer")->name('diagnosis.grant');
-
-        //진단데이터 생성
-        Route::post('diagnosis/make', "DiagnosisController@saveDiagnosisDate")->name('diagnosis.make');
-
-
 
 
 

@@ -68,7 +68,7 @@ class DiagnosisRepository {
         return $return;
     }
 
-    // 주문데이터의 진단정보를 조회
+    // 주문데이터 완성
     public function order() {
 
         $reservation_date = $this->obj->getReservation($this->obj->id)->reservation_at;
@@ -107,11 +107,12 @@ class DiagnosisRepository {
 
     }
 
-
+    // 진단데이터 완성형
     private function diagnosis($entry) {
         return array(
             "id"            => ($entry->id ? $entry->id : null),
             'orders_id'     => $entry->orders_id,
+            'name'          => ($entry->name_cd ? $this->getName($entry->name_cd) : ''),
             'group'         => $entry->group,
             'use_image'     => $entry->use_image,
             'use_voice'     => $entry->use_voice,
@@ -183,43 +184,75 @@ class DiagnosisRepository {
         if($code) {
             return  Code::getArray($code);
         }
-        return [];
+        return '';
     }
 
 
 
-    // 진단데이터 최초 생성 
-    public function save($order_id, $save_data) {
+    // 레이아웃 json으로 부터 신규 진단데이터 생성
+    public function create() {
 
-        $json_save_data = json_decode($save_data, true);
+        $json_save_data =  json_decode($this->obj->item->layout, true);
 
-
-        if($json_save_data) {
-
-            // 주문데이터를 기준으로 가져간 형태로 보내진다
-            // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
-            // 실제저장할 데이터를 모두 detail_item과 detail_file이다
+        if($this->validate($json_save_data)) {
 
             DB::beginTransaction();
 
             try{
 
+                //@TODO 진단데이터가 존제하는지 체크되어야함
+                // 기존에 등록된 진단데이터가 있는 경우 모두 삭제되어야 하므로 꼭 확인필요
+                DB::table('diagnoses')->where('orders_id', '=', $this->obj->id)->delete();
+
+
+
+                // 주문데이터를 기준으로 가져간 형태로 보내진다
+                // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
+                // 실제저장할 데이터를 모두 detail_item과 detail_file이다
                 foreach($json_save_data as $details) {
 
-                    $inserted_item = Diagnosis::create([
-                        'orders_id' => $item['orders_id'],
-                        'group'     => $item['group'],
-                        'use_image' => $item['use_image'],
-                        'use_voice' => $item['use_voice'],
-                        'options_cd' => $item['options_cd'],
-                        'description' => $item['description']
-                    ]);
+                    foreach($details['entrys'] as $detail) {
 
-                    $inserted_item->save();
+                        foreach($detail['entrys'] as $item) {
+                            $inserted_item = Diagnosis::create([
+                                'orders_id'     => $this->obj->id,
+                                'group'         => $detail['name_cd'],
+                                'name_cd'       => ($item['name_cd'] ? $item['name_cd'] : NULL),
+                                'use_image'     => $item['use_image'],
+                                'use_voice'     => $item['use_voice'],
+                                'options_cd'    => $item['options_cd'],
+                                'selected'      => $item['selected'],
+                                'except_options'=> $item['except_options'],
+                                'description'   => $item['description']
+                            ]);
+                            $inserted_item->save();
+                        }
+
+
+                         foreach($detail['children'] as $childrens) {
+
+                            foreach($childrens['entrys'] as $item) {
+                                $inserted_item = Diagnosis::create([
+                                    'orders_id'     => $this->obj->id,
+                                    'group'         => $children['name_cd'],
+                                    'name_cd'       => ($item['name_cd'] ? $item['name_cd'] : NULL),
+                                    'use_image'     => $item['use_image'],
+                                    'use_voice'     => $item['use_voice'],
+                                    'options_cd'    => $item['options_cd'],
+                                    'selected'      => $item['selected'],
+                                    'except_options'=> $item['except_options'],
+                                    'description'   => $item['description']
+                                ]);
+                                $inserted_item->save();
+                            }
+
+                        }
+                    
+                    }
+
                 }
 
-                DB::commit();
-                return true;
+                return DB::commit();
 
             }catch(Exception $e) {
 
@@ -239,8 +272,7 @@ class DiagnosisRepository {
 
         $json_save_data = json_decode($save_data, true);
 
-
-        if($json_save_data) {
+        if($this->validate($json_save_data)) {
 
             // 주문데이터를 기준으로 가져간 형태로 보내진다
             // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
@@ -248,23 +280,15 @@ class DiagnosisRepository {
 
             DB::beginTransaction();
 
-
             try{
 
-                foreach($detail['entrys'] as $item) {
-
-                    // DB::table('diagnosis_detail_items')->where("id", $item['id'])->update(['votes' => 1]);
-
-                    foreach($item['files'] as $file) {
-
-                        // DB::table('diagnosis_files')->update(['votes' => 1]);
-
-                    }
-
+                foreach($json_save_data as $item) {
+                    $diagnosis =  Diagnosis::find($item['id']);
+                    $diagnosis->selected = $item['selected'];
+                    $diagnosis->save();
                 }
 
-                DB::commit();
-                return true;
+                return DB::commit();
 
             }catch(Exception $e) {
 
@@ -275,28 +299,25 @@ class DiagnosisRepository {
 
         }
 
-
         return false;
     }
-
-    public function layout() {
-        return $this->order->item->layout;
-    }
-
-
-
-
-    //============================================
-
 
     /**
      * 진단데이터에 대한 데이터 레이아웃을 검증
      * @param type $decrypt_data
      * @return boolean
      */
-    private function validate($decrypt_data, $layout) {
-        return false;
+    private function validate($decrypt_data) {
+        return true;
     }
+
+
+
+    public function layout() {
+        return $this->order->item->layout;
+    }
+
+    //============================================
 
 
     /**

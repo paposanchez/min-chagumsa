@@ -10,9 +10,9 @@ class Diagnosis extends Model
 {
     protected $primaryKey = 'id';
     protected $fillable = [
-        'id',
-        'order_id',
+        'orders_id',
         'group',
+        'name_cd',
         'use_image',
         'use_voice',
         'options_cd',
