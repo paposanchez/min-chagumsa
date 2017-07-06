@@ -105,7 +105,7 @@ class DiagnosisController extends ApiController {
         $encrypt_json = $request->get('diagnosis');
 
         $diagnosis = new DiagnosisRepository();
-        $return = $diagnosis->prepare($order_id)->save($encrypt_json);
+        $return = $diagnosis->prepare($order_id)->update($encrypt_json);
 
         return response()->json($return);
     }
@@ -301,14 +301,17 @@ class DiagnosisController extends ApiController {
                 throw new Exception($errors[0]);
             }
 
-
-
-//            $diagnosis = new DiagnosisRepository();
-//            $return = $diagnosis->prepare($order_id)->get();
             $order = Order::findOrFail($order_id);
             $order->engineer_id = $user_id;
             $order->status_cd = 106;
             $order->save();
+
+
+            //@TODO 추후에 주문이 생성되는 시점으로 변경해야함
+            // 진단 생성            
+           $diagnosis = new DiagnosisRepository();
+           $diagnosis->prepare($order_id)->create();
+
 
             return response()->json($order);
             

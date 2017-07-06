@@ -189,13 +189,12 @@ class DiagnosisRepository {
 
 
 
-    // 진단데이터 최초 생성 
-    public function save($order_id, $save_data) {
+    // 레이아웃 json으로 부터 신규 진단데이터 생성
+    public function create($order_id, $save_data) {
 
         $json_save_data = json_decode($save_data, true);
 
-
-        if($json_save_data) {
+        if($this->validate($json_save_data)) {
 
             // 주문데이터를 기준으로 가져간 형태로 보내진다
             // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
@@ -205,22 +204,23 @@ class DiagnosisRepository {
 
             try{
 
-                foreach($json_save_data as $details) {
+                foreach($json_save_data as $item) {
 
                     $inserted_item = Diagnosis::create([
-                        'orders_id' => $item['orders_id'],
-                        'group'     => $item['group'],
-                        'use_image' => $item['use_image'],
-                        'use_voice' => $item['use_voice'],
-                        'options_cd' => $item['options_cd'],
-                        'description' => $item['description']
+                        'orders_id'     => $order_id,
+                        'group'         => $item['group'],
+                        'name_cd'       => $item['name_cd'],
+                        'use_image'     => $item['use_image'],
+                        'use_voice'     => $item['use_voice'],
+                        'options_cd'    => $item['options_cd'],
+                        'selected'      => $item['selected'],
+                        'except_options'=> $item['except_options'],
+                        'description'   => $item['description']
                     ]);
-
                     $inserted_item->save();
                 }
 
-                DB::commit();
-                return true;
+                return DB::commit();
 
             }catch(Exception $e) {
 
@@ -240,8 +240,7 @@ class DiagnosisRepository {
 
         $json_save_data = json_decode($save_data, true);
 
-
-        if($json_save_data) {
+        if($this->validate($json_save_data)) {
 
             // 주문데이터를 기준으로 가져간 형태로 보내진다
             // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
@@ -249,23 +248,15 @@ class DiagnosisRepository {
 
             DB::beginTransaction();
 
-
             try{
 
-                foreach($detail['entrys'] as $item) {
-
-                    // DB::table('diagnosis_detail_items')->where("id", $item['id'])->update(['votes' => 1]);
-
-                    foreach($item['files'] as $file) {
-
-                        // DB::table('diagnosis_files')->update(['votes' => 1]);
-
-                    }
-
+                foreach($json_save_data as $item) {
+                    $diagnosis =  Diagnosis::find($item['id']);
+                    $diagnosis->selected = $item['selected'];
+                    $diagnosis->save();
                 }
 
-                DB::commit();
-                return true;
+                return DB::commit();
 
             }catch(Exception $e) {
 
@@ -276,28 +267,26 @@ class DiagnosisRepository {
 
         }
 
-
         return false;
     }
-
-    public function layout() {
-        return $this->order->item->layout;
-    }
-
-
-
-
-    //============================================
-
 
     /**
      * 진단데이터에 대한 데이터 레이아웃을 검증
      * @param type $decrypt_data
      * @return boolean
      */
-    private function validate($decrypt_data, $layout) {
-        return false;
+    private function validate($decrypt_data) {
+        return true;
     }
+
+
+
+    public function layout() {
+        return $this->order->item->layout;
+    }
+
+
+    //============================================
 
 
     /**
