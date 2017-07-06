@@ -441,9 +441,9 @@ return [
         'certificated' => '인증발급완'
     ],
     'wear_state_cd' => [
-        'good' => '적정',
-        'lack' => '부족',
-        'pollution' => '오염',
+        'good' => '없음',
+        'strain' => '차량 쏠림',
+        'tire_wear' => '타이어 마모',
         'maintenance' => '교환요'
     ],
 

@@ -34,8 +34,7 @@ class DiagnosesController extends Controller
         $diagnosis = new DiagnosisRepository();
 
         $entrys = $diagnosis->prepare($id)->get();
-//        dd($entrys['entrys'][1]['entrys'][1]['children']);
-//        dd($entrys['entrys'][0]['name']['name']);
+//        dd($order->engineer->mobile);
 
         return view('admin.diagnosis.detail', compact('entrys', 'order'));
     }
