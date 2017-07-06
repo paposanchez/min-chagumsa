@@ -310,7 +310,7 @@ class DiagnosisController extends ApiController {
             //@TODO 추후에 주문이 생성되는 시점으로 변경해야함
             // 진단 생성            
             $diagnosis = new DiagnosisRepository();
-            $diagnosis->prepare($order_id)->create($order_id);
+            $diagnosis->prepare($order_id)->create();
 
 
             return response()->json($order);
@@ -584,43 +584,5 @@ class DiagnosisController extends ApiController {
             ]
         ]);
     }
-
-    /**
-     * @SWG\Post(
-     *     path="/diagnosis/make",
-     *     tags={"Diagnosis"},
-     *     summary="진단데이터 생성",
-     *     description="주문번호를 이용한 진단데이터 생성",
-     *     operationId="saveDiagnosisDate",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(name="order_id",in="formData",description="주문번호",required=true,type="integer",format="int32"),
-     *     @SWG\Response(response=200,description="success",
-     *          @SWG\Schema(type="object")
-     *     ),
-     *     @SWG\Response(response=401, description="unauthorized"),
-     *     @SWG\Response(response=404, description="not found"),
-     *     @SWG\Response(response=500, description="internal server error"),
-     *     @SWG\Response(response="default",description="error",
-     *          @SWG\Schema(ref="#/definitions/Error")
-     *     ),
-     *     security={
-     *     }
-     * )
-     */
-    public function saveDiagnosisDate(Request $request){
-        try {
-            $order_id = $request->get('order_id');
-            $order = Order::findOrFail($order_id);
-            $item_layout = $order->item->layout;
-
-            $diagnosis = new DiagnosisRepository();
-            $diagnosis->save($order_id, $item_layout);
-
-            return response()->json($diagnosis->prepare($order_id)->get());
-        } catch (Exception $e){
-            return abort(404, trans('diagnosis.not-making'));
-        }
-    }
-
 
 }

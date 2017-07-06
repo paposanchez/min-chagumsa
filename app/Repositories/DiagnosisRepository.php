@@ -68,7 +68,7 @@ class DiagnosisRepository {
         return $return;
     }
 
-    // 주문데이터의 진단정보를 조회
+    // 주문데이터 완성
     public function order() {
 
         $reservation_date = $this->obj->getReservation($this->obj->id)->reservation_at;
@@ -107,7 +107,7 @@ class DiagnosisRepository {
 
     }
 
-
+    // 진단데이터 완성형
     private function diagnosis($entry) {
         return array(
             "id"            => ($entry->id ? $entry->id : null),
@@ -204,20 +204,50 @@ class DiagnosisRepository {
 
             try{
 
-                foreach($json_save_data as $item) {
+                foreach($json_save_data as $details) {
 
-                    $inserted_item = Diagnosis::create([
-                        'orders_id'     => $this->obj->id,
-                        'group'         => $item['group'],
-                        'name_cd'       => $item['name_cd'],
-                        'use_image'     => $item['use_image'],
-                        'use_voice'     => $item['use_voice'],
-                        'options_cd'    => $item['options_cd'],
-                        'selected'      => $item['selected'],
-                        'except_options'=> $item['except_options'],
-                        'description'   => $item['description']
-                    ]);
-                    $inserted_item->save();
+                    foreach($details['entrys'] as $detail) {
+
+                        foreach($detail['entrys'] as $item) {
+                            $inserted_item = Diagnosis::create([
+                                'orders_id'     => $this->obj->id,
+                                'group'         => $detail['name_cd'],
+
+                                'name_cd'       => $item['name_cd'],
+                                'use_image'     => $item['use_image'],
+                                'use_voice'     => $item['use_voice'],
+                                'options_cd'    => $item['options_cd'],
+                                'selected'      => $item['selected'],
+                                'except_options'=> $item['except_options'],
+                                'description'   => $item['description']
+                            ]);
+                            $inserted_item->save();
+                        }
+
+
+                         foreach($detail['children'] as $children) {
+
+                             foreach($children['entrys'] as $item) {
+                                $inserted_item = Diagnosis::create([
+                                    'orders_id'     => $this->obj->id,
+                                    'group'         => $children['name_cd'],
+                                    'name_cd'       => $item['name_cd'],
+                                    'use_image'     => $item['use_image'],
+                                    'use_voice'     => $item['use_voice'],
+                                    'options_cd'    => $item['options_cd'],
+                                    'selected'      => $item['selected'],
+                                    'except_options'=> $item['except_options'],
+                                    'description'   => $item['description']
+                                ]);
+                                $inserted_item->save();
+                            }
+
+
+                        }
+                    
+
+                    }
+
                 }
 
                 return DB::commit();
