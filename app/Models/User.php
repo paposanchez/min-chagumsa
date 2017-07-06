@@ -49,6 +49,12 @@ class User extends Authenticatable {
         return $this->hasOne(UserExtra::class, 'users_id', 'id');
     }
 
+    public function role_user() {
+        return $this->hasOne(RoleUser::class, 'user_id', 'id');
+    }
+
+
+
 
     /**
      * One to Many relation

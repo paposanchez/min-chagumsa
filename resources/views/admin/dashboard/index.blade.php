@@ -19,46 +19,29 @@
                     <table class="table">
                         <colgroup>
                             <col width="*">
-                            <col width="70px">
+                            <col width="100px">
                         </colgroup>
                         <tbody>
-                        <tr>
-                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
-                            <td>2017.05.12</td>
-                        </tr>
+                        @unless(count($qna) >0)
+                            <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
+                        @endunless
 
-                        <tr>
-                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
-                            <td>2017.05.12</td>
-                        </tr>
-                        <tr>
-                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
-                            <td>2017.05.12</td>
-                        </tr>
-                        <tr>
-                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
-                            <td>2017.05.12</td>
-                        </tr>
-                        <tr>
-                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
-                            <td>2017.05.12</td>
-                        </tr>
-                        <tr>
-                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
-                            <td>2017.05.12</td>
-                        </tr>
-                        <tr>
-                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
-                            <td>2017.05.12</td>
-                        </tr>
-                        <tr>
-                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
-                            <td>2017.05.12</td>
-                        </tr>
-                        <tr>
-                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
-                            <td>2017.05.12</td>
-                        </tr>
+                        @foreach($qna as $n => $data)
+                            <tr>
+                                <td class="">
+                                    @if($data->is_answered == 1)
+                                        [답변완료] {{ $data->subject }}
+                                    @else
+                                        [답변대기] {{ $data->subject }}
+                                    @endif
+                                </td>
+
+                                <td class="">
+                                    {{--{{ $data->created_at }}--}}
+                                    {{ Carbon\Carbon::parse($data->created_at)->format('Y-m-d') }}
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -78,10 +61,26 @@
                             <col width="70px">
                         </colgroup>
                         <tbody>
-                        <tr>
-                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
-                            <td>2017.05.12</td>
-                        </tr>
+                        @unless(count($qna) >0)
+                            <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
+                        @endunless
+
+                        @foreach($lated_post as $n => $data)
+                            <tr>
+                                <td class="">
+                                    @if($data->is_answered == 1)
+                                        {{ $data->subject }}
+                                    @else
+                                        {{ $data->subject }}
+                                    @endif
+                                </td>
+
+                                <td class="">
+                                    {{--{{ $data->created_at }}--}}
+                                    {{ Carbon\Carbon::parse($data->created_at)->format('Y-m-d') }}
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -102,13 +101,29 @@
                     <table class="table">
                         <colgroup>
                             <col width="*">
-                            <col width="70px">
+                            <col width="100px">
                         </colgroup>
                         <tbody>
-                        <tr>
-                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
-                            <td>2017.05.12</td>
-                        </tr>
+                        @unless(count($qna) >0)
+                            <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
+                        @endunless
+
+                        @foreach($lated_post as $n => $data)
+                            <tr>
+                                <td class="">
+                                    @if($data->is_answered == 1)
+                                        {{ $data->subject }}
+                                    @else
+                                        {{ $data->subject }}
+                                    @endif
+                                </td>
+
+                                <td class="">
+                                    {{--{{ $data->created_at }}--}}
+                                    {{ Carbon\Carbon::parse($data->created_at)->format('Y-m-d') }}
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -128,10 +143,26 @@
                             <col width="70px">
                         </colgroup>
                         <tbody>
-                        <tr>
-                            <td><a href="">[답변대기]자동차점검 문의 드립니다.</a></td>
-                            <td>2017.05.12</td>
-                        </tr>
+                        @unless(count($qna) >0)
+                            <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
+                        @endunless
+
+                        @foreach($lated_post as $n => $data)
+                            <tr>
+                                <td class="">
+                                    @if($data->is_answered == 1)
+                                        {{ $data->subject }}
+                                    @else
+                                        {{ $data->subject }}
+                                    @endif
+                                </td>
+
+                                <td class="">
+                                    {{--{{ $data->created_at }}--}}
+                                    {{ Carbon\Carbon::parse($data->created_at)->format('Y-m-d') }}
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

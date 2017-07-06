@@ -389,8 +389,8 @@ class CodesSeeder extends Seeder {
             ['group' => 'accident_cd', 'name' => 'big_damage'], //대손상
 
             ['group' => 'wear_state_cd', 'name' => 'good'],
-            ['group' => 'wear_state_cd', 'name' => 'lack'],
-            ['group' => 'wear_state_cd', 'name' => 'pollution'],
+            ['group' => 'wear_state_cd', 'name' => 'strain'],
+            ['group' => 'wear_state_cd', 'name' => 'tire_wear'],
             ['group' => 'wear_state_cd', 'name' => 'maintenance'],
 
 
