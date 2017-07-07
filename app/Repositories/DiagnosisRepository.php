@@ -37,7 +37,7 @@ class DiagnosisRepository {
     public function get() {
 
         $return = $this->order();
-        
+
         // 레이아웃 적용
         $return['entrys'] = json_decode($this->obj->item->layout, true);
 
@@ -53,9 +53,9 @@ class DiagnosisRepository {
 
                 // 레이아웃에 덮을 데이터가 있을지 말지 판단
                 $detail['entrys'] = $this->getDiagnoses($detail['name_cd']);
-            
+
                 foreach($detail['children'] as &$children) {
-                    
+
                     $children['name'] = $this->getName($children['name_cd']);
                     $children['entrys'] = $this->getDiagnoses($children['name_cd']);
 
@@ -64,7 +64,7 @@ class DiagnosisRepository {
             }
 
         }
-        
+
         return $return;
     }
 
@@ -74,26 +74,26 @@ class DiagnosisRepository {
         $reservation_date = $this->obj->getReservation($this->obj->id)->reservation_at;
 
         return array(
-            'id' => $this->obj->id,
-            'engineer_id' => $this->obj->engineer_id,
+            'id'                => $this->obj->id,
+            'engineer_id'       => $this->obj->engineer_id,
             'diagnosis_process' => $this->getDiagnosisProcess($reservation_date),
-            'order_num' => $this->obj->getOrderNumber(),
-            'car_number' => $this->obj->car_number,
-            'orderer_name' => $this->obj->orderer_name,
-            'orderer_mobile' => $this->obj->orderer_mobile,
-            'status_cd' => $this->obj->status_cd,
-            'status' => $this->obj->status->display(),
-            'car_name' => $this->obj->getCarFullName(),
-            'reservation_at' => $reservation_date, // 예약일
-            'diagnose_at' => $this->obj->diagnose_at, // 진단시작일
-            'diagnosed_at' => $this->obj->diagnosed_at // 진단완료일
+            'order_num'         => $this->obj->getOrderNumber(),
+            'car_number'        => $this->obj->car_number,
+            'orderer_name'      => $this->obj->orderer_name,
+            'orderer_mobile'    => $this->obj->orderer_mobile,
+            'status_cd'         => $this->obj->status_cd,
+            'status'            => $this->obj->status->display(),
+            'car_name'          => $this->obj->getCarFullName(),
+            'reservation_at'    => $reservation_date, // 예약일
+            'diagnose_at'       => ($this->obj->diagnose_at ? $this->obj->diagnose_at->format("Y-m-d H:i:s") : ''),
+            'diagnosed_at'      => ($this->obj->diagnosed_at ? $this->obj->diagnosed_at->format("Y-m-d H:i:s") : ''),
         );
     }
 
 
-     // 진단내역중 $group(name_cd) 에 따른 항목을 만들어 온
+    // 진단내역중 $group(name_cd) 에 따른 항목을 만들어 온
     private function getDiagnoses($group) {
-        
+
         $return = [];
         foreach($this->diagnoses as $diagnosis) {
 
@@ -229,7 +229,7 @@ class DiagnosisRepository {
                         }
 
 
-                         foreach($detail['children'] as $childrens) {
+                        foreach($detail['children'] as $childrens) {
 
                             foreach($childrens['entrys'] as $item) {
                                 $inserted_item = Diagnosis::create([
@@ -247,7 +247,7 @@ class DiagnosisRepository {
                             }
 
                         }
-                    
+
                     }
 
                 }

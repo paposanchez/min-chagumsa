@@ -115,6 +115,7 @@ class UserController extends Controller {
             'name' => 'required|min:2',
             'roles' => 'required',
             'mobile' => 'nullable|min:2',
+            'garage' => 'required',
             'status_cd' => [
                 'required',
                 Rule::in(Code::getCodeFieldArray('user_status')->toArray()),
