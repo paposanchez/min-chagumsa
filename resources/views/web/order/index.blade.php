@@ -202,8 +202,8 @@
 		<div class='ipt_line wid20'>
 			<button type="submit" class='btns btns_green' style='display:inline-block;'>다음</button>
 		</div>
-        
-        {!! Form::close() !!}
+
+		{!! Form::close() !!}
 
 	</div>
 

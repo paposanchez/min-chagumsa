@@ -31,7 +31,7 @@
 		<div class='br30'></div>
 		<div class='br20'></div>
 
-        <form action="{{ route("order.complete") }}">
+		{!! Form::open(['route' => ["order.complete"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
 		<div class='order_info_box'>
 			<div class='order_info_title'>
 				<strong>결제 예정 내역</strong>
@@ -92,8 +92,7 @@
 		<div class='ipt_line wid45'>
 			<button class='btns btns_blue wid45' style='display:inline-block;'>이전</button>&nbsp;&nbsp; <button type="submit" class='btns btns_green wid45' style='display:inline-block;'>결제하기</button>
 		</div>
-        
-        </form>
+		{!! Form::close() !!}
 
 	</div>
 

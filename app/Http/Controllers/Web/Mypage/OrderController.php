@@ -14,4 +14,7 @@ class OrderController extends Controller {
         return view('web.mypage.order.show');
     }
 
+    public function reservation(){
+        return view('web.mypage.order.show');
+    }
 }

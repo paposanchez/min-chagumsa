@@ -22,10 +22,9 @@ Route::get('certificate/{id}/{page?}', 'CertificateController')->name("certifica
 
 // 주문하기
 Route::get('order', 'OrderController@index')->name("order.index");
-Route::get('order/reservation', 'OrderController@reservation')->name("order.reservation");
-Route::get('order/purchase', 'OrderController@purchase')->name("order.purchase");
-Route::get('order/complete', 'OrderController@complete')->name("order.complete");
-Route::get('order/reservation', 'OrderController@reservation')->name("order.reservation");
+Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase");
+Route::post('order/complete', 'OrderController@complete')->name("order.complete");
+Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
 Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");
 Route::get('order/factory/{page?}', 'OrderController@factory')->name("order.factory");
 

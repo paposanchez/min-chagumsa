@@ -31,7 +31,8 @@
 		<div class='br30'></div>
 		<div class='br20'></div>
 
-        <form action="{{ route("order.purchase") }}">
+        {{--<form action="{{ route("order.purchase") }}">--}}
+		{!! Form::open(['route' => ["order.purchase"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
 		<div class='order_info_box'>
 			<div class='order_info_title'>
 				<strong>입고 희망일</strong>
@@ -110,8 +111,7 @@
 					<strong>한스모터스</strong>
 					<p>전화번호 : 02-451-0788<br>주소 : 서울특별시 강남구 개포로 644</p>
 					<button class='btns btns2'>선택</button>
-				</li>
-				<li>
+				</li>				<li>
 					<strong>한스모터스</strong>
 					<p>전화번호 : 02-451-0788<br>주소 : 서울특별시 강남구 개포로 644</p>
 					<button class='btns btns2'>선택</button>
@@ -144,8 +144,8 @@
 		<div class='ipt_line wid33'>
 			<button class='btns btns_blue wid33' style='display:inline-block;'>이전</button>&nbsp;&nbsp; <button type="submit" class='btns btns_green wid33' style='display:inline-block;'>다음</button>
 		</div>
-        
-        </form>
+
+		{!! Form::close() !!}
 
 	</div>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller {
     
@@ -10,21 +11,21 @@ class OrderController extends Controller {
         return view('web.order.index');
     }
     
-    public function verification() {
+    public function verification(Request $request) {
         
     }
-    public function reservation() {
+    public function reservation(Request $request) {
         return view('web.order.reservation');
     }
     
     public function factory() {
         
     }
-    public function purchase() {
+    public function purchase(Request $request) {
         return view('web.order.purchase');
     }
     
-    public function complete() {
+    public function complete(Request $request) {
         return view('web.order.complete');
     }
     
