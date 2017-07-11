@@ -200,7 +200,7 @@
 .order_info_cont div.order_info_desc span {display:block;margin:10px 0;}
 
 .order_info_btn {position:absolute;right:35px;top:50%;font-size:20px;color:#5fb4ee;vertical-align:middle;-webkit-transform:translateY(-55%);-ms-transform:translateY(-55%);transform:translateY(-55%);}
-.order_info_btn button {display:block;width:75px;height:32px;padding:0;margin-top:10px;}
+.order_info_btn button {display:block;width:75px;height:32px;padding:0;margin-top:10px;font-size:15px;}
 
 .order_info_guide {border:1px solid #cecece;}
 .order_info_guide ul {padding:40px;overflow:hidden;}
@@ -320,3 +320,5 @@
 .intro3_step_box button {position:absolute;right:10px;top:30px;padding:10px;font-weight:bold;}
 
 .sub_shop_wrap {padding:0 30px;width:690px;height:500px;}
+
+.btns btns_green {margin-top: 20px;}

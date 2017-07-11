@@ -20,7 +20,8 @@ return [
     'confirmed' => '확인되었습니다.',
     'created_at' => '생성일',
     'updated_at' => '수정일',
-    
+
+    'garage' => '정비소',
     
     
     

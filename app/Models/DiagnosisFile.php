@@ -15,7 +15,7 @@ class DiagnosisFile extends Model
 {
     protected $primaryKey = 'id';
     protected $fillable = [
-        'diagnosis_detail_items_id',
+        'diagnoses_id',
         'original',
         'source',
         'path',
@@ -27,7 +27,7 @@ class DiagnosisFile extends Model
         'created_at', 'updated_at'
     ];
 
-    public function diagnosisDetail(){
-        return $this->belongsTo(\App\Models\DiagnosisDetailItem::class, 'id', 'diagnosis_detail_items_id');
+    public function diagnosis(){
+        return $this->belongsTo(\App\Models\DiagnosisDetailItem::class, 'id', 'diagnoses_id');
     }
 }

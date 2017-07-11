@@ -10,7 +10,91 @@
     <div class="row">
 
         <div class="col-md-12" >
+            <h3>기본 정보</h3>
             {!! Form::model($order, ['method' => 'PATCH','route' => ['diagnosis.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-user', 'enctype'=>"multipart/form-data"]) !!}
+            <input type="hidden" name="order_status" id="order_status">
+            <input type="hidden" name="id" value="{{ $order->id }}">
+
+
+            <div class="form-group">
+                {{--{{ dd($entrys) }}--}}
+                <!-- 유형선택 -->
+                <label for="inputName" class="control-label col-md-2 text-left">주문번호</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="{{ $entrys['order_num'] }}" style="background-color: #fff;" disabled>
+                </div>
+                <label for="inputName" class="control-label-2 col-md-2 text-left">차대번호</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="" style="background-color: #fff;" disabled>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName" class="control-label col-md-2 text-left">
+                    차량번호
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="{{ $entrys['car_number'] }}" style="background-color: #fff;" disabled>
+                </div>
+
+                <label for="inputName" class="control-label-2 col-md-2 text-left">
+                    차량명
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="{{ $entrys['car_name'] }}" style="background-color: #fff;" disabled>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName" class="control-label col-md-2 text-left">
+                    정비소
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="" style="background-color: #fff;" disabled>
+                </div>
+                <label for="inputName" class="control-label-2 col-md-2 text-left">
+                    정비소 전화번호
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="" style="background-color: #fff;" disabled>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName" class="control-label col-md-2 text-left">
+                    엔지니어
+                </label>
+                <div class="col-md-4">
+                    {{-- todo 엔지니어 명으로 추후 변경 --}}
+                    <input type="text" class="form-control" placeholder="" value="{{ $order->engineer->name }}" style="background-color: #fff;" disabled>
+                </div>
+                <label for="inputName" class="control-label-2 col-md-2 text-left">
+                    엔지니어 전화번호
+                </label>
+                <div class="col-md-4">
+                    {{-- todo 엔지니어 전화번호 추후 변경 --}}
+                    <input type="text" class="form-control" placeholder="" value="{{ $order->engineer->mobile }}" style="background-color: #fff;" disabled>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName" class="control-label col-md-2 text-left">
+                    입고 예약일
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="" value="{{ $entrys['reservation_at'] }}" style="background-color: #fff;" disabled>
+                </div>
+                <label for="inputName" class="control-label-2 col-md-2 text-left">
+                    진단시작 / 진단 완료
+                </label>
+                <div class="col-md-4">
+
+                    <input type="text" class="form-control" placeholder="" value="{{$entrys['diagnose_at']}} / {{$entrys['diagnosed_at']}}" style="background-color: #fff;" disabled>
+                </div>
+            </div>
+
+
+
             <fieldset>
 
                 @foreach($entrys['entrys'] as $details)
@@ -46,31 +130,25 @@
                             @foreach($detail['entrys'] as $items)
                                 @if($items['use_image'] == 0 && $items['use_voice'] == 0)
                                     <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                        {{--<label for="inputId" class="control-label col-md-3">{{ trans('admin/board.id') }}</label>--}}
                                         <label for="inputId" class="control-label col-md-3">{{ $items['options_cd']}}</label>
                                         <div class="col-md-3">
                                             <p class='form-control-static'>선택된 값 = {{ $items['selected'] }}</p>
-                                            {{--<p class='form-control-static'>{{ $items['use_image']['files'] }}</p>--}}
                                         </div>
                                     </div>
                                 @endif
                                 @if($items['use_image'] == 1)
                                     <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                        {{--<label for="inputId" class="control-label col-md-3">{{ trans('admin/board.id') }}</label>--}}
                                         <label for="inputId" class="control-label col-md-3">참고 사진</label>
                                         <div class="col-md-3">
                                             <p class='form-control-static'>{{ $items['description'] }}</p>
-                                            {{--<p class='form-control-static'>{{ $items['use_image']['files'] }}</p>--}}
                                         </div>
                                     </div>
                                 @endif
                                 @if($items['use_voice'] == 1)
                                     <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                        {{--<label for="inputId" class="control-label col-md-3">{{ trans('admin/board.id') }}</label>--}}
                                         <label for="inputId" class="control-label col-md-3">플레이어</label>
                                         <div class="col-md-3">
                                             <p class='form-control-static'>파일 있다</p>
-                                            {{--<p class='form-control-static'>{{ $items['use_image']['files'] }}</p>--}}
                                         </div>
                                     </div>
                                 @endif
@@ -80,20 +158,6 @@
                         <hr>
                     @endforeach
 
-                    {{--<div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">--}}
-                        {{--<label for="inputId" class="control-label col-md-3">{{ trans('admin/board.id') }}</label>--}}
-                        {{--<label for="inputId" class="control-label col-md-3">제목</label>--}}
-                        {{--<div class="col-md-3">--}}
-                            {{--<p class='form-control-static'></p>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="form-group">--}}
-                        {{--<label for="input" class="control-label col-md-3">{{ trans('admin/board.created_at') }}</label>--}}
-                        {{--<div class="col-md-4">--}}
-                            {{--<p class='form-control-static'>2017-07-03</p>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
                 @endforeach
 
 

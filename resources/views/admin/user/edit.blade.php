@@ -67,7 +67,7 @@
 
                 <div class="form-group {{ $errors->has('roles') ? 'has-error' : '' }}">
                     <label for="inputRoles" class="control-label col-md-3">{{ trans('admin/user.roles') }}</label>
-                    <div class="col-md-6">
+                    <div class="col-md-6 role_selector">
 
                         @if ($user->id == 1)
                         {!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'disabled'=>'disabled',  'id'=>'user-role']) !!}
@@ -79,6 +79,21 @@
                         @if ($errors->has('roles'))
                         <span class="help-block">
                             {{ $errors->first('roles') }}
+                        </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group {{ $errors->has('garage') ? 'has-error' : '' }} garage" style="display: none;">
+                    <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.garage') }}</label>
+                    <div class="col-md-6 selected_garage">
+                        <input type="text" class="form-control" name="garage" id="selected_garage" value="" disabled>
+                        {{--<select class="form-control" multiple="" id="selected_garage" style="height: 34px">--}}
+                            {{--<option value="1" selected>Administrator</option>--}}
+                        {{--</select>--}}
+                        @if ($errors->has('garage'))
+                            <span class="help-block">
+                            {{ $errors->first('garage') }}
                         </span>
                         @endif
                     </div>
@@ -169,7 +184,7 @@
                     <button class="btn btn-primary" data-loading-text="{{ trans('common.button.loading') }}" type="submit">{{ trans('common.button.save') }}</button>
 
                     @if ($user->id != 1)
-                    <button class="btn btn-danger pull-right" id="btn-user-destory" data-loading-text="{{ trans('common.button.loading') }}">{{ trans('common.button.destroy') }}</button>
+                        <button class="btn btn-danger pull-right" id="btn-user-destory" data-loading-text="{{ trans('common.button.loading') }}">{{ trans('common.button.destroy') }}</button>
                     @endif
 
                 </div>
@@ -184,13 +199,98 @@
 
 {!! Form::open(['method' => 'DELETE', 'route' => ['user.destroy', $user->id], 'id'=>'frm-user-destroy']) !!}
 {!! Form::close() !!}
+
+
+
+{{-- 정비소 선택  모달 --}}
+<div class="modal fade bs-example-modal-lg in purchase-modal" id="garage-modal" tabindex="-1" role="dialog" aria-labelledby="purchase-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg form-group">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title" id="myModalLabel">정비소 선택 정보</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <table class="table text-middle text-center">
+                        <colgroup>
+                            {{--<col width="10%">--}}
+                            <col width="100%">
+                            {{--<col width="15%">--}}
+                            {{--<col width="15%">--}}
+                            {{--<col width="15%">--}}
+                            {{--<col width="15%">--}}
+                            {{--<col width="15%">--}}
+
+                        </colgroup>
+
+                        <thead>
+                        <tr class="active">
+                            {{--<th class="text-center">#</th>--}}
+                            <th class="text-center">정비소 명</th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        @unless(count($garages) >0)
+                            <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
+                        @endunless
+
+                        @foreach($garages as $data)
+
+                            <tr>
+                                <td class="text-center">
+                                    {{--<a href="{{ $data['id'] }}">{{ $data['name'] }}</a>--}}
+                                    <a id="sel_garage" href="#">{{ $data['name'] }}</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+
+
+
+
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-primary order-close" data-dismiss="modal" id="purchase-modal-close">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
-@section( 'footer-script' )
+
+
+
+
+@push( 'footer-script' )
+
 <script type="text/javascript">
     $(function () {
         var $frm = $('#frm-user-destroy');
         var $frm_target = $('#frm-user');
+
+        $(document).on("click", '.role_selector', function (){
+            if($('.role_selector option:selected').text() == 'engineer'){
+                $("#garage-modal").modal();
+            }
+            else{
+                $('.garage').css('display', 'none')
+            }
+        });
+
+        $(document).on('click', '#sel_garage', function (){
+//            html = '<option value="1" disabled selected>'+$(this).text()+'</option>';
+//            html = '<input type="text" class="form-control" name="garage" id="selected_garage" value="'+$(this).text()+'" disabled>';
+//            $('.selected_garage').html(html);
+            $('#selected_garage').val($(this).text());
+            $('.garage').css('display', '');
+            $("#garage-modal").modal('hide');
+        });
 
         $(document).on("click", '#btn-user-destory', function (e) {
 
@@ -205,4 +305,4 @@
         });
     });
 </script>
-@endsection
+@endpush

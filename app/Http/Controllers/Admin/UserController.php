@@ -65,6 +65,10 @@ class UserController extends Controller {
             $user->attachRole($value);
         }
 
+        //todo 현재 user_extras에 데이터를 저장하는 것이 없기 떄문에, 만약 roles이 엔지니어(5)라면 정비소의 아이디를 가지고 user_extra에 같이 저장한다.
+
+
+
         if ($request->file('avatar')) {
             Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
 
@@ -78,18 +82,32 @@ class UserController extends Controller {
     }
 
     public function edit($id) {
-
         $user = User::findorFail($id);
 
         $status_cd_list = Code::whereGroup('user_status')->get();
         $roles = Role::getArrayByName();
+
+
+        $row = User::select()->join('role_user', function($join){
+            $join->on('users.id', '=', 'role_user.user_id')->where('role_id', 4);
+        });
+//        ->where('users.name', 'like', '%테스터%');
+
+        $garages = [];
+        foreach ($row->get() as $garage) {
+//            $garages[] = $garage->name;
+            $garages[] = array(
+                'id'    => $garage->id,
+                'name'  => $garage->name
+            );
+        }
+
         $userRole = $user->roles->pluck('id', 'name')->toArray();
 
-        return view('admin.user.edit', compact('user', 'roles', 'userRole', 'status_cd_list'));
+        return view('admin.user.edit', compact('user', 'roles', 'userRole', 'status_cd_list', 'garages'));
     }
 
     public function update(Request $request, $id) {
-
         $this->validate($request, [
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|min:6|confirmed',
@@ -97,6 +115,7 @@ class UserController extends Controller {
             'name' => 'required|min:2',
             'roles' => 'required',
             'mobile' => 'nullable|min:2',
+            'garage' => 'required',
             'status_cd' => [
                 'required',
                 Rule::in(Code::getCodeFieldArray('user_status')->toArray()),
@@ -108,6 +127,7 @@ class UserController extends Controller {
             'name' => trans('admin/user.name'),
             'roles' => trans('admin/user.roles'),
             'mobile' => trans('admin/user.mobile'),
+            'garage' => trans('admin/user.garage'),
             'status_cd' => trans('admin/user.status'),
             'avatar' => trans('admin/user.avatar'),
         ]);
@@ -121,6 +141,7 @@ class UserController extends Controller {
         } else {
             $input = array_except($input, array('password'));
         }
+
 
         $user = User::findOrFail($id);
         $user->update($input);
