@@ -421,27 +421,39 @@ class DiagnosisController extends ApiController {
      */
     public function getDiagnosisWorking(Request $request) {
         try {
-            $garage_id = $request->get('garage_id');
+
+            $user_id = $request->get('user_id');
 
             $validator = Validator::make($request->all(), [
-                'garage_id' => 'required|exists:user_extras,garage_id'
+               'user_id' => 'required|exists:users,id'
             ]);
 
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
-                throw new Exception($errors[0]);
+                return response()->json([]);
             }
 
-            $orders = Order::where('garage_id', $garage_id)
+            $user = User::findOrFail($user_id);
+
+            // $garage_id = $request->get('garage_id');
+
+            // $validator = Validator::make($request->all(), [
+            //     'garage_id' => 'required|exists:user_extras,garage_id'
+            // ]);
+
+            // if ($validator->fails()) {
+            //     $errors = $validator->errors()->all();
+            //     throw new Exception($errors[0]);
+            // }
+
+            $orders = Order::where('garage_id', $user->user_extra->garage_id)
                 ->where('status_cd', [106])
                 ->where('diagnose_at', null)
                 ->get();
 
 
             $returns = [];
-
             $diagnosis = new DiagnosisRepository();
-
             foreach($orders as $order) {
                 $returns[] = $diagnosis->prepare($order->id)->order();
             }
