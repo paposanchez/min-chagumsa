@@ -376,6 +376,7 @@ class DiagnosisController extends ApiController {
             ->where('orders.garage_id', $user->user_extra->garage_id)
             ->whereIn('orders.status_cd', [104,105])
             ->select('reservations.*')
+            ->orderBy("reservations.reservation_at", "ASC")
             ->get(); //입고대기, 입고
 
             $returns = [];
