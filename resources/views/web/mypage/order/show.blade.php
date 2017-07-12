@@ -16,7 +16,8 @@
 	<div class='order_info_box'>
 		<div class='order_info_title'>
 			<strong>주문일</strong>
-			<span>2017년 2월 21일</span>
+			<span>{{ Carbon\Carbon::parse($order->created_at)->format('Y-m-d') }}</span>
+
 			<a href=''>주문상세보기 ></a>
 		</div>
 		<div class='order_info_cont'>
@@ -28,14 +29,14 @@
 				<span>차량정보</span>
 			</div>
 			<div class='order_info_desc'>
-				<span>2017년 2월 21일</span>
-				<span>170221-21너3455</span>
-				<span>홍길동</span>
-				<span>010-1234-5678</span>
-  				<span>폭스바겐 뉴 파사트 2.0 TDI</span>
+				<span>{{ Carbon\Carbon::parse($order->created_at)->format('Y-m-d') }}</span>
+				<span>{{ $order->datekey }}-{{ $order->car_number }}</span>
+				<span>{{ $order->orderer_name }}</span>
+				<span>{{ $order->orderer_mobile }}</span>
+  				<span>{{ $order->getCarFullName() }}</span>
 			</div>
 			<div class='order_info_btn'>
-				주문완료
+				{{ $order->status->display() }}
 				<button class='btns btns2'>취소신청</button>
 			</div>
 		</div>
@@ -48,12 +49,12 @@
 		</div>
 		<div class='od_line'>
 			<label>주문자</label>
-			<span>홍길동</span>
+			<span>{{ $order->orderer_name }}</span>
 		</div>
 		<div class='od_line'>
 			<label style='position:relative;top:11px;'>휴대폰 번호</label>
 			<span>
-				<input type='text' class='ipt wid20' value='01012345678'> <button class='btns btn_dis'>인증번호 전송</button>
+				<input type='text' class='ipt wid20' value='{{ $order->orderer_mobile }}'> <button class='btns btn_dis'>인증번호 전송</button>
 			</span>
 		</div>
 	</div>
@@ -64,23 +65,28 @@
 		</div>
 		<div class='od_line'>
 			<label>차량번호</label>
-			<span>12가2345</span>
+			<span>{{ $order->car_number }}</span>
 		</div>
 		<div class='od_line'>
 			<label>제조사</label>
-			<span>폭스바겐</span>
+			<span>{{ $order->car->brand->name }}</span>
 		</div>
 		<div class='od_line'>
 			<label>모델</label>
-			<span>더 뉴 파사트</span>
+			<span>{{ $order->car->models->name }}</span>
 		</div>
 		<div class='od_line'>
 			<label>세무보델</label>
-			<span>2.0 TDI</span>
+			<span>{{ $order->car->detail->name }}</span>
+		</div>
+		<div class='od_line'>
+			<label>등급</label>
+			<span>{{ $order->car->grade->name }}</span>
 		</div>
 		<div class='od_line'>
 			<label>옵션</label>
-			<span>전동접이 사이드미러,  선루프(순정),  가죽 시트,  전동 시트(운전석),  열선 시트(앞좌석),  에어백(운전석),  ABS 후방 감지센서,  스마트 키,  핸즈프리,  AV 시스템</span>
+			{{--todo car_features에 데이터 입력 후 출력--}}
+			<span></span>
 		</div>
 	</div>
 
@@ -90,10 +96,12 @@
 		</div>
 		<div class='od_line'>
 			<label>입고희망일</label>
-			<span>2016년 2월 24일 오후 1시</span>
+			{{-- todo 예약테이블에 저장 후 출력--}}
+			<span></span>
 		</div>
 		<div class='od_line'>
 			<label>입고대리점</label>
+			{{-- todo 정비소 데이터 저장 후 출력 --}}
 			<span>한스모터스<br>전화번호:02-451-0788<br>주소: 서울특별시 강남구 개포로 644</span>
 		</div>
 	</div>
@@ -104,22 +112,23 @@
 		</div>
 		<div class='od_line'>
 			<label>결제수단</label>
+			{{-- todo purchase 데이터 저장 후 출력--}}
 			<span>[신용카드] 신한카드 일시불</span>
 		</div>
 		<div class='od_line'>
 			<label>결제금액</label>
 			<span class='wid20'>
 				<div class='od_line'>
-					<label>수입차 가격</label>
-					<span>200,000원</span>
+					<label>인증서 가격</label>
+					<span>{{ $item->price }} 원</span>
 				</div>
 				<div class='od_line'>
 					<label>프로모션 할인</label>
-					<span>0원</span>
+					<span>0 원</span>
 				</div>
 				<div class='od_line'>
 					<label>총 결제금액</label>
-					<span><strong>200,000</strong>원</span>
+					<span><strong>{{ $item->price }}</strong> 원</span>
 				</div>
 			</span>
 		</div>

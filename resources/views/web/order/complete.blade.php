@@ -87,7 +87,8 @@
 		<div class='br20'></div>
 
 		<div class='ipt_line wid45'>
-			<button class='btns btns_blue wid45' style='display:inline-block;'>주문상세 보기</button>&nbsp;&nbsp; <a href="/" class='btns btns_green wid45' style='display:inline-block;'>홈으로 이동</a>
+			<button class='btns btns_blue wid45' style='display:inline-block;'><a href="{{ route('mypage.order.index') }}">주문상세 보기</a></button>&nbsp;&nbsp;
+			<a href="/" class='btns btns_green wid45' style='display:inline-block;'>홈으로 이동</a>
 		</div>
 
 	</div>

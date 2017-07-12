@@ -455,6 +455,13 @@ return [
         'corrosion' => '부식'
     ],
 
+    'payment_cd' => [
+        'card' => '신용/체크카드',
+        'account' => '실시간 계좌이체'
+    ],
+
+
+
     //진단 항목 코드
 
     'diagnosis' => [

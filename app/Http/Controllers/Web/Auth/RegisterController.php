@@ -111,22 +111,23 @@ class RegisterController extends Controller {
 //        dd('aaa');
         //verification email
 
+
         // 인증메일 관련 부분 향후에
-        $confirmation_code = str_random(30);
-
-        $confirm_user = Post::find($user->id);
-        if($confirm_user){
-            $confirm_user->verification_code = $confirmation_code;
-            $confirm_user->save();
-
-            Mail::send('email.verify', $confirmation_code, function($message) use ($user) {
-                $message->to($user->email)
-                    ->subject("[카검사 ]회원 인증 메일입니다");
-            });
-
-        }else{
-            //
-        }
+//        $confirmation_code = str_random(30);
+//
+//        $confirm_user = Post::find($user->id);
+//        if($confirm_user){
+//            $confirm_user->verification_code = $confirmation_code;
+//            $confirm_user->save();
+//
+//            Mail::send('email.verify', $confirmation_code, function($message) use ($user) {
+//                $message->to($user->email)
+//                    ->subject("[카검사 ]회원 인증 메일입니다");
+//            });
+//
+//        }else{
+//            //
+//        }
 
 
         return view('web.auth.registered', compact("user"));

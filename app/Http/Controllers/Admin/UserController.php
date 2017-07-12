@@ -131,7 +131,6 @@ class UserController extends Controller {
             'avatar' => trans('admin/user.avatar'),
         ]);
 
-
         $input = $request->all();
         
         // 비밀번호 변경

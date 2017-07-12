@@ -7,8 +7,8 @@
 <div id='sub_wrap'>
 
 	<ul class='menu_tab_wrap'>
-		<li><a class='' href=''>주문목록</a></li>
-		<li><a class='select' href=''>회원정보 수정</a></li>
+		<li><a class='' href='{{ route('mypage.order.index') }}'>주문목록</a></li>
+		<li><a class='select' href='{{ route('mypage.profile.index') }}'>회원정보 수정</a></li>
 	</ul>
 
 	<div class='br30'></div>

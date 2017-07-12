@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Redirect;
 use GuzzleHttp\Client;
 use App\Repositories\DiagnosisRepository;
 
-class OrderController extends Controller
+class OrderController extends Controllerㅈ
 {
 
     public function index(Request $request){

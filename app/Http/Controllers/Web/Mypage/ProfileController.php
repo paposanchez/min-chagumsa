@@ -35,14 +35,16 @@ class ProfileController extends Controller {
                 $where->password = bcrypt($request->password);
                 $where->save();
 
-                return redirect()
-                    ->route('mypage.profile.index');
+                return redirect('/');
+//                return redirect()
+//                    ->route('mypage.profile.index');
             }else{
                 throw new Exception('invalid password');
             }
         }else{
             throw new Exception('invalid email');
         }
+
     }
 
     public function chkPwd(Request $request){
