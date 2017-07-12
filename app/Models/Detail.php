@@ -19,7 +19,7 @@ class Detail Extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'id',
-        'model_id',
+        'models_id',
         'name',
     ];
     protected $dates = ['created_at', 'updated_at'];

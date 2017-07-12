@@ -446,6 +446,10 @@ return [
         'tire_wear' => '타이어 마모',
         'maintenance' => '교환요'
     ],
+    'payment_cd' => [
+        'card' => '신용/체크카드',
+        'account' => '실시간 계좌이체'
+    ],
 
 
 

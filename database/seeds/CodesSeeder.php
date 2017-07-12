@@ -21,7 +21,9 @@ class CodesSeeder extends Seeder {
             ['id'=>7, 'group' => 'post_shown_role', 'name' => 'private'],
             ['id'=>8, 'group' => 'post_search_field', 'name' => 'subject'],
             ['id'=>9, 'group' => 'post_search_field', 'name' => 'content'],
-            ['id'=>10, 'group' => 'post_search_field', 'name' => 'writer_name']
+            ['id'=>10, 'group' => 'post_search_field', 'name' => 'writer_name'],
+            ['id'=>11, 'group' => 'payment_cd', 'name' => 'card'],
+            ['id'=>12, 'group' => 'payment_cd', 'name' => 'account'],
         ]);
 
 
@@ -396,6 +398,8 @@ class CodesSeeder extends Seeder {
 
             ////////////////// 추가 진단 그룹코드
             ['group' => 'diagnosis_state_group', 'name' => 'wear_state_cd'],
+
+
         ]);
 
 

@@ -28,6 +28,11 @@ Route::post('order/reservation', 'OrderController@reservation')->name("order.res
 Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");
 Route::get('order/factory/{page?}', 'OrderController@factory')->name("order.factory");
 
+Route::get('/order/get_models', 'OrderController@getModels')->name("order.get_models");
+Route::get('/order/get_details', 'OrderController@getDetails')->name("order.get_details");
+Route::get('/order/get_grades', 'OrderController@getGrades')->name("order.get_grades");
+Route::get('/order/sel_item', 'OrderController@selItem')->name("order.sel_item");
+
 
 // Information
 Route::get('information/index', function () {
