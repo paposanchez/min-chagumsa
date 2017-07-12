@@ -9,7 +9,7 @@ class Grade extends Model
 {
     //
     protected $fillable = [
-        'detail_id',
+        'details_id',
         'name',
     ];
 

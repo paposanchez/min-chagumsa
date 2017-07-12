@@ -37,7 +37,7 @@ class DiagnosisRepository {
     public function get() {
 
         $return = $this->order();
-        
+
         // 레이아웃 적용
         $return['entrys'] = json_decode($this->obj->item->layout, true);
 
@@ -53,9 +53,9 @@ class DiagnosisRepository {
 
                 // 레이아웃에 덮을 데이터가 있을지 말지 판단
                 $detail['entrys'] = $this->getDiagnoses($detail['name_cd']);
-            
+
                 foreach($detail['children'] as &$children) {
-                    
+
                     $children['name'] = $this->getName($children['name_cd']);
                     $children['entrys'] = $this->getDiagnoses($children['name_cd']);
 
@@ -64,7 +64,7 @@ class DiagnosisRepository {
             }
 
         }
-        
+
         return $return;
     }
 
@@ -91,9 +91,9 @@ class DiagnosisRepository {
     }
 
 
-     // 진단내역중 $group(name_cd) 에 따른 항목을 만들어 온
+    // 진단내역중 $group(name_cd) 에 따른 항목을 만들어 온
     private function getDiagnoses($group) {
-        
+
         $return = [];
         foreach($this->diagnoses as $diagnosis) {
 
@@ -229,7 +229,7 @@ class DiagnosisRepository {
                         }
 
 
-                         foreach($detail['children'] as $childrens) {
+                        foreach($detail['children'] as $childrens) {
 
                             foreach($childrens['entrys'] as $item) {
                                 $inserted_item = Diagnosis::create([
@@ -247,7 +247,7 @@ class DiagnosisRepository {
                             }
 
                         }
-                    
+
                     }
 
                 }

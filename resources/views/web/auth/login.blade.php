@@ -6,7 +6,8 @@
 
 	<div class='login_box_wrap'>
 
-		{!! Form::open(['method' => 'POST','route' => ['login'], 'enctype'=>"multipart/form-data", 'id' => "login-form"]) !!}
+		{{--{!! Form::open(['method' => 'POST','route' => ['login'], 'enctype'=>"multipart/form-data", 'id' => "login-form"]) !!}--}}
+		{!! Form::open(['url' => 'login', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
 		<h3>{{ Html::image(Helper::theme_web( '/img/sub/logo_big.png')) }}</h3>
 		<div class='br30'></div>
 		<div class='ipt_line br10'>
@@ -25,7 +26,7 @@
 		</div>
 		<div class='br20'></div>
 		<div class='ipt_line'>
-			<button class='btns btns_green'>로그인</button>
+			<button type="submit" class='btns btns_green'>로그인</button>
 		</div>
 		<div class='br20'></div>
 		<div class='login_link'>

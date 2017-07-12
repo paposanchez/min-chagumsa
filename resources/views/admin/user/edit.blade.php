@@ -12,6 +12,7 @@
         <div class="col-md-12">
 
             {!! Form::model($user, ['method' => 'PATCH','route' => ['user.update', $user->id], 'class'=>'form-horizontal', 'id'=>'frm-user', 'enctype'=>"multipart/form-data"]) !!}
+            <input type="text" class="form-control" name="ttttt" value="dsfdsfsdfsdfds" disabled>
             <fieldset>
                 <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                     <label for="inputEmail" class="control-label col-md-3">{{ trans('admin/user.email') }}</label>
@@ -87,7 +88,7 @@
                 <div class="form-group {{ $errors->has('garage') ? 'has-error' : '' }} garage" style="display: none;">
                     <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.garage') }}</label>
                     <div class="col-md-6 selected_garage">
-                        <input type="text" class="form-control" name="garage" id="selected_garage" value="" disabled>
+                        <input type="text" class="form-control" name="kkkkkkkkk" id="selected_garage" value="" disabled>
                         {{--<select class="form-control" multiple="" id="selected_garage" style="height: 34px">--}}
                             {{--<option value="1" selected>Administrator</option>--}}
                         {{--</select>--}}
