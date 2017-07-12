@@ -259,7 +259,8 @@ class DiagnosisController extends ApiController {
 // ]);
 
 
-            return response()->json(json_decode($item->layout,true));
+//            return response()->json(json_decode($item->layout,true));
+            return response()->json(json_decode($item,true));
 
         }catch (Exception $e) {
             return abort(404, trans('item.not-found'));

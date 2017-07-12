@@ -396,6 +396,14 @@ class CodesSeeder extends Seeder {
 
             ////////////////// 추가 진단 그룹코드
             ['group' => 'diagnosis_state_group', 'name' => 'wear_state_cd'],
+            ['group' => 'diagnosis_state_group', 'name' => 'car_part_state_cd'],
+
+            ['group' => 'car_part_state_cd', 'name' => 'good'],
+            ['group' => 'car_part_state_cd', 'name' => 'replacement'],
+            ['group' => 'car_part_state_cd', 'name' => 'welding'],
+            ['group' => 'car_part_state_cd', 'name' => 'need_repair'],
+            ['group' => 'car_part_state_cd', 'name' => 'scratch'],
+            ['group' => 'car_part_state_cd', 'name' => 'corrosion']
         ]);
 
 
