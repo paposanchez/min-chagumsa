@@ -223,7 +223,7 @@ class DiagnosisRepository {
                                 'use_image'     => $item['use_image'],
                                 'use_voice'     => $item['use_voice'],
                                 'options_cd'    => $item['options_cd'],
-//                                'selected'      => $item['selected'],
+                                'selected'       => NULL,
                                 'except_options'=> is_array($item['except_options']) ?  implode(",",$item['except_options']) : "",
                                 'description'   => $item['description']
                             ]);
@@ -231,17 +231,18 @@ class DiagnosisRepository {
                         }
 
 
-                        foreach($detail['children'] as $childrens) {
+                        foreach($detail['children'] as $children) {
 
-                            foreach($childrens['entrys'] as $item) {
+                            foreach($children['entrys'] as $item) {
+
                                 $inserted_item = Diagnosis::create([
                                     'orders_id'     => $this->obj->id,
-                                    'group'         => $detail['name_cd'],
+                                    'group'         => $children['name_cd'],
                                     'name_cd'       => ($item['name_cd'] ? $item['name_cd'] : NULL),
                                     'use_image'     => $item['use_image'],
                                     'use_voice'     => $item['use_voice'],
                                     'options_cd'    => $item['options_cd'],
-//                                    'selected'      => $item['selected'],
+                                    'selected'       => NULL,
                                     'except_options'=> is_array($item['except_options']) ?  implode(",",$item['except_options']) : "",
                                     'description'   => $item['description']
                                 ]);
