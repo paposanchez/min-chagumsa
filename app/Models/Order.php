@@ -111,7 +111,7 @@ class Order Extends Model
     }
 
     public function reservation(){
-        return $this->hasMany(\App\Models\Reservation::class, 'orders_id','id');
+        return $this->hasOne(\App\Models\Reservation::class, 'orders_id','id');
     }
 
 

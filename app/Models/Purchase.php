@@ -23,7 +23,7 @@ class Purchase extends Model
         'refund_name',
         'refund_account',
         'refund_bank',
-        'status',
+        'status_cd',
     ];
 
     protected $dates = [

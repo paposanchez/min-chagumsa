@@ -38,11 +38,11 @@
 				<strong>주문자 정보</strong>
 			</div>
 			<div class='ipt_line'>
-				<input type='text' class='ipt wid25' name="orderer_name" placeholder='주문자 이름'>
+				<input type='text' class='ipt wid25' name="orderer_name" placeholder='주문자 이름' value="{{ $user->name }}">
 			</div>
 			<div class='br10'></div>
 			<div class='ipt_line'>
-				<input type='text' class='ipt wid25' name="orderer_mobile" placeholder='휴대폰 번호'>&nbsp;&nbsp; <button class='btns btns_skyblue wid15' style='position:relative;top:4px;'>인증번호 전송</button>
+				<input type='text' class='ipt wid25' name="orderer_mobile" placeholder='휴대폰 번호' value="{{ $user->mobile }}">&nbsp;&nbsp; <button class='btns btns_skyblue wid15' style='position:relative;top:4px;'>인증번호 전송</button>
 			</div>
 			<div class='br10'></div>
 			<div class='ipt_guide2'>
@@ -77,7 +77,7 @@
 				</div>&nbsp;&nbsp;
 
 				<div class='psk_select wid25'>
-					<input type="text" id="model_id" name="models_id" value="" hidden/>
+					<input type="text" id="models_id" name="models_id" value="" hidden/>
 					<select class="form-control btns btns2" id="models">
 						<option selected>선택하세요.</option>
 					</select>
@@ -122,7 +122,7 @@
 					@foreach($exterior_option as $exterior)
 						<div class='option_box'>
 							<label>
-								<input type='checkbox' class='psk type2' value="{{ $exterior->id }}" name="exterior_ck[]">
+								<input type='checkbox' class='psk type2' value="{{ $exterior->id }}" name="options_ck[]">
 								<span class='lbl' name="exterior_ck"> {{ $exterior->display() }}</span>
 							</label>
 						</div>
@@ -132,7 +132,7 @@
 					@foreach($interior_option as $interior)
 						<div class='option_box'>
 							<label>
-								<input type='checkbox' class='psk type2' value="{{ $interior->id }}" name="interior_ck[]">
+								<input type='checkbox' class='psk type2' value="{{ $interior->id }}" name="options_ck[]">
 								<span class='lbl' name="exterior_ck"> {{ $interior->display() }}</span>
 							</label>
 						</div>
@@ -142,7 +142,7 @@
 					@foreach($safety_option as $safety)
 						<div class='option_box'>
 							<label>
-								<input type='checkbox' class='psk type2' value="{{ $safety->id }}" name="safety_ck[]">
+								<input type='checkbox' class='psk type2' value="{{ $safety->id }}" name="options_ck[]">
 								<span class='lbl' name="exterior_ck"> {{ $safety->display() }}</span>
 							</label>
 						</div>
@@ -152,7 +152,7 @@
 					@foreach($facilities_option as $facilites)
 						<div class='option_box'>
 							<label>
-								<input type='checkbox' class='psk type2' value="{{ $facilites->id }}" name="facilites_ck[]">
+								<input type='checkbox' class='psk type2' value="{{ $facilites->id }}" name="options_ck[]">
 								<span class='lbl' name="exterior_ck"> {{ $facilites->display() }}</span>
 							</label>
 						</div>
@@ -162,7 +162,7 @@
 					@foreach($multimedia_option as $multimedia)
 						<div class='option_box'>
 							<label>
-								<input type='checkbox' class='psk type2' value="{{ $multimedia->id }}" name="multimedia_ck[]">
+								<input type='checkbox' class='psk type2' value="{{ $multimedia->id }}" name="options_ck[]">
 								<span class='lbl' name="exterior_ck"> {{ $multimedia->display() }}</span>
 							</label>
 						</div>
@@ -189,7 +189,6 @@
 @push( 'header-script' )
 <script type="text/javascript">
 	$(function (){
-
 	    // brands 선택 시
         $('#brands').change(function(){
 			var brand = $('#brands option:selected').val();
@@ -227,8 +226,9 @@
 
 		// models 선택 시
         $('#models').change(function(){
+
             var model = $('#models option:selected').val();
-            $('#model_id').val(model);
+            $('#models_id').val(model);
             $.ajax({
                 type : 'get',
                 dataType: 'json',

@@ -31,7 +31,10 @@
 		<div class='br20'></div>
 
 		<h3>결제가 성공적으로 완료되었습니다. 감사합니다!</h3>
-		<h4><strong>주문일</strong> 2017년 2월 21일<strong>주문번호</strong> 170221-21너3455</h4>
+		<h4>
+			<strong>주문일</strong> {{ Carbon\Carbon::parse($order->created_at)->format('Y-m-d') }}
+			<strong>주문번호</strong> {{ $order->datekey }}-{{ $order->car_number }}
+		</h4>
 
 		<div class='br20'></div>
 
@@ -55,16 +58,18 @@
 					<span>차량정보</span>
 				</div>
 				<div class='order_info_desc'>
-					<span>홍길동</span>
-					<span>010-1234-5678</span>
-					<span>폭스바겐 뉴 파사트 2.0 TDI</span>
+					<span>{{ $order->orderer_name }}</span>
+					<span>{{ $order->orderer_mobile }}</span>
+					<span>{{ $order->getCarFullName() }}</span>
 				</div>
 				<div class='order_info_btn'>
-					주문완료
-					<button class='btns btns2'>취소신청</button>
+					{{ $order->status->display() }}
+
 				</div>
 			</div>
 		</div>
+
+		<div class='br20'></div>
 
 		<div class='order_info_box'>
 			<div class='order_info_title'>
@@ -78,7 +83,8 @@
 					<span>&nbsp;</span>
 				</div>
 				<div class='order_info_desc'>
-					<span>2016년 2월 24일 오후 1시</span>
+					<span>{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y-m-d H') }}시</span>
+
 					<span>한스모터스<br>전화번호:02-45-0788<br>주소 : 서울특별시 강남구 개포로 644</span>
 				</div>
 			</div>

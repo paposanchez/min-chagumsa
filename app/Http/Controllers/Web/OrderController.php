@@ -11,16 +11,21 @@ use App\Models\Grade;
 use App\Models\Item;
 use App\Models\Models;
 use App\Models\Order;
+use App\Models\OrderFeature;
 use App\Models\Purchase;
 use App\Models\Reservation;
 use App\Models\User;
 use App\Models\UserExtra;
+use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller {
     
     public function index(Request $request) {
+        $user = Auth::user();
         $brands = Brand::select('id', 'name')->get();
         $exterior_option = Code::where('group', 'car_option_exterior')->get();
         $interior_option = Code::where('group', 'car_option_interior')->get();
@@ -28,24 +33,24 @@ class OrderController extends Controller {
         $facilities_option = Code::where('group', 'car_option_facilities')->get();
         $multimedia_option = Code::where('group', 'car_option_multimedia')->get();
 
-        return view('web.order.index', compact('brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option'));
+        return view('web.order.index', compact('brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user'));
     }
 
     public function reservation(Request $request) {
-        $this->validate($request, [
-//            'name' => 'required',
-//            'mobile' => 'required',
-//            'sel_brand' => 'required',
-//            'sel_model' => 'required',
-//            'sel_detail' => 'required'
-
-//            'exterior_ck' => 'required',
-//            'interior_ck' => 'required',
-//            'safety_ck' => 'required',
-//            'facilites_ck' => 'required',
-//            'multimedia_ck' => 'required'
+        $validate = Validator::make($request->all(), [
+            'orderer_name' => 'required',
+            'orderer_mobile' => 'required',
+            'car_number' => 'required',
+            'brands_id' => 'required',
+            'models_id' => 'required',
+            'details_id' => 'required',
+            'grades_id' => 'required'
         ]);
 
+        if ($validate->fails())
+        {
+            return redirect()->back()->with('error', trans('order.error'));
+        }
 
 
         $search_fields = [
@@ -57,40 +62,43 @@ class OrderController extends Controller {
 
     public function purchase(Request $request) {
         $input = $request->all();
-        // todo option 들을 order_feature에 저장해야한다
-
-
-        //todo 차량 옵션테이블은 나중에 다시 넣어야함
 
         $datekey = substr(str_replace("-","",$request->reservaton_date), -6);
         // todo 임시로 5 입력
+//        $garage_info = GarageInfo::where('garage_id', 5)->first();
         $garage_id = 5;
-        // todo 임시로 아이템 1로 선택. 추후 주소로 정비소를 검색 후 아이디 검색
-        $item_id = 1;
-        // todo 임시로 구매테이블 1로 선택
-        $purchase_id = 1;
-//        $orderer_id = User::where('name', $request->get('orderer_name'))->first()->id;
+        $orderer_id = User::where('name', $request->get('orderer_name'))->first()->id;
 
-//        $car = Car::create($input);
-        $cars = Car::findOrFail(28);
+        $car = Car::create($input);
 
 
-//        $order = Order::updateOrCreate(
-//            [
-//                'datekey' => $datekey,
-//                'car_number' => $request->get('car_number'),
-//                'cars_id' => $car->id,
-//                'garage_id' => $garage_id,
-//                'item_id' => $item_id,
-//                'purchase_id' => $purchase_id,
-//                'orderer_id' => $orderer_id,
-//                'orderer_name' => $request->get('orderer_name'),
-//                'orderer_mobile' => $request->get('orderer_mobile'),
-//                'registration_file' => 0,
-//                'open_cd' => 0,
-//                'status_cd' => 102
-//            ]);
-        $order = Order::where('id', 18)->first();
+        $purchase = Purchase::create([
+            'amount' => 0,
+            'type' => 0,
+            'status_cd' => 101
+        ]);
+
+        $order = Order::create([
+                'datekey' => $datekey,
+                'car_number' => $request->get('car_number'),
+                'cars_id' => $car->id,
+                'garage_id' => $garage_id,
+                'item_id' => 1,
+                'purchase_id' => $purchase->id,
+                'orderer_id' => $orderer_id,
+                'orderer_name' => $request->get('orderer_name'),
+                'orderer_mobile' => $request->get('orderer_mobile'),
+                'registration_file' => 0,
+                'open_cd' => 0,
+                'status_cd' => 102
+            ]);
+
+        foreach ($request->get('options_ck') as $options){
+            OrderFeature::create([
+                'orders_id' => $order->id,
+                'features_id' => $options
+            ]);
+        }
 
         $items = Item::all();
 
@@ -98,36 +106,31 @@ class OrderController extends Controller {
     }
     
     public function complete(Request $request) {
-        $user_id = Auth::user()->id;
-        $order = Order::where('orderer_id', $user_id)->first();
-        $item_price = $order->item->price;
-
-//        $purchase = Purchase::create([
-//            'amount' => $item_price,
-//            'type' => $request->get('payment_method'),
-//            'status_cd' => 104
-//        ]);
-
-//        todo 정비소 아이디는 나중에 추 후 추가
-//        $reservation = Reservation::create([
-//            'orders_id' => $order->id,
-//            'garage_id' => 5,
-//            'created_id' => $order->orderer_id
-//        ]);
-
-
-
         $order = Order::where('datekey', $request->get('datekey'))
-                        ->where('cars_id', $request->get('cars_id'))->first();
+            ->where('cars_id', $request->get('cars_id'))->first();
+
+        $item = Item::find($request->get('item_choice'))->first();
+
+        $order->purchase->update([
+            'amount' => $item->price,
+            'type' => $request->get('payment_method'),
+            'status_cd' => 102
+        ]);
+
+        $date = Carbon::now()->toDateTimeString();
+        Reservation::create([
+            'orders_id' => $order->id,
+            'garage_id' => $order->garage_id,
+            'created_id' => $order->orderer_id,
+            'reservation_at' => $date
+        ]);
+
         $order->update([
-            'status_cd', 103,
-            'purchase_id', 1
-            ]);
-        return view('web.order.complete');
-    }
-    
-    public function process() {
-        
+            'status_cd' => 103,
+            'purchase_id' => $order->purchase->id,
+            'item_id' => $item->id
+        ]);
+        return view('web.order.complete', compact('order'));
     }
 
     public function getModels(Request $request) {
@@ -161,6 +164,10 @@ class OrderController extends Controller {
     }
 
     public function factory() {
+
+    }
+
+    public function process() {
 
     }
 
