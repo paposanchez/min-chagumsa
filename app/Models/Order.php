@@ -19,6 +19,7 @@ use App\Models\SettlementFeature;
 use App\Models\DiagnosisDetails;
 use App\Models\Item;
 use App\Models\Reservation;
+use App\Models\Payment;
 
 class Order Extends Model
 {
@@ -157,5 +158,9 @@ class Order Extends Model
     public function getReservationDate($order_id) {
         $reservation = Reservation::whereNotNull("updated_at")->where('orders_id', $order_id)->last();
         return ($reservation ? $reservation->reservation_at : null);
+    }
+
+    public function payment(){
+        return $this->hasOne(\App\Models\Payment::class, 'moid', 'id');
     }
 }
