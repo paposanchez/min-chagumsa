@@ -35,10 +35,13 @@
             </div>
             <div class='order_info_btn'>
                 {{ $orders->status->display() }}
+                @if( $orders->status_cd != 107 )
                 <button class='btns btns2'>취소신청</button>
+                @endif
             </div>
         </div>
     </div>
+    <div class='br20'></div>
     @endforeach
 
     <div class='br30'></div>

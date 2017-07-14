@@ -40,21 +40,13 @@
 		<input type="hidden" value="{{ $request->models_id }}" name="models_id">
 		<input type="hidden" value="{{ $request->details_id }}" name="details_id">
 		<input type="hidden" value="{{ $request->grades_id }}" name="grades_id">
-		@foreach($request->exterior_ck as $exterior_ck)
-		<input type="hidden" value="{{ $exterior_ck }}" name="exterior_ck[]">
-		@endforeach
-		@foreach($request->interior_ck as $interior_ck)
-		<input type="hidden" value="{{ $interior_ck }}" name="interior_ck[]">
-		@endforeach
-		@foreach($request->safety_ck as $safety_ck)
-		<input type="hidden" value="{{ $safety_ck }}" name="safety_ck[]">
-		@endforeach
-		@foreach($request->facilites_ck as $facilites_ck)
-		<input type="hidden" value="{{ $facilites_ck }}" name="facilites_ck[]">
-		@endforeach
-		@foreach($request->multimedia_ck as $multimedia_ck)
-		<input type="hidden" value="{{ $multimedia_ck }}" name="multimedia_ck[]">
-		@endforeach
+		@if($request->options_ck)
+			@foreach($request->options_ck as $option_ck)
+				<input type="hidden" value="{{ $option_ck }}" name="options_ck[]">
+			@endforeach
+		@endif
+
+
 
 		<div class='order_info_box'>
 			<div class='order_info_title'>
@@ -87,7 +79,6 @@
 			<div class='ipt_line'>
 				<input type="text" class="ipt wid20 in_date datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservaton_date' value='' style="margin-right: 5px;">
 				<div class='psk_select wid15'>
-					{{--<input type='hidden' class='psk_select_val' value=''>--}}
 					{!! Form::select('sel_time', $search_fields, [], ['class'=>'btns btns2', 'id'=>'sel_time']) !!}
 				</div>
 			</div>

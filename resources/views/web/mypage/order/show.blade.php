@@ -7,8 +7,8 @@
 <div id='sub_wrap'>
 
 	<ul class='menu_tab_wrap'>
-		<li><a class='select' href=''>주문목록</a></li>
-		<li><a class='' href=''>회원정보 수정</a></li>
+		<li><a class='select' href='{{ route('mypage.order.index') }}'>주문목록</a></li>
+		<li><a class='' href='{{ route('mypage.profile.index') }}'>회원정보 수정</a></li>
 	</ul>
 
 	<div class='br30'></div>
@@ -17,8 +17,7 @@
 		<div class='order_info_title'>
 			<strong>주문일</strong>
 			<span>{{ Carbon\Carbon::parse($order->created_at)->format('Y-m-d') }}</span>
-
-			<a href=''>주문상세보기 ></a>
+			{{--<a href=''>주문상세보기 ></a>--}}
 		</div>
 		<div class='order_info_cont'>
 			<div class='order_info_desc'>
@@ -61,7 +60,8 @@
 
 	<div class='order_detail_box'>
 		<div class='order_detail_title'>
-			차량 정보 <button class='btns btns2'>변경</button>
+			차량 정보 <a class='btns btns2' href="{{ route('mypage.order.edit_car', ['order_id' => $order->id]) }}">변경</a>
+
 		</div>
 		<div class='od_line'>
 			<label>차량번호</label>
@@ -92,7 +92,7 @@
 
 	<div class='order_detail_box'>
 		<div class='order_detail_title'>
-			입고 정보 <button class='btns btns2'>변경</button>
+			입고 정보 <a class='btns btns2' href="{{ route('mypage.order.edit_garage', ['order_id' => $order->id]) }}">변경</a>
 		</div>
 		<div class='od_line'>
 			<label>입고희망일</label>
