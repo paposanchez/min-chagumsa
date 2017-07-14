@@ -120,7 +120,7 @@ class DiagnosisRepository {
             'options_cd'    => $entry->options_cd,
             'options'       => $entry->getOptions($entry->options_cd),
             'selected'      => $entry->selected,
-            'except_options'=> $entry->except_options,
+            'except_options'=> explode(",", $entry->except_options),
             'description'   => $entry->description,
             'created_at'    => $entry->created_at->format("Y-m-d H:i:s"),
             'updated_at'    => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
