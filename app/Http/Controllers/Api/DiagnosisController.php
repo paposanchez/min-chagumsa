@@ -269,15 +269,15 @@ class DiagnosisController extends ApiController {
     }
 
     /**
-     * @SWG\Post(
+     * @SWG\Get(
      *     path="/diagnosis/grant",
      *     tags={"Diagnosis"},
      *     summary="주문의 엔지니어 설정",
      *     description="특정주문의 진단이 시직되면 헤당 엔지니어에게 사용자 설정을 한다.",
      *     operationId="setDiagnosisEngineer",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="order_id",in="formData",description="주문 번호",required=true,type="integer",format="int32"),
-     *     @SWG\Parameter(name="user_id",in="formData",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
      *     @SWG\Response(response=401, description="unauthorized"),
      *     @SWG\Response(response=404, description="not found"),
      *     @SWG\Response(response=500, description="internal server error"),
@@ -290,17 +290,17 @@ class DiagnosisController extends ApiController {
      */
     public function setDiagnosisEngineer(Request $request) {
 
-        try {
+//        try {
             $order_id = $request->get('order_id');
             $user_id = $request->get('user_id');
 
-            $validator = Validator::make($request->all(), [
-                'user_id' => 'required|exists:users,id',
-            ]);
-            if ($validator->fails()) {
-                $errors = $validator->errors()->all();
-                throw new Exception($errors[0]);
-            }
+//            $validator = Validator::make($request->all(), [
+//                'user_id' => 'required|exists:users,id',
+//            ]);
+//            if ($validator->fails()) {
+//                $errors = $validator->errors()->all();
+//                throw new Exception($errors[0]);
+//            }
 
             $order = Order::findOrFail($order_id);
             $order->engineer_id = $user_id;
@@ -317,9 +317,9 @@ class DiagnosisController extends ApiController {
             return response()->json($order);
 
             // 앱에서는 간단하게
-        } catch (Exception $e) {
-            return abort(404, trans('diagnosis.not-found'));
-        }
+//        } catch (Exception $e) {
+//            return abort(404, trans('diagnosis.not-found'));
+//        }
     }
 
 

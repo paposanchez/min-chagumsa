@@ -215,6 +215,7 @@ class DiagnosisRepository {
                     foreach($details['entrys'] as $detail) {
 
                         foreach($detail['entrys'] as $item) {
+
                             $inserted_item = Diagnosis::create([
                                 'orders_id'     => $this->obj->id,
                                 'group'         => $detail['name_cd'],
@@ -222,8 +223,8 @@ class DiagnosisRepository {
                                 'use_image'     => $item['use_image'],
                                 'use_voice'     => $item['use_voice'],
                                 'options_cd'    => $item['options_cd'],
-                                'selected'      => $item['selected'],
-                                'except_options'=> $item['except_options'],
+//                                'selected'      => $item['selected'],
+                                'except_options'=> is_array($item['except_options']) ?  implode(",",$item['except_options']) : "",
                                 'description'   => $item['description']
                             ]);
                             $inserted_item->save();
@@ -235,13 +236,13 @@ class DiagnosisRepository {
                             foreach($childrens['entrys'] as $item) {
                                 $inserted_item = Diagnosis::create([
                                     'orders_id'     => $this->obj->id,
-                                    'group'         => $children['name_cd'],
+                                    'group'         => $detail['name_cd'],
                                     'name_cd'       => ($item['name_cd'] ? $item['name_cd'] : NULL),
                                     'use_image'     => $item['use_image'],
                                     'use_voice'     => $item['use_voice'],
                                     'options_cd'    => $item['options_cd'],
-                                    'selected'      => $item['selected'],
-                                    'except_options'=> $item['except_options'],
+//                                    'selected'      => $item['selected'],
+                                    'except_options'=> is_array($item['except_options']) ?  implode(",",$item['except_options']) : "",
                                     'description'   => $item['description']
                                 ]);
                                 $inserted_item->save();
