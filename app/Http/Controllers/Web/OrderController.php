@@ -25,6 +25,9 @@ use Illuminate\Support\Facades\Validator;
 class OrderController extends Controller {
     
     public function index(Request $request) {
+        if(!Auth::user()){
+            return redirect('login');
+        }
         $user = Auth::user();
         $brands = Brand::select('id', 'name')->get();
         $exterior_option = Code::where('group', 'car_option_exterior')->get();
