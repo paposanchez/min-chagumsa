@@ -243,7 +243,8 @@ return [
         'filler_b-right' => 'B필러 우',
         'filler_c-right' => 'C필러 우'
     ],
-    'part_state_cd' => [
+    'part_state_cd' => [,
+        'good' => '양호',
         'replacement' => '교환수리이력',
         'welding' => '용접∙판금 수리이력',
         'need_repair' => '수리필요(교환/판금)',
