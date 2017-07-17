@@ -49,6 +49,12 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>이름</th>
+                        <td>
+                            <input type='text' name="name" class='ipt wid33' placeholder='성함을 입력하세요'>{{-- <span class='ipt_msg warn' id="email-error">이미 등록된 이메일이거나 잘못 입력하셨습니다.</span> --}}
+                        </td>
+                    </tr>
+                    <tr>
                         <th>비밀번호</th>
                         <td>
                             <input type='password' name="password" class='ipt wid33' placeholder='비밀번호를 입력하세요'><span class='ipt_msg' id="password-error">8~16 자리의 영문/숫자/특수문자를 두 가지 이상 조합하세요.</span>

@@ -109,6 +109,64 @@
 
 		<div class='order_info_box'>
 			<div class='order_info_title'>
+				<strong>침수 여부 선택</strong>
+			</div>
+
+			<div class='br10'></div>
+
+			<div class='ipt_line'>
+				<label>
+					<input type='radio' class='psk' name='flooding' value="1" >
+					<span class='lbl'> 있음</span>
+				</label>
+			</div>
+
+			<div class='br10'></div>
+
+			<div class='ipt_line'>
+				<label>
+					<input type='radio' class='psk' name='flooding' value="0">
+					<span class='lbl'> 없음</span>
+				</label>
+			</div>
+
+			<div class='br10'></div>
+
+		</div>
+
+		<div class='line_break'></div>
+
+		<div class='order_info_box'>
+			<div class='order_info_title'>
+				<strong>사고 여부 선택</strong>
+			</div>
+
+			<div class='br10'></div>
+
+			<div class='ipt_line'>
+				<label>
+					<input type='radio' class='psk' name='accident' value="1" >
+					<span class='lbl'> 있음</span>
+				</label>
+			</div>
+
+			<div class='br10'></div>
+
+			<div class='ipt_line'>
+				<label>
+					<input type='radio' class='psk' name='accident' value="0">
+					<span class='lbl'> 없음</span>
+				</label>
+			</div>
+
+			<div class='br10'></div>
+
+		</div>
+
+		<div class='line_break'></div>
+
+		<div class='order_info_box'>
+			<div class='order_info_title'>
 				<strong>차량 옵션</strong>
 			</div>
 			<div class='ipt_guide2'>

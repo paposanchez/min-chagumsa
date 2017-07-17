@@ -236,7 +236,7 @@ class DiagnosisRepository {
                             foreach($childrens['entrys'] as $item) {
                                 $inserted_item = Diagnosis::create([
                                     'orders_id'     => $this->obj->id,
-                                    'group'         => $detail['name_cd'],
+                                    'group'         => $childrens['name_cd'],
                                     'name_cd'       => ($item['name_cd'] ? $item['name_cd'] : NULL),
                                     'use_image'     => $item['use_image'],
                                     'use_voice'     => $item['use_voice'],

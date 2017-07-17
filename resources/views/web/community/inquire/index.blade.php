@@ -51,8 +51,9 @@
 
     <div class='br30'></div>
 
-    <div class='board_pagination_wrap'>
+    <div class='board_pagination_wrap  alg_r'>
         @include('vendor.pagination.web-page', ['paginator' => $entrys])
+        <input class="btns btns_skyblue" id="write" type="button" value="글 쓰기" style="height: 30px;">
     </div>
 
 </div>
@@ -66,7 +67,9 @@
 
 <script type="text/javascript">
     $(function(){
-
+        $('#write').click(function (){
+            window.location = '';
+        });
     });
 </script>
 

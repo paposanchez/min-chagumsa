@@ -248,7 +248,8 @@ return [
         'welding' => '용접∙판금 수리이력',
         'need_repair' => '수리필요(교환/판금)',
         'scratch' => '긁힘(상처)',
-        'corrosion' => '부식'
+        'corrosion' => '부식',
+        'good' => '양호'
     ],
     'accident_repair_state_cd' => [
         'none' => '수리이력없음',

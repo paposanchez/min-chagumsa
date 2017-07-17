@@ -40,6 +40,7 @@ class OrderController extends Controller {
     }
 
     public function reservation(Request $request) {
+        dd($request->all());
         $validate = Validator::make($request->all(), [
             'orderer_name' => 'required',
             'orderer_mobile' => 'required',
@@ -47,7 +48,9 @@ class OrderController extends Controller {
             'brands_id' => 'required',
             'models_id' => 'required',
             'details_id' => 'required',
-            'grades_id' => 'required'
+            'grades_id' => 'required',
+            'flooding' => 'required',
+            'accident' => 'required'
         ]);
 
         if ($validate->fails())
@@ -93,7 +96,9 @@ class OrderController extends Controller {
                 'orderer_mobile' => $request->get('orderer_mobile'),
                 'registration_file' => 0,
                 'open_cd' => 0,
-                'status_cd' => 102
+                'status_cd' => 102,
+                'flooding' => $request->get('flooding'),
+                'accident' => $request->get('accident')
             ]);
 
         foreach ($request->get('options_ck') as $options){

@@ -30,11 +30,25 @@
 		<h3>이메일 인증을 해주세요.<br>인증 완료 후에 카검사를 이용하실 수 있습니다.</h3>
 
 		<div class='br30'></div>
-		
-		<dl class='simple_info'>
-			<dt>이메일</dt>
-			<dd>{{ $user->email }}</dd>
-		</dl>
+
+		<div class='psk_table_wrap'>
+			<table style="width: 50%;margin: auto;">
+				<colgroup>
+					<col style='width:50%;'>
+					<col style='width:50px;'>
+				</colgroup>
+				<tbody>
+				<tr>
+					<th>이메일</th>
+					<td>
+						<span>
+							{{ $user->email }}
+						</span>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
 
 		<div class='br20'></div>
 
