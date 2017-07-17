@@ -13,7 +13,7 @@ class PostController extends Controller {
     protected $board_namespace;
     protected $config;
     protected $view_path;
-    protected $num_of_page = 10;
+    protected $num_of_page = 15;
 
     function __construct() {
         $this->config = Board::whereId($this->board_id)->first();
@@ -22,7 +22,9 @@ class PostController extends Controller {
     public function index() {
         $where = Post::whereBoardId($this->board_id)
                 ->orderBy('id', 'desc');
-        $entrys = $where->paginate($this->num_of_page);
+//        $entrys = $where->paginate($this->num_of_page);
+
+        $entrys = $where->paginate(10);
 
         $board_namespace = $this->board_namespace;
 

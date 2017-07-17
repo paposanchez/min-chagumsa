@@ -35,8 +35,8 @@
             </div>
             <div class='order_info_btn'>
                 {{ $orders->status->display() }}
-                @if( $orders->status_cd != 107 )
-                <button class='btns btns2'>취소신청</button>
+                @if( $orders->status_cd != 107 && $orders->status_cd != 100 )
+                <a href="{{ route('mypage.order.cansel', ['order_id'=>$orders->id]) }}" class='btns btns2' id="cansel" style="display: block; font-size: 15px;margin-top: 5px;">취소신청</a>
                 @endif
             </div>
         </div>
@@ -85,6 +85,11 @@
 
 
 @push( 'header-script' )
+<script type="text/javascript">
+    $(function () {
+
+    });
+</script>
 @endpush
 
 @push( 'footer-script' )

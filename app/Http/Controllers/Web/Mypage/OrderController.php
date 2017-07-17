@@ -17,7 +17,7 @@ class OrderController extends Controller {
 
     public function index() {
         $user_id = Auth::user()->id;
-        $my_orders = Order::where('orderer_id', $user_id)->get();
+        $my_orders = Order::where('orderer_id', $user_id)->orderBy('status_cd', 'DESC')->get();
 
         return view('web.mypage.order.index', compact('my_orders'));
     }
@@ -61,17 +61,12 @@ class OrderController extends Controller {
 
             if ($validate->fails())
             {
-                return redirect()->back()->with('error', '정보가 변경되지 않았습니다.');
+                return redirect()->back()->with('error', trans('web/mypage.modify_error'));
             }
             $car = Order::find($order_id)->car;
             $car->update($input);
             $order->update($input);
         }
-
-//        dd($order_id);
-//        if(!empty($input['reservaton_date'])){
-//        dd(Carbon::parse($input['reservaton_date'].' '.$input['sel_time'])->format('Y-m-d H'));
-//        dd($input['reservaton_date'].' '.$input['sel_time']);
 
         if( $order->reservation->reservation_at != $input['reservaton_date']){
             $validate = Validator::make($request->all(), [
@@ -85,27 +80,26 @@ class OrderController extends Controller {
 
             if ($validate->fails())
             {
-                return redirect()->back()->with('error', '정보가 변경되지 않았습니다.');
+                return redirect()->back()->with('error', trans('web/mypage.modify_error'));
             }
-
-
             $reservation = $order->reservation;
             $reservation->reservation_at = $input['reservaton_date'].' '.$input['sel_time'];
             $reservation->save();
-
-//            dd(Carbon::parse($order->reservation->reservation_at)->format('Y-m-d H'));
-//            $garage_info = GarageInfo::where()->get();
         }
-
-
-
-
-
-
-
         return redirect()
             ->route('mypage.order.show', $order->id)
-            ->with('success', '변경사항이 저장되었습니다.');
+            ->with('success', trans('web/mypage.modify_complete'));
+    }
+
+    public function cansel($order_id){
+        $order = Order::find($order_id);
+        $order->status_cd = 100;
+        $order->save();
+
+        //todo PG를 연동해야 함.
+
+        return redirect()->route('mypage.order.index')
+            ->with('success', trans('web/mypage.cansel_complete'));
     }
 
     public function reservation(){

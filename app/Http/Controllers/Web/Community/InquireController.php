@@ -15,12 +15,9 @@ class InquireController extends PostController {
     protected $view_path = 'web.community.inquire.';
 
     public function index(){
-
         $where = Post::orderBy('id', 'DESC')->where('board_id', 3);
         $entrys = $where->paginate(25);
         $start_num = \App\Helpers\Helper::getStartNum($entrys);
-
-//        $start_num = \App\Helpers\Helper::getStartNum($entrys);
 
 //        return view($this->view_path . 'index', compact('entrys', 'board_namespace', 'start_num'));
         return view('web.community.inquire.index', compact('entrys', 'start_num'));
