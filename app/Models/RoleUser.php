@@ -12,6 +12,8 @@ class RoleUser extends Model {
         'user_id',
         'role_id'
     ];
+
+    public $timestamps = false;
 //    public function role() {
 //        return $this->hasOne(Role::class, 'id', 'role_id');
 //    }

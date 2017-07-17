@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Models\Post;
+use App\Models\RoleUser;
 use App\Models\User;
+use App\Models\UserExtra;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -71,7 +73,6 @@ class RegisterController extends Controller {
         $user = $this->validator($request->all())->validate();
 //
 //        event(new Registered($user = $this->create($request->all())));
-
         $user_info = User::where("email", $request->email)->first();
 
         if($user_info){
@@ -79,22 +80,25 @@ class RegisterController extends Controller {
         }else{
             $user_info = new User();
             $user_info->email = $request->email;
-            $user_info->name = "web_user";
+//            $user_info->name = "web_user";
+            $user_info->name = $request->name;
             $user_info->password = bcrypt($request->password);
 
             //todo email confirm이 없다면 값을 변경함.
             $user_info->status_cd = 2; // 1 - active
-            $user_info->save();
+//            $user_info->save();
+
+            $role_user = new RoleUser();
+            $role_user->user_id = $user_info->id;
+            $role_user->role_id = 2;
+//            $role_user->save();
+
 
             //todo email confirm 보내야 함.
-
         }
-
-
-//        $this->guard()->login($request);
         Auth::login($user_info, true);
 
-        //dd($user);
+
 
         //todo registerd 페이지를 찾아 연동해야 함.
         return $this->registered($request, $user_info);

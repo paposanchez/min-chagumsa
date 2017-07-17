@@ -19,6 +19,11 @@ class NoticeController extends PostController {
 
         $start_num = \App\Helpers\Helper::getStartNum($entrys);
 
+//        $where = Post::orderBy('id', 'DESC')->where('board_id', 1);
+//        $entrys = $where->paginate(25);
+
+//        $entrys = $where->paginate($this->num_of_page);
+
         return view($this->view_path . 'index', compact('entrys', 'board_namespace', 'start_num'));
     }
 

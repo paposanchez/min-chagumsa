@@ -13,35 +13,14 @@
 
     <div class='br30'></div>
 
+    @foreach($my_orders as $orders)
     <div class='order_info_box'>
         <div class='order_info_title'>
             <strong>주문일</strong>
-            <span>2017년 2월 21일</span>
-            <a href='{{ route('mypage.order.show', ['id'=>1]) }}'>주문상세보기 ></a>
-        </div>
-        <div class='order_info_cont'>
-            <div class='order_info_desc'>
-                <span>주문자</span>
-                <span>휴대폰 번호</span>
-                <span>차량정보</span>
-            </div>
-            <div class='order_info_desc'>
-                <span>홍길동</span>
-                <span>010-1234-5678</span>
-                <span>폭스바겐 뉴 파사트 2.0 TDI</span>
-            </div>
-            <div class='order_info_btn'>
-                주문완료
-                <button class='btns btns2'>취소신청</button>
-            </div>
-        </div>
-    </div>
+            <span>{{ Carbon\Carbon::parse($orders->created_at)->format('Y-m-d') }}</span>
 
-    <div class='order_info_box'>
-        <div class='order_info_title'>
-            <strong>주문일</strong>
-            <span>2017년 2월 21일</span>
-            <a href=''>취소상세보기 ></a>
+
+            <a href='{{ route('mypage.order.show', ['id'=>$orders->id]) }}'>주문상세보기 ></a>
         </div>
         <div class='order_info_cont'>
             <div class='order_info_desc'>
@@ -50,20 +29,27 @@
                 <span>차량정보</span>
             </div>
             <div class='order_info_desc'>
-                <span>홍길동</span>
-                <span>010-1234-5678</span>
-                <span>폭스바겐 뉴 파사트 2.0 TDI</span>
+                <span>{{ $orders->orderer_name }}</span>
+                <span>{{ $orders->orderer_mobile }}</span>
+                <span>{{ $orders->getCarFullName() }}</span>
             </div>
             <div class='order_info_btn'>
-                취소완료
+                {{ $orders->status->display() }}
+                @if( $orders->status_cd != 107 && $orders->status_cd != 100 )
+                <a href="{{ route('mypage.order.cansel', ['order_id'=>$orders->id]) }}" class='btns btns2' id="cansel" style="display: block; font-size: 15px;margin-top: 5px;">취소신청</a>
+                @endif
             </div>
         </div>
     </div>
+    <div class='br20'></div>
+    @endforeach
+
+    <div class='br30'></div>
 
     <div class='order_info_box'>
         <div class='order_info_title'>
             <strong>주문상태 안내</strong>
-            <a href=''>FAQ 보러가기 ></a>
+            <a href='{{ route('faq.index') }}'>FAQ 보러가기 ></a>
         </div>
         <div class='order_info_guide'>
             <ul>
@@ -99,6 +85,11 @@
 
 
 @push( 'header-script' )
+<script type="text/javascript">
+    $(function () {
+
+    });
+</script>
 @endpush
 
 @push( 'footer-script' )

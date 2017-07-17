@@ -26,7 +26,7 @@ class Reservation extends Model
     ];
 
     protected $dates = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at', 'reservation_at'
     ];
 
     public function order(){
@@ -49,7 +49,6 @@ class Reservation extends Model
             return true;
         }
         return false;
-
     }
 
 }

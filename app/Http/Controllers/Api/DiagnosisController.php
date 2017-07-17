@@ -259,6 +259,7 @@ class DiagnosisController extends ApiController {
 // ]);
 
 
+//            return response()->json(json_decode($item->layout,true));
             return response()->json(json_decode($item->layout,true));
 
         }catch (Exception $e) {
@@ -268,15 +269,15 @@ class DiagnosisController extends ApiController {
     }
 
     /**
-     * @SWG\Post(
+     * @SWG\Get(
      *     path="/diagnosis/grant",
      *     tags={"Diagnosis"},
      *     summary="주문의 엔지니어 설정",
      *     description="특정주문의 진단이 시직되면 헤당 엔지니어에게 사용자 설정을 한다.",
      *     operationId="setDiagnosisEngineer",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="order_id",in="formData",description="주문 번호",required=true,type="integer",format="int32"),
-     *     @SWG\Parameter(name="user_id",in="formData",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
      *     @SWG\Response(response=401, description="unauthorized"),
      *     @SWG\Response(response=404, description="not found"),
      *     @SWG\Response(response=500, description="internal server error"),
@@ -289,17 +290,17 @@ class DiagnosisController extends ApiController {
      */
     public function setDiagnosisEngineer(Request $request) {
 
-        try {
+//        try {
             $order_id = $request->get('order_id');
             $user_id = $request->get('user_id');
 
-            $validator = Validator::make($request->all(), [
-                'user_id' => 'required|exists:users,id',
-            ]);
-            if ($validator->fails()) {
-                $errors = $validator->errors()->all();
-                throw new Exception($errors[0]);
-            }
+//            $validator = Validator::make($request->all(), [
+//                'user_id' => 'required|exists:users,id',
+//            ]);
+//            if ($validator->fails()) {
+//                $errors = $validator->errors()->all();
+//                throw new Exception($errors[0]);
+//            }
 
             $order = Order::findOrFail($order_id);
             $order->engineer_id = $user_id;
@@ -308,17 +309,17 @@ class DiagnosisController extends ApiController {
 
 
             //@TODO 추후에 주문이 생성되는 시점으로 변경해야함
-            // 진단 생성            
+            // 진단 생성
             $diagnosis = new DiagnosisRepository();
             $diagnosis->prepare($order_id)->create();
 
 
             return response()->json($order);
-            
+
             // 앱에서는 간단하게
-        } catch (Exception $e) {
-            return abort(404, trans('diagnosis.not-found'));
-        }
+//        } catch (Exception $e) {
+//            return abort(404, trans('diagnosis.not-found'));
+//        }
     }
 
 
@@ -354,8 +355,8 @@ class DiagnosisController extends ApiController {
             $user_id = $request->get('user_id');
 
             $validator = Validator::make($request->all(), [
-               'user_id' => 'required|exists:users,id',
-               'date' => 'required|date_format:Y-m-d'
+                'user_id' => 'required|exists:users,id',
+                'date' => 'required|date_format:Y-m-d'
             ]);
 
             if ($validator->fails()) {
@@ -370,12 +371,13 @@ class DiagnosisController extends ApiController {
             $user = User::findOrFail($user_id);
 
             $reservations = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
-            ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
-            ->whereNotNull("reservations.updated_at")
-            ->where('orders.garage_id', $user->user_extra->garage_id)
-            ->whereIn('orders.status_cd', [104,105])
-            ->select('reservations.*')
-            ->get(); //입고대기, 입고
+                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+                ->whereNotNull("reservations.updated_at")
+                ->where('orders.garage_id', $user->user_extra->garage_id)
+                ->whereIn('orders.status_cd', [104,105])
+                ->select('reservations.*')
+                ->orderBy("reservations.reservation_at", "ASC")
+                ->get(); //입고대기, 입고
 
             $returns = [];
 
@@ -421,27 +423,39 @@ class DiagnosisController extends ApiController {
      */
     public function getDiagnosisWorking(Request $request) {
         try {
-            $garage_id = $request->get('garage_id');
+
+            $user_id = $request->get('user_id');
 
             $validator = Validator::make($request->all(), [
-                'garage_id' => 'required|exists:user_extras,garage_id'
+                'user_id' => 'required|exists:users,id'
             ]);
 
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
-                throw new Exception($errors[0]);
+                return response()->json([]);
             }
 
-            $orders = Order::where('garage_id', $garage_id)
+            $user = User::findOrFail($user_id);
+
+            // $garage_id = $request->get('garage_id');
+
+            // $validator = Validator::make($request->all(), [
+            //     'garage_id' => 'required|exists:user_extras,garage_id'
+            // ]);
+
+            // if ($validator->fails()) {
+            //     $errors = $validator->errors()->all();
+            //     throw new Exception($errors[0]);
+            // }
+
+            $orders = Order::where('garage_id', $user->user_extra->garage_id)
                 ->where('status_cd', [106])
                 ->where('diagnose_at', null)
                 ->get();
 
 
             $returns = [];
-
             $diagnosis = new DiagnosisRepository();
-
             foreach($orders as $order) {
                 $returns[] = $diagnosis->prepare($order->id)->order();
             }
@@ -570,16 +584,16 @@ class DiagnosisController extends ApiController {
         $today = Reservation::where("garage_id", $user->user_extra->garage_id)->whereNotNull('updated_at')->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), Carbon::today()->format('Y-m-d'))->count();
         $tomorrow = Reservation::where("garage_id", $user->user_extra->garage_id)->whereNotNull('updated_at')->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), Carbon::tomorrow()->format('Y-m-d'))->count();
 
-        $today = rand(0,99);
-        $tomorrow = rand(0,99);
+        // $today = rand(0,99);
+        // $tomorrow = rand(0,99);
 
         return response()->json([
             'today' => [
-                "left" => ($today >= 10 ? $today/10 : '0'),
+                "left" => ($today >= 10 ? floor($today/10) : '0'),
                 "right" => ($today >= 10 ? $today%10 : $today)
             ],
             'tomorrow' => [
-                "left" => ($tomorrow >= 10 ? $tomorrow/10 : '0'),
+                "left" => ($tomorrow >= 10 ? floor($tomorrow/10) : '0'),
                 "right" => ($tomorrow >= 10 ? $tomorrow%10 : $tomorrow)
             ]
         ]);

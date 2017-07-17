@@ -77,6 +77,7 @@ class Code extends Model {
     public static function getByGroupArray($group) {
         $entrys = DB::table('codes')
                 ->where("group", $group)
+                ->orderBy('sort')
                 ->orderBy('id')
                 ->get();
 

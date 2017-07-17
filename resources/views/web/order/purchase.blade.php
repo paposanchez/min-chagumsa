@@ -31,10 +31,12 @@
 		<div class='br30'></div>
 		<div class='br20'></div>
 
-        <form action="{{ route("order.complete") }}">
+		{!! Form::open(['route' => ["order.complete"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+		<input name="datekey" value="{{ $order->datekey }}" hidden>
+		<input name="cars_id" value="{{ $order->cars_id }}" hidden>
 		<div class='order_info_box'>
 			<div class='order_info_title'>
-				<strong>결제 예정 내역</strong>
+				<strong>기본정보 내역</strong>
 			</div>
 			<div class='order_info_cont'>
 				<div class='order_info_desc'>
@@ -42,19 +44,82 @@
 					<span>휴대폰 번호</span>
 					<span>차량정보</span>
 				</div>
+
 				<div class='order_info_desc'>
-					<span>홍길동</span>
-					<span>010-1234-5678</span>
-					<span>폭스바겐 뉴 파사트 2.0 TDI</span>
+					<span>{{ $order->orderer_name }}</span>
+					<span>{{ $order->orderer_mobile }}</span>
+					<span>{{ $order->getCarFullName() }}</span>
 				</div>
 			</div>
 		</div>
 
-		<div class='order_calc_wrap'><ul>
-			<li class='calc1'>수입차 가격<span><strong>200,000</strong>원</span></li>
-			<li class='calc2'>프로모션 할인<span><strong>200,000</strong>원</span></li>
-			<li>최종 결제 금액<span><strong>0</strong>원</span></li>
-		</ul></div>
+		<div class='br30'></div>
+
+		<div class='order_info_box'>
+			<div class='order_info_title'>
+				<strong>입고정보 내역</strong>
+			</div>
+			<div class='order_info_cont'>
+				<div class='order_info_desc'>
+					<span>입고희망일</span>
+					<span>입고대리점 명</span>
+					<span>입고대리점 주소</span>
+				</div>
+
+				<div class='order_info_desc'>
+					<span>{{ $request->reservaton_date }}  {{ $request->sel_time }}시</span>
+					<span>임시 정비소명</span>
+					<span>{{ $request->address }} {{ $request->address_detail }}</span>
+				</div>
+			</div>
+		</div>
+
+		<div class='line_break'></div>
+
+		<div class='item_info_box' id="item_info_box">
+			<div class='order_info_title'>
+				<strong>인증서 종류 선택</strong>
+			</div>
+
+			<div class='ipt_line'>
+				<label hidden>
+					<input type='radio' class='psk' id="item_choice" name='item_choice' value="111" >
+					<span class='lbl'> dddd</span>
+				</label>
+				@foreach($items as $item)
+				<label>
+					<input type='radio' class='psk' id="item_choice" name='item_choice' value="{{ $item->id }}">
+					<span class='lbl'> {{ $item->name }}</span>
+				</label>
+				@endforeach
+			</div>
+
+		</div>
+
+		<div class='br10'></div>
+
+		<div class='order_calc_wrap'>
+			<ul>
+				<li class='calc1'>
+					인증서 신청 가격
+					<span>
+						<strong id="item_price"></strong>
+						원
+					</span>
+				</li>
+				<li class='calc2'>프로모션 할인
+					<span>
+						<strong id="promotion_price"></strong>
+						원
+					</span>
+				</li>
+				<li>최종 결제 금액<span>
+						<strong id="total_price"></strong>
+						원
+					</span>
+				</li>
+			</ul>
+		</div>
 
 		<div class='br30'></div>
 
@@ -67,7 +132,7 @@
 
 			<div class='ipt_line'>
 				<label>
-					<input type='radio' class='psk' name='payment_method' checked>
+					<input type='radio' class='psk' name='payment_method' value="11" checked>
 					<span class='lbl'> 신용/체크카드</span>
 				</label>
 			</div>
@@ -76,7 +141,7 @@
 
 			<div class='ipt_line'>
 				<label>
-					<input type='radio' class='psk' name='payment_method'>
+					<input type='radio' class='psk' name='payment_method' value="12">
 					<span class='lbl'> 실시간 계좌이체</span>
 				</label>
 			</div>
@@ -92,8 +157,7 @@
 		<div class='ipt_line wid45'>
 			<button class='btns btns_blue wid45' style='display:inline-block;'>이전</button>&nbsp;&nbsp; <button type="submit" class='btns btns_green wid45' style='display:inline-block;'>결제하기</button>
 		</div>
-        
-        </form>
+		{!! Form::close() !!}
 
 	</div>
 
@@ -103,6 +167,27 @@
 
 
 @push( 'header-script' )
+<script type="text/javascript">
+	$(function (){
+		$('#item_info_box').change(function (){
+		    var sel_item = $(":input:radio[name=item_choice]:checked").val();
+			$.ajax({
+				type : 'get',
+				dataType : 'json',
+				url : '/order/sel_item/',
+				data : {
+				    'sel_item' : sel_item
+				},
+				success: function (data){
+					$('#item_price').html(data.price);
+					$('#promotion_price').html(0);
+					$('#total_price').html(data.price - 0);
+				}
+			})
+
+		});
+	});
+</script>
 @endpush
 
 @push( 'footer-script' )

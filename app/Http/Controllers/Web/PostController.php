@@ -22,6 +22,7 @@ class PostController extends Controller {
     public function index() {
         $where = Post::whereBoardId($this->board_id)
                 ->orderBy('id', 'desc');
+
         $entrys = $where->paginate($this->num_of_page);
 
         $board_namespace = $this->board_namespace;
@@ -48,8 +49,8 @@ class PostController extends Controller {
         return view($this->view_path . 'create', compact('board_namespace'));
     }
 
-    public function store() {
-        
-    }
+//    public function store() {
+//        dd('ddd');
+//    }
 
 }

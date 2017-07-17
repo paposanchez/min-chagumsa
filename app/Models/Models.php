@@ -9,7 +9,7 @@ class Models extends Model {
     protected $table = 'models';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'brand_id',
+        'brands_id',
         'name'
     ];
     protected $dates = ['created_at', 'updated_at'];

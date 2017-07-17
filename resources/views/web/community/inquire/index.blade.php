@@ -31,34 +31,29 @@
                 </tr>
             </thead>
             <tbody>
-            @if($entrys->total())
-                @foreach($entrys as $key => $row)
+            @foreach($entrys as $key => $entry)
                 <tr>
                     <th>{{ $start_num - $key }}</th>
-                    <td>
-                        @if(Auth::user() !== null)
-                            @if($row->email == Auth::user()->email)
-                                <a href="{{ route("inquire.show", ["id" => $row->id]) }}">{{ mb_strimwidth($row->subject, 0, 30, '...') }}</a>
-                            @endif
+                    <td><a href="{{ route("inquire.show", ["id" => $entry->id]) }}">{{ $entry->subject }}</a></td>
+                    <th>{{ Carbon\Carbon::parse($entry->created_at)->format('Y-m-d') }}</th>
+                    <th>
+                        @if($entry->is_answered == 0)
+                            미답변
                         @else
-                            {{ mb_strimwidth($row->subject, 0, 30, '...') }}
+                            답변 완료
                         @endif
-                    </td>
-                    <th>{{ \App\Helpers\Helper::getDbDate($row->created_at, $row->updated_at) }}</th>
-                    <th>{{ ($row->is_answered)? "완료": "대기중" }}</th>
+                    </th>
                 </tr>
-                @endforeach
-            @else
-                <th colspan="4">1:1문의 내용이 없습니다.</th>
-            @endif
+            @endforeach
             </tbody>
         </table>
     </div>
 
     <div class='br30'></div>
 
-    <div class='board_pagination_wrap'>
+    <div class='board_pagination_wrap  alg_r'>
         @include('vendor.pagination.web-page', ['paginator' => $entrys])
+        <a class="btns btns_skyblue" href="{{ route('inquire.create') }}" style="padding-top: 5px; padding-bottom: 5px;">글 쓰기</a>
     </div>
 
 </div>
@@ -72,7 +67,9 @@
 
 <script type="text/javascript">
     $(function(){
-
+//        $('#write').click(function (){
+//            window.location = '';
+//        });
     });
 </script>
 

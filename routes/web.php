@@ -10,6 +10,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('profile', 'ProfileController');
         Route::resource('history', 'HistoryController');
         Route::resource('order', 'OrderController');
+        Route::get('/order/edit_car/{order_id}', 'OrderController@editCar')->name('order.edit_car');
+        Route::get('/order/edit_garage/{order_id}', 'OrderController@editGarage')->name('order.edit_garage');
+        Route::get('/order/cansel/{order_id}', 'OrderController@cansel')->name('order.cansel');
     });
 });
 
@@ -22,12 +25,16 @@ Route::get('certificate/{id}/{page?}', 'CertificateController')->name("certifica
 
 // 주문하기
 Route::get('order', 'OrderController@index')->name("order.index");
-Route::get('order/reservation', 'OrderController@reservation')->name("order.reservation");
-Route::get('order/purchase', 'OrderController@purchase')->name("order.purchase");
-Route::get('order/complete', 'OrderController@complete')->name("order.complete");
-Route::get('order/reservation', 'OrderController@reservation')->name("order.reservation");
+Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase");
+Route::post('order/complete', 'OrderController@complete')->name("order.complete");
+Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
 Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");
 Route::get('order/factory/{page?}', 'OrderController@factory')->name("order.factory");
+
+Route::get('/order/get_models', 'OrderController@getModels')->name("order.get_models");
+Route::get('/order/get_details', 'OrderController@getDetails')->name("order.get_details");
+Route::get('/order/get_grades', 'OrderController@getGrades')->name("order.get_grades");
+Route::get('/order/sel_item', 'OrderController@selItem')->name("order.sel_item");
 
 
 // Information

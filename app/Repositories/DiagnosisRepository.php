@@ -84,7 +84,8 @@ class DiagnosisRepository {
             'status_cd'         => $this->obj->status_cd,
             'status'            => $this->obj->status->display(),
             'car_name'          => $this->obj->getCarFullName(),
-            'reservation_at'    => $reservation_date, // 예약일
+            'reservation_at'    => $reservation_date->format("Y-m-d H:i"), // 예약일
+            'reservation_time'  => $reservation_date->format("H:i"), // 예약시간
             'diagnose_at'       => ($this->obj->diagnose_at ? $this->obj->diagnose_at->format("Y-m-d H:i:s") : ''),
             'diagnosed_at'      => ($this->obj->diagnosed_at ? $this->obj->diagnosed_at->format("Y-m-d H:i:s") : ''),
         );
@@ -119,7 +120,7 @@ class DiagnosisRepository {
             'options_cd'    => $entry->options_cd,
             'options'       => $entry->getOptions($entry->options_cd),
             'selected'      => $entry->selected,
-            'except_options'=> $entry->except_options,
+            'except_options'=> explode(",", $entry->except_options),
             'description'   => $entry->description,
             'created_at'    => $entry->created_at->format("Y-m-d H:i:s"),
             'updated_at'    => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
@@ -214,6 +215,7 @@ class DiagnosisRepository {
                     foreach($details['entrys'] as $detail) {
 
                         foreach($detail['entrys'] as $item) {
+
                             $inserted_item = Diagnosis::create([
                                 'orders_id'     => $this->obj->id,
                                 'group'         => $detail['name_cd'],
@@ -221,17 +223,18 @@ class DiagnosisRepository {
                                 'use_image'     => $item['use_image'],
                                 'use_voice'     => $item['use_voice'],
                                 'options_cd'    => $item['options_cd'],
-                                'selected'      => $item['selected'],
-                                'except_options'=> $item['except_options'],
+                                'selected'       => NULL,
+                                'except_options'=> is_array($item['except_options']) ?  implode(",",$item['except_options']) : "",
                                 'description'   => $item['description']
                             ]);
                             $inserted_item->save();
                         }
 
 
-                        foreach($detail['children'] as $childrens) {
+                        foreach($detail['children'] as $children) {
 
-                            foreach($childrens['entrys'] as $item) {
+                            foreach($children['entrys'] as $item) {
+
                                 $inserted_item = Diagnosis::create([
                                     'orders_id'     => $this->obj->id,
                                     'group'         => $children['name_cd'],
@@ -239,8 +242,8 @@ class DiagnosisRepository {
                                     'use_image'     => $item['use_image'],
                                     'use_voice'     => $item['use_voice'],
                                     'options_cd'    => $item['options_cd'],
-                                    'selected'      => $item['selected'],
-                                    'except_options'=> $item['except_options'],
+                                    'selected'       => NULL,
+                                    'except_options'=> is_array($item['except_options']) ?  implode(",",$item['except_options']) : "",
                                     'description'   => $item['description']
                                 ]);
                                 $inserted_item->save();
