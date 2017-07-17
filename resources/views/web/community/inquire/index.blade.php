@@ -53,7 +53,7 @@
 
     <div class='board_pagination_wrap  alg_r'>
         @include('vendor.pagination.web-page', ['paginator' => $entrys])
-        <input class="btns btns_skyblue" id="write" type="button" value="글 쓰기" style="height: 30px;">
+        <a class="btns btns_skyblue" href="{{ route('inquire.create') }}" style="padding-top: 5px; padding-bottom: 5px;">글 쓰기</a>
     </div>
 
 </div>
@@ -67,9 +67,9 @@
 
 <script type="text/javascript">
     $(function(){
-        $('#write').click(function (){
-            window.location = '';
-        });
+//        $('#write').click(function (){
+//            window.location = '';
+//        });
     });
 </script>
 

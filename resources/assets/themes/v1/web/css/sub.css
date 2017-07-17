@@ -82,6 +82,12 @@
 .psk_table_wrap table tbody td button {height:46px;line-height:46px;}
 .psk_table_wrap table tbody td table tbody th, .psk_table_wrap table tbody td table tbody td {background:none;padding:10px;border:0;}
 .psk_table_wrap a {color:#006cff;}
+
+/* 2017/07/17 */
+.edit_email {width: 450px; height: 25px;}
+.edit_subject {width: 900px; height: 25px;}
+.edit_content {width: 900px; height: 180px;}
+
 .ipt_msg {color:#999;padding-left:15px;}
 .ipt_msg.warn {color:#e50000;}
 

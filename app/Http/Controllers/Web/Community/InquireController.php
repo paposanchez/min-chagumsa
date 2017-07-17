@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Category;
 use App\Models\Board;
 use App\Http\Controllers\Web\PostController;
+use Illuminate\Http\Request;
 
 class InquireController extends PostController {
 
@@ -73,4 +74,9 @@ class InquireController extends PostController {
 
         return response()->json($result);
     }
+
+    public function store(Request $request){
+        dd($request->all());
+    }
+
 }
