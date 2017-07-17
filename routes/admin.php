@@ -106,4 +106,3 @@ Route::group(['middleware' => ['guest.admin']], function () {
 
 Route::get('logout', 'Auth\LoginController@logout')->name("admin.logout");
 Route::post('logout', 'Auth\LoginController@logout')->name("admin.logout");
-
