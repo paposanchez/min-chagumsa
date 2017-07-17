@@ -58,7 +58,8 @@
 	<div class='br30'></div>
 
 	<div class='board_pagination_wrap'>
-		{{--{!! $entrys->render() !!}--}}
+{{--		{!! $entrys->render() !!}--}}
+		{{--{{ dd($entrys) }}--}}
 		@include('vendor.pagination.web-page', ['paginator' => $entrys])
 	</div>
 

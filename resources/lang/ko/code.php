@@ -658,7 +658,7 @@ return [
     ],
     'diagnosis_review' => [
         'diagnosis_review_opinion' => '성능점검 종합의견'
-    ]
+    ],
 
 
 ];

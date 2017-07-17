@@ -79,3 +79,9 @@ Route::get('register/registered', 'Auth\RegisterController@registered')->name('r
 Route::get('verify', 'Auth\VerifyController@emailCheck');
 
 Route::get('/', 'WelcomeController');
+
+//결제 prototype
+Route::get('pay-test/index', 'PayTestController@index');
+Route::post('pay-test/pay-result', 'PayTestController@payResult');
+Route::post('pay-test/callback', 'PayTestController@payCallback');
+
