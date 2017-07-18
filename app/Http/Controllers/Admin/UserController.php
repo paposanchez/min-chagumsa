@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Code;
+use App\Models\UserExtra;
 use DB;
 use Hash;
 use Image;
@@ -26,11 +27,22 @@ class UserController extends Controller {
         $roles = Role::getArrayByName();
         $status_cd_list = Code::whereGroup('user_status')->get();
 
-        return view('admin.user.create', compact('roles', 'status_cd_list'));
+
+        $garages = User::select()->join('role_user', function($join){
+            $join->on('users.id', '=', 'role_user.user_id')->where('role_id', 5);
+        })->get();
+
+
+
+
+
+
+
+
+        return view('admin.user.create', compact('roles', 'status_cd_list', 'garages'));
     }
 
     public function store(Request $request) {
-
         $this->validate($request, [
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
@@ -53,7 +65,6 @@ class UserController extends Controller {
             'avatar' => trans('admin/user.avatar'),
         ]);
 
-
         $input = $request->all();
 
         // 비밀번호 생성
@@ -67,6 +78,18 @@ class UserController extends Controller {
 
         //todo 현재 user_extras에 데이터를 저장하는 것이 없기 떄문에, 만약 roles이 엔지니어(5)라면 정비소의 아이디를 가지고 user_extra에 같이 저장한다.
 
+//        if($request->get('roles')[0] == 5 || $request->get('roles')[0] == 4){
+//            //todo 정비소 이름이 있으면 저장
+//            //dd($request->get('roles'));
+//
+//            $user_extra = new UserExtra();
+//            $user_extra->create([
+//
+//            ]);
+//
+//        }else{
+//            dd($request->get('roles'));
+//        }
 
 
         if ($request->file('avatar')) {

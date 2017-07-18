@@ -88,7 +88,8 @@
                 <div class="form-group {{ $errors->has('garage') ? 'has-error' : '' }} garage" style="display: none;">
                     <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.garage') }}</label>
                     <div class="col-md-6 selected_garage">
-                        <input type="text" class="form-control" name="kkkkkkkkk" id="selected_garage" value="" disabled>
+                        <input type="text" class="form-control" name="garage" id="selected_garage" value="" readonly>
+
                         {{--<select class="form-control" multiple="" id="selected_garage" style="height: 34px">--}}
                             {{--<option value="1" selected>Administrator</option>--}}
                         {{--</select>--}}
@@ -99,7 +100,6 @@
                         @endif
                     </div>
                 </div>
-
 
                 <div class="form-group {{ $errors->has('status_cd') ? 'has-error' : '' }}">
                     <label for="inputUserStatus" class="control-label col-md-3">{{ trans('admin/user.status') }}</label>
@@ -276,18 +276,18 @@
         var $frm_target = $('#frm-user');
 
         $(document).on("click", '.role_selector', function (){
+//            alert($('.role_selector option:selected').text());
             if($('.role_selector option:selected').text() == 'engineer'){
                 $("#garage-modal").modal();
             }
             else{
                 $('.garage').css('display', 'none')
+                $('#selected_garage').val('');
             }
         });
 
+
         $(document).on('click', '#sel_garage', function (){
-//            html = '<option value="1" disabled selected>'+$(this).text()+'</option>';
-//            html = '<input type="text" class="form-control" name="garage" id="selected_garage" value="'+$(this).text()+'" disabled>';
-//            $('.selected_garage').html(html);
             $('#selected_garage').val($(this).text());
             $('.garage').css('display', '');
             $("#garage-modal").modal('hide');

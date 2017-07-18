@@ -80,6 +80,21 @@
                 </div>
             </div>
 
+            <div class="form-group {{ $errors->has('garage') ? 'has-error' : '' }} garage" style="display: none;">
+                <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.garage') }}</label>
+                <div class="col-md-6 selected_garage">
+                    <input type="text" class="form-control" name="garage" id="selected_garage" value="" readonly>
+
+                    {{--<select class="form-control" multiple="" id="selected_garage" style="height: 34px">--}}
+                    {{--<option value="1" selected>Administrator</option>--}}
+                    {{--</select>--}}
+                    @if ($errors->has('garage'))
+                        <span class="help-block">
+                            {{ $errors->first('garage') }}
+                        </span>
+                    @endif
+                </div>
+            </div>
 
             <div class="form-group {{ $errors->has('status_cd') ? 'has-error' : '' }}">
                 <label for="inputUserStatus" class="control-label col-md-3">{{ trans('admin/user.status') }}</label>
@@ -157,10 +172,103 @@
     </div>
 
 </div><!-- container -->
+
+
+{{-- 정비소 선택  모달 --}}
+<div class="modal fade bs-example-modal-lg in purchase-modal" id="garage-modal" tabindex="-1" role="dialog" aria-labelledby="purchase-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg form-group">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title" id="myModalLabel">정비소 선택 정보</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <table class="table text-middle text-center">
+                        <colgroup>
+                            {{--<col width="10%">--}}
+                            <col width="100%">
+                            {{--<col width="15%">--}}
+                            {{--<col width="15%">--}}
+                            {{--<col width="15%">--}}
+                            {{--<col width="15%">--}}
+                            {{--<col width="15%">--}}
+
+                        </colgroup>
+
+                        <thead>
+                        <tr class="active">
+                            {{--<th class="text-center">#</th>--}}
+                            <th class="text-center">정비소 명</th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        @unless(count($garages) >0)
+                            <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
+                        @endunless
+
+                        @foreach($garages as $data)
+
+                            <tr>
+                                <td class="text-center">
+                                    {{--<a href="{{ $data['id'] }}">{{ $data['name'] }}</a>--}}
+                                    <a id="sel_garage" href="#">{{ $data['name'] }}</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+
+
+
+
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-primary order-close" data-dismiss="modal" id="purchase-modal-close">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 
-@section( 'footer-script' )
-<script type="text/javascript">
-</script>
-@endsection
+@push( 'footer-script' )
+    <script type="text/javascript">
+        $(function () {
+            $(document).on("click", '#user-role', function (){
+//            alert($('#user-role option:selected').text());
+
+                if($('#user-role option:selected').text() == 'engineer'){
+                    $("#garage-modal").modal();
+                }
+                else{
+                    $('.garage').css('display', 'none');
+                    $('#selected_garage').val('');
+                }
+            });
+
+
+            $(document).on('click', '#sel_garage', function (){
+                $('#selected_garage').val($(this).text());
+                $('.garage').css('display', '');
+                $("#garage-modal").modal('hide');
+            });
+
+            $(document).on("click", '#btn-user-destory', function (e) {
+
+                e.preventDefault();
+
+                if (confirm("{{ trans('admin/user.destroy-warning') }}")) {
+                    $('#frm-user fieldset').prop("disabled", true);
+                    $(this).button('loading');
+                    $frm.submit();
+                }
+
+            });
+        });
+    </script>
+@endpush
