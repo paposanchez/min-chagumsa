@@ -87,6 +87,7 @@
 .edit_email {width: 450px; height: 25px;}
 .edit_subject {width: 900px; height: 25px;}
 .edit_content {width: 900px; height: 180px;}
+.edit_password {width: 150px; height: 25px;}
 
 .ipt_msg {color:#999;padding-left:15px;}
 .ipt_msg.warn {color:#e50000;}

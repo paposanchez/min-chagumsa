@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Board;
 use App\Http\Controllers\Web\PostController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class InquireController extends PostController {
 
@@ -62,8 +63,6 @@ class InquireController extends PostController {
             ]
         );
 
-        dd($request->all());
-
         $where = Post::where('id', $request->get('id'))->where('email', $request->email)
             ->where('password', $request->get('password'))->first();
         if($where){
@@ -76,7 +75,29 @@ class InquireController extends PostController {
     }
 
     public function store(Request $request){
-        dd($request->all());
+        $validate = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users',
+            'subject' => 'required',
+            'content' => 'required',
+            'password' => 'min:4'
+        ]);
+
+        if ($validate->fails())
+        {
+            return redirect()->route('inquire.index')->with('error', '문의가 정상적으로 처리되지 않았습니다.');
+        }
+
+        Post::create([
+            'board_id' => $this->board_id,
+            'email' => $request->get('email'),
+            'subject' => $request->get('subject'),
+            'content' => $request->get('content'),
+            'password' => bcrypt($request->get('password')),
+            'ip' => '0.0.0.0',
+            'is_answered' => 0
+        ]);
+
+        return redirect()->route('inquire.index')->with('success', '문의가 성공적으로 처리되었습니다.');
     }
 
 }

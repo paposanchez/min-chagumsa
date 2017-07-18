@@ -28,9 +28,7 @@
                 <tr>
                     <th>이메일</th>
                     <td>
-                        @if(Auth::user()) {{  Auth::user()->email }}
-                        @else -
-                        @endif
+                        {{ $data->email }}
                     </td>
                 </tr>
                 <tr>

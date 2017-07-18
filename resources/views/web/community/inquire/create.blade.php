@@ -44,11 +44,12 @@
                         <textarea class="edit_content" name="content"></textarea>
                     </td>
                 </tr>
-                {{--<tr>--}}
-                    {{--<th>첨부</th>--}}
-                    {{--<td>--}}
-                    {{--</td>--}}
-                {{--</tr>--}}
+                <tr>
+                    <th>비밀번호</th>
+                    <td>
+                        <input type="password" class="edit_password" name="password">
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -69,9 +70,9 @@
 @push( 'footer-script' )
 <script type="text/javascript">
     $(function() {
-        $("#c-list").on("click", function () {
-            location.href = $(this).data("route");
-        });
+//        $("#c-list").on("click", function () {
+//            location.href = $(this).data("route");
+//        });
 
     });
 </script>

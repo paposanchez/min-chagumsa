@@ -40,7 +40,6 @@ class OrderController extends Controller {
     }
 
     public function reservation(Request $request) {
-        dd($request->all());
         $validate = Validator::make($request->all(), [
             'orderer_name' => 'required',
             'orderer_mobile' => 'required',
