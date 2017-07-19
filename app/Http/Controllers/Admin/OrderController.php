@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Redirect;
 use GuzzleHttp\Client;
 use App\Repositories\DiagnosisRepository;
 
+use Carbon\Carbon;
+use App\Models\ScTran;
+
 class OrderController extends Controller
 {
 
