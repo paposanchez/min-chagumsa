@@ -97,8 +97,7 @@
 
             <fieldset>
                 @foreach($entrys['entrys'] as $details)
-                <h3>{{ $details['name_cd'] }}</h3>
-
+                    <h3>{{ $details['name_cd'] }}</h3>
                     @foreach($details['entrys'] as $detail)
                     <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
                         {{--<label for="inputId" class="control-label col-md-3">{{ trans('admin/board.id') }}</label>--}}
@@ -108,32 +107,50 @@
                         </div>
                     </div>
 
-
                         @foreach($detail['entrys'] as $item)
-                        <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                            {{--<label for="inputId" class="control-label col-md-3">{{ trans('admin/board.id') }}</label>--}}
-                            <label for="inputId" class="control-label col-md-3">{{ $item['options_cd'] }}</label>
-                            <div class="col-md-3">
-                                <p class='form-control-static'>선택된 값 = {{ $item['selected'] }}</p>
-                                {{--<p class='form-control-static'>{{ $items['use_image']['files'] }}</p>--}}
-                            </div>
-                        </div>
+
+                            @if($item['options'] != null)
+                                <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
+                                    <label for="inputId" class="control-label col-md-3">{{ $item['options_cd'] }}</label>
+                                    <div class="col-md-3">
+                                        <p class='form-control-static'>선택된 값 = {{ $item['selected'] }}</p>
+                                    </div>
+                                </div>
+                            @elseif($item['use_image'] != 0)
+
+                                <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
+                                    <label for="inputId" class="control-label col-md-3">참고 사진</label>
+                                    <div class="col-md-3">
+                                        <p class='form-control-static'>{{ $item['description'] }}</p>
+                                    </div>
+                                </div>
+                            @elseif($item['use_voice'] != 0)
+                                <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
+                                    <label for="inputId" class="control-label col-md-3">플레이어</label>
+                                    <div class="col-md-3">
+                                        <p class='form-control-static'>파일 있다</p>
+                                    </div>
+                                </div>
+                            @endif
                         @endforeach
 
                         @foreach($detail['children'] as $child)
-                            <h5>{{ $child['name_cd'] }}</h5>
+                            <h5>{{ $child['name']['display'] }}</h5>
+
                             @foreach($child['entrys'] as $child_item)
+
+                                @if($child_item['options'] )
                                 <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
                                     <label for="inputId" class="control-label col-md-3">{{ $child_item['options_cd'] }}</label>
                                     <div class="col-md-3">
                                         <p class='form-control-static'>선택된 값 = {{ $child_item['selected'] }}</p>
                                     </div>
                                 </div>
-                                @if($child_item['use_image'] != 0)
+                                @elseif($child_item['use_image'] != 0)
                                 <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
                                     <label for="inputId" class="control-label col-md-3">참고 사진</label>
                                     <div class="col-md-3">
-                                        <p class='form-control-static'>아이템 설명</p>
+                                        <p class='form-control-static'>{{ $child_item['description'] }}</p>
                                     </div>
                                 </div>
                                 @elseif($child_item['use_voice'] != 0)

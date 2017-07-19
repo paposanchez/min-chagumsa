@@ -24,4 +24,8 @@ class CertificateController extends Controller {
         }
     }
 
+    public function index(){
+        return view('web.certificate.index');
+    }
+
 }

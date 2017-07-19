@@ -26,7 +26,9 @@
                 <li><a href='{{ route('information.index') }}'>카검사 소개</a></li>
                 {{--<li><a href='{{ route('order.index') }}'>인증서 신청</a></li>--}}
                 <li><a href='{{ url("/order") }}'>인증서 신청</a></li>
-                <li><a href='{{ route('mypage.order.index') }}'>My 인증서</a></li>
+                {{--<li><a href='{{ route('mypage.order.index') }}'>My 인증서</a></li>--}}
+                <li><a href='{{ route('certificate.index') }}'>My 인증서</a></li>
+
                 <li><a href='{{ route('notice.index') }}'>고객센터</a></li>
             </ul>
 

@@ -16,7 +16,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 });
 
-    // 공통
+// 공통
 Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
 Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 
@@ -35,6 +35,8 @@ Route::get('/order/get_models', 'OrderController@getModels')->name("order.get_mo
 Route::get('/order/get_details', 'OrderController@getDetails')->name("order.get_details");
 Route::get('/order/get_grades', 'OrderController@getGrades')->name("order.get_grades");
 Route::get('/order/sel_item', 'OrderController@selItem')->name("order.sel_item");
+
+Route::resource('/certificate', 'CertificateController');
 
 
 // Information

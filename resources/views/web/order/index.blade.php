@@ -245,27 +245,30 @@
 
 
 @push( 'header-script' )
+@endpush
+
+@push( 'footer-script' )
 <script type="text/javascript">
-	$(function (){
-	    // brands 선택 시
+    $(function (){
+        // brands 선택 시
         $('#brands').change(function(){
-			var brand = $('#brands option:selected').val();
-			$('#brand_id').val(brand);
+            var brand = $('#brands option:selected').val();
+            $('#brand_id').val(brand);
             $.ajax({
-				type : 'get',
+                type : 'get',
                 dataType: 'json',
-				url: '/order/get_models/',
-				data : {
-				    'brand' : brand
-				},
-				success: function(data){
+                url: '/order/get_models/',
+                data : {
+                    'brand' : brand
+                },
+                success: function(data){
                     $('#models').html('');
-				    if($('#brands option:selected').text()=='선택하세요.'){
+                    if($('#brands option:selected').text()=='선택하세요.'){
                         $('#models').append($('<option/>', {
                             text : '선택하세요.'
                         }));
-					}
-					else{
+                    }
+                    else{
                         $('#models').append($('<option/>', {
                             text : '선택하세요.'
                         }));
@@ -275,14 +278,14 @@
                                 text : value.name
                             }));
                         });
-					}
+                    }
                 },
                 error: function (data) {
                     alert('처리중 오류가 발생했습니다.');
                 }});
         });
 
-		// models 선택 시
+        // models 선택 시
         $('#models').change(function(){
 
             var model = $('#models option:selected').val();
@@ -353,7 +356,7 @@
                 }});
         });
 
-		$('#grades').change(function(){
+        $('#grades').change(function(){
             var grade = $('#grades option:selected').val();
             $('#grade_id').val(grade);
             $('#car_full_name').val(
@@ -361,12 +364,9 @@
                 $('#models option:selected').text()+" "+
                 $('#details option:selected').text()+" "+
                 $('#grades option:selected').text()+" "
-			);
+            );
         });
 
-	});
+    });
 </script>
-@endpush
-
-@push( 'footer-script' )
 @endpush

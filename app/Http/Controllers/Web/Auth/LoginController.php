@@ -58,7 +58,8 @@ use AuthenticatesUsers;
             return redirect('/');
 
         }else{
-            return redirect('/')->with('error', trans('auth.failed'));
+//            return redirect('/')->with('error', trans('auth.failed'));
+            return redirect()->back()->with('error', trans('auth.failed'));
         }
     }
 
