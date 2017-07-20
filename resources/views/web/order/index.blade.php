@@ -32,6 +32,8 @@
 		<div class='br20'></div>
 
 		{!! Form::open(['route' => ["order.reservation"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+		<input type="hidden" name="sms_id" id="sms_id" autocomplete="off">
+		<input type="hidden" name="sms_confirmed" id="sms_confirmed" autocomplete="off">
 
 		<div class='order_info_box'>
 			<div class='order_info_title'>
@@ -42,12 +44,32 @@
 			</div>
 			<div class='br10'></div>
 			<div class='ipt_line'>
-				<input type='text' class='ipt wid25' name="orderer_mobile" placeholder='휴대폰 번호' value="{{ $user->mobile }}">&nbsp;&nbsp; <button class='btns btns_skyblue wid15' style='position:relative;top:4px;'>인증번호 전송</button>
+				<input type='text' id="orderer_mobile" class='ipt wid25' name="orderer_mobile" placeholder='휴대폰 번호' value="{{ $user->mobile }}" autocomplete="off">&nbsp;&nbsp; <button  class='btns btns_skyblue wid15' id="send-sms" style='position:relative;top:4px;' type="button">인증번호 전송</button>
 			</div>
 			<div class='br10'></div>
-			<div class='ipt_guide2'>
-				※ 휴대폰 번호 인증 시 주문 관리를 위한 용도로만 사용되며, 이외 목적으로 사용되지 않습니다.
+
+			<div id="sms-alarm">
+				<div class='ipt_guide2'>
+					※ 휴대폰 번호 인증 시 주문 관리를 위한 용도로만 사용되며, 이외 목적으로 사용되지 않습니다.<br>
+				</div>
 			</div>
+
+			<div id="sms-confirm" style="display:none;">
+				<div class='br10'></div>
+				<div class='ipt_line'>
+					<input type='text' class='ipt wid25' name="sms_num" id="sms_num" placeholder='인증번호 입력' autocomplete="off" >&nbsp;&nbsp;
+					<button id="is-sms-confirmed" class='btns btns_skyblue wid15' style='position:relative;top:4px;' type="button">인증번호 확인</button>
+					&nbsp;&nbsp;&nbsp;
+					<button id="sms-refresh" class='btns btns_skyblue wid15' style='position:relative;top:4px;' type="button">취소</button>
+				</div>
+				<div class='br10'></div>
+				<div class='ipt_guide2' id="sms-help">
+					※ 인증번호는 <span id="time-clock"></span>초 이내에 입력하셔야 합니다.
+					※ 전송된 인증코드를 입력해 주세요.
+				</div>
+			</div>
+
+
 		</div>
 
 		<div class='line_break'></div>
@@ -239,33 +261,40 @@
 	</div>
 
 
+
 </div>
 
 @endsection
 
 
 @push( 'header-script' )
+{{--{{ Html::style(Helper::assets( 'css/jquery.modal.min.css' )) }}--}}
+
+
+@endpush
+
+@push( 'footer-script' )
 <script type="text/javascript">
-	$(function (){
-	    // brands 선택 시
+    $(function (){
+        // brands 선택 시
         $('#brands').change(function(){
-			var brand = $('#brands option:selected').val();
-			$('#brand_id').val(brand);
+            var brand = $('#brands option:selected').val();
+            $('#brand_id').val(brand);
             $.ajax({
-				type : 'get',
+                type : 'get',
                 dataType: 'json',
-				url: '/order/get_models/',
-				data : {
-				    'brand' : brand
-				},
-				success: function(data){
+                url: '/order/get_models/',
+                data : {
+                    'brand' : brand
+                },
+                success: function(data){
                     $('#models').html('');
-				    if($('#brands option:selected').text()=='선택하세요.'){
+                    if($('#brands option:selected').text()=='선택하세요.'){
                         $('#models').append($('<option/>', {
                             text : '선택하세요.'
                         }));
-					}
-					else{
+                    }
+                    else{
                         $('#models').append($('<option/>', {
                             text : '선택하세요.'
                         }));
@@ -275,14 +304,14 @@
                                 text : value.name
                             }));
                         });
-					}
+                    }
                 },
                 error: function (data) {
                     alert('처리중 오류가 발생했습니다.');
                 }});
         });
 
-		// models 선택 시
+        // models 선택 시
         $('#models').change(function(){
 
             var model = $('#models option:selected').val();
@@ -353,7 +382,7 @@
                 }});
         });
 
-		$('#grades').change(function(){
+        $('#grades').change(function(){
             var grade = $('#grades option:selected').val();
             $('#grade_id').val(grade);
             $('#car_full_name').val(
@@ -361,12 +390,145 @@
                 $('#models option:selected').text()+" "+
                 $('#details option:selected').text()+" "+
                 $('#grades option:selected').text()+" "
-			);
+            );
         });
 
-	});
-</script>
-@endpush
 
-@push( 'footer-script' )
+
+        //sms 전송
+
+		$("#send-sms").on("click", function(){
+
+		    var mobile_num = $("#orderer_mobile").val();
+            timeCountdown();
+
+		    if(mobile_num){
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    url: '/order/send-sms',
+                    data: {
+                        'mobile_num': mobile_num, "_token": "{{ csrf_token() }}"
+					},
+					success: function(jdata){
+
+                        if(jdata.result == 'OK'){
+                            $("#sms-alarm").hide();
+                            $("#sms-confirm").show();
+                            $("#sms_num").focus();
+
+                            $("#sms_id").val(jdata.id);
+
+//                            $("#send-sms").attr('disabled', true);
+
+                            //time 체크 시작
+                            timeCountdown();
+						}else{
+                            console.log(jdata);
+                            alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");
+                            $("#orderer_mobile").select();
+						}
+
+
+					},
+					error: function(qXHR, textStatus, errorThrown){
+						alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");
+
+						console.log(errorThrown);
+
+						$("#orderer_mobile").select();
+					}
+				});
+			}
+		});
+
+		//sms 인증 확인
+		$("#is-sms-confirmed").on("click", function(){
+		    var sms_num = $("#sms_num").val();
+		    if(sms_num){
+		        $.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '/order/is-sms',
+					data: {'sms_num': sms_num, 'sms_id': $("#sms_id").val(), "_token": "{{ csrf_token() }}"},
+					success: function(jdata){
+						if(jdata.result == 'OK'){
+                            $("#sms_confirmed").val(1);
+
+						    alert('인증이 완료 되었습니다.\n차량정보를 입력헤 주세요.');
+						}else{
+							alert('인증번호가 잘못 입력되었습니다.\n인증번호를 다시 입력해 주세요.');
+						}
+					},
+					error: function(qXHR, textStatus, errorThrown){
+
+					}
+				});
+			}else{
+		        alert('전송된 인증번호를 입력해 주세요.');
+			}
+		});
+
+		//sms 전송/확인 취소
+		$("#sms-refresh").on("click", function(){
+		    $("#sms-alarm").show();
+		    $("#sms-confirm").hide();
+		    $("#sms_num").val('');
+		    $("#sms_id").val('');
+		});
+
+    });
+
+    var timeCountdown = function(){
+		var expired = 300;
+		var countdown = setInterval(function(){
+
+            var sms_id = $("#sms_id").val();
+            var sms_confirmed = $("#sms_confirmed").val();
+
+			if(expired == 0){
+
+
+				if(!sms_confirmed && sms_id){
+					alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요." + expired);
+
+					smsTempDelete(sms_id);// 인증 번호관련 사항을 삭제함.
+					$("#sms_id").val('');
+					$("#sms_confirmed").val('');
+
+					$("#sms_num").val('');
+					$("#sms-confirm").hide();
+				}
+				clearInterval(countdown);
+				return false;
+
+			}else{
+			    if(!sms_confirmed){
+                    $("#time-clock").text(expired);
+				}
+
+			}
+
+			expired--;
+		}, 1000);
+
+
+	}
+
+
+	var smsTempDelete = function(sms_id){
+        if(sms_id){
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '/order/delete-sms',
+                data: {'sms_id': sms_id, '_token': "{{ csrf_token() }}"},
+                success: function(jdata){
+
+                }
+            });
+		}
+
+	}
+</script>
 @endpush

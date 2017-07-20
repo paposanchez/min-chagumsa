@@ -18,6 +18,11 @@ use App\Models\User;
 use App\Models\UserExtra;
 use Carbon\Carbon;
 
+use App\Models\SmsTemp;
+use App\Models\Payment;
+use App\Models\PaymentResult;
+use App\Models\ScTran;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -40,7 +45,7 @@ class OrderController extends Controller {
     }
 
     public function reservation(Request $request) {
-        dd($request->all());
+//        dd($request->all());
         $validate = Validator::make($request->all(), [
             'orderer_name' => 'required',
             'orderer_mobile' => 'required',
@@ -177,6 +182,140 @@ class OrderController extends Controller {
 
     public function process() {
 
+    }
+
+    /**
+     * SMS 전송 메소드
+     * @param Request $request
+     */
+    public function sendSms(Request $request){
+        $validate = Validator::make($request->all(), [
+            'mobile_num' => 'required',
+        ]);
+
+        $result = [
+            'result' => '', 'id' => '', 'error' => ''
+        ];
+
+        if ($validate->fails())
+        {
+            $result['result'] = 'FAIL';
+            $result['error'] = '000';
+        }else{
+            $rand_num = rand(100000, 999999);
+            $data = [
+                'mobile_num' => $request->get('mobile_num'), 'comfirm_msg' => $rand_num,
+
+            ];
+
+            $tr_phone = $request->get('mobile_num');
+            $tr_callback = "1833-6889";
+            $tr_msg = "카검사 주문신청 인증번호: ".$rand_num;
+            $tr_sendstat = 0;
+            $tr_msgtype = 0;
+
+            try{
+                $sms_model = new \App\Models\ScTran();
+                $sms_model->send($tr_phone, $tr_callback, $tr_msg, $tr_sendstat, $tr_msgtype);
+            }catch (\Exception $e){
+                $result['result'] = 'FAIL';
+                $result['error'] = '001';
+            }
+
+            $data['send_time'] = time();
+            try{
+                $sms_chk_model = new SmsTemp();
+                $sms_chk_model->mobile_num = $request->get('mobile_num');
+                $sms_chk_model->confirm_msg = $rand_num;
+                $sms_chk_model->send_time = time();
+                $sms_chk_model->save();
+
+                $result['result'] = 'OK';
+                $result['id'] = $sms_chk_model->id;
+            }catch (\Exception $e){
+                $result['result'] = 'FAIL';
+                $result['error'] = '002';
+            }
+
+
+
+        }
+        return \GuzzleHttp\json_encode($result);
+    }
+
+    /**
+     * SMS 코드 검증 메소드
+     * @param Request $request
+     */
+    public function isSms(Request $request){
+
+        $result = [
+            'result' => '', 'id' => '', 'error' => ''
+        ];
+
+        $validate = Validator::make($request->all(), [
+            'sms_num' => 'required', 'sms_id' => 'required'
+        ]);
+        if ($validate->fails())
+        {
+            $result['result'] = 'FAIL';
+            $result['error'] = '000';
+        }else{
+            $current_tieme = time();
+
+            $sms_model = SmsTemp::findOrFail($request->get('sms_id'));
+            if($sms_model){
+                $div_num = $current_tieme - $sms_model->send_time;
+                if($div_num <= 300){
+                    //전송후 5분이내
+
+                    if($request->get('sms_num') == $sms_model->confirm_msg){
+                        $result['result'] = 'OK';
+                        $result['id'] = $sms_model->id;
+                    }else{ //등록된 인증번호와 사용자가 입력한 인증번호가 틀림
+                        $result['result'] = 'FAIL';
+                        $result['error'] = '020';
+                    }
+
+                }else{ //300초 이후 인증번호 입력
+                    $result['result'] = 'FAIL';
+                    $result['error'] = '011';
+                }
+            }else{ //해당 인증 record가 없음.
+                $result['result'] = 'FAIL';
+                $result['error'] = '010';
+            }
+        }
+        return \GuzzleHttp\json_encode($result);
+    }
+
+    /**
+     * SMS 임시코드 삭제 메소드
+     * @param Request $request
+     */
+    public function deleteSms(Request $request){
+        $result = [
+            'result' => '', 'id' => '', 'error' => ''
+        ];
+
+        $validate = Validator::make($request->all(), [
+            'sms_id' => 'required'
+        ]);
+        if ($validate->fails()) {
+            $result['result'] = 'FAIL';
+            $result['error'] = '000';
+        }else{
+            $sms_model = SmsTemp::find($request->get('sms_id'));
+            if($sms_model){
+                $sms_model->delete();
+                $result['result'] = 'OK';
+            }else{//해당 인증 record가 없음.
+                $result['result'] = 'FAIL';
+                $result['error'] = '010';
+            }
+        }
+
+        return \GuzzleHttp\json_encode($result);
     }
 
 
