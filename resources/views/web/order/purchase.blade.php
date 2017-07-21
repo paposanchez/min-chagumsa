@@ -7,7 +7,7 @@
 <div id='sub_wrap'>
 
 
-	<div class='join_wrap'>
+	<div class='join_wrap lock_page_div'>
 
 		<ul class='join_step type2'>
 			<li class='on link'>
@@ -31,7 +31,7 @@
 		<div class='br30'></div>
 		<div class='br20'></div>
 
-		{!! Form::open(['route' => ["order.complete"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+		{!! Form::open(['route' => ["order.complete"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'purchase-form']) !!}
 		<input name="datekey" value="{{ $order->datekey }}" hidden>
 		<input name="cars_id" value="{{ $order->cars_id }}" hidden>
 		<div class='order_info_box'>
@@ -155,7 +155,7 @@
 		<div class='br10'></div>
 
 		<div class='ipt_line wid45'>
-			<button class='btns btns_blue wid45' style='display:inline-block;'>이전</button>&nbsp;&nbsp; <button type="submit" class='btns btns_green wid45' style='display:inline-block;'>결제하기</button>
+			<button class='btns btns_blue wid45' style='display:inline-block;'>이전</button>&nbsp;&nbsp; <button type="button" class='btns btns_green wid45' style='display:inline-block;' id="payment-process">결제하기</button>
 		</div>
 		{!! Form::close() !!}
 
@@ -185,6 +185,9 @@
 				}
 			})
 
+		});
+		$("#payment-process").on("click", function(){
+			$('.lock_page_div').show();
 		});
 	});
 </script>

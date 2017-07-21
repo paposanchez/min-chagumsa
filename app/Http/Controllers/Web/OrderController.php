@@ -19,9 +19,16 @@ use App\Models\User;
 use App\Models\UserExtra;
 use Carbon\Carbon;
 
+use App\Models\SmsTemp;
+use App\Models\Payment;
+use App\Models\PaymentResult;
+use App\Models\ScTran;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+
+use App\Tpay\TpayLib as Encryptor;
 
 class OrderController extends Controller {
     
@@ -123,6 +130,63 @@ class OrderController extends Controller {
         $items = Item::all();
 
         return view('web.order.purchase', compact('order', 'items', 'request'));
+    }
+
+    public function paymentPopup(Request $request){
+
+        $error = false;
+        //validate
+        $validate = Validator::make($request->all(), [
+            'item_id' => 'required', //인증서 상품 ID
+            'payment_type' => 'required', // 결제 종류
+            'order_id' => 'required' //주문서 ID
+        ]);
+        if ($validate->fails())
+        {
+            //error 를 view에서 받아 error가 true이면 결제창을 닫는다.
+            $error = true;
+        }else{
+
+            if(!in_array($request->get('payment_type', ['CARD', 'BANK', 'CELLPHONE']))){
+                $error = true;
+            }
+
+            $order_model = Order::find($request->get('orders_id'));
+            //todo 상품명, 주문 번호를 만들어 PG연동에 넘겨주어야 한다.
+
+
+            $mid = "tpaytest0m";	//상점id
+            $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";	//상점키
+            $moid = "toid1234567890";
+
+
+
+            //결제금액을 구함.
+            $where = Item::find($request->get('item_id'));
+            if($where){
+                $amt = $where->price;//결제금액
+            }else{
+                $error = false;
+            }
+
+
+            //$ediDate, $mid, $merchantKey, $amt
+            $encryptor = new Encryptor($merchantKey);
+
+            $encryptData = $encryptor->encData($amt.$mid.$moid);
+            $ediDate = $encryptor->getEdiDate();
+            $vbankExpDate = $encryptor->getVBankExpDate();
+
+            $payActionUrl = "https://webtx.tpay.co.kr";
+            $payLocalUrl = "http://car.app";   //각 상점 도메인을 설정 하세요.  ex)http://shop.tpay.co.kr
+
+        }
+
+        return view('web.pay-test.index', compact('mid', 'merchantKey', 'amt', 'moid', 'encryptData',
+                'ediDate', 'vbankExpDate', 'payActionUrl', 'payLocalUrl', 'error')
+        );
+
+
     }
     
     public function complete(Request $request) {
@@ -227,6 +291,141 @@ class OrderController extends Controller {
     public function process() {
 
     }
+
+    /**
+     * SMS 전송 메소드
+     * @param Request $request
+     */
+    public function sendSms(Request $request){
+        $validate = Validator::make($request->all(), [
+            'mobile_num' => 'required',
+        ]);
+
+        $result = [
+            'result' => '', 'id' => '', 'error' => ''
+        ];
+
+        if ($validate->fails())
+        {
+            $result['result'] = 'FAIL';
+            $result['error'] = '000';
+        }else{
+            $rand_num = rand(100000, 999999);
+            $data = [
+                'mobile_num' => $request->get('mobile_num'), 'comfirm_msg' => $rand_num,
+
+            ];
+
+            $tr_phone = $request->get('mobile_num');
+            $tr_callback = "1833-6889";
+            $tr_msg = "카검사 주문신청 인증번호: ".$rand_num;
+            $tr_sendstat = 0;
+            $tr_msgtype = 0;
+
+            try{
+                $sms_model = new \App\Models\ScTran();
+                $sms_model->send($tr_phone, $tr_callback, $tr_msg, $tr_sendstat, $tr_msgtype);
+            }catch (\Exception $e){
+                $result['result'] = 'FAIL';
+                $result['error'] = '001';
+            }
+
+            $data['send_time'] = time();
+            try{
+                $sms_chk_model = new SmsTemp();
+                $sms_chk_model->mobile_num = $request->get('mobile_num');
+                $sms_chk_model->confirm_msg = $rand_num;
+                $sms_chk_model->send_time = time();
+                $sms_chk_model->save();
+
+                $result['result'] = 'OK';
+                $result['id'] = $sms_chk_model->id;
+            }catch (\Exception $e){
+                $result['result'] = 'FAIL';
+                $result['error'] = '002';
+            }
+
+
+
+        }
+        return \GuzzleHttp\json_encode($result);
+    }
+
+    /**
+     * SMS 코드 검증 메소드
+     * @param Request $request
+     */
+    public function isSms(Request $request){
+
+        $result = [
+            'result' => '', 'id' => '', 'error' => ''
+        ];
+
+        $validate = Validator::make($request->all(), [
+            'sms_num' => 'required', 'sms_id' => 'required'
+        ]);
+        if ($validate->fails())
+        {
+            $result['result'] = 'FAIL';
+            $result['error'] = '000';
+        }else{
+            $current_tieme = time();
+
+            $sms_model = SmsTemp::findOrFail($request->get('sms_id'));
+            if($sms_model){
+                $div_num = $current_tieme - $sms_model->send_time;
+                if($div_num <= 300){
+                    //전송후 5분이내
+
+                    if($request->get('sms_num') == $sms_model->confirm_msg){
+                        $result['result'] = 'OK';
+                        $result['id'] = $sms_model->id;
+                    }else{ //등록된 인증번호와 사용자가 입력한 인증번호가 틀림
+                        $result['result'] = 'FAIL';
+                        $result['error'] = '020';
+                    }
+
+                }else{ //300초 이후 인증번호 입력
+                    $result['result'] = 'FAIL';
+                    $result['error'] = '011';
+                }
+            }else{ //해당 인증 record가 없음.
+                $result['result'] = 'FAIL';
+                $result['error'] = '010';
+            }
+        }
+        return \GuzzleHttp\json_encode($result);
+    }
+
+    /**
+     * SMS 임시코드 삭제 메소드
+     * @param Request $request
+     */
+    public function deleteSms(Request $request){
+        $result = [
+            'result' => '', 'id' => '', 'error' => ''
+        ];
+
+        $validate = Validator::make($request->all(), [
+            'sms_id' => 'required'
+        ]);
+        if ($validate->fails()) {
+            $result['result'] = 'FAIL';
+            $result['error'] = '000';
+        }else{
+            $sms_model = SmsTemp::find($request->get('sms_id'));
+            if($sms_model){
+                $sms_model->delete();
+                $result['result'] = 'OK';
+            }else{//해당 인증 record가 없음.
+                $result['result'] = 'FAIL';
+                $result['error'] = '010';
+            }
+        }
+
+        return \GuzzleHttp\json_encode($result);
+    }
+
 
 
 }

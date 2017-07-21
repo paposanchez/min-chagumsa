@@ -12,8 +12,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('order', 'OrderController');
         Route::get('/order/edit_car/{order_id}', 'OrderController@editCar')->name('order.edit_car');
         Route::get('/order/edit_garage/{order_id}', 'OrderController@editGarage')->name('order.edit_garage');
-        Route::get('/order/cansel/{order_id}', 'OrderController@cansel')->name('order.cansel');
+        Route::get('/order/cancel/{order_id}', 'OrderController@cancel')->name('order.cancel');
     });
+
+    //SMS관련
+    Route::post('/order/send-sms', 'OrderController@sendSms')->name('order.send-sms');
+    Route::post('/order/is-sms', 'OrderController@isSms')->name('order.is-sms');
+    Route::post('/order/delete-sms', 'OrderController@deleteSms')->name('order.delete-sms');
 });
 
 // 공통
@@ -40,7 +45,6 @@ Route::get('/order/get_address', 'OrderController@getAddress')->name("order.get_
 
 
 Route::resource('/certificate', 'CertificateController');
-
 
 // Information
 Route::get('information/index', function () {
