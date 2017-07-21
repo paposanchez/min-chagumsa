@@ -35,6 +35,9 @@ Route::get('/order/get_models', 'OrderController@getModels')->name("order.get_mo
 Route::get('/order/get_details', 'OrderController@getDetails')->name("order.get_details");
 Route::get('/order/get_grades', 'OrderController@getGrades')->name("order.get_grades");
 Route::get('/order/sel_item', 'OrderController@selItem')->name("order.sel_item");
+Route::get('/order/get_section', 'OrderController@getSection')->name("order.get_section");
+Route::get('/order/get_address', 'OrderController@getAddress')->name("order.get_address");
+
 
 Route::resource('/certificate', 'CertificateController');
 

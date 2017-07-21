@@ -58,6 +58,6 @@ class Certificate Extends Model
     ];
 
     public function order(){
-        return $this->belongsTo(\App\Models\Order::class);
+        return $this->belongsTo(\App\Models\Order::class, 'orders_id', 'id');
     }
 }

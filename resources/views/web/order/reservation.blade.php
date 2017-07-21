@@ -97,19 +97,52 @@
 				<strong>입고대리점</strong>
 			</div>
 			<div class='ipt_line'>
-				<input type="text" class='ipt wid20' id="sample6_postcode" name="zipcode" placeholder="우편번호">
-				&nbsp;&nbsp;<input type="button" class='btns btns_skyblue wid20' onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+				<input type='text' class='ipt wid40 dis' readonly placeholder='지역을 검색하여 원하는 대리점을 선택하세요'>
 			</div>
+
 			<div class='br10'></div>
-			<div class='ipt_line'>
-				<div class='psk_select wid40'>
-					<input type="text" class='ipt' id="sample6_address" name="address" placeholder="주소">
-				</div>&nbsp;&nbsp;
-				<div class='psk_select wid20'>
-					<input type="text" class='ipt' id="sample6_address2" name="address_detail" placeholder="상세주소">
+
+				<div class='ipt_line'>
+					<div class='psk_select wid20'>
+						{{--{!! Form::select('sel_area', $garage_areas, [], ['class'=>'btns btns2', 'id'=>'sel_area']) !!}--}}
+						<input type="text" id="models_id" name="sel_area" value="" hidden/>
+						{{--<select class="form-control btns btns2" id="areas">--}}
+							{{--<option value="0" selected>시/도를 선택하세요.</option>--}}
+
+							@foreach($garages as $key => $garage)
+								{{ dd($garage) }}
+								<option value="{{ $garage->id }}">{{ $garage->area }}</option>
+							@endforeach
+						{{--</select>--}}
+					</div>&nbsp;&nbsp;
+					<div class='psk_select wid20'>
+						<input type='hidden' class='psk_select_val' value=''>
+						{{--{!! Form::select('sel_section', $garage_sections, [], ['class'=>'btns btns2', 'id'=>'sel_section']) !!}--}}
+						<input type="text" id="models_id" name="sel_section" value="" hidden/>
+						<select class="form-control btns btns2" id="sections">
+							<option value="0" selected>구/군을 선택하세요.</option>
+						</select>
+					</div>
+					&nbsp;&nbsp;<button class='btns btns_skyblue wid10' type="button" style='position:relative;' id="search">검색</button>
 				</div>
-			</div>
+
 		</div>
+
+		<div class='br30'></div>
+
+		<div class='order_address_wrap' id="garage_list">
+			<strong>검색된 정비소가 없습니다.</strong>
+			{{--<ul>--}}
+				{{--<li>--}}
+					{{--<strong>{{ $garage->name }}</strong>--}}
+					{{--<p>전화번호 : {{ $garage->garage->mobile }}<br>주소 : {{ $garage->address }}</p>--}}
+					{{--<button class='btns btns2' type="button" id="sel_address">선택</button>--}}
+				{{--</li>--}}
+			{{--</ul>--}}
+
+		</div>
+
+		<div class='br30'></div>
 
 
 		<div class='br30'></div>
@@ -128,51 +161,115 @@
 
 
 @push( 'header-script' )
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script type="text/javascript">
-    function sample6_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var fullAddr = ''; // 최종 주소 변수
-                var extraAddr = ''; // 조합형 주소 변수
-
-                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    fullAddr = data.roadAddress;
-
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    fullAddr = data.jibunAddress;
-                }
-
-                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
-                if(data.userSelectedType === 'R'){
-                    //법정동명이 있을 경우 추가한다.
-                    if(data.bname !== ''){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있을 경우 추가한다.
-                    if(data.buildingName !== ''){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
-                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample6_postcode').value = data.zonecode; //5자리 새우편번호 사용
-                document.getElementById('sample6_address').value = fullAddr;
-
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById('sample6_address2').focus();
-            }
-        }).open();
-    }
-</script>
 @endpush
 
 @push( 'footer-script' )
+<script type="text/javascript">
+	$(function(){
+	    $('#areas').change(function () {
+	        var garage_area = $('#areas option:selected').text();
+	        $.ajax({
+				type : 'get',
+				dataType : 'json',
+				url : '/order/get_section/',
+                data : {
+                    '_token': '{{ csrf_token() }}',
+					'garage_area' : garage_area
+				},
+				success : function (data) {
+                    $('#sel_section').text('구/군을 선택하세요.');
+				    $('#sel_area').val(garage_area);
+                    $.each(data, function (key, value) {
+                        $('#sections').append($('<option/>', {
+                            value: value.id,
+                            text : value.section
+                        }));
+                    });
+				},
+				error : function () {
+				    alert('error');
+				}
+			})
+		});
+
+        $('#sections').change(function () {
+            var garage_section = $('#sections option:selected').text();
+            $('#sel_section').val(garage_section);
+        });
+
+		// 정비소 관련 리스트
+	    $('#search').click(function (){
+			var sel_area = $('#areas option:selected').text();
+			var sel_section = $('#sections option:selected').text();
+            var html = '';
+
+            if(sel_area != '시/도를 선택하세요.' && sel_section != '구/군을 선택하세요.'){
+                $.ajax({
+                    type : 'get',
+                    dataType : 'json',
+                    url : '/order/get_address/',
+                    data : {
+                        'sel_area' : sel_area,
+                        'sel_section' : sel_section,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success : function (data){
+                        html += "<ul>";
+                        $.each(data, function (key, value) {
+                            html += "<li>";
+                            html += "<strong>"+value.user_info.mobile+"</strong>";
+                            html += "<p>전화번호 : "+value.area+"</p>";
+                            html += "<button class='btns btns2' type= 'button' id='sel_address'>선택</button>";
+                            html += "</li>";
+                        });
+                        html += "</ul>";
+                        $('#garage_list').html(html);
+                    },
+                    error : function (data) {
+                        alert('error');
+                    }
+                })
+			}
+			else if (sel_area != '시/도를 선택하세요.' && sel_section == '구/군을 선택하세요.'){
+                $.ajax({
+                    type : 'get',
+                    dataType : 'json',
+                    url : '/order/get_address/',
+                    data : {
+                        'sel_area' : sel_area,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success : function (data){
+                        html += "<ul>";
+                        $.each(data, function (key, value) {
+                            html += "<li>";
+                            html += "<strong>"+value.name+"</strong>";
+                            html += "<p>전화번호 : "+value.area+"</p>";
+                            html += "<button class='btns btns2' type= 'button' id='sel_address'>선택</button>";
+                            html += "</li>";
+                        });
+                        html += "</ul>";
+                        $('#garage_list').html(html);
+                    },
+                    error : function (data) {
+                        alert('error');
+                    }
+                })
+			}
+			else{
+                alert(3);
+			}
+		});
+
+	    //<ul>
+        //<li>
+        //<strong>{{ $garage->name }}</strong>
+        //<p>전화번호 : {{ $garage->garage->mobile }}<br>주소 : {{ $garage->address }}</p>
+        //<button class='btns btns2' type="button" id="sel_address">선택</button>
+        //    </li>
+        //    </ul>
+
+
+	});
+</script>
 @endpush

@@ -19,4 +19,8 @@ class GarageInfo extends Model {
     ];
     protected $dates = ['created_at'];
 
+
+    public function user(){
+        return $this->hasOne(User::class, 'id', 'garage_id');
+    }
 }

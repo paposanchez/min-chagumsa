@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Models\Certificate;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 use Response;
 use File AS FileHandler;
 use App\Models\File;
@@ -25,7 +28,19 @@ class CertificateController extends Controller {
     }
 
     public function index(){
-        return view('web.certificate.index');
+
+
+
+//        $orders = Order::where('orderer_id', $user_id)->get();
+
+
+        $certificates = Certificate::select()->join('orders', function($join){
+            $user_id = Auth::user()->id;
+            $join->on('certificates.orders_id', '=', 'orders.id')->where('orderer_id', $user_id);
+        })->get();
+//        dd($certificates[0]->order->car->getFuelType());
+
+        return view('web.certificate.index', compact('certificates'));
     }
 
 }

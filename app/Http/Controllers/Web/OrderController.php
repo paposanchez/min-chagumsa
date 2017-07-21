@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Car;
 use App\Models\Code;
 use App\Models\Detail;
+use App\Models\GarageInfo;
 use App\Models\Grade;
 use App\Models\Item;
 use App\Models\Models;
@@ -57,12 +58,24 @@ class OrderController extends Controller {
             return redirect()->back()->with('error', trans('order.error'));
         }
 
-
         $search_fields = [
             '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
         ];
 
-        return view('web.order.reservation', compact('search_fields', 'garages', 'request'));
+        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area');
+        dd($garages->get());
+
+
+//        dd($garages);
+//        $garage_sections = [];
+//        foreach ($garages as $garage) {
+//            $garage_sections[] = $garage->section;
+//        }
+
+
+
+
+        return view('web.order.reservation', compact('search_fields', 'request', 'garages', 'garage_sections'));
     }
 
     public function purchase(Request $request) {
@@ -161,6 +174,43 @@ class OrderController extends Controller {
     public function selItem(Request $request) {
         $item = Item::find($request->get('sel_item'));
         return $item;
+    }
+
+    public function getSection(Request $request) {
+        $garage_sections = GarageInfo::where('area',$request->get('garage_area'))->get();
+        return $garage_sections;
+    }
+
+    public function getAddress(Request $request) {
+        $selected_garage =  GarageInfo::where('area', $request->get('sel_area'));
+        if($request->get('sel_section')){
+            $selected_garage->where('section', $request->get('sel_section'));
+        }
+
+//        if($selected_garage){
+//            return $selected_garage->get();
+//        }else{
+//            return [];
+//        }
+
+        if($selected_garage){
+            $selected_garage_list = $selected_garage->toArray();
+
+            foreach ($selected_garage as $key => $garage){
+                if($garage->user) {
+                    $user_info = $garage->user->toArray();
+                    $selected_garage_list[$key]['user_info'] = $user_info;
+                }
+            }
+        }else{
+            $selected_garage_list = [];
+        }
+
+
+        return \GuzzleHttp\json_encode($selected_garage_list, true);
+//        return $selected_garage;
+//        return redirect()->route('order.reservation')->with('selected_garage', $selected_garage);
+
     }
 
 

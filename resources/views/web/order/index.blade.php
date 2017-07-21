@@ -69,7 +69,7 @@
 					{{--{!! Form::select('sel_brand', $brands, [], ['class'=>'form-control btns btns2', 'id'=>'brands']) !!}--}}
 					<input type="text" id="brand_id" name="brands_id" value="" hidden/>
 					<select class="form-control btns btns2" id="brands">
-						<option>선택하세요.</option>
+						<option>브랜드를 선택하세요.</option>
 						@foreach($brands as $brand)
 							<option value="{{ $brand->id }}">{{ $brand->name }}</option>
 						@endforeach
@@ -79,14 +79,14 @@
 				<div class='psk_select wid25'>
 					<input type="text" id="models_id" name="models_id" value="" hidden/>
 					<select class="form-control btns btns2" id="models">
-						<option selected>선택하세요.</option>
+						<option selected>모델을 선택하세요.</option>
 					</select>
 				</div>&nbsp;&nbsp;
 
 				<div class='psk_select wid25'>
 					<input type="text" id="detail_id" name="details_id" value="" hidden/>
 					<select class="form-control btns btns2" id="details">
-						<option selected>선택하세요.</option>
+						<option selected>세부 모델을 선택하세요.</option>
 					</select>
 				</div>
 			</div>
@@ -97,7 +97,7 @@
 				<div class='psk_select wid25'>
 					<input type="text" id="grade_id" name="grades_id" value="" hidden/>
 					<select class="form-control btns btns2" id="grades">
-						<option selected>선택하세요.</option>
+						<option selected>등급을 선택하세요.</option>
 					</select>
 {{--					{!! Form::select('sel_detail', $details, [], ['class'=>'form-control btns btns2']) !!}--}}
 				</div>
@@ -265,12 +265,12 @@
                     $('#models').html('');
                     if($('#brands option:selected').text()=='선택하세요.'){
                         $('#models').append($('<option/>', {
-                            text : '선택하세요.'
+                            text : '모델을 선택하세요.'
                         }));
                     }
                     else{
                         $('#models').append($('<option/>', {
-                            text : '선택하세요.'
+                            text : '모델을 선택하세요.'
                         }));
                         $.each(data, function (key, value) {
                             $('#models').append($('<option/>', {
@@ -301,12 +301,12 @@
                     $('#details').html('');
                     if($('#details option:selected').text()=='선택하세요.'){
                         $('#details').append($('<option/>', {
-                            text : '선택하세요.'
+                            text : '세부 모델을 선택하세요.'
                         }));
                     }
                     else{
                         $('#details').append($('<option/>', {
-                            text : '선택하세요.'
+                            text : '세부 모델을 선택하세요.'
                         }));
                         $.each(data, function (key, value) {
                             $('#details').append($('<option/>', {
@@ -336,12 +336,12 @@
                     $('#grades').html('');
                     if($('#grades option:selected').text()=='선택하세요.'){
                         $('#grades').append($('<option/>', {
-                            text : '선택하세요.'
+                            text : '등급을 선택하세요.'
                         }));
                     }
                     else{
                         $('#grades').append($('<option/>', {
-                            text : '선택하세요.'
+                            text : '등급을 선택하세요.'
                         }));
                         $.each(data, function (key, value) {
                             $('#grades').append($('<option/>', {

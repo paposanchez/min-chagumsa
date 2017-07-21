@@ -91,7 +91,7 @@
         <tr>
             <th>엔진타입</th>
             <td>
-                <input type="text" class="form-control" name="cars_engine_type" value="{{ $order->car->engine_type }}">
+                <input type="text" class="form-control" name="cars_engine_type" value="{{ $order->car->engine_cd }}">
             </td>
             <th>사용연료</th>
             <td>
