@@ -255,6 +255,7 @@ class OrderController extends Controller {
             $selected_garage->where('section', $request->get('sel_section'));
         }
 
+
 //        if($selected_garage){
 //            return $selected_garage->get();
 //        }else{
@@ -275,8 +276,8 @@ class OrderController extends Controller {
         }
 
 
-        return \GuzzleHttp\json_encode($selected_garage_list, true);
-//        return $selected_garage;
+//        return json_encode($selected_garage_list, true);
+        return $selected_garage;
 //        return redirect()->route('order.reservation')->with('selected_garage', $selected_garage);
 
     }
