@@ -96,39 +96,59 @@ class OrderController extends Controller {
         $car = Car::create($input);
 
 
+        //todo purchase는 나중에 해야 함
         $purchase = Purchase::create([
             'amount' => 0,
             'type' => 0,
             'status_cd' => 101
         ]);
 
-        $order = Order::create([
-                'datekey' => $datekey,
-                'car_number' => $request->get('car_number'),
-                'cars_id' => $car->id,
-                'garage_id' => $garage_id,
-                'item_id' => 1,
-                'purchase_id' => $purchase->id,
-                'orderer_id' => $orderer_id,
-                'orderer_name' => $request->get('orderer_name'),
-                'orderer_mobile' => $request->get('orderer_mobile'),
-                'registration_file' => 0,
-                'open_cd' => 0,
-                'status_cd' => 102,
-                'flooding' => $request->get('flooding'),
-                'accident' => $request->get('accident')
-            ]);
+        //일단 주문 부문을 수정함
+
+        $order = Order::where('datekey', $datekey)->where('car_number', $request->get('car_number'))->first();
+        if(!$order){
+            //insert
+            $order = new Order();
+
+            $order->datekey = $datekey;
+            $order->car_number = $request->get('car_number');
+        }
+
+        $order->cars_id = $car->id;
+        $order->garage_id = $garage_id;
+        $order->item_id = 1;
+        $order->purchase_id = $purchase->id;
+        $order->orderer_id = $orderer_id;
+        $order->orderer_name = $request->get('orderer_name');
+        $order->orderer_mobile = $request->get('orderer_mobile');
+        $order->registration_file = 0;
+        $order->open_cd = 0;
+        $order->status_cd = 102;
+        $order->flooding = $request->get('flooding');
+        $order->accident = $request->get('accident');
+
+        $order->save();
 
         foreach ($request->get('options_ck') as $options){
-            OrderFeature::create([
-                'orders_id' => $order->id,
-                'features_id' => $options
-            ]);
+            $order_features = OrderFeature::where('orders_id', $order->id)->first();
+            if(!$order_features){
+                $order_features = new OrderFeature();
+            }
+            try{
+                $order_features->orders_id = $order->id;
+                $order_features->features_id = $options;
+
+                $order_features->save();
+            }catch (\Exception $e){}
+
+
         }
 
         $items = Item::all();
 
-        return view('web.order.purchase', compact('order', 'items', 'request'));
+        $garage_info = GarageInfo::findOrFail($request->get('garage_id'));
+
+        return view('web.order.purchase', compact('order', 'items', 'garage_info', 'request'));
     }
 
     public function paymentPopup(Request $request){
