@@ -10,6 +10,7 @@ class GarageInfo extends Model {
     protected $table = 'garage_infos';
     protected $primaryKey = 'id';
     protected $fillable = [
+        'id',
         'garage_id',
         'name',
         'zipcode',

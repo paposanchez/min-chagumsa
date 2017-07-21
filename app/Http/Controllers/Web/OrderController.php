@@ -72,7 +72,6 @@ class OrderController extends Controller {
         $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->get();
 
 
-
 //        dd($garages);
 //        $garage_sections = [];
 //        foreach ($garages as $garage) {
@@ -241,8 +240,13 @@ class OrderController extends Controller {
     }
 
     public function getSection(Request $request) {
-        $garage_sections = GarageInfo::where('area',$request->get('garage_area'))->get();
-        return $garage_sections;
+        $garage_sections = GarageInfo::where('area',$request->get('garage_area'))->GroupBy('section');
+        if($garage_sections){
+            $json = $garage_sections->get()->toArray();
+        }else{
+            $json = [];
+        }
+        return \GuzzleHttp\json_encode($json);
     }
 
     public function getAddress(Request $request) {

@@ -260,13 +260,7 @@
 			}
 		});
 
-	    //<ul>
-        //<li>
-        //<strong>{{ $garage->name }}</strong>
-        //<p>전화번호 : <br>주소 : {{ $garage->address }}</p>
-        //<button class='btns btns2' type="button" id="sel_address">선택</button>
-        //    </li>
-        //    </ul>
+
 
 
 	});
