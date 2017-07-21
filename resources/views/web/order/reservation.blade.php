@@ -40,6 +40,7 @@
 		<input type="hidden" value="{{ $request->models_id }}" name="models_id">
 		<input type="hidden" value="{{ $request->details_id }}" name="details_id">
 		<input type="hidden" value="{{ $request->grades_id }}" name="grades_id">
+		<input type="hidden"  name="garage_id" id="garage_id">
 		@if($request->options_ck)
 			@foreach($request->options_ck as $option_ck)
 				<input type="hidden" value="{{ $option_ck }}" name="options_ck[]">
@@ -97,7 +98,7 @@
 				<strong>입고대리점</strong>
 			</div>
 			<div class='ipt_line'>
-				<input type='text' class='ipt wid40 dis' readonly placeholder='지역을 검색하여 원하는 대리점을 선택하세요'>
+				<input type='text' id="garage_info" class='ipt wid40 dis' readonly placeholder='지역을 검색하여 원하는 대리점을 선택하세요'>
 			</div>
 
 			<div class='br10'></div>
@@ -106,7 +107,7 @@
 					<div class='psk_select wid20'>
 						{{--{!! Form::select('sel_area', $garage_areas, [], ['class'=>'btns btns2', 'id'=>'sel_area']) !!}--}}
 						<input type="text" id="models_id" name="sel_area" value="" hidden/>
-						<select class="form-control btns btns2" id="areas">
+						<select class="form-control btns btns2" id="areas" autocomplete="off">
 							<option value="0" selected>시/도를 선택하세요.</option>
 
 							@foreach($garages as $key => $garage)
@@ -119,7 +120,7 @@
 						{{--{!! Form::select('sel_section', $garage_sections, [], ['class'=>'btns btns2', 'id'=>'sel_section']) !!}--}}
 						<input type="text" id="models_id" name="sel_section" value="" hidden/>
 						<select class="form-control btns btns2" id="sections">
-							<option value="0" selected>구/군을 선택하세요.</option>
+							<option value="" selected>구/군을 선택하세요.</option>
 						</select>
 					</div>
 					&nbsp;&nbsp;<button class='btns btns_skyblue wid10' type="button" style='position:relative;' id="search">검색</button>
@@ -130,14 +131,7 @@
 		<div class='br30'></div>
 
 		<div class='order_address_wrap' id="garage_list">
-			<strong>검색된 정비소가 없습니다.</strong>
-			{{--<ul>--}}
-				{{--<li>--}}
-					{{--<strong>{{ $garage->name }}</strong>--}}
-					{{--<p>전화번호 : {{ $garage->garage->mobile }}<br>주소 : {{ $garage->address }}</p>--}}
-					{{--<button class='btns btns2' type="button" id="sel_address">선택</button>--}}
-				{{--</li>--}}
-			{{--</ul>--}}
+			{{--<strong>검색된 정비소가 없습니다.</strong>--}}
 
 		</div>
 
@@ -216,9 +210,11 @@
                         html += "<ul>";
                         $.each(data, function (key, value) {
                             html += "<li>";
-                            html += "<strong>"+value.user_info.mobile+"</strong>";
-                            html += "<p>전화번호 : "+value.area+"</p>";
-                            html += "<button class='btns btns2' type= 'button' id='sel_address'>선택</button>";
+                            html += "<strong>"+value.name+"</strong>";
+                            html += "<p>전화번호 : "+value.tel;
+							html += "<br>주소 : " + value.address	+"</p>";
+                            html += "<span><button class='btns btns2 select-garage' type='button' data-garage_id='"+
+                                value.id +"' data-garage_info='"+ value.name+"("+ value.address +")" +"'>선택</button></span>";
                             html += "</li>";
                         });
                         html += "</ul>";
@@ -243,8 +239,10 @@
                         $.each(data, function (key, value) {
                             html += "<li>";
                             html += "<strong>"+value.name+"</strong>";
-                            html += "<p>전화번호 : "+value.area+"</p>";
-                            html += "<button class='btns btns2' type= 'button' id='sel_address'>선택</button>";
+                            html += "<p>전화번호 : "+value.tel;
+                            html += "<br>주소 : " + value.address	+"</p>";
+                            html += "<span><button class='btns btns2 select-garage' type='button' data-garage_id='"+
+								value.id +"' data-garage_info='"+ value.name+"("+ value.address +")" +"'>선택</button></span>";
                             html += "</li>";
                         });
                         html += "</ul>";
@@ -261,6 +259,11 @@
 		});
 
 
+	    //대리점 선택
+		$("#garage_list").delegate(".select-garage", "click", function(){
+		    $("#garage_id").val($(this).data("garage_id"));
+		    $("#garage_info").val($(this).data("garage_info"));
+		});
 
 
 	});
