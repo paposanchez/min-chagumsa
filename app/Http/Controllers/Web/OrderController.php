@@ -262,9 +262,9 @@ class OrderController extends Controller {
 //        }
 
         if($selected_garage){
-            $selected_garage_list = $selected_garage->toArray();
+            $selected_garage_list = $selected_garage->get()->toArray();
 
-            foreach ($selected_garage as $key => $garage){
+            foreach ($selected_garage->get() as $key => $garage){
                 if($garage->user) {
                     $user_info = $garage->user->toArray();
                     $selected_garage_list[$key]['user_info'] = $user_info;
