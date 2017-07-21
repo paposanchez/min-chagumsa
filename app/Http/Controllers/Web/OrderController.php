@@ -276,8 +276,8 @@ class OrderController extends Controller {
         }
 
 
-//        return json_encode($selected_garage_list, true);
-        return $selected_garage;
+        return \GuzzleHttp\json_encode($selected_garage_list, true);
+//        return $selected_garage;
 //        return redirect()->route('order.reservation')->with('selected_garage', $selected_garage);
 
     }
