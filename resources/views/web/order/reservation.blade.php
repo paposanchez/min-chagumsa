@@ -106,14 +106,13 @@
 					<div class='psk_select wid20'>
 						{{--{!! Form::select('sel_area', $garage_areas, [], ['class'=>'btns btns2', 'id'=>'sel_area']) !!}--}}
 						<input type="text" id="models_id" name="sel_area" value="" hidden/>
-						{{--<select class="form-control btns btns2" id="areas">--}}
-							{{--<option value="0" selected>시/도를 선택하세요.</option>--}}
+						<select class="form-control btns btns2" id="areas">
+							<option value="0" selected>시/도를 선택하세요.</option>
 
 							@foreach($garages as $key => $garage)
-								{{ dd($garage) }}
 								<option value="{{ $garage->id }}">{{ $garage->area }}</option>
 							@endforeach
-						{{--</select>--}}
+						</select>
 					</div>&nbsp;&nbsp;
 					<div class='psk_select wid20'>
 						<input type='hidden' class='psk_select_val' value=''>
@@ -261,13 +260,7 @@
 			}
 		});
 
-	    //<ul>
-        //<li>
-        //<strong>{{ $garage->name }}</strong>
-        //<p>전화번호 : {{ $garage->garage->mobile }}<br>주소 : {{ $garage->address }}</p>
-        //<button class='btns btns2' type="button" id="sel_address">선택</button>
-        //    </li>
-        //    </ul>
+
 
 
 	});

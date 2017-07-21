@@ -69,8 +69,7 @@ class OrderController extends Controller {
             '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
         ];
 
-        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area');
-        dd($garages->get());
+        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->get();
 
 
 //        dd($garages);
@@ -241,8 +240,13 @@ class OrderController extends Controller {
     }
 
     public function getSection(Request $request) {
-        $garage_sections = GarageInfo::where('area',$request->get('garage_area'))->get();
-        return $garage_sections;
+        $garage_sections = GarageInfo::where('area',$request->get('garage_area'))->GroupBy('section');
+        if($garage_sections){
+            $json = $garage_sections->get()->toArray();
+        }else{
+            $json = [];
+        }
+        return \GuzzleHttp\json_encode($json);
     }
 
     public function getAddress(Request $request) {
