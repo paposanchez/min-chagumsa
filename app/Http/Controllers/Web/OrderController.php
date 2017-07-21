@@ -27,6 +27,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
+use App\Tpay\TpayLib as Encryptor;
+
 class OrderController extends Controller {
     
     public function index(Request $request) {
@@ -116,6 +118,63 @@ class OrderController extends Controller {
         $items = Item::all();
 
         return view('web.order.purchase', compact('order', 'items', 'request'));
+    }
+
+    public function paymentPopup(Request $request){
+
+        $error = false;
+        //validate
+        $validate = Validator::make($request->all(), [
+            'item_id' => 'required', //인증서 상품 ID
+            'payment_type' => 'required', // 결제 종류
+            'order_id' => 'required' //주문서 ID
+        ]);
+        if ($validate->fails())
+        {
+            //error 를 view에서 받아 error가 true이면 결제창을 닫는다.
+            $error = true;
+        }else{
+
+            if(!in_array($request->get('payment_type', ['CARD', 'BANK', 'CELLPHONE']))){
+                $error = true;
+            }
+
+            $order_model = Order::find($request->get('orders_id'));
+            //todo 상품명, 주문 번호를 만들어 PG연동에 넘겨주어야 한다.
+
+
+            $mid = "tpaytest0m";	//상점id
+            $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";	//상점키
+            $moid = "toid1234567890";
+
+
+
+            //결제금액을 구함.
+            $where = Item::find($request->get('item_id'));
+            if($where){
+                $amt = $where->price;//결제금액
+            }else{
+                $error = false;
+            }
+
+
+            //$ediDate, $mid, $merchantKey, $amt
+            $encryptor = new Encryptor($merchantKey);
+
+            $encryptData = $encryptor->encData($amt.$mid.$moid);
+            $ediDate = $encryptor->getEdiDate();
+            $vbankExpDate = $encryptor->getVBankExpDate();
+
+            $payActionUrl = "https://webtx.tpay.co.kr";
+            $payLocalUrl = "http://car.app";   //각 상점 도메인을 설정 하세요.  ex)http://shop.tpay.co.kr
+
+        }
+
+        return view('web.pay-test.index', compact('mid', 'merchantKey', 'amt', 'moid', 'encryptData',
+                'ediDate', 'vbankExpDate', 'payActionUrl', 'payLocalUrl', 'error')
+        );
+
+
     }
     
     public function complete(Request $request) {
@@ -317,6 +376,7 @@ class OrderController extends Controller {
 
         return \GuzzleHttp\json_encode($result);
     }
+
 
 
 }
