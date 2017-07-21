@@ -472,7 +472,6 @@
             $("#sms_num").val('');
             $("#sms_id").val('');
         });
-
     });
 
     var timeCountdown = function(){
@@ -526,8 +525,6 @@
         }
 
     }
-
-    });
 
 
 
