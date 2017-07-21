@@ -69,8 +69,8 @@ class OrderController extends Controller {
             '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
         ];
 
-        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area');
-        dd($garages->get());
+        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->get();
+
 
 
 //        dd($garages);
@@ -251,6 +251,7 @@ class OrderController extends Controller {
             $selected_garage->where('section', $request->get('sel_section'));
         }
 
+
 //        if($selected_garage){
 //            return $selected_garage->get();
 //        }else{
@@ -258,9 +259,9 @@ class OrderController extends Controller {
 //        }
 
         if($selected_garage){
-            $selected_garage_list = $selected_garage->toArray();
+            $selected_garage_list = $selected_garage->get()->toArray();
 
-            foreach ($selected_garage as $key => $garage){
+            foreach ($selected_garage->get() as $key => $garage){
                 if($garage->user) {
                     $user_info = $garage->user->toArray();
                     $selected_garage_list[$key]['user_info'] = $user_info;
@@ -271,8 +272,8 @@ class OrderController extends Controller {
         }
 
 
-        return \GuzzleHttp\json_encode($selected_garage_list, true);
-//        return $selected_garage;
+//        return json_encode($selected_garage_list, true);
+        return $selected_garage;
 //        return redirect()->route('order.reservation')->with('selected_garage', $selected_garage);
 
     }

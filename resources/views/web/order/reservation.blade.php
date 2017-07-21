@@ -106,14 +106,12 @@
 					<div class='psk_select wid20'>
 						{{--{!! Form::select('sel_area', $garage_areas, [], ['class'=>'btns btns2', 'id'=>'sel_area']) !!}--}}
 						<input type="text" id="models_id" name="sel_area" value="" hidden/>
-						{{--<select class="form-control btns btns2" id="areas">--}}
-							{{--<option value="0" selected>시/도를 선택하세요.</option>--}}
-
+						<select class="form-control btns btns2" id="areas">
+							<option value="0" selected>시/도를 선택하세요.</option>
 							@foreach($garages as $key => $garage)
-								{{ dd($garage) }}
 								<option value="{{ $garage->id }}">{{ $garage->area }}</option>
 							@endforeach
-						{{--</select>--}}
+						</select>
 					</div>&nbsp;&nbsp;
 					<div class='psk_select wid20'>
 						<input type='hidden' class='psk_select_val' value=''>
@@ -135,7 +133,7 @@
 			{{--<ul>--}}
 				{{--<li>--}}
 					{{--<strong>{{ $garage->name }}</strong>--}}
-					{{--<p>전화번호 : {{ $garage->garage->mobile }}<br>주소 : {{ $garage->address }}</p>--}}
+					{{--<p>전화번호 : <br>주소 : {{ $garage->address }}</p>--}}
 					{{--<button class='btns btns2' type="button" id="sel_address">선택</button>--}}
 				{{--</li>--}}
 			{{--</ul>--}}
@@ -203,6 +201,7 @@
 			var sel_section = $('#sections option:selected').text();
             var html = '';
 
+
             if(sel_area != '시/도를 선택하세요.' && sel_section != '구/군을 선택하세요.'){
                 $.ajax({
                     type : 'get',
@@ -217,8 +216,8 @@
                         html += "<ul>";
                         $.each(data, function (key, value) {
                             html += "<li>";
-                            html += "<strong>"+value.user_info.mobile+"</strong>";
-                            html += "<p>전화번호 : "+value.area+"</p>";
+                            html += "<strong>"+value.name+"</strong>";
+                            html += "<p>전화번호 : "+value.name+"<br>주소 : "+value.address+"</p>";
                             html += "<button class='btns btns2' type= 'button' id='sel_address'>선택</button>";
                             html += "</li>";
                         });
@@ -244,7 +243,7 @@
                         $.each(data, function (key, value) {
                             html += "<li>";
                             html += "<strong>"+value.name+"</strong>";
-                            html += "<p>전화번호 : "+value.area+"</p>";
+                            html += "<p>전화번호 : "+value.area+"<br>주소 : "+value.address+"</p>";
                             html += "<button class='btns btns2' type= 'button' id='sel_address'>선택</button>";
                             html += "</li>";
                         });
@@ -264,7 +263,7 @@
 	    //<ul>
         //<li>
         //<strong>{{ $garage->name }}</strong>
-        //<p>전화번호 : {{ $garage->garage->mobile }}<br>주소 : {{ $garage->address }}</p>
+        //<p>전화번호 : <br>주소 : {{ $garage->address }}</p>
         //<button class='btns btns2' type="button" id="sel_address">선택</button>
         //    </li>
         //    </ul>
