@@ -90,7 +90,7 @@
 				<div class='psk_select wid25'>
 					{{--{!! Form::select('sel_brand', $brands, [], ['class'=>'form-control btns btns2', 'id'=>'brands']) !!}--}}
 					<input type="text" id="brand_id" name="brands_id" value="" hidden/>
-					<select class="form-control btns btns2" id="brands">
+					<select class="form-control btns btns2" id="brands" autocomplete="off">
 						<option>브랜드를 선택하세요.</option>
 						@foreach($brands as $brand)
 							<option value="{{ $brand->id }}">{{ $brand->name }}</option>

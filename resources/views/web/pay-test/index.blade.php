@@ -6,11 +6,11 @@
  * Time: PM 9:10
  */
 ?>
-@extends( 'web.layouts.default' )
+@extends( 'web.layouts.payment' )
 
 @section( 'content' )
 
-    <div id='sub_title_wrap'><h2>인증서 신청<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>인증서 신청</span></div></h2></div>
+    {{--<div id='sub_title_wrap'><h2>인증서 신청<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>인증서 신청</span></div></h2></div>--}}
 
     <div id='sub_wrap'>
 
@@ -129,6 +129,7 @@
 
 @push( 'header-script' )
 <link rel="stylesheet" href="//webtx.tpay.co.kr/css/nyroModal.tpay.custom.css" type="text/css" media="screen" />
+<script type="text/javascript" src="//webtx.tpay.co.kr/js/jquery-1.7.2.js"></script>
 @endpush
 
 @push( 'footer-script' )
