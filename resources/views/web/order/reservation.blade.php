@@ -31,7 +31,9 @@
 			<div class='br20'></div>
 
 			{{--<form action="{{ route("order.purchase") }}">--}}
+
 			{!! Form::open(['route' => ["order.order_store"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+
 
 			<input type="hidden" value="{{ $request->orderer_name }}" name="orderer_name">
 			<input type="hidden" value="{{ $request->orderer_mobile }}" name="orderer_mobile">
@@ -40,7 +42,7 @@
 			<input type="hidden" value="{{ $request->models_id }}" name="models_id">
 			<input type="hidden" value="{{ $request->details_id }}" name="details_id">
 			<input type="hidden" value="{{ $request->grades_id }}" name="grades_id">
-			<input type="hidden"  name="garage_id" id="garage_id">
+			<input type="hidden"  name="garage_id" id="garage_id" autocomplete="off">
 			@if($request->options_ck)
 				@foreach($request->options_ck as $option_ck)
 					<input type="hidden" value="{{ $option_ck }}" name="options_ck[]">
@@ -98,7 +100,7 @@
 					<strong>입고대리점</strong>
 				</div>
 				<div class='ipt_line'>
-					<input type='text' id="garage_info" class='ipt wid40 dis' readonly placeholder='지역을 검색하여 원하는 대리점을 선택하세요'>
+					<input type='text' id="garage_info" class='ipt wid40 dis' readonly placeholder='지역을 검색하여 원하는 대리점을 선택하세요' autocomplete="off">
 				</div>
 
 				<div class='br10'></div>
@@ -254,7 +256,8 @@
                 })
             }
             else{
-                alert('찾고자 하는 정비소의 지역을 선택하세요.');
+                alert("입고대리점을 검색해 주세요.");
+                $("garage_list").attr("tabindex", -1).focus();
             }
         });
 
@@ -264,6 +267,22 @@
             $("#garage_id").val($(this).data("garage_id"));
             $("#garage_info").val($(this).data("garage_info"));
         });
+
+        $("#reservation-form").submit(function(){
+            if($("input[name='reservaton_date']").val() == ''){
+                alert('입고희망일을 선택해 주세요.');
+                $("input[name='reservaton_date']").focus();
+                return false;
+			}
+
+			if($("#garage_id").val() == ''){
+                alert('입고 대리점을 선택해 주세요.');
+                $("garage_list").attr("tabindex", -1).focus();
+                return false;
+			}
+
+			return true;
+		});
 
 
     });

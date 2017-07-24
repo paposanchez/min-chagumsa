@@ -7,7 +7,7 @@
 <div id='sub_wrap'>
 
 
-	<div class='join_wrap lock_page_div'>
+	<div class='join_wrap'>
 
 		<ul class='join_step type2'>
 			<li class='on link'>
@@ -32,8 +32,16 @@
 		<div class='br20'></div>
 
 		{!! Form::open(['route' => ["order.complete"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'purchase-form']) !!}
-		<input name="datekey" value="{{ $order->datekey }}" hidden>
-		<input name="cars_id" value="{{ $order->cars_id }}" hidden>
+		<input name="datekey" value="{{ $order->datekey }}" type="hidden">
+		<input name="cars_id" value="{{ $order->cars_id }}" type="hidden">
+		<input name="moid" id="moid" type="hidden" value="{{ $order->datekey }}-{{ $order->car_number }}">{{-- 주문번호 --}}
+		<input name="goodsName" id="goodsName" type="hidden" value="{{ $order->datekey }}-{{ $order->car_number }}">{{-- 상품명 --}}
+		<input name="buyerName" id="buyerName" type="hidden" value="{{ $order->orderer_name }}">{{-- 구매자명 --}}
+		<input name="buyerTel" id="buyerTel" type="hidden" value="{!! str_replace("-", "", $order->orderer_mobile) !!}">{{-- 구매자연락처 --}}
+		<input name="buyerEmail" id="buyerEmail" type="hidden" value="{{ \Illuminate\Support\Facades\Auth::user()->email }}">{{-- 구매자메일주소 --}}
+		<input name="userIp" id="userIp" type="hidden" value="{{ $_SERVER['REMOTE_ADDR'] }}">{{--  --}}
+
+
 		<div class='order_info_box'>
 			<div class='order_info_title'>
 				<strong>기본정보 내역</strong>
@@ -69,7 +77,7 @@
 				<div class='order_info_desc'>
 					<span>{{ $request->reservaton_date }}  {{ $request->sel_time }}시</span>
 					<span>임시 정비소명</span>
-					<span>{{ $request->address }} {{ $request->address_detail }}</span>
+					<span>{{ $garage_info->name }} {{ $garage_info->address }}</span>
 				</div>
 			</div>
 		</div>
@@ -86,12 +94,17 @@
 					<input type='radio' class='psk' id="item_choice" name='item_choice' value="111" >
 					<span class='lbl'> dddd</span>
 				</label>
+				<div class="ipt_guide2 span_warning"> ※ 차량등록증에 등록된 배기량에 따라 정확히 선택해 주세요.<br> &nbsp;&nbsp;&nbsp;&nbsp;배기량 선택이 잘못된 경우, 차량 입고 시 재주문 처리가 될 수 있습니다.</div>
+				<div class="br10"></div>
 				@foreach($items as $item)
 				<label>
 					<input type='radio' class='psk' id="item_choice" name='item_choice' value="{{ $item->id }}">
-					<span class='lbl'> {{ $item->name }}</span>
-				</label>
+					<span class='lbl'> {{ $item->name }}<span style="color: #a3cd16;"> ({!! $item->car_sort == 'N'? '국산차': '수입차' !!})</span></span>
+				</label>&nbsp;&nbsp;&nbsp;&nbsp;
 				@endforeach
+
+
+
 			</div>
 
 		</div>

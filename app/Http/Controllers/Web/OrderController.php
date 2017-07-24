@@ -140,6 +140,7 @@ class OrderController extends Controller {
 
         $orderer_id = Auth::user()->id;
 
+
         $car = Car::create([
             'vin_number' => $request->get('car_number'),
             'brands_id' => $request->get('brands_id'),
@@ -169,17 +170,45 @@ class OrderController extends Controller {
             'accident' => $request->get('accident')
         ]);
 
+
+        
+        //일단 주문 부문을 수정함
+
+        //. $order = Order::where('datekey', $datekey)->where('car_number', $request->get('car_number'))->first();
+        // if(!$order){
+        //     //insert
+        //     $order = new Order();
+
+        //     $order->datekey = $datekey;
+        //     $order->car_number = $request->get('car_number');
+        // }
+
+        
+
         foreach ($request->get('options_ck') as $options){
-            OrderFeature::create([
-                'orders_id' => $order->id,
-                'features_id' => $options
-            ]);
+            $order_features = OrderFeature::where('orders_id', $order->id)->first();
+            if(!$order_features){
+                $order_features = new OrderFeature();
+            }
+            try{
+                $order_features->orders_id = $order->id;
+                $order_features->features_id = $options;
+
+                $order_features->save();
+            }catch (\Exception $e){}
+
+
         }
 
         $items = Item::all();
         // $order = Order::find(4)->first();
 
-        return view('web.order.purchase', compact('order', 'request', 'items'));
+
+        // return view('web.order.purchase', compact('order', 'request', 'items'));
+        $garage_info = GarageInfo::findOrFail($request->get('garage_id'));
+
+        return view('web.order.purchase', compact('order', 'items', 'garage_info', 'request'));
+
     }
 
     public function paymentPopup(Request $request){
