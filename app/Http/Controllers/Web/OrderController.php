@@ -87,37 +87,87 @@ class OrderController extends Controller {
     public function purchase(Request $request) {
         $input = $request->all();
 
+//        $datekey = substr(str_replace("-","",$request->reservaton_date), -6);
+//        // todo 임시로 5 입력
+////        $garage_info = GarageInfo::where('garage_id', 5)->first();
+//        $garage_id = 5;
+//        $orderer_id = User::where('name', $request->get('orderer_name'))->first()->id;
+//
+//        $car = Car::create($input);
+//
+//
+//        $purchase = Purchase::create([
+//            'amount' => 0,
+//            'type' => 0,
+//            'status_cd' => 101
+//        ]);
+//
+//        $order = Order::create([
+//                'datekey' => $datekey,
+//                'car_number' => $request->get('car_number'),
+//                'cars_id' => $car->id,
+//                'garage_id' => $garage_id,
+//                'item_id' => 1,
+//                'purchase_id' => $purchase->id,
+//                'orderer_id' => $orderer_id,
+//                'orderer_name' => $request->get('orderer_name'),
+//                'orderer_mobile' => $request->get('orderer_mobile'),
+//                'registration_file' => 0,
+//                'open_cd' => 0,
+//                'status_cd' => 102,
+//                'flooding' => $request->get('flooding'),
+//                'accident' => $request->get('accident')
+//            ]);
+//
+//        foreach ($request->get('options_ck') as $options){
+//            OrderFeature::create([
+//                'orders_id' => $order->id,
+//                'features_id' => $options
+//            ]);
+//        }
+
+        $order = Order::find(4)->first();
+        $items = Item::all();
+
+        return view('web.order.purchase', compact('order', 'items', 'request'));
+    }
+
+    public function orderStore(Request $request) {
         $datekey = substr(str_replace("-","",$request->reservaton_date), -6);
         // todo 임시로 5 입력
 //        $garage_info = GarageInfo::where('garage_id', 5)->first();
         $garage_id = 5;
-        $orderer_id = User::where('name', $request->get('orderer_name'))->first()->id;
 
-        $car = Car::create($input);
+        $orderer_id = Auth::user()->id;
 
-
-        $purchase = Purchase::create([
-            'amount' => 0,
-            'type' => 0,
-            'status_cd' => 101
+        $car = Car::create([
+            'vin_number' => $request->get('car_number'),
+            'brands_id' => $request->get('brands_id'),
+            'models_id' => $request->get('models_id'),
+            'details_id' => $request->get('details_id'),
+            'grades_id' => $request->get('grades_id')
         ]);
 
+//        $purchase = Purchase::create([
+//            'amount' => 0,
+//            'type' => 0,
+//            'status_cd' => 101
+//        ]);
+
         $order = Order::create([
-                'datekey' => $datekey,
-                'car_number' => $request->get('car_number'),
-                'cars_id' => $car->id,
-                'garage_id' => $garage_id,
-                'item_id' => 1,
-                'purchase_id' => $purchase->id,
-                'orderer_id' => $orderer_id,
-                'orderer_name' => $request->get('orderer_name'),
-                'orderer_mobile' => $request->get('orderer_mobile'),
-                'registration_file' => 0,
-                'open_cd' => 0,
-                'status_cd' => 102,
-                'flooding' => $request->get('flooding'),
-                'accident' => $request->get('accident')
-            ]);
+            'datekey' => $datekey,
+            'car_number' => $request->get('car_number'),
+            'cars_id' => $car->id,
+            'garage_id' => $garage_id,
+            'orderer_id' => $orderer_id,
+            'orderer_name' => $request->get('orderer_name'),
+            'orderer_mobile' => $request->get('orderer_mobile'),
+            'registration_file' => 0,
+            'open_cd' => 0,
+            'status_cd' => 102,
+            'flooding' => $request->get('flooding'),
+            'accident' => $request->get('accident')
+        ]);
 
         foreach ($request->get('options_ck') as $options){
             OrderFeature::create([
@@ -127,8 +177,9 @@ class OrderController extends Controller {
         }
 
         $items = Item::all();
+        // $order = Order::find(4)->first();
 
-        return view('web.order.purchase', compact('order', 'items', 'request'));
+        return view('web.order.purchase', compact('order', 'request', 'items'));
     }
 
     public function paymentPopup(Request $request){
@@ -255,13 +306,6 @@ class OrderController extends Controller {
             $selected_garage->where('section', $request->get('sel_section'));
         }
 
-
-//        if($selected_garage){
-//            return $selected_garage->get();
-//        }else{
-//            return [];
-//        }
-
         if($selected_garage){
             $selected_garage_list = $selected_garage->get()->toArray();
 
@@ -275,11 +319,7 @@ class OrderController extends Controller {
             $selected_garage_list = [];
         }
 
-
         return \GuzzleHttp\json_encode($selected_garage_list, true);
-//        return $selected_garage;
-//        return redirect()->route('order.reservation')->with('selected_garage', $selected_garage);
-
     }
 
 
