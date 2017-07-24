@@ -44,6 +44,9 @@ Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 
 // 인증서 조회
 Route::get('certificate/{id}/{page?}', 'CertificateController')->name("certificate");
+// 구조를 물어봐야 겠음..
+Route::get('certificate/performance/{id}', 'CertificateController@performance')->name("certificate.performance");
+
 
 
 

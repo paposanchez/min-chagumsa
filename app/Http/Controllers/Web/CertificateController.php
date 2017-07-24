@@ -13,7 +13,8 @@ use Illuminate\Http\Request;
 
 class CertificateController extends Controller {
 
-    public function __invoke(Request $request, $certificate, $page = 'summary') {
+    // public function __invoke(Request $request, $certificate, $page = 'summary') {
+    public function __invoke(Request $request, $order_id, $page = 'summary') {
 
         switch ($page) {
             case 'performance':
@@ -23,7 +24,10 @@ class CertificateController extends Controller {
             case 'price':
                 return view('web.certificate.price');
             default:
-                return view('web.certificate.summary');
+                $order = Order::find($order_id)->first();
+                $certificate = Certificate::find($order_id)->first();
+                
+                return view('web.certificate.summary', compact('order', 'certificate'));
         }
     }
 
@@ -43,4 +47,7 @@ class CertificateController extends Controller {
         return view('web.certificate.index', compact('certificates'));
     }
 
+    public function performance(){
+        return view('web.certificate.performance');
+    }
 }

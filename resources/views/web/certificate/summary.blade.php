@@ -15,51 +15,84 @@
 	<tbody>
 		<tr>
 			<th>차명</th>
-			<td>HONDA ACCORD</td>
+			<td>
+			{{ $order->getCarFullName()}}
+			</td>
 			<th>차대번호</th>
-			<td>AHGCM567X5A034****</td>
+			<td>
+				{{ $order->car_number}}
+			</td>
 		</tr>
 		<tr>
 			<th>차종구분</th>
-			<td>수입/승용</td>
+			<td>
+			{{ $order->car->kind_cd }}
+			</td>
 			<th>동일성확인</th>
-			<td>동일/양호</td>
+			<td>
+			?
+			</td>
 		</tr>
 		<tr>
 			<th>등록번호</th>
-			<td>05구 9876</td>
+			<td>
+				{{ $order->car_number}}
+			</td>
 			<th>연식</th>
-			<td>2005</td>
+			<td>
+			{{ $order->car->year }}
+			</td>
 		</tr>
 		<tr>
 			<th>최초등록일</th>
-			<td>2005년 12월 5일</td>
+			<td>
+			{{ Carbon\Carbon::parse($order->car->registration_date)->format('Y년 m월 d일') }}
+			</td>
 			<th>사용월수</th>
-			<td>5년 6개월</td>
+			<td>
+			5년 6개월 => ?
+			</td>
 		</tr>
 		<tr>
 			<th>변속기</th>
-			<td>자동(오토)</td>
+			<td>
+			{{ $order->car->transmission_cd}}
+			</td>
 			<th>색상</th>
-			<td>흰색(외부) / 갈색(내부)</td>
+			<td>
+			흰색(외부) / 갈색(내부)
+			{{ $order->car->exterior_color_cd }}(외부) / {{ $order->car->interior_color_cd }}(내부)
+			</td>
 		</tr>
 		<tr>
 			<th>세부모델</th>
-			<td>2005 HONDA ACCORD EX</td>
+			<td>
+			{{ $order->getCarFullName()}}
+			</td>
 			<th>주행거리(km)</th>
-			<td>30,000</td>
+			<td>
+			{{ number_format($order->mileage) }} km
+			</td>
 		</tr>
 		<tr>
 			<th>배기량(cc)</th>
-			<td>2,500</td>
+			<td>
+			2,500 => ?
+			</td>
 			<th>차량소유자이력</th>
-			<td>2명</td>
+			<td>
+				2명 => ? 
+			</td>
 		</tr>
 		<tr>
 			<th>사용연료</th>
-			<td>Gasoline(휘발유/무연)</td>
+			<td>
+			{{ $order->fuel_consumption }}
+			</td>
 			<th>최종등록차고지</th>
-			<td>경기도/평택시</td>
+			<td>
+			경기도/평택시 => ?
+			</td>
 		</tr>
 	</tbody>
 </table>
@@ -75,19 +108,21 @@
 <ul class='report_info_wrap'>
 	<li>
 		<label>진단일자</label>
-		<span>2016년 1월 7일</span>
+		<span>{{ Carbon\Carbon::parse($order->diagnoses_at)->format('Y년 m월 d일')}}</span>
 	</li>
 	<li>
 		<label>진단장소</label>
 		<span>
-			한스모터스
+			<!-- 한스모터스 -->
+			{{ $order->garageInfo->name }}
 			<img src="http://fakeimg.pl/275x185/" class='img_place'>
 		</span>
 	</li>
 	<li>
 		<label>진단담당</label>
 		<span>
-			홍길동 정비사 1급
+			<!-- 홍길동 정비사 1급 -->
+			{{ $order->engineer->name}}
 			<img src="http://fakeimg.pl/170x170/" class='img_person'>
 		</span>
 	</li>
@@ -241,7 +276,7 @@
 		</tr>
 		<tr>
 			<td>H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다. 또 차량 소모품 상태 검검 결과 배터리의 수명이 다 되어 교체를 해야 하니 참고하시길 바랍니다.</td>
-			<td class='td_al_c'>인증등급<br><strong class='fsize_50'>AA</strong></td>
+			<td class='td_al_c'>인증등급<br><strong class='fsize_50'>{{ $certificate->grade }}</strong></td>
 		</tr>
 	</tbody>
 </table>
