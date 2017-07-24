@@ -184,21 +184,23 @@ class OrderController extends Controller {
         // }
 
         
+        // if($request->get('options_ck') != []){
+        //     foreach ($request->get('options_ck') as $options){
+        //         $order_features = OrderFeature::where('orders_id', $order->id)->first();
+        //         if(!$order_features){
+        //             $order_features = new OrderFeature();
+        //         }
+        //         try{
+        //             $order_features->orders_id = $order->id;
+        //             $order_features->features_id = $options;
 
-        foreach ($request->get('options_ck') as $options){
-            $order_features = OrderFeature::where('orders_id', $order->id)->first();
-            if(!$order_features){
-                $order_features = new OrderFeature();
-            }
-            try{
-                $order_features->orders_id = $order->id;
-                $order_features->features_id = $options;
+        //             $order_features->save();
+        //         }catch (\Exception $e){
 
-                $order_features->save();
-            }catch (\Exception $e){}
-
-
-        }
+        //         }
+        //     }    
+        // }
+        
 
         $items = Item::all();
         // $order = Order::find(4)->first();
