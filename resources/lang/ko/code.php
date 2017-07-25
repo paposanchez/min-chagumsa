@@ -462,6 +462,38 @@ return [
         'account' => '실시간 계좌이체'
     ],
 
+    'kind_cd' => [
+        'light_car' => '경차',
+        'compact_car' => '소형',
+        'semi_solid_type' => '준중형',
+        'medium_car' => '중형',
+        'large_car' => '대형',
+        'limousine' => '리무진',
+        'wagon' => '웨건',
+        'hatchback' => '해치백',
+        'sports' => '스포츠카',
+        'coupe' => '쿠페',
+        'convertible' => '컨버터블',
+        'super' => '슈퍼카',
+        'suv' => 'SUV',
+        'rv' => 'RV',
+        'vans' => '승합차',
+        'ban' => '벤',
+        'pickup' => '픽업',
+        'truck' => '화물차',
+        'special' => '특수차',
+        'bus' => '버스',
+        'camping' => '캠핑카',
+        'old' => '올드카',
+        'unique' => '희귀차'
+    ],
+
+    'vin_yn_cd' => [
+        'equal' => '동일',
+        'different' => '다름'
+    ],
+
+
 
 
     //진단 항목 코드

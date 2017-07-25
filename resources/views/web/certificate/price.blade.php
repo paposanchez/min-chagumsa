@@ -21,7 +21,7 @@
                     {{ $order->car->year }}
                 </td>
                 <th class='td_al_vt' rowspan='3'>산정가격</th>
-                <td class='td_al_vb td_al_r' rowspan='3'><strong class='fsize_50'>{{ number_format($order->certificates->price) }}</strong><strong class='fsize_20'>만원</strong></td>
+                <td class='td_al_vb td_al_r' rowspan='3'><strong class='fsize_50'>{{ number_format($order->certificates->valuation) }}</strong><strong class='fsize_20'>만원</strong></td>
             </tr>
             <tr>
                 <th>차대번호</th>
@@ -32,13 +32,13 @@
             <tr>
                 <th>차종구분</th>
                 <td>
-                    {{ $order->car->kind_cd }} {{ $order->car->passenger }}인승
+                    {{ $order->car->getKind->display() }} {{ $order->car->passenger }}인승
                 </td>
             </tr>
             <tr>
                 <th>사용연료</th>
                 <td>
-                    {{ $order->car->fueltype_cd }}
+                    {{ $order->car->getFuelType->display() }}
                 </td>
                 <th class='td_al_vt' rowspan='3'>차량 성능 등급</th>
                 <td class='td_al_vb td_al_r' rowspan='3'>

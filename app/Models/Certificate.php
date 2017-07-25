@@ -60,4 +60,8 @@ class Certificate Extends Model
     public function order(){
         return $this->belongsTo(\App\Models\Order::class, 'orders_id', 'id');
     }
+
+    public function getVinCd(){
+        return $this->hasOne(Code::class, 'id', 'vin_yn_cd');
+    }
 }
