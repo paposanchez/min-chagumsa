@@ -19,7 +19,7 @@
 
         <h1>{{ Html::image(Helper::theme_web( '/img/report/report_logo.png')) }}</h1>
         <ul>
-            <li><a class="{{ ( !in_array(request("page"), ['performance','history','price'])) ? ' select': ''}}" href='{{ route('certificate', ['id'=>4,'page'=>'']) }}'>자동차 인증서 요약리포트</a></li>
+            <li><a class="{{ ( !in_array(request("page"), ['performance','history','price'])) ? ' select': ''}}" href='{{ route('certificate', ['id'=>4,'page'=>'summary']) }}'>자동차 인증서 요약리포트</a></li>
             <li><a class="{{ request("page") == 'performance' ? ' select':''}}" href='{{ route('certificate', ['id'=>4,'page'=>'performance']) }}'>자동차 성능진단 리포트</a></li>
             <li><a class="{{ request("page") == 'history' ? ' select':''}}" href='{{ route('certificate', ['id'=>4,'page'=>'history']) }}'>자동차 이력 리포트</a></li>
             <li><a class="{{ request("page") == 'price' ? ' select':''}}" href='{{ route('certificate', ['id'=>4,'page'=>'price']) }}'>자동차 가격조사산정서</a></li>

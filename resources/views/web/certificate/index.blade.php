@@ -112,7 +112,7 @@
 	$(function (){
 		$('#detail').click(function(){
 			// 임시로 주문번호 4로 입력
-			window.open('/certificate/4',width=100,height=100)
+			window.open('/certificate/4/summary',width=100,height=100)
 		})
 	});
 </script>
