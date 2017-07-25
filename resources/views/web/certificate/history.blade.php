@@ -3,7 +3,7 @@
 @section( 'content' )
 
 
-<div class='report_title_type1'>
+<div class='report_title_type1' style="margin-bottom: 20px;">
 	HONDA ACCORD EX
 </div>
 

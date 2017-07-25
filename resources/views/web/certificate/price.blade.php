@@ -1,7 +1,7 @@
 @extends( 'web.layouts.report' )
 
 @section( 'content' )
-<div class='report_title_type1'>
+<div class='report_title_type1' style="margin-bottom: 20px;">
     HONDA ACCORD EX
     <span><strong>보증기간</strong> 2017년 3월 31일까지</span>
 </div>
