@@ -115,6 +115,10 @@ class Order Extends Model
         return $this->hasOne(\App\Models\Reservation::class, 'orders_id','id');
     }
 
+    public function garageInfo(){
+        return $this->hasOne(\App\Models\GarageInfo::class, 'id','garage_id');   
+    }
+
 
 
 

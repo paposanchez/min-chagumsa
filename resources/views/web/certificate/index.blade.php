@@ -51,7 +51,7 @@
 					</ul>
 				</div>
 				<div class='cert_msg'>다른 사람이 인증서를 볼 수 있도록 하려면 인증서 공개로 변경하세요</div>
-				<div class='cert_detail'><button class='btns btns_green'><i class="fa fa-search" ></i> 상세보기</button></div>
+				<div class='cert_detail'><button class='btns btns_green' id="detail"><i class="fa fa-search" ></i> 상세보기</button></div>
 			</div>
 		</div>
 		@endforeach
@@ -108,4 +108,12 @@
 @endpush
 
 @push( 'footer-script' )
+<script type="text/javascript">
+	$(function (){
+		$('#detail').click(function(){
+			// 임시로 주문번호 4로 입력
+			window.open('/certificate/4',width=100,height=100)
+		})
+	});
+</script>
 @endpush

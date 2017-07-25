@@ -22,6 +22,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     // 주문하기
     Route::get('order', 'OrderController@index')->name("order.index");
+//    Route::resource('order', 'OrderController');
+    Route::post('order/order_store', 'OrderController@orderStore')->name("order.order_store");
     Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase");
     Route::post('order/complete', 'OrderController@complete')->name("order.complete");
     Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
@@ -43,6 +45,9 @@ Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 
 // 인증서 조회
 Route::get('certificate/{id}/{page?}', 'CertificateController')->name("certificate");
+// 구조를 물어봐야 겠음..
+Route::get('certificate/performance/{id}', 'CertificateController@performance')->name("certificate.performance");
+
 
 //결제결과 수신
 Route::match(['GET', 'POST'], 'payment/pay-result', 'PaymentController@payCallback')->name('payment.pay-result');

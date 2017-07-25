@@ -86,15 +86,28 @@ class RegisterController extends Controller {
 
             //todo email confirm이 없다면 값을 변경함.
             $user_info->status_cd = 2; // 1 - active
-//            $user_info->save();
+            $user_info->save();
 
             $role_user = new RoleUser();
             $role_user->user_id = $user_info->id;
             $role_user->role_id = 2;
-//            $role_user->save();
+            $role_user->save();
+
 
 
             //todo email confirm 보내야 함.
+//            $to = 'antshin72@gmail.com';
+//            $subject = '메일군을 이용한 시스템 메일 발송입니다';
+//            $data = [
+//                'title' => '여기는 타이틀이 들어가는 곳입니다.',
+//                'body' => '본문글에 대한 방송이 필요해요.\n푸하하\n동해물과 백두산이 마르고 닳도록',
+//                'user' => '사용자 정보입니다'
+//                ];
+//
+//            $send = Mail::send('admin.dashboard.email', $data, function($message) use($to, $subject) {
+//                $message->to($to)->subject($subject);
+//            });
+
         }
         Auth::login($user_info, true);
 

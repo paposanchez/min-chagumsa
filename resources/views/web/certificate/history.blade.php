@@ -93,7 +93,7 @@
 @endpush
 
 @push( 'footer-script' )
-<script>
+
 <script>
 $(window).load(function(){
 	$('.bubble_desc dt').click(function(){

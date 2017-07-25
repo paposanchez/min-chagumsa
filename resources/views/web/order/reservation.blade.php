@@ -31,7 +31,9 @@
 			<div class='br20'></div>
 
 			{{--<form action="{{ route("order.purchase") }}">--}}
-			{!! Form::open(['route' => ["order.purchase"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'reservation-form']) !!}
+
+			{!! Form::open(['route' => ["order.order_store"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+
 
 			<input type="hidden" value="{{ $request->orderer_name }}" name="orderer_name">
 			<input type="hidden" value="{{ $request->orderer_mobile }}" name="orderer_mobile">
