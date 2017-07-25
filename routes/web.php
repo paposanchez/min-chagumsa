@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
     Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");
     Route::get('order/factory/{page?}', 'OrderController@factory')->name("order.factory");
+    Route::post('order/payment-popup', 'OrderController@paymentPopup')->name("order.payment-popup");
 
     Route::get('/order/get_models', 'OrderController@getModels')->name("order.get_models");
     Route::get('/order/get_details', 'OrderController@getDetails')->name("order.get_details");
@@ -43,7 +44,9 @@ Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 // 인증서 조회
 Route::get('certificate/{id}/{page?}', 'CertificateController')->name("certificate");
 
-
+//결제결과 수신
+Route::match(['GET', 'POST'], 'payment/pay-result', 'PaymentController@payCallback')->name('payment.pay-result');
+Route::match(['GET', 'POST'], 'payment/pay-callback', 'PaymentController@payResult')->name('payment.pay-callback');
 
 
 Route::resource('/certificate', 'CertificateController');
@@ -99,7 +102,7 @@ Route::get('verify', 'Auth\VerifyController@emailCheck');
 Route::get('/', 'WelcomeController');
 
 //결제 prototype
-Route::get('pay-test/index', 'PayTestController@index');
-Route::post('pay-test/pay-result', 'PayTestController@payResult');
-Route::post('pay-test/callback', 'PayTestController@payCallback');
+//Route::get('pay-test/index', 'PayTestController@index');
+//Route::post('pay-test/pay-result', 'PayTestController@payResult');
+//Route::post('pay-test/callback', 'PayTestController@payCallback');
 

@@ -6,48 +6,10 @@
         
         {{ Html::style(Helper::assets( 'themes/v1/web/css/common.css' )) }}        
         {{ Html::style(Helper::assets( 'themes/v1/web/css/sub.css' )) }}
-{{--        {{ Html::script(Helper::assets( 'themes/v1/web/js/common.js' )) }}--}}
         
         @stack('header-script')
     @endsection
 
-    {{-- 헤더 섹션 --}}
-    {{--@section( 'content-header' )--}}
-
-        {{-- 헤더 메뉴 --}}
-        {{--<div id='gnb_wrap'>--}}
-            {{--<h1>--}}
-                {{--<a href='/'>--}}
-                    {{--{{ Html::image(Helper::theme_web( '/img/comm/head_logo.png' )) }}--}}
-                {{--</a>--}}
-            {{--</h1>--}}
-            {{----}}
-            {{--<ul>--}}
-                {{--<li><a href='{{ route('information.index') }}'>카검사 소개</a></li>--}}
-                {{--<li><a href='{{ route('order.index') }}'>인증서 신청</a></li>--}}
-                {{--<li><a href='{{ url("/order") }}'>인증서 신청</a></li>--}}
-                {{--<li><a href='{{ route('mypage.order.index') }}'>My 인증서</a></li>--}}
-                {{--<li><a href='{{ route('notice.index') }}'>고객센터</a></li>--}}
-            {{--</ul>--}}
-
-            {{--<div class='gnb_login_wrap'>--}}
-                {{--@if(Auth::check())--}}
-                    {{--<a href='{{ route('mypage.order.index') }}'>마이페이지</a>--}}
-                    {{--<a href='{{ route('logout') }}'>로그아웃</a>--}}
-                {{--@else--}}
-                    {{--<a href='{{ route('login') }}'>로그인</a>--}}
-                    {{--<a href='{{ route('register') }}'>회원가입</a>--}}
-                {{--@endif--}}
-            {{--</div>--}}
-            {{--<form action="{{ route('search.index') }}">--}}
-                {{--<div class='gnb_search_wrap'>--}}
-                    {{--<input type='text' name="q" placeholder='인증서번호 또는 차량번호로 찾기'>--}}
-                    {{--<button type='submit'><i class="fa fa-search" ></i></button>--}}
-                {{--</div>--}}
-            {{--</form>--}}
-        {{--</div>--}}
-        {{----}}
-    {{--@endsection--}}
 
     {{-- 본문 섹션 --}}
     @section( 'content-body' )

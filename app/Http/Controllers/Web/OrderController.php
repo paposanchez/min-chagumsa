@@ -129,20 +129,23 @@ class OrderController extends Controller {
 
         $order->save();
 
-        foreach ($request->get('options_ck') as $options){
-            $order_features = OrderFeature::where('orders_id', $order->id)->first();
-            if(!$order_features){
-                $order_features = new OrderFeature();
+        if($request->get('options_ck')){
+            foreach ($request->get('options_ck') as $options){
+                $order_features = OrderFeature::where('orders_id', $order->id)->first();
+                if(!$order_features){
+                    $order_features = new OrderFeature();
+                }
+                try{
+                    $order_features->orders_id = $order->id;
+                    $order_features->features_id = $options;
+
+                    $order_features->save();
+                }catch (\Exception $e){}
+
+
             }
-            try{
-                $order_features->orders_id = $order->id;
-                $order_features->features_id = $options;
-
-                $order_features->save();
-            }catch (\Exception $e){}
-
-
         }
+
 
         $items = Item::all();
 
@@ -151,14 +154,22 @@ class OrderController extends Controller {
         return view('web.order.purchase', compact('order', 'items', 'garage_info', 'request'));
     }
 
+    /**
+     * 결제 팝업
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function paymentPopup(Request $request){
 
         $error = false;
         //validate
         $validate = Validator::make($request->all(), [
-            'item_id' => 'required', //인증서 상품 ID
-            'payment_type' => 'required', // 결제 종류
-            'order_id' => 'required' //주문서 ID
+            'item_choice' => 'required', //인증서 상품 ID
+            'payment_method' => 'required', // 결제 종류
+            'id' => 'required', //주문서 ID,
+            'buyerName' => 'required', //구매자 성명
+            'buyerEmail' => 'required', // 구매자 이메일
+            'product_name' => 'required', // 상품명
         ]);
         if ($validate->fails())
         {
@@ -166,9 +177,20 @@ class OrderController extends Controller {
             $error = true;
         }else{
 
-            if(!in_array($request->get('payment_type', ['CARD', 'BANK', 'CELLPHONE']))){
+            // payment_method 11 - 신용카드, 12 - 실시간 계좌이체
+            if(!in_array($request->get('payment_method'), [11, 12])){
                 $error = true;
+            }else{
+                if($request->get('payment_method') == 11) {
+                    $payMethod = 'CARD';
+                }elseif ($request->get('payment_method') == 12){
+                    $payMethod = 'BANK';
+                }else{
+                    $error = true;
+                    //결제 방식이 카드,체크카드,실시간계좌이체 이외에는 error임.
+                }
             }
+
 
             $order_model = Order::find($request->get('orders_id'));
             //todo 상품명, 주문 번호를 만들어 PG연동에 넘겨주어야 한다.
@@ -176,7 +198,8 @@ class OrderController extends Controller {
 
             $mid = "tpaytest0m";	//상점id
             $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";	//상점키
-            $moid = "toid1234567890";
+//            $moid = "toid1234567890";
+            $moid = $request->get('id');
 
 
 
@@ -188,6 +211,14 @@ class OrderController extends Controller {
                 $error = false;
             }
 
+            $amt = $request->get('amt');
+            //todo 결제비용 수정해야 함. 1004는 테스트용 비용임
+            $amt = 1004;
+
+            //todo 주문번호에 한글이 있으면 오류남
+
+
+
 
             //$ediDate, $mid, $merchantKey, $amt
             $encryptor = new Encryptor($merchantKey);
@@ -197,12 +228,22 @@ class OrderController extends Controller {
             $vbankExpDate = $encryptor->getVBankExpDate();
 
             $payActionUrl = "https://webtx.tpay.co.kr";
-            $payLocalUrl = "http://car.app";   //각 상점 도메인을 설정 하세요.  ex)http://shop.tpay.co.kr
+            $payLocalUrl = "http://www.cargumsa.com/";   //각 상점 도메인을 설정 하세요.  ex)http://shop.tpay.co.kr
+
+
+
+
 
         }
+        $buyerName = $request->get('buyerName');
 
-        return view('web.pay-test.index', compact('mid', 'merchantKey', 'amt', 'moid', 'encryptData',
-                'ediDate', 'vbankExpDate', 'payActionUrl', 'payLocalUrl', 'error')
+        $buyerEmail = $request->get('buyerEmail');
+        $buyerTel = $request->get('buyerTel');
+        $product_name = $request->get('product_name');
+
+        return view('web.order.payment-popup', compact('mid', 'merchantKey', 'amt', 'moid', 'encryptData',
+                'ediDate', 'vbankExpDate', 'payActionUrl', 'payLocalUrl', 'payMethod', 'amt', 'buyerName', 'buyerEmail',
+                'buyerTel', 'product_name', 'error')
         );
 
 

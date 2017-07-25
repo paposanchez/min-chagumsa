@@ -31,15 +31,17 @@
 		<div class='br30'></div>
 		<div class='br20'></div>
 
-		{!! Form::open(['route' => ["order.complete"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'purchase-form']) !!}
+		{!! Form::open(['route' => ["order.payment-popup"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'purchase-form', 'target' => "payment"]) !!}
 		<input name="datekey" value="{{ $order->datekey }}" type="hidden">
 		<input name="cars_id" value="{{ $order->cars_id }}" type="hidden">
-		<input name="moid" id="moid" type="hidden" value="{{ $order->datekey }}-{{ $order->car_number }}">{{-- 주문번호 --}}
+		<input name="id" id="moid" type="hidden" value="{{ $order->id }}">{{-- 주문번호 --}}
 		<input name="goodsName" id="goodsName" type="hidden" value="{{ $order->datekey }}-{{ $order->car_number }}">{{-- 상품명 --}}
 		<input name="buyerName" id="buyerName" type="hidden" value="{{ $order->orderer_name }}">{{-- 구매자명 --}}
 		<input name="buyerTel" id="buyerTel" type="hidden" value="{!! str_replace("-", "", $order->orderer_mobile) !!}">{{-- 구매자연락처 --}}
 		<input name="buyerEmail" id="buyerEmail" type="hidden" value="{{ \Illuminate\Support\Facades\Auth::user()->email }}">{{-- 구매자메일주소 --}}
 		<input name="userIp" id="userIp" type="hidden" value="{{ $_SERVER['REMOTE_ADDR'] }}">{{--  --}}
+		<input type="hidden" name="amt" id="amt" autocomplete="off">
+		<input type="hidden" name="product_name" id="product_name" autocomplete="off">
 
 
 		<div class='order_info_box'>
@@ -98,7 +100,7 @@
 				<div class="br10"></div>
 				@foreach($items as $item)
 				<label>
-					<input type='radio' class='psk' id="item_choice" name='item_choice' value="{{ $item->id }}">
+					<input type='radio' class='psk item_choice' name='item_choice' value="{{ $item->id }}" autocomplete="off" data-product_name="{{ $order->datekey }}-{{ $order->car_number }}/{{ $item->name }}({!! $item->car_sort == 'N'? '국산차': '수입차' !!})">
 					<span class='lbl'> {{ $item->name }}<span style="color: #a3cd16;"> ({!! $item->car_sort == 'N'? '국산차': '수입차' !!})</span></span>
 				</label>&nbsp;&nbsp;&nbsp;&nbsp;
 				@endforeach
@@ -145,7 +147,7 @@
 
 			<div class='ipt_line'>
 				<label>
-					<input type='radio' class='psk' name='payment_method' value="11" checked>
+					<input type='radio' class='psk' name='payment_method' value="11" autocomplete="off">
 					<span class='lbl'> 신용/체크카드</span>
 				</label>
 			</div>
@@ -154,7 +156,7 @@
 
 			<div class='ipt_line'>
 				<label>
-					<input type='radio' class='psk' name='payment_method' value="12">
+					<input type='radio' class='psk' name='payment_method' value="12" autocomplete="off">
 					<span class='lbl'> 실시간 계좌이체</span>
 				</label>
 			</div>
@@ -168,7 +170,7 @@
 		<div class='br10'></div>
 
 		<div class='ipt_line wid45'>
-			<button class='btns btns_blue wid45' style='display:inline-block;'>이전</button>&nbsp;&nbsp; <button type="button" class='btns btns_green wid45' style='display:inline-block;' id="payment-process">결제하기</button>
+			<button class='btns btns_blue wid45' style='display:inline-block;' type="button" id="payment-back">이전</button>&nbsp;&nbsp; <button type="button" class='btns btns_green wid45' style='display:inline-block;' id="payment-process">결제진행</button>
 		</div>
 		{!! Form::close() !!}
 
@@ -180,31 +182,84 @@
 
 
 @push( 'header-script' )
-<script type="text/javascript">
-	$(function (){
-		$('#item_info_box').change(function (){
-		    var sel_item = $(":input:radio[name=item_choice]:checked").val();
-			$.ajax({
-				type : 'get',
-				dataType : 'json',
-				url : '/order/sel_item/',
-				data : {
-				    'sel_item' : sel_item
-				},
-				success: function (data){
-					$('#item_price').html(data.price);
-					$('#promotion_price').html(0);
-					$('#total_price').html(data.price - 0);
-				}
-			})
 
-		});
-		$("#payment-process").on("click", function(){
-			$('.lock_page_div').show();
-		});
-	});
-</script>
 @endpush
 
 @push( 'footer-script' )
+
+<script type="text/javascript">
+    var number_format = function(num){
+        var stringNum = num.toString();
+        var stringNum = stringNum.split("");
+        var c = 0;
+        if (stringNum.length>3) {
+            for (var i=stringNum.length; i>-1; i--) {
+                if ( (c==3) && ((stringNum.length-i)!=stringNum.length) ) {
+                    stringNum.splice(i, 0, ",");
+                    c = 0;
+                }
+                c++
+            }
+            return stringNum;
+        }
+        return num;
+    }
+
+    $(function (){
+        $('.item_choice').on("click", function (){
+            var sel_item = $(this).val();
+
+            //상품명 처리
+            var product_name = $(this).data("product_name");
+            console.log(product_name);
+
+            $.ajax({
+                type : 'get',
+                dataType : 'json',
+                url : '/order/sel_item/',
+                data : {
+                    'sel_item' : sel_item
+                },
+                success: function (data){
+                    $('#item_price').html(number_format(data.price));
+                    $("#amt").val(data.price);
+                    $('#promotion_price').html(0);
+                    $('#total_price').html(number_format(data.price - 0));
+
+					$("#product_name").val(product_name);
+                }
+            })
+
+        });
+        $("#payment-process").on("click", function(){
+
+            var pay_checked = $("input:radio[name='payment_method']:checked").val();
+
+			if($("#amt").val() && pay_checked != undefined){
+			    //팝업 실제 처리 부문 주석처리함
+//                window.open("", 'payment', 'width=516,height=455,scrollbars=no,toolbar=no,location=no,resizable=yes,status=no,menubar=no,left=400,top=300');
+                var payment_window = window.open("", 'payment', 'width=840,height=555,scrollbars=yes,toolbar=no,location=no,resizable=yes,status=no,menubar=no,left=400,top=300');
+                $("#purchase-form").submit();
+                payment_window.focus();
+			}else{
+
+			    if($("#amt").val() == ''){
+			        alert('인증서 종류를 선택해 주세요.');
+			        return false;
+				}
+				if(pay_checked == undefined){
+			        alert('결제 수단을 선택해 주세요.\n차량점검 인증 결제는 신용/체크카드, 실시간 계좌이체만 가능합니다.');
+			        return false;
+				}
+			}
+
+        });
+
+        $("#payment-back").on("click", function () {
+            history.back();
+        })
+    });
+
+
+</script>
 @endpush
