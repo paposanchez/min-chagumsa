@@ -62,7 +62,7 @@ class OrderController extends Controller {
 
         if ($validate->fails())
         {
-            return redirect()->back()->with('error', trans('order.error'));
+            return redirect()->back()->with('error', '입고예약에 대한 정보를 충분히 입력하세요.');
         }
 
         $search_fields = [
@@ -71,88 +71,71 @@ class OrderController extends Controller {
 
         $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->get();
 
-
-//        dd($garages);
-//        $garage_sections = [];
-//        foreach ($garages as $garage) {
-//            $garage_sections[] = $garage->section;
-//        }
-
-
-
-
         return view('web.order.reservation', compact('search_fields', 'request', 'garages', 'garage_sections'));
     }
 
-    public function purchase(Request $request) {
-        $input = $request->all();
+//    public function purchase(Request $request) {
+//
+//
+//        return view('web.order.purchase', compact('order', 'items', 'request'));
+//    }
 
+    public function orderStore(Request $request) {
         $datekey = substr(str_replace("-","",$request->reservaton_date), -6);
-        // todo 임시로 5 입력
-//        $garage_info = GarageInfo::where('garage_id', 5)->first();
-        $garage_id = 5;
-        $orderer_id = User::where('name', $request->get('orderer_name'))->first()->id;
 
-        $car = Car::create($input);
-
-
-        //todo purchase는 나중에 해야 함
-        $purchase = Purchase::create([
-            'amount' => 0,
-            'type' => 0,
-            'status_cd' => 101
-        ]);
-
-        //일단 주문 부문을 수정함
+        $orderer_id = Auth::user()->id;
 
         $order = Order::where('datekey', $datekey)->where('car_number', $request->get('car_number'))->first();
         if(!$order){
-            //insert
-            $order = new Order();
+            $car = Car::create([
+                'vin_number' => $request->get('car_number'),
+                'brands_id' => $request->get('brands_id'),
+                'models_id' => $request->get('models_id'),
+                'details_id' => $request->get('details_id'),
+                'grades_id' => $request->get('grades_id')
+            ]);
 
-            $order->datekey = $datekey;
-            $order->car_number = $request->get('car_number');
-        }
+            $order = Order::create([
+                'datekey' => $datekey,
+                'car_number' => $request->get('car_number'),
+                'cars_id' => $car->id,
+                'garage_id' => $request->get('garage_id'),
+                'orderer_id' => $orderer_id,
+                'orderer_name' => $request->get('orderer_name'),
+                'orderer_mobile' => $request->get('orderer_mobile'),
+                'registration_file' => 0,
+                'open_cd' => 0,
+                'status_cd' => 102,
+                'flooding' => $request->get('flooding'),
+                'accident' => $request->get('accident')
+            ]);
+         }
 
-        $order->cars_id = $car->id;
-        $order->garage_id = $garage_id;
-        $order->item_id = 1;
-        $order->purchase_id = $purchase->id;
-        $order->orderer_id = $orderer_id;
-        $order->orderer_name = $request->get('orderer_name');
-        $order->orderer_mobile = $request->get('orderer_mobile');
-        $order->registration_file = 0;
-        $order->open_cd = 0;
-        $order->status_cd = 102;
-        $order->flooding = $request->get('flooding');
-        $order->accident = $request->get('accident');
+         if($request->get('options_ck') != []){
+             foreach ($request->get('options_ck') as $options){
+                 $order_features = OrderFeature::where('orders_id', $order->id)->first();
+                 if(!$order_features){
+                     $order_features = new OrderFeature();
+                 }
+                 try{
+                     $order_features->orders_id = $order->id;
+                     $order_features->features_id = $options;
 
-        $order->save();
-
-        if($request->get('options_ck')){
-            foreach ($request->get('options_ck') as $options){
-                $order_features = OrderFeature::where('orders_id', $order->id)->first();
-                if(!$order_features){
-                    $order_features = new OrderFeature();
-                }
-                try{
-                    $order_features->orders_id = $order->id;
-                    $order_features->features_id = $options;
-
-                    $order_features->save();
-                }catch (\Exception $e){}
-
-
-            }
-        }
-
-
-        $items = Item::all();
+                     $order_features->save();
+                 }catch (\Exception $e){
+                     return redirect()->back()->with('error', trans('web.order.error'));
+                 }
+             }
+         }
+         $items = Item::all();
+//         $order = Order::find(4)->first();
 
         $garage_info = GarageInfo::findOrFail($request->get('garage_id'));
 
         return view('web.order.purchase', compact('order', 'items', 'garage_info', 'request'));
+
     }
+
 
     /**
      * 결제 팝업

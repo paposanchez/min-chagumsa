@@ -24,7 +24,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('order', 'OrderController@index')->name("order.index");
 //    Route::resource('order', 'OrderController');
     Route::post('order/order_store', 'OrderController@orderStore')->name("order.order_store");
-    Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase");
+//    Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase");
     Route::post('order/complete', 'OrderController@complete')->name("order.complete");
     Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
     Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");

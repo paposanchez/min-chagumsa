@@ -108,7 +108,7 @@
 				<div class='ipt_line'>
 					<div class='psk_select wid20'>
 						{{--{!! Form::select('sel_area', $garage_areas, [], ['class'=>'btns btns2', 'id'=>'sel_area']) !!}--}}
-						<input type="text" id="models_id" name="sel_area" value="" hidden/>
+						<input type="text" id="sel_area" name="sel_area" value="" hidden/>
 						<select class="form-control btns btns2" id="areas" autocomplete="off">
 							<option value="0" selected>시/도를 선택하세요.</option>
 
@@ -120,7 +120,7 @@
 					<div class='psk_select wid20'>
 						<input type='hidden' class='psk_select_val' value=''>
 						{{--{!! Form::select('sel_section', $garage_sections, [], ['class'=>'btns btns2', 'id'=>'sel_section']) !!}--}}
-						<input type="text" id="models_id" name="sel_section" value="" hidden/>
+						<input type="text" id="sel_section" name="sel_section" value="" hidden/>
 						<select class="form-control btns btns2" id="sections">
 							<option value="" selected>구/군을 선택하세요.</option>
 						</select>
