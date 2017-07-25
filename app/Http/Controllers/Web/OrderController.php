@@ -31,6 +31,9 @@ use Illuminate\Support\Facades\Validator;
 use App\Tpay\TpayLib as Encryptor;
 
 class OrderController extends Controller {
+
+    protected $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";//상점키
+    protected $mid = "tpaytest0m";//상점id
     
     public function index(Request $request) {
 //        if(!Auth::user()){
@@ -62,6 +65,10 @@ class OrderController extends Controller {
 
         if ($validate->fails())
         {
+            foreach ($validate->messages()->getMessages() as $field_name => $messages)
+            {
+//                var_dump($messages); // messages are retrieved (publicly)
+            }
             return redirect()->back()->with('error', '입고예약에 대한 정보를 충분히 입력하세요.');
         }
 
@@ -176,12 +183,7 @@ class OrderController extends Controller {
 
 
             $order_model = Order::find($request->get('orders_id'));
-            //todo 상품명, 주문 번호를 만들어 PG연동에 넘겨주어야 한다.
 
-
-            $mid = "tpaytest0m";	//상점id
-            $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";	//상점키
-//            $moid = "toid1234567890";
             $moid = $request->get('id');
 
 
@@ -204,9 +206,9 @@ class OrderController extends Controller {
 
 
             //$ediDate, $mid, $merchantKey, $amt
-            $encryptor = new Encryptor($merchantKey);
+            $encryptor = new Encryptor($this->merchantKey);
 
-            $encryptData = $encryptor->encData($amt.$mid.$moid);
+            $encryptData = $encryptor->encData($amt.$this->mid.$moid);
             $ediDate = $encryptor->getEdiDate();
             $vbankExpDate = $encryptor->getVBankExpDate();
 
@@ -230,6 +232,85 @@ class OrderController extends Controller {
         );
 
 
+    }
+
+    public function paymentResult(Request $request){
+
+        //webTx에서 받은 결과값들
+        $payMethod = $request->get('payMethod');
+        $mid = $request->get('mid');
+        $tid = $request->get('tid');
+        $mallUserId = $request->get('mallUserId');
+        $amt = $request->get('amt');
+        $buyerName = $request->get('buyerName');
+        $buyerTel = $request->get('buyerTel');
+        $buyerEmail = $request->get('buyerEmail');
+        $mallReserved = $request->get('mallReserved');
+        $goodsName = $request->get('goodsName');
+        $moid = $request->get('moid');
+        $authDate = $request->get('authDate');
+        $authCode = $request->get('authCode');
+        $fnCd = $request->get('fnCd');
+        $fnName = $request->get('fnName');
+        $resultCd = $request->get('resultCd');
+        $resultMsg = $request->get('resultMsg');
+        $errorCd = $request->get('errorCd');
+        $errorMsg = $request->get('errorMsg');
+        $vbankNum = $request->get('vbankNum');
+        $vbankExpDate = $request->get('vbankExpDate');
+        $ediDate = $request->get('ediDate');
+
+        //등록된 정보 가져오기
+        $order_where = Order::find($moid);
+        $order_price = $order_where->item->price;
+
+        //todo moid값이 정확히 오는것을 확인하기 위하여 order_where 에 대한 체크를 구성 안함.
+
+        $encryptor = new Encryptor($this->merchantKey, $ediDate);
+        $decAmt = $encryptor->decData($amt); //실제 결제금액
+        $decMoid = $encryptor->decData($moid); // 결제시 등록된 주문번호
+
+        if( $decAmt != $order_price || $decMoid != $order_where->id ){
+            return redirect()->back()->with('error', "위변조 데이터를 오류입니다.");
+
+        }else{
+            //결제결과 수신 여부 알림
+
+            $url = 'https://webtx.tpay.co.kr/resultConfirm';
+            $param = array(
+                "tid" => $tid,
+                "result" => "000" //수신 코드이다.
+            );
+
+            //todo curl에서 laravel restclient로 수정해야 함.
+            $ch = curl_init();
+            curl_setopt ($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+            $contents = curl_exec($ch);
+            curl_close($ch);
+
+            //상점DB처리
+            //todo 1, payment, paymentResult 를 처리함. 2. order state를 업데이트 함.
+            // 메뉴얼 구성상으로 보면 payment를 등록한 후 payemntResult를 등록하는것이 맞다
+            // 그런데 연동으로 보면, 두 테이블이 동이에 처리되는 구조이다
+            // 데이터 저장을 모두 확인한후 가능하다면 payment의 경우 popup에서 처리하고
+            // 본 action에서는 paymentResult를 저장하는 방식으로 변경해야 한다.
+
+            $payment = new Payment();
+            $payment_result = new PaymentResult();
+
+            //todo 위의 처리를 완료한후 popup을 닫고 부모창(purchase)를 submit하여 complete한다.
+            // result: 처리 결과 메세지(결제가 완료되었습니다. 또는 결제가 정상적으로 처리되지 못하였습니다.)
+            // event: 팝업닫기 또는 뒤로가기 ( 'close', 'history.back()')
+
+            return view('web.order.pay-result', compact('result', 'event'));
+        }
     }
     
     public function complete(Request $request) {

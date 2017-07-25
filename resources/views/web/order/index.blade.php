@@ -31,7 +31,7 @@
 		<div class='br30'></div>
 		<div class='br20'></div>
 
-		{!! Form::open(['route' => ["order.reservation"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+		{!! Form::open(['route' => ["order.reservation"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'order-first']) !!}
 		<input type="hidden" name="sms_id" id="sms_id" autocomplete="off">
 		<input type="hidden" name="sms_confirmed" id="sms_confirmed" autocomplete="off">
 
@@ -89,7 +89,7 @@
 			<div class='ipt_line'>
 				<div class='psk_select wid25'>
 					{{--{!! Form::select('sel_brand', $brands, [], ['class'=>'form-control btns btns2', 'id'=>'brands']) !!}--}}
-					<input type="text" id="brand_id" name="brands_id" value="" hidden/>
+					<input type="text" id="brand_id" name="brands_id" value="" autocomplete="off" hidden/>
 					<select class="form-control btns btns2" id="brands" autocomplete="off">
 						<option>브랜드를 선택하세요.</option>
 						@foreach($brands as $brand)
@@ -99,14 +99,14 @@
 				</div>&nbsp;&nbsp;
 
 				<div class='psk_select wid25'>
-					<input type="text" id="models_id" name="models_id" value="" hidden/>
+					<input type="text" id="models_id" name="models_id" value="" autocomplete="off" hidden/>
 					<select class="form-control btns btns2" id="models">
 						<option selected>모델을 선택하세요.</option>
 					</select>
 				</div>&nbsp;&nbsp;
 
 				<div class='psk_select wid25'>
-					<input type="text" id="detail_id" name="details_id" value="" hidden/>
+					<input type="text" id="detail_id" name="details_id" value="" autocomplete="off" hidden/>
 					<select class="form-control btns btns2" id="details">
 						<option selected>세부 모델을 선택하세요.</option>
 					</select>
@@ -117,7 +117,7 @@
 
 			<div class='ipt_line'>
 				<div class='psk_select wid25'>
-					<input type="text" id="grade_id" name="grades_id" value="" hidden/>
+					<input type="text" id="grade_id" name="grades_id" value="" autocomplete="off" hidden/>
 					<select class="form-control btns btns2" id="grades">
 						<option selected>등급을 선택하세요.</option>
 					</select>
@@ -407,7 +407,7 @@
                         'mobile_num': mobile_num, "_token": "{{ csrf_token() }}"
                     },
                     success: function(jdata){
-                        
+
                         if(jdata.result == 'OK'){
                             $("#sms-alarm").hide();
                             $("#sms-confirm").show();
@@ -472,6 +472,57 @@
             $("#sms_num").val('');
             $("#sms_id").val('');
         });
+
+        //form submit
+        $("#order-first").submit(function(){
+            if(!$("#sms_confirmed").val()){
+                alert('SMS 인증이 처리되지 않았습니다.');
+                $("#orderer_mobile").focus();
+                return false;
+            }
+
+            if(!$("input[name='car_number']").val()){
+                alert('차량번호를 입력해 주세요.');
+                $("input[name='car_number']").focus();
+                return false;
+            }
+
+            if(car_num_chk($("input[name='car_number']").val()) === false){
+                alert('정확한 차량번호를 입력해 주세요.\n차량번호 형식이 잘못되있습니다.');
+                $("input[name='car_number']").focus();
+                return false;
+            }
+
+            if(!$("#brand_id").val()){
+                alert('브랜드를 선택해 주세요.');
+                $("#brands").focus();
+                return false;
+            }
+
+            if(!$("#models_id").val()){
+                alert('모델을 선택해 주세요.');
+                $("#models").focus();
+                return false;
+            }
+
+            if(!$("#detail_id").val()){
+                alert('세부모델은 선택해 주세요.');
+                $("#details").focus();
+                return false;
+            }
+
+            if($("input:radio[name='flooding']:checked").val() == undefined){
+                alert('침수여부를 선택해 주세요.');
+                return false;
+            }
+
+            if($("input:radio[name='accident']:checked").val() == undefined){
+                alert('사고여부를 선택해 주세요.');
+                return false;
+            }
+
+            return true;
+        });
     });
 
     var timeCountdown = function(){
@@ -527,6 +578,24 @@
     }
 
 
+    var car_num_chk = function(car_num)
+    {
+
+        var pattern1 = /\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 12저1234
+        var pattern2 = /[가-힣ㄱ-ㅎㅏ-ㅣ\x20]{2}\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 서울12치1233
+
+        if (!pattern1.test(car_num)) {
+            if (!pattern2.test(car_num)) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            return true;
+        }
+    }
 
 
 

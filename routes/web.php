@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");
     Route::get('order/factory/{page?}', 'OrderController@factory')->name("order.factory");
     Route::post('order/payment-popup', 'OrderController@paymentPopup')->name("order.payment-popup");
+    Route::post('order/payment-result', 'OrderController@paymentResult')->name("order.payment-result");
 
     Route::get('/order/get_models', 'OrderController@getModels')->name("order.get_models");
     Route::get('/order/get_details', 'OrderController@getDetails')->name("order.get_details");
