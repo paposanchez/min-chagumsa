@@ -17,31 +17,47 @@
         <tbody>
             <tr>
                 <th>연식</th>
-                <td>2005</td>
+                <td>
+                    {{ $order->car->year }}
+                </td>
                 <th class='td_al_vt' rowspan='3'>산정가격</th>
-                <td class='td_al_vb td_al_r' rowspan='3'><strong class='fsize_50'>2,000</strong><strong class='fsize_20'>만원</strong></td>
+                <td class='td_al_vb td_al_r' rowspan='3'><strong class='fsize_50'>{{ number_format($order->certificates->price) }}</strong><strong class='fsize_20'>만원</strong></td>
             </tr>
             <tr>
                 <th>차대번호</th>
-                <td>1HGCM567X5A03****</td>
+                <td>
+                    {{ $order->car_number }}
+                </td>
             </tr>
             <tr>
                 <th>차종구분</th>
-                <td>승용 4 Door</td>
+                <td>
+                    {{ $order->car->kind_cd }} {{ $order->car->passenger }}인승
+                </td>
             </tr>
             <tr>
                 <th>사용연료</th>
-                <td>Gasoline(휘발유/무연)</td>
+                <td>
+                    {{ $order->car->fueltype_cd }}
+                </td>
                 <th class='td_al_vt' rowspan='3'>차량 성능 등급</th>
-                <td class='td_al_vb td_al_r' rowspan='3'><strong class='fsize_50'>AA</strong></td>
+                <td class='td_al_vb td_al_r' rowspan='3'>
+                    <strong class='fsize_50'>
+                        {{ $order->certificates->grade }}
+                    </strong>
+                </td>
             </tr>
             <tr>
                 <th>주행거리</th>
-                <td>33,000km</td>
+                <td>
+                    {{ number_format($order->mileage) }} km
+                </td>
             </tr>
             <tr>
                 <th><strong class='fcol_navy'>인증서 발급일</strong></th>
-                <td><strong class='fcol_navy'>2017년 1월 13일</strong></td>
+                <td><strong class='fcol_navy'>
+                        {{ \Carbon\Carbon::parse($order->certificates->created_at)->format('Y년 m월 d일') }}
+                    </strong></td>
             </tr>
             <tr>
                 <th class='td_al_vm'>차량 이미지</th>

@@ -14,39 +14,61 @@
 	<tbody>
 		<tr>
 			<th>차명</th>
-			<td>HONDA ACCORD</td>
+			<td>
+				{{ $order->getCarFullName() }}
+			</td>
 			<th>차대번호</th>
-			<td>AHGCM567X5A034****</td>
+			<td>
+				{{ $order->car_number }}
+			</td>
 		</tr>
 		<tr>
 			<th>등록번호</th>
-			<td>05구 9876</td>
+			<td>
+				{{ $order->car_number }}
+			</td>
 			<th>연식</th>
-			<td>2005</td>
+			<td>
+				{{ $order->car->year }}
+			</td>
 		</tr>
 		<tr>
 			<th>최초등록일</th>
-			<td>2005년 12월 5일</td>
+			<td>
+				{{ \Carbon\Carbon::parse($order->car->registration_date)->format('Y년 m월 d일') }}
+			</td>
 			<th>사용월수</th>
-			<td>5년 6개월</td>
+			<td>5년 6개월 => ?</td>
 		</tr>
 		<tr>
 			<th>변속기</th>
-			<td>자동(오토)</td>
+			<td>
+				{{ $order->car->transmission_cd }}
+			</td>
 			<th>색상</th>
-			<td>흰색(외부) / 갈색(내부)</td>
+			<td>
+				{{ $order->car->exterior_color_cd }}(외부) / {{ $order->car->interior_color_cd }}(내부)
+			</td>
 		</tr>
 		<tr>
 			<th>세부모델</th>
-			<td>2005 HONDA ACCORD EX</td>
+			<td>
+				{{ $order->getCarfullName() }}
+			</td>
 			<th>주행거리(km)</th>
-			<td>30,000</td>
+			<td>
+				{{ number_format($order->mileage) }} km
+			</td>
 		</tr>
 		<tr>
 			<th>배기량(cc)</th>
-			<td>2,500</td>
+			<td>
+				{{ number_format($order->car->displacement) }} cc
+			</td>
 			<th>사용연료</th>
-			<td>Gasoline(휘발유/무연)</td>
+			<td>
+				{{ $order->car->fueltype_cd }}
+			</td>
 		</tr>
 	</tbody>
 </table>
@@ -65,7 +87,7 @@
 	<tbody>
 		<tr>
 			<th>기준가격</th>
-			<td colspan='3'><strong>2,600만원</strong></td>
+			<td colspan='3'><strong>{{ $order->certificates->price }} 만원</strong></td>
 		</tr>
 		<tr>
 			<th rowspan='3'>기본평가</th>
