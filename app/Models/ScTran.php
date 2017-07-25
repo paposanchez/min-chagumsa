@@ -12,7 +12,7 @@ use Mockery\Exception;
 
 class ScTran extends Model
 {
-    protected $table = "SC_TRAN";
+    protected $table = "sms.SC_TRAN";
 
     protected $primaryKey = 'TR_NUM';
     protected $fillable = [

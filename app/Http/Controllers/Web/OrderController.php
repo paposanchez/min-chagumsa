@@ -351,7 +351,7 @@ class OrderController extends Controller {
         ]);
 
         $result = [
-            'result' => '', 'id' => '', 'error' => ''
+            'result' => '', 'id' => '', 'error' => '', 'error_msg' => ''
         ];
 
         if ($validate->fails())
@@ -377,6 +377,7 @@ class OrderController extends Controller {
             }catch (\Exception $e){
                 $result['result'] = 'FAIL';
                 $result['error'] = '001';
+                $result['error_msg'] = $e->getMessage();
             }
 
             $data['send_time'] = time();
@@ -392,6 +393,7 @@ class OrderController extends Controller {
             }catch (\Exception $e){
                 $result['result'] = 'FAIL';
                 $result['error'] = '002';
+                $result['error_msg'] = $e->getMessage();
             }
 
 

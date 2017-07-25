@@ -407,7 +407,7 @@
                         'mobile_num': mobile_num, "_token": "{{ csrf_token() }}"
                     },
                     success: function(jdata){
-
+                        
                         if(jdata.result == 'OK'){
                             $("#sms-alarm").hide();
                             $("#sms-confirm").show();
