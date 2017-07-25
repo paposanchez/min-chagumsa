@@ -15,19 +15,18 @@ class CertificateController extends Controller {
 
     // public function __invoke(Request $request, $certificate, $page = 'summary') {
     public function __invoke(Request $request, $order_id, $page = 'summary') {
+        $order = Order::find($order_id)->first();
+//        $certificate = Certificate::find($order_id)->first();
 
         switch ($page) {
             case 'performance':
-                return view('web.certificate.performance');
+                return view('web.certificate.performance', compact('order'));
             case 'history':
-                return view('web.certificate.history');
+                return view('web.certificate.history', compact('order'));
             case 'price':
-                return view('web.certificate.price');
+                return view('web.certificate.price', compact('order'));
             default:
-                $order = Order::find($order_id)->first();
-                $certificate = Certificate::find($order_id)->first();
-                
-                return view('web.certificate.summary', compact('order', 'certificate'));
+                return view('web.certificate.summary', compact('order'));
         }
     }
 

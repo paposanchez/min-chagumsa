@@ -45,8 +45,7 @@ const {mix} = require('laravel-mix')
         // js plugins
         .copy(assetsDir + 'js/plugin/', distDir + 'js/plugin')
 
-        //jquery modal css
-            .copy(nodeDir + 'jquery-modal/jquery.modal.min.css', distDir + 'css')
+
 
         .combine([
                 nodeDir + 'animate.css/animate.css',
@@ -74,7 +73,7 @@ const {mix} = require('laravel-mix')
                 nodeDir + 'bootstrap-touchspin/src/jquery.bootstrap-touchspin.js',
                 nodeDir + 'jquery-file-download/src/Scripts/jquery.fileDownload.js',
                 nodeDir + 'ekko-lightbox/dist/ekko-lightbox.js',
-                nodeDir + 'jquery-modal/jquery.modal.js',
+
                 assetsDir + 'vendor/jasny/js/fileinput.js',
                 assetsDir + 'vendor/jasny/js/inputmask.js',
                 assetsDir + 'js/app.js'
