@@ -37,24 +37,24 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/order/sel_item', 'OrderController@selItem')->name("order.sel_item");
     Route::get('/order/get_section', 'OrderController@getSection')->name("order.get_section");
     Route::get('/order/get_address', 'OrderController@getAddress')->name("order.get_address");
+
+
+    Route::resource('/certificate', 'CertificateController');
+    // 인증서 조회
+    Route::get('certificate/{id}/{page?}', 'CertificateController')->name("certificate");
+// 구조를 물어봐야 겠음..
+    Route::get('certificate/performance/{id}', 'CertificateController@performance')->name("certificate.performance");
 });
 
 // 공통
 Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
 Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 
-// 인증서 조회
-Route::get('certificate/{id}/{page?}', 'CertificateController')->name("certificate");
-// 구조를 물어봐야 겠음..
-Route::get('certificate/performance/{id}', 'CertificateController@performance')->name("certificate.performance");
-
 
 //결제결과 수신
 Route::match(['GET', 'POST'], 'payment/pay-result', 'PaymentController@payCallback')->name('payment.pay-result');
 Route::match(['GET', 'POST'], 'payment/pay-callback', 'PaymentController@payResult')->name('payment.pay-callback');
 
-
-Route::resource('/certificate', 'CertificateController');
 
 // Information
 Route::get('information/index', function () {

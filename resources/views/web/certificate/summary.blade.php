@@ -60,7 +60,6 @@
 			</td>
 			<th>색상</th>
 			<td>
-			흰색(외부) / 갈색(내부)
 			{{ $order->car->exterior_color_cd }}(외부) / {{ $order->car->interior_color_cd }}(내부)
 			</td>
 		</tr>
