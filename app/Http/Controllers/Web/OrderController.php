@@ -93,30 +93,47 @@ class OrderController extends Controller {
         $orderer_id = Auth::user()->id;
 
         $order = Order::where('datekey', $datekey)->where('car_number', $request->get('car_number'))->first();
-        if(!$order){
-            $car = Car::create([
-                'vin_number' => $request->get('car_number'),
-                'brands_id' => $request->get('brands_id'),
-                'models_id' => $request->get('models_id'),
-                'details_id' => $request->get('details_id'),
-                'grades_id' => $request->get('grades_id')
-            ]);
 
-            $order = Order::create([
-                'datekey' => $datekey,
-                'car_number' => $request->get('car_number'),
-                'cars_id' => $car->id,
-                'garage_id' => $request->get('garage_id'),
-                'orderer_id' => $orderer_id,
-                'orderer_name' => $request->get('orderer_name'),
-                'orderer_mobile' => $request->get('orderer_mobile'),
-                'registration_file' => 0,
-                'open_cd' => 0,
-                'status_cd' => 102,
-                'flooding' => $request->get('flooding'),
-                'accident' => $request->get('accident')
-            ]);
+//        if(!$order){
+//            //insert
+//            $order = new Order();
+//        }
+//        $order->datekey = $datekey;
+//        $order->save();
+
+
+
+
+        if(!$order){
+            $order = new Order();
          }
+
+        $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
+        if(!$car){
+            $car->vin_number = $request->get('car_number');
+            $car->brands_id = $request->get('brands_id');
+            $car->models_id = $request->get('models_id');
+            $car->details_id = $request->get('details_id');
+            $car->grades_id = $request->get('grades_id');
+            $car->save();
+        }
+
+
+         $order->datekey = $datekey;
+         $order->car_number = $request->get('car_number');
+         $order->cars_id = $car->id;
+         $order->garage_id = $request->get('garage_id');
+         $order->orderer_id = $orderer_id;
+         $order->orderer_name = $request->get('orderer_name');
+         $order->orderer_mobile = $request->get('orderer_mobile');
+         $order->registration_file = 0;
+         $order->open_cd = 0;
+         $order->status_cd = 102;
+         $order->flooding = $request->get('flooding');
+         $order->accident = $request->get('accident');
+         $order->item_id = 0;
+
+         $order->save();
 
          if($request->get('options_ck') != []){
              foreach ($request->get('options_ck') as $options){
