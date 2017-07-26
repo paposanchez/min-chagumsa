@@ -49,12 +49,13 @@ class OrderController extends Controller {
         $input = $request->all();
         $order = Order::findOrFail($order_id)->first();
 
+
         // 차량 정보 변경
         if(!empty($input['car_number'])){
             $validate = Validator::make($request->all(), [
                 'brands_id' => 'required',
                 'models_id' => 'required',
-                'details_' => 'required',
+                'details_id' => 'required',
                 'grades_id' => 'required',
                 'car_number' => 'required'
             ]);
@@ -68,9 +69,10 @@ class OrderController extends Controller {
             $order->update($input);
         }
 
-        if( $order->reservation->reservation_at != $input['reservaton_date']){
+//        if( $order->reservation->reservation_at != $request->get('reservation_date')){
+        if($request->get('reservation_date')){
             $validate = Validator::make($request->all(), [
-                'reservaton_date' => 'required',
+                'reservation_date' => 'required',
                 'sel_time' => 'required',
 //                'name' => 'required',
 //                'zipcode' => 'required',
@@ -80,10 +82,12 @@ class OrderController extends Controller {
 
             if ($validate->fails())
             {
+//                return redirect()->back()->with('error', trans('web/mypage.modify_error'));
                 return redirect()->back()->with('error', trans('web/mypage.modify_error'));
             }
             $reservation = $order->reservation;
-            $reservation->reservation_at = $input['reservaton_date'].' '.$input['sel_time'];
+            $reservation->reservation_at = strtotime($input['reservation_date'].' '.$input['sel_time']);
+//            $request->get('reservation_date').' '.$request->get('sel_time');
             $reservation->save();
         }
         return redirect()
