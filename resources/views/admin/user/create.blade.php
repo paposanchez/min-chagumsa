@@ -210,20 +210,17 @@
                             <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
                         @endunless
 
-                        @foreach($garages as $data)
+                        @foreach($garages as $garage)
 
                             <tr>
                                 <td class="text-center">
                                     {{--<a href="{{ $data['id'] }}">{{ $data['name'] }}</a>--}}
-                                    <a id="sel_garage" href="#">{{ $data['name'] }}</a>
+                                    <a id="sel_garage" href="#">{{ $garage->name }}</a>
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
-
-
-
 
             </div>
             <div class="modal-footer text-center">
@@ -241,7 +238,6 @@
         $(function () {
             $(document).on("click", '#user-role', function (){
 //            alert($('#user-role option:selected').text());
-
                 if($('#user-role option:selected').text() == 'engineer'){
                     $("#garage-modal").modal();
                 }
@@ -250,7 +246,6 @@
                     $('#selected_garage').val('');
                 }
             });
-
 
             $(document).on('click', '#sel_garage', function (){
                 $('#selected_garage').val($(this).text());

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\GarageInfo;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Code;
@@ -28,15 +29,11 @@ class UserController extends Controller {
         $status_cd_list = Code::whereGroup('user_status')->get();
 
 
-        $garages = User::select()->join('role_user', function($join){
-            $join->on('users.id', '=', 'role_user.user_id')->where('role_id', 5);
-        })->get();
+//        $garages = User::select()->join('role_user', function($join){
+//            $join->on('users.id', '=', 'role_user.user_id')->where('role_id', 5);
+//        })->get();
 
-
-
-
-
-
+        $garages = GarageInfo::select()->get();
 
 
         return view('admin.user.create', compact('roles', 'status_cd_list', 'garages'));
