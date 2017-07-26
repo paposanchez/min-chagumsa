@@ -24,11 +24,11 @@
 
 	<div class='order_detail_box'>
 		<div class='order_detail_title'>
-			입고 정보 <a class='btns btns2' href="{{ route('mypage.order.edit_garage', ['order_id' => $order->id]) }}">변경</a>
+			입고 정보
 		</div>
 		<div class='od_line'>
 			<label>입고희망일</label>
-			<input type="text" class="ipt wid20 in_date datepicker" data-format="YYYY-MM-DD" placeholder="{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y-m-d') }}" name='reservaton_date' value='' style="margin-right: 5px;">
+			<input type="text" class="ipt wid20 in_date datepicker" data-format="YYYY-MM-DD" placeholder="{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y-m-d') }}" name='reservation_date' value='{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y-m-d') }}' style="margin-right: 5px;">
 			{!! Form::select('sel_time', $search_fields, [], ['class'=>'btns btns2 ipt wid20', 'id'=>'sel_time']) !!}
 		</div>
 		<div class='od_line'>

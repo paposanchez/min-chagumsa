@@ -137,7 +137,7 @@
 	<div class='br30'></div>
 
 	<div class='ipt_line wid25'>
-		<button class='btns btns_green history-back' style='display:inline-block;'>주문목록 돌아가기</button>
+		<button class='btns btns_green history-back' style='display:inline-block;' type="button"><a href="{{ route('mypage.order.index') }}">주문목록 돌아가기</a></button>
 	</div>
 
 
