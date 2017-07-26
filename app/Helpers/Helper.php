@@ -214,4 +214,10 @@ class Helper {
             return false;
         }
     }
+
+    public static function getCodeName($code_id){
+        $code = Code::where('id', $code_id)->first();
+        return trans('code.' . $code->group . '.' . $code->name);
+
+    }
 }
