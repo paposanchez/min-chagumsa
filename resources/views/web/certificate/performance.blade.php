@@ -38,16 +38,18 @@
 				{{ \Carbon\Carbon::parse($order->car->registration_date)->format('Y년 m월 d일') }}
 			</td>
 			<th>사용월수</th>
-			<td>5년 6개월 => ?</td>
+			<td>
+				{{ \Carbon\Carbon::parse($order->car->registration_date)->diffInMonths(\Carbon\Carbon::now()) }} 개월
+			</td>
 		</tr>
 		<tr>
 			<th>변속기</th>
 			<td>
-				{{ $order->car->transmission_cd }}
+				{{ $order->car->getTransmission->display() }}
 			</td>
 			<th>색상</th>
 			<td>
-				{{ $order->car->exterior_color_cd }}(외부) / {{ $order->car->interior_color_cd }}(내부)
+				{{ $order->car->getExteriorColor->display() }}(외부) / {{ $order->car->getInteriorColor->display() }}(내부)
 			</td>
 		</tr>
 		<tr>
@@ -67,7 +69,7 @@
 			</td>
 			<th>사용연료</th>
 			<td>
-				{{ $order->car->fueltype_cd }}
+				{{ $order->car->getFuelType->display() }}
 			</td>
 		</tr>
 	</tbody>
@@ -76,6 +78,7 @@
 
 <div class='br30'></div>
 
+{{-- 나중에 처 --}}
 <div class='report_title_type2'>차량정보</div>
 <div class='report_table exp'>
 <table>
@@ -147,11 +150,13 @@
 	<tbody>
 		<tr>
 			<th>평가금액</th>
-			<td><strong class='fsize_40'>2,000</strong><strong class='fsize_20'>만원</strong></td>
+			<td><strong class='fsize_40'>{{ number_format($order->certificates->valuation) }}</strong><strong class='fsize_20'>만원</strong></td>
 		</tr>
 		<tr>
 			<th>기타의견</th>
-			<td>H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다. </td>
+			<td>
+				H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다.
+			</td>
 		</tr>
 	</tbody>
 </table>
@@ -165,8 +170,8 @@
 <div class='br30'></div>
 
 <div class='report_stamp_wrap'>
-	<span><strong>발급일</strong> 2017년 1월 13일</span>
-	<span><strong>보증기간</strong> 2017년 2월 13일</span>
+	<span><strong>발급일</strong> {{ \Carbon\Carbon::parse($order->certificates->created_at)->format('Y년 m월 d일') }}</span>
+	<span><strong>보증기간</strong> {{ \Carbon\Carbon::parse($order->certificates->created_at)->addMonth(5)->format('Y년 m월 d일') }}</span>
 	<div class='stamp_wrap'>대표 기술사<strong>이해선</strong></div>
 </div>
 

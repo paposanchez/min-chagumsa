@@ -35,13 +35,13 @@
 		<tr>
 			<th>차종구분</th>
 			<td>
-				{{ $order->car->kind_cd }} {{ $order->car->passenger }}인
+				{{ $order->car->getKind->display() }} {{ $order->car->passenger }}인승
 			</td>
 		</tr>
 		<tr>
 			<th>사용연료</th>
 			<td>
-				{{ $order->car->fueltype_cd }}
+				{{ $order->car->getFuelType->display() }}
 			</td>
 		</tr>
 		<tr>

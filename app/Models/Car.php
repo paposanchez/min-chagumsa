@@ -74,7 +74,7 @@ class Car Extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function getFuelType(){
-        return $this->hasOne(Code::class, 'id', 'fueltype_cd');
+        return $this->hasOne(\App\Models\Code::class, 'id', 'fueltype_cd');
     }
 
     /**
@@ -116,6 +116,12 @@ class Car Extends Model
     public function getUsage(){
         return $this->hasOne(Code::class, 'id', 'usage_cd');
     }
+
+    public function getKind(){
+        return $this->hasOne(Code::class, 'id', 'kind_cd');
+    }
+
+
 }
 
 

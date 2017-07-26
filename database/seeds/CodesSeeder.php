@@ -405,7 +405,34 @@ class CodesSeeder extends Seeder {
             ['group' => 'car_part_state_cd', 'name' => 'welding'],
             ['group' => 'car_part_state_cd', 'name' => 'need_repair'],
             ['group' => 'car_part_state_cd', 'name' => 'scratch'],
-            ['group' => 'car_part_state_cd', 'name' => 'corrosion']
+            ['group' => 'car_part_state_cd', 'name' => 'corrosion'],
+
+            ['group' => 'kind_cd', 'name' => 'light_car'],
+            ['group' => 'kind_cd', 'name' => 'compact_car'],
+            ['group' => 'kind_cd', 'name' => 'semi_solid_type'],
+            ['group' => 'kind_cd', 'name' => 'medium_car'],
+            ['group' => 'kind_cd', 'name' => 'large_car'],
+            ['group' => 'kind_cd', 'name' => 'limousine'],
+            ['group' => 'kind_cd', 'name' => 'wagon'],
+            ['group' => 'kind_cd', 'name' => 'hatchback'],
+            ['group' => 'kind_cd', 'name' => 'sports'],
+            ['group' => 'kind_cd', 'name' => 'coupe'],
+            ['group' => 'kind_cd', 'name' => 'convertible'],
+            ['group' => 'kind_cd', 'name' => 'super'],
+            ['group' => 'kind_cd', 'name' => 'suv'],
+            ['group' => 'kind_cd', 'name' => 'rv'],
+            ['group' => 'kind_cd', 'name' => 'vans'],
+            ['group' => 'kind_cd', 'name' => 'ban'],
+            ['group' => 'kind_cd', 'name' => 'pickup'],
+            ['group' => 'kind_cd', 'name' => 'truck'],
+            ['group' => 'kind_cd', 'name' => 'special'],
+            ['group' => 'kind_cd', 'name' => 'bus'],
+            ['group' => 'kind_cd', 'name' => 'camping'],
+            ['group' => 'kind_cd', 'name' => 'old'],
+            ['group' => 'kind_cd', 'name' => 'unique'],
+
+            ['group' => 'vin_yn_cd', 'name' => 'equal'],
+            ['group' => 'vin_yn_cd', 'name' => 'different']
         ]);
 
 
