@@ -73,20 +73,18 @@ class UserController extends Controller {
             $user->attachRole($value);
         }
 
+
+
         //todo 현재 user_extras에 데이터를 저장하는 것이 없기 떄문에, 만약 roles이 엔지니어(5)라면 정비소의 아이디를 가지고 user_extra에 같이 저장한다.
 
-//        if($request->get('roles')[0] == 5 || $request->get('roles')[0] == 4){
-//            //todo 정비소 이름이 있으면 저장
-//            //dd($request->get('roles'));
-//
-//            $user_extra = new UserExtra();
-//            $user_extra->create([
-//
-//            ]);
-//
-//        }else{
-//            dd($request->get('roles'));
-//        }
+        if($request->get('roles')[0] == 5 || $request->get('roles')[0] == 4){
+            //todo 정비소 이름이 있으면 저장
+            //dd($request->get('roles'));
+
+            $user_extra = new UserExtra();
+//            $user_extra->
+
+        }
 
 
         if ($request->file('avatar')) {
@@ -107,20 +105,8 @@ class UserController extends Controller {
         $status_cd_list = Code::whereGroup('user_status')->get();
         $roles = Role::getArrayByName();
 
+        $garages = GarageInfo::select()->get();
 
-        $row = User::select()->join('role_user', function($join){
-            $join->on('users.id', '=', 'role_user.user_id')->where('role_id', 4);
-        });
-//        ->where('users.name', 'like', '%테스터%');
-
-        $garages = [];
-        foreach ($row->get() as $garage) {
-//            $garages[] = $garage->name;
-            $garages[] = array(
-                'id'    => $garage->id,
-                'name'  => $garage->name
-            );
-        }
 
         $userRole = $user->roles->pluck('id', 'name')->toArray();
 
@@ -152,7 +138,7 @@ class UserController extends Controller {
         ]);
 
         $input = $request->all();
-        
+
         // 비밀번호 변경
         if (!empty($input['password'])) {
             $input['password'] = bcrypt($input['password']);
@@ -202,6 +188,18 @@ class UserController extends Controller {
                             ->route('user.index')
                             ->with('success', trans('admin/user.can_not_destroyed'));
         }
+    }
+
+    public function searchGarage(Request $request){
+        $garage = GarageInfo::where('name' , 'like', '%'.$request->get('garage_name').'%');
+
+        if($garage){
+            $json = $garage->get()->toArray();
+        }else{
+            $json = [];
+        }
+
+        return \GuzzleHttp\json_encode($json);
     }
 
 }

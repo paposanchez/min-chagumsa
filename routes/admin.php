@@ -10,6 +10,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     // 사용자
     Route::resource('user', 'UserController', ['except' => ['show']]);
+    Route::get('user/search_garage', 'UserController@searchGarage')->name("user.search_garage");
 
     // 게시물 
     Route::resource('post', 'PostController');

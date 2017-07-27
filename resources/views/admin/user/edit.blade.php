@@ -12,7 +12,6 @@
         <div class="col-md-12">
 
             {!! Form::model($user, ['method' => 'PATCH','route' => ['user.update', $user->id], 'class'=>'form-horizontal', 'id'=>'frm-user', 'enctype'=>"multipart/form-data"]) !!}
-            <input type="text" class="form-control" name="ttttt" value="dsfdsfsdfsdfds" disabled>
             <fieldset>
                 <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                     <label for="inputEmail" class="control-label col-md-3">{{ trans('admin/user.email') }}</label>
@@ -211,48 +210,36 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title" id="myModalLabel">정비소 선택 정보</h4>
             </div>
-            <div class="modal-body">
-                <table class="table table-hover">
-                    <table class="table text-middle text-center">
-                        <colgroup>
-                            {{--<col width="10%">--}}
-                            <col width="100%">
-                            {{--<col width="15%">--}}
-                            {{--<col width="15%">--}}
-                            {{--<col width="15%">--}}
-                            {{--<col width="15%">--}}
-                            {{--<col width="15%">--}}
+            <div class="modal-body" style="overflow: auto;height: 600px;">
+                <div class='ipt_line' style="margin-bottom: 10px;">
+                    <input type='text' id="content" class='' placeholder='대리점명으로 찾기' autocomplete="off" style="padding-top: 8px;padding-bottom: 8px;height: 37px;width: 200px;">
+                    <button type="button" class="btn btn-primary" id="search" style="padding-top: 9px;">검색</button>
+                </div>
+                <table class="table text-middle text-center table-hover">
+                    {{--<colgroup>--}}
+                    {{--<col width="100%">--}}
+                    {{--</colgroup>--}}
+                    <thead>
+                    <tr class="active">
+                        <th class="text-center">정비소 명</th>
+                    </tr>
+                    </thead>
 
-                        </colgroup>
+                    <tbody id="tbody">
 
-                        <thead>
-                        <tr class="active">
-                            {{--<th class="text-center">#</th>--}}
-                            <th class="text-center">정비소 명</th>
+                    @unless(count($garages) >0)
+                        <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
+                    @endunless
 
+                    @foreach($garages as $garage)
+                        <tr>
+                            <td class="text-center">
+                                <a class="select-garage" name="sel_garage" href="#">{{ $garage->name }}</a>
+                            </td>
                         </tr>
-                        </thead>
-
-                        <tbody>
-
-                        @unless(count($garages) >0)
-                            <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
-                        @endunless
-
-                        @foreach($garages as $data)
-
-                            <tr>
-                                <td class="text-center">
-                                    {{--<a href="{{ $data['id'] }}">{{ $data['name'] }}</a>--}}
-                                    <a id="sel_garage" href="#">{{ $data['name'] }}</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-
-
-
+                    @endforeach
+                    </tbody>
+                </table>
 
             </div>
             <div class="modal-footer text-center">
@@ -286,11 +273,47 @@
             }
         });
 
-
-        $(document).on('click', '#sel_garage', function (){
+        $("#tbody").delegate(".select-garage", "click", function(){
             $('#selected_garage').val($(this).text());
             $('.garage').css('display', '');
             $("#garage-modal").modal('hide');
+
+        });
+
+        $('#search').click(function (){
+            if($('#content').val() === ''){
+                alert('정비소명을 입력하세요.');
+            }else {
+                var garage_name = $('#content').val();
+                var html = '';
+                $.ajax({
+                    type : 'get',
+                    dataType : 'json',
+                    url : '/user/search_garage',
+                    data : {
+                        '_token' : '{{ csrf_token() }}',
+                        'garage_name' : garage_name,
+                    },
+                    success : function (data) {
+                        if(data.length == 0){
+                            html += "<tr><td colspan='6' class='no-result'>{{ trans('common.no-result') }}</td></tr>";
+                            $('#tbody').html(html);
+                        }else{
+                            $.each(data, function (key, value) {
+                                html += "<tr>";
+                                html += "<td>";
+                                html += "<a class='select-garage' name='sel_garage' href='#'>"+value.name+"</a>";
+                                html += "</td>";
+                                html += "</tr>";
+                            });
+                            $('#tbody').html(html);
+                        }
+                    },
+                    error : function (){
+                        alert('error');
+                    }
+                })
+            }
         });
 
         $(document).on("click", '#btn-user-destory', function (e) {
