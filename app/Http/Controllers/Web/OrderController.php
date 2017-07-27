@@ -88,6 +88,7 @@ class OrderController extends Controller {
 //    }
 
     public function orderStore(Request $request) {
+//        dd('aaaa');
         $datekey = substr(str_replace("-","",$request->reservaton_date), -6);
 
         $orderer_id = Auth::user()->id;
@@ -136,20 +137,24 @@ class OrderController extends Controller {
          $order->save();
 
          if($request->get('options_ck') != []){
-             foreach ($request->get('options_ck') as $options){
-                 $order_features = OrderFeature::where('orders_id', $order->id)->first();
-                 if(!$order_features){
-                     $order_features = new OrderFeature();
-                 }
-                 try{
-                     $order_features->orders_id = $order->id;
-                     $order_features->features_id = $options;
-
-                     $order_features->save();
-                 }catch (\Exception $e){
-                     return redirect()->back()->with('error', trans('web.order.error'));
-                 }
+             $order_features = OrderFeature::where('orders_id', $order->id)->first();
+             if(!$order_features){
+                 $order_features = new OrderFeature();
+             }else{
+                 OrderFeature::where('orders_id', $order->id)->delete();
              }
+
+             $order_features_list = [];
+
+             foreach ($request->get('options_ck') as $key => $options){
+
+                 $order_features_list[$key]['orders_id'] = $order->id;
+                 $order_features_list[$key]['features_id'] = $options;
+
+             }
+
+             $order_features->insert($order_features_list);
+             $order_features->save();
          }
          $items = Item::all();
 //         $order = Order::find(4)->first();
@@ -230,7 +235,7 @@ class OrderController extends Controller {
             $vbankExpDate = $encryptor->getVBankExpDate();
 
             $payActionUrl = "https://webtx.tpay.co.kr";
-            $payLocalUrl = "http://www.cargumsa.com/";   //각 상점 도메인을 설정 하세요.  ex)http://shop.tpay.co.kr
+            $payLocalUrl = url('/');   //각 상점 도메인을 설정 하세요.  ex)http://shop.tpay.co.kr
 
 
 
@@ -242,6 +247,9 @@ class OrderController extends Controller {
         $buyerEmail = $request->get('buyerEmail');
         $buyerTel = $request->get('buyerTel');
         $product_name = $request->get('product_name');
+
+        $mid = $this->mid;
+
 
         return view('web.order.payment-popup', compact('mid', 'merchantKey', 'amt', 'moid', 'encryptData',
                 'ediDate', 'vbankExpDate', 'payActionUrl', 'payLocalUrl', 'payMethod', 'amt', 'buyerName', 'buyerEmail',

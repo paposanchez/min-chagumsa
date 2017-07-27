@@ -32,7 +32,7 @@
 
 			{{--<form action="{{ route("order.purchase") }}">--}}
 
-			{!! Form::open(['route' => ["order.order_store"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+			{!! Form::open(['route' => ["order.order-store"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'reservation-form']) !!}
 
 
 			<input type="hidden" value="{{ $request->orderer_name }}" name="orderer_name">
@@ -269,6 +269,7 @@
         });
 
         $("#reservation-form").submit(function(){
+
             if($("input[name='reservaton_date']").val() == ''){
                 alert('입고희망일을 선택해 주세요.');
                 $("input[name='reservaton_date']").focus();
@@ -280,7 +281,7 @@
                 $("garage_list").attr("tabindex", -1).focus();
                 return false;
 			}
-
+//            alert($("#reservation-form").attr("action"));
 			return true;
 		});
 

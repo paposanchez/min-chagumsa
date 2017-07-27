@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
     // 주문하기
     Route::get('order', 'OrderController@index')->name("order.index");
 //    Route::resource('order', 'OrderController');
-    Route::post('order/order_store', 'OrderController@orderStore')->name("order.order_store");
+    Route::post('order/order-store', 'OrderController@orderStore')->name("order.order-store");
 //    Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase");
     Route::post('order/complete', 'OrderController@complete')->name("order.complete");
     Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
