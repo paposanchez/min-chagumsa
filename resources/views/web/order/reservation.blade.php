@@ -42,6 +42,8 @@
 			<input type="hidden" value="{{ $request->models_id }}" name="models_id">
 			<input type="hidden" value="{{ $request->details_id }}" name="details_id">
 			<input type="hidden" value="{{ $request->grades_id }}" name="grades_id">
+            <input type="hidden" value="{{ $request->flooding }}" name="flooding">
+            <input type="hidden" value="{{ $request->accident }}" name="accident">
 			<input type="hidden"  name="garage_id" id="garage_id" autocomplete="off">
 			@if($request->options_ck)
 				@foreach($request->options_ck as $option_ck)

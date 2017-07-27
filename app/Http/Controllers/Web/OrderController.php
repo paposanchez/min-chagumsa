@@ -103,7 +103,7 @@ class OrderController extends Controller {
 //        $order->save();
 
 
-
+//        dd($request->all());
 
         if(!$order){
             $order = new Order();
@@ -111,6 +111,7 @@ class OrderController extends Controller {
 
         $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
         if(!$car){
+            $car = new Car();
             $car->vin_number = $request->get('car_number');
             $car->brands_id = $request->get('brands_id');
             $car->models_id = $request->get('models_id');
@@ -130,8 +131,8 @@ class OrderController extends Controller {
          $order->registration_file = 0;
          $order->open_cd = 0;
          $order->status_cd = 102;
-         $order->flooding = $request->get('flooding');
-         $order->accident = $request->get('accident');
+         $order->flooding_state_cd = $request->get('flooding');
+         $order->accident_state_cd = $request->get('accident');
          $order->item_id = 0;
 
          $order->save();
