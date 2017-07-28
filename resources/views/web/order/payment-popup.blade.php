@@ -106,10 +106,10 @@
 @push( 'footer-script' )
 <script type="text/javascript" src="//webtx.tpay.co.kr/js/jquery.nyroModal.tpay.custom.js"></script>
 <script type="text/javascript" src="//webtx.tpay.co.kr/js/client.tpay.webtx.js"></script>
-
+<script type="text/javascript">var resultUrl = "/order/payment-result";</script>
 <script>
     $(function () {
-        var resultUrl = "/order/payment-result";	//결제결과 받는 URL
+        	//결제결과 받는 URL
 //        $("#submitBtn").click();
     })
 
