@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 use App\Tpay\TpayLib as Encryptor;
+use GuzzleHttp\Client;
 
 class OrderController extends Controller {
 
@@ -118,7 +119,9 @@ class OrderController extends Controller {
             $car->details_id = $request->get('details_id');
             $car->grades_id = $request->get('grades_id');
             $car->save();
+
         }
+        $cars_id = $car->id; //자동차 ID 설정
 
 
          $order->datekey = $datekey;
@@ -136,6 +139,8 @@ class OrderController extends Controller {
          $order->item_id = 0;
 
          $order->save();
+
+         $orders_id = $order->id;
 
          if($request->get('options_ck') != []){
              $order_features = OrderFeature::where('orders_id', $order->id)->first();
@@ -162,7 +167,7 @@ class OrderController extends Controller {
 
         $garage_info = GarageInfo::findOrFail($request->get('garage_id'));
 
-        return view('web.order.purchase', compact('order', 'items', 'garage_info', 'request'));
+        return view('web.order.purchase', compact('order', 'items', 'garage_info', 'request', 'datekey', 'cars_id', 'orders_id'));
 
     }
 
@@ -288,38 +293,63 @@ class OrderController extends Controller {
 
         //등록된 정보 가져오기
         $order_where = Order::find($moid);
-        $order_price = $order_where->item->price;
+        if($order_where){
+            $order_price = $order_where->item->price;
+        }else{
+            $order_where = new Order();
+        }
+
 
         //todo moid값이 정확히 오는것을 확인하기 위하여 order_where 에 대한 체크를 구성 안함.
 
-        $encryptor = new Encryptor($this->merchantKey, $ediDate);
-        $decAmt = $encryptor->decData($amt); //실제 결제금액
-        $decMoid = $encryptor->decData($moid); // 결제시 등록된 주문번호
+        try{
+            $encryptor = new Encryptor($this->merchantKey, $ediDate);
+            $decAmt = $encryptor->decData($amt); //실제 결제금액
+            $decMoid = $encryptor->decData($moid); // 결제시 등록된 주문번호
+        }catch (\Exception $e){
+            $decAmt = null;
+            $decMoid = null;
+            $order_price = false;
+        }
+
+
+        //파라미터 연동을 위하여 내용을 우선 file에 저장함
+        $params = $request->all();
+        $param_str = implode(", ", array_map(
+            function($v, $k) {
+                return sprintf("%s='%s'", $k, $v);
+            },
+            $params,
+            array_keys($params)
+        ));
+        $fp = fopen("/tmp/pay.txt", "w");
+        fwrite($fp, $param_str."|".$decAmt."|".$decMoid."|".$order_price, 2048);
+        fclose($fp);
+
 
         if( $decAmt != $order_price || $decMoid != $order_where->id ){
-            return redirect()->back()->with('error', "위변조 데이터를 오류입니다.");
-
+//            return redirect()->back()->with('error', "위변조 데이터 오류입니다.");
+            echo 'aaaa';
         }else{
             //결제결과 수신 여부 알림
 
             $url = 'https://webtx.tpay.co.kr/resultConfirm';
-            $param = array(
-                "tid" => $tid,
-                "result" => "000" //수신 코드이다.
-            );
+//            $param = array(
+//                "tid" => $tid,
+//                "result" => "000" //수신 코드이다.
+//            );
 
             //todo curl에서 laravel restclient로 수정해야 함.
-            $ch = curl_init();
-            curl_setopt ($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+            if($tid){
+                $client = new Client();
+                $contents = $client->post($url, [
+                    'form_params' => [
+                        "tid" => $tid,
+                        "result" => "000"
+                    ]
+                ]);
+            }
 
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
-            $contents = curl_exec($ch);
-            curl_close($ch);
 
             //상점DB처리
             //todo 1, payment, paymentResult 를 처리함. 2. order state를 업데이트 함.
@@ -329,42 +359,111 @@ class OrderController extends Controller {
             // 본 action에서는 paymentResult를 저장하는 방식으로 변경해야 한다.
 
             $payment = new Payment();
+            //결제정보 등록
+            $payment->payMethod = $request->get('payMethod');
+            $payment->transType = $request->get('');
+            $payment->goodsName = $request->get('');
+            $payment->amt = $request->get('');
+            $payment->moid = $request->get('');
+            $payment->mallUserId = $request->get('');
+            $payment->buyerName = $request->get('');
+            $payment->buyerTel = $request->get('');
+            $payment->buyerEmail = $request->get('');
+            $payment->mallIp = $request->get('');
+            $payment->rcvrMsg = $request->get('');
+            $payment->ediDate = $request->get('');
+            $payment->encryptData = $request->get('');
+            $payment->userIp = $request->get('');
+            $payment->resultYn = $request->get('');
+            $payment->quotaFixed = $request->get('');
+            $payment->domain = $request->get('');
+            $payment->socketYn = $request->get('');
+            $payment->socketReturnURL = $request->get('');
+            $payment->retryUrl = $request->get('');
+            $payment->supplyAmt = $request->get('');
+            $payment->vat = $request->get('');
+            $payment->billReqType = $request->get('');
+
+
+
+
+
             $payment_result = new PaymentResult();
+            //결제결과 등록
+            $payment_result->pyments_id = $request->get('');
+            $payment_result->tid = $request->get('');
+            $payment_result->stateCd = $request->get('');
+            $payment_result->authDate = $request->get('');
+            $payment_result->authCode = $request->get('');
+            $payment_result->fnCd = $request->get('');
+            $payment_result->fnName = $request->get('');
+            $payment_result->resultCd = $request->get('');
+            $payment_result->resultMsg = $request->get('');
+            $payment_result->cardQuota = $request->get('');
+            $payment_result->cardNo = $request->get('');
+            $payment_result->cardPoint = $request->get('');
+            $payment_result->usePoint = $request->get('');
+            $payment_result->balancePoint = $request->get('');
+            $payment_result->BID = $request->get('');
+            $payment_result->cashReceiptType = $request->get('');
+            $payment_result->receiptTypeNo = $request->get('');
+            $payment_result->cashNo = $request->get('');
+            $payment_result->cashTid = $request->get('');
+            $payment_result->ediDate = $request->get('');
+            $payment_result->mid = $request->get('');
+            $payment_result->moid = $request->get('');
+            $payment_result->amt = $request->get('');
+            $payment_result->payMethod = $request->get('');
+            $payment_result->mallUserId = $request->get('');
 
             //todo 위의 처리를 완료한후 popup을 닫고 부모창(purchase)를 submit하여 complete한다.
             // result: 처리 결과 메세지(결제가 완료되었습니다. 또는 결제가 정상적으로 처리되지 못하였습니다.)
             // event: 팝업닫기 또는 뒤로가기 ( 'close', 'history.back()')
 
-            return view('web.order.pay-result', compact('result', 'event'));
+
         }
+        return view('web.order.payment-result', compact('result', 'event'));
     }
     
     public function complete(Request $request) {
         $order = Order::where('datekey', $request->get('datekey'))
             ->where('cars_id', $request->get('cars_id'))->first();
 
-        $item = Item::find($request->get('item_choice'))->first();
+        if($order){
+            $item = Item::find($request->get('item_choice'))->first();
 
-        $order->purchase->update([
-            'amount' => $item->price,
-            'type' => $request->get('payment_method'),
-            'status_cd' => 102
-        ]);
+            $order->purchase->update([
+                'amount' => $item->price,
+                'type' => $request->get('payment_method'),
+                'status_cd' => 102
+            ]);
 
-        $date = Carbon::now()->toDateTimeString();
-        Reservation::create([
-            'orders_id' => $order->id,
-            'garage_id' => $order->garage_id,
-            'created_id' => $order->orderer_id,
-            'reservation_at' => $date
-        ]);
+            $date = Carbon::now()->toDateTimeString();
 
-        $order->update([
-            'status_cd' => 103,
-            'purchase_id' => $order->purchase->id,
-            'item_id' => $item->id
-        ]);
-        return view('web.order.complete', compact('order'));
+            $reservation = Reservation::where('orders_id', $order->id)->first();
+            if(!$reservation){
+                $reservation = new Reservation();
+            }
+            $reservation->orders_id = $order->id;
+            $reservation->garage_id = $order->garage_id;
+            $reservation->created_id = $order->orderer_id;
+            $reservation->reservation_at = $date;
+            $reservation->save();
+
+            $order->update([
+                'status_cd' => 103,
+                'purchase_id' => $order->purchase->id,
+                'item_id' => $item->id
+            ]);
+
+            $error = null;
+
+        }else{
+            $order = new Order();
+            $error = "잘못된 접근 또는 결제가 정상 처리되지 못하였습니다.\n관리자에게 문의해 주세요.";
+        }
+        return view('web.order.complete', compact('order', 'error'));
+
     }
 
     public function getModels(Request $request) {

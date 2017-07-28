@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");
     Route::get('order/factory/{page?}', 'OrderController@factory')->name("order.factory");
     Route::post('order/payment-popup', 'OrderController@paymentPopup')->name("order.payment-popup");
-    Route::post('order/payment-result', 'OrderController@paymentResult')->name("order.payment-result");
+
 
     Route::get('/order/get_models', 'OrderController@getModels')->name("order.get_models");
     Route::get('/order/get_details', 'OrderController@getDetails')->name("order.get_details");
@@ -55,6 +55,7 @@ Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 //결제결과 수신
 Route::match(['GET', 'POST'], 'payment/pay-result', 'PaymentController@payCallback')->name('payment.pay-result');
 Route::match(['GET', 'POST'], 'payment/pay-callback', 'PaymentController@payResult')->name('payment.pay-callback');
+Route::match(['GET', 'POST'], 'order/payment-result', 'OrderController@paymentResult')->name("order.payment-result");
 
 
 // Information
