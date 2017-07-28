@@ -65,7 +65,7 @@
                 </div>
             </div>
 
-            <div class="form-group {{ $errors->has('roles') ? 'has-error' : '' }}">
+            <div class="form-group {{ $errors->has('roles') ? 'has-error' : 'roles' }}">
                 <label for="inputRoles" class="control-label col-md-3">{{ trans('admin/user.roles') }}</label>
                 <div class="col-md-6">
 
@@ -84,10 +84,6 @@
                 <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.garage') }}</label>
                 <div class="col-md-6 selected_garage">
                     <input type="text" class="form-control" name="garage" id="selected_garage" value="" readonly>
-
-                    {{--<select class="form-control" multiple="" id="selected_garage" style="height: 34px">--}}
-                    {{--<option value="1" selected>Administrator</option>--}}
-                    {{--</select>--}}
                     @if ($errors->has('garage'))
                         <span class="help-block">
                             {{ $errors->first('garage') }}
@@ -96,23 +92,50 @@
                 </div>
             </div>
 
-            <div id="garage_info">
-                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }} garage">
-                    <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.garage') }}</label>
-                    <div class="col-md-6 selected_garage">
-                        <input type="text" class="form-control" name="garage" id="selected_garage" value="" readonly>
-
-                        {{--<select class="form-control" multiple="" id="selected_garage" style="height: 34px">--}}
-                        {{--<option value="1" selected>Administrator</option>--}}
-                        {{--</select>--}}
-                        @if ($errors->has('garage'))
-                            <span class="help-block">
-                            {{ $errors->first('garage') }}
-                        </span>
-                        @endif
+            <div id="garage_info" style="display: none">
+                <div class="form-group {{ $errors->has('aliance') ? 'has-error' : '' }} aliance">
+                    <label for="inputGarage" class="control-label col-md-3">네트워크</label>
+                    <div class="col-md-6 ">
+                        {{--<input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="">--}}
+                        {!! Form::select('aliance_id', $aliances, [], ['class'=>'form-control', 'multiple', 'id'=>'aliance']) !!}
                     </div>
                 </div>
-
+                <div class="form-group {{ $errors->has('garage_name') ? 'has-error' : '' }} garage_name">
+                    <label for="inputGarage" class="control-label col-md-3">정비소 명</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="">
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('garage_tel') ? 'has-error' : '' }} garage_tel">
+                    <label for="inputGarage" class="control-label col-md-3">정비소 전화번호</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_tel') }}" name="garage_tel" id="garage_tel" value="">
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('garage_zipcode') ? 'has-error' : '' }} garage_zipcode">
+                    <label for="inputGarage" class="control-label col-md-3">우편번호</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_zipcode') }}" name="garage_zipcode" id="garage_zipcode" value="">
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('garage_area') ? 'has-error' : '' }} garage_area">
+                    <label for="inputGarage" class="control-label col-md-3">시/도</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_area') }}" name="garage_area" id="garage_area" value="">
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('garage_name') ? 'has-error' : '' }} garage_section">
+                    <label for="inputGarage" class="control-label col-md-3">구/군</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_section') }}" name="garage_section" id="garage_section" value="">
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('garage_address') ? 'has-error' : '' }} garage_address">
+                    <label for="inputGarage" class="control-label col-md-3">나머지 주소</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_address') }}" name="garage_address" id="garage_address" value="">
+                    </div>
+                </div>
             </div>
 
 
@@ -248,16 +271,24 @@
 @push( 'footer-script' )
     <script type="text/javascript">
         $(function () {
-            $(document).on("click", '#user-role', function (){
-//            alert($('#user-role option:selected').text());
+            $('.roles').on("click", '#user-role', function (){
                 if($('#user-role option:selected').text() == 'engineer'){
+                    $('#garage_info').css('display', 'none');
                     $("#garage-modal").modal();
                 }
-//                else if (){
-//
-//                }
+                else if ($('#user-role option:selected').text() == 'garage'){
+                    $('#garage_info').css('display', '');
+                    $('.garage').css('display', 'none');
+                    $('#garage_name').val('');
+                    $('#garage_tel').val('');
+                    $('#garage_zipcode').val('');
+                    $('#garage_area').val('');
+                    $('#garage_section').val('');
+                    $('#garage_address').val('');
+                }
                 else{
                     $('.garage').css('display', 'none');
+                    $('#garage_info').css('display', 'none');
                     $('#selected_garage').val('');
                 }
             });
@@ -266,18 +297,6 @@
                 $('#selected_garage').val($(this).text());
                 $('.garage').css('display', '');
                 $("#garage-modal").modal('hide');
-
-            });
-
-
-            $(document).on("click", '#btn-user-destory', function (e) {
-                e.preventDefault();
-                if (confirm("{{ trans('admin/user.destroy-warning') }}")) {
-                    $('#frm-user fieldset').prop("disabled", true);
-                    $(this).button('loading');
-                    $frm.submit();
-                }
-
             });
 
             $('#search').click(function (){
@@ -315,6 +334,16 @@
                     })
                 }
             })
+
+            $(document).on("click", '#btn-user-destory', function (e) {
+                e.preventDefault();
+                if (confirm("{{ trans('admin/user.destroy-warning') }}")) {
+                    $('#frm-user fieldset').prop("disabled", true);
+                    $(this).button('loading');
+                    $frm.submit();
+                }
+
+            });
         });
     </script>
 @endpush

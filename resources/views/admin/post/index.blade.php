@@ -120,7 +120,7 @@
                         </td>
 
                         <td class="">
-                            <a href="{{ route("board.edit", ['id'=> $data->board_id]) }}">{{ $data->board->name }}</a>
+                            <a href="{{ route("board.edit", ['id'=> $data->board_id]) }}">{{ \App\Helpers\Helper::getBoard($data->board_id)->name }}</a>
                         </td>
 
 

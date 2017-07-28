@@ -22,10 +22,14 @@ return [
     'updated_at' => '수정일',
 
     'garage' => '정비소',
-    
-    
-    
-    
+
+    'garage_name' => '정비소 명',
+    'garage_tel' => '정비소 전화번호',
+    'garage_zipcode' => '우편번',
+    'garage_area' => '시/도 입력',
+    'garage_section' => '구/군 입력',
+    'garage_address' => '나머지 상세 주소',
+
     'destroy-warning' => '해당 회원을 삭제하시겠습니까?',
     
     'fail' => 'Update fail.',

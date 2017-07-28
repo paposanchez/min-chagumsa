@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Board;
 use App\Models\Code;
 use App\Models\Models;
 use Mockery\Exception;
@@ -219,5 +220,10 @@ class Helper {
         $code = Code::where('id', $code_id)->first();
         return trans('code.' . $code->group . '.' . $code->name);
 
+    }
+
+    public static function getBoard($board_id){
+        $board = Board::find($board_id)->first();
+        return $board;
     }
 }

@@ -114,6 +114,12 @@ class User extends Authenticatable {
         return $this->belongsTo(Order::class, "id");
     }
 
+    public static function getArrayByName() {
+        $return = User::orderBy('name')->pluck('name', 'id');
+
+        return $return->toArray();
+    }
+
 //    public function getFilesDirectory() {
 //        $folderPath = 'user/' . $this->id;
 //        if (!in_array($folderPath, Storage::disk('files')->directories())) {
