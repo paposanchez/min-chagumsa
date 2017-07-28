@@ -177,6 +177,13 @@
 	</div>
 
 
+	{!! Form::open(['route' => ["order.complete"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'process-form']) !!}
+	<input type="hidden" name="datekey" id="p_datekey" value="{{ $datekey }}">
+	<input type="hidden" name="cars_id" id="p_cars_id" value="{{ $cars_id }}">
+	<input type="hidden" name="item_choice" id="p_item_choice">
+	<input type="hidden" name="payment_method" id="p_payment_method">
+	<input type="hidden" name="orders_id" id="p_orders_id" value="{{ $orders_id }}">
+	{!! Form::close() !!}
 </div>
 @endsection
 
@@ -227,6 +234,8 @@
                     $('#total_price').html(number_format(data.price - 0));
 
 					$("#product_name").val(product_name);
+
+					$("#p_item_choice").val(data.id); //item_choice 값 설정
                 }
             })
 
@@ -236,6 +245,9 @@
             var pay_checked = $("input:radio[name='payment_method']:checked").val();
 
 			if($("#amt").val() && pay_checked != undefined){
+
+			    //결제 수단 선택값 process-form에 설정
+				$("#p_payment_method").val(pay_checked);
 			    //팝업 실제 처리 부문 주석처리함
 //                window.open("", 'payment', 'width=516,height=455,scrollbars=no,toolbar=no,location=no,resizable=yes,status=no,menubar=no,left=400,top=300');
                 var payment_window = window.open("", 'payment', 'width=840,height=555,scrollbars=yes,toolbar=no,location=no,resizable=yes,status=no,menubar=no,left=400,top=300');
@@ -260,6 +272,16 @@
         })
     });
 
+    /**
+	 * 주문완료 function
+     * @param datekey
+     * @param cars_id
+     * @param item_choice
+     * @param payment_method
+     */
+	var order_complete = function(){
 
+        $("#process-form").submit();
+	}
 </script>
 @endpush
