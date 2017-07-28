@@ -13,5 +13,7 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         //
+        'order/payment-result',
+        'order/payment-callback',
     ];
 }
