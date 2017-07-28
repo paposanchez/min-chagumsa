@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Code;
 use App\Models\UserExtra;
+use App\Models\UserSequence;
 use DB;
 use Hash;
 use Image;
@@ -29,17 +30,19 @@ class UserController extends Controller {
         $status_cd_list = Code::whereGroup('user_status')->get();
 
 
-//        $garages = User::select()->join('role_user', function($join){
-//            $join->on('users.id', '=', 'role_user.user_id')->where('role_id', 5);
-//        })->get();
+        $aliances = User::select()->join('role_user', function($join){
+            $join->on('users.id', '=', 'role_user.user_id')->where('role_id', 3);
+        })->orderBy('name')->pluck('name', 'id');
 
         $garages = GarageInfo::select()->get();
 
 
-        return view('admin.user.create', compact('roles', 'status_cd_list', 'garages'));
+
+        return view('admin.user.create', compact('roles', 'status_cd_list', 'garages', 'aliances'));
     }
 
     public function store(Request $request) {
+
         $this->validate($request, [
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
@@ -64,38 +67,116 @@ class UserController extends Controller {
 
         $input = $request->all();
 
+
         // 비밀번호 생성
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+//        $user = User::find(14)->first();
 
-        // 사용자 역활 추가
+        // 사용자 역활 추가, role_user 테이블
         foreach ($input['roles'] as $key => $value) {
             $user->attachRole($value);
         }
 
 
-
         //todo 현재 user_extras에 데이터를 저장하는 것이 없기 떄문에, 만약 roles이 엔지니어(5)라면 정비소의 아이디를 가지고 user_extra에 같이 저장한다.
 
         if($request->get('roles')[0] == 5 || $request->get('roles')[0] == 4){
-            //todo 정비소 이름이 있으면 저장
-            //dd($request->get('roles'));
+            $rol = $request->get('roles')[0];
+            if($rol == 4){
+                $this->validate($request, [
+                    'garage_name' => 'required|min:2',
+                    'garage_tel' => 'required',
+                    'garage_zipcode' => 'required',
+                    'garage_area' => 'required',
+                    'garage_section' => 'required',
+                    'garage_address' => 'required'
+                ]);
 
-            $user_extra = new UserExtra();
-//            $user_extra->
 
+                // garage_info 데이터 저장
+                $garage_info = GarageInfo::where('name', $request->get('garage_name'))->first();
+                if(!$garage_info){
+                    $garage_info = new GarageInfo();
+                }
+                $garage_info->garage_id = $user->id;
+                $garage_info->name = $request->get('garage_name');
+                $garage_info->tel = $request->get('garage_tel');
+                $garage_info->zipcode = $request->get('garage_zipcode');
+                $garage_info->area = $request->get('garage_area');
+                $garage_info->section = $request->get('garage_section');
+                $garage_info->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_zipcode')." ".$request->get('garage_address');
+                $garage_info->save();
+
+
+                // user_extra 데이터 저장
+                $user_extra = UserExtra::where('users_id', $user->id)->first();
+                if(!$user_extra){
+                    $user_extra = new UserExtra();
+                }
+                $user_extra->users_id = $user->id;
+                $user_extra->phone = $request->get('garage_tel');
+                $user_extra->zipcode = $request->get('garage_zipcode');
+                $user_extra->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_zipcode')." ".$request->get('garage_address');
+                $user_extra->address_extra = $request->get('garage_name');
+                $user_extra->aliance_id = $request->get('aliance_id');
+                $user_extra->save();
+
+
+                // user_sequence 데이터 저장
+                $user_seq = UserSequence::where('users_id', $user->id)->first();
+                if(!$user_seq){
+                    $user_seq = new UserSequence();
+                }
+                $user_seq->users_id = $user->id;
+//                    $user_seq->seq = str_pad($user_seq, 5 , "0", STR_PAD_LEFT);
+//                    $user_seq->garage_seq = str_pad($garage_seq, 5 , "0", STR_PAD_LEFT);
+                $user_seq->save();
+                $user_seq->setNewGarageSeq($user->id);
+
+
+            }else{
+                $this->validate($request, [
+                    'garage' => 'required'
+                ]);
+
+                // user_extra 데이터 저장
+                $user_extra = UserExtra::where('users_id', $user->id)->first();
+                $garage_info = GarageInfo::where('name', $request->get('garage')->first());
+                if(!$user_extra){
+                    $user_extra = new UserExtra();
+                }
+                $user_extra->users_id = $user->id;
+                $user_extra->phone = $request->get('mobile');
+                $user_extra->zipcode = $garage_info->tel;
+                $user_extra->address = $garage_info->address;
+                $user_extra->address_extra = $garage_info->name;
+                $user_extra->garage_id = $garage_info->garage_id;
+                $user_extra->save();
+
+
+                // user_sequence 데이터 저장
+                $user_seq = UserSequence::where('users_id', $user->id)->first();
+                if(!$user_seq){
+                    $user_seq = new UserSequence();
+                }
+                $user_seq->users_id = $user->id;
+                $user_seq->save();
+                $user_seq->setNewEngineerSeq($user->id, $garage_info->garage_id);
+
+
+            }
         }
 
 
         if ($request->file('avatar')) {
             Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
-
             $user->avatar = 1;
             $user->save();
         }
 
         return redirect()
-                        ->route('user.edit', $user->id)
+                        ->route('user.index', $user->id)
                         ->with('success', trans('admin/user.created'));
     }
 
@@ -105,12 +186,16 @@ class UserController extends Controller {
         $status_cd_list = Code::whereGroup('user_status')->get();
         $roles = Role::getArrayByName();
 
+        $aliances = User::select()->join('role_user', function($join){
+            $join->on('users.id', '=', 'role_user.user_id')->where('role_id', 3);
+        })->orderBy('name')->pluck('name', 'id');
+
         $garages = GarageInfo::select()->get();
 
 
         $userRole = $user->roles->pluck('id', 'name')->toArray();
 
-        return view('admin.user.edit', compact('user', 'roles', 'userRole', 'status_cd_list', 'garages'));
+        return view('admin.user.edit', compact('user', 'roles', 'userRole', 'status_cd_list', 'garages', 'aliances'));
     }
 
     public function update(Request $request, $id) {
@@ -158,6 +243,92 @@ class UserController extends Controller {
             }
         }
 
+        if($request->get('roles')[0] == 5 || $request->get('roles')[0] == 4){
+            $rol = $request->get('roles')[0];
+            if($rol == 4){
+                $this->validate($request, [
+                    'garage_name' => 'required|min:2',
+                    'garage_tel' => 'required',
+                    'garage_zipcode' => 'required',
+                    'garage_area' => 'required',
+                    'garage_section' => 'required',
+                    'garage_address' => 'required',
+                    'aliance' => 'required'
+                ]);
+
+
+                // garage_info 데이터 저장
+                $garage_info = GarageInfo::where('name', $request->get('garage_name'))->first();
+                if(!$garage_info){
+                    $garage_info = new GarageInfo();
+                }
+                $garage_info->garage_id = $user->id;
+                $garage_info->name = $request->get('garage_name');
+                $garage_info->tel = $request->get('garage_tel');
+                $garage_info->zipcode = $request->get('garage_zipcode');
+                $garage_info->area = $request->get('garage_area');
+                $garage_info->section = $request->get('garage_section');
+                $garage_info->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_zipcode')." ".$request->get('garage_address');
+                $garage_info->save();
+
+
+                // user_extra 데이터 저장
+                $user_extra = UserExtra::where('users_id', $user->id)->first();
+                if(!$user_extra){
+                    $user_extra = new UserExtra();
+                }
+                $user_extra->users_id = $user->id;
+                $user_extra->phone = $request->get('garage_tel');
+                $user_extra->zipcode = $request->get('garage_zipcode');
+                $user_extra->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_zipcode')." ".$request->get('garage_address');
+                $user_extra->address_extra = $request->get('garage_name');
+                $user_extra->aliance_id = $request->get('aliance_id');
+                $user_extra->save();
+
+
+                // user_sequence 데이터 저장
+                $user_seq = UserSequence::where('users_id', $user->id)->first();
+                if(!$user_seq){
+                    $user_seq = new UserSequence();
+                }
+                $user_seq->users_id = $user->id;
+//                    $user_seq->seq = str_pad($user_seq, 5 , "0", STR_PAD_LEFT);
+//                    $user_seq->garage_seq = str_pad($garage_seq, 5 , "0", STR_PAD_LEFT);
+                $user_seq->save();
+                $user_seq->setNewGarageSeq($user->id);
+
+
+            }else{
+                $this->validate($request, [
+                    'garage' => 'required'
+                ]);
+
+                // user_extra 데이터 저장
+                $user_extra = UserExtra::where('users_id', $user->id)->first();
+                $garage_info = GarageInfo::where('name', $request->get('garage'))->first();
+                if(!$user_extra){
+                    $user_extra = new UserExtra();
+                }
+                $user_extra->users_id = $user->id;
+                $user_extra->phone = $request->get('mobile');
+                $user_extra->zipcode = $garage_info->tel;
+                $user_extra->address = $garage_info->address;
+                $user_extra->address_extra = $garage_info->name;
+                $user_extra->garage_id = $garage_info->garage_id;
+                $user_extra->save();
+
+
+                // user_sequence 데이터 저장
+                $user_seq = UserSequence::where('users_id', $user->id)->first();
+                if(!$user_seq){
+                    $user_seq = new UserSequence();
+                }
+                $user_seq->users_id = $user->id;
+                $user_seq->save();
+                $user_seq->setNewEngineerSeq($user->id, $garage_info->garage_id);
+            }
+        }
+
 
         // 아바타 변경
         if ($request->file('avatar')) {
@@ -168,7 +339,7 @@ class UserController extends Controller {
         }
 
         return redirect()
-                        ->route('user.edit', $user->id)
+                        ->route('user.index', $user->id)
                         ->with('success', trans('admin/user.updated'));
     }
 

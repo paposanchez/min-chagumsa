@@ -6,7 +6,6 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class GarageInfo extends Model {
-//    protected $table = 'garage_infos';
     protected $table = 'garage_infos';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -18,7 +17,9 @@ class GarageInfo extends Model {
         'section',
         'address'
     ];
-    protected $dates = ['created_at'];
+    protected $dates = ['created_at', 'updated_at'];
+
+
 
 
     public function user(){
