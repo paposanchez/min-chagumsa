@@ -297,6 +297,7 @@ class OrderController extends Controller {
             $order_price = $order_where->item->price;
         }else{
             $order_where = new Order();
+            $order_price = false;
         }
 
 
@@ -309,7 +310,7 @@ class OrderController extends Controller {
         }catch (\Exception $e){
             $decAmt = null;
             $decMoid = null;
-            $order_price = false;
+
         }
 
 
