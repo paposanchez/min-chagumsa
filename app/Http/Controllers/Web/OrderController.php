@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 use App\Tpay\TpayLib as Encryptor;
+use GuzzleHttp\Client;
 
 class OrderController extends Controller {
 
@@ -333,23 +334,22 @@ class OrderController extends Controller {
             //결제결과 수신 여부 알림
 
             $url = 'https://webtx.tpay.co.kr/resultConfirm';
-            $param = array(
-                "tid" => $tid,
-                "result" => "000" //수신 코드이다.
-            );
+//            $param = array(
+//                "tid" => $tid,
+//                "result" => "000" //수신 코드이다.
+//            );
 
             //todo curl에서 laravel restclient로 수정해야 함.
-            $ch = curl_init();
-            curl_setopt ($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+            if($tid){
+                $client = new Client();
+                $contents = $client->post($url, [
+                    'form_params' => [
+                        "tid" => $tid,
+                        "result" => "000"
+                    ]
+                ]);
+            }
 
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
-            $contents = curl_exec($ch);
-            curl_close($ch);
 
             //상점DB처리
             //todo 1, payment, paymentResult 를 처리함. 2. order state를 업데이트 함.
