@@ -16,11 +16,17 @@ class SearchController extends Controller {
     public function index(Request $request) {
         $search_con = $request->q;
         $where = Order::select();
-        if ($search_con) {
+
+        $order_number = explode("-",$search_con);
+
+        if($search_con && strlen($search_con)>9){
+            $where->where("datekey", $order_number[0])->where("car_number", $order_number[1]);
+        }elseif($search_con && strlen($search_con)<=9){
             $where->where("car_number", $search_con);
-        }elseif (!$search_con){
+        }else{
             $empty = 1;
         }
+
         $result = $where->get();
 
         return view('web.search.index', compact('result', 'empty'));
@@ -28,12 +34,3 @@ class SearchController extends Controller {
 
 }
 
-
-
-//if(strlen($search_con) < 15){
-//    Order::select()->where("car_number", $search_con);
-//}elseif ($search_con && strlen($search_con) == 7){
-//
-//}elseif (!$search_con){
-//    $empty = 1;
-//}
