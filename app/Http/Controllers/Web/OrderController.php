@@ -88,23 +88,13 @@ class OrderController extends Controller {
 //        return view('web.order.purchase', compact('order', 'items', 'request'));
 //    }
 
-    public function orderStore(Request $request) {
-//        dd('aaaa');
+    public function purchase(Request $request) {
+
         $datekey = substr(str_replace("-","",$request->reservaton_date), -6);
 
         $orderer_id = Auth::user()->id;
 
         $order = Order::where('datekey', $datekey)->where('car_number', $request->get('car_number'))->first();
-
-//        if(!$order){
-//            //insert
-//            $order = new Order();
-//        }
-//        $order->datekey = $datekey;
-//        $order->save();
-
-
-//        dd($request->all());
 
         if(!$order){
             $order = new Order();
@@ -124,50 +114,48 @@ class OrderController extends Controller {
         $cars_id = $car->id; //자동차 ID 설정
 
 
-         $order->datekey = $datekey;
-         $order->car_number = $request->get('car_number');
-         $order->cars_id = $car->id;
-         $order->garage_id = $request->get('garage_id');
-         $order->orderer_id = $orderer_id;
-         $order->orderer_name = $request->get('orderer_name');
-         $order->orderer_mobile = $request->get('orderer_mobile');
-         $order->registration_file = 0;
-         $order->open_cd = 0;
-         $order->status_cd = 102;
-         $order->flooding_state_cd = $request->get('flooding');
-         $order->accident_state_cd = $request->get('accident');
-         $order->item_id = 0;
-
-         $order->save();
-
-         $orders_id = $order->id;
-
-         if($request->get('options_ck') != []){
-             $order_features = OrderFeature::where('orders_id', $order->id)->first();
-             if(!$order_features){
-                 $order_features = new OrderFeature();
-             }else{
-                 OrderFeature::where('orders_id', $order->id)->delete();
-             }
-
-             $order_features_list = [];
-
-             foreach ($request->get('options_ck') as $key => $options){
-
-                 $order_features_list[$key]['orders_id'] = $order->id;
-                 $order_features_list[$key]['features_id'] = $options;
-
-             }
-
-             $order_features->insert($order_features_list);
-             $order_features->save();
-         }
-         $items = Item::all();
-//         $order = Order::find(4)->first();
+        $order->datekey = $datekey;
+        $order->car_number = $request->get('car_number');
+        $order->cars_id = $car->id;
+        $order->garage_id = $request->get('garage_id');
+        $order->orderer_id = $orderer_id;
+        $order->orderer_name = $request->get('orderer_name');
+        $order->orderer_mobile = $request->get('orderer_mobile');
+        $order->registration_file = 0;
+        $order->open_cd = 0;
+        $order->status_cd = 102;
+        $order->flooding_state_cd = $request->get('flooding');
+        $order->accident_state_cd = $request->get('accident');
+        $order->item_id = 0;
+        $order->save();
+        $orders_id = $order->id;
+        if($request->get('options_ck') != []){
+            $order_features = OrderFeature::where('orders_id', $order->id)->first();
+            if(!$order_features){
+                $order_features = new OrderFeature();
+            }else{
+                OrderFeature::where('orders_id', $order->id)->delete();
+            }
+            $order_features_list = [];
+            foreach ($request->get('options_ck') as $key => $options){
+                $order_features_list[$key]['orders_id'] = $order->id;
+                $order_features_list[$key]['features_id'] = $options;
+            }
+            $order_features->insert($order_features_list);
+            $order_features->save();
+        }
+        $items = Item::all();
+//        $order = Order::find(4)->first();
 
         $garage_info = GarageInfo::findOrFail($request->get('garage_id'));
 
-        return view('web.order.purchase', compact('order', 'items', 'garage_info', 'request', 'datekey', 'cars_id', 'orders_id'));
+
+        $date = new \DateTime($request->reservaton_date);
+
+        $reservation_date = $date->format('Y년 m월d일');
+
+
+        return view('web.order.purchase', compact('order', 'items', 'garage_info', 'request', 'datekey', 'cars_id', 'orders_id', 'reservation_date'));
 
     }
 

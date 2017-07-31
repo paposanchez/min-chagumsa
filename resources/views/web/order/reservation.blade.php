@@ -32,7 +32,7 @@
 
 			{{--<form action="{{ route("order.purchase") }}">--}}
 
-			{!! Form::open(['route' => ["order.order-store"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'reservation-form']) !!}
+			{!! Form::open(['route' => ["order.purchase"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'reservation-form']) !!}
 
 
 			<input type="hidden" value="{{ $request->orderer_name }}" name="orderer_name">
@@ -120,7 +120,6 @@
 						</select>
 					</div>&nbsp;&nbsp;
 					<div class='psk_select wid20'>
-						<input type='hidden' class='psk_select_val' value=''>
 						{{--{!! Form::select('sel_section', $garage_sections, [], ['class'=>'btns btns2', 'id'=>'sel_section']) !!}--}}
 						<input type="text" id="sel_section" name="sel_section" value="" hidden/>
 						<select class="form-control btns btns2" id="sections">

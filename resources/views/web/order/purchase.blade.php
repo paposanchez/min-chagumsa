@@ -77,7 +77,9 @@
 				</div>
 
 				<div class='order_info_desc'>
-					<span>{{ $request->reservaton_date }}  {{ $request->sel_time }}시</span>
+					{{--<span>{{ $request->reservaton_date }}  {{ $request->sel_time }}시</span>--}}
+					<span>{{ $reservation_date }}  {{ $request->sel_time }}시</span>
+
 					<span>임시 정비소명</span>
 					<span>{{ $garage_info->name }} {{ $garage_info->address }}</span>
 				</div>
