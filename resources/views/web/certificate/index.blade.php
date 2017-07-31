@@ -67,7 +67,7 @@
 	$(function (){
 		$('#detail').click(function(){
 			// 임시로 주문번호 4로 입력
-			window.open('/certificate/4/summary',"", "width=11 00, height=1400");
+			window.open('/certificate/4/summary',"", "width=1100, height=1400");
 		})
 	});
 </script>
