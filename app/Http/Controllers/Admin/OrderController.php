@@ -126,7 +126,7 @@ class OrderController extends Controller
         $json_data = json_decode($response->getBody(), true);
         */
         $diagnosis = new DiagnosisRepository();
-        $return = $diagnosis->prepare($order->id)->get();
+        $entrys = $diagnosis->prepare($order->id)->get();
 
         /**
          * 기본정보: 자동차등록증 / 차대번호 / 주행거리 / 색상 / 추가옵션
@@ -144,7 +144,7 @@ class OrderController extends Controller
 
 
 
-        return view('admin.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'return'));
+        return view('admin.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys'));
     }
 
     public function store(Request $request){

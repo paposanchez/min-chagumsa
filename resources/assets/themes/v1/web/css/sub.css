@@ -219,6 +219,7 @@
 .order_info_guide ul li span {color:#444;line-height:18px;display:block;margin-bottom:5px;}
 .order_info_guide ul li strong {color:#82c4f2;line-height:18px;display:block;font-weight:normal;}
 
+.order_detail_box_no_line {padding:30px 0;position:relative;}
 .order_detail_box {border-bottom:1px solid #cecece;padding:30px 0;position:relative;}
 .order_detail_title {font-size:14px;font-weight:bold;color:#0b4777;height:32px;line-height:32px;margin-bottom:10px;}
 .order_detail_title button {margin-left:10px;height:32px;}

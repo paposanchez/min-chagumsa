@@ -62,7 +62,7 @@
 		<div class='br30'></div>
 
 		<div class='ipt_line wid20'>
-			<button class='btns btns_green' style='display:inline-block;'>홈으로 이동</button>
+			<a href="/" class='btns btns_green' style='display:inline-block;'>홈으로 이동</a>
 		</div>
 
 	</div>
