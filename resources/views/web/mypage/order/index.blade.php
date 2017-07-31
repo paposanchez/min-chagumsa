@@ -17,7 +17,7 @@
     <div class='order_info_box'>
         <div class='order_info_title'>
             <strong>주문일</strong>
-            <span>{{ Carbon\Carbon::parse($orders->created_at)->format('Y-m-d') }}</span>
+            <span>{{ Carbon\Carbon::parse($orders->created_at)->format('Y년 m월 d일') }}</span>
 
 
             <a href='{{ route('mypage.order.show', ['id'=>$orders->id]) }}'>주문상세보기 ></a>

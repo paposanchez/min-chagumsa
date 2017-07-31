@@ -36,7 +36,10 @@
 			</div>
 			<div class='order_info_btn'>
 				{{ $order->status->display() }}
-				<button class='btns btns2'>취소신청</button>
+				@if( $order->status_cd != 107 && $order->status_cd != 100 )
+					<a href="{{ route('mypage.order.cancel', ['order_id'=>$order->id]) }}" class='btns btns2' id="cansel" style="display: block; font-size: 15px;margin-top: 5px;">취소신청</a>
+				@endif
+
 			</div>
 		</div>
 	</div>
@@ -60,7 +63,10 @@
 
 	<div class='order_detail_box'>
 		<div class='order_detail_title'>
-			차량 정보 <a class='btns btns2' href="{{ route('mypage.order.edit_car', ['order_id' => $order->id]) }}">변경</a>
+			차량 정보
+			@if( $order->status_cd != 107 && $order->status_cd != 100 )
+			<a class='btns btns2' href="{{ route('mypage.order.edit_car', ['order_id' => $order->id]) }}">변경</a>
+			@endif
 
 		</div>
 		<div class='od_line'>
@@ -92,17 +98,20 @@
 
 	<div class='order_detail_box'>
 		<div class='order_detail_title'>
-			입고 정보 <a class='btns btns2' href="{{ route('mypage.order.edit_garage', ['order_id' => $order->id]) }}">변경</a>
+			입고 정보
+			@if( $order->status_cd != 107 && $order->status_cd != 100 )
+			<a class='btns btns2' href="{{ route('mypage.order.edit_garage', ['order_id' => $order->id]) }}">변경</a>
+			@endif
 		</div>
 		<div class='od_line'>
 			<label>입고희망일</label>
 			{{-- todo 예약테이블에 저장 후 출력--}}
-			<span></span>
+			<span>{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y년 m월 d일') }}</span>
 		</div>
 		<div class='od_line'>
 			<label>입고대리점</label>
 			{{-- todo 정비소 데이터 저장 후 출력 --}}
-			<span>한스모터스<br>전화번호:02-451-0788<br>주소: 서울특별시 강남구 개포로 644</span>
+			<span>{{ $my_garage->name }}<br>전화번호: {{ $my_garage->tel }}<br>주소: {{ $my_garage->address }}</span>
 		</div>
 	</div>
 
