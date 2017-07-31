@@ -25,7 +25,7 @@
                     {{--@endforeach--}}
 
                     {{-- 기본정보 --}}
-                    @include("admin.order.diagnosis-basic", [$return])
+                    @include("admin.order.diagnosis-basic", [$entrys])
 
                     {{--주요외판--}}
                     {{--@include("admin.order.diagnosis-outer")--}}

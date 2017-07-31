@@ -97,7 +97,7 @@
 
             <fieldset>
                 @foreach($entrys['entrys'] as $details)
-                    <h3>{{ \App\Helpers\Helper::getCodeName($details['name_cd']) }}</h3>
+                    <h3>{{ $details['name']['display'] }}</h3>
                     @foreach($details['entrys'] as $detail)
                     <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
                         <label for="inputName" class="control-label col-md-2 text-left">
