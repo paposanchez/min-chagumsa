@@ -283,6 +283,7 @@
                 dataType: 'json',
                 url: '/order/get_models/',
                 data : {
+                    '_token' : '{{ csrf_token() }}',
                     'brand' : brand
                 },
                 success: function(data){
@@ -319,6 +320,7 @@
                 dataType: 'json',
                 url: '/order/get_details/',
                 data : {
+                    '_token' : '{{ csrf_token() }}',
                     'model' : model
                 },
                 success: function(data){
@@ -354,6 +356,7 @@
                 dataType: 'json',
                 url: '/order/get_grades/',
                 data : {
+                    '_token' : '{{ csrf_token() }}',
                     'detail' : detail
                 },
                 success: function(data){
@@ -404,7 +407,8 @@
                     dataType: 'json',
                     url: '/order/send-sms',
                     data: {
-                        'mobile_num': mobile_num, "_token": "{{ csrf_token() }}"
+                        'mobile_num': mobile_num,
+                        "_token": "{{ csrf_token() }}"
                     },
                     success: function(jdata){
 

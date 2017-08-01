@@ -493,6 +493,10 @@ return [
         'different' => '다름'
     ],
 
+    'open_cd' => [
+        'public' => '인증서 공개',
+        'private' => '인증서 비공개'
+    ],
 
 
 

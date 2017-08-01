@@ -187,7 +187,7 @@
 .cert_box_cont_result ul li span {display:block;color:#444;font-size:20px;}
 .cert_box_cont_result ul li span strong {font-size:36px;}
 .cert_box_foot {padding:15px 25px;height:70px;line-height:70px;box-sizing:border-box;border-top:1px solid #e5e5e5;background:#f4f4f4;position:relative;}
-.cert_box_foot .cert_msg {position:absolute;font-size:14px;top:15px;left:180px;height:40px;line-height:40px;display:inline-block;color:#bbb;}
+.cert_box_foot .cert_msg {position:absolute;font-size:14px;top:15px;left:230px;height:40px;line-height:40px;display:inline-block;color:#bbb;}
 .cert_copy {position:absolute;background:#fff;top:16px;left:180px;height:38px;border:1px solid #bbb;overflow:hidden;border-radius:5px;}
 .cert_copy input {position:relative;top:-4px;padding-left:15px;width:235px;height:38px;line-height:38px;font-size:12px;border:0;}
 .cert_copy button {border:0;border-radius:0;border-left:1px solid #bbb;width:77px;height:38px;padding:0;}

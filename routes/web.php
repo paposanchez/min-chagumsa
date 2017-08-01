@@ -39,12 +39,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/order/get_section', 'OrderController@getSection')->name("order.get_section");
     Route::get('/order/get_address', 'OrderController@getAddress')->name("order.get_address");
 
-
-    Route::resource('/certificate', 'CertificateController');
+    Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd')->name('certificate.change-open-cd');
+//    Route::resource('/certificate', 'CertificateController',['only' => ['index']]);
+    Route::get('/certificate', 'CertificateController@index')->name("certificate.index");
     // 인증서 조회
+
     Route::get('certificate/{id}/{page?}', 'CertificateController')->name("certificate");
-// 구조를 물어봐야 겠음..
-    Route::get('certificate/performance/{id}', 'CertificateController@performance')->name("certificate.performance");
+//    Route::get('certificate/performance/{id}', 'CertificateController@performance')->name("certificate.performance");
+
 });
 
 // 공통
