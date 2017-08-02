@@ -330,6 +330,7 @@ class OrderController extends Controller {
 //        dd($decMoid);
         //등록된 정보 가져오기
         $order_where = Order::find($decMoid);
+        dd($order_where);
         if($order_where){
             $order_price = $order_where->item->price;
             $purchase_id = $order_where->purchase_id;
