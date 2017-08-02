@@ -1,15 +1,20 @@
 {{-- LAYOUT --}}
-@extends( 'layouts.pay-base' )
+@extends( 'layouts.base' )
 
     {{-- 헤더 스크립트 --}}
     @section( 'content-header-script' )
         
         {{ Html::style(Helper::assets( 'themes/v1/web/css/common.css' )) }}        
         {{ Html::style(Helper::assets( 'themes/v1/web/css/sub.css' )) }}
-
+        {{ Html::script(Helper::assets( 'themes/v1/web/js/common.js' )) }}
+        
         @stack('header-script')
     @endsection
 
+    {{-- 헤더 섹션 --}}
+    @section( 'content-header' )
+        
+    @endsection
 
     {{-- 본문 섹션 --}}
     @section( 'content-body' )
@@ -22,7 +27,6 @@
 
     {{-- 푸터 섹션 --}}
     @section( 'content-footer' )
-        {{-- 푸터 카피라이트 --}}
 
     @endsection
 

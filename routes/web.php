@@ -74,6 +74,12 @@ Route::get('information/price', function () {
     return view('web.information.price');
 })->name('information.price');
 
+//Route::get('information/find-garage', function () {
+//    return view('web.information.find-garage');
+//})->name('information.find-garage');
+Route::get('/information/find0garage', 'InformationController@findGarage')->name('information.find-garage');
+
+
 
 // Agreement
 Route::get('agreement/usage', function () {
@@ -112,6 +118,8 @@ Route::get('register/registered', 'Auth\RegisterController@registered')->name('r
 Route::get('verify', 'Auth\VerifyController@emailCheck');
 
 Route::get('/', 'WelcomeController');
+
+
 
 //결제 prototype
 //Route::get('pay-test/index', 'PayTestController@index');

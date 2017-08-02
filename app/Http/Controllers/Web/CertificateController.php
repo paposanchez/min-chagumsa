@@ -37,7 +37,19 @@ class CertificateController extends Controller {
 
     public function index(){
         $user_id = Auth::user()->id;
-        $orders = Order::where('orderer_id', $user_id)->where('status_cd', 107)->get();
+        $orders = Order::where('orderer_id', $user_id)
+                    ->where('status_cd', 107)
+                    ->join('certificates', function($join){
+                        $join->on('orders.id', '=', 'certificates.orders_id');
+                    })
+                    ->get();
+//        dd($orders);
+//        $row = User::select()->join(‘role_user’, function($join){
+//            $join->on(‘users.id’, ‘=‘, ‘role_user.user_id’)->where(‘role_id’, 4);
+//        });
+
+
+
 
         $select_open_cd = Helper::getCodeSelectArray(Code::getCodesByGroup("open_cd"),'open_cd', '인증서 공개 여부를 선택해 주세요.');
 

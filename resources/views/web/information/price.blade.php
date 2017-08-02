@@ -50,7 +50,7 @@
         <p>
             <span class='br30'>결제를 진행합니다.</span>
         </p>
-        <button class='btns btns2'>정비소 찾아보기</button>
+        <button class='btns btns2' type="button" id="find_garage">정비소 찾아보기</button>
     </div>
 
     <div class='intro3_step_box'>
@@ -136,4 +136,12 @@
 @endpush
 
 @push( 'footer-script' )
+<script type="text/javascript">
+    $(function (){
+        $('#find_garage').click(function (){
+            window.open("{{ route("information.find-garage") }}","", "location=no, width=700, height=450");
+        });
+    });
+</script>
+
 @endpush

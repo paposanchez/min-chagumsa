@@ -305,6 +305,7 @@ class DiagnosisController extends ApiController {
             $order = Order::findOrFail($order_id);
             $order->engineer_id = $user_id;
             $order->status_cd = 106;
+            $order->diagnose_at = Carbon::now();
             $order->save();
 
 
@@ -448,9 +449,9 @@ class DiagnosisController extends ApiController {
             //     throw new Exception($errors[0]);
             // }
 
+            // 내 대리점의 전체 진단중 목록
             $orders = Order::where('garage_id', $user->user_extra->garage_id)
-                ->where('status_cd', [106])
-                ->where('diagnose_at', null)
+                ->where('status_cd', 106)
                 ->get();
 
 

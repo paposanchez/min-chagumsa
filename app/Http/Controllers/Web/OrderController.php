@@ -123,6 +123,7 @@ class OrderController extends Controller {
         $order->orderer_name = $request->get('orderer_name');
         $order->orderer_mobile = $request->get('orderer_mobile');
         $order->registration_file = 0;
+
         $order->open_cd = 1327; //default로 비공개코드 삽입
         $order->status_cd = 101;
         $order->flooding_state_cd = $request->get('flooding');
@@ -332,8 +333,28 @@ class OrderController extends Controller {
         $order_where = Order::find($decMoid);
 //        dd($order_where);
         if($order_where){
+
+//            $order_price = $order_where->item->price;
+//            $purchase_id = $order_where->purchase_id;
+//
+//            //결제결과 purchase update
+//            $purchase = Purchase::find($purchase_id);
+//            $purchase->status_cd = 102;
+//            $purchase->amount =;
+//            $purchase->refund_name =;
+//            $purchase->refund_bank =;
+//            $purchase->refund_account =;
+//            $purchase->type=; //todo type이 실시간 계좌이체일 시 계좌관련정보(위에 property)를 갱신한다.
+//            $purchase->save();
+//
+//            //order 결제상태 변경
+//            $order_where->item_id =;
+//            $order_where->status_cd = 102;
+//            $order_where->save();
+
             $order_price = $order_where->item->price;
             $purchase_id = $order_where->purchase_id;
+
 
         }else{
             $order_where = new Order();
