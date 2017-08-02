@@ -327,7 +327,7 @@ class OrderController extends Controller {
         }
 
 
-
+//        dd($decMoid);
         //등록된 정보 가져오기
         $order_where = Order::find($decMoid);
         if($order_where){
