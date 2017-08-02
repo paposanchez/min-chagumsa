@@ -22,8 +22,9 @@
 <script type="text/javascript">
 
     $(function () {
+        alert("{{ $result }}");
         window.opener.order_complete();
-//        self.window.close();
+        self.window.close();
     });
 
 </script>
