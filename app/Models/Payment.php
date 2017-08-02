@@ -63,7 +63,7 @@ class Payment Extends Model
     ];
 
     public function order(){
-        return $this->belongsTo(Order::class, 'moid', 'id');
+        return $this->belongsTo(Order::class, 'orders_id', 'id');
     }
 
     public function payment_result(){
