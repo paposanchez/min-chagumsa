@@ -77,7 +77,7 @@ Route::get('information/price', function () {
 //Route::get('information/find-garage', function () {
 //    return view('web.information.find-garage');
 //})->name('information.find-garage');
-Route::get('/information/find0garage', 'informationController@findGarage')->name('information.find-garage');
+Route::get('/information/find0garage', 'InformationController@findGarage')->name('information.find-garage');
 
 
 
