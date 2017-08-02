@@ -19,29 +19,44 @@ class Payment Extends Model
 {
     protected $fillable = [
         'id',
-        "payMethod",
-        "transType",
-        "goodsName",
-        "amt",
-        "moid",
-        "mallUserId",
-        "buyerName",
-        "buyerTel",
-        "buyerEmail",
-        "mallIp",
-        "rcvrMsg",
-        "ediDate",
-        "encryptData",
-        "userIp",
-        "resultYn",
-        "quotaFixed",
-        "domain",
-        "socketYn",
-        "socketReturnURL",
-        "retryUrl",
-        "supplyAmt",
-        "vat",
-        "billReqType",
+        'payMethod',//
+        'transType',
+        'goodsName',//
+        'amt',//
+        'moid',//
+        'mallUserId',//
+        'buyerName',//
+        'buyerTel',//
+        'buyerEmail',//
+        'rcvrMsg',
+        'ediDate',//
+        'encryptData',
+        'quotaFixed',
+        'supplyAmt',
+        'vat',
+        'billReqType',
+        'tid',//
+        'stateCd',
+        'authDate',//
+        'authCode',//
+        'fnCd',//
+        'fnName',//
+        'resultCd',//
+        'resultMsg',//
+        'cardQuota',
+        'cardNo',
+        'cardPoint',
+        'usePoint',
+        'balancePoint',
+        'BID',
+        'cashReceiptType',
+        'receiptTypeNo',
+        'cashNo',
+        'cashTid',
+        'mid',//
+        'errorCd',
+        'errorMsg',
+        'orders_id'
     ];
     protected $dates = [
         'created_at', 'updated_at'

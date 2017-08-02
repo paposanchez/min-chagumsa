@@ -124,7 +124,7 @@ class OrderController extends Controller {
         $order->registration_file = 0;
 
         $order->open_cd = 1327; //default로 비공개코드 삽입
-        $order->status_cd = 102;
+        $order->status_cd = 101;
         $order->flooding_state_cd = $request->get('flooding');
         $order->accident_state_cd = $request->get('accident');
         $order->item_id = 0;
@@ -211,7 +211,9 @@ class OrderController extends Controller {
             }
 
 
-            $order_model = Order::find($request->get('orders_id'));
+            $order_model = Order::find($request->get('id'));
+            $order_model->item_id = $request->get('item_choice');
+            $order_model->save();
 
             $moid = $request->get('id');
 
@@ -269,28 +271,49 @@ class OrderController extends Controller {
     public function paymentResult(Request $request){
 
         //webTx에서 받은 결과값들
-        $payMethod = $request->get('payMethod');
-        $mid = $request->get('mid');
-        $tid = $request->get('tid');
-        $mallUserId = $request->get('mallUserId');
-        $amt = $request->get('amt');
-        $buyerName = $request->get('buyerName');
-        $buyerTel = $request->get('buyerTel');
-        $buyerEmail = $request->get('buyerEmail');
-        $mallReserved = $request->get('mallReserved');
-        $goodsName = $request->get('goodsName');
-        $moid = $request->get('moid');
-        $authDate = $request->get('authDate');
-        $authCode = $request->get('authCode');
-        $fnCd = $request->get('fnCd');
-        $fnName = $request->get('fnName');
-        $resultCd = $request->get('resultCd');
-        $resultMsg = $request->get('resultMsg');
-        $errorCd = $request->get('errorCd');
-        $errorMsg = $request->get('errorMsg');
-        $vbankNum = $request->get('vbankNum');
-        $vbankExpDate = $request->get('vbankExpDate');
-        $ediDate = $request->get('ediDate');
+        $payMethod = $request->get('payMethod');//
+        $mid = $request->get('mid');//
+        $tid = $request->get('tid');//
+        $mallUserId = $request->get('mallUserId');//
+        $amt = $request->get('amt');//
+        $buyerName = $request->get('buyerName');//
+        $buyerTel = $request->get('buyerTel');//
+        $buyerEmail = $request->get('buyerEmail');//
+        $mallReserved = $request->get('mallReserved'); //없음.
+        $goodsName = $request->get('goodsName');//
+        $moid = $request->get('moid');//
+        $authDate = $request->get('authDate');//
+        $authCode = $request->get('authCode');//
+        $fnCd = $request->get('fnCd');//
+        $fnName = $request->get('fnName');//
+        $resultCd = $request->get('resultCd');//
+        $resultMsg = $request->get('resultMsg');//
+        $errorCd = $request->get('errorCd'); //없음
+        $errorMsg = $request->get('errorMsg'); //없음
+        $vbankNum = $request->get('vbankNum'); //없음
+        $vbankExpDate = $request->get('vbankExpDate'); //없음.
+        $ediDate = $request->get('ediDate');//
+        $BID = $request->get('BID');
+        $cardPoint = $request->get('cardPoint');
+        $cashReceiptType = $request->get('cashReceiptType');
+        $usePoint = $request->get('usePoint');
+        $cardNo = $request->get('cardNo');
+        $balancePoint = $request->get('balancePoint');
+        $cashTid = $request->get('cashTid');
+        $rcvrCp = $request->get('rcvrCp');
+        $rcvrMsg = $request->get('rcvrMsg');
+        $cardQuota = $request->get('cardQuota');
+        $cashNo = $request->get('cashNo');
+        $rcvrNm = $request->get('rcvrNm');
+        $stateCd = $request->get('stateCd');
+
+        $transType = $request->get('transType');
+        $encryptData = $request->get('encryptData');
+        $quotaFixed = $request->get('quotaFixed');
+        $supplyAmt = $request->get('supplyAmt');
+        $vat = $request->get('vat');
+        $billReqType = $request->get('billReqType');
+        $receiptTypeNo = $request->get('receiptTypeNo');
 
 
 
@@ -307,22 +330,12 @@ class OrderController extends Controller {
         }
 
 
-        //파라미터 연동을 위하여 내용을 우선 file에 저장함
-//        $params = $request->all();
-//        $param_str = implode(", ", array_map(
-//            function($v, $k) {
-//                return sprintf("%s='%s'", $k, $v);
-//            },
-//            $params,
-//            array_keys($params)
-//        ));
-//        $fp = fopen("/tmp/pay.txt", "w");
-//        fwrite($fp, $param_str."|".$decAmt."|".$decMoid."|".$order_price, 2048);
-//        fclose($fp);
-
+//        dd($decMoid);
         //등록된 정보 가져오기
         $order_where = Order::find($decMoid);
+//        dd($order_where);
         if($order_where){
+
 //            $order_price = $order_where->item->price;
 //            $purchase_id = $order_where->purchase_id;
 //
@@ -340,6 +353,11 @@ class OrderController extends Controller {
 //            $order_where->item_id =;
 //            $order_where->status_cd = 102;
 //            $order_where->save();
+
+            $order_price = $order_where->item->price;
+            $purchase_id = $order_where->purchase_id;
+
+
         }else{
             $order_where = new Order();
             $order_price = false;
@@ -347,9 +365,93 @@ class OrderController extends Controller {
 
         }
 
-        if( $decAmt != $order_price || $decMoid != $order_where->id ){
-            echo 'aaaa';
+//        if( $decAmt != $order_price || $decMoid != $order_where->id ){
+        //todo 실 결제 처리시에는 위의 주석된 부분으로
+        if( $decAmt != 1004 || $decMoid != $order_where->id ){
+
+//            dd($decAmt, $order_price, $decMoid, $order_where->id);
+            $result = "결제처리 진행 중입니다.";
+            $event = "";
         }else{
+
+
+            //결제결과 purchase update
+            $purchase = Purchase::find($purchase_id);
+            $purchase->status_cd = 102;
+            $purchase->amount =$decAmt;
+
+
+            if($payMethod == 'CARD'){
+                $purchase->type = 11;
+            }elseif ($payMethod == 'BANK'){
+                $purchase->type= 12;
+
+                $purchase->refund_name = $buyerName;
+                $purchase->refund_bank = $fnName;
+                $purchase->refund_account = $vbankNum;//Tpay에서는 별도로 해당 코드가 없는것으로 보임. 실계좌 연결 시 테스트 필요함.
+            }
+
+            $purchase->save();
+
+            //order 결제상태 변경
+//            $order_where->item_id =;
+            $order_where->status_cd = 102;
+            $order_where->save();
+
+
+
+
+            //상점DB처리
+            //todo 1, payment, paymentResult 를 처리함. 2. order state를 업데이트 함.
+            // 메뉴얼 구성상으로 보면 payment를 등록한 후 payemntResult를 등록하는것이 맞다
+            // 그런데 연동으로 보면, 두 테이블이 동이에 처리되는 구조이다
+            // 데이터 저장을 모두 확인한후 가능하다면 payment의 경우 popup에서 처리하고
+            // 본 action에서는 paymentResult를 저장하는 방식으로 변경해야 한다.
+
+            $payment = new Payment();
+            //결제정보 등록
+            $payment->payMethod = $payMethod;
+            $payment->transType = $transType;
+            $payment->goodsName = $goodsName;
+            $payment->amt = $decAmt;
+            $payment->moid = $moid;
+            $payment->mallUserId = $mallUserId;
+            $payment->buyerName = $buyerName;
+            $payment->buyerTel = $buyerTel;
+            $payment->buyerEmail = $buyerEmail;
+            $payment->rcvrMsg = $rcvrMsg;
+            $payment->ediDate = $ediDate;
+            $payment->encryptData = $encryptData;
+            $payment->quotaFixed = $quotaFixed;
+            $payment->supplyAmt = $supplyAmt;
+            $payment->vat = $vat;
+            $payment->billReqType = $billReqType;
+            $payment->tid = $tid;
+            $payment->stateCd = $stateCd;
+            $payment->authDate = $authDate;
+            $payment->authCode = $authCode;
+            $payment->fnCd = $fnCd;
+            $payment->fnName = $fnName;
+            $payment->resultCd = $resultCd;
+            $payment->resultMsg = $resultMsg;
+            $payment->cardQuota = $cardQuota;
+            $payment->cardNo = $cardNo;
+            $payment->cardPoint = $cardPoint;
+            $payment->usePoint = $usePoint;
+            $payment->balancePoint = $balancePoint;
+            $payment->BID = $BID;
+            $payment->cashReceiptType = $cashReceiptType;
+            $payment->receiptTypeNo = $receiptTypeNo;
+            $payment->cashNo = $cashNo;
+            $payment->cashTid = $cashTid;
+            $payment->mid = $mid;
+            $payment->errorCd = $errorCd;
+            $payment->errorMsg = $errorMsg;
+            $payment->orders_id = $order_where->id;
+
+            $payment->save();
+
+
             //결제결과 수신 여부 알림
 
             $url = 'https://webtx.tpay.co.kr/resultConfirm';
@@ -363,80 +465,187 @@ class OrderController extends Controller {
                     ]
                 ]);
             }
-
-
-            //상점DB처리
-            //todo 1, payment, paymentResult 를 처리함. 2. order state를 업데이트 함.
-            // 메뉴얼 구성상으로 보면 payment를 등록한 후 payemntResult를 등록하는것이 맞다
-            // 그런데 연동으로 보면, 두 테이블이 동이에 처리되는 구조이다
-            // 데이터 저장을 모두 확인한후 가능하다면 payment의 경우 popup에서 처리하고
-            // 본 action에서는 paymentResult를 저장하는 방식으로 변경해야 한다.
-
-            $payment = new Payment();
-            //결제정보 등록
-            $payment->payMethod = $payMethod;
-            $payment->transType = $request->get('transType');
-            $payment->goodsName = $request->get('goodsName');
-            $payment->amt = $request->get('amt');
-            $payment->moid = $request->get('moid');
-            $payment->mallUserId = $request->get('mallUserId');
-            $payment->buyerName = $request->get('buyerName');
-            $payment->buyerTel = $request->get('buyerTel');
-            $payment->buyerEmail = $request->get('buyerEmail');
-            $payment->mallIp = $request->get('mallIp');
-            $payment->rcvrMsg = $request->get('rcvrMsg');
-            $payment->ediDate = $request->get('ediDate');
-            $payment->encryptData = $request->get('encryptData');
-            $payment->userIp = $request->get('userIp');
-            $payment->resultYn = $request->get('resultYn');
-            $payment->quotaFixed = $request->get('quotaFixed');
-            $payment->domain = $request->get('domain');
-            $payment->socketYn = $request->get('socketYn');
-            $payment->socketReturnURL = $request->get('socketReturnURL');
-            $payment->retryUrl = $request->get('retryUrl');
-            $payment->supplyAmt = $request->get('supplyAmt');
-            $payment->vat = $request->get('vat');
-            $payment->billReqType = $request->get('billReqType');
-
-
-
-
-
-            $payment_result = new PaymentResult();
-            //결제결과 등록
-            $payment_result->pyments_id = $request->get('');
-            $payment_result->tid = $request->get('');
-            $payment_result->stateCd = $request->get('');
-            $payment_result->authDate = $request->get('');
-            $payment_result->authCode = $authCode;
-            $payment_result->fnCd = $fnCd;
-            $payment_result->fnName = $fnName;
-            $payment_result->resultCd = $request->get('');
-            $payment_result->resultMsg = $resultMsg;
-            $payment_result->cardQuota = $request->get('');
-            $payment_result->cardNo = $request->get('');
-            $payment_result->cardPoint = $request->get('cardPoint');
-            $payment_result->usePoint = $request->get('usePoint');
-            $payment_result->balancePoint = $request->get('');
-            $payment_result->BID = $request->get('BID');
-            $payment_result->cashReceiptType = $request->get('cashReceiptType');
-            $payment_result->receiptTypeNo = $request->get('');
-            $payment_result->cashNo = $request->get('');
-            $payment_result->cashTid = $request->get('cashTid');
-            $payment_result->ediDate = $request->get('');
-            $payment_result->mid = $request->get('');
-            $payment_result->moid = $request->get('');
-            $payment_result->amt = $request->get('');
-            $payment_result->payMethod = $request->get('');
-            $payment_result->mallUserId = $request->get('');
-
             //todo 위의 처리를 완료한후 popup을 닫고 부모창(purchase)를 submit하여 complete한다.
             // result: 처리 결과 메세지(결제가 완료되었습니다. 또는 결제가 정상적으로 처리되지 못하였습니다.)
             // event: 팝업닫기 또는 뒤로가기 ( 'close', 'history.back()')
 
-
+            $result = "결제가 완료 되었습니다";
+            $event = "";
         }
         return view('web.order.payment-result', compact('result', 'event'));
+    }
+
+    /**
+     * 결제 callback action. purchase에서 처리 에러가 발생시 콜백을 통하여 처리 가능함.
+     * @param Request $request
+     */
+    public function payResult(Request $request){
+        $payMethod = $request->get('payMethod');//
+        $mid = $request->get('mid');//
+        $tid = $request->get('tid');//
+        $mallUserId = $request->get('mallUserId');//
+        $amt = $request->get('amt');//
+        $buyerName = $request->get('buyerName');//
+        $buyerTel = $request->get('buyerTel');//
+        $buyerEmail = $request->get('buyerEmail');//
+        $mallReserved = $request->get('mallReserved'); //없음.
+        $goodsName = $request->get('goodsName');//
+        $moid = $request->get('moid');//
+        $authDate = $request->get('authDate');//
+        $authCode = $request->get('authCode');//
+        $fnCd = $request->get('fnCd');//
+        $fnName = $request->get('fnName');//
+        $resultCd = $request->get('resultCd');//
+        $resultMsg = $request->get('resultMsg');//
+        $errorCd = $request->get('errorCd'); //없음
+        $errorMsg = $request->get('errorMsg'); //없음
+        $vbankNum = $request->get('vbankNum'); //없음
+        $vbankExpDate = $request->get('vbankExpDate'); //없음.
+        $ediDate = $request->get('ediDate');//
+        $BID = $request->get('BID');
+        $cardPoint = $request->get('cardPoint');
+        $cashReceiptType = $request->get('cashReceiptType');
+        $usePoint = $request->get('usePoint');
+        $cardNo = $request->get('cardNo');
+        $balancePoint = $request->get('balancePoint');
+        $cashTid = $request->get('cashTid');
+        $rcvrCp = $request->get('rcvrCp');
+        $rcvrMsg = $request->get('rcvrMsg');
+        $cardQuota = $request->get('cardQuota');
+        $cashNo = $request->get('cashNo');
+        $rcvrNm = $request->get('rcvrNm');
+        $stateCd = $request->get('stateCd');
+
+        $transType = $request->get('transType');
+        $encryptData = $request->get('encryptData');
+        $quotaFixed = $request->get('quotaFixed');
+        $supplyAmt = $request->get('supplyAmt');
+        $vat = $request->get('vat');
+        $billReqType = $request->get('billReqType');
+        $receiptTypeNo = $request->get('receiptTypeNo');
+
+
+
+        //todo moid값이 정확히 오는것을 확인하기 위하여 order_where 에 대한 체크를 구성 안함.
+
+        try{
+            $encryptor = new Encryptor($this->merchantKey, $ediDate);
+            $decAmt = $encryptor->decData($amt); //실제 결제금액
+            $decMoid = $encryptor->decData($moid); // 결제시 등록된 주문번호
+        }catch (\Exception $e){
+            $decAmt = null;
+            $decMoid = null;
+
+        }
+
+
+
+        //등록된 정보 가져오기
+        $order_where = Order::find($decMoid);
+        if($order_where){
+            $order_price = $order_where->item->price;
+            $purchase_id = $order_where->purchase_id;
+
+
+        }
+
+        if( $decAmt != $order_price || $decMoid != $order_where->id ){
+            $result = "error";
+        }else{
+
+            $payment = Payment::where('orders_id', $order_where->id)->first();
+
+            if(!$payment){
+                $payment = new Payment();
+                //결제정보 등록
+                $payment->payMethod = $payMethod;
+                $payment->transType = $transType;
+                $payment->goodsName = $goodsName;
+                $payment->amt = $decAmt;
+                $payment->moid = $moid;
+                $payment->mallUserId = $mallUserId;
+                $payment->buyerName = $buyerName;
+                $payment->buyerTel = $buyerTel;
+                $payment->buyerEmail = $buyerEmail;
+                $payment->rcvrMsg = $rcvrMsg;
+                $payment->ediDate = $ediDate;
+                $payment->encryptData = $encryptData;
+                $payment->quotaFixed = $quotaFixed;
+                $payment->supplyAmt = $supplyAmt;
+                $payment->vat = $vat;
+                $payment->billReqType = $billReqType;
+                $payment->tid = $tid;
+                $payment->stateCd = $stateCd;
+                $payment->authDate = $authDate;
+                $payment->authCode = $authCode;
+                $payment->fnCd = $fnCd;
+                $payment->fnName = $fnName;
+                $payment->resultCd = $resultCd;
+                $payment->resultMsg = $resultMsg;
+                $payment->cardQuota = $cardQuota;
+                $payment->cardNo = $cardNo;
+                $payment->cardPoint = $cardPoint;
+                $payment->usePoint = $usePoint;
+                $payment->balancePoint = $balancePoint;
+                $payment->BID = $BID;
+                $payment->cashReceiptType = $cashReceiptType;
+                $payment->receiptTypeNo = $receiptTypeNo;
+                $payment->cashNo = $cashNo;
+                $payment->cashTid = $cashTid;
+                $payment->mid = $mid;
+                $payment->errorCd = $errorCd;
+                $payment->errorMsg = $errorMsg;
+                $payment->orders_id = $order_where->id;
+
+                $payment->save();
+            }
+
+            if($order_where->status_cd != 102){
+                $order_where->status_cd = 102;
+                $order_where->save();
+            }
+
+            //결제결과 purchase update
+            $purchase = Purchase::find($purchase_id);
+            if($purchase){
+
+                if($purchase->status_cd != 102){
+                    $purchase->status_cd = 102;
+                    $purchase->amount =$decAmt;
+
+
+                    if($payMethod == 'CARD'){
+                        $purchase->type = 11;
+                    }elseif ($payMethod == 'BANK'){
+                        $purchase->type= 12;
+
+                        $purchase->refund_name = $buyerName;
+                        $purchase->refund_bank = $fnName;
+                        $purchase->refund_account = $vbankNum;//Tpay에서는 별도로 해당 코드가 없는것으로 보임. 실계좌 연결 시 테스트 필요함.
+                    }
+
+                    $purchase->save();
+                }
+
+            }
+
+
+            //결제결과 수신 여부 알림
+
+            $url = 'https://webtx.tpay.co.kr/resultConfirm';
+
+            if($tid){
+                $client = new Client();
+                $contents = $client->post($url, [
+                    'form_params' => [
+                        "tid" => $tid,
+                        "result" => "000"
+                    ]
+                ]);
+            }
+        }
+
+        return \GuzzleHttp\json_encode(['result' => 'ok']);
     }
     
     public function complete(Request $request) {
@@ -464,11 +673,12 @@ class OrderController extends Controller {
             $reservation->reservation_at = $date;
             $reservation->save();
 
-            $order->update([
-                'status_cd' => 103,
-                'purchase_id' => $order->purchase->id,
-                'item_id' => $item->id
-            ]);
+
+            //주문정보 갱신함.
+            $order->status_cd = 103;
+            $order->purchase_id = $order->purchase->id;
+            $order->item_id = $item->id;
+            $order->save();
 
             $error = null;
 
