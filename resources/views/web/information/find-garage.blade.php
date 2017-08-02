@@ -128,7 +128,7 @@
                     },
                     success : function (data){
                         html += "<ul>";
-                        $.each(data, function (key, value) {
+                        $.each(data, function (key, value) {Ø
                             html += "<li>";
                             html += "<strong>"+value.name+"</strong>";
                             html += "<p>전화번호 : "+value.tel;
@@ -144,7 +144,7 @@
                 })
             }
             else{
-                alert("입고대리점을 검색해 주세요.");
+                alert("찾으실 대리점의 지역을 선택해 주세요.");
                 $("garage_list").attr("tabindex", -1).focus();
             }
         });

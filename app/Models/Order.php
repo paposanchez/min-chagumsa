@@ -58,18 +58,21 @@ class Order Extends Model
 
         $fullname = array();
 
-        if($this->car->brand) {
-            $fullname[] = $this->car->brand->name;
+        if(isset($this->car)){
+            if($this->car->brand) {
+                $fullname[] = $this->car->brand->name;
+            }
+            if($this->car->models) {
+                $fullname[] = $this->car->models->name;
+            }
+            if($this->car->detail) {
+                $fullname[] = $this->car->detail->name;
+            }
+            if($this->car->grade) {
+                $fullname[] = $this->car->grade->name;
+            }
         }
-        if($this->car->models) {
-            $fullname[] = $this->car->models->name;
-        }
-        if($this->car->detail) {
-            $fullname[] = $this->car->detail->name;
-        }
-        if($this->car->grade) {
-            $fullname[] = $this->car->grade->name;
-        }
+
 
         return implode(" ", $fullname);
     }
