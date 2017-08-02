@@ -10,6 +10,7 @@
         <li><a class='' href='{{ route("information.index") }}'>서비스 소개</a></li>
         <li><a class='select' href='{{ route("information.certificate") }}'>카검사인증서란?</a></li>
         <li><a class='' href='{{ route("information.guide") }}'>특징 및 절차</a></li>
+        <li><a class='' href='{{ route("information.price") }}'>신청절차 및 수수료</a></li>
     </ul>
 
     <div class='br30'></div>
@@ -23,7 +24,7 @@
         <li>
             <div class='para_type1'>
                 <strong>누구나 중고차를 구입할 때 공정한 가격을 원합니다.</strong>
-                좋은 차를 발견하기 위해 중요한 요소는 차량에 대한 검증된 주요 성능과 옵션, 주행거리 및 모델 연도를 살펴보는 것이 좋습니다. 또한, 차량의 이력은 어떨까요? 차가 사고가 났습니까? 기름교환이나 기타 정기 유지보수를 자주 받지는 않았습니까? 모든 차량에는 역사가 있으며, 그 역사는 중고차의 가격에 영향을 줍니다. 
+                좋은 차를 발견하기 위해 중요한 요소는 차량에 대한 검증된 주요 성능과 옵션, 주행거리 및 모델 연도를 살펴보는 것이 좋습니다. 또한, 차량의 이력은 어떨까요? 차가 사고가 났습니까? 기름교환이나 기타 정기 유지보수를 자주 받지는 않았습니까? 모든 차량에는 역사가 있으며, 그 역사는 중고차의 가격에 영향을 줍니다.
             </div><div class='br30'></div>
             <div class='para_type1'>
                 <strong>카검사인증서를 통해 자신감을 가지고 중고차를 거래하세요!</strong>
@@ -93,7 +94,7 @@
                         <tr>
                             <td>차량 사용이력(렌탈, 개인, 법인, 기타 등)</td>
                             <th><i class="fa fa-check fcol_lightGreen"></i></th>
-                            <th></th> 
+                            <th></th>
                         </tr>
                     </tbody>
                 </table>

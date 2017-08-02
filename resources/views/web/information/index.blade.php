@@ -10,6 +10,7 @@
 		<li><a class='select' href='{{ route("information.index") }}'>서비스 소개</a></li>
 		<li><a class='' href='{{ route("information.certificate") }}'>카검사인증서란?</a></li>
 		<li><a class='' href='{{ route("information.guide") }}'>특징 및 절차</a></li>
+		<li><a class='' href='{{ route("information.price") }}'>신청절차 및 수수료</a></li>
 	</ul>
 
 	<div class='br30'></div>
@@ -31,7 +32,7 @@
 			중고차는 차마다 차의 운행이력에 따라 품질이 다르고, 그에 따라 가격이 다 다릅니다. 따라서 중고차는 가치를 공정하고 객관적으로 산정하는 영역은 매우 전문적인 영역으로, 차량에 대한 정확한 품질을 평가하고, 이에 근거한 가치산정이 이루어져야 합니다.
 		</div>
 	</div>
-	
+
 </div>
 
 <div class='br10'></div>
@@ -46,7 +47,7 @@
 	</div>
 
 	<div class='br10'></div>
-	
+
 	<ul class='intro1_btm_wrap'>
 		<li>{{ Html::image(Helper::theme_web( '/img/intro/intro1_2.png')) }}</li>
 		<li>{{ Html::image(Helper::theme_web( '/img/intro/intro1_3.png')) }}</li>
