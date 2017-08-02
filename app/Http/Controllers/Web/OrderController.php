@@ -345,6 +345,8 @@ class OrderController extends Controller {
         }
 
         if( $decAmt != $order_price || $decMoid != $order_where->id ){
+
+            dd($decAmt, $order_price, $decMoid, $order_where->id);
             $result = "결제처리 진행 중입니다.";
             $event = "";
         }else{
