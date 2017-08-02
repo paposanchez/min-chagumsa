@@ -139,7 +139,7 @@
 <script type="text/javascript">
     $(function (){
         $('#find_garage').click(function (){
-            window.open("{{ route("information.find-garage") }}","", "location=no, width=550, height=400");
+            window.open("{{ route("information.find-garage") }}","", "location=no, width=700, height=450");
         });
     });
 </script>
