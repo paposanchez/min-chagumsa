@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Helpers\Helper;
 use App\Models\Certificate;
+use App\Models\Code;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Response;
@@ -13,15 +15,13 @@ use Illuminate\Http\Request;
 
 class CertificateController extends Controller {
 
-    // public function __invoke(Request $request, $certificate, $page = 'summary') {
+
     public function __invoke(Request $request, $order_id, $page = 'summary') {
         $order = Order::find($order_id)->first();
 
         if(isset($order->certificates) !== true){
             $order->certificates = new Certificate();
-//            dd(isset($order->certificates), $order->certificates->history_garage);
         }
-
 
         switch ($page) {
             case 'performance':
@@ -36,22 +36,18 @@ class CertificateController extends Controller {
     }
 
     public function index(){
+        $user_id = Auth::user()->id;
+        $orders = Order::where('orderer_id', $user_id)->where('status_cd', 107)->get();
 
+        $select_open_cd = Helper::getCodeSelectArray(Code::getCodesByGroup("open_cd"),'open_cd', '인증서 공개 여부를 선택해 주세요.');
 
-
-//        $orders = Order::where('orderer_id', $user_id)->get();
-
-
-        $certificates = Certificate::select()->join('orders', function($join){
-            $user_id = Auth::user()->id;
-            $join->on('certificates.orders_id', '=', 'orders.id')->where('orderer_id', $user_id);
-        })->get();
-//        dd($certificates[0]->order->car->getFuelType());
-
-        return view('web.certificate.index', compact('certificates'));
+        return view('web.certificate.index', compact('orders', 'select_open_cd'));
     }
 
-    public function performance(){
-        return view('web.certificate.performance');
+    public function changeOpenCd(Request $request){
+        $order = Order::where('id', $request->get('order_id'))->first();
+        $order->open_cd = $request->get('open_cd');
+        $order->save();
+        return $request->get('order_id');
     }
 }

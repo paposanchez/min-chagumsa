@@ -432,12 +432,16 @@ class CodesSeeder extends Seeder {
             ['group' => 'kind_cd', 'name' => 'unique'],
 
             ['group' => 'vin_yn_cd', 'name' => 'equal'],
-            ['group' => 'vin_yn_cd', 'name' => 'different']
+            ['group' => 'vin_yn_cd', 'name' => 'different'],
+
+            ['group' => 'open_cd', 'name' => 'public'],
+            ['group' => 'open_cd', 'name' => 'private']
+
         ]);
 
 
 
-            ////////////////////////
+        ////////////////////////
         DB::table('codes')->insert( ['id'=>2000, 'group' => 'diagnosis', 'name' => 'diagnosis_info']);
         DB::table('codes')->insert([
                 ['group' => 'diagnosis_info', 'name' => 'diagnosis_info_info'],

@@ -227,6 +227,7 @@
                 dataType : 'json',
                 url : '/order/sel_item/',
                 data : {
+                    '_token' : '{{ csrf_token() }}',
                     'sel_item' : sel_item
                 },
                 success: function (data){

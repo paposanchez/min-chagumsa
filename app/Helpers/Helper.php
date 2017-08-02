@@ -197,7 +197,7 @@ class Helper {
     public static function getCodeSelectArray($code_group, $group_name, $default=''){
 
         if($default){
-            $select_list = ['' => $default];
+            $select_list = ['0' => $default];
         }else{
             $select_list = [];
         }

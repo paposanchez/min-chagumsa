@@ -122,8 +122,8 @@ class OrderController extends Controller {
         $order->orderer_name = $request->get('orderer_name');
         $order->orderer_mobile = $request->get('orderer_mobile');
         $order->registration_file = 0;
-        $order->open_cd = 0;
-        $order->status_cd = 101;
+        $order->open_cd = 1327; //default로 비공개코드 삽입
+        $order->status_cd = 102;
         $order->flooding_state_cd = $request->get('flooding');
         $order->accident_state_cd = $request->get('accident');
         $order->item_id = 0;
