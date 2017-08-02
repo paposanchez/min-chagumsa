@@ -7,14 +7,24 @@ use App\Models\Brand;
 use App\Models\GarageInfo;
 use App\Models\Item;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Reservation;
+use App\Models\PaymentCancel;
+
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Mockery\Exception;
 
 
 class OrderController extends Controller {
+
+    //todo 현재 테스트 계정임. 변경할것
+    protected $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";//상점키
+    protected $mid = "tpaytest0m";//상점id
+    protected $cancel_passwd = ""; //취소 시 사용되는 패스워드(Tpay 계정 설정 참조)
 
     public function index() {
         $user_id = Auth::user()->id;
@@ -110,14 +120,126 @@ class OrderController extends Controller {
     }
 
     public function cansel($order_id){
-        $order = Order::find($order_id);
-        $order->status_cd = 100;
-        $order->save();
 
-        //todo PG를 연동해야 함.
+
+        $order = Order::find($order_id);
+
+        $cancelAmt = $order->item->price;
+
+        $payment = Payment::where('orders_id', $order->id)->first();
+
+        $tid = $payment->tid;//거래아이디
+        $moid = $payment->moid;//상품주문번호
+        $cancelMsg = "고객요청";
+        $partialCancelCode = 0; //전체취소
+        $dataType="html";
+
+        $cancel_callback_url = url("/mypage/order/order-cancel-callback");
+        $payActionUrl = "http://webtx.tpay.co.kr/payCancel";
+
+        try{
+            $encryptor = new Encryptor($this->merchantKey);
+            $encryptData = $encryptor->encData($cancelAmt.$this->mid.$moid);
+            $ediDate = $encryptor->getEdiDate();
+        }catch (\Exception $e){
+
+            throw new Exception($e->getMessage());
+
+        }
+
+        $send_data = [
+            "form_params" => [
+                'cc_ip' => $_SERVER['REMOTE_ADDR'],
+                'ediDate' => $ediDate,
+                'encryptData' => $encryptData,
+                'mid' => $this->mid,
+                'tid' => $tid,
+                'moid' => $moid,
+                'cancelPw' => $this->cancel_passwd,
+                'cancelAmt' => $cancelAmt,
+                'cancelMsg' => $cancelMsg,
+                'partialCancelCode' => $partialCancelCode,
+                'dataType' => $dataType,
+                'returnUrl' => $cancel_callback_url
+            ]
+        ];
+
+        $pay_cancel = new Client();
+        $cancel_request = $pay_cancel->post($payActionUrl, $send_data);
+
+
+
+        //주문상태 변경은 콜백에서 처리함
+//        $order->status_cd = 100;
+//        $order->save();
+
+
 
         return redirect()->route('mypage.order.index')
             ->with('success', trans('web/mypage.cansel_complete'));
+    }
+
+    public function orderCancelCallback(Request $request){
+
+        $payMethod = $request->get('payMethod');
+        $ediDate = $request->get('ediDate');
+        $returnUrl = $request->get('returnUrl');
+        $resultMsg = $request->get('resultMsg');
+        $cancelDate = $request->get('cancelDate');
+        $cancelTime = $request->get('cancelTime');
+        $resultCd = $request->get('resultCd');
+        $cancelNum = $request->get('cancelNum');
+        $cancelAmt = $request->get('cancelAmt');
+        $moid = $request->get('moid');
+
+        try{
+            $encryptor = new Encryptor($this->merchantKey, $ediDate);
+            $decAmt = $encryptor->decData($cancelAmt); //실제 결제 취소 금액
+            $decMoid = $encryptor->decData($moid); // 결제시 등록된 주문번호
+        }catch (\Exception $e){
+            $decAmt = null;
+            $decMoid = null;
+
+        }
+
+        $order_where = Order::find($decMoid);
+        if($order_where){
+            $order_price = $order_where->item->price;
+            if($order_price == $cancelAmt){
+                //주문 취소 완료 해야함.
+                $order_where->status_cd = 100;
+                $order_where->save();
+                $cancel_result = 1;
+            }else{
+                $cancel_result = 0;
+            }
+
+            //결제취소 내역을 저장한다.
+            $payment_cancel = PaymentCancel::where('moid', $moid)->first();
+            if(!$payment_cancel){
+                $payment_cancel = new PaymentCancel();
+            }
+
+            $payment_cancel->payMethod = $payMethod;
+            $payment_cancel->ediDate = $ediDate;
+            $payment_cancel->returnUrl = $returnUrl;
+            $payment_cancel->resultMsg = $resultMsg;
+            $payment_cancel->cancelDate = $cancelDate;
+            $payment_cancel->cancelTime = $cancelTime;
+            $payment_cancel->resultCd = $resultCd;
+            $payment_cancel->cancelNum = $cancelNum;
+            $payment_cancel->cancelAmt = $cancelAmt;
+            $payment_cancel->moid = $moid;
+            $payment_cancel->orders_id = $decMoid;
+            $payment_cancel->save();
+
+
+        }else{
+            $cancel_result = -1;
+        }
+
+        return \GuzzleHttp\json_encode(['result' => $cancel_result]);
+
     }
 
     public function reservation(){

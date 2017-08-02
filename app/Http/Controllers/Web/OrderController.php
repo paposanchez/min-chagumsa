@@ -33,6 +33,7 @@ use GuzzleHttp\Client;
 
 class OrderController extends Controller {
 
+    //todo 현재 테스트 계정임. 변경할
     protected $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";//상점키
     protected $mid = "tpaytest0m";//상점id
     
@@ -314,9 +315,6 @@ class OrderController extends Controller {
         $billReqType = $request->get('billReqType');
         $receiptTypeNo = $request->get('receiptTypeNo');
 
-
-
-        //todo moid값이 정확히 오는것을 확인하기 위하여 order_where 에 대한 체크를 구성 안함.
 
         try{
             $encryptor = new Encryptor($this->merchantKey, $ediDate);
