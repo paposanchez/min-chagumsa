@@ -431,16 +431,16 @@ return [
         'big_damage' => '대손상'
     ],
     'order_state' => [
-        'canceled' => '주문취소',
-        'standby' => '주문신청',
-        'ordered' => '주문완료',
-        'request' => '예약확인',
-        'reserved' => '입고대기',
+        'canceled' => '주문취소', //100
+        'standby' => '주문신청', //101
+        'ordered' => '주문완료', //102
+        'request' => '예약확인', //103
+        'reserved' => '입고대기', //104
         'arrived' => '입고',
         'diagnosing' => '진단중',
         'diagnosed' => '진단완료',
         'certificating' => '검토중',
-        'certificated' => '인증발급완'
+        'certificated' => '인증발급완료'
     ],
     'wear_state_cd' => [
         'good' => '없음',

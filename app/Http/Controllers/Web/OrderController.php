@@ -127,8 +127,20 @@ class OrderController extends Controller {
         $order->flooding_state_cd = $request->get('flooding');
         $order->accident_state_cd = $request->get('accident');
         $order->item_id = 0;
+
+        $purchase = new Purchase();
+        $purchase->amount = 0; //결제 완료 후 update
+        $purchase->type = 0; // 결제방법
+        $purchase->status_cd = 101; // 결제상태
+        $purchase->save();
+
+        $order->purchase_id = $purchase->id;
         $order->save();
+
+
+
         $orders_id = $order->id;
+
         if($request->get('options_ck') != []){
             $order_features = OrderFeature::where('orders_id', $order->id)->first();
             if(!$order_features){
@@ -279,14 +291,6 @@ class OrderController extends Controller {
         $vbankExpDate = $request->get('vbankExpDate');
         $ediDate = $request->get('ediDate');
 
-        //등록된 정보 가져오기
-        $order_where = Order::find($moid);
-        if($order_where){
-            $order_price = $order_where->item->price;
-        }else{
-            $order_where = new Order();
-            $order_price = false;
-        }
 
 
         //todo moid값이 정확히 오는것을 확인하기 위하여 order_where 에 대한 체크를 구성 안함.
@@ -303,32 +307,52 @@ class OrderController extends Controller {
 
 
         //파라미터 연동을 위하여 내용을 우선 file에 저장함
-        $params = $request->all();
-        $param_str = implode(", ", array_map(
-            function($v, $k) {
-                return sprintf("%s='%s'", $k, $v);
-            },
-            $params,
-            array_keys($params)
-        ));
-        $fp = fopen("/tmp/pay.txt", "w");
-        fwrite($fp, $param_str."|".$decAmt."|".$decMoid."|".$order_price, 2048);
-        fclose($fp);
+//        $params = $request->all();
+//        $param_str = implode(", ", array_map(
+//            function($v, $k) {
+//                return sprintf("%s='%s'", $k, $v);
+//            },
+//            $params,
+//            array_keys($params)
+//        ));
+//        $fp = fopen("/tmp/pay.txt", "w");
+//        fwrite($fp, $param_str."|".$decAmt."|".$decMoid."|".$order_price, 2048);
+//        fclose($fp);
 
+        //등록된 정보 가져오기
+        $order_where = Order::find($decMoid);
+        if($order_where){
+            $order_price = $order_where->item->price;
+            $purchase_id = $order_where->purchase_id;
+
+            //결제결과 purchase update
+            $purchase = Purchase::find($purchase_id);
+            $purchase->status_cd = 102;
+            $purchase->amount =;
+            $purchase->refund_name =;
+            $purchase->refund_bank =;
+            $purchase->refund_account =;
+            $purchase->type=; //todo type이 실시간 계좌이체일 시 계좌관련정보(위에 property)를 갱신한다.
+            $purchase->save();
+
+            //order 결제상태 변경
+            $order_where->item_id =;
+            $order_where->status_cd = 102;
+            $order_where->save();
+        }else{
+            $order_where = new Order();
+            $order_price = false;
+            $purchase_id = false;
+
+        }
 
         if( $decAmt != $order_price || $decMoid != $order_where->id ){
-//            return redirect()->back()->with('error', "위변조 데이터 오류입니다.");
             echo 'aaaa';
         }else{
             //결제결과 수신 여부 알림
 
             $url = 'https://webtx.tpay.co.kr/resultConfirm';
-//            $param = array(
-//                "tid" => $tid,
-//                "result" => "000" //수신 코드이다.
-//            );
 
-            //todo curl에서 laravel restclient로 수정해야 함.
             if($tid){
                 $client = new Client();
                 $contents = $client->post($url, [
@@ -349,29 +373,29 @@ class OrderController extends Controller {
 
             $payment = new Payment();
             //결제정보 등록
-            $payment->payMethod = $request->get('payMethod');
-            $payment->transType = $request->get('');
-            $payment->goodsName = $request->get('');
-            $payment->amt = $request->get('');
-            $payment->moid = $request->get('');
-            $payment->mallUserId = $request->get('');
-            $payment->buyerName = $request->get('');
-            $payment->buyerTel = $request->get('');
-            $payment->buyerEmail = $request->get('');
-            $payment->mallIp = $request->get('');
-            $payment->rcvrMsg = $request->get('');
-            $payment->ediDate = $request->get('');
-            $payment->encryptData = $request->get('');
-            $payment->userIp = $request->get('');
-            $payment->resultYn = $request->get('');
-            $payment->quotaFixed = $request->get('');
-            $payment->domain = $request->get('');
-            $payment->socketYn = $request->get('');
-            $payment->socketReturnURL = $request->get('');
-            $payment->retryUrl = $request->get('');
-            $payment->supplyAmt = $request->get('');
-            $payment->vat = $request->get('');
-            $payment->billReqType = $request->get('');
+            $payment->payMethod = $payMethod;
+            $payment->transType = $request->get('transType');
+            $payment->goodsName = $request->get('goodsName');
+            $payment->amt = $request->get('amt');
+            $payment->moid = $request->get('moid');
+            $payment->mallUserId = $request->get('mallUserId');
+            $payment->buyerName = $request->get('buyerName');
+            $payment->buyerTel = $request->get('buyerTel');
+            $payment->buyerEmail = $request->get('buyerEmail');
+            $payment->mallIp = $request->get('mallIp');
+            $payment->rcvrMsg = $request->get('rcvrMsg');
+            $payment->ediDate = $request->get('ediDate');
+            $payment->encryptData = $request->get('encryptData');
+            $payment->userIp = $request->get('userIp');
+            $payment->resultYn = $request->get('resultYn');
+            $payment->quotaFixed = $request->get('quotaFixed');
+            $payment->domain = $request->get('domain');
+            $payment->socketYn = $request->get('socketYn');
+            $payment->socketReturnURL = $request->get('socketReturnURL');
+            $payment->retryUrl = $request->get('retryUrl');
+            $payment->supplyAmt = $request->get('supplyAmt');
+            $payment->vat = $request->get('vat');
+            $payment->billReqType = $request->get('billReqType');
 
 
 
@@ -383,21 +407,21 @@ class OrderController extends Controller {
             $payment_result->tid = $request->get('');
             $payment_result->stateCd = $request->get('');
             $payment_result->authDate = $request->get('');
-            $payment_result->authCode = $request->get('');
-            $payment_result->fnCd = $request->get('');
-            $payment_result->fnName = $request->get('');
+            $payment_result->authCode = $authCode;
+            $payment_result->fnCd = $fnCd;
+            $payment_result->fnName = $fnName;
             $payment_result->resultCd = $request->get('');
-            $payment_result->resultMsg = $request->get('');
+            $payment_result->resultMsg = $resultMsg;
             $payment_result->cardQuota = $request->get('');
             $payment_result->cardNo = $request->get('');
-            $payment_result->cardPoint = $request->get('');
-            $payment_result->usePoint = $request->get('');
+            $payment_result->cardPoint = $request->get('cardPoint');
+            $payment_result->usePoint = $request->get('usePoint');
             $payment_result->balancePoint = $request->get('');
-            $payment_result->BID = $request->get('');
-            $payment_result->cashReceiptType = $request->get('');
+            $payment_result->BID = $request->get('BID');
+            $payment_result->cashReceiptType = $request->get('cashReceiptType');
             $payment_result->receiptTypeNo = $request->get('');
             $payment_result->cashNo = $request->get('');
-            $payment_result->cashTid = $request->get('');
+            $payment_result->cashTid = $request->get('cashTid');
             $payment_result->ediDate = $request->get('');
             $payment_result->mid = $request->get('');
             $payment_result->moid = $request->get('');
