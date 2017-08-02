@@ -210,7 +210,7 @@ class OrderController extends Controller {
             }
 
 
-            $order_model = Order::find($request->get('orders_id'));
+            $order_model = Order::find($request->get('id'));
             $order_model->item_id = $request->get('item_choice');
             $order_model->save();
 
