@@ -197,6 +197,8 @@ class OrderController extends Controller {
         $cancelAmt = $request->get('cancelAmt');
         $moid = $request->get('moid');
 
+        dd('aaa');
+
         try{
             $encryptor = new Encryptor($this->merchantKey, $ediDate);
             $decAmt = $encryptor->decData($cancelAmt); //실제 결제 취소 금액
