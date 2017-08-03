@@ -130,7 +130,7 @@ class OrderController extends Controller {
         $cancelAmt = 1004; //todo 가격부문을 위에 것으로 변경해야 함.
 
 
-        $payment = Payment::where('orders_id', $order->id)->first();
+        $payment = Payment::where('orders_id', $order_id)->first();
 
         $tid = $payment->tid;//거래아이디
 //        $moid = $payment->moid;//상품주문번호
