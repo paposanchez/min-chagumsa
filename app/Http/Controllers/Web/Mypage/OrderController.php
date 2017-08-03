@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Reservation;
 use App\Models\PaymentCancel;
+use App\Models\Code;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
