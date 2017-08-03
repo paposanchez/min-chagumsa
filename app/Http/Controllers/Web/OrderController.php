@@ -688,6 +688,71 @@ class OrderController extends Controller {
 
     }
 
+    public function orderCancelCallback(Request $request){
+
+        $payMethod = $request->get('payMethod');
+        $ediDate = $request->get('ediDate');
+        $returnUrl = $request->get('returnUrl');
+        $resultMsg = $request->get('resultMsg');
+        $cancelDate = $request->get('cancelDate');
+        $cancelTime = $request->get('cancelTime');
+        $resultCd = $request->get('resultCd');
+        $cancelNum = $request->get('cancelNum');
+        $cancelAmt = $request->get('cancelAmt');
+        $moid = $request->get('moid');
+
+        dd('aaa');
+
+        try{
+            $encryptor = new Encryptor($this->merchantKey, $ediDate);
+            $decAmt = $encryptor->decData($cancelAmt); //실제 결제 취소 금액
+            $decMoid = $encryptor->decData($moid); // 결제시 등록된 주문번호
+        }catch (\Exception $e){
+            $decAmt = null;
+            $decMoid = null;
+
+        }
+
+        $order_where = Order::find($decMoid);
+        if($order_where){
+            $order_price = $order_where->item->price;
+            if($order_price == $cancelAmt){
+                //주문 취소 완료 해야함.
+                $order_where->status_cd = 100;
+                $order_where->save();
+                $cancel_result = 1;
+            }else{
+                $cancel_result = 0;
+            }
+
+            //결제취소 내역을 저장한다.
+            $payment_cancel = PaymentCancel::where('moid', $moid)->first();
+            if(!$payment_cancel){
+                $payment_cancel = new PaymentCancel();
+            }
+
+            $payment_cancel->payMethod = $payMethod;
+            $payment_cancel->ediDate = $ediDate;
+            $payment_cancel->returnUrl = $returnUrl;
+            $payment_cancel->resultMsg = $resultMsg;
+            $payment_cancel->cancelDate = $cancelDate;
+            $payment_cancel->cancelTime = $cancelTime;
+            $payment_cancel->resultCd = $resultCd;
+            $payment_cancel->cancelNum = $cancelNum;
+            $payment_cancel->cancelAmt = $cancelAmt;
+            $payment_cancel->moid = $moid;
+            $payment_cancel->orders_id = $decMoid;
+            $payment_cancel->save();
+
+
+        }else{
+            $cancel_result = -1;
+        }
+
+        return \GuzzleHttp\json_encode(['result' => $cancel_result]);
+
+    }
+
     public function getModels(Request $request) {
         $brand_id = $request->get('brand');
         $models = Models::where('brands_id', $brand_id)->get();
