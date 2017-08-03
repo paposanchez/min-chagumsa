@@ -94,18 +94,18 @@ class RegisterController extends Controller {
 
 
 
-            //todo email confirm 보내야 함.
-            $to = $request->email;
-            $subject = '메일군을 이용한 시스템 메일 발송입니다';
-            $data = [
-                'title' => '여기는 타이틀이 들어가는 곳입니다.',
-                'body' => '본문글에 대한 방송이 필요해요.\n푸하하\n동해물과 백두산이 마르고 닳도록',
-                'user' => '사용자 정보입니다'
-                ];
-
-            $send = Mail::send('admin.dashboard.email', $data, function($message) use($to, $subject) {
-                $message->to($to)->subject($subject);
-            });
+//            //todo email confirm 보내야 함.
+//            $to = $request->email;
+//            $subject = '메일군을 이용한 시스템 메일 발송입니다';
+//            $data = [
+//                'title' => '여기는 타이틀이 들어가는 곳입니다.',
+//                'body' => '본문글에 대한 방송이 필요해요.\n푸하하\n동해물과 백두산이 마르고 닳도록',
+//                'user' => '사용자 정보입니다'
+//                ];
+//
+//            $send = Mail::send('admin.dashboard.email', $data, function($message) use($to, $subject) {
+//                $message->to($to)->subject($subject);
+//            });
 
 
         }
@@ -120,31 +120,30 @@ class RegisterController extends Controller {
 
 
     public function registered(Request $request, $user) {
-//        $confirmation_code = str_random(30);
-//
-//        $user->notify(new ConfirmEmail($confirmation_code));
+        $confirmation_code = str_random(30);
+
+        $user->notify(new ConfirmEmail($confirmation_code));
 
 //        return redirect('/')->with('ok', trans('web/verify.message'));
-//        dd('aaa');
         //verification email
 
 
         // 인증메일 관련 부분 향후에
-//        $confirmation_code = str_random(30);
-//
-//        $confirm_user = Post::find($user->id);
-//        if($confirm_user){
-//            $confirm_user->verification_code = $confirmation_code;
-//            $confirm_user->save();
-//
-//            Mail::send('email.verify', $confirmation_code, function($message) use ($user) {
-//                $message->to($user->email)
-//                    ->subject("[카검사 ]회원 인증 메일입니다");
-//            });
-//
-//        }else{
-//            //
-//        }
+        $confirmation_code = str_random(30);
+
+        $confirm_user = Post::find($user->id);
+        if($confirm_user){
+            $confirm_user->verification_code = $confirmation_code;
+            $confirm_user->save();
+
+            Mail::send('email.verify', $confirmation_code, function($message) use ($user) {
+                $message->to($user->email)
+                    ->subject("[카검사 ]회원 인증 메일입니다");
+            });
+
+        }else{
+            //
+        }
 
 
         return view('web.auth.registered', compact("user"));
