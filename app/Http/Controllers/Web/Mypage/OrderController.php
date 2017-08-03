@@ -136,7 +136,7 @@ class OrderController extends Controller {
         $moid = $payment->moid;//상품주문번호
         $cancelMsg = "고객요청";
         $partialCancelCode = 0; //전체취소
-        $dataType="html";
+        $dataType="json";
 
         $cancel_callback_url = url("/order/order-cancel-callback");
 
@@ -171,7 +171,7 @@ class OrderController extends Controller {
 
         $pay_cancel = new Client();
         $cancel_request = $pay_cancel->post($payActionUrl, $send_data);
-        dd($payActionUrl, $send_data, $cancel_request);
+//        dd($payActionUrl, $send_data, $cancel_request);
 
 
 
