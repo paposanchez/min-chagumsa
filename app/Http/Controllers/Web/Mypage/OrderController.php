@@ -132,48 +132,56 @@ class OrderController extends Controller {
 
         $payment = Payment::where('orders_id', $order_id)->first();
 
-        dd($payment);
-
-        $tid = $payment->tid;//거래아이디
+        if($payment){
+            $tid = $payment->tid;//거래아이디
 //        $moid = $payment->moid;//상품주문번호
-        $cancelMsg = "고객요청";
-        $partialCancelCode = 0; //전체취소
-        $dataType="json";
+            $cancelMsg = "고객요청";
+            $partialCancelCode = 0; //전체취소
+            $dataType="json";
 
-        $cancel_callback_url = url("/order/order-cancel-callback");
+            $cancel_callback_url = url("/order/order-cancel-callback");
 
-        $payActionUrl = "http://webtx.tpay.co.kr/payCancel";
+            $payActionUrl = "http://webtx.tpay.co.kr/payCancel";
 
-        try{
-            $encryptor = new Encryptor($this->merchantKey);
-            $encryptData = $encryptor->encData($cancelAmt.$this->mid.$order_id);
-            $ediDate = $encryptor->getEdiDate();
-        }catch (\Exception $e){
+            try{
+                $encryptor = new Encryptor($this->merchantKey);
+                $encryptData = $encryptor->encData($cancelAmt.$this->mid.$order_id);
+                $ediDate = $encryptor->getEdiDate();
+            }catch (\Exception $e){
 
-            throw new Exception($e->getMessage());
+                throw new Exception($e->getMessage());
 
+            }
+
+            $send_data = [
+                "form_params" => [
+                    'cc_ip' => $_SERVER['REMOTE_ADDR'],
+                    'ediDate' => $ediDate,
+                    'encryptData' => $encryptData,
+                    'mid' => $this->mid,
+                    'tid' => $tid,
+                    'moid' => $order_id,
+                    'cancelPw' => $this->cancel_passwd,
+                    'cancelAmt' => $cancelAmt,
+                    'cancelMsg' => $cancelMsg,
+                    'partialCancelCode' => $partialCancelCode,
+                    'dataType' => $dataType,
+                    'returnUrl' => $cancel_callback_url
+                ]
+            ];
+
+            $pay_cancel = new Client();
+            $cancel_request = $pay_cancel->post($payActionUrl, $send_data);
+            dd($payActionUrl, $send_data, $cancel_request);
+
+            $message = trans('web/mypage.cancel_complete');
+            $event = 'success';
+        }else{
+            $message = "해당 주문에 대한 결제정보를 확인하지 못하였습니다.\n관리자에게 문의해 주세요.";
+            $event = 'error';
         }
 
-        $send_data = [
-            "form_params" => [
-                'cc_ip' => $_SERVER['REMOTE_ADDR'],
-                'ediDate' => $ediDate,
-                'encryptData' => $encryptData,
-                'mid' => $this->mid,
-                'tid' => $tid,
-                'moid' => $moid,
-                'cancelPw' => $this->cancel_passwd,
-                'cancelAmt' => $cancelAmt,
-                'cancelMsg' => $cancelMsg,
-                'partialCancelCode' => $partialCancelCode,
-                'dataType' => $dataType,
-                'returnUrl' => $cancel_callback_url
-            ]
-        ];
 
-        $pay_cancel = new Client();
-        $cancel_request = $pay_cancel->post($payActionUrl, $send_data);
-        dd($payActionUrl, $send_data, $cancel_request);
 
 
 
@@ -184,7 +192,7 @@ class OrderController extends Controller {
 
 
         return redirect()->route('mypage.order.index')
-            ->with('success', trans('web/mypage.cancel_complete'));
+            ->with($event, $message);
     }
 
 
