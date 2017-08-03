@@ -119,7 +119,7 @@ class OrderController extends Controller {
             ->with('success', trans('web/mypage.modify_complete'));
     }
 
-    public function cansel($order_id){
+    public function cancel($order_id){
 
 
         $order = Order::find($order_id);
