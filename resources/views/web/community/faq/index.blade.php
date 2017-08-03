@@ -15,41 +15,22 @@
     <div class='br30'></div>
 
     <ul class="faq_menu">
-
-        {{--<li>--}}
-            {{--<strong>회원관련</strong>--}}
-            {{--<a href="{{ route("faq.index", ['category_id' => 'R']) }}" class="{{ \App\Helpers\Helper::faqSelect('R', $category_id) }}">가입/탈퇴</a>--}}
-            {{--<a href="{{ route("faq.index", ['category_id' => 'L']) }}" class="{{ \App\Helpers\Helper::faqSelect('L', $category_id) }}">로그인</a>--}}
-            {{--<a href="{{ route("faq.index", ['category_id' => 'I']) }}" class="{{ \App\Helpers\Helper::faqSelect('I', $category_id) }}">아이디/비밀번호찾기</a>--}}
-            {{--<a href="{{ route("faq.index", ['category_id' => 'M']) }}" class="{{ \App\Helpers\Helper::faqSelect('M', $category_id) }}">회원정보관리</a>--}}
-        {{--</li>--}}
-        {{--<li>--}}
-            {{--<strong>결제</strong>--}}
-            {{--<a href="{{ route("faq.index", ['category_id' => 'P']) }}" class="{{ \App\Helpers\Helper::faqSelect('P', $category_id) }}">결제관련</a>--}}
-            {{--<a href="{{ route("faq.index", ['category_id' => 'O']) }}" class="{{ \App\Helpers\Helper::faqSelect('O', $category_id) }}">주문상태</a>--}}
-            {{--<a href="{{ route("faq.index", ['category_id' => 'F']) }}" class="{{ \App\Helpers\Helper::faqSelect('F', $category_id) }}">환불규정</a>--}}
-        {{--</li>--}}
-        {{--<li>--}}
-            {{--<strong>인증서신청</strong>--}}
-            {{--<a href="{{ route("faq.index", ['category_id' => 'G']) }}" class="{{ \App\Helpers\Helper::faqSelect('G', $category_id) }}">가이드</a>--}}
-        {{--</li>--}}
-
         <li>
             <strong>회원관련</strong>
-            <a href="{{ route("faq.index", ['category_id' => '1']) }}" class="{{ \App\Helpers\Helper::faqSelect('1', $category_id) }}">가입/탈퇴</a>
-            <a href="{{ route("faq.index", ['category_id' => '2']) }}" class="{{ \App\Helpers\Helper::faqSelect('2', $category_id) }}">로그인</a>
-            <a href="{{ route("faq.index", ['category_id' => '3']) }}" class="{{ \App\Helpers\Helper::faqSelect('3', $category_id) }}">아이디/비밀번호찾기</a>
-            <a href="{{ route("faq.index", ['category_id' => '4']) }}" class="{{ \App\Helpers\Helper::faqSelect('4', $category_id) }}">회원정보관리</a>
+            <a href="{{ route("faq.index", ['category_id' => '11']) }}" class="{{ \App\Helpers\Helper::faqSelect('11', $category_id) }}">가입/탈퇴</a>
+            <a href="{{ route("faq.index", ['category_id' => '12']) }}" class="{{ \App\Helpers\Helper::faqSelect('12', $category_id) }}">로그인</a>
+            <a href="{{ route("faq.index", ['category_id' => '13']) }}" class="{{ \App\Helpers\Helper::faqSelect('13', $category_id) }}">아이디/비밀번호찾기</a>
+            <a href="{{ route("faq.index", ['category_id' => '14']) }}" class="{{ \App\Helpers\Helper::faqSelect('14', $category_id) }}">회원정보관리</a>
         </li>
         <li>
             <strong>결제</strong>
-            <a href="{{ route("faq.index", ['category_id' => '5']) }}" class="{{ \App\Helpers\Helper::faqSelect('5', $category_id) }}">결제관련</a>
-            <a href="{{ route("faq.index", ['category_id' => '6']) }}" class="{{ \App\Helpers\Helper::faqSelect('6', $category_id) }}">주문상태</a>
-            <a href="{{ route("faq.index", ['category_id' => '7']) }}" class="{{ \App\Helpers\Helper::faqSelect('7', $category_id) }}">환불규정</a>
+            <a href="{{ route("faq.index", ['category_id' => '15']) }}" class="{{ \App\Helpers\Helper::faqSelect('15', $category_id) }}">결제관련</a>
+            <a href="{{ route("faq.index", ['category_id' => '16']) }}" class="{{ \App\Helpers\Helper::faqSelect('16', $category_id) }}">주문상태</a>
+            <a href="{{ route("faq.index", ['category_id' => '17']) }}" class="{{ \App\Helpers\Helper::faqSelect('17', $category_id) }}">환불규정</a>
         </li>
         <li>
             <strong>인증서신청</strong>
-            <a href="{{ route("faq.index", ['category_id' => '8']) }}" class="{{ \App\Helpers\Helper::faqSelect('8', $category_id) }}">가이드</a>
+            <a href="{{ route("faq.index", ['category_id' => '18']) }}" class="{{ \App\Helpers\Helper::faqSelect('18', $category_id) }}">가이드</a>
         </li>
     </ul>
 

@@ -20,6 +20,17 @@ return [
         'writer_name' => '작성자명'
     ],
 
+    'category_id' => [
+        'join' => '가입/탈퇴',
+        'login' => '로그인',
+        'find' => '아이디/비밀번호찾기',
+        'member' => '회원정보관리',
+        'payment' => '결제관련',
+        'order' => '주문상태',
+        'refund' => '환불규정',
+        'guide' => '가이드'
+    ],
+
     'diagnosis_state_group' => [
         'car_option' => '차량옵션',
         'car_option_exterior' => '차량외관옵션',

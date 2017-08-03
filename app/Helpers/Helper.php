@@ -223,7 +223,7 @@ class Helper {
     }
 
     public static function getBoard($board_id){
-        $board = Board::find($board_id)->first();
+        $board = Board::where('id', $board_id)->first();
         return $board;
     }
 }
