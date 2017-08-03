@@ -15,6 +15,6 @@ class VerifyCsrfToken extends BaseVerifier
         //
         'order/payment-result',
         'order/payment-callback',
-        'mypage/order/order-cancel-callback'
+        'order/order-cancel-callback'
     ];
 }
