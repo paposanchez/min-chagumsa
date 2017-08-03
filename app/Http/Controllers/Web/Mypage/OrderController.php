@@ -132,6 +132,8 @@ class OrderController extends Controller {
 
         $payment = Payment::where('orders_id', $order_id)->first();
 
+        dd($payment);
+
         $tid = $payment->tid;//거래아이디
 //        $moid = $payment->moid;//상품주문번호
         $cancelMsg = "고객요청";
