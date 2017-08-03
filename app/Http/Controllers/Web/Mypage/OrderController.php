@@ -177,8 +177,19 @@ class OrderController extends Controller {
             $message = trans('web/mypage.cancel_complete');
             $event = 'success';
         }else{
-            $message = "해당 주문에 대한 결제정보를 확인하지 못하였습니다.\n관리자에게 문의해 주세요.";
-            $event = 'error';
+            if(in_array($order->status_cd, [103, 104, 104])){
+                //주문상태가 결제 완료가 아니며, 예약확인/입고대기/입고 상태까지만 주문 취소를 함.
+                $order->status_cd = 100;
+                $order->save();
+
+                $message = trans('web/mypage.cancel_complete');
+                $event = 'success';
+
+            }else{
+                $message = "차량 입고 완료 및 차량 상태 점검의 경우 주문을 취소할수 없습니다.\n입고 이전 주문이 취소 불가일경우 관리자에게 문의해 주세요.";
+                $event = 'error';
+            }
+
         }
 
 
@@ -186,8 +197,7 @@ class OrderController extends Controller {
 
 
         //주문상태 변경은 콜백에서 처리함
-//        $order->status_cd = 100;
-//        $order->save();
+
 
 
 
