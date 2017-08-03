@@ -78,21 +78,21 @@
                 <div class='foot_info_wrap'>
                     <ul class='foot_desc_wrap'>
                         <li class='foot_desc'>
-                            <strong>주식회사 진브로스</strong>
-                            <p>주소 : 서울시 강남구 테헤란로 152(역삼동 우성빌딩 4층<br>
-                                사업자 등록번호 : 220-86-53175<br>
-                                통신판매업신고 : 강남 10630호  Fax : 02-589-8843</p>
+                            <strong>주식회사 짐브러스</strong>
+                            <p>주소 : 서울시 마포구 월드컵북로 402, 19충 1626호(상암동, KGIT센터)<br>
+                                사업자 등록번호 : 646-88-00594<br>
+                                통신판매업신고 : 제 2017-서울마포-1209호</p>
                         </li>
                         <li class='foot_desc'>
                             <strong>고객센터</strong>
-                            <p>상담시간 : 오전 9시~오후 6시(토요일 및 공휴일은 휴무)<br>
-                                주소 : 경기도 부천시 원미구 부일로 223 투나버스 빌딩 6층<br>
-                                Tel : 1566-5702 Fax : 02-589-8843    Mail : cs@chagumsa.com</p>
+                            <p>상담시간 : 오전 9:30분~오후 6시(토요일 및 공휴일은 휴무)<br>
+                                주소 : 서울시 마포구 월드컵북로 402, 10층 1626호(상암동, KGIT센터)<br>
+                                Tel : 1833-6889 Fax : 0505-333-6889</p>
                         </li>
                         <li class='foot_desc'>
                             <strong>전자금융처리</strong>
-                            <p>Tel : 1566-5704 Fax : 02-589-8843<br>
-                                Mail : gmk_cs@chagumsa.com</p>
+                            <p>Tel : 1833-6889 Fax : 0505-333-6889<br>
+                                Mail : chagumsa@jimbros.co.kr</p>
                         </li>
                     </ul>
                     <div class='foot_desc'>
