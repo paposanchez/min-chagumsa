@@ -173,7 +173,7 @@ class OrderController extends Controller {
 
             $pay_cancel = new Client();
             $cancel_request = $pay_cancel->post($payActionUrl, $send_data);
-            dd($payActionUrl, $send_data, $cancel_request);
+            dd($payActionUrl, $send_data, $cancel_request, $cancel_request->getBody());
 
             $message = trans('web/mypage.cancel_complete');
             $event = 'success';
