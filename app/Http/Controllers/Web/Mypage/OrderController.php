@@ -133,7 +133,7 @@ class OrderController extends Controller {
         $payment = Payment::where('orders_id', $order->id)->first();
 
         $tid = $payment->tid;//거래아이디
-        $moid = $payment->moid;//상품주문번호
+//        $moid = $payment->moid;//상품주문번호
         $cancelMsg = "고객요청";
         $partialCancelCode = 0; //전체취소
         $dataType="json";
@@ -144,7 +144,7 @@ class OrderController extends Controller {
 
         try{
             $encryptor = new Encryptor($this->merchantKey);
-            $encryptData = $encryptor->encData($cancelAmt.$this->mid.$moid);
+            $encryptData = $encryptor->encData($cancelAmt.$this->mid.$order_id);
             $ediDate = $encryptor->getEdiDate();
         }catch (\Exception $e){
 
