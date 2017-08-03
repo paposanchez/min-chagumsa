@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
 
+use App\Tpay\TpayLib as Encryptor;
+
 
 class OrderController extends Controller {
 
