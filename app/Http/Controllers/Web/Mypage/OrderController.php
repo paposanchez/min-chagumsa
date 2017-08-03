@@ -191,7 +191,7 @@ class OrderController extends Controller {
 
                 $message = "차량 입고 완료 및 차량 상태 점검의 경우 주문을 취소할수 없습니다.<br>입고 이전 주문이 취소 불가일경우 관리자에게 문의해 주세요.";
                 if($code){
-                    $message . = "<br>현재 상태: ".trans('code.order_state.'.$code->name);
+                    $message .= "<br>현재 상태: ".trans('code.order_state.'.$code->name);
                 }
                 $event = 'error';
             }
