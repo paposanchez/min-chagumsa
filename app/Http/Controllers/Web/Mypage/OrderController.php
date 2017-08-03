@@ -139,7 +139,7 @@ class OrderController extends Controller {
         $dataType="html";
 
         $cancel_callback_url = url("/order/order-cancel-callback");
-        dd($cancel_callback_url);
+
         $payActionUrl = "http://webtx.tpay.co.kr/payCancel";
 
         try{
