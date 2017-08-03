@@ -62,17 +62,19 @@ class PostController extends Controller {
         $yn_list = Code::getSelectList('yn');
         $shown_role_list = Code::getSelectList('post_shown_role');
 
-        return view('admin.post.create', compact('board_list', 'shown_role_list', 'yn_list'));
+        $categorys = Code::where('group', 'category_id')->get();
+
+
+        return view('admin.post.create', compact('board_list', 'shown_role_list', 'yn_list', 'categorys'));
     }
 
     public function store(Request $request) {
-
         $this->validate($request, [
             'subject' => 'required|min:1',
             'content' => 'required|min:1',
             'board_id' => 'required|exists:boards,id',
             'user_id' => 'exists:users,id',
-            'category' => 'exists:categorys,id',
+//            'category_id' => 'exists:categorys,id',
             'is_shown' => [
                 'required',
                 Rule::in(Code::getCodeFieldArray('post_shown_role')->toArray()),
@@ -88,7 +90,7 @@ class PostController extends Controller {
                 ], [], [
             'board_id' => trans('admin/post.board_id'),
             'user_id' => trans('admin/post.user_id'),
-            'category' => trans('admin/post.category'),
+//            'category_id' => trans('admin/post.category'),
             'is_shown' => trans('admin/post.is_shown'),
             'is_answered' => trans('admin/post.is_answered'),
             'thumbnail' => trans('admin/post.thumbnail'),
@@ -99,12 +101,24 @@ class PostController extends Controller {
             'content' => trans('admin/post.content')
         ]);
 
+        $post = new Post();
+        $post -> subject = $request->get('subject');
+        $post -> content = $request->get('content');
+        $post -> board_id = $request->get('board_id');
+        $post -> user_id = $request->get('user_id');
+        $post -> password = $request->get('password');
+        if($request->get('board_id') == 2){
+            $post -> category_id = $request->get('category_id');
+        }
+        $post -> is_shown = $request->get('is_shown');
+        $post -> is_answered = $request->get('is_answerd');
+        $post -> name = $request->get('name');
+        $post -> is_shown = $request->get('is_shown');
+        $post -> ip = $request->ip();
+        $post -> created_at = Carbon::now();
+        $post -> updated_at = Carbon::now();
+        $post -> save();
 
-        $input = $request->all();
-        $input['ip'] = $request->ip();
-        $input['created_at'] = Carbon::now();
-        $input['updated_at'] = Carbon::now();
-        $post = Post::create($input);
 
         $upfiles = $request->get("upfile");
         if (count($upfiles) > 0) {
@@ -113,7 +127,8 @@ class PostController extends Controller {
 
 
         return redirect()
-                        ->route('post.edit', $post->id)
+//                        ->route('post.edit', $post->id)
+                        ->route('post.index')
                         ->with('success', trans('admin/post.created'));
     }
 
@@ -127,7 +142,9 @@ class PostController extends Controller {
         
         $shown_role_list = Code::getSelectList('post_shown_role');
 
-        return view('admin.post.edit', compact('post', 'board_list', 'shown_role_list', 'yn_list'));
+        $categorys = Code::where('group', 'category_id')->get();
+
+        return view('admin.post.edit', compact('post', 'board_list', 'shown_role_list', 'yn_list', 'categorys'));
     }
 
     public function update(Request $request, $id) {
@@ -174,10 +191,26 @@ class PostController extends Controller {
         $input['ip'] = $request->ip();
 
         $post = Post::findOrFail($id);
-        $post->update($input);
+//        $post->update($input);
+        $post -> subject = $request->get('subject');
+        $post -> content = $request->get('content');
+        $post -> board_id = $request->get('board_id');
+        $post -> user_id = $request->get('user_id');
+        $post -> password = $request->get('password');
+        if($request->get('board_id') == 2){
+            $post -> category_id = $request->get('category_id');
+        }
+        $post -> is_shown = $request->get('is_shown');
+        $post -> is_answered = $request->get('is_answerd');
+        $post -> name = $request->get('name');
+        $post -> is_shown = $request->get('is_shown');
+        $post -> ip = $request->ip();
+        $post -> updated_at = Carbon::now();
+        $post -> save();
 
         return redirect()
-                        ->route('post.edit', $post->id)
+//                        ->route('post.edit', $post->id)
+                        ->route('post.index')
                         ->with('success', trans('admin/post.updated'));
     }
 

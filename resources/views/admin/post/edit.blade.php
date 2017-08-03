@@ -54,6 +54,25 @@
                     </div>
                 </div>
 
+                {{-- category select --}}
+                <div class="form-group {{ $errors->has('category_id') ? 'has-error' : 'category' }}" style="display: none;">
+                    <label for="inputCategoryId" class="control-label col-md-3">{{ trans('admin/post.category') }}</label>
+                    <div class="col-md-4">
+                        <select class="form-control" name="category_id" id="category_id">
+                            @foreach($categorys as $category)
+                                <option value="{{ $category->id }}">{{ \App\Helpers\Helper::getCodeName($category->id) }}</option>
+                            @endforeach
+                        </select>
+
+                        @if ($errors->has('user_id'))
+                            <span class="help-block">
+                        {{ $errors->first('user_id') }}
+                    </span>
+                        @endif
+                    </div>
+                </div>
+
+
                 <div class="form-group {{ $errors->has('user_id') ? 'has-error' : '' }}">
                     <label for="inputUserId" class="control-label col-md-3">{{ trans('admin/post.user_id') }}</label>
                     <div class="col-md-4">
@@ -246,6 +265,7 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
+
     $('#plugin-attachment').fineUploader({
         debug: true,
         //        template: 'qq-template',
@@ -288,6 +308,20 @@ $(document).ready(function () {
             }
         }
     });
+
+    $('#inputBoardId').change(function (){
+        if($('#inputBoardId option:selected').val() == 2){
+            $('.category').css('display', '');
+        }
+        else{
+            $('.category').css('display', 'none');
+        }
+    });
+
+    if($('#inputBoardId').val() == 2){
+        $('.category').css('display', '');
+        $('#category_id').val({{ $category->id }});
+    }
 });
 </script>
 @endpush

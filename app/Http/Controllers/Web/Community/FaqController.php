@@ -18,9 +18,12 @@ class FaqController extends PostController {
 
     public function index(){
         $category_id = Input::get('category_id');
+        if(!$category_id){
+            $category_id = 11;
+        }
 
         $where = Post::whereBoardId($this->board_id)->orderBy('id', 'DESC');
-        if(in_array($category_id, range(1, 8))){
+        if(in_array($category_id, range(11, 18))){
             $where = $where->where('category_id', $category_id);
         }
 

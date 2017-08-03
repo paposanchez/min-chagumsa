@@ -37,7 +37,7 @@
 			<div class='order_info_btn'>
 				{{ $order->status->display() }}
 				@if( $order->status_cd != 107 && $order->status_cd != 100 )
-					<a href="{{ route('mypage.order.cancel', ['order_id'=>$order->id]) }}" class='btns btns2' id="cansel" style="display: block; font-size: 15px;margin-top: 5px;">취소신청</a>
+					<a href="{{ route('mypage.order.cancel', ['order_id'=>$order->id]) }}" class='btns btns2' id="cancel" style="display: block; font-size: 15px;margin-top: 5px;">취소신청</a>
 				@endif
 
 			</div>

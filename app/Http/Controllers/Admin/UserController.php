@@ -192,10 +192,22 @@ class UserController extends Controller {
 
         $garages = GarageInfo::select()->get();
 
-
         $userRole = $user->roles->pluck('id', 'name')->toArray();
 
-        return view('admin.user.edit', compact('user', 'roles', 'userRole', 'status_cd_list', 'garages', 'aliances'));
+        // engineer의 정비소 출력
+        $user_extras = UserExtra::where('users_id', $user->id)->first();
+        if(!$user_extras){
+            $user_extras = new UserExtra();
+        }
+
+        // garage의 정보 및 network 정보
+        $garage_info = GarageInfo::where('garage_id', $user->id)->first();
+        if(!$garage_info){
+            $garage_info = new GarageInfo();
+        }
+
+
+        return view('admin.user.edit', compact('user', 'roles', 'userRole', 'status_cd_list', 'garages', 'aliances', 'user_extras', 'garage_info'));
     }
 
     public function update(Request $request, $id) {
@@ -247,13 +259,13 @@ class UserController extends Controller {
             $rol = $request->get('roles')[0];
             if($rol == 4){
                 $this->validate($request, [
+                    'aliance_id' => 'required',
                     'garage_name' => 'required|min:2',
                     'garage_tel' => 'required',
                     'garage_zipcode' => 'required',
                     'garage_area' => 'required',
                     'garage_section' => 'required',
-                    'garage_address' => 'required',
-                    'aliance' => 'required'
+                    'garage_address' => 'required'
                 ]);
 
 
@@ -300,7 +312,7 @@ class UserController extends Controller {
 
             }else{
                 $this->validate($request, [
-                    'garage' => 'required'
+                    'garage' => 'required',
                 ]);
 
                 // user_extra 데이터 저장
