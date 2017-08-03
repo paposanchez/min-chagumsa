@@ -126,7 +126,9 @@ class OrderController extends Controller {
 
         $order = Order::find($order_id);
 
-        $cancelAmt = $order->item->price;
+        //$cancelAmt = $order->item->price;
+        $cancelAmt = 1004; //todo 가격부문을 위에 것으로 변경해야 함.
+
 
         $payment = Payment::where('orders_id', $order->id)->first();
 
