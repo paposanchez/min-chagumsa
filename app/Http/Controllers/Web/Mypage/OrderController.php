@@ -30,7 +30,7 @@ class OrderController extends Controller {
 
     public function index() {
         $user_id = Auth::user()->id;
-        $my_orders = Order::where('orderer_id', $user_id)->orderBy('status_cd', 'DESC')->get();
+        $my_orders = Order::where('orderer_id', $user_id)->orderBy('created_at', 'DESC')->get();
 
         return view('web.mypage.order.index', compact('my_orders'));
     }
