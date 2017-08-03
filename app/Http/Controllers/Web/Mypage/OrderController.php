@@ -178,8 +178,8 @@ class OrderController extends Controller {
             $message = trans('web/mypage.cancel_complete');
             $event = 'success';
         }else{
-            if(in_array($order->status_cd, [103, 104, 104])){
-                //주문상태가 결제 완료가 아니며, 예약확인/입고대기/입고 상태까지만 주문 취소를 함.
+            if(in_array($order->status_cd, [101, 103, 104, 104])){
+                //주문상태가 결제 완료가 아니며, 주문신청/예약확인/입고대기/입고 상태까지만 주문 취소를 함.
                 $order->status_cd = 100;
                 $order->save();
 
