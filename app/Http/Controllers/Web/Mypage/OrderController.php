@@ -138,7 +138,7 @@ class OrderController extends Controller {
         $partialCancelCode = 0; //전체취소
         $dataType="html";
 
-        $cancel_callback_url = url("/mypage/order/order-cancel-callback");
+        $cancel_callback_url = url("/order/order-cancel-callback");
         $payActionUrl = "http://webtx.tpay.co.kr/payCancel";
 
         try{
