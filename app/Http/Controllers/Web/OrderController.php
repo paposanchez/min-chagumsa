@@ -701,7 +701,18 @@ class OrderController extends Controller {
         $cancelAmt = $request->get('cancelAmt');
         $moid = $request->get('moid');
 
-        dd('aaa');
+        //파라미터 연동을 위하여 내용을 우선 file에 저장함
+        $params = $request->all();
+        $param_str = implode(", ", array_map(
+            function($v, $k) {
+                return sprintf("%s='%s'", $k, $v);
+            },
+            $params,
+            array_keys($params)
+        ));
+        $fp = fopen("/tmp/pay.txt", "w");
+        fwrite($fp, $param_str, 2048);
+        fclose($fp);
 
         try{
             $encryptor = new Encryptor($this->merchantKey, $ediDate);
