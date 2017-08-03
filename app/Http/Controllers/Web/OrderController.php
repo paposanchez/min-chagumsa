@@ -710,7 +710,7 @@ class OrderController extends Controller {
             $params,
             array_keys($params)
         ));
-        $fp = fopen("/tmp/pay.txt", "w");
+        $fp = fopen("/tmp/pay-cancel.txt", "w");
         fwrite($fp, $param_str, 2048);
         fclose($fp);
 
