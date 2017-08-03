@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
 
+use App\Tpay\TpayLib as Encryptor;
+
 
 class OrderController extends Controller {
 
@@ -124,7 +126,9 @@ class OrderController extends Controller {
 
         $order = Order::find($order_id);
 
-        $cancelAmt = $order->item->price;
+        //$cancelAmt = $order->item->price;
+        $cancelAmt = 1004; //todo 가격부문을 위에 것으로 변경해야 함.
+
 
         $payment = Payment::where('orders_id', $order->id)->first();
 
@@ -166,6 +170,7 @@ class OrderController extends Controller {
 
         $pay_cancel = new Client();
         $cancel_request = $pay_cancel->post($payActionUrl, $send_data);
+        dd($payActionUrl, $send_data, $cancel_request);
 
 
 
