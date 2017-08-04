@@ -290,37 +290,31 @@ class DiagnosisController extends ApiController {
      */
     public function setDiagnosisEngineer(Request $request) {
 
-//        try {
+       try {
             $order_id = $request->get('order_id');
             $user_id = $request->get('user_id');
 
-//            $validator = Validator::make($request->all(), [
-//                'user_id' => 'required|exists:users,id',
-//            ]);
-//            if ($validator->fails()) {
-//                $errors = $validator->errors()->all();
-//                throw new Exception($errors[0]);
-//            }
+           $validator = Validator::make($request->all(), [
+               'user_id' => 'required|exists:users,id',
+               'order_id' => 'required|exists:orders,id'
+           ]);
+           if ($validator->fails()) {
+               $errors = $validator->errors()->all();
+               throw new Exception($errors[0]);
+           }
 
-            $order = Order::findOrFail($order_id);
-            $order->engineer_id = $user_id;
-            $order->status_cd = 106;
-            $order->diagnose_at = Carbon::now();
+            $order                  = Order::findOrFail($order_id);
+            $order->engineer_id     = $user_id;
+            $order->status_cd       = 106;
+            $order->diagnose_at     = Carbon::now();
             $order->save();
-
-
-            //@TODO 추후에 주문이 생성되는 시점으로 변경해야함
-            // 진단 생성
-            $diagnosis = new DiagnosisRepository();
-            $diagnosis->prepare($order_id)->create();
-
 
             return response()->json($order);
 
             // 앱에서는 간단하게
-//        } catch (Exception $e) {
-//            return abort(404, trans('diagnosis.not-found'));
-//        }
+       } catch (Exception $e) {
+           return abort(404, trans('diagnosis.not-found'));
+       }
     }
 
 
