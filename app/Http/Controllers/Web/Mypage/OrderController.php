@@ -27,7 +27,8 @@ class OrderController extends Controller {
     //todo 현재 테스트 계정임. 변경할것
     protected $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";//상점키
     protected $mid = "tpaytest0m";//상점id
-    protected $cancel_passwd = ""; //취소 시 사용되는 패스워드(Tpay 계정 설정 참조)
+    protected $cancel_passwd = "123456"; //취소 시 사용되는 패스워드(Tpay 계정 설정 참조)
+    protected $api_key = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";
 
     public function index() {
         $user_id = Auth::user()->id;
@@ -122,7 +123,18 @@ class OrderController extends Controller {
             ->with('success', trans('web/mypage.modify_complete'));
     }
 
-    public function cancel($order_id){
+    public function cancel(Request $request){
+
+        $validate = Validator::make($request->all(),[
+            'order_id' => 'required'
+        ]);
+
+
+        if($validate->fails()){
+            return redirect()->back()->with('error', '주문번호가 누락되었습니다.');
+        }
+
+        $order_id = $request->get('order_id');
 
 
         $order = Order::find($order_id);
@@ -140,9 +152,21 @@ class OrderController extends Controller {
             $partialCancelCode = 0; //전체취소
             $dataType="json";
 
-            $cancel_callback_url = url("/order/order-cancel-callback");
 
-            $payActionUrl = "http://webtx.tpay.co.kr/payCancel";
+            $payActionUrl = "https://webtx.tpay.co.kr/api/v1/refunds";
+            /*
+             *api_key
+mid		상점아이디
+moid		주문번호
+cancel_pw		주문취소 비밀번호
+cancel_amt		취소금액
+partial_cancel	부분취소여부(0)
+cancel_msg	취소사유
+tid				거래TID
+
+https://webtx.tpay.co.kr/api/v1/refunds
+dataType: json + POST
+             */
 
             try{
                 $encryptor = new Encryptor($this->merchantKey);
@@ -156,24 +180,21 @@ class OrderController extends Controller {
 
             $send_data = [
                 "form_params" => [
-                    'cc_ip' => $_SERVER['REMOTE_ADDR'],
-                    'ediDate' => $ediDate,
-                    'encryptData' => $encryptData,
+
                     'mid' => $this->mid,
-                    'tid' => $tid,
+                    'api_key' => $this->api_key,
                     'moid' => $order_id,
-                    'cancelPw' => $this->cancel_passwd,
-                    'cancelAmt' => $cancelAmt,
-                    'cancelMsg' => $cancelMsg,
-                    'partialCancelCode' => $partialCancelCode,
-                    'dataType' => $dataType,
-                    'returnUrl' => $cancel_callback_url
+                    'cancel_pw' => $this->cancel_passwd,
+                    'cancel_amt' => $cancelAmt,
+                    'partial_cancel' => 0,
+                    'cancel_msg' => '고객요청',
+                    'tid' => $tid
                 ]
             ];
 
             $pay_cancel = new Client();
             $cancel_request = $pay_cancel->post($payActionUrl, $send_data);
-            dd($payActionUrl, $send_data, $cancel_request, $cancel_request->getBody());
+            dd(\GuzzleHttp\json_decode($cancel_request->getBody()));
 
             $message = trans('web/mypage.cancel_complete');
             $event = 'success';
