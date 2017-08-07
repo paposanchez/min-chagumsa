@@ -28,7 +28,7 @@ class OrderController extends Controller {
     protected $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";//상점키
     protected $mid = "tpaytest0m";//상점id
     protected $cancel_passwd = "123456"; //취소 시 사용되는 패스워드(Tpay 계정 설정 참조)
-    protected $api_key = "hgEY70BdDgoJYVOwj5CHsRDQt5a6IieQLQv+Q2rA6nnW+wXP57fH2ZkvUBJW0c9/eF1Rp5QRZ+qjzJ+Knc8r1A==";
+    protected $api_key = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";
 
     public function index() {
         $user_id = Auth::user()->id;
