@@ -36,7 +36,8 @@
             <div class='order_info_btn'>
                 {{ $orders->status->display() }}
                 @if( $orders->status_cd != 107 && $orders->status_cd != 100 )
-                <a href="{{ route('mypage.order.cancel', ['order_id'=>$orders->id]) }}" class='btns btns2' id="cancel" style="display: block; font-size: 15px;margin-top: 5px;">취소신청</a>
+{{--                <a href="{{ route('mypage.order.cancel', ['order_id'=>$orders->id]) }}" class='btns btns2' id="cancel" style="display: block; font-size: 15px;margin-top: 5px;">취소신청</a>--}}
+                    <button type="button" class="btns btns2 cancel-click" id="cancel" data-cancel_order_id="{{ $orders->id }}" style="display: block; font-size: 15px;margin-top: 5px;">결제취소</button>
                 @endif
             </div>
         </div>
@@ -81,13 +82,28 @@
 
 </div>
 
+{!! Form::open(['route' => ["order.purchase"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
+<input type="hidden" name="order_id" id="cancel-order_id">
+{!! Form::close() !!}
+
 @endsection
 
 
 @push( 'header-script' )
 <script type="text/javascript">
     $(function () {
+        $(".cancel-click").on("click", function(){
+            if(confirm("해당 주문에 대한 결제를 취소하시겠습니까?")){
+                var order_id = $(this).data("cancel_order_id");
+                if(order_id){
+                    $("#cancel-order_id").val(order_id);
+                    $("#cancel-form").submit();
+                }else{
+                    alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
+                }
 
+            }
+        });
     });
 </script>
 @endpush
