@@ -58,7 +58,6 @@ Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 Route::match(['GET', 'POST'], 'payment/pay-result', 'PaymentController@payCallback')->name('payment.pay-result');
 Route::match(['GET', 'POST'], 'payment/pay-callback', 'PaymentController@payResult')->name('payment.pay-callback');
 Route::match(['GET', 'POST'], 'order/payment-result', 'OrderController@paymentResult')->name("order.payment-result");
-Route::match(['GET', 'POST'], 'order/order-cancel-callback', 'OrderController@orderCancelCallback')->name("order.order-cancel-callback");
 
 
 // Information
