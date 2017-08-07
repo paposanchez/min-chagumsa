@@ -172,7 +172,7 @@ class OrderController extends Controller {
 
                         if(in_array($cancel_process->result_cd, [2001, 2002])){
 
-                            dd($cancel_process);
+//                            dd($cancel_process);
 
                             if(isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
                             if(isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
