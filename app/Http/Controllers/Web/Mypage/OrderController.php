@@ -164,7 +164,7 @@ class OrderController extends Controller {
                                 $order->status_cd = 100;
                                 $order->save();
                             }
-                            $message = "결제취소를 완료 하였습니다.";
+                            $message = "결제취소를 완료 하였습니다.1";
                         }
                     }else{
                         $payment_cancel = new PaymentCancel();
@@ -187,7 +187,7 @@ class OrderController extends Controller {
                         $order->status_cd = 100;
                         $order->save();
 
-                        $message = "결제취소를 완료 하였습니다.";
+                        $message = "결제취소를 완료 하였습니다.2";
                         $event = 'success';
                     }
 
