@@ -202,6 +202,8 @@ class OrderController extends Controller {
                 $order->status_cd = 100;
                 $order->save();
 
+                return 'a';
+
                 $message = trans('web/mypage.cancel_complete');
                 $event = 'success';
 
