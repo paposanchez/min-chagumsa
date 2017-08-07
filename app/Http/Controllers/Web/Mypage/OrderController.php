@@ -230,7 +230,7 @@ class OrderController extends Controller {
 
 
 
-
+        dd($message);
 
         //주문상태 변경은 콜백에서 처리함
 
