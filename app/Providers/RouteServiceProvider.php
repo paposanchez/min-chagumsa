@@ -32,10 +32,10 @@ class RouteServiceProvider extends ServiceProvider {
      * @return void
      */
     public function map() {
-        $this->mapApiRoutes();
         $this->mapWebRoutes();
+        $this->mapApiRoutes();
         $this->mapAllianceRoutes();
-        $this->mapGarageeRoutes();
+        $this->mapBcsRoutes();
         $this->mapAdminRoutes();
     }
 
@@ -51,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider {
         Route::group([
             'middleware' => 'web',
             'namespace' => $namespace,
-            'domain' => 'www.' .  config('app.domain'),
+            // 'domain' => 'www.' .  config('app.domain'),
                 ], function ($router) {
             require base_path('routes/web.php');
         });
@@ -70,7 +70,7 @@ class RouteServiceProvider extends ServiceProvider {
     }
 
     protected function mapAllianceRoutes() {
-        $namespace = $this->namespace . '\Admin';
+        $namespace = $this->namespace . '\Alliance';
 
         Route::group([
             'middleware' => 'web',
@@ -81,15 +81,15 @@ class RouteServiceProvider extends ServiceProvider {
         });
     }
 
-    protected function mapGarageeRoutes() {
-        $namespace = $this->namespace . '\Admin';
+    protected function mapBcsRoutes() {
+        $namespace = $this->namespace . '\Bcs';
 
         Route::group([
             'middleware' => 'web',
             'namespace' => $namespace,
             'domain' => 'garage.' . config('app.domain'),
                 ], function ($router) {
-            require base_path('routes/garage.php');
+            require base_path('routes/bcs.php');
         });
     }
 
@@ -106,10 +106,32 @@ class RouteServiceProvider extends ServiceProvider {
             'middleware' => 'api',
             'namespace' => $namespace,
             'domain' => 'api.' . config('app.domain'),
-//            'prefix' => 'api',
                 ], function ($router) {
             require base_path('routes/api.php');
         });
+
+
+        //@TODO swagger added        
+        Route::namespace(config('l5-swagger.routes.api'))->group(function($ar){
+
+
+
+
+        });
+
+        // $router->any(config('l5-swagger.routes.docs').'/{jsonFile?}', [
+        //     'as' => 'l5-swagger.docs',
+        //     'middleware' => config('l5-swagger.routes.middleware.docs', []),
+        //     'uses' => '\L5Swagger\Http\Controllers\SwaggerController@docs',
+        // ]);
+
+        // $router->get(config('l5-swagger.routes.api'), [
+        //     'as' => 'l5-swagger.api',
+        //     'middleware' => config('l5-swagger.routes.middleware.api', []),
+        //     'uses' => '\L5Swagger\Http\Controllers\SwaggerController@api',
+        // ]);
+
+
     }
 
 }

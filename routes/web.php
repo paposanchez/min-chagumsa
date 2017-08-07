@@ -118,7 +118,7 @@ Route::get('register/registered', 'Auth\RegisterController@registered')->name('r
 // 이메일 인증
 Route::get('verify', 'Auth\VerifyController@emailCheck');
 
-Route::get('/', 'WelcomeController');
+Route::any('/', 'WelcomeController');
 
 
 
