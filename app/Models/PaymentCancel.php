@@ -12,6 +12,8 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Order;
+use GuzzleHttp;
+use GuzzleHttp\Client;
 
 
 class PaymentCancel Extends Model
