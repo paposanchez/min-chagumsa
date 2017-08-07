@@ -169,9 +169,7 @@ class OrderController extends Controller {
 
                 if(in_array($cancel_process->result_cd, [2001, 2002])){
 
-                    //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
-                    $order->status_cd = 100;
-                    $order->save();
+
 
                     if(isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
                     if(isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
@@ -187,22 +185,19 @@ class OrderController extends Controller {
                     $message = "결제취소 신청이 실패하였습니다.<br>사이트 관리자에게 문의해 주세요.";
                     $event = 'error';
                 }
-                //결제취소 로그 기록
+
+                //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
+                $order->status_cd = 100;
+                $order->save();
 
             }
 
-
-
-
-            $message = trans('web/mypage.cancel_complete');
-            $event = 'success';
         }else{
             if(in_array($order->status_cd, [101, 102, 103, 104])){
                 //주문상태가 결제 완료가 아니며, 주문신청/예약확인/입고대기/입고 상태까지만 주문 취소를 함.
                 $order->status_cd = 100;
                 $order->save();
 
-                return 'a';
 
                 $message = trans('web/mypage.cancel_complete');
                 $event = 'success';
