@@ -153,8 +153,7 @@ class OrderController extends Controller {
             $dataType="json";
 
 
-            $payment_cancel = PaymentCancel::where('orders_id', $order_id);
-            dd($payment_cancel);
+            $payment_cancel = PaymentCancel::where('orders_id', $order_id)->first();
             if($payment_cancel){
                 if(in_array($payment_cancel->resultCd, [2001, 2002])){
                     if($order->status_cd != 100){
