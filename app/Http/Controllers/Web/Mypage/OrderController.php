@@ -153,48 +153,46 @@ class OrderController extends Controller {
             $dataType="json";
 
 
-            $payActionUrl = "https://webtx.tpay.co.kr/api/v1/refunds";
-            /*
-             *api_key
-mid		상점아이디
-moid		주문번호
-cancel_pw		주문취소 비밀번호
-cancel_amt		취소금액
-partial_cancel	부분취소여부(0)
-cancel_msg	취소사유
-tid				거래TID
+            $payment_cancel = PaymentCancel::where('orders_id', $order_id)->first();
+            if($payment_cancel){
+                if(in_array($payment_cancel->resultCd, [2001, 2002])){
+                    if($order->status_cd != 100){
+                        //결제취소 PG연동은 완료 되었으나, order 상태가 변경 안됨.
+                        $order->status_cd = 100;
+                        $order->save();
+                    }
+                    $message = "결제취소를 완료 하였습니다.";
+                }
+            }else{
+                $payment_cancel = new PaymentCancel();
+                $cancel_process = $payment_cancel->paymentCancelProcess($order_id, $cancelAmt, $tid);
 
-https://webtx.tpay.co.kr/api/v1/refunds
-dataType: json + POST
-             */
+                if(in_array($cancel_process->result_cd, [2001, 2002])){
 
-            try{
-                $encryptor = new Encryptor($this->merchantKey);
-                $encryptData = $encryptor->encData($cancelAmt.$this->mid.$order_id);
-                $ediDate = $encryptor->getEdiDate();
-            }catch (\Exception $e){
+                    //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
+                    $order->status_cd = 100;
+                    $order->save();
 
-                throw new Exception($e->getMessage());
+                    if(isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
+                    if(isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
+                    if(isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
+                    if(isset($cancel_process->result_cd)) $payment_cancel->resultCd = $cancel_process->result_cd;
+                    $payment_cancel->orders_id == $order_id;
+                    $payment_cancel->save();
+
+                    $message = "결제취소를 완료 하였습니다.";
+                    $event = 'success';
+                }else{
+                    //결제취소 실패.
+                    $message = "결제취소 신청이 실패하였습니다.<br>사이트 관리자에게 문의해 주세요.";
+                    $event = 'error';
+                }
+                //결제취소 로그 기록
 
             }
 
-            $send_data = [
-                "form_params" => [
 
-                    'mid' => $this->mid,
-                    'api_key' => $this->api_key,
-                    'moid' => $order_id,
-                    'cancel_pw' => $this->cancel_passwd,
-                    'cancel_amt' => $cancelAmt,
-                    'partial_cancel' => 0,
-                    'cancel_msg' => '고객요청',
-                    'tid' => $tid
-                ]
-            ];
 
-            $pay_cancel = new Client();
-            $cancel_request = $pay_cancel->post($payActionUrl, $send_data);
-            dd(\GuzzleHttp\json_decode($cancel_request->getBody()));
 
             $message = trans('web/mypage.cancel_complete');
             $event = 'success';
@@ -203,6 +201,8 @@ dataType: json + POST
                 //주문상태가 결제 완료가 아니며, 주문신청/예약확인/입고대기/입고 상태까지만 주문 취소를 함.
                 $order->status_cd = 100;
                 $order->save();
+
+                return 'a';
 
                 $message = trans('web/mypage.cancel_complete');
                 $event = 'success';
