@@ -27,7 +27,7 @@ class OrderController extends Controller {
     //todo 현재 테스트 계정임. 변경할것
     protected $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";//상점키
     protected $mid = "tpaytest0m";//상점id
-    protected $cancel_passwd = ""; //취소 시 사용되는 패스워드(Tpay 계정 설정 참조)
+    protected $cancel_passwd = "123456"; //취소 시 사용되는 패스워드(Tpay 계정 설정 참조)
     protected $api_key = "hgEY70BdDgoJYVOwj5CHsRDQt5a6IieQLQv+Q2rA6nnW+wXP57fH2ZkvUBJW0c9/eF1Rp5QRZ+qjzJ+Knc8r1A==";
 
     public function index() {
@@ -194,7 +194,7 @@ dataType: json + POST
 
             $pay_cancel = new Client();
             $cancel_request = $pay_cancel->post($payActionUrl, $send_data);
-            dd($payActionUrl, $send_data, $cancel_request, $cancel_request->getBody());
+            dd(\GuzzleHttp\json_decode($cancel_request->getBody()));
 
             $message = trans('web/mypage.cancel_complete');
             $event = 'success';
