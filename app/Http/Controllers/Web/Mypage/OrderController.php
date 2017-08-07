@@ -172,7 +172,7 @@ class OrderController extends Controller {
 
                         if(in_array($cancel_process->result_cd, [2001, 2002])){
 
-
+                            dd($cancel_process);
 
                             if(isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
                             if(isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
@@ -187,10 +187,11 @@ class OrderController extends Controller {
                         $order->status_cd = 100;
                         $order->save();
 
+                        $message = "결제취소를 완료 하였습니다.";
+                        $event = 'success';
                     }
 
-                    $message = "결제취소를 완료 하였습니다.";
-                    $event = 'success';
+
 
                 }else{
                     if(in_array($order->status_cd, [101, 102, 103, 104])){
