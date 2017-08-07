@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Reservation;
 use App\Models\PaymentCancel;
+use App\Models\Code;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -130,58 +131,85 @@ class OrderController extends Controller {
         $cancelAmt = 1004; //todo 가격부문을 위에 것으로 변경해야 함.
 
 
-        $payment = Payment::where('orders_id', $order->id)->first();
+        $payment = Payment::where('orders_id', $order_id)->first();
 
-        $tid = $payment->tid;//거래아이디
-        $moid = $payment->moid;//상품주문번호
-        $cancelMsg = "고객요청";
-        $partialCancelCode = 0; //전체취소
-        $dataType="html";
+        if($payment){
+            $tid = $payment->tid;//거래아이디
+//        $moid = $payment->moid;//상품주문번호
+            $cancelMsg = "고객요청";
+            $partialCancelCode = 0; //전체취소
+            $dataType="json";
 
-        $cancel_callback_url = url("/mypage/order/order-cancel-callback");
-        $payActionUrl = "http://webtx.tpay.co.kr/payCancel";
+            $cancel_callback_url = url("/order/order-cancel-callback");
 
-        try{
-            $encryptor = new Encryptor($this->merchantKey);
-            $encryptData = $encryptor->encData($cancelAmt.$this->mid.$moid);
-            $ediDate = $encryptor->getEdiDate();
-        }catch (\Exception $e){
+            $payActionUrl = "http://webtx.tpay.co.kr/payCancel";
 
-            throw new Exception($e->getMessage());
+            try{
+                $encryptor = new Encryptor($this->merchantKey);
+                $encryptData = $encryptor->encData($cancelAmt.$this->mid.$order_id);
+                $ediDate = $encryptor->getEdiDate();
+            }catch (\Exception $e){
+
+                throw new Exception($e->getMessage());
+
+            }
+
+            $send_data = [
+                "form_params" => [
+                    'cc_ip' => $_SERVER['REMOTE_ADDR'],
+                    'ediDate' => $ediDate,
+                    'encryptData' => $encryptData,
+                    'mid' => $this->mid,
+                    'tid' => $tid,
+                    'moid' => $order_id,
+                    'cancelPw' => $this->cancel_passwd,
+                    'cancelAmt' => $cancelAmt,
+                    'cancelMsg' => $cancelMsg,
+                    'partialCancelCode' => $partialCancelCode,
+                    'dataType' => $dataType,
+                    'returnUrl' => $cancel_callback_url
+                ]
+            ];
+
+            $pay_cancel = new Client();
+            $cancel_request = $pay_cancel->post($payActionUrl, $send_data);
+            dd($payActionUrl, $send_data, $cancel_request, $cancel_request->getBody());
+
+            $message = trans('web/mypage.cancel_complete');
+            $event = 'success';
+        }else{
+            if(in_array($order->status_cd, [101, 102, 103, 104])){
+                //주문상태가 결제 완료가 아니며, 주문신청/예약확인/입고대기/입고 상태까지만 주문 취소를 함.
+                $order->status_cd = 100;
+                $order->save();
+
+                $message = trans('web/mypage.cancel_complete');
+                $event = 'success';
+
+            }else{
+
+                $code = Code::find($order->status_cd);
+
+                $message = "차량 입고 완료 및 차량 상태 점검의 경우 주문을 취소할수 없습니다.<br>입고 이전 주문이 취소 불가일경우 관리자에게 문의해 주세요.";
+                if($code){
+                    $message .= "<br>현재 상태: ".trans('code.order_state.'.$code->name);
+                }
+                $event = 'error';
+            }
 
         }
 
-        $send_data = [
-            "form_params" => [
-                'cc_ip' => $_SERVER['REMOTE_ADDR'],
-                'ediDate' => $ediDate,
-                'encryptData' => $encryptData,
-                'mid' => $this->mid,
-                'tid' => $tid,
-                'moid' => $moid,
-                'cancelPw' => $this->cancel_passwd,
-                'cancelAmt' => $cancelAmt,
-                'cancelMsg' => $cancelMsg,
-                'partialCancelCode' => $partialCancelCode,
-                'dataType' => $dataType,
-                'returnUrl' => $cancel_callback_url
-            ]
-        ];
 
-        $pay_cancel = new Client();
-        $cancel_request = $pay_cancel->post($payActionUrl, $send_data);
-        dd($payActionUrl, $send_data, $cancel_request);
 
 
 
         //주문상태 변경은 콜백에서 처리함
-//        $order->status_cd = 100;
-//        $order->save();
+
 
 
 
         return redirect()->route('mypage.order.index')
-            ->with('success', trans('web/mypage.cancel_complete'));
+            ->with($event, $message);
     }
 
 
