@@ -181,11 +181,11 @@ class OrderController extends Controller {
                     $event = 'error';
                 }
                 //결제취소 로그 기록
-                $payment_cancel->payMethod = $cancel_process->PayMethod;
-                $payment_cancel->cancelDate = $cancel_process->CancelDate;
-                $payment_cancel->cancelTime = $cancel_process->CancelTime;
-                $payment_cancel->resultCd = $cancel_process->result_cd;
-                $payment_cancel->orders_id == $order_id;
+                if(isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
+                if(isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
+                if(isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
+                if(isset($cancel_process->result_cd)) $payment_cancel->resultCd = $cancel_process->result_cd;
+                if(isset($cancel_process->$order_id)) $payment_cancel->orders_id == $order_id;
                 $payment_cancel->save();
             }
 
