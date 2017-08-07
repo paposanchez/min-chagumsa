@@ -85,12 +85,12 @@ class RegisterController extends Controller {
 
             //todo email confirm이 없다면 값을 변경함.
             $user_info->status_cd = 2; // 1 - active
-//            $user_info->save();
+            $user_info->save();
 
             $role_user = new RoleUser();
             $role_user->user_id = $user_info->id;
             $role_user->role_id = 2;
-//            $role_user->save();
+            $role_user->save();
 
 
 
