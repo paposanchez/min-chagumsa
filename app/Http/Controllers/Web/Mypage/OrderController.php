@@ -178,7 +178,7 @@ class OrderController extends Controller {
                             if(isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
                             if(isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
                             if(isset($cancel_process->result_cd)) $payment_cancel->resultCd = $cancel_process->result_cd;
-                            $payment_cancel->orders_id == $order_id;
+                            $payment_cancel->orders_id = $order_id;
                             $payment_cancel->save();
 
                             //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
