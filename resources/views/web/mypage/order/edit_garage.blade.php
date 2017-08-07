@@ -29,7 +29,7 @@
 
 		<div class='od_line'>
 			<label>입고희망일</label>
-			<input type="text" class="ipt wid20 in_date datepicker" data-format="YYYY-MM-DD" placeholder="{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y-m-d') }}" name='reservation_date' value='{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y-m-d') }}' style="margin-right: 5px;">
+			<input type="text" class="ipt wid20 in_date datepicker2" data-format="YYYY-MM-DD" placeholder="{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y-m-d') }}" name='reservation_date' value='{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y-m-d') }}' style="margin-right: 5px;">
 			{!! Form::select('sel_time', $search_fields, [], ['class'=>'btns btns2 ipt wid20', 'id'=>'sel_time']) !!}
 		</div>
 		<div class="br10"></div>
@@ -219,6 +219,28 @@
             return true;
         });
 
+
+        //########## Pikaday
+        $('.datepicker2').each(function (index, element) {
+            var opt = {
+                field: element,
+                format: 'YYYY-MM-DD',
+                minDate: moment().add(1, 'days').toDate(),
+                i18n: {
+                    previousMonth: '이전달',
+                    nextMonth: '다음달',
+                    months: '1월.2월.3월.4월.5월.6월.7월.8월.9월.10월.11월.12월.'.split('.'),
+                    weekdays: '월요일.화요일.수요일.목요일.금요일.토요일.일요일'.split('.'),
+                    weekdaysShort: '월.화.수.목.금.토.일.'.split('.')
+                },
+            };
+
+            if ($(this).data('format')) {
+                opt.format = $(this).data('format');
+            }
+
+            new Pikaday(opt);
+        });
 
     });
 </script>
