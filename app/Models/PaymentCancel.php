@@ -61,7 +61,7 @@ class PaymentCancel Extends Model
                 "form_params" => [
 
                     'mid' => $this->mid,
-//                    'api_key' => $this->merchantKey,
+                    'api_key' => $this->merchantKey,
                     'moid' => $order_id,
                     'cancel_pw' => $this->cancel_passwd,
                     'cancel_amt' => $order_price,
