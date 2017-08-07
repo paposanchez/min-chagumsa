@@ -123,7 +123,18 @@ class OrderController extends Controller {
             ->with('success', trans('web/mypage.modify_complete'));
     }
 
-    public function cancel($order_id){
+    public function cancel(Request $request){
+
+        $validate = Validator::make($request->all(),[
+            'order_id' => 'required'
+        ]);
+
+
+        if($validate->fails()){
+            return redirect()->back()->with('error', '주문번호가 누락되었습니다.');
+        }
+
+        $order_id = $request->get('order_id');
 
 
         $order = Order::find($order_id);
