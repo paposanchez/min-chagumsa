@@ -166,6 +166,7 @@ class OrderController extends Controller {
             }else{
                 $payment_cancel = new PaymentCancel();
                 $cancel_process = $payment_cancel->paymentCancelProcess($order_id, $cancelAmt, $tid);
+                dd($cancel_process);
                 if(in_array($cancel_process['result_cd'], [2001, 2002])){
 
                     //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
