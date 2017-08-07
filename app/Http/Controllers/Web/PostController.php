@@ -23,7 +23,7 @@ class PostController extends Controller {
         $where = Post::whereBoardId($this->board_id)
                 ->orderBy('id', 'desc');
 
-        $entrys = $where->paginate($this->num_of_page);
+        $entrys = $where->where('is_shown', 6)->paginate($this->num_of_page);
 
         $board_namespace = $this->board_namespace;
 

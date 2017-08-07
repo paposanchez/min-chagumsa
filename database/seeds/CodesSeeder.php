@@ -45,6 +45,10 @@ class CodesSeeder extends Seeder {
             ['id'=>107, 'group' => 'order_state', 'name' => 'diagnosed'],    // 진단완료,발급요청
             ['id'=>108, 'group' => 'order_state', 'name' => 'certificating'],// 검토중
             ['id'=>109, 'group' => 'order_state', 'name' => 'certificated'], // 인증발급완료
+
+            ['id'=>110, 'group' => 'calculation_state', 'name' => 'wait'], // 정산대기
+            ['id'=>111, 'group' => 'calculation_state', 'name' => 'complete'], // 정산완료
+
         ]);
 
 

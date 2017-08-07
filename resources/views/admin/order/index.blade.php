@@ -31,14 +31,6 @@
                 <div class="form-group">
                     <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/order.status') }}</label>
                     <div class="col-sm-6">
-{{--                        {!! Form::select('board_id', [null=>trans('common.search.first_select')] + $board_list, $request->query('board_id'), ['class'=>'form-control', 'id'=>'inputBoardId']) !!}--}}
-                        <!--
-                        case 100: $code_msg = '주문취소';break;
-            case 101: $code_msg = '발급대기';break;
-            case 102: $code_msg = '주문완료';break;
-            case 103: $code_msg = '주문요청';break;
-            case 105: $code_msg = '차량입고';break;
-                        -->
                         <button class="btn btn-default" name="status_cd" value="">전체</button>
                         <button class="btn btn-default" name="status_cd" value="100">주문취소</button>
                         <button class="btn btn-default" name="status_cd" value="101">주문신청</button>

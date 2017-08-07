@@ -509,6 +509,12 @@ return [
         'private' => '인증서 비공개'
     ],
 
+    'calculation_state' => [
+        'wait' => '정산대기',
+        'complete' => '정산완료'
+    ],
+
+
 
 
     //진단 항목 코드
