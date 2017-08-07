@@ -12,16 +12,16 @@
         <div class="panel-heading">
             <span class="panel-title">검색조건</span>
 
-            <div class="panel-heading-controls">
+            {{--<div class="panel-heading-controls">--}}
 
-                <div class="checkbox checkbox-slider--b-flat zfp-panel-collapse">
-                    <label>
-                        <input type="checkbox" >
-                        <span></span>
-                    </label>
-                </div>
+                {{--<div class="checkbox checkbox-slider--b-flat zfp-panel-collapse">--}}
+                    {{--<label>--}}
+                        {{--<input type="checkbox" >--}}
+                        {{--<span></span>--}}
+                    {{--</label>--}}
+                {{--</div>--}}
 
-            </div>
+            {{--</div>--}}
         </div>
 
         <div class="panel-body">

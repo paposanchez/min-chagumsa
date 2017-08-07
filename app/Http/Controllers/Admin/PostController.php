@@ -49,6 +49,45 @@ class PostController extends Controller {
         }
 
 
+
+        //기간 검색
+        $trs = $request->get('trs');
+        $tre = $request->get('tre');
+        if($trs && $tre){
+            //시작일, 종료일이 모두 있을때
+            $where = $where->where(function($qry) use($trs, $tre){
+                $qry->where("created_at", ">=", $trs)
+                    ->where("created_at", "<=", $tre);
+            })->orWhere(function($qry) use($trs, $tre){
+                $qry->where("updated_at", ">=", $trs)
+                    ->where("updated_at", "<=", $tre);
+            });
+        }elseif ($trs && !$tre){
+            //시작일만 있을때
+            $where = $where->where(function($qry) use($trs){
+                $qry->where("created_at", ">=", $trs);
+            })->orWhere(function($qry) use($trs){
+                $qry->where("updated_at", ">=", $trs);
+            });
+        }
+
+        //검색어 검색
+        $sf = $request->get('sf'); //검색필드
+        $s = $request->get('s'); //검색어
+
+        if($sf && $s){
+            if($sf == 8){
+                $where = $where->where('subject', 'like', '%'.$s.'%');
+            }
+            elseif($sf == 9){
+                $where = $where->where('content', 'like', '%'.$s.'%');
+            }
+            else{
+                $where = $where->where('name', 'like', '%'.$s.'%');
+            }
+        }
+
+
         $entrys = $where->paginate(10);
 
 

@@ -36,5 +36,13 @@ return [
     'not-confirmed' => 'Not confirmed',
     'posts-count' => 'Total blogs',
     'latest-blog-title' => 'Latest blog title',
-    'latest-blog-date' => 'Latest posting time'
+    'latest-blog-date' => 'Latest posting time',
+
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => ''
+
 ];

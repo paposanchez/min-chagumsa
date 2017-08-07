@@ -94,7 +94,7 @@
 
             <div id="garage_info" style="display: none">
                 <div class="form-group {{ $errors->has('aliance') ? 'has-error' : '' }} aliance">
-                    <label for="inputGarage" class="control-label col-md-3">네트워크</label>
+                    <label for="inputGarage" class="control-label col-md-3">BCS 네트워크</label>
                     <div class="col-md-6 ">
                         {{--<input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="">--}}
                         {!! Form::select('aliance_id', $aliances, [], ['class'=>'form-control', 'multiple', 'id'=>'aliance']) !!}
@@ -146,7 +146,7 @@
                     <div class="btn-group" data-toggle="buttons">
                         @foreach($status_cd_list as $code)
                         <label class="btn btn-default">
-                            <input type="radio" name="status_cd" autocomplete="off" value="{{ $code->id }}"> {{ $code->name }}
+                            <input type="radio" name="status_cd" autocomplete="off" value="{{ $code->id }}"> {{ $code->display() }}
                         </label>
                         @endforeach
                     </div>
@@ -272,11 +272,11 @@
     <script type="text/javascript">
         $(function () {
             $('.roles').on("click", '#user-role', function (){
-                if($('#user-role option:selected').text() == 'engineer'){
+                if($('#user-role option:selected').val() == 5){
                     $('#garage_info').css('display', 'none');
                     $("#garage-modal").modal();
                 }
-                else if ($('#user-role option:selected').text() == 'garage'){
+                else if ($('#user-role option:selected').val() == 4){
                     $('#garage_info').css('display', '');
                     $('.garage').css('display', 'none');
                     $('#garage_name').val('');

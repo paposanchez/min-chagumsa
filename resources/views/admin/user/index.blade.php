@@ -7,9 +7,55 @@
 @section( 'content' )
 <div class="container-fluid">
 
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+            <span class="panel-title">검색조건</span>
+
+            {{--<div class="panel-heading-controls">--}}
+                {{--<div class="checkbox checkbox-slider--b-flat zfp-panel-collapse">--}}
+                    {{--<label>--}}
+                        {{--<input type="checkbox" >--}}
+                        {{--<span></span>--}}
+                    {{--</label>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        </div>
+
+        <div class="panel-body">
+
+            <form  method="GET" class="form-horizontal no-margin-bottom" role="form">
+
+                <div class="form-group">
+                    <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/user.roles') }}</label>
+                    <div class="col-sm-6">
+                    {{--                        {!! Form::select('board_id', [null=>trans('common.search.first_select')] + $board_list, $request->query('board_id'), ['class'=>'form-control', 'id'=>'inputBoardId']) !!}--}}
+                    <!--
+                        case 100: $code_msg = '주문취소';break;
+            case 101: $code_msg = '발급대기';break;
+            case 102: $code_msg = '주문완료';break;
+            case 103: $code_msg = '주문요청';break;
+            case 105: $code_msg = '차량입고';break;
+                        -->
+                        <button class="btn btn-default" name="role_cd" value="">전체</button>
+                        <button class="btn btn-default" name="role_cd" value="1">관리자</button>
+                        <button class="btn btn-default" name="role_cd" value="2">일반회원</button>
+                        <button class="btn btn-default" name="role_cd" value="3">얼라이언스</button>
+                        <button class="btn btn-default" name="role_cd" value="4">정비소</button>
+                        <button class="btn btn-default" name="role_cd" value="5">엔지니어</button>
+                        <button class="btn btn-default" name="role_cd" value="6">기술사</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
     <div class="row margin-bottom">
 
         <div class="col-md-12">
+
+
 
             <p class="form-control-static">
                 {!! trans('common.search-result', ['count' => '<span class="text-danger">'.number_format($entrys->total()).'</span>']) !!}

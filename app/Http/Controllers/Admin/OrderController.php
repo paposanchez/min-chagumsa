@@ -75,6 +75,9 @@ class OrderController extends Controller
 
                     $where = $where->where("datekey", $datekey)->where("car_number", $car_number);
                 }
+                else{
+                    $where = $where->where("datekey", $s)->orWhere("car_number", $s);
+                }
             }
         }
 

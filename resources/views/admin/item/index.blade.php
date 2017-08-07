@@ -142,7 +142,7 @@
 
         <div class="col-sm-6">
 
-            <a href="" class="btn btn-primary">등록</a>
+            {{--<a href="" class="btn btn-primary">등록</a>--}}
 
         </div>
 
