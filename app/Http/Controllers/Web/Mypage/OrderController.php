@@ -139,81 +139,86 @@ class OrderController extends Controller {
 
         $order = Order::find($order_id);
 
-        //$cancelAmt = $order->item->price;
-        $cancelAmt = 1004; //todo 가격부문을 위에 것으로 변경해야 함.
+        if($order){
+
+            //$cancelAmt = $order->item->price;
+            $cancelAmt = 1004; //todo 가격부문을 위에 것으로 변경해야 함.
 
 
-        $payment = Payment::where('orders_id', $order_id)->first();
+            $payment = Payment::where('orders_id', $order_id)->first();
 
-        if($payment){
-            $tid = $payment->tid;//거래아이디
+            if($payment){
+                $tid = $payment->tid;//거래아이디
 //        $moid = $payment->moid;//상품주문번호
-            $cancelMsg = "고객요청";
-            $partialCancelCode = 0; //전체취소
-            $dataType="json";
+                $cancelMsg = "고객요청";
+                $partialCancelCode = 0; //전체취소
+                $dataType="json";
 
 
-            $payment_cancel = PaymentCancel::where('orders_id', $order_id)->first();
-            if($payment_cancel){
-                if(in_array($payment_cancel->resultCd, [2001, 2002])){
-                    if($order->status_cd != 100){
-                        //결제취소 PG연동은 완료 되었으나, order 상태가 변경 안됨.
-                        $order->status_cd = 100;
-                        $order->save();
+                $payment_cancel = PaymentCancel::where('orders_id', $order_id)->first();
+                if($payment_cancel){
+                    if(in_array($payment_cancel->resultCd, [2001, 2002])){
+                        if($order->status_cd != 100){
+                            //결제취소 PG연동은 완료 되었으나, order 상태가 변경 안됨.
+                            $order->status_cd = 100;
+                            $order->save();
+                        }
+                        $message = "결제취소를 완료 하였습니다.";
                     }
-                    $message = "결제취소를 완료 하였습니다.";
-                }
-            }else{
-                $payment_cancel = new PaymentCancel();
-                $cancel_process = $payment_cancel->paymentCancelProcess($order_id, $cancelAmt, $tid);
-
-                if(in_array($cancel_process->result_cd, [2001, 2002])){
-
-
-
-                    if(isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
-                    if(isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
-                    if(isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
-                    if(isset($cancel_process->result_cd)) $payment_cancel->resultCd = $cancel_process->result_cd;
-                    $payment_cancel->orders_id == $order_id;
-                    $payment_cancel->save();
-
-                    $message = "결제취소를 완료 하였습니다.";
-                    $event = 'success';
                 }else{
-                    //결제취소 실패.
-                    $message = "결제취소 신청이 실패하였습니다.<br>사이트 관리자에게 문의해 주세요.";
-                    $event = 'error';
+                    $payment_cancel = new PaymentCancel();
+                    $cancel_process = $payment_cancel->paymentCancelProcess($order_id, $cancelAmt, $tid);
+
+                    if(in_array($cancel_process->result_cd, [2001, 2002])){
+
+
+
+                        if(isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
+                        if(isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
+                        if(isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
+                        if(isset($cancel_process->result_cd)) $payment_cancel->resultCd = $cancel_process->result_cd;
+                        $payment_cancel->orders_id == $order_id;
+                        $payment_cancel->save();
+
+                    }
+
+                    //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
+                    $order->status_cd = 100;
+                    $order->save();
+
                 }
 
-                //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
-                $order->status_cd = 100;
-                $order->save();
-
-            }
-
-        }else{
-            if(in_array($order->status_cd, [101, 102, 103, 104])){
-                //주문상태가 결제 완료가 아니며, 주문신청/예약확인/입고대기/입고 상태까지만 주문 취소를 함.
-                $order->status_cd = 100;
-                $order->save();
-
-
-                $message = trans('web/mypage.cancel_complete');
+                $message = "결제취소를 완료 하였습니다.";
                 $event = 'success';
 
             }else{
+                if(in_array($order->status_cd, [101, 102, 103, 104])){
+                    //주문상태가 결제 완료가 아니며, 주문신청/예약확인/입고대기/입고 상태까지만 주문 취소를 함.
+                    $order->status_cd = 100;
+                    $order->save();
 
-                $code = Code::find($order->status_cd);
 
-                $message = "차량 입고 완료 및 차량 상태 점검의 경우 주문을 취소할수 없습니다.<br>입고 이전 주문이 취소 불가일경우 관리자에게 문의해 주세요.";
-                if($code){
-                    $message .= "<br>현재 상태: ".trans('code.order_state.'.$code->name);
+                    $message = trans('web/mypage.cancel_complete');
+                    $event = 'success';
+
+                }else{
+
+                    $code = Code::find($order->status_cd);
+
+                    $message = "차량 입고 완료 및 차량 상태 점검의 경우 주문을 취소할수 없습니다.<br>입고 이전 주문이 취소 불가일경우 관리자에게 문의해 주세요.";
+                    if($code){
+                        $message .= "<br>현재 상태: ".trans('code.order_state.'.$code->name);
+                    }
+                    $event = 'error';
                 }
-                $event = 'error';
-            }
 
+            }
+        }else{
+            $message = "해당 주문을 확인할 수 없습니다.";
+            $event = 'error';
         }
+
+
 
 
 
