@@ -188,9 +188,9 @@ class OrderController extends Controller {
                             $message = "결제취소를 완료 하였습니다.";
                             $event = 'success';
                         }else{
-                            dd($cancel_process);
+//                            dd($cancel_process);
                             $message = "해당 결제내역에 대한 결제취소를 진행할 수 없습니다.<br>";
-                            $message .= "결제취소 거부 사유: ". $cancel_process;
+                            if(isset($cancel_process->result_msg)) $message .= "결제취소 거부 사유: ". $cancel_process->result_msg;
                             $event = 'error';
                         }
 
@@ -236,7 +236,7 @@ class OrderController extends Controller {
 
 
 
-        dd($message);
+//        dd($message);
 
         //주문상태 변경은 콜백에서 처리함
 
