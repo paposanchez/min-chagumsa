@@ -11,17 +11,6 @@
 
         <div class="panel-heading">
             <span class="panel-title">검색조건</span>
-
-            <div class="panel-heading-controls">
-
-                <div class="checkbox checkbox-slider--b-flat zfp-panel-collapse">
-                    <label>
-                        <input type="checkbox" >
-                        <span></span>
-                    </label>
-                </div>
-
-            </div>
         </div>
 
         <div class="panel-body">
@@ -29,11 +18,14 @@
             <form  method="GET" class="form-horizontal no-margin-bottom" role="form">
 
                 <div class="form-group">
-                    <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/order.status') }}</label>
-                    <div class="col-sm-3">
-{{--                        {!! Form::select('board_id', [null=>trans('common.search.first_select')] + $board_list, $request->query('board_id'), ['class'=>'form-control', 'id'=>'inputBoardId']) !!}--}}
+                    <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/calculation.status') }}</label>
+                    <div class="col-sm-6">
+                        <button class="btn btn-default" name="calculation_state" value="">전체</button>
+                        <button class="btn btn-default" name="calculation_state" value="110">정산대기</button>
+                        <button class="btn btn-default" name="calculation_state" value="111">정산완료</button>
                     </div>
                 </div>
+
 
                 <div class="form-group">
                     <label class="control-label col-sm-3">{{ trans('admin/order.period') }}</label>
@@ -49,24 +41,6 @@
                             <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                             <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('common.search.period_end') }}" name='tre' value=''>
                         </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
-                    <div class="col-sm-3">
-                        {!! Form::select('sf', $search_fields, [], ['class'=>'form-control']) !!}
-
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}" name='s' value=''>
-                    </div>
-                </div>
-
-                <div class="form-group no-margin-bottom">
-                    <label class="control-label col-sm-3 sr-only">{{ trans('common.search.button') }}</label>
-                    <div class="col-sm-4 col-sm-offset-3">
-                        <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i> {{ trans('common.search.button') }}</button>
                     </div>
                 </div>
             </form>

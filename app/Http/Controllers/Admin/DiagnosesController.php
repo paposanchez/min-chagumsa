@@ -21,7 +21,8 @@ class DiagnosesController extends Controller
 {
 
     public function index(Request $request){
-        $where = Order::orderBy('orders.id', 'DESC')->where('orders.status_cd', '=', 107);
+        $where = Order::orderBy('orders.id', 'DESC')->where('orders.status_cd', '=', 107)
+                            ;
 
         $search_fields = [
             "order_num" => "주문번호", "car_number" => "차량번호", 'orderer_name'=>'주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
@@ -30,21 +31,30 @@ class DiagnosesController extends Controller
         //기간 검색
         $trs = $request->get('trs');
         $tre = $request->get('tre');
+
+
         if($trs && $tre){
             //시작일, 종료일이 모두 있을때
             $where = $where->where(function($qry) use($trs, $tre){
-                $qry->where("created_at", ">=", $trs)
-                    ->where("created_at", "<=", $tre);
+                $qry->where("diagnose_at", ">=", $trs)
+                    ->where("diagnose_at", "<=", $tre);
             })->orWhere(function($qry) use($trs, $tre){
-                $qry->where("updated_at", ">=", $trs)
-                    ->where("updated_at", "<=", $tre);
+                $qry->where("diagnosed_at", ">=", $trs)
+                    ->where("diagnosed_at", "<=", $tre);
             });
+
         }elseif ($trs && !$tre){
             //시작일만 있을때
             $where = $where->where(function($qry) use($trs){
-                $qry->where("created_at", ">=", $trs);
+                $qry->where("diagnose_at", ">=", $trs);
             })->orWhere(function($qry) use($trs){
-                $qry->where("updated_at", ">=", $trs);
+                $qry->where("diagnosed_at", ">=", $trs);
+            });
+        }else if(!$trs && $tre){
+            $where = $where->where(function($qry) use($tre){
+                $qry->where("diagnosed_at", "<=", $tre);
+            })->orWhere(function($qry) use($tre){
+                $qry->where("diagnosed_at", "<=", $tre);
             });
         }
 
