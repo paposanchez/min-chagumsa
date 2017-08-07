@@ -186,6 +186,7 @@ class OrderController extends Controller {
                 if(isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
                 if(isset($cancel_process->result_cd)) $payment_cancel->resultCd = $cancel_process->result_cd;
                 if(isset($cancel_process->$order_id)) $payment_cancel->orders_id == $order_id;
+                dd($payment_cancel);
                 $payment_cancel->save();
             }
 
