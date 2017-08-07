@@ -164,7 +164,7 @@ class OrderController extends Controller {
                                 $order->status_cd = 100;
                                 $order->save();
                             }
-                            $message = "결제취소를 완료 하였습니다.1";
+                            $message = "결제취소를 완료 하였습니다.";
                         }
                     }else{
                         $payment_cancel = new PaymentCancel();
@@ -181,14 +181,20 @@ class OrderController extends Controller {
                             $payment_cancel->orders_id == $order_id;
                             $payment_cancel->save();
 
+                            //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
+                            $order->status_cd = 100;
+                            $order->save();
+
+                            $message = "결제취소를 완료 하였습니다.";
+                            $event = 'success';
+                        }else{
+                            dd($cancel_process);
+                            $message = "해당 결제내역에 대한 결제취소를 진행할 수 없습니다.<br>";
+                            $message .= "결제취소 거부 사유: ". $cancel_process;
+                            $event = 'error';
                         }
 
-                        //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
-                        $order->status_cd = 100;
-                        $order->save();
 
-                        $message = "결제취소를 완료 하였습니다.2";
-                        $event = 'success';
                     }
 
 
