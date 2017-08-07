@@ -104,7 +104,7 @@
 
                 <div id="garage_info" style="display: none">
                     <div class="form-group {{ $errors->has('aliance') ? 'has-error' : '' }} aliance">
-                        <label for="inputGarage" class="control-label col-md-3">네트워크</label>
+                        <label for="inputGarage" class="control-label col-md-3">BCS 네트워크</label>
                         <div class="col-md-6 ">
                             {{--<input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="">--}}
                             {!! Form::select('aliance_id', $aliances, [], ['class'=>'form-control', 'multiple', 'id'=>'aliance']) !!}
@@ -307,13 +307,13 @@
 
 <script type="text/javascript">
     $(function () {
-        var load_role = $('.role_selector option:selected').text();
+        var load_role = $('.role_selector option:selected').val();
 
         // garage 랑 engineer 부분 데이터 로드
-        if(load_role === 'engineer'){
+        if(load_role == 5){
             $('#garage_info').css('display', 'none');
             $('.garage').css('display', '');
-        }else if(load_role === 'garage'){
+        }else if(load_role == 4){
             $('#garage_info').css('display', '');
             $('.garage').css('display', 'none');
         }
@@ -327,11 +327,11 @@
         var $frm_target = $('#frm-user');
 
         $('.roles').on("click", '.role_selector', function (){
-            if($('.role_selector option:selected').text() == 'engineer'){
+            if($('.role_selector option:selected').val() == 5){
                 $('#garage_info').css('display', 'none');
                 $("#garage-modal").modal();
             }
-            else if ($('#user-role option:selected').text() == 'garage'){
+            else if ($('#user-role option:selected').val() == 4){
                 $('#garage_info').css('display', '');
                 $('.garage').css('display', 'none');
 //                $('#garage_name').val('');

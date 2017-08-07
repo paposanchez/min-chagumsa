@@ -34,7 +34,8 @@ class Helper {
         $return = [];
 
         foreach ($roles as $role) {
-            $return[] = $role->display_name;
+//            $return[] = $role->display_name;
+            $return[] = $role->description;
         }
 
         return implode(",", $return);

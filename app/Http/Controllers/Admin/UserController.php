@@ -19,14 +19,22 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller {
 
-    public function index() {
+    public function index(Request $request) {
         $where = User::orderBy('id', 'DESC');
+
+        $role_cd = $request->get('role_cd');
+
+        if($role_cd){
+            $where = $where->join('role_user', 'role_user.user_id', '=', 'users.id')
+                        ->where('role_user.role_id', '=', $role_cd);
+        }
+
         $entrys = $where->paginate(25);
         return view('admin.user.index', compact('entrys'));
     }
 
     public function create() {
-        $roles = Role::getArrayByName();
+        $roles = Role::getArrayByNameNotMember();
         $status_cd_list = Code::whereGroup('user_status')->get();
 
 
@@ -184,6 +192,7 @@ class UserController extends Controller {
         $user = User::findorFail($id);
 
         $status_cd_list = Code::whereGroup('user_status')->get();
+
         $roles = Role::getArrayByName();
 
         $aliances = User::select()->join('role_user', function($join){

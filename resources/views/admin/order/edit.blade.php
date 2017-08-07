@@ -9,13 +9,13 @@
     <div class="row">
         <div role="tabpanel" id="certi_tab">
             <ul class="nav nav-pills" role="tablist">
-                <li class="active"><a href="#diagnosis" aria-controls="diagnosis" role="tab" data-toggle="tab">진단 정보</a></li>
+                {{--<li class="active"><a href="#diagnosis" aria-controls="diagnosis" role="tab" data-toggle="tab">진단 정보</a></li>--}}
                 <li role="presentation" class=""><a href="#certification" aria-controls="certification" role="tab" data-toggle="tab">차량 인증</a></li>
             </ul>
 
             <div class="tab-content">
                 {{--진단 정보--}}
-                <div role="tabpanel" class="tab-pane active" id="diagnosis">
+                <div role="tabpanel" class="tab-pane" id="diagnosis">
 
                     {{--@foreach($return as $key => $val)--}}
                         {{--{{  dd($key, $val) }}--}}
@@ -25,7 +25,7 @@
                     {{--@endforeach--}}
 
                     {{-- 기본정보 --}}
-                    @include("admin.order.diagnosis-basic", [$entrys])
+{{--                    @include("admin.order.diagnosis-basic", [$entrys])--}}
 
                     {{--주요외판--}}
                     {{--@include("admin.order.diagnosis-outer")--}}
@@ -52,7 +52,7 @@
                 </div>
 
                 {{--차량 인증--}}
-                <div role="tabpanel" class="tab-pane" id="certification">
+                <div role="tabpanel" class="tab-pane active" id="certification">
                     @include("admin.order.certificate", ["order" => $order])
                 </div>
             </div>
@@ -91,7 +91,7 @@
         $("ul.nav-pills > li >a").on("shown.bs.tab", function (e) {
             var id = $(e.target).attr("href").substr(1);
             window.location.hash = id;
-        })
+        });
 
         var hash = window.location.hash;
         $("#certi_tab a[href='" + hash + "']").tab('show');
