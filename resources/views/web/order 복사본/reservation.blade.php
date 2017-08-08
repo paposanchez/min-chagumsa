@@ -1,29 +1,36 @@
 @extends( 'web.layouts.default' )
 
 @section( 'content' )
-<div id='sub_title_wrap'><h2>인증서 신청<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>인증서 신청</span></div></h2></div>
+	<div id='sub_title_wrap'><h2>인증서 신청<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>인증서 신청</span></div></h2></div>
 
-<div id='sub_wrap'>
-
-	<div class='join_wrap order-container'>
-
-		<ul class='join_step'>
-			<li class='on'>
-				<strong>01</strong>
-				<span>주문</span>
-			</li>
-			<li class='on'>
-				<strong>02</strong>
-				<span>결제</span>
-			</li>
-			<li>
-				<strong>03</strong>
-				<span>완료</span>
-			</li>
-		</ul>
+	<div id='sub_wrap'>
 
 
-		
+		<div class='join_wrap'>
+
+			<ul class='join_step type2'>
+				<li class='on link'>
+					<strong>01</strong>
+					<span>기본정보 입력</span>
+				</li>
+				<li class='on'>
+					<strong>02</strong>
+					<span>입고정보 선택</span>
+				</li>
+				<li>
+					<strong>03</strong>
+					<span>결제하기</span>
+				</li>
+				<li>
+					<strong>04</strong>
+					<span>주문완료</span>
+				</li>
+			</ul>
+
+			<div class='br30'></div>
+			<div class='br20'></div>
+
+			{{--<form action="{{ route("order.purchase") }}">--}}
 
 			{!! Form::open(['route' => ["order.purchase"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'reservation-form']) !!}
 

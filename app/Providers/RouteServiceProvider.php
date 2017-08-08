@@ -32,11 +32,11 @@ class RouteServiceProvider extends ServiceProvider {
      * @return void
      */
     public function map() {
-        $this->mapWebRoutes();
         $this->mapApiRoutes();
         $this->mapAllianceRoutes();
         $this->mapBcsRoutes();
         $this->mapAdminRoutes();
+        $this->mapWebRoutes();
     }
 
     /**
@@ -109,29 +109,6 @@ class RouteServiceProvider extends ServiceProvider {
                 ], function ($router) {
             require base_path('routes/api.php');
         });
-
-
-        //@TODO swagger added        
-        Route::namespace(config('l5-swagger.routes.api'))->group(function($ar){
-
-
-
-
-        });
-
-        // $router->any(config('l5-swagger.routes.docs').'/{jsonFile?}', [
-        //     'as' => 'l5-swagger.docs',
-        //     'middleware' => config('l5-swagger.routes.middleware.docs', []),
-        //     'uses' => '\L5Swagger\Http\Controllers\SwaggerController@docs',
-        // ]);
-
-        // $router->get(config('l5-swagger.routes.api'), [
-        //     'as' => 'l5-swagger.api',
-        //     'middleware' => config('l5-swagger.routes.middleware.api', []),
-        //     'uses' => '\L5Swagger\Http\Controllers\SwaggerController@api',
-        // ]);
-
-
     }
 
 }
