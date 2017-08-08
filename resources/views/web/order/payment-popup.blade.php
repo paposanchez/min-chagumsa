@@ -7,7 +7,7 @@
 
         <title>카검사</title>
 
-        {{--<link rel="stylesheet" href="//webtx.tpay.co.kr/css/nyroModal.tpay.custom.css" type="text/css" media="screen" />--}}
+        <link rel="stylesheet" href="//webtx.tpay.co.kr/css/nyroModal.tpay.custom.css" type="text/css" media="screen" />
         <script type="text/javascript" src="//webtx.tpay.co.kr/js/jquery-1.7.2.js"></script>
 
     </head>
@@ -88,9 +88,9 @@
         </form>
     </div>
 
-    {{--<script type="text/javascript" src="//webtx.tpay.co.kr/js/jquery.nyroModal.tpay.custom.js"></script>--}}
-    {{--<script type="text/javascript" src="//webtx.tpay.co.kr/js/client.tpay.webtx.js"></script>--}}
-    {{--<script type="text/javascript">var resultUrl = "/order/payment-result";</script>--}}
+    <script type="text/javascript" src="//webtx.tpay.co.kr/js/jquery.nyroModal.tpay.custom.js"></script>
+    <script type="text/javascript" src="//webtx.tpay.co.kr/js/client.tpay.webtx.js"></script>
+    <script type="text/javascript">var resultUrl = "/order/payment-result";</script>
     <script>
         $(function () {
             //결제결과 받는 URL
