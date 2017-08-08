@@ -949,7 +949,8 @@ var PageTransitions = (function() {
               backdrop: 'static',
               keyboard: false,
               show : true,
-
+              width : 1000,
+              height : 1000
             });
 
         });
