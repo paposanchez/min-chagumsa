@@ -64,7 +64,6 @@ Route::get('notice/show', "NoticeController@show")->name('notice.show');
         Route::get('diagnosis/grant', "DiagnosisController@setDiagnosisEngineer")->name('diagnosis.grant');
 
 
-
         Route::post('user', "UserController@show");
         Route::post('login', "UserController@login");
         Route::get('logout', "UserController@logout");
@@ -84,3 +83,7 @@ Route::get('notice/show', "NoticeController@show")->name('notice.show');
 //        });
 //    });
 //});
+
+Route::any('/', function () {
+    return view('vendor.l5-swagger.index');
+});

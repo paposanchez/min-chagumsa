@@ -33,10 +33,10 @@ class RouteServiceProvider extends ServiceProvider {
      */
     public function map() {
         $this->mapApiRoutes();
-        $this->mapWebRoutes();
         $this->mapAllianceRoutes();
-        $this->mapGarageeRoutes();
+        $this->mapBcsRoutes();
         $this->mapAdminRoutes();
+        $this->mapWebRoutes();
     }
 
     /**
@@ -51,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider {
         Route::group([
             'middleware' => 'web',
             'namespace' => $namespace,
-            'domain' => 'www.' .  config('app.domain'),
+            // 'domain' => 'www.' .  config('app.domain'),
                 ], function ($router) {
             require base_path('routes/web.php');
         });
@@ -70,7 +70,7 @@ class RouteServiceProvider extends ServiceProvider {
     }
 
     protected function mapAllianceRoutes() {
-        $namespace = $this->namespace . '\Admin';
+        $namespace = $this->namespace . '\Alliance';
 
         Route::group([
             'middleware' => 'web',
@@ -81,15 +81,15 @@ class RouteServiceProvider extends ServiceProvider {
         });
     }
 
-    protected function mapGarageeRoutes() {
-        $namespace = $this->namespace . '\Admin';
+    protected function mapBcsRoutes() {
+        $namespace = $this->namespace . '\Bcs';
 
         Route::group([
             'middleware' => 'web',
             'namespace' => $namespace,
             'domain' => 'garage.' . config('app.domain'),
                 ], function ($router) {
-            require base_path('routes/garage.php');
+            require base_path('routes/bcs.php');
         });
     }
 
@@ -106,7 +106,6 @@ class RouteServiceProvider extends ServiceProvider {
             'middleware' => 'api',
             'namespace' => $namespace,
             'domain' => 'api.' . config('app.domain'),
-//            'prefix' => 'api',
                 ], function ($router) {
             require base_path('routes/api.php');
         });

@@ -49,30 +49,42 @@ class OrderController extends Controller {
         $facilities_option = Code::where('group', 'car_option_facilities')->get();
         $multimedia_option = Code::where('group', 'car_option_multimedia')->get();
 
-        return view('web.order.index', compact('brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user'));
+        $items = Item::where("id", ">", "0")->get();
+ 
+        //  $search_fields = [
+        //     '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
+        // ];
+
+        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->pluck("area", 'garage_id');
+
+        // $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->pluck("name", 'garage_id');
+
+        return view('web.order.index', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user'));
     }
 
     public function reservation(Request $request) {
-        $validate = Validator::make($request->all(), [
-            'orderer_name' => 'required',
-            'orderer_mobile' => 'required',
-            'car_number' => 'required',
-            'brands_id' => 'required',
-            'models_id' => 'required',
-            'details_id' => 'required',
-            'grades_id' => 'required',
-            'flooding' => 'required',
-            'accident' => 'required'
-        ]);
 
-        if ($validate->fails())
-        {
-            foreach ($validate->messages()->getMessages() as $field_name => $messages)
-            {
-//                var_dump($messages); // messages are retrieved (publicly)
-            }
-            return redirect()->back()->with('error', '입고예약에 대한 정보를 충분히 입력하세요.');
-        }
+
+//         $validate = Validator::make($request->all(), [
+//             'orderer_name' => 'required',
+//             'orderer_mobile' => 'required',
+//             'car_number' => 'required',
+//             'brands_id' => 'required',
+//             'models_id' => 'required',
+//             'details_id' => 'required',
+//             'grades_id' => 'required',
+//             'flooding' => 'required',
+//             'accident' => 'required'
+//         ]);
+
+//         if ($validate->fails())
+//         {
+//             foreach ($validate->messages()->getMessages() as $field_name => $messages)
+//             {
+// //                var_dump($messages); // messages are retrieved (publicly)
+//             }
+//             return redirect()->back()->with('error', '입고예약에 대한 정보를 충분히 입력하세요.');
+//         }
 
         $search_fields = [
             '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
@@ -113,7 +125,6 @@ class OrderController extends Controller {
 
         }
         $cars_id = $car->id; //자동차 ID 설정
-
 
         $order->datekey = $datekey;
         $order->car_number = $request->get('car_number');
@@ -181,21 +192,21 @@ class OrderController extends Controller {
      */
     public function paymentPopup(Request $request){
 
-        $error = false;
-        //validate
-        $validate = Validator::make($request->all(), [
-            'item_choice' => 'required', //인증서 상품 ID
-            'payment_method' => 'required', // 결제 종류
-            'id' => 'required', //주문서 ID,
-            'buyerName' => 'required', //구매자 성명
-            'buyerEmail' => 'required', // 구매자 이메일
-            'product_name' => 'required', // 상품명
-        ]);
-        if ($validate->fails())
-        {
-            //error 를 view에서 받아 error가 true이면 결제창을 닫는다.
-            $error = true;
-        }else{
+        // $error = false;
+        // //validate
+        // $validate = Validator::make($request->all(), [
+        //     'item_choice' => 'required', //인증서 상품 ID
+        //     'payment_method' => 'required', // 결제 종류
+        //     'id' => 'required', //주문서 ID,
+        //     'buyerName' => 'required', //구매자 성명
+        //     'buyerEmail' => 'required', // 구매자 이메일
+        //     'product_name' => 'required', // 상품명
+        // ]);
+        // if ($validate->fails())
+        // {
+        //     //error 를 view에서 받아 error가 true이면 결제창을 닫는다.
+        //     $error = true;
+        // }else{
 
             // payment_method 11 - 신용카드, 12 - 실시간 계좌이체
             if(!in_array($request->get('payment_method'), [11, 12])){
@@ -212,7 +223,8 @@ class OrderController extends Controller {
             }
 
 
-            $order_model = Order::find($request->get('id'));
+            // $order_model = Order::find($request->get('id'));
+            $order_model = Order::find(4);
             $order_model->item_id = $request->get('item_choice');
             $order_model->save();
 
@@ -250,8 +262,10 @@ class OrderController extends Controller {
 
 
 
+    $payMethod = 'CARD';
+                
+        // }
 
-        }
         $buyerName = $request->get('buyerName');
 
         $buyerEmail = $request->get('buyerEmail');
@@ -261,7 +275,7 @@ class OrderController extends Controller {
         $mid = $this->mid;
 
 
-        return view('web.order.payment-popup', compact('mid', 'merchantKey', 'amt', 'moid', 'encryptData',
+        return view('web.order.payment-popup', compact('request', 'mid', 'merchantKey', 'amt', 'moid', 'encryptData',
                 'ediDate', 'vbankExpDate', 'payActionUrl', 'payLocalUrl', 'payMethod', 'amt', 'buyerName', 'buyerEmail',
                 'buyerTel', 'product_name', 'error')
         );
@@ -270,6 +284,11 @@ class OrderController extends Controller {
     }
 
     public function paymentResult(Request $request){
+
+
+
+        dd($request->all());
+
 
         //webTx에서 받은 결과값들
         $payMethod = $request->get('payMethod');//

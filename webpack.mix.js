@@ -15,7 +15,7 @@ const {mix} = require('laravel-mix')
        .copy(nodeDir + 'bootstrap-sass/assets/fonts/', distDir + 'fonts/bootstrap')
        .copy(nodeDir + 'lato-font/fonts/', distDir + 'fonts/lato')
        .copy(nodeDir + 'material-design-icons/iconfont/', distDir + 'fonts/material-design-icons')
-        .copy(nodeDir + 'font-awesome/fonts/', distDir + 'fonts/font-awesome')
+       .copy(nodeDir + 'font-awesome/fonts/', distDir + 'fonts/font-awesome')
 
         //##### vendor
         .copy(nodeDir + 'summernote/dist/', distDir + 'vendor/summernote', false)
@@ -30,6 +30,10 @@ const {mix} = require('laravel-mix')
         .copy(nodeDir + 'fine-uploader/', distDir + 'vendor/fine-uploader', false)
         //datepicker
         .copy(nodeDir + 'pikaday/', distDir + 'vendor/pikaday', false)
+
+
+        //page transition
+        .copy(assetsDir + 'vendor/tympanus', distDir + 'vendor/tympanus', false)
 
         // charts
         .copy(nodeDir + 'highcharts/', distDir + 'vendor/highcharts', false)
