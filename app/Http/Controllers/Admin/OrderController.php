@@ -7,6 +7,7 @@ use App\Mixapply\Uploader\Receiver;
 use App\Models\Car;
 use App\Models\Certificate;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -19,6 +20,9 @@ use App\Repositories\DiagnosisRepository;
 
 use Carbon\Carbon;
 use App\Models\ScTran;
+use App\Models\PaymentCancel;
+
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -90,12 +94,10 @@ class OrderController extends Controller
 
     public function show($id){
         $order = Order::findOrFail($id);
+        $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
+        $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
 
-        $car = $order->car;
-
-
-
-        return view('admin.order.detail', compact('order'));
+        return view('admin.order.detail', compact('order', 'payment', 'payment_cancel'));
     }
 
     public function edit($id){
@@ -151,20 +153,108 @@ class OrderController extends Controller
     }
 
     public function store(Request $request){
-        $order_status = $request->get("order_status");
+
+        $validate = Validator::make($request->all(), [
+            'id' => 'required',
+            'order_status' => 'required'
+        ]);
+
+        if ($validate->fails())
+        {
+            return redirect()->back()->with('error', "필수파라미터가 입력되지 않았습니다.");
+        }
+
+
+        $status_cd = $request->get("order_status");
         $id = $request->get('id');
 
-        if($order_status){
+        if($status_cd){
             //주문상태 변경
             /**
              * todo: 주문취소의 경우 pg 결제와 연동 필요함.
              */
-            if(in_array($order_status, [100, 104, 108])){
-                $row = Order::findOrFail($id);
+            if(in_array($status_cd, [100, 104, 108])){
+                $row = Order::find($id);
                 if($row){
-                    $row->status_cd = $order_status;
-                    $row->save();
-                    return Redirect::back();
+                    $current_status = $row->status_cd;
+                    if(($current_status <= 105 && $status_cd==100) || ($current_status > 105 && $status_cd > 105)){
+
+                        $row->status_cd = $status_cd;
+                        if($status_cd == 100){
+                            //결제취소 연동 및 refund_status 업데이트처리함.
+                            //1. 결제취소 처리
+                            $payment_cancel = PaymentCancel::OrderBy('id', 'DESC')->whereIn('resultCd', [2001, 2002])
+                                ->where('orders_id', $id)->first();
+                            if($payment_cancel){
+                                //PG 결제취소는 완료하였으나 order의 결제상태를 수정 안됨
+                                if(in_array($payment_cancel->resultCd, [2001, 2002])){
+                                    if($current_status != 100){
+                                        //결제취소 PG연동은 완료 되었으나, order 상태가 변경 안됨.
+                                        $row->status_cd = 100;
+                                        $row->refund_status = 1;
+                                        $row->save();
+                                    }
+                                    $message = "결제취소를 완료 하였습니다.";
+                                }
+                            }else{
+                                //결제취소 진행
+
+                                $cancelAmt = $row->item->price;
+
+                                $payment = Payment::OrderBy('id', 'DESC')->whereIn('resultCd', [3001, 4000, 4100])->where('orders_id', $id)->first();
+                                if($payment){
+                                    $tid = $payment->tid; //PG 거래ID
+
+                                    $payment_cancel = new PaymentCancel();
+                                    $cancel_process = $payment_cancel->paymentCancelProcess($id, $cancelAmt, $tid);
+
+                                    if(in_array($cancel_process->result_cd, [2001, 2002])){
+
+                                        if(isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
+                                        if(isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
+                                        if(isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
+                                        if(isset($cancel_process->result_cd)) $payment_cancel->resultCd = $cancel_process->result_cd;
+                                        $cancel_process->cancelAmt = $cancelAmt;
+                                        $payment_cancel->orders_id = $id;
+                                        $payment_cancel->save();
+
+                                        //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
+                                        $row->status_cd = 100;
+                                        $row->refund_status = 1;
+                                        $row->save();
+
+                                        return Redirect::back()->with('success', "결제취소 요청완료 및 주문상태가 업데이트 되었습니다.");
+                                    }else{
+                                        return Redirect::back()->with('error', "PG사의 결제취소 오류로 주문상태를 업데이트하지 못하였습니다.<br>상세 메세지: ". $cancel_process->result_msg);
+                                    }
+
+                                }else{
+
+                                    //결제승인 내역이 없음.
+                                    //결제내역을 없으나, 해당 주문에 대한 취소가 불가함
+                                    return Redirect::back()->with('error', "결제정보가 누락되어 해당 주문의 상태를 변경할 수 없습니다.");
+                                }
+
+
+
+                            }
+
+                        }else{
+
+                            // 주문상태가 진단이후이므로 진단 이후 상태로 모두 변경 가능함.
+                            if(in_array($status_cd, [106, 107, 108, 109])){
+                                $row->status_cd = $status_cd;
+                                $row->save();
+                            }
+                        }
+
+                    }else{
+                        return Redirect::back()->with('error', "주문상태를 확인해주세요.<br>현재 주문상태: ". Helper::getCodeName($row->status_cd));
+                    }
+
+                    return Redirect::back()->with('success', "주문상태가 업데이트 되었습니다.");
+                }else{
+                    return Redirect::back()->with('error', '해당 주문이 없습니다.');
                 }
             }
         }

@@ -146,7 +146,8 @@ class OrderController extends Controller {
                 $cancelAmt = 1004; //todo 가격부문을 위에 것으로 변경해야 함.
 
 
-                $payment = Payment::where('orders_id', $order_id)->first();
+                $payment = Payment::OrderBy('id', 'DESC')->whereIn('resultCd', [3001, 4000, 4100])
+                    ->where('orders_id', $order_id)->first();
 
                 if($payment){
                     $tid = $payment->tid;//거래아이디
@@ -156,7 +157,8 @@ class OrderController extends Controller {
                     $dataType="json";
 
 
-                    $payment_cancel = PaymentCancel::where('orders_id', $order_id)->first();
+                    $payment_cancel = PaymentCancel::OrderBy('id', 'DESC')->whereIn('resultCd', [2001, 2002])
+                        ->where('orders_id', $order_id)->first();
                     if($payment_cancel){
                         if(in_array($payment_cancel->resultCd, [2001, 2002])){
                             if($order->status_cd != 100){
