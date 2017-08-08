@@ -23,7 +23,7 @@ class FaqController extends PostController {
         }
 
         $where = Post::whereBoardId($this->board_id)->orderBy('id', 'DESC');
-        if(in_array($category_id, range(11, 18))){
+        if(in_array($category_id, range(13, 20))){
             $where = $where->where('category_id', $category_id);
         }
 
