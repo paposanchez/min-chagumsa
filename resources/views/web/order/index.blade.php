@@ -31,8 +31,8 @@
 
         {!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
 
-        <input type="hidden" name="amt" id="amt" value="10000" >
-        <input type="hidden" name="payment_method" id="payment_method" value="card" >
+        <!-- <input type="hidden" name="amt" id="amt" value="10000" > -->
+        <input type="hidden" name="payment_method" id="payment_method" value="" >
 
 <!--         <input name="cars_id" value="" type="hidden">
         <input name="id" id="moid" type="hidden" value="">{{-- 주문번호 --}}
@@ -48,7 +48,7 @@
         <div class="pt-page pt-page-1">
         <fieldset id="purchase-orderinfo" >
 
-               <div class="row">
+            <div class="row">
 
                 <div class="col-xs-6">
                     
@@ -101,11 +101,11 @@
 
                 <div class="form-group">
 
-                    <label for="exampleInputEmail1">입고희망일 
+                    <label for="exampleInputEmail1" style="width:100%;">입고희망일 
                         <small class='text-info pull-right'>{{ trans('web/order.reservation_info') }}</small>
                     </label>
 
-                    <div class="input-group input-group-lg wid30"> 
+                    <div class="input-group input-group-lg"> 
                         <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservaton_date' value='' style="margin-right: 5px;">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="calendar-opener"><i class="fa fa-calendar"></i></button>
@@ -125,7 +125,7 @@
         <!-- pt-page pt-page-1 -->
 
 
-    <div class="pt-page pt-page-2" >
+    <div class="pt-page pt-page-2" style="height:1200px;" >
 
             <fieldset id="order-info-order">
 
@@ -279,7 +279,7 @@
                     <div class="row">
                         @foreach($items as $item)
                         <div class="col-xs-4">
-                            <div class="purchase-item" data-idx="1" data-display="2">
+                            <div class="purchase-item purchase-item-product" data-idx="1" data-display="2">
                                 <div class="point-price">{{ $item->name }}</div>
                                 <div class="point-desc text-muted">{{ number_format($item->price) }}원</div>
                             </div>
@@ -295,13 +295,13 @@
 
                     <div class="row">
                         <div class="col-xs-4">
-                            <div class="purchase-item" data-index="11">
+                            <div class="purchase-item purchase-item-method" data-index="11">
                                 <div class="point-icon"><i class="fa fa-credit-card"></i></div>
                                 <div class="point-desc text-muted">신용/체크카드</div>
                             </div>
                         </div>
                         <div class="col-xs-4">
-                            <div class="purchase-item" data-index="12">
+                            <div class="purchase-item purchase-item-method" data-index="12">
                                 <div class="point-icon"><i class="fa fa-krw"></i></div>
                                 <div class="point-desc text-muted">실시간 계좌이체</div>
                             </div>
@@ -356,8 +356,8 @@
                                 </div>
 
                                 <p class="form-control-static text-center">
-                                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">취소</button>
-                                    <button type="button" class='btn btn-primary btn-lg'>인증</button>
+                                     <button type="button" class="btn btn-default btn-lg" id="modalSms-close">취소</button>
+                                    <button type="button" class='btn btn-primary btn-lg' id="modalSms-verify">인증</button>
                                 </p>
                             </form>
                         </div>
@@ -390,7 +390,7 @@
 
 <style>
 .pt-perspective {
-    height:1200px;
+    min-height:1000px;
     
 }
 .pt-page {
@@ -402,25 +402,6 @@
   box-shadow: none;
   background-color: transparent;
   border: 0;
-}
-  
-.bmd-modalContent .close {
-  font-size: 30px;
-  line-height: 30px;
-  padding: 7px 4px 7px 13px;
-  text-shadow: none;
-  opacity: .7;
-  color:#fff;
-}
-
-.bmd-modalContent .close span {
-  display: block;
-}
-
-.bmd-modalContent .close:hover,
-.bmd-modalContent .close:focus {
-  opacity: 1;
-  outline: none;
 }
 
 .bmd-modalContent iframe {
@@ -584,9 +565,6 @@ var PageTransitions = (function() {
 
     $(function (){
 
-
-
-
         $(document).on("click", ".order-page-move", function() {
 
 
@@ -600,13 +578,30 @@ var PageTransitions = (function() {
             PageTransitions.nextPage(d);
 
         });
-        $(document).on("click", ".purchase-item", function() {
 
+        // 상품선
+        $(document).on("click", ".purchase-item-product", function() {
+
+
+            // $(document).find('.purchase-item-product', function(){
+            // });
+
+            $('.purchase-item-product').removeClass("active");
             $(this).toggleClass("active");
+
+            $(this).data("index");
 
         });
 
 
+        $(document).on("click", ".purchase-item-method", function() {
+            
+
+            $('.purchase-item-method').removeClass("active");
+            $(this).toggleClass("active");
+            $('#payment_method').val($(this).data("index"));
+
+        });
 
 
 
@@ -641,7 +636,7 @@ var PageTransitions = (function() {
 
         // }
 
-
+        // 휴대전화번호 인
         $(document).on("click", "#mobile-verification", function() {
 
             var number = $('#orderer_mobile').val();
@@ -688,6 +683,61 @@ var PageTransitions = (function() {
         });
 
 
+        // 인증취소
+        $(document).on("click", "#modalSms-close", function() {
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '/order/cancle-sms',
+                data: {'mobile_num': number} ,
+                success: function(jdata){
+
+                    $('#modalSms').modal('hide');
+
+                },
+                error: function(qXHR, textStatus, errorThrown){
+                    return false;
+                }
+            });
+
+        });
+
+        // 인증확
+         $(document).on("click", "#modalSms-verify", function() {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '/order/verify-sms',
+                data: {'mobile_num': number} ,
+                success: function(jdata){
+
+                    if(jdata != 'ok') {
+                        alert("실패");
+                    }
+                },
+                error: function(qXHR, textStatus, errorThrown){
+                    return false;
+                },
+
+                complete: function(){
+                        $('#modalSms').modal('hide');
+                }
+                    
+            });
+
+        });
+
+
+        $('#modalSms').on('show.bs.modal', function (event) {
+          // var button = $(event.relatedTarget) // Button that triggered the modal
+          // var recipient = button.data('whatever') // Extract info from data-* attributes
+          // // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+          // // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+          // var modal = $(this)
+          // modal.find('.modal-title').text('New message to ' + recipient)
+          // modal.find('.modal-body input').val(recipient)
+        });
 
 
 
