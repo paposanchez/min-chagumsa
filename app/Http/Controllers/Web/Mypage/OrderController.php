@@ -162,6 +162,7 @@ class OrderController extends Controller {
                             if($order->status_cd != 100){
                                 //결제취소 PG연동은 완료 되었으나, order 상태가 변경 안됨.
                                 $order->status_cd = 100;
+                                $order->refund_status = 1;
                                 $order->save();
                             }
                             $message = "결제취소를 완료 하였습니다.";
@@ -184,6 +185,7 @@ class OrderController extends Controller {
 
                             //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
                             $order->status_cd = 100;
+                            $order->refund_status = 1;
                             $order->save();
 
                             $message = "결제취소를 완료 하였습니다.";
@@ -204,6 +206,7 @@ class OrderController extends Controller {
                     if(in_array($order->status_cd, [101, 102, 103, 104])){
                         //주문상태가 결제 완료가 아니며, 주문신청/예약확인/입고대기/입고 상태까지만 주문 취소를 함.
                         $order->status_cd = 100;
+                        $order->refund_status = 1;
                         $order->save();
 
 
