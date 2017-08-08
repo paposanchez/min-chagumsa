@@ -15,30 +15,30 @@
     <body>
     <div style="visibility: hidden;">
         <form id="transMgr" name="transMgr" method="post" action="{{ $payActionUrl }}/webTxInit" class="nyroModal" target="_blank">
-            <input type="hidden" name="payType" value="1">
-            <input type="hidden" name="ediDate"	value="{{ $ediDate }}">
-            <input type="hidden" name="encryptData" value="{{ $encryptData }}">
-            <input type="hidden" name="userIp"	value="{{ $request->server('SERVER_ADDR') }}">
-            <input type="hidden" name="browserType" id="browserType">
-            <input type="hidden" name="mallUserId" value="tpay_id">
-            <input type="hidden" name="parentEmail">
-            <input type="hidden" name="buyerAddr" value="서울특별시 구로구 디지털로 30길28, 마리오타워 9F">
-            <input type="hidden" name="buyerPostNo" value="463400">
-            <input type="hidden" name="mallIp" value="{{ $request->server('SERVER_ADDR') }}">
-            <input type="hidden" name="mallReserved" value="MallReserved">
-            <input type="hidden" name="vbankExpDate" value="{{ $vbankExpDate }}">
-            <input type="hidden" name="rcvrMsg" value="rcvrMsg">
-            <input type="hidden" name="prdtExpDate" value="20151231">
-            <input type="hidden" name="resultYn" value="Y">
-            <input type="hidden" name="quotaFixed" value="">
-            <input type="hidden" name="domain" value="{{ $payLocalUrl }}">
-            <input type="hidden" name="payMethod" id="payMethod" value="{{ $payMethod }}">
-            <input type="hidden" id="transTypeN" name="transType" value="0">
-            <input type="hidden" name="mid" value="{{ $mid }}" readonly="readonly">
+            <input type="text" name="payType" value="1">
+            <input type="text" name="ediDate"	value="{{ $ediDate }}">
+            <input type="text" name="encryptData" value="{{ $encryptData }}">
+            <input type="text" name="userIp"	value="{{ $request->server('SERVER_ADDR') }}">
+            <input type="text" name="browserType" id="browserType">
+            <input type="text" name="mallUserId" value="tpay_id">
+            <input type="text" name="parentEmail">
+            <input type="text" name="buyerAddr" value="서울특별시 구로구 디지털로 30길28, 마리오타워 9F">
+            <input type="text" name="buyerPostNo" value="463400">
+            <input type="text" name="mallIp" value="{{ $request->server('SERVER_ADDR') }}">
+            <input type="text" name="mallReserved" value="MallReserved">
+            <input type="text" name="vbankExpDate" value="{{ $vbankExpDate }}">
+            <input type="text" name="rcvrMsg" value="rcvrMsg">
+            <input type="text" name="prdtExpDate" value="20151231">
+            <input type="text" name="resultYn" value="Y">
+            <input type="text" name="quotaFixed" value="">
+            <input type="text" name="domain" value="{{ $payLocalUrl }}">
+            <input type="text" name="payMethod" id="payMethod" value="{{ $payMethod }}">
+            <input type="text" id="transTypeN" name="transType" value="0">
+            <input type="text" name="mid" value="{{ $mid }}" readonly="readonly">
 
-            <input type="hidden" name="socketYn" value="N">{{-- TX 사용여부: Y/N --}}
-            <input type="hidden" name="socketReturnURL" value="{{ $payLocalUrl }}/payment/pay-result">
-            <input type="hidden" name="retryUrl" value="{{ $payLocalUrl }}/paymemt/pay-callback">
+            <input type="text" name="socketYn" value="N">{{-- TX 사용여부: Y/N --}}
+            <input type="text" name="socketReturnURL" value="{{ $payLocalUrl }}/payment/pay-result">
+            <input type="text" name="retryUrl" value="{{ $payLocalUrl }}/paymemt/pay-callback">
             <table class="table">
                 <colgroup>
                     <col width="120px">
@@ -94,7 +94,7 @@
     <script>
         $(function () {
             //결제결과 받는 URL
-           $("#transMgr").submit();
+           //$("#transMgr").submit();
         })
 
     </script>

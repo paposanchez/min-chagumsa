@@ -72,9 +72,9 @@ class UserController extends ApiController {
                 }
 
                 // 로그인 정보 갱신
-                $user_seq->update([
-                    'logined_at' => Carbon::now()
-                ]);
+//                $user_seq->update([
+//                    'logined_at' => Carbon::now()
+//                ]);
 
 
                 // 정비소 정보
@@ -87,7 +87,7 @@ class UserController extends ApiController {
                     "mobile"    => $user->mobile,
                     "status"    => $user->status->display(),
                     "garage"    => [
-                        "seq"       => $garage_seq,
+                        "seq"       => $garage->id,
                         "name"      => $garage->name,
                         "phone"     => $garage->user_extra->phone,
                         "address"   => "(".$garage->user_extra->zipcode.")".$garage->user_extra->address                   

@@ -32,7 +32,7 @@
         {!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
 
 
-        <input type="hidden" name="payment_id" id="payment_id" value="" >
+        <input type="hidden" name="item_id" id="item_id" value="" >
         <input type="hidden" name="payment_price" id="payment_price" value="" >
         <input type="hidden" name="payment_method" id="payment_method" value="" >
 
@@ -96,14 +96,14 @@
                         <div class="col-xs-4">
                             {{--{!! Form::select('sel_section', [""=> "구군을 선택하세요"], [], ['class'=>'form-control', 'size'=>"5",  'id'=>'sel_section']) !!}--}}
                             <select class="form-control" size="5" id="sections" name="sections">
-                                <option value="">구/군을 선택하세요.</option>
+                                <option disabled="true">구/군을 선택하세요.</option>
                             </select>
                         </div>
 
                         <div class="col-xs-4">
 {{--                            {!! Form::select('garage', [""=> "대리점을 선택하세요"], [], ['class'=>'form-control', 'size'=>"5",  'id'=>'garage']) !!}--}}
                             <select class="form-control" size="5" id="garages" name="garages">
-                                <option value="">대리점을 선택하세요.</option>
+                                <option disabled="true">대리점을 선택하세요.</option>
                             </select>
                         </div>
 
@@ -123,7 +123,7 @@
                     <div class="row">
                         <div class="col-xs-9">
                             <div class="input-group input-group-lg">
-                                <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservaton_date' value='' style="margin-right: 5px;">
+                                <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservation_date' value='' style="margin-right: 5px;">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" id="calendar-opener"><i class="fa fa-calendar"></i></button>
                                 </span>
@@ -616,7 +616,7 @@ var PageTransitions = (function() {
             $('.purchase-item-product').removeClass("active");
             $(this).toggleClass("active");
 
-            $('#payment_id').val($(this).data("index"));
+            $('#item_id').val($(this).data("index"));
             $('#payment_price').val($(this).data("price"));
         });
 
@@ -644,7 +644,7 @@ var PageTransitions = (function() {
                 success : function (data) {
                     //select box 초기화
                     $('#sections').html("");
-                    $('#garages').html('<option value="">대리점을 선택하세요.</option>');
+                    $('#garages').html('<option disabled="true">대리점을 선택하세요.</option>');
 
                     $('#sel_area').val(garage_area);
                     $.each(data, function (key, value) {
@@ -703,33 +703,31 @@ var PageTransitions = (function() {
 
 
 
-        // //sms 전송
-        // var timeCountdown = function(){
-        // var expired = 300;
-        // var countdown = setInterval(function(){
+         //sms 전송
+         var timeCountdown = function(){
+             var expired = 300;
+             var countdown = setInterval(function(){
 
-        // if(expired == 0){
+                 if(expired == 0){
 
-        //     if(!sms_confirmed && sms_id){
-        //         alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요." + expired);
+                     if(!sms_confirmed && sms_id){
+                         alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요." + expired);
 
-        //         smsTempDelete(sms_id);// 인증 번호관련 사항을 삭제함.
-        //     }
-        //     clearInterval(countdown);
-        //     return false;
+                         smsTempDelete(sms_id);// 인증 번호관련 사항을 삭제함.
+                     }
+                     clearInterval(countdown);
+                     return false;
 
-        // }else{
-        //     if(!sms_confirmed){
-        //         $("#time-clock").text(expired);
-        //     }
-
-        // }
-
-        // expired--;
-        // }, 1000);
+                }else {
+                     if (!sms_confirmed) {
+                         $("#time-clock").text(expired);
+                     }
+                 }
+                expired--;
+             }, 1000);
 
 
-        // }
+         };
 
         // 휴대전화번호 인증
         $(document).on("click", "#mobile-verification", function() {
@@ -852,22 +850,16 @@ var PageTransitions = (function() {
                 },
                 success: function(data){
                     $('#models').html('');
-                    if($('#brands option:selected').text()=='선택하세요.'){
+
+                    $('#details').html('<option disabled="true">세부모델을 선택하세요.</option>');
+                    $('#grades').html('<option disabled="true">등급을 선택하세요.</option>');
+
+                    $.each(data, function (key, value) {
                         $('#models').append($('<option/>', {
-                            text : '모델을 선택하세요.'
+                            value: value.id,
+                            text : value.name
                         }));
-                    }
-                    else{
-                        $('#models').append($('<option/>', {
-                            text : '모델을 선택하세요.'
-                        }));
-                        $.each(data, function (key, value) {
-                            $('#models').append($('<option/>', {
-                                value: value.id,
-                                text : value.name
-                            }));
-                        });
-                    }
+                    });
                 },
                 error: function (data) {
                     alert('처리중 오류가 발생했습니다.');
@@ -889,22 +881,15 @@ var PageTransitions = (function() {
                 },
                 success: function(data){
                     $('#details').html('');
-                    if($('#details option:selected').text()=='선택하세요.'){
+                    $('#grades').html('<option disabled="true">등급을 선택하세요.</option>');
+
+                    $.each(data, function (key, value) {
                         $('#details').append($('<option/>', {
-                            text : '세부 모델을 선택하세요.'
+                            value: value.id,
+                            text : value.name
                         }));
-                    }
-                    else{
-                        $('#details').append($('<option/>', {
-                            text : '세부 모델을 선택하세요.'
-                        }));
-                        $.each(data, function (key, value) {
-                            $('#details').append($('<option/>', {
-                                value: value.id,
-                                text : value.name
-                            }));
-                        });
-                    }
+                    });
+
                 },
                 error: function (data) {
                     alert('처리중 오류가 발생했습니다.');
@@ -925,22 +910,14 @@ var PageTransitions = (function() {
                 },
                 success: function(data){
                     $('#grades').html('');
-                    if($('#grades option:selected').text()=='선택하세요.'){
+
+                    $.each(data, function (key, value) {
                         $('#grades').append($('<option/>', {
-                            text : '등급을 선택하세요.'
+                            value: value.id,
+                            text : value.name
                         }));
-                    }
-                    else{
-                        $('#grades').append($('<option/>', {
-                            text : '등급을 선택하세요.'
-                        }));
-                        $.each(data, function (key, value) {
-                            $('#grades').append($('<option/>', {
-                                value: value.id,
-                                text : value.name
-                            }));
-                        });
-                    }
+                    });
+
                 },
                 error: function (data) {
                     alert('처리중 오류가 발생했습니다.');
@@ -962,10 +939,6 @@ var PageTransitions = (function() {
 
         $("#payment-process").on("click", function(){
 
-
-
-
-
             var u = "{{ route('order.payment-popup') }}";
 
             // $('#orderFrm').submit();
@@ -974,7 +947,8 @@ var PageTransitions = (function() {
               backdrop: 'static',
               keyboard: false,
               show : true,
-
+              width : 1000,
+              height : 1000
             });
 
         });
