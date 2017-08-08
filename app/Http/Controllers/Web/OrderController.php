@@ -76,7 +76,7 @@ class OrderController extends Controller {
 //             'flooding' => 'required',
 //             'accident' => 'required'
 //         ]);
-
+//
 //         if ($validate->fails())
 //         {
 //             foreach ($validate->messages()->getMessages() as $field_name => $messages)
@@ -86,13 +86,13 @@ class OrderController extends Controller {
 //             return redirect()->back()->with('error', '입고예약에 대한 정보를 충분히 입력하세요.');
 //         }
 
-        $search_fields = [
-            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
-        ];
-
-        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->get();
-
-        return view('web.order.reservation', compact('search_fields', 'request', 'garages', 'garage_sections'));
+//        $search_fields = [
+//            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
+//        ];
+//
+//        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->get();
+//
+//        return view('web.order.reservation', compact('search_fields', 'request', 'garages', 'garage_sections'));
     }
 
 //    public function purchase(Request $request) {
@@ -103,6 +103,122 @@ class OrderController extends Controller {
 
     public function purchase(Request $request) {
 
+//        $datekey = substr(str_replace("-","",$request->reservaton_date), -6);
+//
+//        $orderer_id = Auth::user()->id;
+//
+//        $order = Order::where('datekey', $datekey)->where('car_number', $request->get('car_number'))->first();
+//
+//        if(!$order){
+//            $order = new Order();
+//         }
+//
+//        $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
+//        if(!$car){
+//            $car = new Car();
+//            $car->vin_number = $request->get('car_number');
+//            $car->brands_id = $request->get('brands_id');
+//            $car->models_id = $request->get('models_id');
+//            $car->details_id = $request->get('details_id');
+//            $car->grades_id = $request->get('grades_id');
+//            $car->save();
+//
+//        }
+//        $cars_id = $car->id; //자동차 ID 설정
+//
+//        $order->datekey = $datekey;
+//        $order->car_number = $request->get('car_number');
+//        $order->cars_id = $car->id;
+//        $order->garage_id = $request->get('garage_id');
+//        $order->orderer_id = $orderer_id;
+//        $order->orderer_name = $request->get('orderer_name');
+//        $order->orderer_mobile = $request->get('orderer_mobile');
+//        $order->registration_file = 0;
+//
+//        $order->open_cd = 1327; //default로 비공개코드 삽입
+//        $order->status_cd = 101;
+//        $order->flooding_state_cd = $request->get('flooding');
+//        $order->accident_state_cd = $request->get('accident');
+//        $order->item_id = 0;
+//
+//        $purchase = new Purchase();
+//        $purchase->amount = 0; //결제 완료 후 update
+//        $purchase->type = 0; // 결제방법
+//        $purchase->status_cd = 101; // 결제상태
+//        $purchase->save();
+//
+//        $order->purchase_id = $purchase->id;
+//        $order->save();
+//
+//
+//
+//        $orders_id = $order->id;
+//
+//        if($request->get('options_ck') != []){
+//            $order_features = OrderFeature::where('orders_id', $order->id)->first();
+//            if(!$order_features){
+//                $order_features = new OrderFeature();
+//            }else{
+//                OrderFeature::where('orders_id', $order->id)->delete();
+//            }
+//            $order_features_list = [];
+//            foreach ($request->get('options_ck') as $key => $options){
+//                $order_features_list[$key]['orders_id'] = $order->id;
+//                $order_features_list[$key]['features_id'] = $options;
+//            }
+//            $order_features->insert($order_features_list);
+//            $order_features->save();
+//        }
+//        $items = Item::all();
+////        $order = Order::find(4)->first();
+//
+//        $garage_info = GarageInfo::findOrFail($request->get('garage_id'));
+//
+//
+//        $date = new \DateTime($request->reservaton_date);
+//
+//        $reservation_date = $date->format('Y년 m월d일');
+
+
+//        return view('web.order.purchase', compact('order', 'items', 'garage_info', 'request', 'datekey', 'cars_id', 'orders_id', 'reservation_date'));
+
+    }
+
+
+    /**
+     * 결제 팝업
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function paymentPopup(Request $request){
+        dd($request->all());
+        $validate = Validator::make($request->all(), [
+            'item_id' => 'required',        // item seq
+            'payment_price' => 'required',  // item 가격
+            'payment_method' => 'required', // 결제 방식 11 = 카드, 12 = 실시간 계좌 이체
+            'orderer_name' => 'required',   // 주문자 이름
+            // 'orderer_mobile' => 'required',
+            'areas' => 'required',          // 정비소 시/도
+            'sections' => 'required',        // 정비소 구/군
+            'garages' => 'required',        // 정비소명
+            'reservation_date' => 'required',// 예약날짜 (Y-m-d)
+            'sel_time' => 'required',       // 예약 시간
+            'car_number' => 'required',     // 차량 번호
+            'brands' => 'required',         // 브랜드 seq
+            'models' => 'required',         // 모델 seq
+            'details' => 'required',        // 디테일 seq
+            'grades' => 'required',         // 등급 seq
+        ]);
+
+        if ($validate->fails())
+        {
+            foreach ($validate->messages()->getMessages() as $field_name => $messages)
+            {
+                //                var_dump($messages); // messages are retrieved (publicly)
+            }
+            return redirect()->back()->with('error', '인증서 신청 정보를 충분히 입력하세요.');
+        }
+
         $datekey = substr(str_replace("-","",$request->reservaton_date), -6);
 
         $orderer_id = Auth::user()->id;
@@ -111,7 +227,7 @@ class OrderController extends Controller {
 
         if(!$order){
             $order = new Order();
-         }
+        }
 
         $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
         if(!$car){
@@ -179,19 +295,11 @@ class OrderController extends Controller {
 
         $reservation_date = $date->format('Y년 m월d일');
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // 기존 데이터 저장을 이쪽에서 저장
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        return view('web.order.purchase', compact('order', 'items', 'garage_info', 'request', 'datekey', 'cars_id', 'orders_id', 'reservation_date'));
 
-    }
-
-
-    /**
-     * 결제 팝업
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function paymentPopup(Request $request){
-        dd($request->all());
 
 
         // $error = false;

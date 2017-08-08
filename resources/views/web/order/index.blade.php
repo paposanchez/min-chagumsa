@@ -32,7 +32,7 @@
         {!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
 
 
-        <input type="hidden" name="payment_id" id="payment_id" value="" >
+        <input type="hidden" name="item_id" id="item_id" value="" >
         <input type="hidden" name="payment_price" id="payment_price" value="" >
         <input type="hidden" name="payment_method" id="payment_method" value="" >
 
@@ -96,14 +96,14 @@
                         <div class="col-xs-4">
                             {{--{!! Form::select('sel_section', [""=> "구군을 선택하세요"], [], ['class'=>'form-control', 'size'=>"5",  'id'=>'sel_section']) !!}--}}
                             <select class="form-control" size="5" id="sections" name="sections">
-                                <option value="">구/군을 선택하세요.</option>
+                                <option disabled="true">구/군을 선택하세요.</option>
                             </select>
                         </div>
 
                         <div class="col-xs-4">
 {{--                            {!! Form::select('garage', [""=> "대리점을 선택하세요"], [], ['class'=>'form-control', 'size'=>"5",  'id'=>'garage']) !!}--}}
                             <select class="form-control" size="5" id="garages" name="garages">
-                                <option value="">대리점을 선택하세요.</option>
+                                <option disabled="true">대리점을 선택하세요.</option>
                             </select>
                         </div>
 
@@ -123,7 +123,7 @@
                     <div class="row">
                         <div class="col-xs-9">
                             <div class="input-group input-group-lg">
-                                <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservaton_date' value='' style="margin-right: 5px;">
+                                <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservation_date' value='' style="margin-right: 5px;">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" id="calendar-opener"><i class="fa fa-calendar"></i></button>
                                 </span>
@@ -616,7 +616,7 @@ var PageTransitions = (function() {
             $('.purchase-item-product').removeClass("active");
             $(this).toggleClass("active");
 
-            $('#payment_id').val($(this).data("index"));
+            $('#item_id').val($(this).data("index"));
             $('#payment_price').val($(this).data("price"));
         });
 
@@ -644,7 +644,7 @@ var PageTransitions = (function() {
                 success : function (data) {
                     //select box 초기화
                     $('#sections').html("");
-                    $('#garages').html('<option value="">대리점을 선택하세요.</option>');
+                    $('#garages').html('<option disabled="true">대리점을 선택하세요.</option>');
 
                     $('#sel_area').val(garage_area);
                     $.each(data, function (key, value) {
@@ -852,10 +852,9 @@ var PageTransitions = (function() {
                 },
                 success: function(data){
                     $('#models').html('');
-                    $('#details').html('');
-                    $('#grades').html('');
-                    $('#details').append($('<option/>', {text : '세부 모델을 선택하세요.'}));
-                    $('#grades').append($('<option/>', {text : '등급을 선택하세요.'}));
+
+                    $('#details').html('<option disabled="true">세부모델을 선택하세요.</option>');
+                    $('#grades').html('<option disabled="true">등급을 선택하세요.</option>');
 
                     $.each(data, function (key, value) {
                         $('#models').append($('<option/>', {
@@ -884,8 +883,7 @@ var PageTransitions = (function() {
                 },
                 success: function(data){
                     $('#details').html('');
-                    $('#grades').html('');
-                    $('#grades').append($('<option/>', {text : '등급을 선택하세요.'}));
+                    $('#grades').html('<option disabled="true">등급을 선택하세요.</option>');
 
                     $.each(data, function (key, value) {
                         $('#details').append($('<option/>', {
@@ -914,7 +912,7 @@ var PageTransitions = (function() {
                 },
                 success: function(data){
                     $('#grades').html('');
-                    
+
                     $.each(data, function (key, value) {
                         $('#grades').append($('<option/>', {
                             value: value.id,
@@ -942,10 +940,6 @@ var PageTransitions = (function() {
 
 
         $("#payment-process").on("click", function(){
-
-
-
-
 
             var u = "{{ route('order.payment-popup') }}";
 
