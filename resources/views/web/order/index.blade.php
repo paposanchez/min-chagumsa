@@ -31,8 +31,11 @@
 
         {!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
 
-        <!-- <input type="hidden" name="amt" id="amt" value="10000" > -->
+
+        <input type="hidden" name="payment_id" id="payment_id" value="" >
+        <input type="hidden" name="payment_price" id="payment_price" value="" >
         <input type="hidden" name="payment_method" id="payment_method" value="" >
+
 
 <!--         <input name="cars_id" value="" type="hidden">
         <input name="id" id="moid" type="hidden" value="">{{-- 주문번호 --}}
@@ -63,7 +66,7 @@
                         <label for="exampleInputEmail1">휴대전화번호</label>
 
                         <div class="input-group input-group-lg">                  
-                            <input type='text' id="orderer_mobile" class='form-control ' name="orderer_mobile" placeholder='휴대폰 번호' value="{{ $user->mobile }}" autocomplete="off">
+                            <input type='text' id="orderer_mobile" class='form-control ' name="orderer_mobile" placeholder='휴대폰 번호' value="" autocomplete="off">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" id="mobile-verification">인증번호 전송</button>
                             </span>
@@ -79,17 +82,29 @@
 
                     <div class="row no-margin-bottom">
 
-                        <div class="col-xs-4">                      
+                        <div class="col-xs-4">
+                            {{--{!! Form::select('sel_area', $garages, [], ['class'=>'form-control', 'size'=>"5",   'id'=>'sel_area']) !!}--}}
+                            <select class="form-control" size="5" id="areas" name="areas">
+                                @foreach($garages as $key => $garage)
+                                    {{--<option value="{{ $garage->id }}">{{ $garage->area }}</option>--}}
+                                    <option value="{{ $garage->area }}">{{ $garage->area }}</option>
+                                @endforeach
+                            </select>
 
-                            {!! Form::select('sel_area', $garages, [], ['class'=>'form-control', 'size'=>"5",   'id'=>'sel_area']) !!}
                         </div>
 
                         <div class="col-xs-4">
-                            {!! Form::select('sel_section', [""=> "구군을 선택하세요"], [], ['class'=>'form-control', 'size'=>"5",  'id'=>'sel_section']) !!}
+                            {{--{!! Form::select('sel_section', [""=> "구군을 선택하세요"], [], ['class'=>'form-control', 'size'=>"5",  'id'=>'sel_section']) !!}--}}
+                            <select class="form-control" size="5" id="sections" name="sections">
+                                <option value="">구/군을 선택하세요.</option>
+                            </select>
                         </div>
 
                         <div class="col-xs-4">
-                            {!! Form::select('garage', [""=> "대리점을 선택하세요"], [], ['class'=>'form-control', 'size'=>"5",  'id'=>'garage']) !!}
+{{--                            {!! Form::select('garage', [""=> "대리점을 선택하세요"], [], ['class'=>'form-control', 'size'=>"5",  'id'=>'garage']) !!}--}}
+                            <select class="form-control" size="5" id="garages" name="garages">
+                                <option value="">대리점을 선택하세요.</option>
+                            </select>
                         </div>
 
                     </div>
@@ -105,12 +120,27 @@
                         <small class='text-info pull-right'>{{ trans('web/order.reservation_info') }}</small>
                     </label>
 
-                    <div class="input-group input-group-lg"> 
-                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservaton_date' value='' style="margin-right: 5px;">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" id="calendar-opener"><i class="fa fa-calendar"></i></button>
-                        </span>
+                    <div class="row">
+                        <div class="col-xs-9">
+                            <div class="input-group input-group-lg">
+                                <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservaton_date' value='' style="margin-right: 5px;">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="calendar-opener"><i class="fa fa-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-3">
+                            <div class="input-group-lg">
+
+                                {!! Form::select('sel_time', $search_fields, [], ['class'=>'form-control ', 'id'=>'sel_time']) !!}
+
+                            </div>
+
+                        </div>
                     </div>
+
+
 
                 </div>
 
@@ -143,7 +173,7 @@
                 <div class="row no-margin-bottom">
 
                     <div class="col-xs-3">
-                        <select class="form-control" id="brands" autocomplete="off" size="5">
+                        <select class="form-control" id="brands" name="brands" autocomplete="off" size="5">
                         @foreach($brands as $brand)
                             <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                         @endforeach
@@ -151,19 +181,19 @@
                     </div>
 
                     <div class="col-xs-3">
-                        <select class="form-control " id="models" autocomplete="off" size="5">
+                        <select class="form-control " id="models" name="models" autocomplete="off" size="5">
                         <option disabled="true">모델을 선택하세요.</option>
                         </select>
                     </div>
 
                     <div class="col-xs-3">
-                        <select class="form-control " id="details" size="5">
+                        <select class="form-control " id="details" name="details" size="5">
                         <option disabled="true">세부모델을 선택하세요.</option>
                         </select>
                     </div>
 
                     <div class="col-xs-3">
-                        <select class="form-control " id="grades" size="5">
+                        <select class="form-control " id="grades" name="grades" size="5">
                         <option disabled="true">등급을 선택하세요.</option>
                         </select>
                     </div>
@@ -279,7 +309,8 @@
                     <div class="row">
                         @foreach($items as $item)
                         <div class="col-xs-4">
-                            <div class="purchase-item purchase-item-product" data-idx="1" data-display="2">
+                            {{--<div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-display="3">--}}
+                            <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-price="{{ $item->price }}">
                                 <div class="point-price">{{ $item->name }}</div>
                                 <div class="point-desc text-muted">{{ number_format($item->price) }}원</div>
                             </div>
@@ -582,26 +613,90 @@ var PageTransitions = (function() {
         // 상품선
         $(document).on("click", ".purchase-item-product", function() {
 
-
-            // $(document).find('.purchase-item-product', function(){
-            // });
-
             $('.purchase-item-product').removeClass("active");
             $(this).toggleClass("active");
 
-            $(this).data("index");
-
+            $('#payment_id').val($(this).data("index"));
+            $('#payment_price').val($(this).data("price"));
         });
 
 
         $(document).on("click", ".purchase-item-method", function() {
-            
-
             $('.purchase-item-method').removeClass("active");
             $(this).toggleClass("active");
             $('#payment_method').val($(this).data("index"));
 
         });
+
+
+        // 정비소 관련 리스트
+        $('#areas').change(function () {
+            var garage_area = $('#areas option:selected').text();
+
+            $.ajax({
+                type : 'get',
+                dataType : 'json',
+                url : '/order/get_section/',
+                data : {
+                    '_token': '{{ csrf_token() }}',
+                    'garage_area' : garage_area
+                },
+                success : function (data) {
+                    //select box 초기화
+                    $('#sections').html("");
+                    $('#garages').html('<option value="">대리점을 선택하세요.</option>');
+
+                    $('#sel_area').val(garage_area);
+                    $.each(data, function (key, value) {
+                        $('#sections').append($('<option/>', {
+//                            value: value.id,
+                            value: value.section,
+                            text : value.section
+                        }));
+                        // garage list append
+//                        $('#garages').append($('<option/>', {
+//                            value: value.id,
+//                            text : value.name
+//                        }))
+                    });
+                },
+                error : function () {
+                    alert('error');
+                }
+            })
+        });
+
+        $('#sections').change(function () {
+            var garage_area = $('#areas option:selected').text();
+            var garage_section = $('#sections option:selected').text();
+
+            $.ajax({
+                type : 'get',
+                dataType : 'json',
+                url : '/order/get_address/',
+                data : {
+                    'sel_area' : garage_area,
+                    'sel_section' : garage_section,
+                    '_token': '{{ csrf_token() }}'
+                },
+                success : function (data){
+                    $('#garages').html("");
+
+                    $.each(data, function (key, value) {
+                        $('#garages').append($('<option/>', {
+//                            value: value.id,
+                            value: value.name,
+                            text : value.name
+                        }))
+                    });
+
+                },
+                error : function (data) {
+                    alert('error');
+                }
+            });
+        });
+
 
 
 
@@ -636,7 +731,7 @@ var PageTransitions = (function() {
 
         // }
 
-        // 휴대전화번호 인
+        // 휴대전화번호 인증
         $(document).on("click", "#mobile-verification", function() {
 
             var number = $('#orderer_mobile').val();
@@ -893,24 +988,6 @@ var PageTransitions = (function() {
 
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     var car_num_chk = function(car_num)
     {
 
@@ -930,6 +1007,28 @@ var PageTransitions = (function() {
         }
     }
 
+
+    //########## Pikaday
+    $('.datepicker2').each(function (index, element) {
+        var opt = {
+            field: element,
+            format: 'YYYY-MM-DD',
+            minDate: moment().add(1, 'days').toDate(),
+            i18n: {
+                previousMonth: '이전달',
+                nextMonth: '다음달',
+                months: '1월.2월.3월.4월.5월.6월.7월.8월.9월.10월.11월.12월.'.split('.'),
+                weekdays: '월요일.화요일.수요일.목요일.금요일.토요일.일요일'.split('.'),
+                weekdaysShort: '월.화.수.목.금.토.일.'.split('.')
+            },
+        };
+
+        if ($(this).data('format')) {
+            opt.format = $(this).data('format');
+        }
+
+        new Pikaday(opt);
+    });
 
 
 </script>

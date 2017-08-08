@@ -38,9 +38,10 @@ class OrderController extends Controller {
     protected $mid = "tpaytest0m";//상점id
     
     public function index(Request $request) {
-//        if(!Auth::user()){
-//            return redirect('login');
-//        }
+        if(!Auth::user()){
+            return redirect('login');
+        }
+
         $user = Auth::user();
         $brands = Brand::select('id', 'name')->get();
         $exterior_option = Code::where('group', 'car_option_exterior')->get();
@@ -51,15 +52,14 @@ class OrderController extends Controller {
 
         $items = Item::where("id", ">", "0")->get();
  
-        //  $search_fields = [
-        //     '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
-        // ];
+        $search_fields = [
+            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
+        ];
 
-        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->pluck("area", 'garage_id');
+//        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->pluck('garage_id', 'area');
+        $garages = GarageInfo::orderBy('area', 'DESC')->groupBy('area')->get();
 
-        // $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->pluck("name", 'garage_id');
-
-        return view('web.order.index', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user'));
+        return view('web.order.index', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
     }
 
     public function reservation(Request $request) {
@@ -191,6 +191,8 @@ class OrderController extends Controller {
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function paymentPopup(Request $request){
+        dd($request->all());
+
 
         // $error = false;
         // //validate
@@ -817,26 +819,36 @@ class OrderController extends Controller {
     }
 
     public function getAddress(Request $request) {
-        $selected_garage =  GarageInfo::where('area', $request->get('sel_area'));
-        if($request->get('sel_section')){
-            $selected_garage->where('section', $request->get('sel_section'));
-        }
+        $selected_garage =  GarageInfo::where('area', $request->get('sel_area'))->where('section', $request->get('sel_section'));
 
         if($selected_garage){
-            $selected_garage_list = $selected_garage->get()->toArray();
-
-            foreach ($selected_garage->get() as $key => $garage){
-                if($garage->user) {
-                    $user_info = $garage->user->toArray();
-                    $selected_garage_list[$key]['user_info'] = $user_info;
-                }
-            }
+            $json = $selected_garage->get()->toArray();
         }else{
-            $selected_garage_list = [];
+            $json = [];
         }
 
+//        if($request->get('sel_section')){
+//            $selected_garage->where('section', $request->get('sel_section'));
+//        }
+//
+//        if($selected_garage){
+//            $selected_garage_list = $selected_garage->get()->toArray();
+//
+//            foreach ($selected_garage->get() as $key => $garage){
+//                if($garage->user) {
+//                    $user_info = $garage->user->toArray();
+//                    $selected_garage_list[$key]['user_info'] = $user_info;
+//                }
+//            }
+//        }else{
+//            $selected_garage_list = [];
+//        }
 
-        return \GuzzleHttp\json_encode($selected_garage_list, true);
+
+
+
+        return \GuzzleHttp\json_encode($json, true);
+//        return \GuzzleHttp\json_encode(['ddd', 'ddd'], true);
     }
 
 
