@@ -852,22 +852,17 @@ var PageTransitions = (function() {
                 },
                 success: function(data){
                     $('#models').html('');
-                    if($('#brands option:selected').text()=='선택하세요.'){
+                    $('#details').html('');
+                    $('#grades').html('');
+                    $('#details').append($('<option/>', {text : '세부 모델을 선택하세요.'}));
+                    $('#grades').append($('<option/>', {text : '등급을 선택하세요.'}));
+
+                    $.each(data, function (key, value) {
                         $('#models').append($('<option/>', {
-                            text : '모델을 선택하세요.'
+                            value: value.id,
+                            text : value.name
                         }));
-                    }
-                    else{
-                        $('#models').append($('<option/>', {
-                            text : '모델을 선택하세요.'
-                        }));
-                        $.each(data, function (key, value) {
-                            $('#models').append($('<option/>', {
-                                value: value.id,
-                                text : value.name
-                            }));
-                        });
-                    }
+                    });
                 },
                 error: function (data) {
                     alert('처리중 오류가 발생했습니다.');
@@ -889,22 +884,16 @@ var PageTransitions = (function() {
                 },
                 success: function(data){
                     $('#details').html('');
-                    if($('#details option:selected').text()=='선택하세요.'){
+                    $('#grades').html('');
+                    $('#grades').append($('<option/>', {text : '등급을 선택하세요.'}));
+
+                    $.each(data, function (key, value) {
                         $('#details').append($('<option/>', {
-                            text : '세부 모델을 선택하세요.'
+                            value: value.id,
+                            text : value.name
                         }));
-                    }
-                    else{
-                        $('#details').append($('<option/>', {
-                            text : '세부 모델을 선택하세요.'
-                        }));
-                        $.each(data, function (key, value) {
-                            $('#details').append($('<option/>', {
-                                value: value.id,
-                                text : value.name
-                            }));
-                        });
-                    }
+                    });
+
                 },
                 error: function (data) {
                     alert('처리중 오류가 발생했습니다.');
@@ -925,22 +914,14 @@ var PageTransitions = (function() {
                 },
                 success: function(data){
                     $('#grades').html('');
-                    if($('#grades option:selected').text()=='선택하세요.'){
+                    
+                    $.each(data, function (key, value) {
                         $('#grades').append($('<option/>', {
-                            text : '등급을 선택하세요.'
+                            value: value.id,
+                            text : value.name
                         }));
-                    }
-                    else{
-                        $('#grades').append($('<option/>', {
-                            text : '등급을 선택하세요.'
-                        }));
-                        $.each(data, function (key, value) {
-                            $('#grades').append($('<option/>', {
-                                value: value.id,
-                                text : value.name
-                            }));
-                        });
-                    }
+                    });
+
                 },
                 error: function (data) {
                     alert('처리중 오류가 발생했습니다.');
