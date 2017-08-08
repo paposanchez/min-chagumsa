@@ -25,8 +25,7 @@ class UserController extends ApiController {
      *     description="로그인",
      *     operationId="login",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="garage_seq",in="formData",description="대리점 seq",required=true,type="integer",format="int"),
-     *     @SWG\Parameter(name="seq",in="formData",description="엔지니어 seq",required=true,type="integer",format="int"),
+     *     @SWG\Parameter(name="email",in="formData",description="엔지니어 email",required=true,type="string",format="email"),
      *     @SWG\Parameter(name="password",in="formData",description="비밀번호",required=true,type="string",format="password"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/User"))
@@ -45,22 +44,20 @@ class UserController extends ApiController {
 
         try {
 
-            // 정비소 seq
-            $garage_seq = $request->get("garage_seq");
-            // 엔지니어 seq
-            $seq = $request->get("seq");
+            // 엔지니어 email
+            $email = $request->get("email");
             // 엔지니어 패스워드
             $password = $request->get("password");
 
             //====== 1 : 사용자 조회
-            $user_seq = UserSequence::where("seq", $seq)->where("garage_seq", $garage_seq)->first();
+            // $user_seq = UserSequence::where("email", $email)->where("garage_seq", $garage_seq)->first();
 
-            if (!$user_seq) {
-                return abort(404, trans('auth.not-found'));
-            }
+            // if (!$user_seq) {
+            //     return abort(404, trans('auth.not-found'));
+            // }
 
             //====== 2 : 사용자 인증 
-            if (Auth::attempt(['id' => $user_seq->users_id, 'password' => $password])) {
+            if (Auth::attempt(['email' => $email, 'password' => $password])) {
                 
                 $user = Auth::user();
 
@@ -80,10 +77,11 @@ class UserController extends ApiController {
                 ]);
 
 
+                // 정비소 정보
                 $garage = $user->user_extra->garage;
 
                 return response()->json([
-                    "id"         => $user->id,
+                    "id"        => $user->id,
                     "name"      => $user->name,
                     "email"     => $user->email,
                     "mobile"    => $user->mobile,

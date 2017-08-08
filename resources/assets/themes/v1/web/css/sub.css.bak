@@ -1,6 +1,5 @@
 @charset "utf-8";
 
-
 /*
 =============================================
 |  조성민    SungMin Jo                    |
@@ -10,9 +9,6 @@
 =============================================
 */
 
-
-
-
 #sub_wrap h3, #sub_full_wrap h3 {padding:5px 0;color:#0c4877;font-size:26px;line-height:36px;text-align:center;letter-spacing:-0.25px;}
 #sub_wrap h3 strong, #sub_full_wrap h3 strong {font-weight:normal;color:#5fb4ef;}
 #sub_wrap h3 span, #sub_full_wrap h3 span {color:#444;}
@@ -21,7 +17,7 @@
 #sub_wrap h5, #sub_full_wrap h5 {padding:3px 0;color:#5fb4ee;font-size:18px;line-height:20px;text-align:center;letter-spacing:-0.25px;}
 
 #sub_title_wrap {width:100%;height:54px;background: #0b4777;background: -moz-linear-gradient(left, #0b4777 0%, #0b4777 49%, #002948 50%, #002948 100%);background: -webkit-linear-gradient(left, #0b4777 0%,#0b4777 49%,#002948 50%,#002948 100%);background: linear-gradient(to right, #0b4777 0%,#0b4777 49%,#002948 50%,#002948 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0b4777', endColorstr='#002948',GradientType=1 );}
-#sub_title_wrap h2 {width:1052px;color:#fff;font-size:18px;height:54px;line-height:54px;background:url('../img/comm/sub_title_wrap_bg.png') center center no-repeat;margin:0 auto;position:relative;}
+#sub_title_wrap h2 {width:1052px;color:#fff;font-size:30px;height:54px;line-height:54px;background:url('../img/comm/sub_title_wrap_bg.png') center center no-repeat;margin:0 auto;position:relative;}
 .sub_title_shortCut {position:absolute;right:0;top:15px;color:#fff;font-size:14px;}
 .sub_title_shortCut i {margin:0 5px;}
 .sub_title_shortCut span {color:#5fb4ee;}
@@ -59,19 +55,19 @@
 .term_area .term_cont ol li {list-style:decimal inside none !important;color:#999;}
 
 
-.join_step {width:840px;overflow:hidden;margin:0 auto;}
+.join_step {width:540px;overflow:hidden;margin:0 auto;}
 .join_step.type2 {width:780px;}
-.join_step li {float:left;width:210px;text-align:center;position:relative;}
+.join_step li {float:left;width:100px;margin-right:105px;text-align:center;position:relative;}
 .join_step.type2 li {width:110px;}
-/*.join_step li:after {content:'';width:170px;height:2px;background:#ccc;position:absolute;top:34px;left:68px;}*/
+.join_step li:after {content:'';width:170px;height:2px;background:#ccc;position:absolute;top:34px;left:68px;}
 .join_step li.link:after {background:#a3cd16;}
 .join_step li:last-child {margin:0;}
 .join_step li:last-child:after {display:none;}
-.join_step li strong {margin:0 auto;border:2px solid #cdcdcd;display:block;box-sizing:border-box;width:50px;height:50px;line-height:48px;border-radius:100%;text-align:center;color:#cdcdcd;font-size:14px;background:#fff;position:relative;font-weight:700;}
-.join_step li span {color:#cdcdcd;font-size:18px;display:block;padding-top:10px;}
+.join_step li strong {margin:0 auto;border:1px solid #cdcdcd;display:block;box-sizing:border-box;width:68px;height:68px;line-height:68px;border-radius:100%;text-align:center;color:#444;font-size:28px;background:#fff;position:relative;z-index:9;}
+.join_step li span {color:#444;font-size:18px;display:block;padding-top:10px;}
 .join_step li.on {}
-.join_step li.on strong {background:#0b4777;color:#fff;border:0;}
-.join_step li.on span {color:#0b4777;}/*a3cd16*/
+.join_step li.on strong {background:#a3cd16;color:#fff;border:0;}
+.join_step li.on span {color:#a3cd16;}
 
 .simple_info {width:436px;border:1px solid #e5e5e5;overflow:hidden;margin:0 auto;}
 .simple_info dt, .simple_info dd {float:left;font-size:18px;height:80px;line-height:80px;}
@@ -262,10 +258,10 @@
 .order_calc_wrap ul li span strong {font-size:26px;}
 
 .order_option_wrap {overflow:hidden;border:1px solid #e5e5e5;border-right:0;font-size:0;}
-.order_option_wrap li {float:left;height:400px;display:inline-block;width:20%;box-sizing:border-box;border-right:1px solid #e5e5e5;}
+.order_option_wrap li {float:left;height:520px;display:inline-block;width:20%;box-sizing:border-box;border-right:1px solid #e5e5e5;}
 .order_option_wrap li strong {height:37px;line-height:37px;margin-bottom:5px;text-align:center;background:#f5f5f5;border-bottom:1px solid #e5e5e5;font-weight:normal;display:block;}
 
-.option_box {padding:1px 10px;}
+.option_box {padding:8px 5px 8px 15px;}
 .option_box2 {padding:7px 5px 0 26px;}
 .option_box2 label {margin-right:8px;}
 
@@ -334,119 +330,7 @@
 
 .sub_shop_wrap {padding:0 30px;width:690px;height:500px;}
 
-.btns .btns_green {margin-top: 20px;}
+.btns btns_green {margin-top: 20px;}
 
 
 .span_warning{background-color: rgb(216, 5, 70); border-color: rgb(216, 5, 70); color: rgb(255, 255, 255);}
-
-
-
-
-
-
-
-/* chali5124@gmail.com */
-.form-horizontal .form-group {
-    margin-left: 0px;
-    margin-right: 0px;
-}
-.order-container {}
-.order-container fieldset {
-    /*padding:30px 0px; */
-}
-
-.order-container #purchase-orderinfo {
-    margin-top:50px;
-}
-
-.order-container .form-group {
-    margin-bottom:30px;
-}
-
-.order-container .form-group > label {
-    font-size:18px;
-    font-weight: 300;
-}
-
-
-
-
-/* 결제폼 결제방식 선택부분 */
-.purchase-item {
-    width:100%;
-    position: relative;
-    text-align: left;
-    border-radius: 3px;
-    overflow: hidden;
-    border:solid 2px #dadada;
-    text-align: center;
-    padding: 30px 15px;
-    margin: 0;
-    background-color:transparent;
-    -moz-transition: all .2s linear;
-    -webkit-transition: all .2s linear;
-    transition: all .2s linear;
-    cursor: pointer;
-}
-.purchase-item .point-price{
-    font-size:28px;
-    font-weight: 300;
-    line-height: 30px;
-    color:#dadada;
-    font-family:sans-serif;
-}
-/*.purchase-item .point-prire span{
-    font-weight: 100;
-}*/
-.purchase-item .point-desc{
-    font-size:18px;
-    color:#dadada;
-    font-weight: 300;
-}
-.purchase-item .point-icon{
-    font-size:36px;
-    line-height: 30px;
-    color:#dadada;
-    /*font-weight: 300;*/
-}
-
-/*.purchase-item .point-leftbox{
-    width:15%;
-    height:100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 3px 0px 0px 3px;
-    background-color: #eaeaea;
-    -moz-transition: all .2s linear;
-    -webkit-transition: all .2s linear;
-    transition: all .2s linear;
-}
-*/
-.purchase-item.active,
-.purchase-item:hover {
-    border-color:#0b4777;
-    background-color: #fff;
-}
-.purchase-item.active .point-price,
-.purchase-item.active .point-desc,
-.purchase-item.active .point-icon,
-.purchase-item:hover  .point-price,
-.purchase-item:hover  .point-desc,
-.purchase-item:hover  .point-icon
-{
-    color:#0b4777;
-    background-color: #fff;
-}
-/* 결제버튼 */
-/*.zfp-payment-point-button{
-    cursor: pointer;
-}
-.zfp-payment-method-button{
-    cursor: pointer;
-}
-.zfp-payment-method-button:hover{
-    border-color:#0b4777;
-    background-color: #fff;
-}
-*/

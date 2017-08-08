@@ -171,7 +171,7 @@ return [
         // Tags
         Conner\Tagging\Providers\TaggingServiceProvider::class,
         // Swagger
-        L5Swagger\L5SwaggerServiceProvider::class,
+//        L5Swagger\L5SwaggerServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
