@@ -114,7 +114,7 @@
 .board_wrap {}
 .board_wrap table {width:100%;border-top:1px solid #7b7b7b;border-top:1px solid #7b7b7b;}
 .board_wrap table thead th, .board_wrap table tbody td, .board_wrap table tbody th {padding:15px 10px;font-size:14px;
-    text-align: center;}
+	text-align: center;}
 .board_wrap table thead th {border-bottom:1px solid #ddd;background:#f6f6f6;position:relative;font-weight:bold;}
 .board_wrap table thead th:after {content:'|';right:0px;color:#d1d1d1;position:absolute;}
 .board_wrap table thead th:last-child:after {display:none;}
@@ -360,11 +360,6 @@
 }
 
 .order-container .form-group > label {
-			font-size:18px;
-			font-weight: 300;
+	font-size:18px;
+	font-weight: 300;
 }
-
-
-
-
-
