@@ -451,8 +451,7 @@ return [
         'diagnosing' => '진단중',
         'diagnosed' => '진단완료',
         'certificating' => '검토중',
-        'certificated' => '인증발급완료',
-        'refundable' => '환불완료'
+        'certificated' => '인증발급완료'
     ],
     'wear_state_cd' => [
         'good' => '없음',
