@@ -60,7 +60,7 @@
 	$(function (){
 		$('.detail').click(function(){
 		    var order_id = $(this).data('order_id');
-			window.open('/certificate/'+order_id+'/summary',"", "width=1100, height=1400");
+			window.open('/certificate/'+order_id+'/summary',"", "width=1400, height=1400");
 		});
 
 		$('.cert_box_foot [name=open_cd]').change(function (){
