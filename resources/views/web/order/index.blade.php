@@ -381,7 +381,7 @@
 
                     <div class="form-group">
                         <label for="exampleInputEmail1" class="sr-only">인증번호</label>
-                        <input type="text" class="form-control input-lg" id="sms_num " placeholder='인증번호' value="{{ old('car_number') }}" name="sms_num">
+                        <input type="text" class="form-control input-lg" id="sms_num" placeholder='인증번호' value="{{ old('car_number') }}" name="sms_num">
                     </div>
 
                     <p class="form-control-static text-center">
