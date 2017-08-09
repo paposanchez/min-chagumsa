@@ -152,8 +152,8 @@ class OrderController extends Controller {
         if($order){
 
             if(in_array($order->status_cd, [101, 102, 103, 104])){
-                //$cancelAmt = $order->item->price;
-                $cancelAmt = 1004; //todo 가격부문을 위에 것으로 변경해야 함.
+//                $cancelAmt = $order->item->price;
+                $cancelAmt = 1000; //todo 가격부문을 위에 것으로 변경해야 함.
 
 
                 $payment = Payment::OrderBy('id', 'DESC')->whereIn('resultCd', [3001, 4000, 4100])
