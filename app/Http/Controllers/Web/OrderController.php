@@ -192,107 +192,114 @@ class OrderController extends Controller {
      */
     public function paymentPopup(Request $request){
 
-//        $validate = Validator::make($request->all(), [
-//            'item_id' => 'required',        // item seq
-//            'payment_price' => 'required',  // item 가격
-//            'payment_method' => 'required', // 결제 방식 11 = 카드, 12 = 실시간 계좌 이체
-//            'orderer_name' => 'required',   // 주문자 이름
-//            // 'orderer_mobile' => 'required',
-//            'areas' => 'required',          // 정비소 시/도
-//            'sections' => 'required',        // 정비소 구/군
-//            'garages' => 'required',        // 정비소명
-//            'reservation_date' => 'required',// 예약날짜 (Y-m-d)
-//            'sel_time' => 'required',       // 예약 시간
-//            'car_number' => 'required',     // 차량 번호
-//            'brands' => 'required',         // 브랜드 seq
-//            'models' => 'required',         // 모델 seq
-//            'details' => 'required',        // 디테일 seq
-//            'grades' => 'required',         // 등급 seq
-//        ]);
-//
-//        if ($validate->fails())
-//        {
-//            foreach ($validate->messages()->getMessages() as $field_name => $messages)
-//            {
-//                //                var_dump($messages); // messages are retrieved (publicly)
-//            }
-//            return redirect()->back()->with('error', '인증서 신청 정보를 충분히 입력하세요.');
-//        }
-//
-//        $datekey = substr(str_replace("-","",$request->reservaton_date), -6);
-//
-//        $orderer_id = Auth::user()->id;
-//
-//        $order = Order::where('datekey', $datekey)->where('car_number', $request->get('car_number'))->first();
-//
-//        if(!$order){
-//            $order = new Order();
-//        }
-//
-//        $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
-//        if(!$car){
-//            $car = new Car();
-//            $car->vin_number = $request->get('car_number');
-//            $car->brands_id = $request->get('brands_id');
-//            $car->models_id = $request->get('models_id');
-//            $car->details_id = $request->get('details_id');
-//            $car->grades_id = $request->get('grades_id');
-//            $car->save();
-//
-//        }
-//        $cars_id = $car->id; //자동차 ID 설정
-//
-//        $order->datekey = $datekey;
-//        $order->car_number = $request->get('car_number');
-//        $order->cars_id = $car->id;
-//        $order->garage_id = $request->get('garage_id');
-//        $order->orderer_id = $orderer_id;
-//        $order->orderer_name = $request->get('orderer_name');
-//        $order->orderer_mobile = $request->get('orderer_mobile');
-//        $order->registration_file = 0;
-//
-//        $order->open_cd = 1327; //default로 비공개코드 삽입
-//        $order->status_cd = 101;
-//        $order->flooding_state_cd = $request->get('flooding');
-//        $order->accident_state_cd = $request->get('accident');
-//        $order->item_id = 0;
-//
-//        $purchase = new Purchase();
-//        $purchase->amount = 0; //결제 완료 후 update
-//        $purchase->type = 0; // 결제방법
-//        $purchase->status_cd = 101; // 결제상태
-//        $purchase->save();
-//
-//        $order->purchase_id = $purchase->id;
-//        $order->save();
-//
-//
-//
-//        $orders_id = $order->id;
-//
-//        if($request->get('options_ck') != []){
-//            $order_features = OrderFeature::where('orders_id', $order->id)->first();
-//            if(!$order_features){
-//                $order_features = new OrderFeature();
-//            }else{
-//                OrderFeature::where('orders_id', $order->id)->delete();
-//            }
-//            $order_features_list = [];
-//            foreach ($request->get('options_ck') as $key => $options){
-//                $order_features_list[$key]['orders_id'] = $order->id;
-//                $order_features_list[$key]['features_id'] = $options;
-//            }
-//            $order_features->insert($order_features_list);
-//            $order_features->save();
-//        }
-//        $items = Item::all();
-////        $order = Order::find(4)->first();
-//
-//        $garage_info = GarageInfo::findOrFail($request->get('garage_id'));
-//
-//
-//        $date = new \DateTime($request->reservaton_date);
-//
+        $validate = Validator::make($request->all(), [
+            'item_id' => 'required',        // item seq
+            'payment_price' => 'required',  // item 가격
+            'payment_method' => 'required', // 결제 방식 11 = 카드, 12 = 실시간 계좌 이체
+            'orderer_name' => 'required',   // 주문자 이름
+            'orderer_mobile' => 'required',
+            'areas' => 'required',          // 정비소 시/도
+            'sections' => 'required',       // 정비소 구/군
+            'garages' => 'required',        // 정비소명
+            'reservation_date' => 'required',// 예약날짜 (Y-m-d)
+            'sel_time' => 'required',       // 예약 시간
+            'car_number' => 'required',     // 차량 번호
+            'brands' => 'required',         // 브랜드 seq
+            'models' => 'required',         // 모델 seq
+            'details' => 'required',        // 디테일 seq
+            'grades' => 'required',         // 등급 seq
+        ]);
+
+        if ($validate->fails())
+        {
+            foreach ($validate->messages()->getMessages() as $field_name => $messages)
+            {
+                //                var_dump($messages); // messages are retrieved (publicly)
+            }
+            return redirect()->back()->with('error', '인증서 신청 정보를 충분히 입력하세요.');
+        }
+
+        $datekey = substr(str_replace("-","",$request->get('reservation_date')), -6);
+
+        $orderer_id = Auth::user()->id;
+
+        $order = Order::where('datekey', $datekey)->where('car_number', $request->get('car_number'))->first();
+
+        if(!$order){
+            $order = new Order();
+        }
+
+        $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
+        if(!$car){
+            $car = new Car();
+            $car->vin_number = $request->get('car_number');
+            $car->brands_id = $request->get('brands');
+            $car->models_id = $request->get('models');
+            $car->details_id = $request->get('details');
+            $car->grades_id = $request->get('grades');
+            $car->save();
+
+        }
+
+        $order->datekey = $datekey;
+        $order->car_number = $request->get('car_number');
+        $order->cars_id = $car->id;
+        $order->garage_id = $request->get('grades');
+        $order->orderer_id = $orderer_id;
+        $order->orderer_name = $request->get('orderer_name');
+        $order->orderer_mobile = $request->get('orderer_mobile');
+        $order->registration_file = 0;
+
+        $order->open_cd = 1327; //default로 비공개코드 삽입
+        $order->status_cd = 101;
+        if($request->get('flooding')){
+            $order->flooding_state_cd = 1;
+        }else{
+            $order->flooding_state_cd = 0;
+        }
+
+        if($request->get('accident')){
+            $order->accident_state_cd = 1;
+        }else{
+            $order->accident_state_cd = 0;
+        }
+
+        $order->item_id = $request->get('item_id');
+
+        $purchase = new Purchase();
+        $purchase->amount = $request->get('payment_price'); //결제 완료 후 update
+        $purchase->type = $request->get('payment_method'); // 결제방법
+        $purchase->status_cd = 101; // 결제상태
+        $purchase->save();
+
+        $order->purchase_id = $purchase->id;
+        $order->save();
+
+
+        if($request->get('options_ck') != []){
+            $order_features = OrderFeature::where('orders_id', $order->id)->first();
+            if(!$order_features){
+                $order_features = new OrderFeature();
+            }else{
+                OrderFeature::where('orders_id', $order->id)->delete();
+            }
+            $order_features_list = [];
+            foreach ($request->get('options_ck') as $key => $options){
+                $order_features_list[$key]['orders_id'] = $order->id;
+                $order_features_list[$key]['features_id'] = $options;
+            }
+            $order_features->insert($order_features_list);
+            $order_features->save();
+        }
+        $items = Item::find($request->get('item_id'))->first();
+
+        $garage_info = GarageInfo::where('area', $request->get('areas'))
+                                ->where('section', $request->get('sections'))
+                                ->where('name', $request->get('garages'))->first();
+
+
+        $date = new \DateTime($request->reservaton_date);
+
 //        $reservation_date = $date->format('Y년 m월d일');
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -797,7 +804,7 @@ class OrderController extends Controller {
             $reservation->orders_id = $order->id;
             $reservation->garage_id = $order->garage_id;
             $reservation->created_id = $order->orderer_id;
-            $reservation->reservation_at = $date;
+//            $reservation->reservation_at = $date;
             $reservation->save();
 
 

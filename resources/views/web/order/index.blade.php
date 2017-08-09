@@ -703,33 +703,31 @@ var PageTransitions = (function() {
 
 
 
-        // //sms 전송
-        // var timeCountdown = function(){
-        // var expired = 300;
-        // var countdown = setInterval(function(){
+         //sms 전송
+         var timeCountdown = function(){
+             var expired = 300;
+             var countdown = setInterval(function(){
 
-        // if(expired == 0){
+                 if(expired == 0){
 
-        //     if(!sms_confirmed && sms_id){
-        //         alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요." + expired);
+                     if(!sms_confirmed && sms_id){
+                         alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요." + expired);
 
-        //         smsTempDelete(sms_id);// 인증 번호관련 사항을 삭제함.
-        //     }
-        //     clearInterval(countdown);
-        //     return false;
+                         smsTempDelete(sms_id);// 인증 번호관련 사항을 삭제함.
+                     }
+                     clearInterval(countdown);
+                     return false;
 
-        // }else{
-        //     if(!sms_confirmed){
-        //         $("#time-clock").text(expired);
-        //     }
-
-        // }
-
-        // expired--;
-        // }, 1000);
+                }else {
+                     if (!sms_confirmed) {
+                         $("#time-clock").text(expired);
+                     }
+                 }
+                expired--;
+             }, 1000);
 
 
-        // }
+         };
 
         // 휴대전화번호 인증
         $(document).on("click", "#mobile-verification", function() {
