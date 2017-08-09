@@ -140,7 +140,7 @@
                         </td>
 
                         <td class="">
-                            <span class="label label-default">{{ $data->shown->display() }}</span>
+                            <span class="label label-default">{{ $data->shown? $data->shown->display(): '-' }}</span>
                         </td>
 
                         <td class="">
