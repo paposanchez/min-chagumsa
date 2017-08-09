@@ -46,56 +46,7 @@
             <input type="text" name="buyerName" value="{{ $buyerName }}" readonly>
             <input type="text" name="buyerTel" value="{{ $buyerTel }}" readonly>
             <input type="text" name="buyerEmail" value="{{ $buyerEmail }}" readonly>
-            <table class="table">
-                <colgroup>
-                    <col width="120px">
-                    <col width="*">
-                </colgroup>
-                <tbody>
-
-                <tr>
-                    <td class='alg_c'>상품명</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class='alg_c'>상품가격</td>
-                    <td> 원
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class='alg_c'>상품주문번호</td>
-                    <td>	</td>
-                </tr>
-
-
-                <tr>
-                    <td class='alg_c'>구매자명</td>
-                    <td></td>
-                </tr>
-
-                <tr>
-                    <td class='alg_c'>구매자연락처((-)없이 입력)</td>
-                    <td></td>
-                </tr>
-
-                <tr>
-                    <td class='alg_c'>구매자메일주소</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align:center;">
-                        <div class='ipt_line wid45'>
-                            <button type="button" id="submitBtn" class='btns btns_green wid45' style='display:inline-block;'>결제하기</button>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
     </div>
-
-        <div id="close"><button class='btns btns_green wid45' type="button" id="pay-process">결제하기</button> <button class='btns btns_green wid45' type="button" id="pay-modal-close">결제창 닫기</button> </div>
 
     <script type="text/javascript" src="//webtx.tpay.co.kr/js/jquery.nyroModal.tpay.custom.js"></script>
     <script type="text/javascript" src="//webtx.tpay.co.kr/js/client.tpay.webtx.js"></script>
@@ -103,21 +54,25 @@
     <script>
         $(function () {
             //결제결과 받는 URL
-           $("#transMgr").submit(function(e){
-               $("#close").show(2);
-           });
-
-           $("#pay-modal-close").on("click", function(){
-               $("#close").hide();
-               $("#modalPurchase");
-           });
-           $("#pay-process").on("click", function(){
-               $("#transMgr").submit(function(e){
-                   $("#close").show(2);
-               });
-           });
+            $("#transMgr").submit();
         });
 
+        function tPayClose(){
+            if($("#iframeUrlSendBox").length==false){
+
+            }else{
+                $("#iframeUrlSendBox").remove();
+            }
+
+            parent.paymentClose(); //결제모달 닫기
+
+            var tpay = $.nmTop();
+            if(tpay!=undefined){
+                $.nmTop().close();
+            }else{
+                document.location.reload();
+            }
+        }
     </script>
 
 </body>
