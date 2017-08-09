@@ -122,14 +122,15 @@
 		<div class='od_line'>
 			<label>결제수단</label>
 			{{-- todo purchase 데이터 저장 후 출력--}}
-			<span>[신용카드] 신한카드 일시불</span>
+			{{--<span>[신용카드] 신한카드 일시불</span>--}}
+			<span>[{{ \App\Helpers\Helper::getCodeName($order->purchase->type) }}] {{ $order->purchase->refund_bank }} </span>
 		</div>
 		<div class='od_line'>
 			<label>결제금액</label>
 			<span class='wid20'>
 				<div class='od_line'>
 					<label>인증서 가격</label>
-
+					<span>{{ $order->item->price }} 원</span>
 				</div>
 				<div class='od_line'>
 					<label>프로모션 할인</label>
@@ -137,7 +138,7 @@
 				</div>
 				<div class='od_line'>
 					<label>총 결제금액</label>
-
+					<span><strong>{{ $order->item->price }}</strong> 원</span>
 				</div>
 			</span>
 		</div>

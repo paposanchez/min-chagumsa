@@ -27,14 +27,6 @@
         <div class="panel-body">
 
             <form  method="GET" class="form-horizontal no-margin-bottom" role="form">
-
-                <div class="form-group">
-                    <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/order.status') }}</label>
-                    <div class="col-sm-3">
-{{--                        {!! Form::select('board_id', [null=>trans('common.search.first_select')] + $board_list, $request->query('board_id'), ['class'=>'form-control', 'id'=>'inputBoardId']) !!}--}}
-                    </div>
-                </div>
-
                 <div class="form-group">
                     <label class="control-label col-sm-3">{{ trans('admin/order.period') }}</label>
 
@@ -54,11 +46,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
-                    <div class="col-sm-3">
-                        
-
-                    </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-6">
                         <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}" name='s' value=''>
                     </div>
                 </div>
@@ -86,17 +74,17 @@
                 <colgroup>
                     <col width="8%">
                     <col width="12%">
-                    <col width="12%">
                     <col width="*">
-                    <col width="10%">
-                    <col width="8%">
+                    <col width="30%">
+                    <col width="15%">
+                    {{--<col width="8%">--}}
                     
                 </colgroup>
 
                 <thead>
                     <tr class="active">
                         <th class="text-center">#</th>
-                        <th class="text-center">번호</th>
+                        {{--<th class="text-center">번호</th>--}}
                         <th class="text-left">인증서</th>
                         <th class="text-center">레이아웃</th>
                         <th class="text-center">가격</th>
@@ -112,9 +100,9 @@
 
                     @foreach($entrys as $data)
                     <tr>
-                        <td class="">
+                        {{--<td class="">--}}
 
-                        </td>
+                        {{--</td>--}}
                         <td class="">
                             <a href="">{{ $data->id }}</a>
                         </td>
