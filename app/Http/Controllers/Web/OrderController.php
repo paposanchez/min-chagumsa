@@ -1035,13 +1035,13 @@ class OrderController extends Controller {
         ];
 
         $validate = Validator::make($request->all(), [
-            'sms_id' => 'required'
+            'mobile_num' => 'required'
         ]);
         if ($validate->fails()) {
             $result['result'] = 'FAIL';
             $result['error'] = '000';
         }else{
-            $sms_model = SmsTemp::find($request->get('sms_id'));
+            $sms_model = SmsTemp::where('mobile_num', $request->get('mobile_num'));
             if($sms_model){
                 $sms_model->delete();
                 $result['result'] = 'OK';
