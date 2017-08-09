@@ -21,6 +21,7 @@ use App\Repositories\DiagnosisRepository;
 use Carbon\Carbon;
 use App\Models\ScTran;
 use App\Models\PaymentCancel;
+use App\Models\Purchase;
 
 use Illuminate\Support\Facades\Validator;
 
@@ -209,6 +210,7 @@ class OrderController extends Controller
                                 //결제취소 진행
 
                                 $cancelAmt = $row->item->price;
+                                $cancelAmt = 1000; //todo
 
                                 $payment = Payment::OrderBy('id', 'DESC')->whereIn('resultCd', [3001, 4000, 4100])->where('orders_id', $id)->first();
                                 if($payment){
