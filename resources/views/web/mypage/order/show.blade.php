@@ -129,7 +129,7 @@
 			<span class='wid20'>
 				<div class='od_line'>
 					<label>인증서 가격</label>
-					<span>{{ $item->price }} 원</span>
+
 				</div>
 				<div class='od_line'>
 					<label>프로모션 할인</label>
@@ -137,7 +137,7 @@
 				</div>
 				<div class='od_line'>
 					<label>총 결제금액</label>
-					<span><strong>{{ $item->price }}</strong> 원</span>
+
 				</div>
 			</span>
 		</div>

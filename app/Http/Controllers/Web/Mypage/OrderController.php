@@ -39,15 +39,27 @@ class OrderController extends Controller {
 
     public function show($id) {
 
-        $order = Order::findOrFail($id);
-        $item = Item::findOrFail($order->item_id);
+        $order = Order::find($id);
+        $item = Item::find($order->item_id);
+        if(!$item){
+            $item = [];
+        }
         $my_garage = GarageInfo::find($order->garage_id)->first();
+        if(!$my_garage){
+            $my_garage = [];
+        }
         return view('web.mypage.order.show', compact('order', 'item', 'my_garage'));
     }
 
     public function editCar($order_id){
         $order = Order::where('id', $order_id)->first();
+        if(!$order){
+            $order = [];
+        }
         $brands = Brand::select('id', 'name')->get();
+        if(!$brands){
+            $brands = [];
+        }
 
         return view('web.mypage.order.edit_car', compact('order', 'brands'));
     }
@@ -55,8 +67,6 @@ class OrderController extends Controller {
     public function editGarage($order_id){
         $order = Order::where('id', $order_id)->first();
         $my_garage = GarageInfo::find($order->garage_id)->first();
-
-//        $order->reservation->id
         $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->get();
         $search_fields = [
             '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
