@@ -104,6 +104,8 @@
         $(function () {
             //결제결과 받는 URL
             $("#transMgr").submit();
+
+            $("")
         });
 
         function tPayClose(){
@@ -114,7 +116,7 @@
             }
 
             alert("close window");
-            $("#modalPurchase", parent.document).modal('hide');
+            $("#modalPurchase", parent.document.body).modal('hide');
             var tpay = $.nmTop();
             if(tpay!=undefined){
                 $.nmTop().close();
