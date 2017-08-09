@@ -1005,5 +1005,9 @@ var PageTransitions = (function() {
     });
 
 
+    var paymentClose = function () {
+        $("#modalPurchase").modal('hide');
+    }
+}
 </script>
 @endpush

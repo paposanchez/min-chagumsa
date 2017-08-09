@@ -116,7 +116,7 @@
             }
 
             alert("close window");
-            $("#modalPurchase", parent.document.body).modal('hide');
+            parent.paymentClose();
             var tpay = $.nmTop();
             if(tpay!=undefined){
                 $.nmTop().close();
