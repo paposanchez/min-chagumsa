@@ -1004,10 +1004,8 @@ var PageTransitions = (function() {
         new Pikaday(opt);
     });
 
-
-    var paymentClose = function () {
-        $("#modalPurchase").modal('hide');
-    }
+var paymentClose = function () {
+    $("#modalPurchase").modal('hide');
 }
 </script>
 @endpush
