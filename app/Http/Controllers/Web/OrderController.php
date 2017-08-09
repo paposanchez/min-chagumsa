@@ -221,9 +221,17 @@ class OrderController extends Controller {
 
         $datekey = substr(str_replace("-","",$request->get('reservation_date')), -6);
 
-        $orderer_id = Auth::user()->id;
+        $orderer = Auth::user();
 
         $order = Order::where('datekey', $datekey)->where('car_number', $request->get('car_number'))->first();
+
+        $garage_info = GarageInfo::where('area', $request->get('areas'))
+            ->where('section', $request->get('sections'))
+            ->where('name', $request->get('garages'))->first();
+        if(!$garage_info){
+            $garage_info = new GarageInfo();
+        }
+
 
         if(!$order){
             $order = new Order();
@@ -238,20 +246,19 @@ class OrderController extends Controller {
             $car->details_id = $request->get('details');
             $car->grades_id = $request->get('grades');
             $car->save();
-
         }
 
         $order->datekey = $datekey;
         $order->car_number = $request->get('car_number');
         $order->cars_id = $car->id;
-        $order->garage_id = $request->get('grades');
-        $order->orderer_id = $orderer_id;
+        $order->garage_id = $garage_info->id;
+        $order->orderer_id = $orderer->id;
         $order->orderer_name = $request->get('orderer_name');
         $order->orderer_mobile = $request->get('orderer_mobile');
         $order->registration_file = 0;
-
-        $order->open_cd = 1327; //default로 비공개코드 삽입
+        $order->open_cd = 1327; //default로 비공개코드 삽입 1326 인증서 공개 1327 인증서 비공개
         $order->status_cd = 101;
+
         if($request->get('flooding')){
             $order->flooding_state_cd = 1;
         }else{
@@ -275,7 +282,6 @@ class OrderController extends Controller {
         $order->purchase_id = $purchase->id;
         $order->save();
 
-
         if($request->get('options_ck') != []){
             $order_features = OrderFeature::where('orders_id', $order->id)->first();
             if(!$order_features){
@@ -291,122 +297,56 @@ class OrderController extends Controller {
             $order_features->insert($order_features_list);
             $order_features->save();
         }
-        $items = Item::find($request->get('item_id'))->first();
 
-        $garage_info = GarageInfo::where('area', $request->get('areas'))
-                                ->where('section', $request->get('sections'))
-                                ->where('name', $request->get('garages'))->first();
-
-
-        $date = new \DateTime($request->reservaton_date);
-
-//        $reservation_date = $date->format('Y년 m월d일');
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // 기존 데이터 저장을 이쪽에서 저장
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-        // $error = false;
-        // //validate
-        // $validate = Validator::make($request->all(), [
-        //     'item_choice' => 'required', //인증서 상품 ID
-        //     'payment_method' => 'required', // 결제 종류
-        //     'id' => 'required', //주문서 ID,
-        //     'buyerName' => 'required', //구매자 성명
-        //     'buyerEmail' => 'required', // 구매자 이메일
-        //     'product_name' => 'required', // 상품명
-        // ]);
-        // if ($validate->fails())
-        // {
-        //     //error 를 view에서 받아 error가 true이면 결제창을 닫는다.
-        //     $error = true;
-        // }else{
-
-            // payment_method 11 - 신용카드, 12 - 실시간 계좌이체
-            if(!in_array($request->get('payment_method'), [11, 12])){
+        // payment_method 11 - 신용카드, 12 - 실시간 계좌이체
+        if(!in_array($request->get('payment_method'), [11, 12])){
+            $error = true;
+        }else{
+            if($request->get('payment_method') == 11) {
+                $payMethod = 'CARD';
+            }elseif ($request->get('payment_method') == 12){
+                $payMethod = 'BANK';
+            }else{
                 $error = true;
-            }else{
-                if($request->get('payment_method') == 11) {
-                    $payMethod = 'CARD';
-                }elseif ($request->get('payment_method') == 12){
-                    $payMethod = 'BANK';
-                }else{
-                    $error = true;
-                    //결제 방식이 카드,체크카드,실시간계좌이체 이외에는 error임.
-                }
+                //결제 방식이 카드,체크카드,실시간계좌이체 이외에는 error임.
             }
+        }
 
+        // todo 임시로 카드만 받는걸로 설정
+        $payMethod = 'CARD';
 
-            // $order_model = Order::find($request->get('id'));
-            $order_model = Order::find(4);
-            $order_model->item_id = $request->get('item_choice');
-            $order_model->save();
+        //결제금액을 구함.
+        if($request->get('payment_price')){
+            $amt = $request->get('payment_price');//결제금액
+        }else{
+            $error = false;
+        }
+        // todo 임시로 1000원으로 설정
+        $amt = 1000;
 
-            $moid = $request->get('id');
+        $moid = $order->id;
+        //$ediDate, $mid, $merchantKey, $amt
+        $encryptor = new Encryptor($this->merchantKey);
+        $encryptData = $encryptor->encData($amt.$this->mid.$moid);
+        $ediDate = $encryptor->getEdiDate();
 
-
-
-            //결제금액을 구함.
-            $where = Item::find($request->get('item_id'));
-            if($where){
-                $amt = $where->price;//결제금액
-            }else{
-                $error = false;
-            }
-
-            $amt = $request->get('amt');
-            //todo 결제비용 수정해야 함. 1004는 테스트용 비용임
-            $amt = 1004;
-
-            //todo 주문번호에 한글이 있으면 오류남
-
-
-
-
-            //$ediDate, $mid, $merchantKey, $amt
-            $encryptor = new Encryptor($this->merchantKey);
-
-            $encryptData = $encryptor->encData($amt.$this->mid.$moid);
-            $ediDate = $encryptor->getEdiDate();
-            $vbankExpDate = $encryptor->getVBankExpDate();
-
-            $payActionUrl = "https://webtx.tpay.co.kr";
-            $payLocalUrl = url('/');   //각 상점 도메인을 설정 하세요.  ex)http://shop.tpay.co.kr
-
-
-
-
-    $payMethod = 'CARD';
-                
-        // }
-
-        $buyerName = $request->get('buyerName');
-
-        $buyerEmail = $request->get('buyerEmail');
-        $buyerTel = $request->get('buyerTel');
-        $product_name = $request->get('product_name');
-
+        $vbankExpDate = $encryptor->getVBankExpDate();
+        $payActionUrl = "https://webtx.tpay.co.kr";
+        $payLocalUrl = url('/');   //각 상점 도메인을 설정 하세요.  ex)http://shop.tpay.co.kr
+        $buyerName = $request->get('orderer_name');
+        $buyerEmail = $orderer->email;
+        $buyerTel = $request->get('orderer_mobile');
+        $product_name = $order->datekey."-".$order->car_number." ".$order->getCarFullName();
         $mid = $this->mid;
-
+        $merchantKey = $this->merchantKey;
 
         return view('web.order.payment-popup', compact('request', 'mid', 'merchantKey', 'amt', 'moid', 'encryptData',
                 'ediDate', 'vbankExpDate', 'payActionUrl', 'payLocalUrl', 'payMethod', 'amt', 'buyerName', 'buyerEmail',
                 'buyerTel', 'product_name', 'error')
         );
-
-
     }
 
     public function paymentResult(Request $request){
-
-
-
-        dd($request->all());
-
-
         //webTx에서 받은 결과값들
         $payMethod = $request->get('payMethod');//
         $mid = $request->get('mid');//
@@ -463,11 +403,8 @@ class OrderController extends Controller {
 
         }
 
-
-//        dd($decMoid);
         //등록된 정보 가져오기
         $order_where = Order::find($decMoid);
-//        dd($order_where);
         if($order_where){
 
 //            $order_price = $order_where->item->price;
@@ -503,7 +440,6 @@ class OrderController extends Controller {
         //todo 실 결제 처리시에는 위의 주석된 부분으로
         if( $decAmt != 1004 || $decMoid != $order_where->id ){
 
-//            dd($decAmt, $order_price, $decMoid, $order_where->id);
             $result = "결제처리 진행 중입니다.";
             $event = "";
         }else{
@@ -783,15 +719,18 @@ class OrderController extends Controller {
     }
     
     public function complete(Request $request) {
-        $order = Order::where('datekey', $request->get('datekey'))
-            ->where('cars_id', $request->get('cars_id'))->first();
+        //todo 결제정보에서 데이터를 request로 받는다는 전제하에 작성
+        // $moid 주문번호
+        //todo 예약일자를 받아와야한다
+
+        $order = Order::find($request->get('moid'))->fist();
 
         if($order){
-            $item = Item::find($request->get('item_choice'))->first();
+            $item = $order->item;
 
             $order->purchase->update([
                 'amount' => $item->price,
-                'type' => $request->get('payment_method'),
+                'type' => $order->purchase->type,
                 'status_cd' => 102
             ]);
 
@@ -807,7 +746,6 @@ class OrderController extends Controller {
 //            $reservation->reservation_at = $date;
             $reservation->save();
 
-
             //주문정보 갱신함.
             $order->status_cd = 103;
             $order->purchase_id = $order->purchase->id;
@@ -821,7 +759,6 @@ class OrderController extends Controller {
             $error = "잘못된 접근 또는 결제가 정상 처리되지 못하였습니다.\n관리자에게 문의해 주세요.";
         }
         return view('web.order.complete', compact('order', 'error'));
-
     }
 
     public function orderCancelCallback(Request $request){

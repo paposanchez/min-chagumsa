@@ -6,28 +6,29 @@
 <div id='sub_wrap'>
 
 
-	<div class='join_wrap order-container'>
+	<div class='join_wrap'>
 
-		<ul class='join_step' id="join_step">
-			<li class='on'>
+		<ul class='join_step type2'>
+			<li class='on link'>
 				<strong>01</strong>
-				<span>주문</span>
+				<span>기본정보 입력</span>
 			</li>
-			<li class='on'>
+			<li class='on link'>
 				<strong>02</strong>
-				<span>차량</span>
+				<span>입고정보 선택</span>
 			</li>
-			<li class='on'>
+			<li class='on link'>
 				<strong>03</strong>
-				<span>결제</span>
+				<span>결제하기</span>
 			</li>
 			<li class='on'>
 				<strong>04</strong>
-				<span>완료</span>
+				<span>주문완료</span>
 			</li>
 		</ul>
 
 		<div class='br30'></div>
+		<div class='br20'></div>
 
 		<h3>결제가 성공적으로 완료되었습니다. 감사합니다!</h3>
 		<h4>
@@ -91,16 +92,10 @@
 
 		<div class='br20'></div>
 
-		{{--<div class='ipt_line wid45'>--}}
-			{{--<button class='btns btns_blue wid45' style='display:inline-block;'><a href="{{ route('mypage.order.index') }}">주문상세 보기</a></button>&nbsp;&nbsp;--}}
-			{{--<a href="/" class='btns btns_green wid45' style='display:inline-block;'>홈으로 이동</a>--}}
-		{{--</div>--}}
-		<p class="form-control-static text-center">
-			{{--<button type="button" class='btn btn-default btn-lg wid25 order-page-move' data-index="0"><a href="{{ route('mypage.order.index') }}">이전</a></button>--}}
-			<button type="button" class='btn btn-default btn-lg wid25' id="mypage">주문 상세보기</button>
-			{{--<button type="button" class='btn btn-primary btn-lg wid25 order-page-move' data-index="2"><a href="/">홈으로 이동</a></button>--}}
-			<button type="button" class='btn btn-primary btn-lg wid25' id="home">홈으로 이동</button>
-		</p>
+		<div class='ipt_line wid45'>
+			<button class='btns btns_blue wid45' style='display:inline-block;'><a href="{{ route('mypage.order.index') }}">주문상세 보기</a></button>&nbsp;&nbsp;
+			<a href="/" class='btns btns_green wid45' style='display:inline-block;'>홈으로 이동</a>
+		</div>
 
 	</div>
 
@@ -113,16 +108,4 @@
 @endpush
 
 @push( 'footer-script' )
-<script type="text/javascript">
-	$(function (){
-		$('#home').click(function (){
-		    location.href = '/';
-		});
-
-		$('#mypage').click(function (){
-		    location.href = '{{ route('mypage.order.index') }}';
-		});
-	});
-</script>
-
 @endpush

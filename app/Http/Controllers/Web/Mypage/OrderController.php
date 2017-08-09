@@ -146,7 +146,8 @@ class OrderController extends Controller {
                 $cancelAmt = 1004; //todo 가격부문을 위에 것으로 변경해야 함.
 
 
-                $payment = Payment::where('orders_id', $order_id)->first();
+                $payment = Payment::OrderBy('id', 'DESC')->whereIn('resultCd', [3001, 4000, 4100])
+                    ->where('orders_id', $order_id)->first();
 
                 if($payment){
                     $tid = $payment->tid;//거래아이디
@@ -156,12 +157,14 @@ class OrderController extends Controller {
                     $dataType="json";
 
 
-                    $payment_cancel = PaymentCancel::where('orders_id', $order_id)->first();
+                    $payment_cancel = PaymentCancel::OrderBy('id', 'DESC')->whereIn('resultCd', [2001, 2002])
+                        ->where('orders_id', $order_id)->first();
                     if($payment_cancel){
                         if(in_array($payment_cancel->resultCd, [2001, 2002])){
                             if($order->status_cd != 100){
                                 //결제취소 PG연동은 완료 되었으나, order 상태가 변경 안됨.
                                 $order->status_cd = 100;
+                                $order->refund_status = 1;
                                 $order->save();
                             }
                             $message = "결제취소를 완료 하였습니다.";
@@ -184,6 +187,7 @@ class OrderController extends Controller {
 
                             //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
                             $order->status_cd = 100;
+                            $order->refund_status = 1;
                             $order->save();
 
                             $message = "결제취소를 완료 하였습니다.";
@@ -204,6 +208,7 @@ class OrderController extends Controller {
                     if(in_array($order->status_cd, [101, 102, 103, 104])){
                         //주문상태가 결제 완료가 아니며, 주문신청/예약확인/입고대기/입고 상태까지만 주문 취소를 함.
                         $order->status_cd = 100;
+                        $order->refund_status = 1;
                         $order->save();
 
 

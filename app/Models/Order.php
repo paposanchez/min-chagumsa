@@ -40,6 +40,7 @@ class Order Extends Model
         'mileage',
         'open_cd',
         'verification_id',
+        'refund_status',
         'status_cd',
     ];
     protected $dates = [
