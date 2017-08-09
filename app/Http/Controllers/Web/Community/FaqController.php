@@ -19,7 +19,7 @@ class FaqController extends PostController {
     public function index(){
         $category_id = Input::get('category_id');
         if(!$category_id){
-            $category_id = 11;
+            $category_id = 13;
         }
 
         $where = Post::whereBoardId($this->board_id)->orderBy('id', 'DESC');
