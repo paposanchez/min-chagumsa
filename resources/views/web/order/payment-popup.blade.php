@@ -103,21 +103,25 @@
     <script>
         $(function () {
             //결제결과 받는 URL
-           $("#transMgr").submit(function(e){
-               $("#close").show(2);
-           });
-
-           $("#pay-modal-close").on("click", function(){
-               $("#close").hide();
-               $("#modalPurchase");
-           });
-           $("#pay-process").on("click", function(){
-               $("#transMgr").submit(function(e){
-                   $("#close").show(2);
-               });
-           });
+            $("#transMgr").submit();
         });
 
+        function tPayClose(){
+            if($("#iframeUrlSendBox").length==false){
+
+            }else{
+                $("#iframeUrlSendBox").remove();
+            }
+
+            alert("close window");
+            $("#modalPurchase", parent.document).modal('hide');
+            var tpay = $.nmTop();
+            if(tpay!=undefined){
+                $.nmTop().close();
+            }else{
+                document.location.reload();
+            }
+        }
     </script>
 
 </body>
