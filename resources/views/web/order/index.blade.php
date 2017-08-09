@@ -35,6 +35,8 @@
         <input type="hidden" name="item_id" id="item_id" value="" >
         <input type="hidden" name="payment_price" id="payment_price" value="" >
         <input type="hidden" name="payment_method" id="payment_method" value="" >
+        <input type="hidden" name="sms_id" id="sms_id" autocomplete="off">
+        <input type="hidden" name="sms_confirmed" id="sms_confirmed" autocomplete="off">
 
 
 <!--         <input name="cars_id" value="" type="hidden">
@@ -84,7 +86,7 @@
 
                         <div class="col-xs-4">
                             {{--{!! Form::select('sel_area', $garages, [], ['class'=>'form-control', 'size'=>"5",   'id'=>'sel_area']) !!}--}}
-                            <select class="form-control" size="5" id="areas" name="areas">
+                            <select class="form-control" size="5" id="areas" name="areas" autocomplete="off">
                                 @foreach($garages as $key => $garage)
                                     {{--<option value="{{ $garage->id }}">{{ $garage->area }}</option>--}}
                                     <option value="{{ $garage->area }}">{{ $garage->area }}</option>
@@ -95,14 +97,14 @@
 
                         <div class="col-xs-4">
                             {{--{!! Form::select('sel_section', [""=> "구군을 선택하세요"], [], ['class'=>'form-control', 'size'=>"5",  'id'=>'sel_section']) !!}--}}
-                            <select class="form-control" size="5" id="sections" name="sections">
+                            <select class="form-control" size="5" id="sections" name="sections"  autocomplete="off">
                                 <option disabled="true">구/군을 선택하세요.</option>
                             </select>
                         </div>
 
                         <div class="col-xs-4">
 {{--                            {!! Form::select('garage', [""=> "대리점을 선택하세요"], [], ['class'=>'form-control', 'size'=>"5",  'id'=>'garage']) !!}--}}
-                            <select class="form-control" size="5" id="garages" name="garages">
+                            <select class="form-control" size="5" id="garages" name="garages"  autocomplete="off">
                                 <option disabled="true">대리점을 선택하세요.</option>
                             </select>
                         </div>
@@ -187,13 +189,13 @@
                     </div>
 
                     <div class="col-xs-3">
-                        <select class="form-control " id="details" name="details" size="5">
+                        <select class="form-control " id="details" name="details" size="5" autocomplete="off">
                         <option disabled="true">세부모델을 선택하세요.</option>
                         </select>
                     </div>
 
                     <div class="col-xs-3">
-                        <select class="form-control " id="grades" name="grades" size="5">
+                        <select class="form-control " id="grades" name="grades" size="5" autocomplete="off">
                         <option disabled="true">등급을 선택하세요.</option>
                         </select>
                     </div>
@@ -364,40 +366,36 @@
 
 
 <div class="modal fade" id="modalSms" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-                <div class="modal-content">
-                        <div class="modal-header">
-                                <h2 class="modal-title text-center">휴대전화번호 인증</h2>
-                        </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title text-center">휴대전화번호 인증</h2>
+            </div>
 
-                        <div class="modal-body">
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" class="sr-only">인증번호</label>
+                        <p class="text-center form-control-static"><span id="time-clocks">300</span> 초</p>
+                    </div>
 
-                            <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" class="sr-only">인증번호</label>
+                        <input type="text" class="form-control input-lg" id="exampleInputEmail1 " placeholder='인증번호' value="{{ old('car_number') }}" name="sms_num">
+                    </div>
 
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1" class="sr-only">인증번호</label>
-
-                                    <p class="text-center form-control-static"><span>00:00</span> 초</p>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1" class="sr-only">인증번호</label>
-                                    <input type="text" class="form-control input-lg" id="exampleInputEmail1 " placeholder='인증번호' value="{{ old('car_number') }}" name="car_number">
-                                </div>
-
-                                <p class="form-control-static text-center">
-                                     <button type="button" class="btn btn-default btn-lg" id="modalSms-close">취소</button>
-                                    <button type="button" class='btn btn-primary btn-lg' id="modalSms-verify">인증</button>
-                                </p>
-                            </form>
-                        </div>
+                    <p class="form-control-static text-center">
+                        <button type="button" class="btn btn-default btn-lg" id="modalSms-close">취소</button>
+                        <button type="button" class='btn btn-primary btn-lg' id="modalSms-verify">인증</button>
+                    </p>
+                </form>
+            </div>
                         <!-- <div class="modal-footer">
                                 <button type="button" class="btn btn-success">Save changes</button>
                                 <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
                         </div> -->
-                </div>
         </div>
+    </div>
 </div>
 
 
@@ -689,7 +687,6 @@ var PageTransitions = (function() {
                             text : value.name
                         }))
                     });
-
                 },
                 error : function (data) {
                     alert('error');
@@ -700,16 +697,14 @@ var PageTransitions = (function() {
 
 
 
-
-
-
          //sms 전송
          var timeCountdown = function(){
-             var expired = 300;
+             var expired = 299;
              var countdown = setInterval(function(){
+                 var sms_id = $("#sms_id").val();
+                 var sms_confirmed = $("#sms_confirmed").val();
 
-                 if(expired == 0){
-
+                 if(expired == 1){
                      if(!sms_confirmed && sms_id){
                          alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요." + expired);
 
@@ -717,23 +712,23 @@ var PageTransitions = (function() {
                      }
                      clearInterval(countdown);
                      return false;
-
-                }else {
+                 }else {
                      if (!sms_confirmed) {
-                         $("#time-clock").text(expired);
+                         $("#time-clocks").html(expired);
                      }
                  }
-                expired--;
+                 expired--;
              }, 1000);
-
-
          };
 
         // 휴대전화번호 인증
         $(document).on("click", "#mobile-verification", function() {
-
+            var regExp = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
             var number = $('#orderer_mobile').val();
-
+            if(!regExp.test(number)){
+                alert("잘못된 휴대폰 번호입니다. 숫자, - 를 포함한 숫자만 입력하세요.");
+                return false;
+            }
             if(!number) {
                 alert("휴대전화번호를 입력하세요.");
                 return false;
@@ -745,10 +740,9 @@ var PageTransitions = (function() {
                 url: '/order/send-sms',
                 data: {'mobile_num': number} ,
                 success: function(jdata){
-
                     if(jdata.result == 'OK'){
                         //time 체크 시작
-                        // timeCountdown();
+                        timeCountdown();
 
                         $('#modalSms').modal({
                           backdrop: 'static',
@@ -758,36 +752,28 @@ var PageTransitions = (function() {
 
                     }else{
                         console.log(jdata);
-
                         alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");                       
                         return false;
                     }
-
-
                 },
                 error: function(qXHR, textStatus, errorThrown){
-
                     alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");
                     return false;
-
                 }
             });
-
         });
 
 
         // 인증취소
         $(document).on("click", "#modalSms-close", function() {
-
+            var number = $('#orderer_mobile').val();
             $.ajax({
                 type: 'post',
                 dataType: 'json',
-                url: '/order/cancle-sms',
+                url: '/order/delete-sms',
                 data: {'mobile_num': number} ,
                 success: function(jdata){
-
                     $('#modalSms').modal('hide');
-
                 },
                 error: function(qXHR, textStatus, errorThrown){
                     return false;
@@ -796,30 +782,54 @@ var PageTransitions = (function() {
 
         });
 
-        // 인증확
-         $(document).on("click", "#modalSms-verify", function() {
-            $.ajax({
-                type: 'post',
-                dataType: 'json',
-                url: '/order/verify-sms',
-                data: {'mobile_num': number} ,
-                success: function(jdata){
-
-                    if(jdata != 'ok') {
-                        alert("실패");
-                    }
-                },
-                error: function(qXHR, textStatus, errorThrown){
-                    return false;
-                },
-
-                complete: function(){
+        var smsTempDelete = function(sms_id){
+            if(sms_id){
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    url: '/order/delete-sms',
+                    data: {'sms_id': sms_id, '_token': "{{ csrf_token() }}"},
+                    success: function(jdata){
                         $('#modalSms').modal('hide');
-                }
-                    
-            });
+                    }
+                });
+            }
+
+        };
+
+        $(document).on("click", "#modalSms-verify", function() {
+            var sms_num = $("#sms_num").val();
+            if(sms_num){
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    url: '/order/is-sms',
+                    data: {
+                        'sms_num': sms_num,
+                        'sms_id': $("#sms_id").val(),
+                        "_token": "{{ csrf_token() }}"
+                    } ,
+                    success: function(jdata){
+                        if(jdata.result == 'OK'){
+                            $("#sms_confirmed").val(1);
+                            alert('인증이 완료 되었습니다.\n차량정보를 입력헤 주세요.');
+                        }else{
+                            alert('인증번호가 잘못 입력되었습니다.\n인증번호를 다시 입력해 주세요.');
+                        }
+                    },
+                    error: function(qXHR, textStatus, errorThrown){
+                        return false;
+                    },
+                    complete: function(){
+                        $('#modalSms').modal('hide');
+                    }
+                });
+            }else{
+                alert('전송된 인증번호를 입력해 주세요.');
+            }
 
         });
+
 
 
         $('#modalSms').on('show.bs.modal', function (event) {
