@@ -176,6 +176,9 @@ class OrderController extends Controller
             if(in_array($status_cd, [100, 104, 108])){
                 $row = Order::find($id);
                 if($row){
+
+                    $purchase = Purchase::find($id);
+
                     $current_status = $row->status_cd;
                     if(($current_status <= 105 && $status_cd==100) || ($current_status > 105 && $status_cd > 105)){
 
@@ -193,6 +196,12 @@ class OrderController extends Controller
                                         $row->status_cd = 100;
                                         $row->refund_status = 1;
                                         $row->save();
+
+                                        //purchases 업데이트
+                                        if($purchase){
+                                            $purchase->status_cd = 100;
+                                            $purchase->save();
+                                        }
                                     }
                                     $message = "결제취소를 완료 하였습니다.";
                                 }
@@ -222,6 +231,12 @@ class OrderController extends Controller
                                         $row->status_cd = 100;
                                         $row->refund_status = 1;
                                         $row->save();
+
+                                        //purchases 업데이트
+                                        if($purchase){
+                                            $purchase->status_cd = 100;
+                                            $purchase->save();
+                                        }
 
                                         return Redirect::back()->with('success', "결제취소 요청완료 및 주문상태가 업데이트 되었습니다.");
                                     }else{

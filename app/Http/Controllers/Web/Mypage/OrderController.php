@@ -8,6 +8,7 @@ use App\Models\GarageInfo;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Purchase;
 use App\Models\Reservation;
 use App\Models\PaymentCancel;
 use App\Models\Code;
@@ -151,6 +152,8 @@ class OrderController extends Controller {
 
         if($order){
 
+            $purchase = Purchase::find($order->purchase_id);
+
             if(in_array($order->status_cd, [101, 102, 103, 104])){
 //                $cancelAmt = $order->item->price;
                 $cancelAmt = 1000; //todo 가격부문을 위에 것으로 변경해야 함.
@@ -200,7 +203,13 @@ class OrderController extends Controller {
                             $order->refund_status = 1;
                             $order->save();
 
-                            $message = "결제취소를 완료 하였습니다.";
+                            //purchases 업데이트
+                            if($purchase){
+                                $purchase->status_cd = 100;
+                                $purchase->save();
+                            }
+
+                            $message = trans('web/mypage.cancel_complete');
                             $event = 'success';
                         }else{
 //                            dd($cancel_process);
@@ -221,6 +230,12 @@ class OrderController extends Controller {
                         $order->refund_status = 1;
                         $order->save();
 
+
+                        //purchases 업데이트
+                        if($purchase){
+                            $purchase->status_cd = 100;
+                            $purchase->save();
+                        }
 
                         $message = trans('web/mypage.cancel_complete');
                         $event = 'success';
