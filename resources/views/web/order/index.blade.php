@@ -405,7 +405,7 @@
     <div class="modal-dialog">
         <div class="modal-content bmd-modalContent">
             <div class="modal-body">
-                <iframe class="embed-responsive-item" src="javascript:false;" name="purchase-frame" frameborder="0" width="648" height="548"></iframe>
+                <iframe class="embed-responsive-item" src="javascript:false;" name="purchase-frame" frameborder="0" width="648" height="590"></iframe>
             </div>
         </div>
     </div>
