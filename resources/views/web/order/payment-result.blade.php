@@ -23,8 +23,7 @@
 
     $(function () {
         alert("{{ $result }}");
-        window.opener.order_complete();
-        self.window.close();
+        parent.paymentClose(); //결제모달 닫기
     });
 
 </script>
