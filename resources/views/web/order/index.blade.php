@@ -410,14 +410,7 @@
 </div>
 
 
-    {{-- compelet 임시 form --}}
-    <form action="{{ route('order.complete') }}" method="post">
-        <input type="text" id="" name="" hidden/>
-        <input type="text" id="" name="" hidden/>
-        <input type="text" id="" name="" hidden/>
-        <input type="text" id="" name="" hidden/>
-        <input type="text" id="" name="" hidden/>
-    </form>
+
 @endsection
 
 
@@ -600,7 +593,6 @@ var PageTransitions = (function() {
 })();
 
 
-
     $(function (){
 
         $(document).on("click", ".order-page-move", function() {
@@ -609,24 +601,55 @@ var PageTransitions = (function() {
             var d = {
                 'showPage' : n
             };
+            // 이전버튼
             if( n== '0') {
                 d.animation = 'back';
                 PageTransitions.nextPage(d);
             }
+            // 1 depth 다음버튼
             else if(n == 1){
-                if($('#reservation_date').val() == ''){
+                //휴대폰 인증
+                if(!$('#sms_id').val()){
+                    alert('sms인증을 확인해주세요.');
+                    $('#orderer_mobile').focus();
+                    return false;
+                }
+
+                // 입고대리점 검사
+                else if(!$('#garages option:selected').val()){
+                    alert('입고대리점을 선택해주세요.');
+                    $("#areas").focus();
+                    return false;
+                }
+
+                // 입고희망일 검사
+                else if(!$('#reservation_date').val()){
                     alert('예약일을 선택해주세요.');
+                    $("#reservation_date").focus();
+                    return false;
                 }else{
                     PageTransitions.nextPage(d);
                 }
             }
+            // 2 depth 다음버튼
             else if( n == '2'){
+                // 차량번호 검사
                 if(car_num_chk(car_num) == 1){
                     alert('차량번호를 정확히 입력해주세요.');
+                    return false;
+                }
+                // 차량 모델 검사
+                else if(!$('#grades option:selected').val()){
+                    alert('차량 모델 정보를 선택하세요.');
+                    $('#brands').focus();
+                    return false;
                 }else{
                     PageTransitions.nextPage(d);
                 }
-            }else {
+
+            }
+            // 3, 4 버튼
+            else {
                 PageTransitions.nextPage(d);
             }
 //            PageTransitions.nextPage(d);
@@ -1020,9 +1043,6 @@ var PageTransitions = (function() {
 
     });
 
-
-
-
     //########## Pikaday
     $('.datepicker2').each(function (index, element) {
         var opt = {
@@ -1044,6 +1064,28 @@ var PageTransitions = (function() {
 
         new Pikaday(opt);
     });
+
+
+    // todo 임시로 post Ajax를 만듬
+    var paymentSubmit = function () {
+        $.ajax({
+            type : 'post',
+            dataType : 'json',
+            url : '/order/complete',
+            data : {
+                is_completed : is_completed,
+                order_id : order_id,
+                '_token' : '{{ csrf_token() }}',
+            },
+            success : function (data){
+                alert('결제에 성공하엿습니다.');
+            },
+            error : function (data) {
+                alert('결제에 실패하였습니다.');
+            }
+        })
+    };
+
 
 var paymentClose = function () {
     $("#modalPurchase").modal('hide');
