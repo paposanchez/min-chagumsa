@@ -125,7 +125,7 @@
                     <div class="row">
                         <div class="col-xs-9">
                             <div class="input-group input-group-lg">
-                                <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservation_date' value='' style="margin-right: 5px;">
+                                <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservation_date' id="reservation_date" value='' style="margin-right: 5px;">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" id="calendar-opener"><i class="fa fa-calendar"></i></button>
                                 </span>
@@ -164,7 +164,7 @@
 
             <div class="form-group">
                 <label for="exampleInputEmail1">차량번호</label>
-                <input type="text" class="form-control input-lg wid50" id="exampleInputEmail1 " placeholder='차량번호' value="{{ old('car_number') }}" name="car_number">
+                <input type="text" class="form-control input-lg wid50" id="car_number" placeholder='차량번호' value="{{ old('car_number') }}" name="car_number">
             </div>
 
 
@@ -409,6 +409,15 @@
     </div>
 </div>
 
+
+    {{-- compelet 임시 form --}}
+    <form action="{{ route('order.complete') }}" method="post">
+        <input type="text" id="" name="" hidden/>
+        <input type="text" id="" name="" hidden/>
+        <input type="text" id="" name="" hidden/>
+        <input type="text" id="" name="" hidden/>
+        <input type="text" id="" name="" hidden/>
+    </form>
 @endsection
 
 
@@ -516,7 +525,7 @@ var PageTransitions = (function() {
         //     }
         // }
 
-        console.log(current);
+//        console.log(current);
 
         $.each($paginator, function(i, obj){
 
@@ -595,18 +604,52 @@ var PageTransitions = (function() {
     $(function (){
 
         $(document).on("click", ".order-page-move", function() {
-
-
             var n = $(this).data('index');
+            var car_num = $('#car_number').val();
             var d = {
                 'showPage' : n
             };
             if( n== '0') {
                 d.animation = 'back';
+                PageTransitions.nextPage(d);
             }
-            PageTransitions.nextPage(d);
+            else if(n == 1){
+                if($('#reservation_date').val() == ''){
+                    alert('예약일을 선택해주세요.');
+                }else{
+                    PageTransitions.nextPage(d);
+                }
+            }
+            else if( n == '2'){
+                if(car_num_chk(car_num) == 1){
+                    alert('차량번호를 정확히 입력해주세요.');
+                }else{
+                    PageTransitions.nextPage(d);
+                }
+            }else {
+                PageTransitions.nextPage(d);
+            }
+//            PageTransitions.nextPage(d);
 
         });
+
+        var car_num_chk = function(car_num)
+        {
+            var pattern1 = /\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 12저1234
+            var pattern2 = /[가-힣ㄱ-ㅎㅏ-ㅣ\x20]{2}\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 서울12치1233
+
+            if (!pattern1.test(car_num)) {
+                if (!pattern2.test(car_num)) {
+                    return 1;
+                }
+                else {
+                    return 2;
+                }
+            }
+            else {
+                return 2;
+            }
+        }
 
         // 상품선
         $(document).on("click", ".purchase-item-product", function() {
@@ -750,8 +793,10 @@ var PageTransitions = (function() {
                           show : true
                         });
 
+                        $('#sms_id').val(jdata.id);
+
                     }else{
-                        console.log(jdata);
+//                        console.log(jdata);
                         alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");                       
                         return false;
                     }
@@ -774,6 +819,7 @@ var PageTransitions = (function() {
                 data: {'mobile_num': number} ,
                 success: function(jdata){
                     $('#modalSms').modal('hide');
+                    $('#orderer_mobile').val("");
                 },
                 error: function(qXHR, textStatus, errorThrown){
                     return false;
@@ -813,16 +859,18 @@ var PageTransitions = (function() {
                         if(jdata.result == 'OK'){
                             $("#sms_confirmed").val(1);
                             alert('인증이 완료 되었습니다.\n차량정보를 입력헤 주세요.');
+                            $('#modalSms').modal('hide');
                         }else{
                             alert('인증번호가 잘못 입력되었습니다.\n인증번호를 다시 입력해 주세요.');
+                            $("#sms_num").focus();
                         }
                     },
                     error: function(qXHR, textStatus, errorThrown){
                         return false;
                     },
-                    complete: function(){
-                        $('#modalSms').modal('hide');
-                    }
+//                    complete: function(){
+//                        $('#modalSms').modal('hide');
+//                    }
                 });
             }else{
                 alert('전송된 인증번호를 입력해 주세요.');
@@ -972,24 +1020,7 @@ var PageTransitions = (function() {
 
     });
 
-    var car_num_chk = function(car_num)
-    {
 
-        var pattern1 = /\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 12저1234
-        var pattern2 = /[가-힣ㄱ-ㅎㅏ-ㅣ\x20]{2}\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 서울12치1233
-
-        if (!pattern1.test(car_num)) {
-            if (!pattern2.test(car_num)) {
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-        else {
-            return true;
-        }
-    }
 
 
     //########## Pikaday
