@@ -13,7 +13,8 @@
     </head>
 
     <body>
-    <div style="visibility: hidden;">
+    {{--<div style="visibility: hidden;">--}}
+    <div>
         <form id="transMgr" name="transMgr" method="post" action="{{ $payActionUrl }}/webTxInit" class="nyroModal" target="_blank">
             <input type="text" name="payType" value="1">
             <input type="text" name="ediDate"	value="{{ $ediDate }}">
