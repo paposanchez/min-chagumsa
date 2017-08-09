@@ -1,7 +1,7 @@
 {
-  "/mix.js": "/mix.58e065928ed8ebd0b582.js",
-  "/assets/vendor/select2/css/core.css": "/assets/vendor/select2/css/core.29a3dc8048cfd1ab8ed2.css",
-  "/assets/css/app.css": "/assets/css/app.29a3dc8048cfd1ab8ed2.css",
-  "/assets/css/vendor.css": "/assets/css/vendor.cc78514e497d61572c33b8cefc8e31f1.css",
-  "/assets/js/app.js": "/assets/js/app.0fff4fc42c4557892de863d6d8ac0586.js"
+  "/mix.js": "/mix.js",
+  "/assets/vendor/select2/css/core.css": "/assets/vendor/select2/css/core.css",
+  "/assets/css/app.css": "/assets/css/app.css",
+  "/assets/css/vendor.css": "/assets/css/vendor.css",
+  "/assets/js/app.js": "/assets/js/app.js"
 }

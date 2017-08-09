@@ -347,12 +347,6 @@ class OrderController extends Controller {
     }
 
     public function paymentResult(Request $request){
-
-
-
-        dd($request->all());
-
-
         //webTx에서 받은 결과값들
         $payMethod = $request->get('payMethod');//
         $mid = $request->get('mid');//
@@ -409,11 +403,8 @@ class OrderController extends Controller {
 
         }
 
-
-//        dd($decMoid);
         //등록된 정보 가져오기
         $order_where = Order::find($decMoid);
-//        dd($order_where);
         if($order_where){
 
 //            $order_price = $order_where->item->price;
@@ -449,7 +440,6 @@ class OrderController extends Controller {
         //todo 실 결제 처리시에는 위의 주석된 부분으로
         if( $decAmt != 1004 || $decMoid != $order_where->id ){
 
-//            dd($decAmt, $order_price, $decMoid, $order_where->id);
             $result = "결제처리 진행 중입니다.";
             $event = "";
         }else{
@@ -729,15 +719,18 @@ class OrderController extends Controller {
     }
     
     public function complete(Request $request) {
-        $order = Order::where('datekey', $request->get('datekey'))
-            ->where('cars_id', $request->get('cars_id'))->first();
+        //todo 결제정보에서 데이터를 request로 받는다는 전제하에 작성
+        // $moid 주문번호
+        //todo 예약일자를 받아와야한다
+
+        $order = Order::find($request->get('moid'))->fist();
 
         if($order){
-            $item = Item::find($request->get('item_choice'))->first();
+            $item = $order->item;
 
             $order->purchase->update([
                 'amount' => $item->price,
-                'type' => $request->get('payment_method'),
+                'type' => $order->purchase->type,
                 'status_cd' => 102
             ]);
 
@@ -753,7 +746,6 @@ class OrderController extends Controller {
 //            $reservation->reservation_at = $date;
             $reservation->save();
 
-
             //주문정보 갱신함.
             $order->status_cd = 103;
             $order->purchase_id = $order->purchase->id;
@@ -767,7 +759,6 @@ class OrderController extends Controller {
             $error = "잘못된 접근 또는 결제가 정상 처리되지 못하였습니다.\n관리자에게 문의해 주세요.";
         }
         return view('web.order.complete', compact('order', 'error'));
-
     }
 
     public function orderCancelCallback(Request $request){
