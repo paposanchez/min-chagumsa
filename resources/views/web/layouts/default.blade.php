@@ -70,9 +70,9 @@
                             {{ Html::image(Helper::theme_web( '/img/comm/head_logo.png' )) }}
                         </a></h1>
                     <ul>
-                        <li><a class='' href='{{ route('agreement.usage') }}'>이용약관</a></li>
-                        <li><a class='' href='{{ route('agreement.term') }}'>전자금융거래약관</a></li>
-                        <li><a class='' href='{{ route('agreement.privacy') }}'>개인정보취급방침</a></li>
+                        <li><a class='{{ (Request::path() == "agreement/usage")? "foot_active": '' }}' href='{{ route('agreement.usage') }}'>이용약관</a></li>
+                        <li><a class='{{ (Request::path() == "agreement/term")? "foot_active": '' }}' href='{{ route('agreement.term') }}'>전자금융거래약관</a></li>
+                        <li><a class='{{ (Request::path() == "agreement/privacy")? "foot_active": '' }}' href='{{ route('agreement.privacy') }}'>개인정보취급방침</a></li>
                     </ul>
                 </div>
                 <div class='foot_info_wrap'>
