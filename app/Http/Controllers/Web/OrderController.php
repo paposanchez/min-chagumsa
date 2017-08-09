@@ -438,7 +438,7 @@ class OrderController extends Controller {
 
 //        if( $decAmt != $order_price || $decMoid != $order_where->id ){
         //todo 실 결제 처리시에는 위의 주석된 부분으로
-        if( $decAmt != 1000 || $decMoid != $order_where->id ){
+        if( $decMoid != $order_where->id ){
 
             $result = "결제처리 진행 중입니다.";
             $event = "";

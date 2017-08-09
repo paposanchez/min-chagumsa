@@ -23,7 +23,7 @@
 
     $(function () {
         alert("{{ $result }}");
-        parent.paymentClose(); //결제모달 닫기
+//        parent.paymentClose(); //결제모달 닫기
     });
 
 </script>
