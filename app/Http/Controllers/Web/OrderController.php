@@ -939,7 +939,7 @@ class OrderController extends Controller {
 
             $tr_phone = $request->get('mobile_num');
             $tr_callback = "1833-6889";
-            $tr_msg = "카검사 주문신청 인증번호: ".$rand_num;
+            $tr_msg = "차검사 주문신청 인증번호: ".$rand_num;
             $tr_sendstat = 0;
             $tr_msgtype = 0;
 
