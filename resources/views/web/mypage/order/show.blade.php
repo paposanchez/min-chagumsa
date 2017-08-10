@@ -16,7 +16,7 @@
 	<div class='order_info_box'>
 		<div class='order_info_title'>
 			<strong>주문일</strong>
-			<span>{{ Carbon\Carbon::parse($order->created_at)->format('Y-m-d') }}</span>
+			<span>{{ $order->created_at->format('y-m-d') }}</span>
 			{{--<a href=''>주문상세보기 ></a>--}}
 		</div>
 		<div class='order_info_cont'>
@@ -28,8 +28,8 @@
 				<span>차량정보</span>
 			</div>
 			<div class='order_info_desc'>
-				<span>{{ Carbon\Carbon::parse($order->created_at)->format('Y-m-d') }}</span>
-				<span>{{ $order->datekey }}-{{ $order->car_number }}</span>
+				<span>{{ $order->created_at->format('Y-m-d') }}</span>
+				<span>{{ $order->getOrderNumber() }}</span>
 				<span>{{ $order->orderer_name }}</span>
 				<span>{{ $order->orderer_mobile }}</span>
   				<span>{{ $order->getCarFullName() }}</span>
@@ -65,7 +65,7 @@
 		<div class='order_detail_title'>
 			차량 정보
 			@if( $order->status_cd != 107 && $order->status_cd != 100 )
-			<a class='btns btns2' href="{{ route('mypage.order.edit_car', ['order_id' => $order->id]) }}">변경</a>
+				<a class='btns btns2' href="{{ route('mypage.order.edit_car', ['order_id' => $order->id]) }}">변경</a>
 			@endif
 
 		</div>
@@ -75,24 +75,27 @@
 		</div>
 		<div class='od_line'>
 			<label>제조사</label>
-			<span>{{ $order->car->brand->name }}</span>
+			<span>{{ $order->orderCar->brand->name }}</span>
 		</div>
 		<div class='od_line'>
 			<label>모델</label>
-			<span>{{ $order->car->models->name }}</span>
+			<span>{{ $order->orderCar->models->name }}</span>
 		</div>
 		<div class='od_line'>
 			<label>세무보델</label>
-			<span>{{ $order->car->detail->name }}</span>
+			<span>{{ $order->orderCar->detail->name }}</span>
 		</div>
 		<div class='od_line'>
 			<label>등급</label>
-			<span>{{ $order->car->grade->name }}</span>
+			<span>{{ $order->orderCar->grade->name }}</span>
 		</div>
 		<div class='od_line'>
 			<label>옵션</label>
-			{{--todo car_features에 데이터 입력 후 출력--}}
-			<span></span>
+			@if($features)
+				<span>{{ $features }}</span>
+			@else
+				<span>선택된 옵션이 없습니다.</span>
+			@endif
 		</div>
 	</div>
 
@@ -100,13 +103,17 @@
 		<div class='order_detail_title'>
 			입고 정보
 			@if( $order->status_cd != 107 && $order->status_cd != 100 )
-			<a class='btns btns2' href="{{ route('mypage.order.edit_garage', ['order_id' => $order->id]) }}">변경</a>
+				<a class='btns btns2' href="{{ route('mypage.order.edit_garage', ['order_id' => $order->id]) }}">변경</a>
 			@endif
 		</div>
 		<div class='od_line'>
 			<label>입고희망일</label>
 			{{-- todo 예약테이블에 저장 후 출력--}}
-			<span>{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y년 m월 d일') }}</span>
+			@if($order->reservation)
+				<span>{{ $order->reservation->reservation_at->format('Y년 m월 d일') }}</span>
+			@else
+				<span>예약이 완료되지 않앗습니다.</span>
+			@endif
 		</div>
 		<div class='od_line'>
 			<label>입고대리점</label>

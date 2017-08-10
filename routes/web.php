@@ -10,8 +10,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('profile', 'ProfileController');
         Route::resource('history', 'HistoryController');
         Route::resource('order', 'OrderController');
-        Route::post('/order/edit_car/{order_id}', 'OrderController@editCar')->name('order.edit_car');
-        Route::post('/order/edit_garage/{order_id}', 'OrderController@editGarage')->name('order.edit_garage');
+        Route::get('/order/edit_car/{order_id}', 'OrderController@editCar')->name('order.edit_car');
+        Route::get('/order/edit_garage/{order_id}', 'OrderController@editGarage')->name('order.edit_garage');
         Route::post('/order/cancel', 'OrderController@cancel')->name('order.cancel');
     });
 

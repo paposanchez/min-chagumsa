@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Web\Mypage;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\GarageInfo;
 use App\Models\Item;
 use App\Models\Order;
+use App\Models\OrderCar;
+use App\Models\OrderFeature;
 use App\Models\Payment;
 use App\Models\Purchase;
 use App\Models\Reservation;
@@ -33,7 +36,7 @@ class OrderController extends Controller {
 
     public function index() {
         $user_id = Auth::user()->id;
-        $my_orders = Order::where('orderer_id', $user_id)->orderBy('created_at', 'DESC')->get();
+        $my_orders = Order::where('orderer_id', $user_id)->whereNotIn('status_cd', [101])->orderBy('created_at', 'DESC')->get();
 
         return view('web.mypage.order.index', compact('my_orders'));
     }
@@ -49,10 +52,23 @@ class OrderController extends Controller {
         if(!$my_garage){
             $my_garage = [];
         }
-        return view('web.mypage.order.show', compact('order', 'item', 'my_garage'));
+
+        $order_features = OrderFeature::where('orders_id', $order->id)->pluck('features_id');
+        $features = [];
+        if($order_features){
+            foreach ($order_features as $feature){
+                $features[] = Helper::getCodeName($feature);
+            }
+            $features = str_replace(array("[","]", "\""), "", json_encode($features,JSON_UNESCAPED_UNICODE));
+            $features = str_replace(",", ", ", $features);
+        }
+
+
+        return view('web.mypage.order.show', compact('order', 'item', 'my_garage', 'features'));
     }
 
     public function editCar($order_id){
+
         $order = Order::where('id', $order_id)->first();
         if(!$order){
             $order = [];
@@ -62,7 +78,17 @@ class OrderController extends Controller {
             $brands = [];
         }
 
-        return view('web.mypage.order.edit_car', compact('order', 'brands'));
+        $order_features = OrderFeature::where('orders_id', $order->id)->pluck('features_id');
+        $features = [];
+        if($order_features){
+            foreach ($order_features as $feature){
+                $features[] = Helper::getCodeName($feature);
+            }
+            $features = str_replace(array("[","]", "\""), "", json_encode($features,JSON_UNESCAPED_UNICODE));
+            $features = str_replace(",", ", ", $features);
+        }
+
+        return view('web.mypage.order.edit_car', compact('order', 'brands', 'features'));
     }
 
     public function editGarage($order_id){
@@ -77,8 +103,7 @@ class OrderController extends Controller {
 
     public function update(Request $request, $order_id){
         $input = $request->all();
-        $order = Order::findOrFail($order_id)->first();
-
+        $order = Order::where('id', $order_id)->first();
         // 차량 정보 변경
         if(!empty($input['car_number'])){
             $validate = Validator::make($request->all(), [
@@ -93,8 +118,15 @@ class OrderController extends Controller {
             {
                 return redirect()->back()->with('error', trans('web/mypage.modify_error'));
             }
-            $car = Order::find($order_id)->car;
-            $car->update($input);
+
+//            $car = Order::find($order_id)->car;
+//
+//            if($order->where('car_number', $request->get('car_number'))->first()){
+//                return redirect()->back()->with('error', trans('web/mypage.duplicated_car_number'));
+//            }
+
+            $order_car = OrderCar::where('orders_id', $order->id)->first();
+            $order_car->update($input);
             $order->update($input);
         }
 

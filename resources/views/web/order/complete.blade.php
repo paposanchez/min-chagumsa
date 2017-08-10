@@ -31,7 +31,7 @@
 
 		<h3>결제가 성공적으로 완료되었습니다. 감사합니다!</h3>
 		<h4>
-			<strong>주문일</strong> {{ Carbon\Carbon::parse($order->created_at)->format('Y-m-d') }}
+			<strong>주문일</strong> {{ $order->created_at->format('Y-m-d') }}
 			<strong>주문번호</strong> {{ $order->datekey }}-{{ $order->car_number }}
 		</h4>
 
@@ -82,7 +82,7 @@
 					<span>&nbsp;</span>
 				</div>
 				<div class='order_info_desc'>
-					<span>{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y-m-d H') }}시</span>
+					<span>{{ $order->reservation->reservation_at->format('Y-m-d H') }}시</span>
 
 					<span>한스모터스<br>전화번호:02-45-0788<br>주소 : 서울특별시 강남구 개포로 644</span>
 				</div>

@@ -58,18 +58,32 @@ class Order Extends Model
 
         $fullname = array();
 
-        if(isset($this->car)){
-            if($this->car->brand) {
-                $fullname[] = $this->car->brand->name;
+//        if(isset($this->car)){
+//            if($this->car->brand) {
+//                $fullname[] = $this->car->brand->name;
+//            }
+//            if($this->car->models) {
+//                $fullname[] = $this->car->models->name;
+//            }
+//            if($this->car->detail) {
+//                $fullname[] = $this->car->detail->name;
+//            }
+//            if($this->car->grade) {
+//                $fullname[] = $this->car->grade->name;
+//            }
+//        }
+        if(isset($this->orderCar)){
+            if($this->orderCar->brand) {
+                $fullname[] = $this->orderCar->brand->name;
             }
-            if($this->car->models) {
-                $fullname[] = $this->car->models->name;
+            if($this->orderCar->models) {
+                $fullname[] = $this->orderCar->models->name;
             }
-            if($this->car->detail) {
-                $fullname[] = $this->car->detail->name;
+            if($this->orderCar->detail) {
+                $fullname[] = $this->orderCar->detail->name;
             }
-            if($this->car->grade) {
-                $fullname[] = $this->car->grade->name;
+            if($this->orderCar->grade) {
+                $fullname[] = $this->orderCar->grade->name;
             }
         }
 
@@ -83,7 +97,7 @@ class Order Extends Model
     }
 
     public function getOrderNumber() {
-        return $this->car_number . $this->created_at->format("Ymd");
+        return  $this->car_number . "-" . $this->created_at->format('ymd');
     }
 
     public function status() {
@@ -122,6 +136,9 @@ class Order Extends Model
         return $this->hasOne(\App\Models\GarageInfo::class, 'id','garage_id');   
     }
 
+    public function orderCar(){
+        return $this->hasOne(OrderCar::class, 'id','cars_id');
+    }
 
 
 

@@ -12,6 +12,7 @@ use App\Models\Grade;
 use App\Models\Item;
 use App\Models\Models;
 use App\Models\Order;
+use App\Models\OrderCar;
 use App\Models\OrderFeature;
 use App\Models\Purchase;
 use App\Models\Reservation;
@@ -219,11 +220,15 @@ class OrderController extends Controller {
             return redirect()->back()->with('error', '인증서 신청 정보를 충분히 입력하세요.');
         }
 
-        $datekey = substr(str_replace("-","",$request->get('reservation_date')), -6);
-
         $orderer = Auth::user();
 
+
+        $datekey = Carbon::now()->format('ymd');
+
+
+
         $order = Order::OrderBy('id', 'DESC')->where('car_number', $request->get('car_number'))->first();
+
 
         $garage_info = GarageInfo::where('area', $request->get('areas'))
             ->where('section', $request->get('sections'))
@@ -237,19 +242,36 @@ class OrderController extends Controller {
             $order = new Order();
         }
 
-        $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
-        if(!$car){
-            $car = new Car();
-            $car->vin_number = $request->get('car_number');
-            $car->brands_id = $request->get('brands');
-            $car->models_id = $request->get('models');
-            $car->details_id = $request->get('details');
-            $car->grades_id = $request->get('grades');
-            $car->save();
+//        $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
+        $order_car = OrderCar::where('car_number', $request->get('car_number'))->first();
+        if(!$order_car){
+            $order_car = new OrderCar();
+            $order_car->vin_number = $request->get('car_number');
+            $order_car->brands_id = $request->get('brands');
+            $order_car->models_id = $request->get('models');
+            $order_car->details_id = $request->get('details');
+            $order_car->grades_id = $request->get('grades');
+            $order_car->save();
         }
 
+        $reservation_date = new \DateTime($request->get('reservation_date').' '.$request->get('sel_time').':00:00');
+
+
+        $reservation = Reservation::where('orders_id', $order->id)->first();
+        if(!$reservation){
+            $reservation = new Reservation();
+        }
+        $reservation->orders_id = $order->id;
+        $reservation->garage_id = $garage_info->garage_id;
+        $reservation->created_id = $order->orderer_id;
+        $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
+        $reservation->save();
+
+
+
+
         $order->car_number = $request->get('car_number');
-        $order->cars_id = $car->id;
+        $order->cars_id = $order_car->id;
         $order->garage_id = $garage_info->id;
         $order->orderer_id = $orderer->id;
         $order->orderer_name = $request->get('orderer_name');
@@ -721,34 +743,10 @@ class OrderController extends Controller {
         $order = Order::find($request->get('orders_id'))->first();
 
         if($order){
-            $item = $order->item;
-
-            $order->purchase->update([
-                'amount' => $item->price,
-                'type' => $order->purchase->type,
-                'status_cd' => 102
-            ]);
-
-            $date = Carbon::now()->toDateTimeString();
-
-            $reservation = Reservation::where('orders_id', $order->id)->first();
-            if(!$reservation){
-                $reservation = new Reservation();
-            }
-            $reservation->orders_id = $order->id;
-            $reservation->garage_id = $order->garage_id;
-            $reservation->created_id = $order->orderer_id;
-//            $reservation->reservation_at = $date;
-            $reservation->save();
-
             //주문정보 갱신함.
             $order->status_cd = 103;
-            $order->purchase_id = $order->purchase->id;
-            $order->item_id = $item->id;
             $order->save();
-
             $error = null;
-
         }else{
             $order = new Order();
             $error = "잘못된 접근 또는 결제가 정상 처리되지 못하였습니다.\n관리자에게 문의해 주세요.";
