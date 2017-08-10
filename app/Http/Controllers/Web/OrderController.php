@@ -321,8 +321,6 @@ class OrderController extends Controller {
         }else{
             $error = false;
         }
-        // todo 임시로 1000원으로 설정
-        $amt = 1000;
 
         $moid = $order->id;
         //$ediDate, $mid, $merchantKey, $amt

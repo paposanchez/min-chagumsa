@@ -210,7 +210,6 @@ class OrderController extends Controller
                                 //결제취소 진행
 
                                 $cancelAmt = $row->item->price;
-                                $cancelAmt = 1000; //todo
 
                                 $payment = Payment::OrderBy('id', 'DESC')->whereIn('resultCd', [3001, 4000, 4100])->where('orders_id', $id)->first();
                                 if($payment){
