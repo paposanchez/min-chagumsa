@@ -223,7 +223,7 @@ class OrderController extends Controller {
 
         $orderer = Auth::user();
 
-        $order = Order::where('datekey', $datekey)->where('car_number', $request->get('car_number'))->first();
+        $order = Order::OrderBy('id', 'DESC')->where('car_number', $request->get('car_number'))->first();
 
         $garage_info = GarageInfo::where('area', $request->get('areas'))
             ->where('section', $request->get('sections'))
@@ -248,7 +248,6 @@ class OrderController extends Controller {
             $car->save();
         }
 
-        $order->datekey = $datekey;
         $order->car_number = $request->get('car_number');
         $order->cars_id = $car->id;
         $order->garage_id = $garage_info->id;
