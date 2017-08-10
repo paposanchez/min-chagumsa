@@ -1082,10 +1082,13 @@ var PageTransitions = (function() {
             is_complete = 1;
         }
 
+        $("#is_complete").val(is_complete);
         $("#modalPurchase").modal('hide');
+
 
         if(action == 1){
             $("#orderFrm").attr("action", "/order/complete");
+            $("#orderFrm").attr("target", "_self");
             $('#orderFrm').submit();
         }
     };
