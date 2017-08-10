@@ -2,13 +2,13 @@
 
 @section( 'content' )
 
-<div id='sub_title_wrap'><h2>카검사 소개<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>카검사 소개</span></div></h2></div>
+<div id='sub_title_wrap'><h2>차검사 소개<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>차검사 소개</span></div></h2></div>
 
 <div id='sub_wrap'>
 
 	<ul class='menu_tab_wrap'>
 		<li><a class='select' href='{{ route("information.index") }}'>서비스 소개</a></li>
-		<li><a class='' href='{{ route("information.certificate") }}'>카검사인증서란?</a></li>
+		<li><a class='' href='{{ route("information.certificate") }}'>차검사인증서란?</a></li>
 		<li><a class='' href='{{ route("information.guide") }}'>특징 및 절차</a></li>
 		<li><a class='' href='{{ route("information.price") }}'>신청절차 및 수수료</a></li>
 	</ul>
@@ -18,7 +18,7 @@
 
 	<div class='cont_title'>
 		정확한 품질, 공정한 가격, 투명한 정보 공개로 신뢰할 수 있는 중고차거래가 가능해집니다.
-		<strong>이제 중고차 사고 팔 때 <span>카검사인증서</span>를 요청하세요.</strong>
+		<strong>이제 중고차 사고 팔 때 <span>차검사인증서</span>를 요청하세요.</strong>
 	</div>
 
 	<div class='br30'></div>
@@ -57,7 +57,7 @@
 	<div class='br10'></div>
 
 	<div class='para_type1 alg_c'>
-		이를 위해 카검사서비스는 자동차의 정확한 성능진단을 위해 글로벌 차량진단수리 전문기업인 보쉬카서비스(BOSCH Car Service)의<br>
+		이를 위해 차검사서비스는 자동차의 정확한 성능진단을 위해 글로벌 차량진단수리 전문기업인 보쉬카서비스(BOSCH Car Service)의<br>
 		130여개 검사항목을 첨단장비와 전문정비사를 통해 진단하고,  중고차 감정평가 및 성능평가에 대한 국내 최고의 권위를 가진<br>
 		차량기술법인 “H&T”의 기술사를 통해 차량가치를 산정하여 인증서를 발급하고, 이를 공인합니다.
 	</div>

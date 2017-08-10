@@ -30,7 +30,7 @@
         {!! Form::open(['method' => 'POST','route' => ['register'], 'enctype'=>"multipart/form-data", 'id' => "register-form"]) !!}
 
         <div class='ipt_line ipt_guide' style='width:940px;'>
-            <span>카검사는 회원님의 개인정보를 안전하게 보호하고 있으며, 회원님의 명백한 동의 없이는 공개되거나 제3자에게 제공되지 않습니다.<br>자세한 내용은 개인정보취급방침을 확인해 주세요.</span>
+            <span>차검사는 회원님의 개인정보를 안전하게 보호하고 있으며, 회원님의 명백한 동의 없이는 공개되거나 제3자에게 제공되지 않습니다.<br>자세한 내용은 개인정보취급방침을 확인해 주세요.</span>
         </div>
 
         <div class='br20'></div>

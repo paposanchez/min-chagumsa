@@ -23,7 +23,7 @@
 		<div class='br10'></div>
 
 		<div class='ipt_line ipt_guide alg_c' style='width:400px;'>
-			<span>지금 바로 카검사 서비스를 이용할 수 있습니다</span>
+			<span>지금 바로 차검사 서비스를 이용할 수 있습니다</span>
 		</div>
 
 		<div class='br30'></div>

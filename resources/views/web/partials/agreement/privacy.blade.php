@@ -1,5 +1,5 @@
 <div class='term_title'>
-    카검사 관련 제반 서비스의 이용과 관련하여 필요한 사항을 규정합니다.			
+    차검사 관련 제반 서비스의 이용과 관련하여 필요한 사항을 규정합니다.
 </div>
 <div class='term_cont'>
     <div>
@@ -34,7 +34,7 @@
             </thead>
             <tbody>
             <tr>
-                <th rowspan='5'>카검사<br>(www.cargumsa.com,<br>m.cargumsa.com)</th>
+                <th rowspan='5'>차검사<br>(www.cargumsa.com,<br>m.cargumsa.com)</th>
                 <th>공통</th>
                 <td>이메일, 비밀번호</td>
                 <td>이름, 생년월일, 연락처(휴대전화번호), 주소</td>
@@ -263,7 +263,7 @@
 
     <div>
         <strong>12. 기타</strong>
-        회사가 운영하는 사이트에 링크되어 있는 웹사이트들이 개인정보를 수집하는 행위에 대해서는 본 “카검사 개인정보처리방침"이 적용되지 않음을 알려 드립니다.
+        회사가 운영하는 사이트에 링크되어 있는 웹사이트들이 개인정보를 수집하는 행위에 대해서는 본 “차검사 개인정보처리방침"이 적용되지 않음을 알려 드립니다.
     </div>
 
     <div>
