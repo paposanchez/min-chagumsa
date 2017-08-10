@@ -282,6 +282,9 @@
 .cont_title strong {padding:10px 0;font-size:40px;display:block;line-height:40px;font-weight:normal;}
 .cont_title strong span {color:#5fb4ef;}
 
+.cont_title2 {font-size:20px;letter-spacing:-1px;text-align:center;
+    margin-top:40px;}
+
 .intro1_top_wrap {overflow:hidden;}
 .intro1_top_wrap div {float:left;}
 
