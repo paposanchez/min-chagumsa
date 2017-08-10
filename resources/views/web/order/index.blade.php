@@ -39,6 +39,7 @@
         <input type="hidden" name="sms_id" id="sms_id" autocomplete="off">
         <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off">
         <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off" >
+        <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off" >
 
 
 <!--         <input name="cars_id" value="" type="hidden">
@@ -1075,12 +1076,14 @@ var PageTransitions = (function() {
     });
 
 
-    var paymentSubmit = function (is_complete, action) {
+    var paymentSubmit = function (orders_id, is_complete, action) {
         if( is_complete == undefined){
             is_complete = 0;
         }else{
             is_complete = 1;
         }
+
+        $("#orders_id").val(orders_id);
 
         $("#is_complete").val(is_complete);
         $("#modalPurchase").modal('hide');

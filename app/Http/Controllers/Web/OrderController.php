@@ -312,8 +312,6 @@ class OrderController extends Controller {
             }
         }
 
-        // todo 임시로 카드만 받는걸로 설정
-        $payMethod = 'CARD';
 
         //결제금액을 구함.
         if($request->get('payment_price')){
@@ -540,7 +538,7 @@ class OrderController extends Controller {
             $result = "결제가 완료 되었습니다";
             $event = true; //결제완료
         }
-        return view('web.order.payment-result', compact('result', 'event'));
+        return view('web.order.payment-result', compact('result', 'event', 'decMoid'));
     }
 
     /**
@@ -721,8 +719,7 @@ class OrderController extends Controller {
         // $moid 주문번호
         //todo 예약일자를 받아와야한다
 
-        dd($request->all());
-        $order = Order::find($request->get('moid'))->first();
+        $order = Order::find($request->get('orders_id'))->first();
 
         if($order){
             $item = $order->item;

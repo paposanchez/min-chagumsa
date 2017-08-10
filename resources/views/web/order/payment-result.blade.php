@@ -23,7 +23,7 @@
 
     $(function () {
         alert("{{ $result }}");
-        parent.paymentSubmit("{{ $event }}", 1);
+        parent.paymentSubmit("{{ $decMoid }}", {{ $event }}", 1);
 //        parent.paymentClose(); //결제모달 닫기
         //todo 결제페이지를 결제완료페이지로 연동하는 method를 구성해야 함
     });
