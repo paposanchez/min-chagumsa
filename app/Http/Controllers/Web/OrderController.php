@@ -331,7 +331,7 @@ class OrderController extends Controller {
         $buyerName = $request->get('orderer_name');
         $buyerEmail = $orderer->email;
         $buyerTel = $request->get('orderer_mobile');
-        $product_name = $order->datekey."-".$order->car_number." ".$order->getCarFullName();
+        $product_name = $order->car_number." ".$order->getCarFullName();
         $mid = $this->mid;
         $merchantKey = $this->merchantKey;
 
