@@ -34,7 +34,7 @@
 				<span>{{ $order->orderer_mobile }}</span>
   				<span>{{ $order->getCarFullName() }}</span>
 			</div>
-			<div class='order_info_btn'>
+			<div class='order_info_btn text-center'>
 				{{ $order->status->display() }}
 				@if( $order->status_cd != 107 && $order->status_cd != 100 )
 					<a href="{{ route('mypage.order.cancel', ['order_id'=>$order->id]) }}" class='btns btns2' id="cancel" style="display: block; font-size: 15px;margin-top: 5px;">취소신청</a>
@@ -49,15 +49,15 @@
 		<div class='order_detail_title'>
 			주문자 정보
 		</div>
+
+
 		<div class='od_line'>
 			<label>주문자</label>
 			<span>{{ $order->orderer_name }}</span>
 		</div>
 		<div class='od_line'>
-			<label style='position:relative;top:11px;'>휴대폰 번호</label>
-			<span>
-				<input type='text' class='ipt wid20' value='{{ $order->orderer_mobile }}'> <button class='btns btn_dis'>인증번호 전송</button>
-			</span>
+			<label>휴대폰 번호</label>
+			<span>{{ $order->orderer_mobile }}</span>
 		</div>
 	</div>
 
@@ -110,7 +110,7 @@
 			<label>입고희망일</label>
 			{{-- todo 예약테이블에 저장 후 출력--}}
 			@if($order->reservation)
-				<span>{{ $order->reservation->reservation_at->format('Y년 m월 d일') }}</span>
+				<span>{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y년 m월 d일') }}</span>
 			@else
 				<span>예약이 완료되지 않앗습니다.</span>
 			@endif

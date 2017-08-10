@@ -14,8 +14,7 @@ $gray                                           :lighten($gray-base, 33.5%) !def
 $gray-light                                     :lighten($gray-base, 60%) !default; // #777
 $gray-lighter                                   :lighten($gray-base, 83.5%) !default; // #eee*/
 
-//$brand-primary                                  :#253b4a !default;
-$brand-primary                                  :#0b4777 !default;
+$brand-primary                                  :#253b4a !default;
 $brand-success                                  :#5d9225 !default;
 $brand-info                                     :#54a9e4 !default;
 $brand-warning                                  :#FF9800 !default;
@@ -48,8 +47,7 @@ $brand-indigo                              : #3F51B5 !default;
 $body-bg                                        :#fafbfc !default;
 
 $text-color                                     :$gray-dark !default;
-//$border-color                                   :#f1f1f1 !default;
-$border-color                                   :#aaaaaa !default;
+$border-color                                   :#f1f1f1 !default;
 $bg-default                                     :#f5f6f7 !default;
 $bg-primary                                     :lighten($brand-primary, 69%) !default;
 $bg-success                                     :lighten($brand-success, 51%) !default;

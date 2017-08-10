@@ -76,10 +76,10 @@
 
 	<div class='br30'></div>
 
-	<div class='ipt_line wid45'>
-		<a class='btns btns_blue wid33'  href="{{ route('mypage.order.show', ['id'=>$order->id]) }}">이전</a>
-		<button type="submit" class='btns btns_green wid33' style='display:inline-block;'>변경 사항 저장</button>
-	</div>
+    <p class="form-control-static text-center">
+        <button type="button" class='btn btn-default2 btn-lg wid25' id="prev">이전</button>
+        <button type="submit" class='btn btn-primary btn-lg wid25' id="next">변경사항 저장</button>
+    </p>
 	{!! Form::close() !!}
 
 </div>
@@ -240,6 +240,11 @@
             }
 
             new Pikaday(opt);
+        });
+
+        $('#prev').click(function (){
+            location.href = "{{ URL::previous() }}";
+            {{--location.href = "{{ route('mypage.order.show', ['id'=>$order->id]) }}";--}}
         });
 
     });

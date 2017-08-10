@@ -73,7 +73,7 @@
                         <div class="input-group input-group-lg">                  
                             <input type='text' id="orderer_mobile" class='form-control ' name="orderer_mobile" placeholder='휴대폰 번호' value="" autocomplete="off">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" id="mobile-verification">인증번호 전송</button>
+                                <button class="btn btn-default2" type="button" id="mobile-verification">인증번호 전송</button>
                             </span>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                             <div class="input-group input-group-lg">
                                 <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservation_date' id="reservation_date" value='' style="margin-right: 5px;">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" id="calendar-opener"><i class="fa fa-calendar"></i></button>
+                                    <button class="btn btn-default2" type="button" id="calendar-opener"><i class="fa fa-calendar"></i></button>
                                 </span>
                             </div>
                         </div>
@@ -151,7 +151,7 @@
 
 
             <p class="form-control-static text-center">
-                <button type="button" class='btn btn-primary btn-lg wid25  order-page-move' data-index="1">다음</button>
+                <button type="button" class='btn btn-primary2 btn-lg wid25  order-page-move' data-index="1">다음</button>
             </p>
 
 
@@ -296,8 +296,8 @@
 
 
                 <p class="form-control-static text-center">
-                    <button type="button" class='btn btn-default btn-lg wid25 order-page-move' data-index="0">이전</button>
-                    <button type="button" class='btn btn-primary btn-lg wid25 order-page-move' data-index="2">다음</button>
+                    <button type="button" class='btn btn-default2 btn-lg wid25 order-page-move' data-index="0">이전</button>
+                    <button type="button" class='btn btn-primary2 btn-lg wid25 order-page-move' data-index="2">다음</button>
                 </p>
             </fieldset>
         </div>
@@ -347,8 +347,8 @@
                 </div>
 
                 <p class="form-control-static text-center">
-                    <button type="button" class='btn btn-default btn-lg wid25 order-page-move' data-index="1">이전</button>
-                    <button type="button" class='btn btn-primary btn-lg wid25 bmd-modalButton' id="payment-process">결제</button>
+                    <button type="button" class='btn btn-default2 btn-lg wid25 order-page-move' data-index="1">이전</button>
+                    <button type="button" class='btn btn-primary2 btn-lg wid25 bmd-modalButton' id="payment-process">결제</button>
                 </p>
             </fieldset>
         </div>
@@ -388,8 +388,8 @@
                     </div>
 
                     <p class="form-control-static text-center">
-                        <button type="button" class="btn btn-default btn-lg" id="modalSms-close">취소</button>
-                        <button type="button" class='btn btn-primary btn-lg' id="modalSms-verify">인증</button>
+                        <button type="button" class="btn btn-default2 btn-lg" id="modalSms-close">취소</button>
+                        <button type="button" class='btn btn-primary2 btn-lg' id="modalSms-verify">인증</button>
                     </p>
                 </form>
             </div>
