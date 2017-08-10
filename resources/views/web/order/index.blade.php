@@ -1088,12 +1088,14 @@ var PageTransitions = (function() {
         $("#is_complete").val(is_complete);
         $("#modalPurchase").modal('hide');
 
-
+        alert('aaaa');
         if(action == 1){
             $("#orderFrm").attr("action", "/order/complete");
-            $("#orderFrm").attr("target", "_self");
+            $("#orderFrm").removeAttr("target");
             $('#orderFrm').submit();
+            alert('bbbbb');
         }
+        alert('cccc');
     };
 
 
