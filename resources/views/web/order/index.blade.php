@@ -29,14 +29,16 @@
         </ul>
 
 
-        {!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
+        {{--{!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}--}}
+        {!! Form::open(['route' => ["order.complete"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'get', 'role' => 'form', 'id' => 'orderFrm']) !!}
 
 
         <input type="hidden" name="item_id" id="item_id" value="" >
         <input type="hidden" name="payment_price" id="payment_price" value="" >
         <input type="hidden" name="payment_method" id="payment_method" value="" >
         <input type="hidden" name="sms_id" id="sms_id" autocomplete="off">
-        <input type="hidden" name="sms_confirmed" id="sms_confirmed" autocomplete="off">
+        <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off">
+        <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off" >
 
 
 <!--         <input name="cars_id" value="" type="hidden">
@@ -310,7 +312,7 @@
 
                     <div class="row">
                         @foreach($items as $item)
-                        <div class="col-xs-4">
+                        <div class="col-xs-3">
                             {{--<div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-display="3">--}}
                             <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-price="{{ $item->price }}">
                                 <div class="point-price">{{ $item->name }}</div>
@@ -1067,23 +1069,16 @@ var PageTransitions = (function() {
 
 
     // todo 임시로 post Ajax를 만듬
-    var paymentSubmit = function () {
-        $.ajax({
-            type : 'post',
-            dataType : 'json',
-            url : '/order/complete',
-            data : {
-                is_completed : is_completed,
-                order_id : order_id,
-                '_token' : '{{ csrf_token() }}',
-            },
-            success : function (data){
-                alert('결제에 성공하엿습니다.');
-            },
-            error : function (data) {
-                alert('결제에 실패하였습니다.');
-            }
-        })
+    var paymentSubmit = function (is_complete, action) {
+        if( is_complete == undefined){
+            is_complete = 0;
+        }else{
+            is_complete = 1;
+        }
+
+        if(action == 1){
+            $('#orderFrm').submit();
+        }
     };
 
 
