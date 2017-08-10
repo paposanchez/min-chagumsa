@@ -70,10 +70,10 @@ Route::get('information/certificate', function () {
 Route::get('information/guide', function () {
     return view('web.information.guide');
 })->name('information.guide');
-Route::get('information/price', function () {
-    return view('web.information.price');
-})->name('information.price');
-
+//Route::get('information/price', function () {
+//    return view('web.information.price');
+//})->name('information.price');
+Route::get('information/price', 'InformationController@price')->name('information.price');
 //Route::get('information/find-garage', function () {
 //    return view('web.information.find-garage');
 //})->name('information.find-garage');

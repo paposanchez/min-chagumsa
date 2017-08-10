@@ -101,29 +101,26 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th rowspan='2'>국산차</th>
-                <th>2,000cc 미만</th>
-                <th>150,000원</th>
-                <td rowspan='4' style='padding-left:30px;'>
-                    - 품질등급 B 등급이상에 대해, 3개월 5000km 내 수리보장<br><br>
-                    - 전국 500개 보쉬카서비스에서 수리가능함(자기 부담금 30,000원)<br><br>
-                    - 보장범위는 품질인증서에서 양호로 진단된 범위 내
-                </td>
-            </tr>
-            <tr>
-                <th>2,000cc 이상</th>
-                <th>200,000원</th>
-            </tr>
-            <tr>
-                <th rowspan='2'>수입차</th>
-                <th>2,000cc 미만</th>
-                <th>300,000원</th>
-            </tr>
-            <tr>
-                <th>2,000cc 이상</th>
-                <th>400,000원</th>
-            </tr>
+            @foreach($item as $key => $row)
+                <tr>
+                    @if($key == 0)
+                        <th rowspan="{{ $local_cnt }}">국산차</th>
+                    @elseif(count($item) - $local_cnt == $key)
+                        <th rowspan="{{ $forein_cnt }}">수입차</th>
+                    @endif
+
+                    <th>{{ number_format($row->price) }}원</th>
+                    <th>{{ $row->name }}</th>
+                    @if($key == 0)
+                        <td rowspan='{{ count($item) }}' style='padding-left:30px;'>
+                            - 품질등급 B 등급이상에 대해, 3개월 5000km 내 수리보장<br><br>
+                            - 전국 500개 보쉬카서비스에서 수리가능함(자기 부담금 30,000원)<br><br>
+                            - 보장범위는 품질인증서에서 양호로 진단된 범위 내
+                        </td>
+                    @endif
+                </tr>
+            @endforeach()
+
             </tbody>
         </table>
     </div>
