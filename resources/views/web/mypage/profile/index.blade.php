@@ -22,7 +22,18 @@
 				<col style='width:140px;'>
 				<col style='width:800px;'>
 			</colgroup>
+
+
+
 			<tbody>
+			@if($profile->status_cd != 1)
+				<tr>
+					<td colspan="2">
+						<h3>회원님의 계정은 현재 비활성화 상태입니다.</h3>
+						<p class="text-center"><button type="button" class="btns btns_skyblue" id="email-resend">회원 활성화 인증메일 보내기</button></p>
+					</td>
+				</tr>
+			@endif
 				<tr>
 					<th>아이디</th>
 					<td style='padding-left:25px !important;'>
@@ -156,6 +167,11 @@ $(function(){
 
 		    form.submit();
 		}
+	});
+
+	//인증메일 재전송
+	$("#email-resend").on("click", function(){
+	    //todo 메일 resend를 ajax로 연동함.
 	});
 });
 </script>

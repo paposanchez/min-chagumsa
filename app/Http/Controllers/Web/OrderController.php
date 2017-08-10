@@ -44,6 +44,12 @@ class OrderController extends Controller {
         }
 
         $user = Auth::user();
+
+        if($user->status_cd != 1){
+            return redirect('/mypage/profile')->with('error', "현재 계정이 비활성화 상태입니댜.<br>계정이 활성화되어야 주문신청이 가능합니다.");
+        }
+
+
         $brands = Brand::select('id', 'name')->get();
         $exterior_option = Code::where('group', 'car_option_exterior')->get();
         $interior_option = Code::where('group', 'car_option_interior')->get();

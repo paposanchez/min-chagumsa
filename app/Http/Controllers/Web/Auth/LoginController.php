@@ -70,7 +70,7 @@ use AuthenticatesUsers;
             $this->guard()->logout();
             $request->session()->flush();
             $request->session()->regenerate();
-            return redirect('/')->with('error', trans('auth.status.unactive'));
+            return redirect('/mypage/profile')->with('error', trans('auth.status.unactive'));
         }
 
         /*
