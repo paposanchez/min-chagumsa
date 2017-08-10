@@ -30,7 +30,7 @@
 
 
         {{--{!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}--}}
-        {!! Form::open(['route' => ["order.complete"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'get', 'role' => 'form', 'id' => 'orderFrm']) !!}
+        {!! Form::open(['route' => ["order.complete"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
 
 
         <input type="hidden" name="item_id" id="item_id" value="" >
@@ -1081,6 +1081,8 @@ var PageTransitions = (function() {
         }else{
             is_complete = 1;
         }
+
+        $("#modalPurchase").modal('hide');
 
         if(action == 1){
             $('#orderFrm').submit();
