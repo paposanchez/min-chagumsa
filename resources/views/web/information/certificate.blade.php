@@ -2,13 +2,13 @@
 
 @section( 'content' )
 
-<div id='sub_title_wrap'><h2>카검사 소개<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>카검사 소개</span></div></h2></div>
+<div id='sub_title_wrap'><h2>차검사 소개<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>카검사 소개</span></div></h2></div>
 
 <div id='sub_wrap'>
 
     <ul class='menu_tab_wrap'>
         <li><a class='' href='{{ route("information.index") }}'>서비스 소개</a></li>
-        <li><a class='select' href='{{ route("information.certificate") }}'>카검사인증서란?</a></li>
+        <li><a class='select' href='{{ route("information.certificate") }}'>차검사인증서란?</a></li>
         <li><a class='' href='{{ route("information.guide") }}'>특징 및 절차</a></li>
         <li><a class='' href='{{ route("information.price") }}'>신청절차 및 수수료</a></li>
     </ul>

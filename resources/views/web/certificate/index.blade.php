@@ -21,16 +21,16 @@
 					<ul>
 						<li><label>연식</label><span>{{ $order->car->year }} 년식</span></li>
 						<li><label>차대번호</label><span>{{ $order->car->vin_number }}</span></li>
-						<li><label>차종구분</label><span>{{ $order->car->getKind->display() }} / {{ $order->car->passenger }}인승</span></li>
+						<li><label>차종구분</label><span>{{ $order->car->getKind->display() }} / {{ $order->car->passenger }} 인승</span></li>
 						<li><label>사용연료</label><span>{{ $order->car->getFuelType->display() }}</span></li>
-						<li><label>주행거리</label><span>{{ number_format($order->mileage) }}km</span></li>
+						<li><label>주행거리</label><span>{{ number_format($order->mileage) }} km</span></li>
 						<li><label>인증서발급일</label><span>{{ Carbon\Carbon::parse($order->certificates->created_at)->format('Y년 m월 d일') }}</span></li>
 
 					</ul>
 				</div>
 				<div class='cert_box_cont_result'>
 					<ul>
-						<li><label>산정가격</label><span><strong>{{ number_format($order->certificates->price) }}</strong>만원</span></li>
+						<li><label>산정가격</label><span><strong>{{ number_format($order->certificates->price) }} </strong>만원</span></li>
 						<li><label>차량 성능 등급</label><span><strong>{{ $order->certificates->grade }}</strong></span></li>
 					</ul>
 				</div>
