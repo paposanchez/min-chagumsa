@@ -423,7 +423,8 @@
 
 <style>
 .pt-perspective {
-    min-height:1000px;
+    /*min-height:1000px;*/
+    min-height:800px;
     
 }
 .pt-page {
@@ -630,6 +631,7 @@ var PageTransitions = (function() {
                     $("#reservation_date").focus();
                     return false;
                 }else{
+                    $('.pt-perspective').css('min-height', '1000px');
                     PageTransitions.nextPage(d);
                 }
             }
@@ -638,6 +640,7 @@ var PageTransitions = (function() {
                 // 차량번호 검사
                 if(car_num_chk(car_num) == 1){
                     alert('차량번호를 정확히 입력해주세요.');
+                    $('#car_number').focus();
                     return false;
                 }
                 // 차량 모델 검사
@@ -646,6 +649,7 @@ var PageTransitions = (function() {
                     $('#brands').focus();
                     return false;
                 }else{
+                    $('.pt-perspective').css('min-height', '800px');
                     PageTransitions.nextPage(d);
                 }
 
@@ -768,13 +772,15 @@ var PageTransitions = (function() {
          //sms 전송
          var timeCountdown = function(){
              var expired = 299;
+
              var countdown = setInterval(function(){
                  var sms_id = $("#sms_id").val();
                  var sms_confirmed = $("#sms_confirmed").val();
 
                  if(expired == 1){
                      if(!sms_confirmed && sms_id){
-                         alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요." + expired);
+//                         alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요." + expired);
+                         alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요.");
 
                          smsTempDelete(sms_id);// 인증 번호관련 사항을 삭제함.
                      }
