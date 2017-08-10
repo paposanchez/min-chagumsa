@@ -25,7 +25,6 @@ class Order Extends Model
 {
     protected $fillable = [
         'id',
-        'datekey',
         'car_number',
         'cars_id',
         'garage_id',
@@ -84,7 +83,7 @@ class Order Extends Model
     }
 
     public function getOrderNumber() {
-        return $this->datekey . '-' . $this->car_number;
+        return $this->car_number . $this->created_at->format("Ymd");
     }
 
     public function status() {
