@@ -29,8 +29,8 @@
         </ul>
 
 
-        {{--{!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}--}}
-        {!! Form::open(['route' => ["order.complete"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
+        {!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
+{{--        {!! Form::open(['route' => ["order.complete"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}--}}
 
 
         <input type="hidden" name="item_id" id="item_id" value="" >
@@ -39,6 +39,7 @@
         <input type="hidden" name="sms_id" id="sms_id" autocomplete="off">
         <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off">
         <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off" >
+        <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off" >
 
 
 <!--         <input name="cars_id" value="" type="hidden">
@@ -1075,17 +1076,21 @@ var PageTransitions = (function() {
     });
 
 
-    // todo 임시로 post Ajax를 만듬
-    var paymentSubmit = function (is_complete, action) {
+    var paymentSubmit = function (orders_id, is_complete, action) {
         if( is_complete == undefined){
             is_complete = 0;
         }else{
             is_complete = 1;
         }
 
+        $("#orders_id").val(orders_id);
+
+        $("#is_complete").val(is_complete);
         $("#modalPurchase").modal('hide');
 
         if(action == 1){
+            $("#orderFrm").attr("action", "/order/complete");
+            $("#orderFrm").removeAttr("target");
             $('#orderFrm').submit();
         }
     };

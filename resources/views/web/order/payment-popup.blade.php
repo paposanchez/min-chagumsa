@@ -54,7 +54,7 @@
     <script>
         $(function () {
             //결제결과 받는 URL
-            //$("#transMgr").submit();
+            $("#transMgr").submit();
         });
 
         function tPayClose(){

@@ -222,9 +222,13 @@ class OrderController extends Controller {
 
         $orderer = Auth::user();
 
+
         $datekey = Carbon::now()->format('ymd');
 
-        $order = Order::where('datekey', $datekey)->where('car_number', $request->get('car_number'))->first();
+
+
+        $order = Order::OrderBy('id', 'DESC')->where('car_number', $request->get('car_number'))->first();
+
 
         $garage_info = GarageInfo::where('area', $request->get('areas'))
             ->where('section', $request->get('sections'))
@@ -266,7 +270,6 @@ class OrderController extends Controller {
 
 
 
-        $order->datekey = $datekey;
         $order->car_number = $request->get('car_number');
         $order->cars_id = $order_car->id;
         $order->garage_id = $garage_info->id;
@@ -330,8 +333,6 @@ class OrderController extends Controller {
             }
         }
 
-        // todo 임시로 카드만 받는걸로 설정
-        $payMethod = 'CARD';
 
         //결제금액을 구함.
         if($request->get('payment_price')){
@@ -352,7 +353,7 @@ class OrderController extends Controller {
         $buyerName = $request->get('orderer_name');
         $buyerEmail = $orderer->email;
         $buyerTel = $request->get('orderer_mobile');
-        $product_name = $order->datekey."-".$order->car_number." ".$order->getCarFullName();
+        $product_name = $order->car_number." ".$order->getCarFullName();
         $mid = $this->mid;
         $merchantKey = $this->merchantKey;
 
@@ -558,7 +559,7 @@ class OrderController extends Controller {
             $result = "결제가 완료 되었습니다";
             $event = true; //결제완료
         }
-        return view('web.order.payment-result', compact('result', 'event'));
+        return view('web.order.payment-result', compact('result', 'event', 'decMoid'));
     }
 
     /**
@@ -739,37 +740,13 @@ class OrderController extends Controller {
         // $moid 주문번호
         //todo 예약일자를 받아와야한다
 
-        $order = Order::find($request->get('moid'))->first();
+        $order = Order::find($request->get('orders_id'))->first();
 
         if($order){
-//            $item = $order->item;
-
-//            $order->purchase->update([
-//                'amount' => $item->price,
-//                'type' => $order->purchase->type,
-//                'status_cd' => 102
-//            ]);
-
-//            $date = Carbon::now()->toDateTimeString();
-//
-//            $reservation = Reservation::where('orders_id', $order->id)->first();
-//            if(!$reservation){
-//                $reservation = new Reservation();
-//            }
-//            $reservation->orders_id = $order->id;
-//            $reservation->garage_id = $order->garage_id;
-//            $reservation->created_id = $order->orderer_id;
-////            $reservation->reservation_at = $date;
-//            $reservation->save();
-
             //주문정보 갱신함.
             $order->status_cd = 103;
-            $order->purchase_id = $order->purchase->id;
-            $order->item_id = $item->id;
             $order->save();
-
             $error = null;
-
         }else{
             $order = new Order();
             $error = "잘못된 접근 또는 결제가 정상 처리되지 못하였습니다.\n관리자에게 문의해 주세요.";
@@ -960,7 +937,7 @@ class OrderController extends Controller {
 
             $tr_phone = $request->get('mobile_num');
             $tr_callback = "1833-6889";
-            $tr_msg = "카검사 주문신청 인증번호: ".$rand_num;
+            $tr_msg = "차검사 주문신청 인증번호: ".$rand_num;
             $tr_sendstat = 0;
             $tr_msgtype = 0;
 

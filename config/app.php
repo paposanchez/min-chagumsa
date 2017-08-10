@@ -12,7 +12,7 @@ return [
       | any other location as required by the application or its packages.
      */
 
-    'name' => '카검사',
+    'name' => '차검사',
     /*
       |--------------------------------------------------------------------------
       | Application Environment

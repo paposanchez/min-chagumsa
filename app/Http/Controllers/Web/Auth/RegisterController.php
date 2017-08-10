@@ -138,7 +138,7 @@ class RegisterController extends Controller {
 
             Mail::send('email.verify', $confirmation_code, function($message) use ($user) {
                 $message->to($user->email)
-                    ->subject("[카검사 ]회원 인증 메일입니다");
+                    ->subject("[차검사 ]회원 인증 메일입니다");
             });
 
         }else{

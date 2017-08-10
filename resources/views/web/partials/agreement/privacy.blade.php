@@ -34,7 +34,7 @@
             </thead>
             <tbody>
             <tr>
-                <th rowspan='5'>차검사<br>(www.cargumsa.com,<br>m.cargumsa.com)</th>
+                <th rowspan='5'>차검사<br>(www.chagumsa.com,<br>m.chagumsa.com)</th>
                 <th>공통</th>
                 <td>이메일, 비밀번호</td>
                 <td>이름, 생년월일, 연락처(휴대전화번호), 주소</td>

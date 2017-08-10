@@ -25,7 +25,6 @@ class Order Extends Model
 {
     protected $fillable = [
         'id',
-        'datekey',
         'car_number',
         'cars_id',
         'garage_id',
