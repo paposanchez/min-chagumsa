@@ -721,6 +721,7 @@ class OrderController extends Controller {
         // $moid 주문번호
         //todo 예약일자를 받아와야한다
 
+        dd($request->all());
         $order = Order::find($request->get('moid'))->first();
 
         if($order){

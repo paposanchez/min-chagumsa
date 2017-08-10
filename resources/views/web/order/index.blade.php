@@ -29,8 +29,8 @@
         </ul>
 
 
-        {{--{!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}--}}
-        {!! Form::open(['route' => ["order.complete"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
+        {!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
+{{--        {!! Form::open(['route' => ["order.complete"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective',  'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}--}}
 
 
         <input type="hidden" name="item_id" id="item_id" value="" >
@@ -1074,7 +1074,6 @@ var PageTransitions = (function() {
     });
 
 
-    // todo 임시로 post Ajax를 만듬
     var paymentSubmit = function (is_complete, action) {
         if( is_complete == undefined){
             is_complete = 0;
@@ -1085,6 +1084,7 @@ var PageTransitions = (function() {
         $("#modalPurchase").modal('hide');
 
         if(action == 1){
+            $("#orderFrm").attr("action", "/order/complete");
             $('#orderFrm').submit();
         }
     };
