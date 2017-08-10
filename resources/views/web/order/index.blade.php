@@ -379,7 +379,7 @@
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label for="exampleInputEmail1" class="sr-only">인증번호</label>
-                        <p class="text-center form-control-static"><span id="time-clocks">300</span> 초</p>
+                        <p class="text-center form-control-static"><span id="time-clocks">180</span> 초</p>
                     </div>
 
                     <div class="form-group">
@@ -855,6 +855,14 @@ var countdown;
 
 
             var number = $('#orderer_mobile').val();
+
+            try{
+                clearInterval(countdown);
+            }catch (e){}
+
+
+
+
             $.ajax({
                 type: 'post',
                 dataType: 'json',
@@ -868,6 +876,9 @@ var countdown;
                 },
                 error: function(qXHR, textStatus, errorThrown){
                     return false;
+                },
+                complete: function(e){
+                    $("#time-clocks").html(180);
                 }
             });
 
