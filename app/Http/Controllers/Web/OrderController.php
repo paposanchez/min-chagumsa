@@ -400,7 +400,7 @@ class OrderController extends Controller {
         }catch (\Exception $e){
             $decAmt = null;
             $decMoid = null;
-
+            $event = false; //결제확인이 완료되지 않음
         }
 
         //등록된 정보 가져오기
@@ -441,7 +441,7 @@ class OrderController extends Controller {
         if( $decMoid != $order_where->id ){
 
             $result = "결제처리 진행 중입니다.";
-            $event = "";
+            $event = true; //결제완료
         }else{
 
 
@@ -540,7 +540,7 @@ class OrderController extends Controller {
             // event: 팝업닫기 또는 뒤로가기 ( 'close', 'history.back()')
 
             $result = "결제가 완료 되었습니다";
-            $event = "";
+            $event = true; //결제완료
         }
         return view('web.order.payment-result', compact('result', 'event'));
     }
@@ -722,6 +722,7 @@ class OrderController extends Controller {
         //todo 결제정보에서 데이터를 request로 받는다는 전제하에 작성
         // $moid 주문번호
         //todo 예약일자를 받아와야한다
+        dd($request->all());
 
         $order = Order::find($request->get('moid'))->fist();
 
