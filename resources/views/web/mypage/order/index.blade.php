@@ -33,7 +33,7 @@
                 <span>{{ $orders->orderer_mobile }}</span>
                 <span>{{ $orders->getCarFullName() }}</span>
             </div>
-            <div class='order_info_btn'>
+            <div class='order_info_btn text-center'>
                 {{ $orders->status->display() }}
                 @if( $orders->status_cd != 107 && $orders->status_cd != 100 )
 {{--                <a href="{{ route('mypage.order.cancel', ['order_id'=>$orders->id]) }}" class='btns btns2' id="cancel" style="display: block; font-size: 15px;margin-top: 5px;">취소신청</a>--}}
