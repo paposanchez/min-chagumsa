@@ -142,7 +142,7 @@
 .board_pagination_wrap ul {text-align:center;}
 .board_pagination_wrap ul li {display:inline-block;}
 .board_pagination_wrap ul li a {font-size:14px;color:#555;display:block;width:30px;height:30px;line-height:30px;}
-.board_pagination_wrap ul li a:hover, .board_pagination_wrap ul li a.select {background:#4c90be;color:#fff;border-radius:100%;}
+.board_pagination_wrap ul li a:hover, .board_pagination_wrap ul li a.select {background:#0b4777;color:#fff;border-radius:100%;}
 
 .faq_menu {overflow:hidden;padding:10px 20px;}
 .faq_menu li {float:left;font-size:14px;margin-right:90px;}

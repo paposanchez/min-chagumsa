@@ -29,7 +29,7 @@
 
 		<div class='od_line'>
 			<label>입고희망일</label>
-			<input type="text" class="ipt wid20 in_date datepicker2" data-format="YYYY-MM-DD" placeholder="{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y-m-d') }}" name='reservation_date' value='{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y-m-d') }}' style="margin-right: 5px;">
+			<input type="text" class="ipt wid20 in_date datepicker2" data-format="YYYY-MM-DD" placeholder="{{ $order->reservation->reservation_at->format('Y-m-d') }}" name='reservation_date' value='{{ $order->reservation->reservation_at->format('Y-m-d') }}' style="margin-right: 5px;">
 			{!! Form::select('sel_time', $search_fields, [], ['class'=>'btns btns2 ipt wid20', 'id'=>'sel_time']) !!}
 		</div>
 		<div class="br10"></div>

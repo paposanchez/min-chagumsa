@@ -48,7 +48,8 @@ $brand-indigo                              : #3F51B5 !default;
 $body-bg                                        :#fafbfc !default;
 
 $text-color                                     :$gray-dark !default;
-$border-color                                   :#f1f1f1 !default;
+//$border-color                                   :#f1f1f1 !default;
+$border-color                                   :#aaaaaa !default;
 $bg-default                                     :#f5f6f7 !default;
 $bg-primary                                     :lighten($brand-primary, 69%) !default;
 $bg-success                                     :lighten($brand-success, 51%) !default;
