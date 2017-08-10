@@ -9,7 +9,7 @@
             <div class='mv_cert_wrap'>
                 {{ Html::image(Helper::theme_web( '/img/main/mv_title.png')) }}
                 <div class='mv_cert_box'>
-                    <a href='{{ route('order.index') }}' class='mv_cert_btn1'>카검사 인증서 신청하기</a>
+                    <a href='{{ route('order.index') }}' class='mv_cert_btn1'>차검사 인증서 신청하기</a>
                 </div>
                 <div class='mv_cert_box'>
                     {!! Form::open(['method' => 'GET', 'route' => ['search.index']]) !!}

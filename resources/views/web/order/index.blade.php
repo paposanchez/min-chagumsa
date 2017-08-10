@@ -851,6 +851,7 @@ var PageTransitions = (function() {
                 success: function(jdata){
                     $('#modalSms').modal('hide');
                     $('#orderer_mobile').val("");
+
                 },
                 error: function(qXHR, textStatus, errorThrown){
                     return false;

@@ -23,7 +23,7 @@
             </h1>
             
             <ul>
-                <li><a href='{{ route('information.index') }}'>카검사 소개</a></li>
+                <li><a href='{{ route('information.index') }}'>차검사 소개</a></li>
                 {{--<li><a href='{{ route('order.index') }}'>인증서 신청</a></li>--}}
                 <li><a href='{{ url("/order") }}'>인증서 신청</a></li>
                 {{--<li><a href='{{ route('mypage.order.index') }}'>My 인증서</a></li>--}}

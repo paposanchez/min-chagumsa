@@ -181,7 +181,7 @@
 .cert_box_cont_img {float:left;}
 .cert_box_cont_info {float:left;}
 .cert_box_cont_info ul {padding:0 0 0 25px;width:300px;height:204px;box-sizing:border-box;border-right:1px solid #e5e5e5;}
-.cert_box_cont_info ul li {font-size:14px;margin-bottom:13px;letter-spacing:-1px;}
+.cert_box_cont_info ul li {font-size:14px;margin-bottom:10px;letter-spacing:-1px;}
 .cert_box_cont_info ul li label {display:inline-block;color:#0b4777;width:95px;}
 .cert_box_cont_info ul li span {display:inline-block;color:#444;}
 .cert_box_cont_result {float:left;}

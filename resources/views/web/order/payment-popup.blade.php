@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-        <title>카검사</title>
+        <title>차검사</title>
 
         <link rel="stylesheet" href="//webtx.tpay.co.kr/css/nyroModal.tpay.custom.css" type="text/css" media="screen" />
         <script type="text/javascript" src="//webtx.tpay.co.kr/js/jquery-1.7.2.js"></script>
