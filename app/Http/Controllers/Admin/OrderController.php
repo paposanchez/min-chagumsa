@@ -98,7 +98,13 @@ class OrderController extends Controller
         $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
         $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
 
-        return view('admin.order.detail', compact('order', 'payment', 'payment_cancel'));
+        if($order->car){
+            $car = $order->car;
+        }else{
+            $car = $order->orderCar;
+        }
+
+        return view('admin.order.detail', compact('order', 'payment', 'payment_cancel', 'car'));
     }
 
     public function edit($id){
@@ -147,10 +153,15 @@ class OrderController extends Controller
          */
 
 
+        if($order->car){
+            $car = $order->car;
+        }else{
+            $car = $order->orderCar;
+        }
 
 
 
-        return view('admin.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys'));
+        return view('admin.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car'));
     }
 
     public function store(Request $request){
@@ -528,16 +539,20 @@ class OrderController extends Controller
              */
 
             $order_where = Order::findOrFail($id);
-
+            $order_car = $order_where->orderCar;
             if(count($car_data) > 0){
                 $cars_id = $order_where->cars_id;
-                $car_where = Car::findOrFail($cars_id);
-                if($car_where){
-
-                    $car_filter = array_filter(array_map('trim', $car_data));
-                    $car_where->update($car_filter);
-                    $car_where->save();
+                $car_where = Car::find($cars_id);
+                if(!$car_where){
+                    $car_where = new Car();
+                    $car_where->brands_id = $order_car->brands_id;
+                    $car_where->models_id = $order_car->models_id;
+                    $car_where->details_id = $order_car->details_id;
+                    $car_where->grades_id = $order_car->grades_id;
                 }
+                $car_filter = array_filter(array_map('trim', $car_data));
+                $car_where->update($car_filter);
+                $car_where->save();
             }
 
             if(count($certificate_data) > 0){

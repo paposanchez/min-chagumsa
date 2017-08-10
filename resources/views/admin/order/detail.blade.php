@@ -60,13 +60,13 @@
                     모델명
                 </label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="{{ \App\Helpers\Helper::getCarModel($order->car) }}" style="background-color: #fff;" disabled>
+                    <input type="text" class="form-control" placeholder="" value="{{ \App\Helpers\Helper::getCarModel($car) }}" style="background-color: #fff;" disabled>
                 </div>
                 <label for="inputName" class="control-label-2 col-md-2 text-left">
                     색상
                 </label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="외장: {{ $order->car->getExteriorColor ? $order->car->getExteriorColor->display() : '' }} / 내장: {{ $order->car->getInteriorColor ? $order->car->getInteriorColor->display() : '' }}" style="background-color: #fff;" disabled>
+                    <input type="text" class="form-control" placeholder="" value="외장: {{ $car->getExteriorColor ? $car->getExteriorColor->display() : '' }} / 내장: {{ $car->getInteriorColor ? $car->getInteriorColor->display() : '' }}" style="background-color: #fff;" disabled>
                 </div>
             </div>
 
@@ -75,7 +75,7 @@
                     옵션
                 </label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="연로타입: {{ $order->car->getFuelType ?  $order->car->getFuelType->display() : '미입력' }} / 엔진타입: {{ $order->car->getEngine ? $order->car->getEngine->display() : '미입력' }} / 변속기타입: {{ $order->car->getTransmission ? $order->car->getTransmission->display() : '미입력' }} / 용도 {{ $order->car->getType ? $order->car->getType->display() : '미입력' }}" style="background-color: #fff;" disabled>
+                    <input type="text" class="form-control" placeholder="" value="연로타입: {{ $car->getFuelType ?  $car->getFuelType->display() : '미입력' }} / 엔진타입: {{ $car->getEngine ? $car->getEngine->display() : '미입력' }} / 변속기타입: {{ $car->getTransmission ? $car->getTransmission->display() : '미입력' }} / 용도 {{ $car->getType ? $car->getType->display() : '미입력' }}" style="background-color: #fff;" disabled>
                 </div>
                 <label for="inputName" class="control-label-2 col-md-2 text-left">
                     주문일 / 입고일
@@ -187,7 +187,8 @@
 
         <div class="col-md-6">
 
-            <a href="{{ route('order.index') }}" class="btn btn-primary" style="margin-left: 15px;">주문목록</a>
+            {{--<a href="{{ route('order.index') }}" class="btn btn-primary" style="margin-left: 15px;">주문목록</a>--}}
+            <a href="/order" class="btn btn-primary" style="margin-left: 15px;">주문목록</a>
 
         </div>
 

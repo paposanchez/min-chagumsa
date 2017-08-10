@@ -10,10 +10,10 @@
 <div class='col-md-12'>
     <h2>기본 정보</h2>
     {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
-    <input type="hidden" name="brands_id" value="{{ $order->car ? $order->car->brands_id : '' }}">
-    <input type="hidden" name="models_id" value="{{ $order->car ? $order->car->models_id : '' }}">
-    <input type="hidden" name="details_id" value="{{ $order->car ? $order->car->details_id : '' }}">
-    <input type="hidden" name="grades_id" value="{{ $order->car ? $order->car->grades_id : '' }}">
+    <input type="hidden" name="brands_id" value="{{ $car ? $car->brands_id : '' }}">
+    <input type="hidden" name="models_id" value="{{ $car ? $car->models_id : '' }}">
+    <input type="hidden" name="details_id" value="{{ $car ? $car->details_id : '' }}">
+    <input type="hidden" name="grades_id" value="{{ $car ? $car->grades_id : '' }}">
     <input type="hidden" name="section" value="basic">
     <table class="table table-bordered">
         <colgroup>
@@ -26,7 +26,7 @@
         <tr>
             <th>자동차 등록번호</th>
             <td>
-                <input type="text" class="form-control" name="orders_car_number" value="{{ $order->car_number }}" required>
+                <input type="text" class="form-control" name="orders_car_number" value="{{ $car->car_number }}" required>
             </td>
             <th>주행거리(km)</th>
             <td>
@@ -36,9 +36,9 @@
         <tr>
             <th>차대번호</th>
             <td>
-                <input type="text" class="form-control" name="cars_vin_number" value="{{ $order->car->vin_number }}" required>
-                @if($order->car->imported_vin_number)
-                    <p><input type="text" style="width: 80%;" name="car_imported_vin_number" value="{{ $order->car->imported_vin_number }}"></p>
+                <input type="text" class="form-control" name="cars_vin_number" value="{{ $car->vin_number ? $car->vin_number : $car->car_name }}" required>
+                @if($car->imported_vin_number)
+                    <p><input type="text" style="width: 80%;" name="car_imported_vin_number" value="{{ $car->imported_vin_number ? $car->imported_vin_number : '' }}"></p>
                 @endif
             </td>
             <th>차대번호 동일성확인</th>
@@ -52,60 +52,60 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
-                    <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" name="cars_registration_date" value="{{ $order->car->registration_date }}" required>
+                    <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" name="cars_registration_date" value="{{ $car->registration_date ? $car->registration_date : '' }}" required>
                 </div>
             </td>
             <th>사용월수</th>
             <td>
-                <input type="text" class="form-control" name="cars_history" value="{{ \App\Helpers\Helper::getMonthNum($order->car->registration_date) }}" readonly>
+                <input type="text" class="form-control" name="cars_history" value="{{ \App\Helpers\Helper::getMonthNum($car->registration_date ? $car->registration_date : '') }}" readonly>
             </td>
         </tr>
         <tr>
             <th>차명</th>
             <td>
-                <input type="text" class="form-control" name="detail_name" value="{{ \App\Helpers\Helper::getCarModel($order->car) }}">
+                <input type="text" class="form-control" name="detail_name" value="{{ \App\Helpers\Helper::getCarModel($car) }}">
             </td>
             <th>세부모델</th>
             <td>
-                <input type="text" class="form-control" name="model_name" value="{{ $order->car->detail->name }}">
+                <input type="text" class="form-control" name="model_name" value="{{ $car->detail->name }}">
             </td>
         </tr>
         <tr>
             <th>외부색상</th>
             <td colspan="1">
-                {!! Form::select('cars_exterior_color', $select_color, [$order->car->exterior_color_cd], ['class'=>'form-control', 'required']) !!}
+                {!! Form::select('cars_exterior_color', $select_color, [$car->exterior_color_cd ? $car->exterior_color_cd : ''], ['class'=>'form-control', 'required']) !!}
             </td>
             <th>내부색상</th>
-            <td>{!! Form::select('cars_interior_color', $select_color, [$order->car->interior_color_cd], ['class'=>'form-control', 'required']) !!}</td>
+            <td>{!! Form::select('cars_interior_color', $select_color, [$car->interior_color_cd ? $car->interior_color_cd : ''], ['class'=>'form-control', 'required']) !!}</td>
         </tr>
         <tr>
             <th>연식 (형식)</th>
             <td>
-                <input type="text" class="form-control" name="cars_year" value="{{ $order->car->year }}" required>
+                <input type="text" class="form-control" name="cars_year" value="{{ $car->year ? $car->year : '' }}" required>
             </td>
             <th>변속기</th>
             <td>
-                {!! Form::select('cars_transmission_cd', $select_transmission, [$order->car->transmission_cd], ['class'=>'form-control', 'required']) !!}
+                {!! Form::select('cars_transmission_cd', $select_transmission, [$car->transmission_cd ? $car->transmission_cd : ''], ['class'=>'form-control', 'required']) !!}
             </td>
         </tr>
         <tr>
             <th>엔진타입</th>
             <td>
-                <input type="text" class="form-control" name="cars_engine_type" value="{{ $order->car->engine_cd }}">
+                <input type="text" class="form-control" name="cars_engine_type" value="{{ $car->engine_cd ? $car->engine_cd : '' }}">
             </td>
             <th>사용연료</th>
             <td>
-                {!! Form::select('cars_fueltype_cd', $select_fueltype, [$order->car->fueltype_cd], ['class' => 'form-control', 'required']) !!}
+                {!! Form::select('cars_fueltype_cd', $select_fueltype, [$car->fueltype_cd ? $car->fueltype_cd : '' ], ['class' => 'form-control', 'required']) !!}
             </td>
         </tr>
         <tr>
             <th>배기량 (cc)</th>
             <td>
-                <input type="text" class="form-control" name="cars_displacement" value="{{ $order->car->displacement }}" required>
+                <input type="text" class="form-control" name="cars_displacement" value="{{ $car->displacement ? $car->displacement : ''}}" required>
             </td>
             <th>연비</th>
             <td>
-                <input type="text" class="form-control" name="cars_fuel_consumption" value="{{ $order->car ? $order->car->fuel_consumption : '' }}" required>
+                <input type="text" class="form-control" name="cars_fuel_consumption" value="{{ $car->fuel_consumption ? $car->fuel_consumption : '' }}" required>
             </td>
         </tr>
         </tbody>

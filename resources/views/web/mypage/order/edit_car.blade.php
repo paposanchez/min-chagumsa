@@ -43,7 +43,7 @@
 
 
     <p class="form-control-static text-center">
-        <button type="button" class='btn btn-default btn-lg wid25' id="prev">이전</button>
+        <button type="button" class='btn btn-default2 btn-lg wid25' id="prev">이전</button>
         <button type="submit" class='btn btn-primary btn-lg wid25' id="next">변경사항 저장</button>
     </p>
     {!! Form::close() !!}

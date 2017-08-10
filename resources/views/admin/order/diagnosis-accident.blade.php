@@ -1,4 +1,4 @@
-<div class="col-md-12">
+div class="col-md-12">
     <h2>사고수리 / 상태</h2>
     <table class="table table-bordered">
         <colgroup>

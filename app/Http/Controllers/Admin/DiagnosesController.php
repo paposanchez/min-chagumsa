@@ -21,7 +21,7 @@ class DiagnosesController extends Controller
 {
 
     public function index(Request $request){
-        $where = Order::orderBy('orders.id', 'DESC')->where('orders.status_cd', '=', 107)
+        $where = Order::orderBy('orders.id', 'DESC')->whereIn('orders.status_cd',  [106, 107, 108, 109])
                             ;
 
         $search_fields = [

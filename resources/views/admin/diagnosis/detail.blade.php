@@ -25,7 +25,7 @@
                 </div>
                 <label for="inputName" class="control-label-2 col-md-2 text-left">차대번호</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="{{ $order->car->vin_number }}" style="background-color: #fff;" disabled>
+                    <input type="text" class="form-control" placeholder="" value="{{ $order->car->vin_number ? $order->car->vin_number : '' }}" style="background-color: #fff;" disabled>
                 </div>
             </div>
 
@@ -82,7 +82,7 @@
                     입고 예약일
                 </label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="{{ \Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y년 m월 d일') }}" style="background-color: #fff;" disabled>
+                    <input type="text" class="form-control" placeholder="" value="{{ $order->reservation->reservation_at->format('Y년 m월 d일') }}" style="background-color: #fff;" disabled>
                 </div>
                 <label for="inputName" class="control-label-2 col-md-2 text-left">
                     진단시작 / 진단 완료
