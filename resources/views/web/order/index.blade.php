@@ -379,7 +379,7 @@
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label for="exampleInputEmail1" class="sr-only">인증번호</label>
-                        <p class="text-center form-control-static"><span id="time-clocks">300</span> 초</p>
+                        <p class="text-center form-control-static"><span id="time-clocks">180</span> 초</p>
                     </div>
 
                     <div class="form-group">
@@ -596,6 +596,7 @@ var PageTransitions = (function() {
 
 })();
 
+var countdown;
 
     $(function (){
 
@@ -772,13 +773,17 @@ var PageTransitions = (function() {
 
          //sms 전송
          var timeCountdown = function(){
-             var expired = 299;
 
-             var countdown = setInterval(function(){
+             clearInterval(countdown); //countdown 초기화
+
+             var expired = 180;
+
+             countdown = setInterval(function(){
                  var sms_id = $("#sms_id").val();
                  var sms_confirmed = $("#sms_confirmed").val();
 
-                 if(expired == 1){
+                 if(expired == 0){
+                     $("#time-clocks").html(expired);
                      if(!sms_confirmed && sms_id){
 //                         alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요." + expired);
                          alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요.");
@@ -786,6 +791,7 @@ var PageTransitions = (function() {
                          smsTempDelete(sms_id);// 인증 번호관련 사항을 삭제함.
                      }
                      clearInterval(countdown);
+                     $("#mobile-verification").prop('disabled', false); //인증버튼을 다시 풀어줌
                      return false;
                  }else {
                      if (!sms_confirmed) {
@@ -808,6 +814,8 @@ var PageTransitions = (function() {
                 alert("휴대전화번호를 입력하세요.");
                 return false;
             }
+
+            $("#mobile-verification").prop('disabled', true);
 
             $.ajax({
                 type: 'post',
@@ -843,7 +851,18 @@ var PageTransitions = (function() {
 
         // 인증취소
         $(document).on("click", "#modalSms-close", function() {
+
+
+
             var number = $('#orderer_mobile').val();
+
+            try{
+                clearInterval(countdown);
+            }catch (e){}
+
+
+
+
             $.ajax({
                 type: 'post',
                 dataType: 'json',
@@ -852,10 +871,14 @@ var PageTransitions = (function() {
                 success: function(jdata){
                     $('#modalSms').modal('hide');
                     $('#orderer_mobile').val("");
-
+                    $("#mobile-verification").prop('disabled', false); //SMS 인증번호를 활성화 함
+                    alert("인증번호 전송을 취소하였습니다.");
                 },
                 error: function(qXHR, textStatus, errorThrown){
                     return false;
+                },
+                complete: function(e){
+                    $("#time-clocks").html(180);
                 }
             });
 
@@ -893,6 +916,7 @@ var PageTransitions = (function() {
                             $("#sms_confirmed").val(1);
                             alert('인증이 완료 되었습니다.\n차량정보를 입력헤 주세요.');
                             $('#modalSms').modal('hide');
+                            $("#orderer_mobile").prop('disabled', true);
                         }else{
                             alert('인증번호가 잘못 입력되었습니다.\n인증번호를 다시 입력해 주세요.');
                             $("#sms_num").focus();
