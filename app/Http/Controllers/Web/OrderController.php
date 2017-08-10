@@ -720,7 +720,6 @@ class OrderController extends Controller {
         //todo 결제정보에서 데이터를 request로 받는다는 전제하에 작성
         // $moid 주문번호
         //todo 예약일자를 받아와야한다
-        dd($request->all());
 
         $order = Order::find($request->get('moid'))->fist();
 
