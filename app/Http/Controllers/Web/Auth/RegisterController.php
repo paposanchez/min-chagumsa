@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 // use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+// use Illuminate\Foundation\Auth\RegistersUsers;
 
 // use Illuminate\Support\Facades\Mail;
 use App\Notifications\ConfirmEmail;
@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller {
 
-    use RegistersUsers;
+    // use RegistersUsers;
 
     public function __construct() {
         $this->middleware('guest');
@@ -53,7 +53,7 @@ class RegisterController extends Controller {
                     'name' => 'max:100',
                     'password' => 'required|min:6|confirmed',
                     'password_confirmation' => 'required|min:6|same:password',
-                    'mobile' => 'confirmed',
+                    // 'mobile' => 'confirmed',
         ]);
         $validator->setAttributeNames([
             'email' => trans('web/register.email'),
@@ -66,47 +66,85 @@ class RegisterController extends Controller {
         return $validator;
     }
 
-    public function registered() {
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postRegister(Request $request)
+    {
+        
+        $validator = $this->validator($request->all());
 
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+
+        try {
+
+            // 회원 생성
+            $input = $request->all();
+            // 비밀번호 생성
+            $input['password'] = bcrypt($input['password']);
+
+            // 이메일 비활성
+            $input['status_cd'] = 2;
+
+
+            $user = User::create($input);
+            // 사용자 역활 추가
+            $user->attachRole(2);
+
+
+            $this->notify($user);
+
+
+            // if ($request->file('avatar')) {
+            //     Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
+
+            //     $user->avatar = 1;
+            //     $user->save();
+            // }
+
+
+            return redirect('/')->with("success", "가입성공");
+ 
+        }catch(Exception $e) {
+            return redirect('/')->with("error", "가입실패");
+        }
+
+
+
+    }
+
+    private function notify( $user) {
         $activator = new ActivationRepository();
-        $token = $activator->createToken($user);
+        $token = $activator->createActivation($user);
 
         $user->notify(new ConfirmEmail($token));
-
-        return redirect('login')->with('ok', trans('web/verify.message'));
     }
 
 
-    protected function create(array $user_data) {
-
-        $input = $user_data;
-
-        // 비밀번호 생성
-        $input['password'] = bcrypt($input['password']);
-
-        // 이메일 비활성
-        $input['status_cd'] = 2;
-
-        $user = User::create($input);
-
-        // 사용자 역활 추가
-        $user->attachRole(2);
-
-        // if ($request->file('avatar')) {
-        //     Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
-
-        //     $user->avatar = 1;
-        //     $user->save();
-        // }
 
 
-    }
 
 
-    protected function redirectPath()
-    {
-        return redirect('web.completed');
-    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     // 인증확인
     public function verify(Request $request, $confirmation_code) {
@@ -136,7 +174,7 @@ class RegisterController extends Controller {
         ]);
 
         $activator = new ActivationRepository();
-        $token = $activator->regenerateToken($request->get('email'));
+        $token = $activator->createActivation($request->get('email'));
 
         $user->notify(new ConfirmEmail($token));
 
