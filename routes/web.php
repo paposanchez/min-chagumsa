@@ -130,7 +130,8 @@ Route::post('resent', 'Auth\RegisterController@resent');
 Route::get('verify/{token}', 'Auth\RegisterController@verify');
 Auth::routes();
 
-
+// Route::get('register', 'Auth\RegisterController@getRegister');
+Route::post('register', 'Auth\RegisterController@postRegister');
 Route::any('/', 'WelcomeController');
 
 
