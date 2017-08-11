@@ -109,13 +109,27 @@ Route::get('search{q?}', 'SearchController@index')->name('search.index');
 
 // Authentication
 Route::get('logout', 'Auth\LoginController@logout');
-Auth::routes();
 // 회원가입폼
-Route::post('register/join', 'Auth\RegisterController@join')->name('register.join');
-// 회원가입완료
-Route::get('register/registered', 'Auth\RegisterController@registered')->name('register.registered');
-// 이메일 인증
-Route::get('verify', 'Auth\VerifyController@emailCheck');
+// Route::post('register/join', 'Auth\RegisterController@join')->name('register.join');
+// // 회원가입완료
+// Route::get('register/registered', 'Auth\RegisterController@registered')->name('register.registered');
+// // 이메일 인증
+// Route::get('verify', 'Auth\VerifyController@emailCheck');
+
+// 비밀번호 분실
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
+// 회원가입시 이메일 인증 재발송폼
+Route::get('resend', 'Auth\RegisterController@resend');
+// 회원강비시 이메일 인증 재발송 처리
+Route::post('resent', 'Auth\RegisterController@resent');
+// 회원가입시 이메일 인증 처리
+Route::get('verify/{token}', 'Auth\RegisterController@verify');
+Auth::routes();
+
 
 Route::any('/', 'WelcomeController');
 
