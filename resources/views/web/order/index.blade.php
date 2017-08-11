@@ -1099,6 +1099,11 @@ var countdown;
         new Pikaday(opt);
     });
 
+    // 달력이미지 클릭
+    $('#calendar-opener').click(function(){
+        $("#reservation_date").click();
+    });
+
 
     var paymentSubmit = function (orders_id, is_complete, action) {
         if( is_complete == undefined){
