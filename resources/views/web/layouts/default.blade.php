@@ -38,7 +38,7 @@
                     <a href='{{ route('logout') }}'>로그아웃</a>
                 @else
                     <a href='{{ route('login') }}'>로그인</a>
-                    <a href='{{ route('register') }}'>회원가입</a>
+                    <a href='{{ route('register.agreement') }}'>회원가입</a>
                 @endif
             </div>
             <form action="{{ route('search.index') }}">

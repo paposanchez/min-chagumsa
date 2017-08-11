@@ -77,7 +77,7 @@ Route::get('information/price', 'InformationController@price')->name('informatio
 //Route::get('information/find-garage', function () {
 //    return view('web.information.find-garage');
 //})->name('information.find-garage');
-Route::get('/information/find0garage', 'InformationController@findGarage')->name('information.find-garage');
+Route::get('/information/find-garage', 'InformationController@findGarage')->name('information.find-garage');
 
 
 
@@ -110,6 +110,7 @@ Route::get('search{q?}', 'SearchController@index')->name('search.index');
 // Authentication
 Route::get('logout', 'Auth\LoginController@logout');
 // 회원가입폼
+Route::get('agreement', 'Auth\RegisterController@agreement')->name('register.agreement');
 // Route::post('register/join', 'Auth\RegisterController@join')->name('register.join');
 // // 회원가입완료
 // Route::get('register/registered', 'Auth\RegisterController@registered')->name('register.registered');
@@ -121,6 +122,7 @@ Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
 
 // 회원가입시 이메일 인증 재발송폼
 Route::get('resend', 'Auth\RegisterController@resend');

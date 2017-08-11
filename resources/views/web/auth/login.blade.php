@@ -5,8 +5,6 @@
 <div id='sub_full_wrap'>
 
 	<div class='login_box_wrap'>
-
-		{!! Form::open(['method' => 'POST','route' => ['login'], 'enctype'=>"multipart/form-data", 'id' => "login-form"]) !!}
 		{!! Form::open(['url' => 'login', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
 		<h3>{{ Html::image(Helper::theme_web( '/img/sub/logo_big.png')) }}</h3>
 		<div class='br30'></div>
@@ -30,7 +28,9 @@
 		</div>
 		<div class='br20'></div>
 		<div class='login_link'>
-			<a href='{{ route('register') }}'>회원가입</a><a href=''>비밀번호 찾기</a>
+			{{--<a href='{{ route('register') }}'>회원가입</a>--}}
+			<a href='{{ route('register.agreement') }}'>회원가입</a>
+			<a href=''>비밀번호 찾기</a>
 		</div>
 
 		{!! Form::close() !!}

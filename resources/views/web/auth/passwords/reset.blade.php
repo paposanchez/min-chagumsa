@@ -19,7 +19,7 @@
                     </div>
                 </div>
 
-                {!! Form::open(['url' => 'password/reset', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}   
+                {!! Form::open(['url' => 'password/reset', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
 
                 <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                     <label for="email" class="control-label">{{ trans("passwords.email") }}</label>
@@ -77,7 +77,7 @@
 
             </div>
 
-        </div>	
+        </div>
 
     </div>
 </div>

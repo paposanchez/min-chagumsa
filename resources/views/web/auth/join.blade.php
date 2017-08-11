@@ -56,7 +56,7 @@
                         <td>
                             <input type='text' name="name" class='ipt wid33' placeholder='성함을 입력하세요'>{{-- <span class='ipt_msg warn' id="email-error">이미 등록된 이메일이거나 잘못 입력하셨습니다.</span> --}}
                             @if ($errors->has('name'))
-                            <span class="help-block">
+                            <span class="help-block" id="email-error">
                                 {{ $errors->first('name') }}
                             </span>
                             @endif
@@ -67,7 +67,7 @@
                         <td>
                             <input type='password' name="password" class='ipt wid33' placeholder='비밀번호를 입력하세요'><span class='ipt_msg' id="password-error">8~16 자리의 영문/숫자/특수문자를 두 가지 이상 조합하세요.</span>
                             @if ($errors->has('password'))
-                            <span class="help-block">
+                            <span class="help-block ipt_msg warn">
                                 {{ $errors->first('password') }}
                             </span>
                             @endif
@@ -78,7 +78,7 @@
                         <td>
                             <input type='password' name="password_confirmation" class='ipt wid33' placeholder='비밀번호를 다시 입력하세요'><span class='ipt_msg' id="password_confirmation-error"></span>
                             @if ($errors->has('password_confirmation'))
-                            <span class="help-block">
+                            <span class="help-block ipt_msg warn">
                                 {{ $errors->first('password_confirmation') }}
                             </span>
                             @endif
@@ -88,7 +88,7 @@
             </table>
         </div>
 
-
+        <div class="br40"></div>
         <div class='ipt_line wid20'>
             <button class='btns btns_green' type="submit">회원가입</button>
         </div>
@@ -108,49 +108,49 @@
 @push( 'footer-script' )
 
 <script type="text/javascript">
-    $(function(){
-        // $("#register-form").validate({
-        //     debug: true,
-        //     rules: {
-        //         password: {
-        //             required: true,
-        //             minlength: 8,
-        //             maxlength: 16
-        //         },
-        //         password_confirmation: {
-        //             minlength: 8,
-        //             maxlength: 16,
-        //             equalTo: "[name='password']"
-        //         },
-        //         email: {
-        //             required: true,
-        //             email: true,
-        //             remote: {
-        //                 url: "/verify",
-        //                 type: "get",
-        //                 data: {
-        //                     "email": function () {
-        //                         return $(":input[name='email']").val();
-        //                     }
-        //                 },
-        //             }
-        //         }
-        //     },
-        //     messages: {
-        //         email: {
-        //             required: "정확한 메일 주소를 입력해 주세요.",
-        //             email: '이메일 주소가 잘못 입력 되었습니.',
-        //             remote: '이미 등록된 이메일 주소입니다.'
-        //         },
-        //         password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)",
-        //         password_confirmation: "입력된 비밀번호 확인값이 틀립니다."
-        //     },
-
-        //     submitHandler: function(form){
-        //         form.submit();
-        //     }
-        // });
-    });
+//    $(function(){
+//         $("#register-form").validate({
+//             debug: true,
+//             rules: {
+//                 password: {
+//                     required: true,
+//                     minlength: 8,
+//                     maxlength: 16
+//                 },
+//                 password_confirmation: {
+//                     minlength: 8,
+//                     maxlength: 16,
+//                     equalTo: "[name='password']"
+//                 },
+//                 email: {
+//                     required: true,
+//                     email: true,
+//                     remote: {
+//                         url: "/verify",
+//                         type: "get",
+//                         data: {
+//                             "email": function () {
+//                                 return $(":input[name='email']").val();
+//                             }
+//                         },
+//                     }
+//                 }
+//             },
+//             messages: {
+//                 email: {
+//                     required: "정확한 메일 주소를 입력해 주세요.",
+//                     email: '이메일 주소가 잘못 입력 되었습니.',
+//                     remote: '이미 등록된 이메일 주소입니다.'
+//                 },
+//                 password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)",
+//                 password_confirmation: "입력된 비밀번호 확인값이 틀립니다."
+//             },
+//
+//             submitHandler: function(form){
+//                 form.submit();
+//             }
+//         });
+//    });
 
 </script>
 
