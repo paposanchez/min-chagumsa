@@ -1,7 +1,8 @@
-@extends( 'web.layouts.default' )
+@extends( 'web.layouts.blank' )
 
-@section( 'content' )
+@section('body-class') layout-login @endsection
 
+@section('content')
 	<div class="br40"></div>
 	<div style="width:640px;margin:0 auto !important; line-height:1.5;">
 		<table style="width:100%;padding:0;margin:0;" cellspacing="0">
@@ -43,12 +44,15 @@
 		</table>
 	</div>
 	<div class="br40"></div>
+
 @endsection
 
 
-@push( 'header-script' )
-@endpush
+@section( 'footer-script' )
+<script type="text/javascript">
+	$(function (){
 
-@push( 'footer-script' )
+	});
+</script>
+@endsection
 
-@endpush
