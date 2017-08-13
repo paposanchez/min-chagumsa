@@ -174,11 +174,11 @@ class RegisterController extends Controller {
         $user = User::where('email', $request->get('email'))->first();
 
         $activator = new ActivationRepository();
-        $token = $activator->createActivation($request->get('email'));
+        $token = $activator->createActivation($user);
 
         $user->notify(new ConfirmEmail($token));
 
-        return redirect('resend')->with('success', trans('web/verify.message'));
+        return redirect('/')->with('success', trans('web/verify.message'));
     }
 
 
