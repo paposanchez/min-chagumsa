@@ -9,7 +9,8 @@
 
 	<div class='join_wrap'>
 
-		<ul class='join_step'>
+
+		<ul class='join_step text-center'>
 			<li class='on'>
 				<strong>01</strong>
 				<span>약관동의</span>
@@ -23,6 +24,8 @@
 				<span>회원가입완료</span>
 			</li>
 		</ul>
+
+
 
 		<div class='br30'></div>
 		<div class='br20'></div>

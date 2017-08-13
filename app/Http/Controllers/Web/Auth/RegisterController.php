@@ -74,7 +74,6 @@ class RegisterController extends Controller {
      */
     public function postRegister(Request $request)
     {
-        
         $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
@@ -82,7 +81,6 @@ class RegisterController extends Controller {
                 $request, $validator
             );
         }
-
 
         try {
 
@@ -111,8 +109,11 @@ class RegisterController extends Controller {
             // }
 
 
-            return redirect('/')->with("success", "가입성공");
- 
+//            return redirect('/')->with("success", "가입성공");
+//            return redirect('/register/registered')->with("success", "가입성공");
+
+            return redirect()->route('register.registered', ['user_id' => $user->id]);
+
         }catch(Exception $e) {
             return redirect('/')->with("error", "가입실패");
         }
@@ -128,17 +129,11 @@ class RegisterController extends Controller {
         $user->notify(new ConfirmEmail($token));
     }
 
-
-
-
-
-
-
-
-
-
-
-
+    public function registered(Request $request){
+        $user = User::where('id', $request->get('user_id'))->first();
+//        $user = User::where('id', 2)->first();
+        return view('web.auth.registered', compact('user'));
+    }
 
 
 
@@ -163,15 +158,20 @@ class RegisterController extends Controller {
 
     // 회원가입 인증메일 재발송폼
     public function resend(Request $request) {
-        return view('web.auth.resend');
+        $email = $request->get('email');
+        return view('web.auth.resend', compact('email'));
     }
 
     // 회원가입 인증메일 재발송처리
     public function resent(Request $request) {
 
-        $validator = Validator::make($data, [
-           'email' => 'required|email|max:255|unique:users',
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|max:255|unique:users',
         ]);
+//        $validator = Validator::make($data, [
+//           'email' => 'required|email|max:255|unique:users',
+//        ]);
+        $user = User::where('email', $request->get('email'))->first();
 
         $activator = new ActivationRepository();
         $token = $activator->createActivation($request->get('email'));

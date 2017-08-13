@@ -41,8 +41,10 @@ class LoginController extends Controller {
 			$this->guard()->logout();
 		    $request->session()->flush();
 		    $request->session()->regenerate();
-		    return redirect('/login')->with('error', trans('auth.status.unactive'));
+//		    return redirect('/login')->with('error', trans('auth.status.unactive'));
+//            return redirect('/resend')->with('error', trans('auth.status.unactive'));
 
+            return redirect()->route('register.resend', ['email' => $user->email]);
 		}
 	
 	}

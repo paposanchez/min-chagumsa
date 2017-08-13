@@ -112,9 +112,9 @@ Route::get('logout', 'Auth\LoginController@logout');
 // 회원가입폼
 Route::get('agreement', 'Auth\RegisterController@agreement')->name('register.agreement');
 // Route::post('register/join', 'Auth\RegisterController@join')->name('register.join');
-// // 회원가입완료
-// Route::get('register/registered', 'Auth\RegisterController@registered')->name('register.registered');
-// // 이메일 인증
+// 회원가입완료
+Route::get('register/registered', 'Auth\RegisterController@registered')->name('register.registered');
+ // 이메일 인증
 // Route::get('verify', 'Auth\VerifyController@emailCheck');
 
 // 비밀번호 분실
@@ -125,9 +125,9 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
 // 회원가입시 이메일 인증 재발송폼
-Route::get('resend', 'Auth\RegisterController@resend');
+Route::get('resend', 'Auth\RegisterController@resend')->name('register.resend');
 // 회원강비시 이메일 인증 재발송 처리
-Route::post('resent', 'Auth\RegisterController@resent');
+Route::post('resent', 'Auth\RegisterController@resent')->name('register.resent');
 // 회원가입시 이메일 인증 처리
 Route::get('verify/{token}', 'Auth\RegisterController@verify');
 Auth::routes();

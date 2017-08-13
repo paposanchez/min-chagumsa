@@ -5,12 +5,15 @@
 @section('content')
 	<div class="br40"></div>
 	<div style="width:640px;margin:0 auto !important; line-height:1.5;">
+		{!! Form::open(['route' => ["register.resent"], 'method' => 'post', 'role' => 'form', 'id' => 'resendFrm']) !!}
+		<input type="hidden" name="email" value="{{ $email }}" />
 		<table style="width:100%;padding:0;margin:0;" cellspacing="0">
 			<tbody>
 			<tr>
 				<td>
-
+					<a href="/">
 					{{ Html::image(Helper::theme_web( '/img/mail/mail_logo.png')) }}
+					</a>
 				</td>
 			</tr>
 			<tr>
@@ -25,7 +28,7 @@
 					아래 [인증메일 재발송 하기] 버튼을 눌러주세요.
 					<div class="br40"></div>
 					<div class="ipt_line wid40">
-						<button class="btns btns_green" style="display:inline-block;" type="button">
+						<button class="btns btns_green" style="display:inline-block;" type="submit">
 							{{--<a href="http://www.chagumsa.com/mypage/order">주문목록 돌아가기</a>--}}
 							인증메일 재발송 하기
 						</button>
@@ -42,6 +45,7 @@
 			</tr>
 			</tbody>
 		</table>
+		{!! Form::close() !!}
 	</div>
 	<div class="br40"></div>
 
