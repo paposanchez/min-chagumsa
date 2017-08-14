@@ -252,7 +252,8 @@ class OrderController extends Controller {
         $order_car = OrderCar::where('car_number', $request->get('car_number'))->first();
         if(!$order_car){
             $order_car = new OrderCar();
-            $order_car->vin_number = $request->get('car_number');
+//            $order_car->vin_number = $request->get('car_number');
+            $order_car->car_number = $request->get('car_number');
             $order_car->brands_id = $request->get('brands');
             $order_car->models_id = $request->get('models');
             $order_car->details_id = $request->get('details');
