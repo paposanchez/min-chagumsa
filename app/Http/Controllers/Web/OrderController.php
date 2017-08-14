@@ -252,7 +252,6 @@ class OrderController extends Controller {
             $order_car->models_id = $request->get('models');
             $order_car->details_id = $request->get('details');
             $order_car->grades_id = $request->get('grades');
-            $order_car->save();
         }
 
 
@@ -291,6 +290,12 @@ class OrderController extends Controller {
 
         $order->purchase_id = $purchase->id;
         $order->save();
+
+
+        // order_car 의 orders_id 입력
+        $order_car->orders_id = $order->id;
+        $order_car->save();
+
 
         // 예약 관련
         $reservation_date = new \DateTime($request->get('reservation_date').' '.$request->get('sel_time').':00:00');
