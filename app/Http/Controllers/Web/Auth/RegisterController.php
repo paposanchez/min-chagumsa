@@ -155,7 +155,8 @@ class RegisterController extends Controller {
         $activator = new ActivationRepository();
         $return = $activator->getActivationByToken($confirmation_code);
         if($return) {
-            return view('web.verify.success', compact());
+//            return view('web.verify.success', compact());
+            return view('/')->with('success', trans('web/verification.success'));
         }else{
             return redirect('resend')->with('error', trans('web/verification.resend'));
         }
