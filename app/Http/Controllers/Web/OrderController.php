@@ -261,21 +261,6 @@ class OrderController extends Controller {
             $order_car->save();
         }
 
-        $reservation_date = new \DateTime($request->get('reservation_date').' '.$request->get('sel_time').':00:00');
-
-
-        $reservation = Reservation::where('orders_id', $order->id)->first();
-        if(!$reservation){
-            $reservation = new Reservation();
-        }
-        $reservation->orders_id = $order->id;
-        $reservation->garage_id = $garage_info->garage_id;
-        $reservation->created_id = $order->orderer_id;
-        $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
-        $reservation->save();
-
-
-
         $order->datekey = $datekey;
         $order->car_number = $request->get('car_number');
         $order->cars_id = $order_car->id;
@@ -309,6 +294,20 @@ class OrderController extends Controller {
 
         $order->purchase_id = $purchase->id;
         $order->save();
+
+        // 예약 관련 
+        $reservation_date = new \DateTime($request->get('reservation_date').' '.$request->get('sel_time').':00:00');
+
+        $reservation = Reservation::where('orders_id', $order->id)->first();
+        if(!$reservation){
+            $reservation = new Reservation();
+        }
+        $reservation->orders_id = $order->id;
+        $reservation->garage_id = $garage_info->garage_id;
+        $reservation->created_id = $order->orderer_id;
+        $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
+        $reservation->save();
+
 
         if($request->get('options_ck') != []){
             $order_features = OrderFeature::where('orders_id', $order->id)->first();
