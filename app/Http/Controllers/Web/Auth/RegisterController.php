@@ -100,7 +100,8 @@ class RegisterController extends Controller {
 
 
 //            $this->notify($user);
-            $to = 'antshin72@gmail.com';
+//            $to = 'antshin72@gmail.com';
+            $to = $request->get('email');
             $subject = '메일군을 이용한 시스템 메일 발송입니다';
             $data = [
                 'title' => '여기는 타이틀이 들어가는 곳입니다.',

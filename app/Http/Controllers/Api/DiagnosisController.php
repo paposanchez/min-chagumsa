@@ -303,6 +303,7 @@ class DiagnosisController extends ApiController {
                throw new Exception($errors[0]);
            }
 
+
             $order                  = Order::findOrFail($order_id);
             $order->engineer_id     = $user_id;
             $order->status_cd       = 106;
