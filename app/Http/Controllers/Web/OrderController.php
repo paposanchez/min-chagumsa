@@ -276,7 +276,7 @@ class OrderController extends Controller {
 
 
 
-
+        $order->datekey = $datekey;
         $order->car_number = $request->get('car_number');
         $order->cars_id = $order_car->id;
         $order->garage_id = $garage_info->id;
