@@ -225,7 +225,6 @@ class OrderController extends Controller {
 //            }
 //            return redirect()->back()->with('error', '인증서 신청 정보를 충분히 입력하세요.');
 //        }
-
         $orderer = Auth::user();
 
 
@@ -243,11 +242,6 @@ class OrderController extends Controller {
             $garage_info = new GarageInfo();
         }
 
-
-        if(!$order){
-            $order = new Order();
-        }
-
 //        $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
         $order_car = OrderCar::where('car_number', $request->get('car_number'))->first();
         if(!$order_car){
@@ -260,13 +254,17 @@ class OrderController extends Controller {
             $order_car->grades_id = $request->get('grades');
             $order_car->save();
         }
-        
+
+
+        if(!$order){
+            $order = new Order();
+        }
         $order->car_number = $request->get('car_number');
         $order->cars_id = $order_car->id;
         $order->garage_id = $garage_info->id;
         $order->orderer_id = $orderer->id;
         $order->orderer_name = $request->get('orderer_name');
-        $order->orderer_mobile = $request->get('orderer_mobile');
+        $order->orderer_mobile = $request->get('mobile');
         $order->registration_file = 0;
         $order->open_cd = 1327; //default로 비공개코드 삽입 1326 인증서 공개 1327 인증서 비공개
         $order->status_cd = 101;
