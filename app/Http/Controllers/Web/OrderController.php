@@ -260,8 +260,7 @@ class OrderController extends Controller {
             $order_car->grades_id = $request->get('grades');
             $order_car->save();
         }
-
-        $order->datekey = $datekey;
+        
         $order->car_number = $request->get('car_number');
         $order->cars_id = $order_car->id;
         $order->garage_id = $garage_info->id;
@@ -295,7 +294,7 @@ class OrderController extends Controller {
         $order->purchase_id = $purchase->id;
         $order->save();
 
-        // 예약 관련 
+        // 예약 관련
         $reservation_date = new \DateTime($request->get('reservation_date').' '.$request->get('sel_time').':00:00');
 
         $reservation = Reservation::where('orders_id', $order->id)->first();
