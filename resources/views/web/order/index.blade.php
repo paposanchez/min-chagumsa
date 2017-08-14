@@ -39,9 +39,8 @@
         <input type="hidden" name="sms_id" id="sms_id" autocomplete="off">
         <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off">
         <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off" >
+        <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off" >
         <input type="hidden" name="mobile" id="mobile" value="" >
-
-
 
 <!--         <input name="cars_id" value="" type="hidden">
         <input name="id" id="moid" type="hidden" value="">{{-- 주문번호 --}}
@@ -72,7 +71,7 @@
                         <label for="exampleInputEmail1">휴대전화번호</label>
 
                         <div class="input-group input-group-lg">                  
-                            <input type='text' id="orderer_mobile" name="" class='form-control ' placeholder='휴대폰 번호' value="">
+                            <input type='text' id="orderer_mobile" class='form-control ' name="orderer_mobile" placeholder='휴대폰 번호' value="" autocomplete="off">
                             <span class="input-group-btn">
                                 <button class="btn btn-default2" type="button" id="mobile-verification">인증번호 전송</button>
                             </span>

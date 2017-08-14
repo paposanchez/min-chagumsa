@@ -99,20 +99,19 @@ class RegisterController extends Controller {
             $user->attachRole(2);
 
 
-//            $this->notify($user);
-//            $to = 'antshin72@gmail.com';
-            $to = $request->get('email');
-            $subject = '메일군을 이용한 시스템 메일 발송입니다';
-            $data = [
-                'title' => '여기는 타이틀이 들어가는 곳입니다.',
-                'body' => '본문글에 대한 방송이 필요해요.\n푸하하\n동해물과 백두산이 마르고 닳도록',
-                'user' => '사용자 정보입니다'
-            ];
+            $this->notify($user);
 
-            Mail::send('admin.dashboard.email', $data, function($message) use($to, $subject) {
-                            $message->to($to)->subject($subject);
-            });
-
+//            $to = $request->get('email');
+//            $subject = '메일군을 이용한 시스템 메일 발송입니다';
+//            $data = [
+//                'title' => '여기는 타이틀이 들어가는 곳입니다.',
+//                'body' => '본문글에 대한 방송이 필요해요.\n푸하하\n동해물과 백두산이 마르고 닳도록',
+//                'user' => '사용자 정보입니다'
+//            ];
+//
+//            Mail::send('admin.dashboard.email', $data, function($message) use($to, $subject) {
+//                $message->to($to)->subject($subject);
+//            });
 
 
 
@@ -153,10 +152,8 @@ class RegisterController extends Controller {
 
     // 인증확인
     public function verify(Request $request, $confirmation_code) {
-
         $activator = new ActivationRepository();
         $return = $activator->getActivationByToken($confirmation_code);
-
         if($return) {
             return view('web.verify.success', compact());
         }else{
