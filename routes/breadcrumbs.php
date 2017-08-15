@@ -106,3 +106,8 @@ Breadcrumbs::register('web.mypage.history', function($breadcrumbs) {
 });
 
 
+//############################## BCS
+Breadcrumbs::register('bcs.order', function($breadcrumbs){
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("admin/order.title"), route("order.index"));
+});
