@@ -93,7 +93,7 @@
         		},
 				messages: {
 					email: "정확한 이메일 주소를 입력해 주세요.",
-					password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)"
+					password: "비밀번호를 확인하세요.(7~16 자리의 영문/숫자/특수문자)"
 				},
 //				errorPlacement: function(error, element) {
 //					/*
