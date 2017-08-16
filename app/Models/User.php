@@ -9,16 +9,19 @@ use App\Models\RoleUser;
 use App\Models\Code;
 use App\Models\Post;
 use App\Models\Comment;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Storage;
 use App\Models\UserExtra;
 
+
 class User extends Authenticatable {
 
     use Notifiable,
         EntrustUserTrait;
+    use SoftDeletes;
 
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -30,6 +33,8 @@ class User extends Authenticatable {
         'profile',
     ];
 
+
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -39,7 +44,7 @@ class User extends Authenticatable {
         'password',
         'remember_token',
     ];
-    protected $dates = ['created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     public function status() {
         return $this->hasOne(Code::class, 'id', 'status_cd')->where('group', 'user_status');
@@ -119,6 +124,12 @@ class User extends Authenticatable {
 
         return $return->toArray();
     }
+
+    public function restore()
+    {
+        return false;
+    }
+
 
 //    public function getFilesDirectory() {
 //        $folderPath = 'user/' . $this->id;

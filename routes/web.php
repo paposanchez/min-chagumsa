@@ -4,8 +4,6 @@
 Route::group(['middleware' => ['auth']], function () {
     Route::get('mypage', 'MypageController@index')->name("mypage");
     Route::group(['namespace' => 'Mypage', 'prefix' => 'mypage', 'as' => 'mypage.'], function () {
-
-
         Route::post('profile/chk-pwd', ['as' => 'profile.chk-pwd', 'uses' => 'ProfileController@chkPwd']);
         Route::resource('profile', 'ProfileController');
         Route::resource('history', 'HistoryController');
@@ -13,6 +11,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/order/edit_car/{order_id}', 'OrderController@editCar')->name('order.edit_car');
         Route::get('/order/edit_garage/{order_id}', 'OrderController@editGarage')->name('order.edit_garage');
         Route::post('/order/cancel', 'OrderController@cancel')->name('order.cancel');
+
+
+        Route::get('/leave', 'ProfileController@leaveForm');
+        Route::post('/leave', 'ProfileController@leave')->name('profile.leave');
     });
 
     //SMS관련
@@ -136,6 +138,7 @@ Auth::routes();
 // Route::get('register', 'Auth\RegisterController@getRegister');
 Route::post('register', 'Auth\RegisterController@postRegister');
 Route::any('/', 'WelcomeController');
+
 
 
 

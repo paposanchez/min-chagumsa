@@ -49,7 +49,7 @@ class ConfirmEmail extends Notification implements ShouldQueue {
                         ->subject(trans('verification.email-title'))
                         ->line(trans('verification.email-title'))
                         ->line(trans('verification.email-intro'))
-                        ->action(trans('verification.email-button'), url('confirm/' . $this->confirmation_code));
+                        ->action(trans('verification.email-button'), url('verify/' . $this->confirmation_code));
     }
 
 }

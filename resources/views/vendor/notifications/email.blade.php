@@ -120,16 +120,10 @@ $style = [
                                                             }
                                                         ?>
 
-                                                        {{--<a href="{{ $actionUrl }}"--}}
-                                                            {{--style="{{ $fontFamily }} {{ $style['button'] }} {{ $style[$actionColor] }}"--}}
-                                                            {{--class="button"--}}
-                                                            {{--target="_blank">--}}
-                                                            {{--{{ $actionText }}--}}
-                                                        {{--</a>--}}
-                                                        <a href="/verify"
-                                                           style="{{ $fontFamily }} {{ $style['button'] }} {{ $style[$actionColor] }}"
-                                                           class="button"
-                                                           target="_blank">
+                                                        <a href="{{ $actionUrl }}"
+                                                            style="{{ $fontFamily }} {{ $style['button'] }} {{ $style[$actionColor] }}"
+                                                            class="button"
+                                                            target="_blank">
                                                             {{ $actionText }}
                                                         </a>
                                                     </td>

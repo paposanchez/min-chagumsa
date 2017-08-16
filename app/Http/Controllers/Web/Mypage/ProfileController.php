@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Web\Mypage;
 
 use App\Http\Controllers\Controller;
 //use GuzzleHttp\Psr7\Request;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Mockery\Exception;
+
 
 class ProfileController extends Controller {
 
@@ -67,6 +69,24 @@ class ProfileController extends Controller {
 
 
         return \response()->json($result);
+    }
+
+
+    public function leaveForm(){
+        $profile = Auth::user();
+        return view('web.mypage.profile.leave', compact('profile'));
+    }
+
+    public function leave(Request $request) {
+
+        $user = Auth::user();
+//        $date = Carbon::now();
+//        $user -> deleted_at = $date;
+
+//        $user -> save();
+            $user->delete();
+//        return redirect('/')->with('success', '회원탈퇴처리가 정상적으로 이루어졌습니다.');
+        return redirect()->route('logout')->with('success', '회원탈퇴처리가 정상적으로 이루어졌습니다.');
     }
 
 }

@@ -89,7 +89,7 @@
 	<div class='br20'></div>
 	
 	<div class='my_edit_btn_wrap alg_r'>
-		회원탈퇴를 원하시면 회원탈퇴 버튼을 눌러주세요. <button class='btns btns2' style='display:inline-block;'>회원탈퇴</button>
+		회원탈퇴를 원하시면 회원탈퇴 버튼을 눌러주세요. <button class='btns btns2' id="leave" style='display:inline-block;' type="button">회원탈퇴</button>
 	</div>
 
 	<div class='br30'></div>
@@ -148,7 +148,7 @@ $(function(){
 		},
 		messages:{
 		    old_password: {
-		        required: "현재 사용중인 비밀번호를 입력해 주세요.....",
+		        required: "현재 사용중인 비밀번호를 입력해 주세요.",
 				old_password: "비밀번호는 8~16자리의 영문/숫자/특수문자 입니다.",
 				remote: "현재 비밀번호와 입력된 비밀번호가 다릅니다."
 			},
@@ -172,6 +172,10 @@ $(function(){
 	//인증메일 재전송
 	$("#email-resend").on("click", function(){
 	    //todo 메일 resend를 ajax로 연동함.
+	});
+
+	$('#leave').click(function (){
+	   	location.href='/mypage/leave';
 	});
 });
 </script>
