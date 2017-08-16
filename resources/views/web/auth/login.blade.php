@@ -8,14 +8,14 @@
 		{!! Form::open(['url' => 'login', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'login-form']) !!}
 		<h3>{{ Html::image(Helper::theme_web( '/img/sub/logo_big.png')) }}</h3>
 		<div class='br30'></div>
-		<div class='ipt_line br10'>
+		<div class='ipt_line br10 has-error'>
 			<input name="email" type='text' class='ipt' placeholder='아이디 (이메일)'>
 
 		</div>
 		<div class='br10'></div>
-		<div class='ipt_line'>
+		<div class='ipt_line has-error'>
 			<input name="password" type='password' class='ipt' placeholder='비밀번호'>
-
+			<span class='ipt_msg'></span>
 		</div>
 		<div class='br10'></div>
 		<div class='ipt_line'>

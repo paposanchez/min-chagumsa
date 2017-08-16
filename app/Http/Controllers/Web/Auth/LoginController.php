@@ -26,11 +26,11 @@ class LoginController extends Controller {
 	 * @return void
 	 */
 	public function __construct() {
-			$this->middleware('guest', ['except' => 'logout']);
+        $this->middleware('guest', ['except' => 'logout']);
 	}
 
 	public function showLoginForm() {
-			return view('web.auth.login');
+        return view('web.auth.login');
 	}
 
 	protected function authenticated(Request $request, User $user) {

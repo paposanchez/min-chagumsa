@@ -319,7 +319,7 @@ $(document).ready(function () {
     });
 
     if($('#inputBoardId').val() == 2){
-        
+
         $('.category').css('display', '');
         $('#category_id').val({{ $post->category_id }});
 

@@ -5,7 +5,8 @@
 
 <div id='sub_wrap'>
 
-    @if(count($result) == 0 )
+    {{--@if(count($result) == 0 )--}}
+    @if($empty == 1)
         <h3>{{ Html::image(Helper::theme_web( '/img/sub/cert_icon.png')) }}<div class='br20'></div>입력하신 인증서번호 또는 차량번호가 정확하지 않습니다.</h3>
         <h5>인증서번호 또는 차량번호를 다시 확인한 후 입력해 주세요.</h5>
 
