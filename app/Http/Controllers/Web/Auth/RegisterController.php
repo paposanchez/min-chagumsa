@@ -156,9 +156,9 @@ class RegisterController extends Controller {
         $return = $activator->getActivationByToken($confirmation_code);
         if($return) {
 //            return view('web.verify.success', compact());
-            return redirect('/')->with('success', trans('web/verification.success'));
+            return redirect('/')->with('success', trans('verification.success'));
         }else{
-            return redirect('resend')->with('error', trans('web/verification.resend'));
+            return redirect('resend')->with('error', trans('verification.resend'));
         }
 
     }
@@ -186,7 +186,7 @@ class RegisterController extends Controller {
 
         $user->notify(new ConfirmEmail($token));
 
-        return redirect('/')->with('success', trans('web/verify.message'));
+        return redirect('/')->with('success', trans('verification.message'));
     }
 
 
