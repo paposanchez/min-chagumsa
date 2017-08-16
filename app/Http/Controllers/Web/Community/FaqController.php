@@ -24,7 +24,7 @@ class FaqController extends PostController {
 
         $where = Post::whereBoardId($this->board_id)->orderBy('id', 'DESC');
         if(in_array($category_id, range(13, 20))){
-            $where = $where->where('category_id', $category_id);
+            $where = $where->where('category_id', $category_id)->where('is_shown', 6);
         }
 
         $entrys = $where->paginate($this->num_of_page);

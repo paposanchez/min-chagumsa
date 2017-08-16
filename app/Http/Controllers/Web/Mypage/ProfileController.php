@@ -66,8 +66,6 @@ class ProfileController extends Controller {
 //            throw new Exception("잘못된 접근입니다.");
             $result = false;
         }
-
-
         return \response()->json($result);
     }
 
@@ -80,12 +78,8 @@ class ProfileController extends Controller {
     public function leave(Request $request) {
 
         $user = Auth::user();
-//        $date = Carbon::now();
-//        $user -> deleted_at = $date;
+        $user->delete();
 
-//        $user -> save();
-            $user->delete();
-//        return redirect('/')->with('success', '회원탈퇴처리가 정상적으로 이루어졌습니다.');
         return redirect()->route('logout')->with('success', '회원탈퇴처리가 정상적으로 이루어졌습니다.');
     }
 

@@ -28,7 +28,8 @@
 
 #sub_wrap {padding:55px 0;width:1052px;min-height:460px;position:relative;margin:0 auto;}
 #sub_wrap.type2 {width:100%;background:#f6f6f6;}
-#sub_full_wrap {width:100%;height:100%;position:relative;}
+#sub_full_wrap {width:100%;height:1000px;position:relative;}
+/*#sub_full_wrap {width:100%;height:100%;position:relative;}*/
 
 /* 탭 */
 .menu_tab_wrap {width:100%;border-bottom:1px solid #e5e5e5;font-size:0;}
