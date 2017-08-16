@@ -132,7 +132,7 @@ Route::get('resend', 'Auth\RegisterController@resend')->name('register.resend');
 // 회원강비시 이메일 인증 재발송 처리
 Route::post('resent', 'Auth\RegisterController@resent')->name('register.resent');
 // 회원가입시 이메일 인증 처리
-Route::get('verify/{token}', 'Auth\RegisterController@verify');
+Route::get('verify/{token}', 'Auth\RegisterController@verify')->name('verify');
 Auth::routes();
 
 // Route::get('register', 'Auth\RegisterController@getRegister');
