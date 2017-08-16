@@ -44,10 +44,8 @@ class OrderController extends Controller {
     public function show($id) {
 
         $order = Order::find($id);
-        $item = Item::find($order->item_id);
-        if(!$item){
-            $item = [];
-        }
+
+
         $my_garage = GarageInfo::find($order->garage_id)->first();
         if(!$my_garage){
             $my_garage = [];
@@ -64,7 +62,7 @@ class OrderController extends Controller {
         }
 
 
-        return view('web.mypage.order.show', compact('order', 'item', 'my_garage', 'features'));
+        return view('web.mypage.order.show', compact('order', 'my_garage', 'features'));
     }
 
     public function editCar($order_id){
