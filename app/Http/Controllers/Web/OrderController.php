@@ -748,7 +748,7 @@ class OrderController extends Controller {
         // $moid 주문번호
         //todo 예약일자를 받아와야한다
 
-        $order = Order::where($request->get('orders_id'))->first();
+        $order = Order::where('id', $request->get('orders_id'))->first();
 
         if($order){
             //주문정보 갱신함.
