@@ -18,9 +18,9 @@
                         <p class="text-muted">{{ trans("passwords.desc") }}</p>
                     </div>
                 </div>
-
-                {!! Form::open(['url' => 'password/reset', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
-
+                {{--{!! Form::open(['url' => 'password/reset', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}--}}
+                {!! Form::open(['url' => 'password/email', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+                {{--<input type="hidden" name="token" value="{{ $token }}" />--}}
                 <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                     <label for="email" class="control-label">{{ trans("passwords.email") }}</label>
 
