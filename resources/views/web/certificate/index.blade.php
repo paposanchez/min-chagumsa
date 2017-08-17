@@ -7,7 +7,7 @@
 
 		<div class='cert_list_title'><span>{{ \Illuminate\Support\Facades\Auth::user()->name }}</span>님이 발급받은 인증서입니다.</div>
 
-		@if($orders == [])
+		@if(count($orders) > 0)
 			@foreach($orders as $key => $order)
 				<div class='cert_list_box'>
 					<div class='cert_box_head'>

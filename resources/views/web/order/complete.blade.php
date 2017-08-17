@@ -84,7 +84,7 @@
 				<div class='order_info_desc'>
 					<span>{{ $order->reservation->reservation_at->format('Y-m-d H') }}시</span>
 
-					<span>한스모터스<br>전화번호:02-45-0788<br>주소 : 서울특별시 강남구 개포로 644</span>
+					<span>{{ $order->garageInfo->name }}<br>전화번호: {{ $order->garageInfo->tel }}<br>주소 : {{ $order->garageInfo->address }}</span>
 				</div>
 			</div>
 		</div>

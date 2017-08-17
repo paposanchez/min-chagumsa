@@ -38,7 +38,7 @@ class SearchController extends Controller {
 
 
         if(count($where->get()) != 0){
-            $result = $where->get();
+            $orders = $where->get();
         }else{
             $empty = 1;
         }
@@ -66,7 +66,7 @@ class SearchController extends Controller {
 
 //        $result = $where->get();
 
-        return view('web.search.index', compact('result', 'empty'));
+        return view('web.search.index', compact('orders', 'empty'));
     }
 
 }

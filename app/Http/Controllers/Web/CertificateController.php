@@ -43,7 +43,7 @@ class CertificateController extends Controller {
                         $join->on('orders.id', '=', 'certificates.orders_id');
                     })
                     ->get();
-//        dd($orders);
+
 //        $row = User::select()->join(‘role_user’, function($join){
 //            $join->on(‘users.id’, ‘=‘, ‘role_user.user_id’)->where(‘role_id’, 4);
 //        });
