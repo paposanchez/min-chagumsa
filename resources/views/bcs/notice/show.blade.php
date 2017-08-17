@@ -69,7 +69,6 @@
         $(function () {
             //파일 다운로드
             $("#dwn-orgin").on("click",function(e){
-                alert('a');
                 e.preventDefault();
                 window.location.href = $(this).data("dwn");
             });
