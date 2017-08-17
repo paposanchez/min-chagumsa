@@ -32,7 +32,11 @@ use ResetsPasswords;
     }
 
     public function showResetForm(Request $request, $token = null) {
-        return view('web.auth.passwords.reset')->with(['token' => $token]);
+        return view('web.auth.passwords.reset-form')->with(['token' => $token]);
+    }
+
+    public function reset(Request $request){
+        return redirect('/');
     }
 
 }
