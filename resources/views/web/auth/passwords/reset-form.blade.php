@@ -116,7 +116,7 @@
 @endsection
 
 
-@section( 'footer-script' )
+@push( 'footer-script' )
 <script type="text/javascript">
     $(function () {
         $("#form").validate({
@@ -146,4 +146,4 @@
         });
     });
 </script>
-@endsection
+@endpush
