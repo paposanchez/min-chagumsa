@@ -127,11 +127,17 @@ Route::get('register/registered', 'Auth\RegisterController@registered')->name('r
 // Route::get('verify', 'Auth\VerifyController@emailCheck');
 
 // 비밀번호 분실
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+//Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
 //Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 //Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
-Route::post('password/reset-form', 'Auth\ForgotPasswordController@resetForm')->name('password.reset-form');
-Route::post('password/reset-password', 'Auth\ForgotPasswordController@reset')->name('password.reset-password');
+//Route::post('password/reset-form', 'Auth\ForgotPasswordController@resetForm')->name('password.reset-form');
+//Route::post('password/reset-password', 'Auth\ForgotPasswordController@reset')->name('password.reset-password');
+
+// 회원정보 분실
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
 // 회원가입시 이메일 인증 재발송폼
