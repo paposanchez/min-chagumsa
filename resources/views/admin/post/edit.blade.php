@@ -64,26 +64,26 @@
                             @endforeach
                         </select>
 
-                        @if ($errors->has('user_id'))
+                        @if ($errors->has('category'))
                             <span class="help-block">
-                        {{ $errors->first('user_id') }}
+                        {{ $errors->first('category') }}
                     </span>
                         @endif
                     </div>
                 </div>
 
 
-                <div class="form-group {{ $errors->has('user_id') ? 'has-error' : '' }}">
-                    <label for="inputUserId" class="control-label col-md-3">{{ trans('admin/post.user_id') }}</label>
-                    <div class="col-md-4">
-                        <select name="user_id" id="inputUserId"  style="width: 100%"></select>
-                        @if ($errors->has('user_id'))
-                        <span class="help-block">
-                            {{ $errors->first('user_id') }}
-                        </span>
-                        @endif
-                    </div>
-                </div>
+                {{--<div class="form-group {{ $errors->has('user_id') ? 'has-error' : '' }}">--}}
+                    {{--<label for="inputUserId" class="control-label col-md-3">{{ trans('admin/post.user_id') }}</label>--}}
+                    {{--<div class="col-md-4">--}}
+                        {{--<select name="user_id" id="inputUserId"  style="width: 100%"></select>--}}
+                        {{--@if ($errors->has('user_id'))--}}
+                        {{--<span class="help-block">--}}
+                            {{--{{ $errors->first('user_id') }}--}}
+                        {{--</span>--}}
+                        {{--@endif--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
                 <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                     <label for="inputName" class="control-label col-md-3">{{ trans('admin/post.name') }}</label>
@@ -101,7 +101,7 @@
                 <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                     <label for="inputEmail" class="control-label col-md-3">{{ trans('admin/post.email') }}</label>
                     <div class="col-md-4">
-                        <input type="email" class="form-control" placeholder="{{ trans('admin/post.email') }}" name="email" id="inputEmail" value="{{ $post->email or old('email') }}">
+                        <input type="email" class="form-control" placeholder="{{ trans('admin/post.email') }}" name="email" id="inputEmail" value="{{ \Illuminate\Support\Facades\Auth::user()->email }}">
 
                         @if ($errors->has('email'))
                         <span class="help-block">

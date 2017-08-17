@@ -48,6 +48,11 @@ class PostController extends Controller {
 //            }
 //        }
 
+        //카테고리 검색
+        $board_id = $request->get('board_id');
+        if($board_id){
+            $where = $where->where('board_id', $board_id);
+        }
 
 
         //기간 검색
