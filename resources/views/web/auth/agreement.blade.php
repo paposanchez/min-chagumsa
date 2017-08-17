@@ -9,7 +9,8 @@
 
 	<div class='join_wrap'>
 
-		<ul class='join_step'>
+
+		<ul class='join_step text-center'>
 			<li class='on'>
 				<strong>01</strong>
 				<span>약관동의</span>
@@ -24,10 +25,12 @@
 			</li>
 		</ul>
 
+
+
 		<div class='br30'></div>
 		<div class='br20'></div>
 
-		{!! Form::open(['method' => 'POST','route' => ['register.join'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data", "autocomplete" => "off", 'role' => 'form', 'id'=>'join-form']) !!}
+		{!! Form::open(['method' => 'GET','route' => ['register'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data", "autocomplete" => "off", 'role' => 'form', 'id'=>'join-form']) !!}
 		<div class='join_term_wrap'>
 			<label>이용약관</label>
 			<div class='term_area'>

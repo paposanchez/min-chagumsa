@@ -5,17 +5,17 @@
 <div id='sub_full_wrap'>
 
 	<div class='login_box_wrap'>
-
-		{{--{!! Form::open(['method' => 'POST','route' => ['login'], 'enctype'=>"multipart/form-data", 'id' => "login-form"]) !!}--}}
-		{!! Form::open(['url' => 'login', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+		{!! Form::open(['url' => 'login', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'login-form']) !!}
 		<h3>{{ Html::image(Helper::theme_web( '/img/sub/logo_big.png')) }}</h3>
 		<div class='br30'></div>
-		<div class='ipt_line br10'>
+		<div class='ipt_line br10 has-error'>
 			<input name="email" type='text' class='ipt' placeholder='아이디 (이메일)'>
+
 		</div>
 		<div class='br10'></div>
-		<div class='ipt_line'>
+		<div class='ipt_line has-error'>
 			<input name="password" type='password' class='ipt' placeholder='비밀번호'>
+			<span class='ipt_msg'></span>
 		</div>
 		<div class='br10'></div>
 		<div class='ipt_line'>
@@ -30,7 +30,9 @@
 		</div>
 		<div class='br20'></div>
 		<div class='login_link'>
-			<a href='{{ route('register') }}'>회원가입</a><a href=''>비밀번호 찾기</a>
+			{{--<a href='{{ route('register') }}'>회원가입</a>--}}
+			<a href='{{ route('register.agreement') }}'>회원가입</a>
+			<a href='/password/reset'>비밀번호 찾기</a>
 		</div>
 
 		{!! Form::close() !!}
@@ -38,6 +40,8 @@
 
 
 </div>
+
+
 @endsection
 
 
@@ -75,6 +79,7 @@
 
 		    //form validation
             $("#login-form").validate({
+                debug: true,
                 rules: {
                     email: {
                         required: true,
@@ -82,23 +87,23 @@
 					},
 					password: {
                         required: true,
-                        minlength: 8,
+                        minlength: 7,
 						maxlength: 16
 					}
         		},
 				messages: {
 					email: "정확한 이메일 주소를 입력해 주세요.",
-					password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)"
+					password: "비밀번호를 확인하세요.(7~16 자리의 영문/숫자/특수문자)"
 				},
-				errorPlacement: function(error, element) {
-					/*
-					 var chk_name = element.attr("name");
-					 var checked = $("input[name="+chk_name+"]").is(":checked");
-					 if(checked == false){
-					 $('#'+chk_name+'-span').text(error.text()).css({'color': 'red'});
-					 }
-					 */
-				},
+//				errorPlacement: function(error, element) {
+//					/*
+//					 var chk_name = element.attr("name");
+//					 var checked = $("input[name="+chk_name+"]").is(":checked");
+//					 if(checked == false){
+//					 $('#'+chk_name+'-span').text(error.text()).css({'color': 'red'});
+//					 }
+//					 */
+//				},
 				submitHandler: function(form){
 
                     //cookie 저장여부 확인하여 처리함.

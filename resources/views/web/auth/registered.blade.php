@@ -14,11 +14,11 @@
 				<strong>01</strong>
 				<span>약관동의</span>
 			</li>
-			<li class='on link'>
+			<li class='on'>
 				<strong>02</strong>
 				<span>회원정보입력</span>
 			</li>
-			<li class='on'>
+			<li class="on">
 				<strong>03</strong>
 				<span>회원가입완료</span>
 			</li>
@@ -55,15 +55,20 @@
 		<div class='ipt_line ipt_guide' style='width:400px;'>
 			<span>입력하신 이메일로 인증메일이 발송되었습니다.
 			메일을 확인하시고 [이메일 인증하기] 버튼을 눌러주시면 인증이 완료됩니다.<br><br>
-			인증메일을 받지 못하셨나요?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=''>인증메일 재발송 ></a>
+			인증메일을 받지 못하셨나요?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='' style="color: black !important; font-style: italic;">인증메일 재발송 ></a>
 			</span>
 		</div>
 
-		<div class='br30'></div>
+		<div class='br40'></div>
 
 		<div class='ipt_line wid20'>
 			<a href="/" class='btns btns_green' style='display:inline-block;'>홈으로 이동</a>
 		</div>
+
+		{{--<p class="form-control-static text-center">--}}
+
+			{{--<button type="button" class='btn btn-primary2 btn-lg wid25 order-page-move' data-index="2">홈으로 이동</button>--}}
+		{{--</p>--}}
 
 	</div>
 

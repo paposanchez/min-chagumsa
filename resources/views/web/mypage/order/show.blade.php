@@ -37,7 +37,8 @@
 			<div class='order_info_btn text-center'>
 				{{ $order->status->display() }}
 				@if( $order->status_cd != 107 && $order->status_cd != 100 )
-					<a href="{{ route('mypage.order.cancel', ['order_id'=>$order->id]) }}" class='btns btns2' id="cancel" style="display: block; font-size: 15px;margin-top: 5px;">취소신청</a>
+					{{--<a href="{{ route('mypage.order.cancel', ['order_id'=>$order->id]) }}" class='btns btns2' id="cancel" style="display: block; font-size: 15px;margin-top: 5px;">취소신청</a>--}}
+					<button type="button" class="btns btns2 cancel-click" id="cancel" data-cancel_order_id="{{ $order->id }}" style="display: block; font-size: 15px;margin-top: 5px;">결제취소</button>
 				@endif
 
 			</div>
@@ -154,11 +155,16 @@
 	<div class='br30'></div>
 
 	<div class='ipt_line wid25'>
-		<button class='btns btns_green history-back' style='display:inline-block;' type="button"><a href="{{ route('mypage.order.index') }}">주문목록 돌아가기</a></button>
+		<button class='btns btns_green history-back' style='display:inline-block;' type="button" id="mypage">주문목록 돌아가기</button>
 	</div>
 
-
 </div>
+
+
+{!! Form::open(['route' => ["mypage.order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
+<input type="hidden" name="order_id" id="cancel-order_id">
+{!! Form::close() !!}
+
 
 @endsection
 
@@ -167,4 +173,24 @@
 @endpush
 
 @push( 'footer-script' )
+<script type="text/javascript">
+	$(function (){
+        $('#mypage').click(function (){
+            location.href = '{{ route('mypage.order.index') }}';
+        });
+
+        $(".cancel-click").on("click", function(){
+            if(confirm("해당 주문에 대한 결제를 취소하시겠습니까?")){
+                var order_id = $(this).data("cancel_order_id");
+                if(order_id){
+                    $("#cancel-order_id").val(order_id);
+                    $("#cancel-form").submit();
+                }else{
+                    alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
+                }
+
+            }
+        });
+	})
+</script>
 @endpush

@@ -44,10 +44,8 @@ class OrderController extends Controller {
     public function show($id) {
 
         $order = Order::find($id);
-        $item = Item::find($order->item_id);
-        if(!$item){
-            $item = [];
-        }
+
+
         $my_garage = GarageInfo::find($order->garage_id)->first();
         if(!$my_garage){
             $my_garage = [];
@@ -64,7 +62,7 @@ class OrderController extends Controller {
         }
 
 
-        return view('web.mypage.order.show', compact('order', 'item', 'my_garage', 'features'));
+        return view('web.mypage.order.show', compact('order', 'my_garage', 'features'));
     }
 
     public function editCar($order_id){
@@ -181,7 +179,7 @@ class OrderController extends Controller {
 
 
         $order = Order::find($order_id);
-
+        $event = '';
         if($order){
 
             $purchase = Purchase::find($order->purchase_id);
@@ -294,17 +292,6 @@ class OrderController extends Controller {
             $message = "해당 주문을 확인할 수 없습니다.<br>관리자에게 문의해 주세요.";
             $event = 'error';
         }
-
-
-
-
-
-//        dd($message);
-
-        //주문상태 변경은 콜백에서 처리함
-
-
-
 
         return redirect()->route('mypage.order.index')
             ->with($event, $message);

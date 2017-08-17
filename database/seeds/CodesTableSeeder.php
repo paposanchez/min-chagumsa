@@ -447,7 +447,9 @@ class CodesTableSeeder extends Seeder {
             ['group' => 'vin_yn_cd', 'name' => 'different'],
 
             ['group' => 'open_cd', 'name' => 'public'],
-            ['group' => 'open_cd', 'name' => 'private']
+            ['group' => 'open_cd', 'name' => 'private'],
+
+            ['group' => 'part_state_cd', 'name' => 'good'],
 
         ]);
 

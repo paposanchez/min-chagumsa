@@ -4,8 +4,6 @@
 Route::group(['middleware' => ['auth']], function () {
     Route::get('mypage', 'MypageController@index')->name("mypage");
     Route::group(['namespace' => 'Mypage', 'prefix' => 'mypage', 'as' => 'mypage.'], function () {
-
-
         Route::post('profile/chk-pwd', ['as' => 'profile.chk-pwd', 'uses' => 'ProfileController@chkPwd']);
         Route::resource('profile', 'ProfileController');
         Route::resource('history', 'HistoryController');
@@ -13,6 +11,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/order/edit_car/{order_id}', 'OrderController@editCar')->name('order.edit_car');
         Route::get('/order/edit_garage/{order_id}', 'OrderController@editGarage')->name('order.edit_garage');
         Route::post('/order/cancel', 'OrderController@cancel')->name('order.cancel');
+
+
+        Route::get('/leave', 'ProfileController@leaveForm');
+        Route::post('/leave', 'ProfileController@leave')->name('profile.leave');
     });
 
     //SMS관련
@@ -77,7 +79,7 @@ Route::get('information/price', 'InformationController@price')->name('informatio
 //Route::get('information/find-garage', function () {
 //    return view('web.information.find-garage');
 //})->name('information.find-garage');
-Route::get('/information/find0garage', 'InformationController@findGarage')->name('information.find-garage');
+Route::get('/information/find-garage', 'InformationController@findGarage')->name('information.find-garage');
 
 
 
@@ -109,15 +111,34 @@ Route::get('search{q?}', 'SearchController@index')->name('search.index');
 
 // Authentication
 Route::get('logout', 'Auth\LoginController@logout');
-Auth::routes();
 // 회원가입폼
-Route::post('register/join', 'Auth\RegisterController@join')->name('register.join');
+Route::get('agreement', 'Auth\RegisterController@agreement')->name('register.agreement');
+// Route::post('register/join', 'Auth\RegisterController@join')->name('register.join');
 // 회원가입완료
 Route::get('register/registered', 'Auth\RegisterController@registered')->name('register.registered');
-// 이메일 인증
-Route::get('verify', 'Auth\VerifyController@emailCheck');
+ // 이메일 인증
+// Route::get('verify', 'Auth\VerifyController@emailCheck');
 
+// 비밀번호 분실
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+//Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+//Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset-form', 'Auth\ForgotPasswordController@resetForm')->name('password.reset-form');
+Route::post('password/reset-password', 'Auth\ForgotPasswordController@reset')->name('password.reset-password');
+
+
+// 회원가입시 이메일 인증 재발송폼
+Route::get('resend', 'Auth\RegisterController@resend')->name('register.resend');
+// 회원강비시 이메일 인증 재발송 처리
+Route::post('resent', 'Auth\RegisterController@resent')->name('register.resent');
+// 회원가입시 이메일 인증 처리
+Route::get('verify/{token}', 'Auth\RegisterController@verify')->name('verify');
+Auth::routes();
+
+// Route::get('register', 'Auth\RegisterController@getRegister');
+Route::post('register', 'Auth\RegisterController@postRegister');
 Route::any('/', 'WelcomeController');
+
 
 
 

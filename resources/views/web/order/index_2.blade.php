@@ -36,11 +36,11 @@
         <input type="hidden" name="item_id" id="item_id" value="" >
         <input type="hidden" name="payment_price" id="payment_price" value="" >
         <input type="hidden" name="payment_method" id="payment_method" value="" >
-        <input type="hidden" name="sms_id" id="sms_id" autocomplete="off">
+        <input type="hidden" name="sms_id" id="sms_id" value="123123" autocomplete="off">
         <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off">
         <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off" >
         <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off" >
-        <input type="hidden" name="mobile" id="mobile" value="" >
+        <input type="hidden" name="mobile" id="mobile" value="123123" >
 
 <!--         <input name="cars_id" value="" type="hidden">
         <input name="id" id="moid" type="hidden" value="">{{-- 주문번호 --}}
@@ -71,7 +71,7 @@
                         <label for="exampleInputEmail1">휴대전화번호</label>
 
                         <div class="input-group input-group-lg">                  
-                            <input type='text' id="orderer_mobile" class='form-control ' name="orderer_mobile" placeholder='휴대폰 번호' value="" autocomplete="off">
+                            <input type='text' id="orderer_mobile" class='form-control ' name="orderer_mobile" placeholder='휴대폰 번호' value="010-0000-0000" autocomplete="off">
                             <span class="input-group-btn">
                                 <button class="btn btn-default2" type="button" id="mobile-verification">인증번호 전송</button>
                             </span>
@@ -128,7 +128,7 @@
                     <div class="row">
                         <div class="col-xs-9">
                             <div class="input-group input-group-lg">
-                                <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservation_date' id="reservation_date" value='' style="margin-right: 5px;">
+                                <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD" placeholder="{{ trans('web/order.reservation_date') }}" name='reservation_date' id="reservation_date" value='2017-08-31' style="margin-right: 5px;">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default2" type="button" id="calendar-opener"><i class="fa fa-calendar"></i></button>
                                 </span>
@@ -167,7 +167,7 @@
 
             <div class="form-group">
                 <label for="exampleInputEmail1">차량번호</label>
-                <input type="text" class="form-control input-lg wid50" id="car_number" placeholder='차량번호' value="{{ old('car_number') }}" name="car_number">
+                <input type="text" class="form-control input-lg wid50" id="car_number" placeholder='차량번호' value="00허0000" name="car_number">
             </div>
 
 
@@ -660,8 +660,12 @@ var countdown;
             else {
                 PageTransitions.nextPage(d);
             }
-//            PageTransitions.nextPage(d);
 
+
+        });
+
+        PageTransitions.nextPage({
+            'showPage' : 2
         });
 
         var car_num_chk = function(car_num)
@@ -731,12 +735,17 @@ var countdown;
 //                            text : value.name
 //                        }))
                     });
+                    $('#sections').val("동작구").trigger("change");
                 },
                 error : function () {
                     alert('error');
                 }
             })
         });
+
+
+        $('#areas').val("서울시").trigger("change");
+
 
         $('#sections').change(function () {
             var garage_area = $('#areas option:selected').text();
@@ -761,6 +770,7 @@ var countdown;
                             text : value.name
                         }))
                     });
+                    $('#garages').val("보쉬 정비소").trigger("change");
                 },
                 error : function (data) {
                     alert('error');
@@ -949,7 +959,8 @@ var countdown;
 
 
 
-    
+
+
 
         // brands 선택 시
         $('#brands').change(function(){
@@ -975,11 +986,15 @@ var countdown;
                             text : value.name
                         }));
                     });
+                    $('#models').val(319).trigger("change");
                 },
                 error: function (data) {
                     alert('처리중 오류가 발생했습니다.');
                 }});
         });
+
+
+        $('#brands').val(1).trigger("change");
 
         // models 선택 시
         $('#models').change(function(){
@@ -1004,7 +1019,7 @@ var countdown;
                             text : value.name
                         }));
                     });
-
+                    $('#details').val(519).trigger("change");
                 },
                 error: function (data) {
                     alert('처리중 오류가 발생했습니다.');
@@ -1032,7 +1047,7 @@ var countdown;
                             text : value.name
                         }));
                     });
-
+                    $('#grades').val(1).trigger("change");
                 },
                 error: function (data) {
                     alert('처리중 오류가 발생했습니다.');

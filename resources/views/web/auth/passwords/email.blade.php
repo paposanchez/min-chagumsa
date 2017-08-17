@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            {!! Form::open(['url' => 'password/email', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}   
+            {!! Form::open(['url' => 'password/email', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
 
             <div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
                 <label for="inputEmail" class="control-label sr-only">{{ trans("passwords.email") }}</label>
@@ -48,18 +48,26 @@
 
         </div>
 
-    </div>	
+    </div>
 
 </div>
 </div>
+
+
 
 @endsection
 
 
-@section( 'footer-script' )
+@push( 'footer-script' )
 <script type="text/javascript">
     $(function () {
-
+//        $('#send').click(function (){
+//            var email = $('#email').val();
+//            alert('새로운 비밀번호를 해당 이메일에 전송하였습니다.');
+//
+//
+//
+//        });
     });
 </script>
-@endsection
+@endpush

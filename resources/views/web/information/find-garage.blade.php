@@ -59,16 +59,17 @@
     $(function(){
         $('#areas').change(function () {
             var garage_area = $('#areas option:selected').text();
+
             $.ajax({
                 type : 'get',
                 dataType : 'json',
-                url : '/order/get_section/',
+                url : '/order/get_section',
                 data : {
-                    '_token': '{{ csrf_token() }}',
                     'garage_area' : garage_area
                 },
-                success : function (data) {
-                    $('#sel_section').text('구/군을 선택하세요.');
+                success : function (data){
+                    $('#sections').html('');
+                    $('#sections').append('<option selected>구/군을 선택하세요.</option>');
                     $.each(data, function (key, value) {
                         $('#sections').append($('<option/>', {
                             value: value.id,
@@ -76,7 +77,7 @@
                         }));
                     });
                 },
-                error : function () {
+                error : function (data){
                     alert('error');
                 }
             })

@@ -58,8 +58,8 @@
     $(function(){
         // 이전 버튼
         $('#prev').click(function (){
-            location.href = "{{ URL::previous() }}";
-            {{--location.href = "{{ route('mypage.order.show', ['id'=>$order->id]) }}";--}}
+            {{--location.href = "{{ URL::previous() }}";--}}
+            location.href = "{{ route('mypage.order.show', ['id'=>$order->id]) }}";
         });
     });
 

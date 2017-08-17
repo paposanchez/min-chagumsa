@@ -132,15 +132,15 @@ class UserController extends Controller {
 
 
                 // user_sequence 데이터 저장
-                $user_seq = UserSequence::where('users_id', $user->id)->first();
-                if(!$user_seq){
-                    $user_seq = new UserSequence();
-                }
-                $user_seq->users_id = $user->id;
-//                    $user_seq->seq = str_pad($user_seq, 5 , "0", STR_PAD_LEFT);
-//                    $user_seq->garage_seq = str_pad($garage_seq, 5 , "0", STR_PAD_LEFT);
-                $user_seq->save();
-                $user_seq->setNewGarageSeq($user->id);
+//                $user_seq = UserSequence::where('users_id', $user->id)->first();
+//                if(!$user_seq){
+//                    $user_seq = new UserSequence();
+//                }
+//                $user_seq->users_id = $user->id;
+//                $user_seq->seq = str_pad($user_seq, 5 , "0", STR_PAD_LEFT);
+//                $user_seq->garage_seq = str_pad($garage_seq, 5 , "0", STR_PAD_LEFT);
+//                $user_seq->save();
+//                $user_seq->setNewGarageSeq($user->id);
 
 
             }else{
@@ -164,13 +164,13 @@ class UserController extends Controller {
 
 
                 // user_sequence 데이터 저장
-                $user_seq = UserSequence::where('users_id', $user->id)->first();
-                if(!$user_seq){
-                    $user_seq = new UserSequence();
-                }
-                $user_seq->users_id = $user->id;
-                $user_seq->save();
-                $user_seq->setNewEngineerSeq($user->id, $garage_info->garage_id);
+//                $user_seq = UserSequence::where('users_id', $user->id)->first();
+//                if(!$user_seq){
+//                    $user_seq = new UserSequence();
+//                }
+//                $user_seq->users_id = $user->id;
+//                $user_seq->save();
+//                $user_seq->setNewEngineerSeq($user->id, $garage_info->garage_id);
 
 
             }

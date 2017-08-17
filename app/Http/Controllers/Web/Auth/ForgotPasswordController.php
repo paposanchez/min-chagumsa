@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
+use App\Models\User;
 use Illuminate\Contracts\Auth\PasswordBroker AS Password;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -31,7 +32,7 @@ use SendsPasswordResetEmails;
     }
 
     public function showLinkRequestForm() {
-        return view('web.auth.passwords.email');
+        return view('web.auth.passwords.reset');
     }
 
     /**
@@ -53,4 +54,26 @@ use SendsPasswordResetEmails;
         return $response == Password::RESET_LINK_SENT ? $this->sendResetLinkResponse($response) : $this->sendResetLinkFailedResponse($request, $response);
     }
 
+
+
+
+
+    public function resetForm(Request $request){
+//        $this->validate($request->all(), ['email'=> 'required|email'], [], ['email' => trans('passwords.email')]);
+
+        $user = User::where('email', $request->get('email'))->first();
+
+        if(!$user){
+            return redirect()->back()->with('error', trans('verification.check_error_email'));
+        }
+//        return redirect()->route('password.reset', ['email' => $request->get('email')]);
+
+
+        $email = $request->get('email');
+        return view('web.auth.passwords.reset-form', compact('email'));
+    }
+
+    public function reset(Request $request){
+        dd('dd');
+    }
 }
