@@ -76,7 +76,7 @@ class InquireController extends PostController {
 
     public function store(Request $request){
         $validate = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users',
+            'email' => 'required',
             'subject' => 'required',
             'content' => 'required',
             'password' => 'min:4'
