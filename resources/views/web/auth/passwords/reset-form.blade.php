@@ -12,18 +12,18 @@
 
         <div class='br20'></div>
 
-        <div class='ipt_line {{ $errors->has('email') ? ' has-error' : '' }}'>
+        <div class='ipt_line has-error'>
             <input type='text' class='ipt' id="email" name="email" placeholder='변경할 비밀번호'>
         </div>
 
         <div class='br10'></div>
 
-        <div class='ipt_line {{ $errors->has('password') ? ' has-error' : '' }}'>
+        <div class='ipt_line has-error'>
             <input type='password' class='ipt' id="password" name="password" placeholder='변경할 비밀번호'>
         </div>
         <div class='br10'></div>
 
-        <div class='ipt_line {{ $errors->has('password_confirmation') ? ' has-error' : '' }}'>
+        <div class='ipt_line has-error'>
             <input type='password' class='ipt' id="password-confirm" name="password_confirmation" placeholder='비밀번호 확인'>
         </div>
         <div class='br20'></div>
