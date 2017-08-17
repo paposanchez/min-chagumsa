@@ -100,13 +100,6 @@
                 {!! Form::close() !!}
 
 
-                <p class="text-center">
-                    <small class="text-muted text-light">Copyrights by <a target="_blank" href="/about">mixapply.com</a>
-                        © 2015. All
-                        right reserved.
-                    </small>
-                </p>
-
             </div>
 
         </div>
@@ -137,6 +130,7 @@
                 },
             },
             messages:{
+                email : "사용자의 이메일을 입력해주세요.",
                 password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)",
                 password_confirmation: "입력된 비밀번호 확인값이 틀립니다."
             },

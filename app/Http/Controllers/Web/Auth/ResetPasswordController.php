@@ -38,12 +38,10 @@ use ResetsPasswords;
 
     public function reset(Request $request){
         $user = User::where('email', $request->email)->first();
-        $user->password = $request->get('password');
+        $user->password = bcrypt($request->get('password'));
         $user->save();
 
-
-
-        return redirect('/');
+        return redirect('/')->with('success', '비밀번호가 정상적으로 변경되었습니다. 로그인 이후 이용해주세요.');
     }
 
 }
