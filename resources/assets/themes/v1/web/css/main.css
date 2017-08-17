@@ -24,7 +24,7 @@
 
 .mv_cert_search_wrap {height:64px;box-shadow:inset 0px 0px 5px 0px rgba(0,0,0,0.55);background:#fff;}
 .mv_cert_search_wrap input {float:left;padding-left:15px;width:260px;height:64px;border:0;box-sizing:border-box;font-size:19px;background:none;}
-.mv_cert_search_wrap button {float:right;border:0;color:#01355f;background:none;width:56px;height:64px;line-height:64px;text-align:center;font-size:19px;}
+.mv_cert_search_wrap button {float:right;border:0;color:#01355f;background:none;width:50px;height:64px;line-height:64px;text-align:center;font-size:19px;}
 .mv_cert_search_wrap button i {position:relative;top:-1px;}
 
 .mv_report_wrap {position:absolute;width:707px;height:452px;top:20px;right:-102px;background:url('../img/main/mv_report_bg.png') center center no-repeat;}
