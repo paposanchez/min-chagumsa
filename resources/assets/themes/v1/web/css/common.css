@@ -11,7 +11,7 @@
 */
 
 div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td, abbr, acronym, address, big, cite, code, ins, small, sub, sup
-{ font:normal 12px/22px 'Noto Sans KR', sans-serif; padding:0; margin:0; }
+{ font:normal 14px/22px 'Noto Sans KR', sans-serif; padding:0; margin:0; }
 
 div img, dl img, dt img, dd img, ul img, ol img, li img, h1 img, h2 img, h3 img, h4 img, h5 img, h6 img, pre img, form img, fieldset img, input img, textarea img, p img, blockquote img, th img, td img{ font-size:0; line-height:0; }
 table{ border-collapse:collapse; border-spacing:0; }
