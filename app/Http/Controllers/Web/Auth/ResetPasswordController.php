@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 
@@ -36,6 +37,12 @@ use ResetsPasswords;
     }
 
     public function reset(Request $request){
+        $user = User::where('email', $request->email)->first();
+        $user->password = $request->get('password');
+        $user->save();
+
+
+
         return redirect('/');
     }
 
