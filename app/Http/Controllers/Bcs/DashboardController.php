@@ -2,84 +2,31 @@
 
 namespace App\Http\Controllers\Bcs;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Post;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
+    public function __invoke() {
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+//        $handler = new \App\Models\UserSequence();
+//        $garage_id = $handler->setNewGarageSeq(1);
+//        $garage_id = $handler->setNewGarageSeq(3);
+//        $garage_id = $handler->setNewGarageSeq(6);
+//        $handler->setNewEngineerSeq(2, 1);
+//        $handler->setNewEngineerSeq(4, 1);
+//        $handler->setNewEngineerSeq(5, 1);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $qna = Post::where('category_id', '2')->orderBy('created_at', 'desc')->take(5)->get();
+        $lated_post = Post::where('category_id', '1')->orderBy('created_at', 'desc')->take(5)->get();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return view('bcs.dashboard.index', compact('post', 'qna', 'lated_post'));
     }
 }

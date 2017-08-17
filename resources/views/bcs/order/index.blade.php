@@ -128,7 +128,7 @@
                         {{--<input type="checkbox">--}}
                         {{--</td>--}}
                         <td class="text-center">
-                            <a href="{{ route('order.show', $data->id) }}">{{ $data->getOrderNumber() }}</a>
+                            <a href="{{ url("order", [$data->id]) }}">{{ $data->getOrderNumber() }}</a>
                         </td>
                         <td class="">
                             {{ $data->orderer_name }}
