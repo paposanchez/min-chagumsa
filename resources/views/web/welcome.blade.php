@@ -22,7 +22,7 @@
             </div>
             <div class='mv_report_wrap'>
                 <div class='mv_report'>
-                    <a href='/'>{{ Html::image(Helper::theme_web( '/img/main/mv_report_btn.png')) }}</a>
+                    <a href='#'>{{ Html::image(Helper::theme_web( '/img/main/mv_report_btn.png')) }}</a>
                 </div>
             </div>
         </div>
@@ -90,6 +90,12 @@
 <script type="text/javascript">
     $(function () {
         $('#main_service').gallery();
+
+        $('.mv_report').click(function(){
+            var order_id = $(this).data('order_id');
+            //todo 임시로 order_id 를 4로 입력
+            window.open('/certificate/'+4+'/summary',"", "width=1400, height=1400");
+        });
     });
 </script>
 @endpush

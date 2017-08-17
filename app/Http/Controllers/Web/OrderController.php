@@ -39,8 +39,9 @@ class OrderController extends Controller {
     protected $mid = "tpaytest0m";//상점id
     
     public function index(Request $request) {
-        if(!Auth::user()){
-            return redirect('login');
+        $user = Auth::user();
+        if(!$user){
+            return redirect('/login')->with('error', '로그인이 필요한 서비스입니다.');
         }
 
         $user = Auth::user();
