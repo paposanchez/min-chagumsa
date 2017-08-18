@@ -23,10 +23,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/order/delete-sms', 'OrderController@deleteSms')->name('order.delete-sms');
 
     // 주문하기
-    Route::get('order', 'OrderController@index')->name("order.index");
+
 //    Route::resource('order', 'OrderController');
 //    Route::post('order/order-store', 'OrderController@orderStore')->name("order.order-store");
-    Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase");
+//    Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase");
     Route::post('order/complete', 'OrderController@complete')->name("order.complete");
     Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
     Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");
@@ -43,13 +43,20 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd')->name('certificate.change-open-cd');
 //    Route::resource('/certificate', 'CertificateController',['only' => ['index']]);
-    Route::get('/certificate', 'CertificateController@index')->name("certificate.index");
-    // 인증서 조회
 
-    Route::get('certificate/{id}/{page?}', 'CertificateController')->name("certificate");
+
 //    Route::get('certificate/performance/{id}', 'CertificateController@performance')->name("certificate.performance");
 
 });
+
+/////////////////////////////////////////////////////////////
+Route::get('order', 'OrderController@index')->name("order.index");
+Route::get('/certificate', 'CertificateController@index')->name("certificate.index");
+// 인증서 조회
+Route::get('certificate/{id}/{page?}', 'CertificateController')->name("certificate");
+
+
+
 
 // 공통
 Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
@@ -120,11 +127,17 @@ Route::get('register/registered', 'Auth\RegisterController@registered')->name('r
 // Route::get('verify', 'Auth\VerifyController@emailCheck');
 
 // 비밀번호 분실
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+//Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
 //Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 //Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
-Route::post('password/reset-form', 'Auth\ForgotPasswordController@resetForm')->name('password.reset-form');
-Route::post('password/reset-password', 'Auth\ForgotPasswordController@reset')->name('password.reset-password');
+//Route::post('password/reset-form', 'Auth\ForgotPasswordController@resetForm')->name('password.reset-form');
+//Route::post('password/reset-password', 'Auth\ForgotPasswordController@reset')->name('password.reset-password');
+
+// 회원정보 분실
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
 // 회원가입시 이메일 인증 재발송폼

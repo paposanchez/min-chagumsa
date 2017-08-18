@@ -8,6 +8,7 @@ use App\Models\DiagnosisDetails;
 use App\Models\DiagnosisDetail;
 use App\Models\DiagnosisDetailItem;
 use App\Models\DiagnosisFile;
+use App\Models\File;
 use App\Models\Item;
 use App\Repositories\DiagnosisRepository;
 use App\Models\Order;
@@ -16,6 +17,7 @@ use App\Models\Reservation;
 use App\Models\Code;
 use DB;
 use Carbon\Carbon;
+use \App\Mixapply\Uploader\Receiver;
 
 
 // use App\Exceptions\ApiHandler AS ApiException;
@@ -118,7 +120,7 @@ class DiagnosisController extends ApiController {
      *     summary="진단데이터의 파일업로드 핸들러",
      *     description="진단데이터의 이미지, 음성파일을 스토리지로 업로드한다",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="order_id",in="query",description="주문번호",required=true,type="integer"),
+     *     @SWG\Parameter(name="diagnoses_id",in="query",description="진단데이터 seq",required=true,type="integer"),
      *     @SWG\Parameter(
      *         description="업로드파일",
      *         in="formData",
@@ -137,7 +139,7 @@ class DiagnosisController extends ApiController {
      */
     public function upload(Request $request) {
 
-        $order_id = $request->get('order_id');
+        $diagnoses_id = $request->get('diagnoses_id');
 
         $return = [
             'status' => '',
@@ -146,8 +148,8 @@ class DiagnosisController extends ApiController {
 
         try {
             $uploader_name = 'upfile';
-            $uploader_group = 'diagnosis';
-            $uploader_group_id = $order_id;
+//            $uploader_group = 'diagnosis';
+//            $uploader_group_id = $order_id;
 
             $validator = Validator::make($request->all(), [
                 $uploader_name => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -158,6 +160,7 @@ class DiagnosisController extends ApiController {
                 $errors = $validator->errors()->all();
                 throw new Exception($errors[0]);
             }
+
 
             $uploader = new Receiver($request);
             $response = $uploader->receive($uploader_name, function ($file, $path_prefix, $path, $file_new_name) {
@@ -186,18 +189,15 @@ class DiagnosisController extends ApiController {
             if ($response['result']) {
 
                 // Save the record to the db
-                $data = File::create([
+                $data = DiagnosisFile::create([
+                    'diagnoses_id' => $diagnoses_id,
                     'original' => $response['result']['original'],
                     'source' => $response['result']['source'],
                     'path' => $response['result']['path'],
                     'size' => $response['result']['size'],
-                    'extension' => $response['result']['extension'],
                     'mime' => $response['result']['mime'],
-                    'hash' => $response['result']['hash'],
-                    'download' => 0,
-                    'group' => ($uploader_group ? $uploader_group : NULL),
-                    'group_id' => ($uploader_group_id ? $uploader_group_id : NULL)
                 ]);
+
                 $data->save();
 
                 $return = [

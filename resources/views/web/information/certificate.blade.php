@@ -6,7 +6,7 @@
 
 <div id='sub_wrap'>
 
-    <ul class='menu_tab_wrap'>
+    <ul class='menu_tab_wrap text-center'>
         <li><a class='' href='{{ route("information.index") }}'>서비스 소개</a></li>
         <li><a class='select' href='{{ route("information.certificate") }}'>차검사인증서란?</a></li>
         <li><a class='' href='{{ route("information.guide") }}'>특징 및 절차</a></li>

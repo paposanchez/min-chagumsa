@@ -49,12 +49,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group ">
-                            <div class="col-lg-12">
-                                <label class=""><input type="checkbox" name="remember_me"> 기억하기</label>
-                                <a class="pull-right link-muted" href="{{ url('/password/reset') }}">비밀번호 분실?</a>
-                            </div>
-                        </div>
+                        {{--<div class="form-group ">--}}
+                            {{--<div class="col-lg-12">--}}
+                                {{--<label class=""><input type="checkbox" name="remember_me"> 기억하기</label>--}}
+                                {{--<a class="pull-right link-muted" href="{{ url('/password/reset') }}">비밀번호 분실?</a>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
                         <div class="form-group">
                             <div class="col-lg-12">
@@ -64,11 +64,11 @@
 
                         <hr>
 
-                        <div class="form-group">
-                            <div class="col-lg-12">
-                                아직 회원이 아닌가요? <a href="{{ url('register') }}">회원가입?</a>
-                            </div>
-                        </div>
+                        {{--<div class="form-group">--}}
+                            {{--<div class="col-lg-12">--}}
+                                {{--아직 회원이 아닌가요? <a href="{{ url('register') }}">회원가입?</a>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
                         {!! Form::close() !!}
 

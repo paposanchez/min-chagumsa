@@ -36,8 +36,12 @@ class CertificateController extends Controller {
     }
 
     public function index(){
-        $user_id = Auth::user()->id;
-        $orders = Order::where('orderer_id', $user_id)
+        $user = Auth::user();
+        if(!$user){
+            return redirect('/login')->with('error', '로그인이 필요한 서비스입니다.');
+        }
+
+        $orders = Order::where('orderer_id', $user->id)
                     ->where('status_cd', 107)
                     ->join('certificates', function($join){
                         $join->on('orders.id', '=', 'certificates.orders_id');

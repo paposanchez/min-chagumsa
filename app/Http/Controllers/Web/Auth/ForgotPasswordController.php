@@ -73,7 +73,7 @@ use SendsPasswordResetEmails;
         return view('web.auth.passwords.reset-form', compact('email'));
     }
 
-    public function reset(Request $request){
-        dd('dd');
-    }
+//    public function reset(Request $request){
+//        dd('dd');
+//    }
 }
