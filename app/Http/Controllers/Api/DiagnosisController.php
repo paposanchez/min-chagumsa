@@ -103,6 +103,9 @@ class DiagnosisController extends ApiController {
      */
     public function update(Request $request) {
 
+//        진단데이터 저장
+//        유저 Id, 주문seq , [{id      : diagnosis.id, selected: diagnosis.selected}]
+
         $order_id = $request->get('order_id');
         $encrypt_json = $request->get('diagnosis');
 
@@ -120,6 +123,8 @@ class DiagnosisController extends ApiController {
      *     summary="진단데이터의 파일업로드 핸들러",
      *     description="진단데이터의 이미지, 음성파일을 스토리지로 업로드한다",
      *     produces={"application/json"},
+     *     @SWG\Parameter(name="user_id",in="query",description="유저 seq",required=true,type="integer"),
+     *     @SWG\Parameter(name="order_id",in="query",description="주문 seq",required=true,type="integer"),
      *     @SWG\Parameter(name="diagnoses_id",in="query",description="진단데이터 seq",required=true,type="integer"),
      *     @SWG\Parameter(
      *         description="업로드파일",
@@ -138,18 +143,26 @@ class DiagnosisController extends ApiController {
      * )
      */
     public function upload(Request $request) {
+        $engineer_check = Order::where('id', $request->get('order_id'))
+                            ->where('engineer_id', $request->get('user_id'))->count();
+
+
+
 
         $diagnoses_id = $request->get('diagnoses_id');
 
         $return = [
             'status' => '',
-            'msg' => ''
+            'msg' => $engineer_check
         ];
 
+
         try {
+            if($engineer_check != 1){
+                throw new Exception();
+            }
+
             $uploader_name = 'upfile';
-//            $uploader_group = 'diagnosis';
-//            $uploader_group_id = $order_id;
 
             $validator = Validator::make($request->all(), [
                 $uploader_name => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -160,6 +173,8 @@ class DiagnosisController extends ApiController {
                 $errors = $validator->errors()->all();
                 throw new Exception($errors[0]);
             }
+
+
 
 
             $uploader = new Receiver($request);
@@ -201,9 +216,9 @@ class DiagnosisController extends ApiController {
                 $data->save();
 
                 $return = [
-                    'status' => 'success',
-                    'msg' => trans('file.upload_success'),
-                    'data' => $data->toArray()
+                    'status' => 'success'
+//                    'msg' => trans('file.upload_success'),
+//                    'data' => $data->toArray()
                 ];
             }
 
@@ -211,8 +226,7 @@ class DiagnosisController extends ApiController {
         } catch (Exception $ex) {
 
             $return = [
-                'status' => 'error',
-                'msg' => $ex->getMessage(),
+                'status' => 'error'
             ];
 
             return response()->json($return);

@@ -32,6 +32,8 @@
 
                 <li class="{{ Request::is('post*') ? ' active':''}}"><a href="/post"><i class="fa fa-pencil"></i><span class="nav-label">{{ trans('admin/post.title') }}</span></a></li>
 
+                <li class="{{ Request::is('bcs-post*') ? ' active':''}}"><a href="/bcs-post"><i class="fa fa-bell"></i><span class="nav-label">{{ trans('admin/bcs-post.title') }}</span></a></li>
+
                 <li class="{{ Request::is('comment*') ? ' active':''}}"><a href="/comment"><i class="fa fa-comments"></i><span class="nav-label">{{ trans('admin/comment.title') }}</span></a></li>
 
                 <li class="dropdown {{ Request::is('config*') ? ' active':''}}">

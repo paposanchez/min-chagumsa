@@ -12,6 +12,10 @@ Breadcrumbs::register('admin.post', function($breadcrumbs) {
     $breadcrumbs->parent('admin');
     $breadcrumbs->push(trans("admin/post.title"), route('post.index'));
 });
+Breadcrumbs::register('admin.bcs-post', function($breadcrumbs) {
+    $breadcrumbs->parent('admin');
+    $breadcrumbs->push(trans("admin/bcs-post.title"), route('bcs-post.index'));
+});
 Breadcrumbs::register('admin.comment', function($breadcrumbs) {
     $breadcrumbs->parent('admin');
     $breadcrumbs->push(trans("admin/comment.title"), route('comment.index'));
