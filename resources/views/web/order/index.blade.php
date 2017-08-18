@@ -914,7 +914,7 @@ var countdown;
                     success: function(jdata){
                         if(jdata.result == 'OK'){
                             $("#sms_confirmed").val(1);
-                            alert('인증이 완료 되었습니다.\n차량정보를 입력헤 주세요.');
+                            alert('휴대폰 인증이 완료 되었습니다. \n입고 대리점 및 입고 희망일을 선택해 주세요.');
                             $('#modalSms').modal('hide');
                             $("#orderer_mobile").prop('disabled', true);
                         }else{
