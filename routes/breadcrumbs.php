@@ -111,3 +111,9 @@ Breadcrumbs::register('bcs.order', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
     $breadcrumbs->push(trans("admin/order.title"), route("order.index"));
 });
+
+//############################## Technician
+Breadcrumbs::register('technician.order', function($breadcrumbs){
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("admin/order.title"), route("order.index"));
+});

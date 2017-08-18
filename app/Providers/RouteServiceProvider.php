@@ -37,6 +37,7 @@ class RouteServiceProvider extends ServiceProvider {
         $this->mapBcsRoutes();
         $this->mapAdminRoutes();
         $this->mapWebRoutes();
+        $this->mapTechnicianRoutes();
     }
 
     /**
@@ -91,6 +92,18 @@ class RouteServiceProvider extends ServiceProvider {
             'domain' => 'garage.' . config('app.domain'),
                 ], function ($router) {
             require base_path('routes/bcs.php');
+        });
+    }
+
+    protected function mapTechnicianRoutes() {
+        $namespace = $this->namespace . '\Technician';
+
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $namespace,
+            'domain' => 'tech.' . config('app.domain'),
+        ], function ($router) {
+            require base_path('routes/technician.php');
         });
     }
 
