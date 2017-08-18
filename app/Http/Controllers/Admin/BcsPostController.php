@@ -228,7 +228,7 @@ class BcsPostController extends Controller {
 
         return redirect()
 //                        ->route('post.edit', $post->id)
-                        ->route('post.index')
+                        ->route('bcs-post.index')
                         ->with('success', trans('admin/bcs-post.updated'));
     }
 
