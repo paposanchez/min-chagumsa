@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Car;
+use App\Models\Diagnosis;
 use App\Models\DiagnosisDetails;
 use App\Models\DiagnosisDetail;
 use App\Models\DiagnosisDetailItem;
@@ -91,13 +92,7 @@ class DiagnosisController extends ApiController {
      *     produces={"application/json"},
      *     @SWG\Parameter(name="user_id",in="query",description="유저 seq",required=true,type="integer",format="int32"),
      *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
-     *     @SWG\Parameter(
-     *         description="진단 선택값 배열",
-     *         in="formData",
-     *         name="diagnosis",
-     *         required=true,
-     *         type="array"
-     *     ),
+     *     @SWG\Parameter(name="diagnoses",in="query",description="진단 데이터",required=true,type="string",format="text"),
      *     @SWG\Response(response=401, description="unauthorized"),
      *     @SWG\Response(response=404, description="not found"),
      *     @SWG\Response(response=500, description="internal server error"),
@@ -110,17 +105,35 @@ class DiagnosisController extends ApiController {
      * )
      */
     public function update(Request $request) {
-
 //        진단데이터 저장
-//        유저 Id, 주문seq , [{id      : diagnosis.id, selected: diagnosis.selected}]
+//        $array = "[{\"id\":589,\"selected\":null},{\"id\":590,\"selected\":null},{\"id\":591,\"selected\":null},{\"id\":592,\"selected\":1127},{\"id\":593,\"selected\":1133},{\"id\":594,\"selected\":null},{\"id\":595,\"selected\":null},{\"id\":596,\"selected\":null},{\"id\":597,\"selected\":null},{\"id\":598,\"selected\":null},{\"id\":599,\"selected\":null},{\"id\":600,\"selected\":null},{\"id\":601,\"selected\":null},{\"id\":602,\"selected\":null},{\"id\":603,\"selected\":null},{\"id\":604,\"selected\":null},{\"id\":605,\"selected\":null},{\"id\":606,\"selected\":null},{\"id\":607,\"selected\":null},{\"id\":608,\"selected\":null},{\"id\":609,\"selected\":null},{\"id\":610,\"selected\":null},{\"id\":611,\"selected\":null},{\"id\":612,\"selected\":null},{\"id\":613,\"selected\":null},{\"id\":614,\"selected\":null},{\"id\":615,\"selected\":null},{\"id\":616,\"selected\":null},{\"id\":617,\"selected\":null},{\"id\":618,\"selected\":null},{\"id\":619,\"selected\":null},{\"id\":620,\"selected\":null},{\"id\":621,\"selected\":null},{\"id\":622,\"selected\":null},{\"id\":623,\"selected\":null},{\"id\":624,\"selected\":null},{\"id\":625,\"selected\":null},{\"id\":626,\"selected\":null},{\"id\":627,\"selected\":null},{\"id\":628,\"selected\":null},{\"id\":629,\"selected\":null},{\"id\":630,\"selected\":null},{\"id\":631,\"selected\":null},{\"id\":632,\"selected\":null},{\"id\":633,\"selected\":null},{\"id\":634,\"selected\":null},{\"id\":635,\"selected\":null},{\"id\":636,\"selected\":null},{\"id\":637,\"selected\":\"\"},{\"id\":638,\"selected\":\"\"},{\"id\":639,\"selected\":\"\"},{\"id\":640,\"selected\":\"\"},{\"id\":641,\"selected\":\"\"},{\"id\":642,\"selected\":\"\"},{\"id\":643,\"selected\":\"\"},{\"id\":644,\"selected\":\"\"},{\"id\":645,\"selected\":\"\"},{\"id\":646,\"selected\":\"\"},{\"id\":647,\"selected\":\"\"},{\"id\":648,\"selected\":\"\"},{\"id\":649,\"selected\":\"\"},{\"id\":650,\"selected\":\"\"},{\"id\":651,\"selected\":null},{\"id\":652,\"selected\":\"\"},{\"id\":653,\"selected\":\"\"},{\"id\":654,\"selected\":\"\"},{\"id\":655,\"selected\":\"\"},{\"id\":656,\"selected\":\"\"},{\"id\":657,\"selected\":\"\"},{\"id\":658,\"selected\":\"\"},{\"id\":659,\"selected\":\"\"},{\"id\":660,\"selected\":\"\"},{\"id\":661,\"selected\":\"\"},{\"id\":662,\"selected\":\"\"},{\"id\":663,\"selected\":null},{\"id\":664,\"selected\":\"\"},{\"id\":665,\"selected\":\"\"},{\"id\":666,\"selected\":\"\"},{\"id\":667,\"selected\":\"\"},{\"id\":668,\"selected\":\"\"},{\"id\":669,\"selected\":\"\"},{\"id\":670,\"selected\":null},{\"id\":671,\"selected\":\"\"},{\"id\":672,\"selected\":\"\"},{\"id\":673,\"selected\":null},{\"id\":674,\"selected\":\"\"},{\"id\":675,\"selected\":\"\"},{\"id\":676,\"selected\":\"\"},{\"id\":677,\"selected\":\"\"},{\"id\":678,\"selected\":\"\"},{\"id\":679,\"selected\":\"\"},{\"id\":680,\"selected\":\"\"},{\"id\":681,\"selected\":\"\"},{\"id\":682,\"selected\":\"\"},{\"id\":683,\"selected\":\"\"},{\"id\":684,\"selected\":\"\"},{\"id\":685,\"selected\":\"\"},{\"id\":686,\"selected\":\"\"},{\"id\":687,\"selected\":\"\"},{\"id\":688,\"selected\":null},{\"id\":689,\"selected\":\"\"},{\"id\":690,\"selected\":\"\"},{\"id\":691,\"selected\":\"\"},{\"id\":692,\"selected\":\"\"},{\"id\":693,\"selected\":\"\"},{\"id\":694,\"selected\":\"\"},{\"id\":695,\"selected\":\"\"},{\"id\":696,\"selected\":\"\"},{\"id\":697,\"selected\":null},{\"id\":698,\"selected\":\"\"},{\"id\":699,\"selected\":\"\"},{\"id\":700,\"selected\":null},{\"id\":701,\"selected\":null},{\"id\":702,\"selected\":\"\"},{\"id\":703,\"selected\":\"\"},{\"id\":704,\"selected\":\"\"},{\"id\":705,\"selected\":\"\"},{\"id\":706,\"selected\":\"\"},{\"id\":707,\"selected\":\"\"},{\"id\":708,\"selected\":\"\"},{\"id\":709,\"selected\":\"\"},{\"id\":710,\"selected\":\"\"},{\"id\":711,\"selected\":null},{\"id\":712,\"selected\":\"\"},{\"id\":713,\"selected\":\"\"},{\"id\":714,\"selected\":\"\"},{\"id\":715,\"selected\":\"\"},{\"id\":716,\"selected\":\"\"},{\"id\":717,\"selected\":\"\"},{\"id\":718,\"selected\":null},{\"id\":719,\"selected\":\"\"},{\"id\":720,\"selected\":\"\"},{\"id\":721,\"selected\":\"\"},{\"id\":722,\"selected\":\"\"},{\"id\":723,\"selected\":null},{\"id\":724,\"selected\":\"\"},{\"id\":725,\"selected\":\"\"},{\"id\":726,\"selected\":\"\"},{\"id\":727,\"selected\":\"\"},{\"id\":728,\"selected\":null},{\"id\":729,\"selected\":\"\"},{\"id\":730,\"selected\":\"\"},{\"id\":731,\"selected\":\"\"},{\"id\":732,\"selected\":\"\"},{\"id\":733,\"selected\":\"\"},{\"id\":734,\"selected\":null},{\"id\":735,\"selected\":null}]";
+        try{
+            $diagnosis = $request->get('diagnoses');
+            $order_id = $request->get('order_id');
+            $engineer = $request->get('user_id');
 
-        $order_id = $request->get('order_id');
-        $encrypt_json = $request->get('diagnosis');
+            $order = Order::where('id', $order_id)->first();
+            if($order->engineer_id != $engineer){
+                throw new Exception();
+            }
 
-        $diagnosis = new DiagnosisRepository();
-        $return = $diagnosis->prepare($order_id)->update($encrypt_json);
 
-        return response()->json($return);
+            $diagnosis = new DiagnosisRepository();
+            $diagnosis->prepare($order_id)->update($diagnosis);
+
+            $return = [
+                'status' => 'success'
+            ];
+
+            return response()->json($return);
+
+        }catch (Exception $ex){
+            $return = [
+                'status' => 'error'
+            ];
+
+            return response()->json($return);
+        }
     }
 
 
