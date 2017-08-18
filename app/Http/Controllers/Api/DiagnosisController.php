@@ -132,7 +132,7 @@ class DiagnosisController extends ApiController {
                 'status' => 'error'
             ];
 
-            return response()->json($return);
+            throw new Exception($ex);
         }
     }
 
