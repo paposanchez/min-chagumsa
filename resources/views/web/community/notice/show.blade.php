@@ -28,6 +28,18 @@
             <div class="board_view_cont">
                 {!! $data->content !!}
             </div>
+
+            @if(count($files) != 0)
+                <div style="border-bottom: 1px solid #7b7b7b; margin-top: 10px; padding-bottom: 10px; padding-left: 20px;">
+                @foreach($files as $file)
+                    <a href="/file/download/{{$file->id}}">
+                        <i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{ $file->original }}
+                    </a>
+                    <br>
+                @endforeach
+                </div>
+            @endif
+
             <ul class="board_btn_wrap">
                 <li>
                     <button class="btns2" id='c-list' data-route="{{ route($board_namespace.'.index') }}">목록</button>
@@ -63,7 +75,23 @@
         $("#next").on("click", function(){
             location.href = $("#next").data("route");
         });
+
+
+
+
+
+//        $(document).on("click", ".plugin-attach-download", function (e) {
+//            e.preventDefault();
+//            var id = $(this).closest(".plugin-attach-file").data('id');
+//            $.fileDownload('/file/download/' + id, {
+//                error: function (e) {
+//                    $.notify(ZFOOP.Languages.can_not_process_retry, "danger");
+//                }
+//            });
+//
+//        });
     });
+
 
 </script>
 @endpush
