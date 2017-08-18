@@ -37,7 +37,8 @@ class NoticeController extends ApiController {
      */
     public function index(Request $request) {
         $where = Post::orderBy('id', 'desc')->where('board_id', $this->board_id);
-        $entrys = $where->paginate($request->get('limit'));
+//        $entrys = $where->paginate($request->get('limit'));
+        $entrys = $where->select('id', 'subject', 'content', 'created_at')->paginate($request->get('limit'));
         return response()->json($entrys);
     }
 
@@ -65,7 +66,7 @@ class NoticeController extends ApiController {
      * )
      */
     public function show(Request $request) {
-        $post = Post::whereId($request->get('post_id'))->first();
+        $post = Post::whereId($request->get('post_id'))->select('id', 'subject', 'content', 'created_at')->first();
         if (!$post) {
             return abort(404, trans('common.no-result'));
         }
@@ -96,7 +97,6 @@ class NoticeController extends ApiController {
      */
     public function news(Request $request) {
         $return = Post::where('board_id', $this->board_id)->where('created_at', ">=", Carbon::yesterday())->count();
-        // $return = rand(0,99);
         return response()->json($return);
     }
 
