@@ -121,11 +121,7 @@ class DiagnosisController extends ApiController {
             $diagnosis = new DiagnosisRepository();
             $diagnosis->prepare($order_id)->update($diagnoses);
 
-            $return = [
-                'status' => 'success'
-            ];
-
-            return response()->json($return);
+            return response()->json('success');
 
         }catch (Exception $ex){
             $return = [
