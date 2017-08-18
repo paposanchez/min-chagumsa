@@ -89,7 +89,15 @@ class DiagnosisController extends ApiController {
      *     description="개별주문에 진단 저장",
      *     operationId="update",
      *     produces={"application/json"},
+     *     @SWG\Parameter(name="user_id",in="query",description="유저 seq",required=true,type="integer",format="int32"),
      *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(
+     *         description="진단 선택값 배열",
+     *         in="formData",
+     *         name="diagnosis",
+     *         required=true,
+     *         type="array"
+     *     ),
      *     @SWG\Response(response=401, description="unauthorized"),
      *     @SWG\Response(response=404, description="not found"),
      *     @SWG\Response(response=500, description="internal server error"),
@@ -143,6 +151,8 @@ class DiagnosisController extends ApiController {
      * )
      */
     public function upload(Request $request) {
+
+
         $engineer_check = Order::where('id', $request->get('order_id'))
                             ->where('engineer_id', $request->get('user_id'))->count();
 
