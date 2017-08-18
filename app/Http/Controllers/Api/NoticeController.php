@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class NoticeController extends ApiController {
 
-    protected $board_id = 1;
+    protected $board_id = 4;
 
     /**
      * @SWG\Get(
