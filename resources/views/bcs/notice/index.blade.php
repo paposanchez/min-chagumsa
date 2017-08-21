@@ -31,13 +31,6 @@
                 <form  method="GET" class="form-horizontal no-margin-bottom" role="form">
 
                     <div class="form-group">
-                        <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/post.board_id') }}</label>
-                        <div class="col-sm-3">
-                            {!! Form::select('board_id', [null=>trans('common.search.first_select')] + $board_list, $request->query('board_id'), ['class'=>'form-control', 'id'=>'inputBoardId']) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label class="control-label col-sm-3">{{ trans('common.search.period') }}</label>
 
                         <div class="col-sm-3">

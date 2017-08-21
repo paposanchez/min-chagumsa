@@ -9,7 +9,7 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     //정보수정
     Route::get('user/bcs-info', 'UserController@bscInfo')->name('technician.user.bcs-info');
     Route::post('user/bcs-store', 'UserController@bscStore')->name('technician.user.bcs-store');
-    Route::resource('user', 'UserController');
+    Route::resource('user', 'UserController', ['as' => 'tech']);
     Route::get('dashboard', 'DashboardController@__invoke')->name('technician.dashboard.index');
 });
 
