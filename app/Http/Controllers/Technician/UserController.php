@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Technician;
 
-use App\Models\GarageInfo;
-use App\Models\Role;
 use App\Models\User;
 use App\Models\Code;
 use App\Models\UserExtra;
 use App\Models\UserSequence;
 use DB;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 use Image;
 use Carbon\Carbon;
 use Laracasts\Flash\Flash;
@@ -17,6 +16,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Validator;
 /**
  * Class UserController
  * @package App\Http\Controllers\Bcs
@@ -87,22 +87,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
         //
-        $user = User::findorFail($id);
-
-        $status_cd_list = Code::whereGroup('user_status')->get();
-
-        $roles = Role::getArrayByName();
-
-        $aliances = User::select()->join('role_user', function($join){
-            $join->on('users.id', '=', 'role_user.user_id')->where('role_id', 3);
-        })->orderBy('name')->pluck('name', 'id');
-
-        $garages = GarageInfo::select()->get();
-
-        $userRole = $user->roles->pluck('id', 'name')->toArray();
+        $user = User::findorFail(Auth()->user()->id);
 
         // engineer의 정비소 출력
         $user_extras = UserExtra::where('users_id', $user->id)->first();
@@ -110,14 +98,9 @@ class UserController extends Controller
             $user_extras = new UserExtra();
         }
 
-        // garage의 정보 및 network 정보
-        $garage_info = GarageInfo::where('garage_id', $user->id)->first();
-        if(!$garage_info){
-            $garage_info = new GarageInfo();
-        }
 
 
-        return view('technician.user.edit', compact('user', 'roles', 'userRole', 'status_cd_list', 'garages', 'aliances', 'user_extras', 'garage_info'));
+        return view('technician.user.edit', compact('user', 'user_extras'));
     }
 
     /**
@@ -127,9 +110,76 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $user = Auth::user();
+        if(!$user){
+            return redirect()->back()->with('error', '사용자 정보를 찾지 못하였습니다.');
+        }
+
+        $validate = Validator::make($request->all(), [
+            'name' => 'required',
+            'mobile' => 'required'
+        ]);
+        if ($validate->fails())
+        {
+            return redirect()->back()->with('error', "회원정보 수정을 할수 없습니다.");
+        }
+
+        if($request->get('mobile')){
+            $user->mobile = $request->get('mobile');
+        }
+        if($request->get('name')){
+            $user->name = $request->get('name');
+        }
+
+        try{
+            $user->save();
+
+
+            $event = 'success';
+            $message = '회원정보 갱신이 완료되었습니다.';
+        }catch (\Exception $e){
+            $event = 'error';
+            $message = '회원정보 갱신이 실패하였습니다.';
+        }
+        $user->save();
+//        throw new \Exception($b);
+        return redirect()->back()->with($event, $message);
+    }
+
+    public function passUpdate(Request $request){
+
+        $user = Auth::user();
+        if(!$user){
+            return redirect()->back()->with('error', '사용자 정보를 찾지 못하였습니다.');
+        }
+
+        $validate = Validator::make($request->all(), [
+            'password' => 'required',
+            'password_confirmation' => 'required'
+        ]);
+        if ($validate->fails())
+        {
+            return redirect()->back()->with('error', "비밀번호 수정을 할수 없습니다.");
+        }
+
+        if($request->get('password') != $request->get("password_confirmation")){
+            return redirect()->back()->with('error', "입력된 확인 비밀번호가 틀립니다.");
+        }
+
+        $user->password = bcrypt($request->get('password'));
+        try{
+            $user->save();
+            $event = 'success';
+            $message = '비밀번호가 갱신 되었습니다.';
+        }catch (\Exception $e){
+            $event = 'error';
+            $message = '비밀번호 갱신을 실패하였습니다.';
+        }
+
+        return redirect()->back()->with($event, $message);
     }
 
     /**
@@ -143,21 +193,5 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * bcs 회원정보 수정
-     * todo 회원수정 정보를 구성해야함
-     * @param Request $request
-     */
-    public function bscInfo(Request $request){
 
-        return view("bcs.user.bcs-info");
-    }
-
-    /**
-     * BCS 회원정보 수정
-     * @param Request $request
-     */
-    public function bcsStore(Request $request){
-
-    }
 }

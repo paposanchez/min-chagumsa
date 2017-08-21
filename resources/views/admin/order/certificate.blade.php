@@ -9,7 +9,11 @@
 {{--기본 정보--}}
 <div class='col-md-12'>
     <h2>기본 정보</h2>
+    @if(Route::currentRouteName() == 'technician.order.edit')
+    {!! Form::model($order, ['method' => 'PATCH','route' => ['technician.order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
+    @else
     {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
+    @endif
     <input type="hidden" name="brands_id" value="{{ $car ? $car->brands_id : '' }}">
     <input type="hidden" name="models_id" value="{{ $car ? $car->models_id : '' }}">
     <input type="hidden" name="details_id" value="{{ $car ? $car->details_id : '' }}">
