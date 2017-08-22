@@ -229,9 +229,9 @@
             });
 
             $("#order-purchase").on("click", function(){
-                alert('a');
+
                 $("#purchase-modal").modal();
-            })
+            });
             //주문상태 form 초기화
             $("#order-modal").on("hide.bs.modal", function () {
                 $("#order_status").val('');

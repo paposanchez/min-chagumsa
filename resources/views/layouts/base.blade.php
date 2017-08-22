@@ -1,49 +1,49 @@
 <!doctype html>
 <html lang="ko">
-    <head>
+<head>
 
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-        <!-- CSRF Token -->
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-        <!-- Styles -->
-        {{ Html::style(Helper::assets('css/app.css')) }}
-        {{ Html::style(Helper::assets('css/vendor.css')) }}
-        
+    <!-- Styles -->
+{{ Html::style(Helper::assets('css/app.css')) }}
+{{ Html::style(Helper::assets('css/vendor.css')) }}
 
-        <!-- Scripts -->
-        <script>
-            window.Laravel = {!! json_encode([
+
+<!-- Scripts -->
+    <script>
+        window.Laravel = {!! json_encode([
                     'csrfToken' => csrf_token(),
             ]) !!};
-        </script>
+    </script>
 
-        {{ Html::script(Helper::assets( 'js/app.js' )) }}
+    {{ Html::script(Helper::assets( 'js/app.js' )) }}
 
-        @yield('content-header-script')
+    @yield('content-header-script')
 
-    </head>
+</head>
 
-    <body class="@yield( 'body-class' )" @yield( 'body-attr' )>
-          
-        <div id='document'>
-        
-            @yield('content-header')
+<body class="@yield( 'body-class' )" @yield( 'body-attr' )>
 
-            @yield('content-body')
+<div id='document'>
 
-            @yield('content-footer')
+    @yield('content-header')
 
-        </div>
+    @yield('content-body')
 
-        @yield('content-footer-script')
-    </body>
+    @yield('content-footer')
+
+</div>
+
+@yield('footer-script')
+</body>
 
 </html>

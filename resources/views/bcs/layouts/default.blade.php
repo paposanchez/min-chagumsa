@@ -1,5 +1,5 @@
 {{-- LAYOUT --}}
-@extends( 'layouts.admin-base' )
+@extends( 'layouts.base' )
 
 @section( 'body-title', config("app.name") )
 
