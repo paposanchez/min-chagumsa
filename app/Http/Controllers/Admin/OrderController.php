@@ -75,13 +75,28 @@ class OrderController extends Controller
             }else{
                 $order_split = explode("-", $s);
                 if(count($order_split) == 2){
-                    $datekey = $order_split[0];
-                    $car_number = $order_split[1];
+                    $datekey = $order_split[1];
+                    $car_number = $order_split[0];
+                    $date_array = str_split($datekey, 2);
 
-                    $where = $where->where("datekey", $datekey)->where("car_number", $car_number);
+                    $date = Carbon::create('20'.''.$date_array[0], $date_array[1], $date_array[2], '0', '0', '0');
+                    $next_day = Carbon::create('20'.''.$date_array[0], $date_array[1], $date_array[2], '0', '0', '0')->addDay(1);
+
+                    $where = $where->where('car_number', $car_number)
+                        ->where('created_at', '>=', $date)
+                        ->where('created_at', '<=', $next_day);
                 }
                 else{
-                    $where = $where->where("datekey", $s)->orWhere("car_number", $s);
+                    if(strlen($s) > 6){
+                        $where = $where->where('car_number', $s);
+                    }else{
+                        $date_array = str_split($s, 2);
+                        $date = Carbon::create('20'.''.$date_array[0], $date_array[1], $date_array[2], '0', '0', '0');
+                        $next_day = Carbon::create('20'.''.$date_array[0], $date_array[1], $date_array[2], '0', '0', '0')->addDay(1);
+
+                        $where =$where->where('created_at', '>=', $date)->where('created_at', '<=', $next_day);
+                    }
+
                 }
             }
         }

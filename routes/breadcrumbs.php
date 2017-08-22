@@ -135,6 +135,10 @@ Breadcrumbs::register('bcs.info', function($breadcrumbs) {
 //    $breadcrumbs->parent('bcs');
     $breadcrumbs->push(trans("bcs/bcs-info.title"), route('bcs.info.index'));
 });
+Breadcrumbs::register('bcs.diagnosis', function($breadcrumbs) {
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/diagnosis.title"), route('bcs.diagnosis.index'));
+});
 
 //############################## Technician
 

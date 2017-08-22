@@ -71,7 +71,8 @@ class OrderController extends Controller
                 if(in_array($sf, ["car_number", "orderer_name", "orderer_mobile"])){
                     $where = $where->where($sf, 'like', '%'.$s.'%');
                 }
-            }else{
+            }
+            else{
                 $order_split = explode("-", $s);
                 if(count($order_split) == 2){
                     $datekey = $order_split[1];

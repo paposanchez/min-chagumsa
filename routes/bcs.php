@@ -17,6 +17,8 @@ Route::group(['middleware' => ['auth', 'role:garage']], function () {
     // Avatar
     Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
     Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
+
+    Route::resource('diagnosis', 'DiagnosesController', ['as' => 'bcs']);
 });
 
 // After login in administrator's
