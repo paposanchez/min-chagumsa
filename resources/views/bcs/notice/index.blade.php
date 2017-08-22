@@ -1,7 +1,7 @@
 @extends( 'bcs.layouts.default' )
 
 @section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.order')])
+    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.notice')])
 @endsection
 
 @section( 'content' )
@@ -137,7 +137,7 @@
 
             <div class="col-sm-6">
 
-                <a href="{{ route('post.create') }}" class="btn btn-primary">등록</a>
+
 
             </div>
 

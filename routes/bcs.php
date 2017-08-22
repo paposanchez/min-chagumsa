@@ -5,8 +5,8 @@ Route::group(['middleware' => ['auth', 'role:garage']], function () {
 
     //주문
     Route::resource('order', 'OrderController', ['as' => 'bcs']);
-    Route::resource('calculation', 'CalculationController');
-    Route::resource('notice', 'NoticeController');
+    Route::resource('calculation', 'CalculationController', ['as' => 'bcs']);
+    Route::resource('notice', 'NoticeController', ['as' => 'bcs']);
     //정보수정
     Route::get('user/bcs-info', 'UserController@bscInfo')->name('user.bcs-info');
     Route::post('user/bcs-store', 'UserController@bscStore')->name('user.bcs-store');

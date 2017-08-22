@@ -1,7 +1,7 @@
 @extends( 'bcs.layouts.default' )
 
 @section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.order')])
+    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.user')])
 @endsection
 
 @section( 'content' )

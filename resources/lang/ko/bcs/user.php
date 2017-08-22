@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => '회원',
+    'title' => '엔지니어 관리',
     'users' => 'users',
     'name' => '정비사 이름',
     'roles' => '권한',

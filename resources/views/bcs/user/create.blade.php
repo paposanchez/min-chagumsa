@@ -13,7 +13,7 @@
             <div class="col-md-12">
 
                 {!! Form::open(['method' => 'POST','route' => ['bcs.user.store'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
-                    <input type="hidden" name="roles" value="4"> todo 엔지니어 상태값 고정
+                    <input type="hidden" name="roles" value="4"> {{-- todo 엔지니어 상태값 고정 --}}
 
                     <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                         <label for="inputEmail" class="control-label col-md-3">{{ trans('bcs/user.email') }}</label>
