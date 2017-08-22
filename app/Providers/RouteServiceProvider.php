@@ -38,6 +38,7 @@ class RouteServiceProvider extends ServiceProvider {
         $this->mapAdminRoutes();
         $this->mapWebRoutes();
         $this->mapTechnicianRoutes();
+        $this->mapMobileRoutes();
     }
 
     /**
@@ -56,6 +57,17 @@ class RouteServiceProvider extends ServiceProvider {
             'domain' => 'www.'.config('app.domain'),
                 ], function ($router) {
             require base_path('routes/web.php');
+        });
+    }
+    protected function mapMobileRoutes() {
+        $namespace = $this->namespace . '\Mobile';
+
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $namespace,
+            'domain' => 'm.' . config('app.domain'),
+        ], function ($router) {
+            require base_path('routes/mobile.php');
         });
     }
 
