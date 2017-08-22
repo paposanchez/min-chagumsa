@@ -41,3 +41,41 @@
 .more-click {
   cursor: pointer;
 }
+
+@mixin no-padding($side) {
+  @if $side == 'all' {
+    .no-padding {
+      padding: 0 !important;
+    }
+  } @else {
+    .no-padding-#{$side} {
+      padding-#{$side}: 0 !important;
+    }
+  }
+}
+
+@include no-padding("left");
+@include no-padding("right");
+@include no-padding("top");
+@include no-padding("bottom");
+@include no-padding("all");
+
+.col-centered{
+  margin-top: 0.7em;
+}
+
+/*
+진단데이터 표 처리
+*/
+.drow-box {
+  border: 1px solid #f0f0f0;
+}
+.drow-left {
+  border-left: 1px solid #f0f0f0;
+}
+.drow-bottom {
+  border-bottom: 1px solid #f1f1f1;
+}
+.drow-bmargin {
+  margin-bottom: 4px;
+}

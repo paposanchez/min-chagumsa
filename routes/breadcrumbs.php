@@ -118,6 +118,7 @@ Breadcrumbs::register('technician.order', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
     $breadcrumbs->push(trans("admin/order.title"), route("order.index"));
 });
+
 Breadcrumbs::register('technician.notice', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
     $breadcrumbs->push("공지사항", route("notice.index"));

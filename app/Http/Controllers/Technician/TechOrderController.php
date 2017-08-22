@@ -18,6 +18,7 @@ use App\Models\Code;
 use App\Models\ScTran;
 use App\Models\PaymentCancel;
 use App\Models\Purchase;
+use App\Models\OrderCar;
 
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\DiagnosisRepository;
@@ -208,9 +209,27 @@ class TechOrderController extends Controller
         if($order->car){
             $car = $order->car;
         }else{
-            $car = $order->orderCar;
+            // order_cars에만 데이터가 있는 상태이므로 cars에 order_cars의 데이터를 이관해 줌.
+            $car = new Car();
+            $order_car = $order->orderCar;
+            if($order_car){
+                $car->brands_id = $order_car->brands_id;
+                $car->models_id = $order_car->models_id;
+                $car->details_id = $order_car->details_id;
+                $car->grades_id = $order_car->grades_id;
+                $car->save();
+
+                $order->cars_id = $car->id;
+                $order->save();
+
+            }else{
+               return redirect()->back()->with('error', '차량 정보 미입력 상태입니다.<br>관리자에게 해당 주문에 대해 문의해 주세요.');
+            }
+
+
         }
-        return view('technician.order.edit', compact('order', 'payment', 'payment_cancel', 'car'));
+
+        return view('technician.order.show', compact('order', 'payment', 'payment_cancel', 'car'));
     }
 
     /**
@@ -269,11 +288,12 @@ class TechOrderController extends Controller
         if($order->car){
             $car = $order->car;
         }else{
-            $car = $order->orderCar;
+            // 차량정보 확인 시 cars에 대한 처리가 일어나므로 에러로 처리함.
+            return redirect()->back()->with('error', '차량 정보 미입력 상태입니다.<br>관리자에게 해당 주문에 대해 문의해 주세요.');
         }
 //        $order = $this->edit($id);
 
-        return view('admin.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car'));
+        return view('technician.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car'));
     }
 
     /**
@@ -288,12 +308,29 @@ class TechOrderController extends Controller
         //
         $section = $request->get('section');
 
+        $order_where = Order::findOrFail($id);
+
+        // 현재 주문상태를 확인함.
+        // 주문상태가 109 일때는 상태값을 변경하지 않음
+        if($order_where->status_cd == 109){
+            $order_status = null;
+        }else{
+            //진단서 수정중이므로 상태값을 변경함
+            $order_status = 108;
+        }
+
         if(in_array($section, ['basic', 'history', 'price'])){
             if($section == 'basic'){
+
                 $order_data = [
                     "car_number" => $request->get('orders_car_number'),
-                    "mileage" => $request->get('	orders_mileage'),
+                    "mileage" => $request->get('orders_mileage'),
                 ];
+
+                if($order_status){
+                    $order_data['statuc_cd'] = $order_status;
+                }
+
                 $car_data = [
                     "vin_number" => $request->get('cars_vin_number'),
                     "registration_date" => $request->get('cars_registration_date'),
@@ -312,6 +349,11 @@ class TechOrderController extends Controller
             }
             elseif ($section == 'history'){
                 $order_data = [];
+
+                if($order_status){
+                    $order_data['statuc_cd'] = $order_status;
+                }
+
                 $car_data = [];
                 $certificate_data = [
                     "history_insurance" => $request->get("history_insurance"),
@@ -322,7 +364,7 @@ class TechOrderController extends Controller
                 ];
 
             }else{
-                $order_data = [];
+                $order_data = ['status_cd' => 109]; //최종 발행함
                 $car_data = [];
                 $certificate_data = [
                     "pst" => $request->get("pst"),
@@ -357,7 +399,8 @@ class TechOrderController extends Controller
              * child table부터 처리 해야 하므로 car 또는 certificates 테이블 처리후 order를 처리해야 한다.
              */
 
-            $order_where = Order::findOrFail($id);
+
+
             $order_car = $order_where->orderCar;
             if(count($car_data) > 0){
                 $cars_id = $order_where->cars_id;
@@ -394,7 +437,6 @@ class TechOrderController extends Controller
                 }
 
             }
-
             if(count($order_data) > 0){
 
                 $order_filter = array_filter(array_map('trim', $order_data));
@@ -584,5 +626,14 @@ class TechOrderController extends Controller
             $result["msg"] = "필수 파라미터 입력 오류입니다.";
         }
         return $result;
+    }
+
+    public function diagnoses($id){
+        $order = Order::findOrFail($id);
+        $diagnosis = new DiagnosisRepository();
+
+        $entrys = $diagnosis->prepare($id)->get();
+
+        return view('technician.order.diagnoses', compact('entrys', 'order'));
     }
 }

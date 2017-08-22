@@ -8,11 +8,16 @@
 ?>
 {{--기본 정보--}}
 <div class='col-md-12'>
-    <h2>기본 정보</h2>
-    @if(Route::currentRouteName() == 'technician.order.edit')
-    {!! Form::model($order, ['method' => 'PATCH','route' => ['technician.order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
+
+    @if(preg_match("/technician/", Route::currentRouteName()))
+        <div class="row">
+            <div class="col-md-3"><h2>기본 정보</h2></div>
+            <div class="col-md-9 text-right"><button type="button" class="btn btn-warning" id="diag-win">진단데이터 보기</button> </div>
+        </div>
+        {!! Form::model($order, ['method' => 'PATCH','route' => ['technician.order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
     @else
-    {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
+        <h2>기본 정보</h2>
+        {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
     @endif
     <input type="hidden" name="brands_id" value="{{ $car ? $car->brands_id : '' }}">
     <input type="hidden" name="models_id" value="{{ $car ? $car->models_id : '' }}">
@@ -30,7 +35,7 @@
         <tr>
             <th>자동차 등록번호</th>
             <td>
-                <input type="text" class="form-control" name="orders_car_number" value="{{ $car->car_number }}" required>
+                <input type="text" class="form-control" name="orders_car_number" value="{{ $order->car_number }}" required>
             </td>
             <th>주행거리(km)</th>
             <td>
@@ -40,10 +45,8 @@
         <tr>
             <th>차대번호</th>
             <td>
-                <input type="text" class="form-control" name="cars_vin_number" value="{{ $car->vin_number ? $car->vin_number : $car->car_name }}" required>
-                @if($car->imported_vin_number)
-                    <p><input type="text" style="width: 80%;" name="car_imported_vin_number" value="{{ $car->imported_vin_number ? $car->imported_vin_number : '' }}"></p>
-                @endif
+                <div class="input-group"><span class="input-group-addon"><i class='fa fa-arrow-circle-right'></i> 차대번호</span><input type="text" class="form-control" name="cars_vin_number" placeholder="차대번호를 입력해 주세요." value="{{ $car->vin_number ? $car->vin_number : '' }}" required></div>
+                <div class="input-group"><span class="input-group-addon"><i class='fa fa-arrow-circle-right'></i> 수입차 차대번호</span><input type="text" class="form-control" placeholder="수입차 차대번호를 입력해 주세요." name="car_imported_vin_number" value="{{ $car->imported_vin_number ? $car->imported_vin_number : '' }}"></div>
             </td>
             <th>차대번호 동일성확인</th>
             <td>
@@ -124,7 +127,12 @@
 {{--이력 정보--}}
 <div class='col-md-12'>
     <h2>이력 정보</h2>
-    {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-history', 'enctype'=>"multipart/form-data"]) !!}
+
+    @if(preg_match("/technician/", Route::currentRouteName()))
+        {!! Form::model($order, ['method' => 'PATCH','route' => ['technician.order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
+    @else
+        {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-history', 'enctype'=>"multipart/form-data"]) !!}
+    @endif
     <input type="hidden" name="section" value="history">
     <input type="hidden" name="certificates_insurance_file" id="certificates_insurance_file">
     <table class="table table-bordered">
@@ -216,7 +224,12 @@
 
 <div class='col-md-12'>
     <h2>가격 산정</h2>
-    {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-price', 'enctype'=>"multipart/form-data"]) !!}
+
+    @if(preg_match("/technician/", Route::currentRouteName()))
+        {!! Form::model($order, ['method' => 'PATCH','route' => ['technician.order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
+    @else
+        {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-price', 'enctype'=>"multipart/form-data"]) !!}
+    @endif
     <input type="hidden" name="section" value="price">
     <table class="table table-bordered">
         <colgroup>
@@ -639,6 +652,12 @@
         });
 
 
+        //진단데이터 윈도우
+        $("#diag-win").on("click", function(){
+            //todo 진단데이터 윈도우 띄움.
+            var diagnoses_win = window.open("{{ url("order/diagnoses", ["id" => $order->id]) }}", "diagnoses", "location=no,resize=auto,width=998,height=1024");
+            diagnoses_win.focus();
+        });
 
     });
 

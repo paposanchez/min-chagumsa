@@ -14,6 +14,9 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     //인증서 데이터 갱신
     Route::patch('order/update/{id}', 'TechOrderController@update')->name('order/update');
 
+    //진단데이ㅓ
+    Route::get('order/diagnoses/{id}', 'TechOrderController@diagnoses')->name('technician.diagnoses');
+
 
 
 

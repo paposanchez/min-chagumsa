@@ -136,8 +136,6 @@ class Helper {
             }
         }
 
-
-
         if($car->grade){
             $car_txt .= " / " .$car->grade->name;
         }
