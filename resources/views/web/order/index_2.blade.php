@@ -9,7 +9,7 @@
 
     <div class='join_wrap order-container'>
 
-        <ul class='join_step' id="join_step">
+        <ul class='join_step type2' id="join_step">
             <li class='on'>
                 <strong>01</strong>
                 <span>주문</span>

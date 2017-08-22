@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            {!! Form::open(['url' => 'password/email', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+            {!! Form::open(['url' => 'password/email', 'class' =>'form-horizontal', 'id' => 'verify-form', 'method' => 'post', 'role' => 'form']) !!}
 
             <div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
                 <label for="inputEmail" class="control-label sr-only">{{ trans("passwords.email") }}</label>
@@ -59,15 +59,29 @@
 
 
 @push( 'footer-script' )
+
 <script type="text/javascript">
-    $(function () {
-//        $('#send').click(function (){
-//            var email = $('#email').val();
-//            alert('새로운 비밀번호를 해당 이메일에 전송하였습니다.');
-//
-//
-//
-//        });
+ $(function(){
+    $("#verify-form").validate({
+        debug: true,
+        rules: {
+            email: {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            email: {
+                required: "정확한 메일 주소를 입력해 주세요.",
+                email: '이메일 주소가 잘못 입력 되었습니.',
+            }
+        },
+
+        submitHandler: function(form){
+            form.submit();
+        }
     });
+});
+
 </script>
 @endpush

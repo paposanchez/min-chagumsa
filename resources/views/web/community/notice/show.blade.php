@@ -21,7 +21,7 @@
             <div class="board_view_title">
                 <div>{{ $data->subject }}</div>
                 <ul>
-                    <li>작성일 <span>{{ \App\Helpers\Helper::getDbDate($data->created_at, $data->updated_at) }}</span></li>
+                    <li>작성일 <span>{{ $data->updated_at ? $data->updated_at->format("Y-m-d") : $data->created_at->format("Y-m-d")  }}</span></li>
                     <li>hit <span>{{ number_format($data->hit) }}</span></li>
                 </ul>
             </div>
@@ -40,16 +40,19 @@
                 </div>
             @endif
 
-            <ul class="board_btn_wrap">
-                <li>
-                    <button class="btns2" id='c-list' data-route="{{ route($board_namespace.'.index') }}">목록</button>
-                </li>
-                <li>
-                    <button class="btns2" id='prev' data-route="{{ ($prev)? route($board_namespace.'.show', ['id' => $prev]): '' }}">이전</button>
-                    <button class="btns2" id='next' data-route="{{ ($next)? route($board_namespace.'.show', ['id' => $next]): '' }}">다음</button>
-                </li>
-            </ul>
         </div>
+
+
+        <p class="form-control-static">
+
+            <button class="btn btn-default " id='c-list' data-route="{{ route($board_namespace.'.index') }}">목록</button>
+
+      
+            <button class="btn btn-default pull-right" id='next' style="margin:0px 0px 0px 5px;" data-route="{{ ($next)? route($board_namespace.'.show', ['id' => $next]): '' }}">다음</button> 
+
+            <button class="btn btn-default pull-right" id='prev' data-route="{{ ($prev)? route($board_namespace.'.show', ['id' => $prev]): '' }}">이전</button>      
+        </p>
+        
 
     </div>
 @endsection

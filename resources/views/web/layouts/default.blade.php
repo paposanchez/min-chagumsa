@@ -14,6 +14,9 @@
     {{-- 헤더 섹션 --}}
     @section( 'content-header' )
 
+    @includeIf('flash::message')
+        
+
         {{-- 헤더 메뉴 --}}
         <div id='gnb_wrap'>
             <h1>
@@ -53,8 +56,6 @@
 
     {{-- 본문 섹션 --}}
     @section( 'content-body' )
-        
-        @includeIf('flash::message')
         
         @yield( 'content' )    
         

@@ -14,22 +14,22 @@
 	<div class='br30'></div>
 
 	<div class='order_info_box'>
-		<div class='order_info_title'>
-			<strong>주문일</strong>
-			<span>{{ $order->created_at->format('y-m-d') }}</span>
-			{{--<a href=''>주문상세보기 ></a>--}}
+
+
+		<div class='order_info_title clearfix '>
+
+			<span class="text-lg text-light" >{{ $order->getOrderNumber() }}</span>
+
+			<small class="pull-right text-muted text-light" data-toggle="tooltip" title="주문일자" >{{ $order->created_at->format('Y년 m월 d일 H:i') }}</small>
 		</div>
+
 		<div class='order_info_cont'>
 			<div class='order_info_desc'>
-				<span>주문일</span>
-				<span>주문번호</span>
 				<span>주문자</span>
 				<span>휴대폰 번호</span>
 				<span>차량정보</span>
 			</div>
 			<div class='order_info_desc'>
-				<span>{{ $order->created_at->format('Y-m-d') }}</span>
-				<span>{{ $order->getOrderNumber() }}</span>
 				<span>{{ $order->orderer_name }}</span>
 				<span>{{ $order->orderer_mobile }}</span>
   				<span>{{ $order->getCarFullName() }}</span>
@@ -50,8 +50,6 @@
 		<div class='order_detail_title'>
 			주문자 정보
 		</div>
-
-
 		<div class='od_line'>
 			<label>주문자</label>
 			<span>{{ $order->orderer_name }}</span>
