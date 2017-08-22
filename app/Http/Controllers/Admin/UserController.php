@@ -113,7 +113,8 @@ class UserController extends Controller {
                 $garage_info->zipcode = $request->get('garage_zipcode');
                 $garage_info->area = $request->get('garage_area');
                 $garage_info->section = $request->get('garage_section');
-                $garage_info->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_zipcode')." ".$request->get('garage_address');
+//                $garage_info->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_zipcode')." ".$request->get('garage_address');
+                $garage_info->address = $request->get('garage_address');
                 $garage_info->save();
 
 
@@ -290,7 +291,8 @@ class UserController extends Controller {
                 $garage_info->zipcode = $request->get('garage_zipcode');
                 $garage_info->area = $request->get('garage_area');
                 $garage_info->section = $request->get('garage_section');
-                $garage_info->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_zipcode')." ".$request->get('garage_address');
+//                $garage_info->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_zipcode')." ".$request->get('garage_address');
+                $garage_info->address = $request->get('garage_address');
                 $garage_info->save();
 
 

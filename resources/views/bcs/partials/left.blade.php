@@ -28,7 +28,8 @@
 
                 <li class="{{ Request::is('notice*') ? ' active':''}}"><a href="{{ url('/notice') }}"><i class="fa fa-pencil"></i><span class="nav-label">공지사항</span></a></li>
 
-                <li class="{{ Request::is('bcs-info*') ? ' active':''}}"><a href="{{ route('user.bcs-info') }}"><i class="fa fa-pencil"></i><span class="nav-label">정보수정</span></a></li>
+                {{--<li class="{{ Request::is('bcs*') ? ' active':''}}"><a href="{{ route('bcs-info') }}"><i class="fa fa-pencil"></i><span class="nav-label">BCS-인포</span></a></li>--}}
+                <li class="{{ Request::is('info*') ? ' active':''}}"><a href="{{ url('/info') }}"><i class="fa fa-pencil"></i><span class="nav-label">BCS-인포</span></a></li>
 
             </ul>
 

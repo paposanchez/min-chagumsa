@@ -25,30 +25,32 @@
                             <div class="form-control" name="subject" id="inputSubject" style="height: 500px;">{{ $post->content }}</div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="inputName" class="control-label col-md-3">첨부파일</label>
-                        <div class="col-md-9">
-                            <input class="form-control" readonly="" value="http://mme.lge.app/dwn/ext/020/A001/2017/08/17/ee7226ec-cf00-442d-a612-1f29c6fe84d0.pdf" id="upload-origin" type="text">
-                        </div>
-                    </div>
-
-                    <!-- 파일 업로드 -->
-                    {{--<div class="form-group {{ $errors->has('attachment') ? 'has-error' : '' }}">--}}
-                        {{--<label for="" class="control-label col-md-3">파일 다운로드</label>--}}
-
+                    {{--<div class="form-group">--}}
+                        {{--<label for="inputName" class="control-label col-md-3">첨부파일</label>--}}
                         {{--<div class="col-md-9">--}}
-
-                            {{--<div class="plugin-attach" id="plugin-attachment"></div>--}}
-
-                            {{--@if ($errors->has('attachment'))--}}
-                                {{--<span class="help-block">--}}
-                            {{--{{ $errors->first('attachment') }}--}}
-                        {{--</span>--}}
-                            {{--@endif--}}
-
+                            {{--<input class="form-control" readonly="" value="http://mme.lge.app/dwn/ext/020/A001/2017/08/17/ee7226ec-cf00-442d-a612-1f29c6fe84d0.pdf" id="upload-origin" type="text">--}}
                         {{--</div>--}}
-
                     {{--</div>--}}
+
+                    @if(count($files) != 0)
+                        <div class="form-group">
+                            @foreach($files as $key=>$file)
+                            <label for="inputName" class="control-label col-md-3">
+                                @if($key == 0)
+                                첨부파일
+                                @endif
+                            </label>
+                            <div class="col-md-9">
+                                <a class="form-control disabled" href="/file/download/{{$file->id}}">
+                                    <i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{ $file->original }}
+                                </a>
+                            </div>
+                            <br>
+                            @endforeach
+                        </div>
+                    @endif
+
+
 
 
                     <div class="form-group">

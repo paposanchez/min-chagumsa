@@ -8,7 +8,8 @@ use App\Models\User;
 
 class UserExtra extends Model {
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'users_id';
+
     protected $fillable = [
         'registration_number',
         'engineer_number',

@@ -58,6 +58,9 @@ class User extends Authenticatable {
         return $this->hasOne(RoleUser::class, 'user_id', 'id');
     }
 
+    public function garageInfo(){
+        return $this->hasOne(GarageInfo::class, 'garage_id', 'id');
+    }
 
 
 
