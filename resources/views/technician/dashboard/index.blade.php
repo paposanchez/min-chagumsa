@@ -25,7 +25,7 @@
                             </colgroup>
                             <tbody>
                             @unless(count($req_order) >0)
-                                <tr><td colspan="6" class="no-result">인증서 발급대기이 없습니다.</td></tr>
+                                <tr><td colspan="6" class="no-result">인증서 발급대기 목록이 없습니다.</td></tr>
                             @endunless
 
                             @foreach($req_order as $n => $data)

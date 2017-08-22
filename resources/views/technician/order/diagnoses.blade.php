@@ -209,6 +209,42 @@
         </div>
     </div>
 
+
+    <div class="modal fade bs-example-modal-lg in purchase-modal" id="image-modal" tabindex="-1" role="dialog" aria-labelledby="insurance-modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg form-group">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title" id="myModalLabel">점검 이미지</h4>
+                </div>
+                <div class="modal-body">
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td colspan="2" class="text-center">
+                                <a href="javascript:void(0);" class="thumbnail" id="insurance-win">
+                                    <img src="" id="dia-img">
+                                </a>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+
+
+
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="image-modal-close">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div><!-- container -->
 @endsection
 
@@ -219,6 +255,18 @@
     $(function() {
         $("#self-close").on("click", function(){
             window.close();
+        });
+
+        $('#image-modal').on("click", function(){
+            var img_url = $(this).data('url');
+            if(img_url){
+                $("#dia-img").attr("src", img_url);
+                $("image-modal").modal();
+            }
+        });
+
+        $("#image-modal-close").on("click", function(){
+            $("#dia-img").attr("src", '');
         });
     });
 
