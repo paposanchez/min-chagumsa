@@ -4,12 +4,27 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => ['auth', 'role:technician']], function () {
 
     //주문
-    Route::resource('order', 'OrderController');
-    Route::resource('notice', 'NoticeController');
-    //정보수정
-    Route::get('user/bcs-info', 'UserController@bscInfo')->name('technician.user.bcs-info');
-    Route::post('user/bcs-store', 'UserController@bscStore')->name('technician.user.bcs-store');
-    Route::resource('user', 'UserController', ['as' => 'tech']);
+    Route::resource('order', 'TechOrderController', ['as' => 'technician']);
+    //보험이력파일처리
+    Route::post('order/insurance-file', 'TechOrderController@insuranceFile')->name('order/insurance-file');
+    Route::get('order/insurance-file-view/{id}', 'TechOrderController@insuranceFileView')->name('order/insurance-file-view');
+    //용도변경, 차고지 이력 추가
+    Route::post('order/history', 'TechOrderController@history')->name('order/history');
+
+    //인증서 데이터 갱신
+    Route::patch('order/update/{id}', 'TechOrderController@update')->name('order/update');
+
+    //진단데이ㅓ
+    Route::get('order/diagnoses/{id}', 'TechOrderController@diagnoses')->name('technician.diagnoses');
+
+
+
+
+
+    Route::resource('notice', 'NoticeController', ['as' => 'technician']);
+    Route::get('user/edit', 'UserController@edit')->name('technician.user.edit');
+    Route::post('user/update', 'UserController@update')->name('technician.user.update');
+    Route::post('user/pass-update', 'UserController@passUpdate')->name('technician.user.pass-update');
     Route::get('dashboard', 'DashboardController@__invoke')->name('technician.dashboard.index');
 });
 

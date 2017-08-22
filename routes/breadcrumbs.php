@@ -137,7 +137,21 @@ Breadcrumbs::register('bcs.config.tag', function($breadcrumbs) {
 });
 
 //############################## Technician
+
 Breadcrumbs::register('technician.order', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
     $breadcrumbs->push(trans("admin/order.title"), route("order.index"));
+});
+
+Breadcrumbs::register('technician.notice', function($breadcrumbs){
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push("공지사항", route("notice.index"));
+});
+Breadcrumbs::register('technician.user.edit', function($breadcrumbs){
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push("정보수정", route("technician.user.edit"));
+});
+Breadcrumbs::register('technician.dashboard', function($breadcrumbs){
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push("대시보드", route("technician.dashboard.index"));
 });

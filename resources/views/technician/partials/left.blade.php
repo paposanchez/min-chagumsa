@@ -22,11 +22,9 @@
 
                 <li class="{{ Request::is('order*') ? ' active':''}}"><a href="/order"><i class="fa fa-shopping-basket"></i><span class="nav-label">{{ trans('admin/order.title') }}</span></a></li>
 
-                <li class="{{ Request::is('user*') ? ' active':''}}"><a href="/user"><i class="fa fa-group"></i><span class="nav-label">기술사관리 관리</span></a></li>
-
                 <li class="{{ Request::is('notice*') ? ' active':''}}"><a href="{{ url('/notice') }}"><i class="fa fa-pencil"></i><span class="nav-label">공지사항</span></a></li>
 
-                <li class="{{ Request::is('technician-info*') ? ' active':''}}"><a href="{{ route('technician.user.bcs-info') }}"><i class="fa fa-pencil"></i><span class="nav-label">정보수정</span></a></li>
+                <li class="{{ Request::is('technician-info*') ? ' active':''}}"><a href="{{ url('/user/edit') }}"><i class="fa fa-pencil"></i><span class="nav-label">정보수정</span></a></li>
 
             </ul>
 

@@ -20,39 +20,12 @@ class NoticeController extends Controller
      */
     public function index(Request $request)
     {
-        $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
-        $yn_list = Code::getSelectList('yn');
-        $shown_role_list = Code::getSelectList('post_shown_role');
+        //todo 생성후 id 확인 변경
+        $b2b_board_id = 4;
+
         $search_fields = Code::getSelectList('post_search_field');
 
-        $where = Post::orderBy('id', 'desc');
-
-//        if ($request->query('board_id')) {
-//            $where->where('board_id', $request->query('board_id'));
-//        }
-//
-//        if ($request->query('trs')) {
-//            $where->where('created_at', '>=', $request->query('trs') . ' 00:00:00');
-//        }
-//
-//        if ($request->query('tre')) {
-//            $where->where('created_at', '<', $request->query('tre') . ' 00:00:00');
-//        }
-//
-//        if ($request->query('sf') && $request->query('s')) {
-//
-//            if ($request->query('sf') == 'subject') {
-//                $where->where('subject', $request->query('s'));
-//            }
-//            if ($request->query('sf') == 'content') {
-//                $where->where('content', $request->query('s'));
-//            }
-//            if ($request->query('sf') == 'writer_name') {
-//                $where->where('name', $request->query('s'))
-//                        ->orWhere('email', $request->query('s'));
-//            }
-//        }
-
+        $where = Post::orderBy('id', 'desc')->where('board_id', $b2b_board_id);
 
 
         //기간 검색
@@ -95,8 +68,10 @@ class NoticeController extends Controller
 
         $entrys = $where->paginate(10);
 
+        $start_num = \App\Helpers\Helper::getStartNum($entrys);
 
-        return view('technician.notice.index', compact('entrys', 'board_list', 'shown_role_list', 'yn_list', 'request', 'search_fields'));
+
+        return view('technician.notice.index', compact('entrys', 'start_num', 'request', 'search_fields'));
     }
 
     /**
