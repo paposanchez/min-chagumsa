@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Technician;
 
+use App\Models\Diagnosis;
 use Doctrine\DBAL\Types\ObjectType;
 use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
@@ -635,5 +636,15 @@ class TechOrderController extends Controller
         $entrys = $diagnosis->prepare($id)->get();
 
         return view('technician.order.diagnoses', compact('entrys', 'order'));
+    }
+
+    public function updateCode(Request $request){
+        $id = $request->get('id');
+        $selected = $request->get('selected');
+        $diagnosis = Diagnosis::where('id', $id)->first();
+        $diagnosis->selected = $selected;
+        $diagnosis->save();
+        return $diagnosis;
+
     }
 }
