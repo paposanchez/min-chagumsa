@@ -207,7 +207,7 @@
                                                                         <th>{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
                                                                         {{--<td><input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $child_item['selected'] }}" style="background-color: #fff;" disabled></td>--}}
                                                                         <td>
-                                                                            {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child_item['options_cd']), \App\Helpers\Helper::getCodePluck($child_item['selected']), ['class'=>'form-control selected_cd', 'id'=>'']) !!}
+                                                                            {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child_item['options_cd']), \App\Helpers\Helper::getCodePluck($child_item['selected']), ['class'=>'form-control selected_cd', 'id'=>'', 'data-id'=>$child_item['id']]) !!}
                                                                         </td>
                                                                     </tr>
                                                                     </tbody>
@@ -243,15 +243,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
-
-                                        {{--@else--}}
-                                        {{--<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>--}}
                                     @endif
-
-
-
-
-
                                 </div>
                             </div>
 
@@ -322,6 +314,7 @@
                     alert('코드가 정상적으로 변경되었습니다.');
                 },
                 error : function (data){
+//                    alert(JSON.stringify(data));
                     alert('변경중 오류가 발생하였습니다.');
                 }
             })

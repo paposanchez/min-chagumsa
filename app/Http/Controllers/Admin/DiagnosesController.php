@@ -102,7 +102,7 @@ class DiagnosesController extends Controller
     public function updateCode(Request $request){
         $id = $request->get('id');
         $selected = $request->get('selected');
-        $diagnosis = Diagnosis::where('id', $id)->first();
+        return $diagnosis = Diagnosis::where('id', $id)->first();
         $diagnosis->selected = $selected;
         $diagnosis->save();
         return $diagnosis;
