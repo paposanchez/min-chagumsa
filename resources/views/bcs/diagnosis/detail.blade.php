@@ -131,7 +131,12 @@
                                                     <div class="col-md-6">
                                                         {{--<input type="text" class="form-control" placeholder="" value="{{ $item['description'] }}" style="background-color: #fff;" disabled>--}}
                                                         <div class='cert_box_cont_img'>
-                                                            <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
+                                                            @if(count($item['files']) != 0)
+                                                                {{--<img src="http://fakeimg.pl/100x50/" data-url="http://fakeimg.pl/100x50/" alt='차량 이미지' data-toggle="modal" data-target="#pictureModal">--}}
+                                                                <img src="http://fakeimg.pl/100x50/" data-url="http://fakeimg.pl/100x50/" alt='차량 이미지' id="imgLink" data-target="#pictureModal">
+                                                            @else
+                                                                <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -194,11 +199,6 @@
                                 {{--@else--}}
                                     {{--<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>--}}
                                 @endif
-
-
-
-
-
                             </div>
                         </div>
 
@@ -215,11 +215,41 @@
         </div>
 
     </div><!-- container -->
+
+
+
+    <!-- Modal -->
+    <div id="pictureModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <img src="http://fakeimg.pl/350x200/" id="aaa" alt='차량 이미지'>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 @endsection
 
 @push( 'footer-script' )
 <script type="text/javascript">
     $(function() {
+        $("#imgLink").on("click", function () {
+            var url = $(this).data('url');
+            if(url){
+                $("#aaa").attr("src", url);
+                $("#pictureModal").modal();
+            }
+        });
 
     });
 

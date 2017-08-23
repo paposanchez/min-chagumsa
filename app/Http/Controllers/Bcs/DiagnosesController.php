@@ -108,6 +108,8 @@ class DiagnosesController extends Controller
 
         $entrys = $diagnosis->prepare($id)->get();
 
+
+
 //        $entrys = response()->json($diagnosis->prepare($id)->get());
 //        dd($entrys);
         return view('bcs.diagnosis.detail', compact('entrys', 'order'));
