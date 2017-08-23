@@ -26,7 +26,7 @@
                     <div class="col-md-4">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="" value="{{ $order->datekey }}-{{ $order->car_number }}" style="background-color: #fff;" disabled>
-                            <span class="input-group-btn"><button class="btn btn-info" type="button" id="order-purchase">결제졍보</button></span>
+                            {{--<span class="input-group-btn"><button class="btn btn-info" type="button" id="order-purchase">결제졍보</button></span>--}}
                         </div>
 
                     </div>
@@ -35,7 +35,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="" value="{{ $order->status->display() }}" style="background-color: #fff;" disabled>
                             {{-- todo Admin에서만 나오도록 분기문 삽입해야 함. --}}
-                            <span class="input-group-btn"><button class="btn btn-primary" type="button" id="order-modify"{{ ($order->status_cd == 100)? " disabled": '' }}>주문상태 변경</button></span>
+{{--                            <span class="input-group-btn"><button class="btn btn-primary" type="button" id="order-modify"{{ ($order->status_cd == 100)? " disabled": '' }}>주문상태 변경</button></span>--}}
                         </div>
                     </div>
                 </div>

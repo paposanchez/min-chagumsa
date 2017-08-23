@@ -100,7 +100,7 @@
                     <col width="15%">
                     <col width="15%">
                     <col width="15%">
-
+                    <col width="15%">
                 </colgroup>
 
                 <thead>
@@ -111,6 +111,7 @@
                     <th class="text-center">연락처</th>
                     <th class="text-center">정비사</th>
                     <th class="text-center">기술사</th>
+                    <th class="text-center">예약날짜</th>
                     <th class="text-center">상태</th>
                 </tr>
                 </thead>
@@ -147,6 +148,10 @@
                             @if($data->technicion)
                                 {{ $data->technicion->name }}
                             @endif
+                        </td>
+
+                        <td>
+                            {{ $data->reservation->reservation_at->format('Y-m-d H') }} 시
                         </td>
 
                         <td>

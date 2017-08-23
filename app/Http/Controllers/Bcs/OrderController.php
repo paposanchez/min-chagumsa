@@ -33,7 +33,8 @@ class OrderController extends Controller
         ];
         $user = Auth::user();
 
-        $where = Order::orderBy('orders.id', 'DESC')->where('garage_id', $user->id);
+//        $where = Order::orderBy('orders.id', 'DESC')->where('garage_id', $user->id);
+        $where = Order::orderBy('created_at', 'DESC')->where('garage_id', $user->id);
 
         //주문상태
         $status_cd = $request->get('status_cd');

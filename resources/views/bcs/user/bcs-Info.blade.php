@@ -82,6 +82,15 @@
                     </div>
 
                     {{-- 정비소 주소 관련 --}}
+
+                    <div class="form-group {{ $errors->has('zipcode') ? 'has-error' : '' }}">
+                        <label for="address" class="control-label col-md-3">{{ trans('bcs/bcs-info.zipcode') }}</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.zipcode') }}" name="zipcode" id="zipcode" value="{{ $user->garageInfo->zipcode }}">
+                            <span class="help-block">{{ trans('bcs/bcs-info.help-zipcode') }}</span>
+                        </div>
+                    </div>
+
                     <div class="form-group {{ $errors->has('area') ? 'has-error' : '' }}">
                         <label for="area" class="control-label col-md-3">{{ trans('bcs/bcs-info.area') }}</label>
                         <div class="col-md-4">
@@ -94,6 +103,7 @@
                             @endif
                         </div>
                     </div>
+
                     <div class="form-group {{ $errors->has('section') ? 'has-error' : '' }}">
                         <label for="section" class="control-label col-md-3">{{ trans('bcs/bcs-info.section') }}</label>
                         <div class="col-md-4">
@@ -106,11 +116,12 @@
                             @endif
                         </div>
                     </div>
+
                     <div class="form-group {{ $errors->has('address') ? 'has-error' : '' }}">
                         <label for="address" class="control-label col-md-3">{{ trans('bcs/bcs-info.address') }}</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.address') }}" name="address" id="address" value="{{ $user->garageInfo->address }}">
-                            <span class="help-block">{{ trans('bcs/bcs-info.help-address') }}</span>
+                            <span class="help-block">{{ trans('bcs/bcs-info.help-zipcode') }}</span>
                             @if ($errors->has('address'))
                                 <span class="help-block">
                             {{ $errors->first('address') }}

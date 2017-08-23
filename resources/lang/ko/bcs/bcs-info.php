@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => 'BCS-인포',
+    'title' => '회원정보수정',
     'email' => '이메일',
     'name' => '정비소 이름',
     'new-password' => '변경할 비밀번호',
@@ -23,8 +23,8 @@ return [
     'help-area' => 'ex) 서울시, 부산시, 경기도...',
     'help-section' => 'ex) 마포구, 동작구, 사하구, 남양주시, 고양시...',
     'help-address' => 'ex) 나머지 주소를 입력하여 주세요.',
-    '' => '',
-    '' => '',
+    'zipcode' => '우편번호',
+    'help-zipcode' => 'ex) 12-123...',
 
 
 

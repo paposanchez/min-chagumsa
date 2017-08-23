@@ -1,7 +1,7 @@
 @extends( 'bcs.layouts.default' )
 
 @section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.order')])
+    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.user')])
 @endsection
 
 @section( 'content' )
@@ -67,12 +67,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                        <label for="bcs_number" class="control-label col-md-3">{{ trans('bcs/user.bcs_number') }}</label>
-                        <div class="col-md-4">
-                            <p class='form-control-static'>123</p>
-                        </div>
-                    </div>
+                    {{--<div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">--}}
+                        {{--<label for="bcs_number" class="control-label col-md-3">{{ trans('bcs/user.bcs_number') }}</label>--}}
+                        {{--<div class="col-md-4">--}}
+                            {{--<p class='form-control-static'>123</p>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
 
 

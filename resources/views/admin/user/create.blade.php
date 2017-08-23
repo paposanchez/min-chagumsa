@@ -65,6 +65,19 @@
                 </div>
             </div>
 
+            <div class="form-group {{ $errors->has('mobile') ? 'has-error' : '' }}">
+                <label for="inputMobile" class="control-label col-md-3">{{ trans('admin/user.mobile') }}</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="{{ trans('admin/user.mobile') }}" name="mobile" id="inputMobile" value="{{ old('mobile') }}">
+
+                    @if ($errors->has('mobile'))
+                        <span class="help-block">
+                        {{ $errors->first('mobile') }}
+                    </span>
+                    @endif
+                </div>
+            </div>
+
             <div class="form-group {{ $errors->has('roles') ? 'has-error' : 'roles' }}">
                 <label for="inputRoles" class="control-label col-md-3">{{ trans('admin/user.roles') }}</label>
                 <div class="col-md-6">
@@ -92,6 +105,8 @@
                 </div>
             </div>
 
+
+
             <div id="garage_info" style="display: none">
                 <div class="form-group {{ $errors->has('aliance') ? 'has-error' : '' }} aliance">
                     <label for="inputGarage" class="control-label col-md-3">BCS 네트워크</label>
@@ -112,30 +127,76 @@
                         <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_tel') }}" name="garage_tel" id="garage_tel" value="">
                     </div>
                 </div>
+                <div class="form-group {{ $errors->has('fax') ? 'has-error' : '' }}">
+                    <label for="fax" class="control-label col-md-3">{{ trans('bcs/bcs-info.fax') }}</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.fax') }}" name="fax" id="fax" value="">
+
+                        @if ($errors->has('fax'))
+                            <span class="help-block">
+                            {{ $errors->first('fax') }}
+                        </span>
+                        @endif
+                    </div>
+                </div>
                 <div class="form-group {{ $errors->has('garage_zipcode') ? 'has-error' : '' }} garage_zipcode">
                     <label for="inputGarage" class="control-label col-md-3">우편번호</label>
                     <div class="col-md-6 ">
                         <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_zipcode') }}" name="garage_zipcode" id="garage_zipcode" value="">
+                        <span class="help-block">{{ trans('bcs/bcs-info.help-zipcode') }}</span>
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('garage_area') ? 'has-error' : '' }} garage_area">
                     <label for="inputGarage" class="control-label col-md-3">시/도</label>
                     <div class="col-md-6 ">
                         <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_area') }}" name="garage_area" id="garage_area" value="">
+                        <span class="help-block">{{ trans('bcs/bcs-info.help-area') }}</span>
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('garage_name') ? 'has-error' : '' }} garage_section">
                     <label for="inputGarage" class="control-label col-md-3">구/군</label>
                     <div class="col-md-6 ">
                         <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_section') }}" name="garage_section" id="garage_section" value="">
+                        <span class="help-block">{{ trans('bcs/bcs-info.help-section') }}</span>
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('garage_address') ? 'has-error' : '' }} garage_address">
                     <label for="inputGarage" class="control-label col-md-3">나머지 주소</label>
                     <div class="col-md-6 ">
                         <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_address') }}" name="garage_address" id="garage_address" value="">
+                        <span class="help-block">{{ trans('bcs/bcs-info.help-address') }}</span>
                     </div>
                 </div>
+
+                <div class="form-group {{ $errors->has('registration_number') ? 'has-error' : '' }} registration_number">
+                    <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.registration_number') }}</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.registration_number') }}" name="registration_number" id="registration_number" value="">
+                        {{--<span class="help-block">{{ trans('bcs/bcs-info.help-address') }}</span>--}}
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('bank') ? 'has-error' : '' }} bank">
+                    <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.bank') }}</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.bank') }}" name="bank" id="bank" value="">
+                        <span class="help-block">{{ trans('admin/user.help-bank') }}</span>
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('account') ? 'has-error' : '' }} account">
+                    <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.account') }}</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.account') }}" name="account" id="account" value="">
+                        <span class="help-block">{{ trans('admin/user.help-account') }}</span>
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('owner') ? 'has-error' : '' }} bank">
+                    <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.owner') }}</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.owner') }}" name="owner" id="owner" value="">
+                        <span class="help-block">{{ trans('admin/user.help-bank') }}</span>
+                    </div>
+                </div>
+
             </div>
 
 
@@ -160,18 +221,7 @@
             </div>
 
 
-            <div class="form-group {{ $errors->has('mobile') ? 'has-error' : '' }}">
-                <label for="inputMobile" class="control-label col-md-3">{{ trans('admin/user.mobile') }}</label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="{{ trans('admin/user.mobile') }}" name="mobile" id="inputMobile" value="{{ old('mobile') }}">
 
-                    @if ($errors->has('mobile'))
-                    <span class="help-block">
-                        {{ $errors->first('mobile') }}
-                    </span>
-                    @endif
-                </div>
-            </div>
 
 
             <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">

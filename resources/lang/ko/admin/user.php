@@ -38,11 +38,11 @@ return [
     'latest-blog-title' => 'Latest blog title',
     'latest-blog-date' => 'Latest posting time',
 
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => ''
+    'registration_number' => '사업자등록번호',
+    'bank' => '예금은행',
+    'help-bank' => 'ex) 국민, 신한, 새마을금고...',
+    'account' => '계좌정보',
+    'help-account' => 'ex) 00000-00-00000',
+    'owner' => '예금주'
 
 ];
