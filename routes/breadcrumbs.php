@@ -109,7 +109,27 @@ Breadcrumbs::register('web.mypage.history', function($breadcrumbs) {
 //############################## BCS
 Breadcrumbs::register('bcs.order', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push(trans("admin/order.title"), route("order.index"));
+    $breadcrumbs->push(trans("bcs/order.title"), route("bcs.order.index"));
+});
+Breadcrumbs::register('bcs', function($breadcrumbs){
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/dashboard.title"), url('/'));
+});
+Breadcrumbs::register('bcs.calculation', function($breadcrumbs) {
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/calculation.title"), route('bcs.calculation.index'));
+});
+Breadcrumbs::register('bcs.user', function($breadcrumbs) {
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/user.title"), route('bcs.user.index'));
+});
+Breadcrumbs::register('bcs.notice', function($breadcrumbs) {
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/notice.title"), route('bcs.notice.index'));
+});
+Breadcrumbs::register('bcs.config.tag', function($breadcrumbs) {
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/tag.title"), route('bcs.tag.index'));
 });
 
 //############################## Technician

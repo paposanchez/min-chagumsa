@@ -4,14 +4,18 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => ['auth', 'role:garage']], function () {
 
     //주문
-    Route::resource('order', 'OrderController');
-    Route::resource('calculation', 'CalculationController');
-    Route::resource('notice', 'NoticeController');
+    Route::resource('order', 'OrderController', ['as' => 'bcs']);
+    Route::resource('calculation', 'CalculationController', ['as' => 'bcs']);
+    Route::resource('notice', 'NoticeController', ['as' => 'bcs']);
     //정보수정
     Route::get('user/bcs-info', 'UserController@bscInfo')->name('user.bcs-info');
     Route::post('user/bcs-store', 'UserController@bscStore')->name('user.bcs-store');
-    Route::resource('user', 'UserController');
+    Route::resource('user', 'UserController', ['as' => 'bcs']);
     Route::get('dashboard', 'DashboardController@__invoke')->name('bcs.dashboard.index');
+
+    // Avatar
+    Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
+    Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 });
 
 // After login in administrator's

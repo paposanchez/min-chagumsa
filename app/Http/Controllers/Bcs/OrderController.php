@@ -17,6 +17,7 @@ use App\Models\Code;
 use App\Models\ScTran;
 use App\Models\PaymentCancel;
 use App\Models\Purchase;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -25,14 +26,80 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
         $search_fields = [
             "order_num" => "주문번호", "car_number" => "차량번호", 'orderer_name'=>'주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
         ];
+        $user = Auth::user();
 
-        $where = Order::orderBy('orders.id', 'DESC');
+        $where = Order::orderBy('orders.id', 'DESC')->where('garage_id', $user->id);
+
+        //주문상태
+        $status_cd = $request->get('status_cd');
+        if($status_cd){
+            $where = $where->where('status_cd', $status_cd);
+        }
+
+        //기간 검색
+        $trs = $request->get('trs');
+        $tre = $request->get('tre');
+        if($trs && $tre){
+            //시작일, 종료일이 모두 있을때
+            $where = $where->where(function($qry) use($trs, $tre){
+                $qry->where("created_at", ">=", $trs)
+                    ->where("created_at", "<=", $tre);
+            })->orWhere(function($qry) use($trs, $tre){
+                $qry->where("updated_at", ">=", $trs)
+                    ->where("updated_at", "<=", $tre);
+            });
+        }elseif ($trs && !$tre){
+            //시작일만 있을때
+            $where = $where->where(function($qry) use($trs){
+                $qry->where("created_at", ">=", $trs);
+            })->orWhere(function($qry) use($trs){
+                $qry->where("updated_at", ">=", $trs);
+            });
+        }
+
+        //검색어 검색
+        $sf = $request->get('sf'); //검색필드
+        $s = $request->get('s'); //검색어
+
+        if($sf && $s){
+            if($sf != "order_num"){
+                if(in_array($sf, ["car_number", "orderer_name", "orderer_mobile"])){
+                    $where = $where->where($sf, 'like', '%'.$s.'%');
+                }
+            }else{
+                $order_split = explode("-", $s);
+                if(count($order_split) == 2){
+                    $datekey = $order_split[1];
+                    $car_number = $order_split[0];
+                    $date_array = str_split($datekey, 2);
+
+                    $date = Carbon::create('20'.''.$date_array[0], $date_array[1], $date_array[2], '0', '0', '0');
+                    $next_day = Carbon::create('20'.''.$date_array[0], $date_array[1], $date_array[2], '0', '0', '0')->addDay(1);
+
+                    $where = $where->where('car_number', $car_number)
+                                    ->where('created_at', '>=', $date)
+                                    ->where('created_at', '<=', $next_day);
+                }
+                else{
+                    if(strlen($s) > 6){
+                        $where = $where->where('car_number', $s);
+                    }else{
+                        $date_array = str_split($s, 2);
+                        $date = Carbon::create('20'.''.$date_array[0], $date_array[1], $date_array[2], '0', '0', '0');
+                        $next_day = Carbon::create('20'.''.$date_array[0], $date_array[1], $date_array[2], '0', '0', '0')->addDay(1);
+
+                        $where =$where->where('created_at', '>=', $date)->where('created_at', '<=', $next_day);
+                    }
+
+                }
+            }
+        }
+
         $entrys = $where->paginate(25);
 
         return view('bcs.order.index', compact('search_fields', 'entrys'));

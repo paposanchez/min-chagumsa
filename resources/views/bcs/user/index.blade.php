@@ -1,7 +1,7 @@
 @extends( 'bcs.layouts.default' )
 
 @section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.order')])
+    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.user')])
 @endsection
 
 @section( 'content' )
@@ -12,15 +12,6 @@
 
             <div class="panel-heading">
                 <span class="panel-title">검색조건</span>
-
-                {{--<div class="panel-heading-controls">--}}
-                {{--<div class="checkbox checkbox-slider--b-flat zfp-panel-collapse">--}}
-                {{--<label>--}}
-                {{--<input type="checkbox" >--}}
-                {{--<span></span>--}}
-                {{--</label>--}}
-                {{--</div>--}}
-                {{--</div>--}}
             </div>
 
             <div class="panel-body">
@@ -28,12 +19,19 @@
                 <form  method="GET" class="form-horizontal no-margin-bottom" role="form">
 
                     <div class="form-group">
-                        <label for="inputBoardId" class="control-label col-sm-3 text-center">검색조건</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="엔지니어 검색" >
+                        <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
+                        <div class="col-sm-3">
+                            {!! Form::select('sf', $search_fields, [], ['class'=>'form-control']) !!}
+
                         </div>
-                        <div>
-                            <button class="btn btn-primary">검색</button>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}" name='s' value=''>
+                        </div>
+                    </div>
+                    <div class="form-group no-margin-bottom">
+                        <label class="control-label col-sm-3 sr-only">{{ trans('common.search.button') }}</label>
+                        <div class="col-sm-4 col-sm-offset-3">
+                            <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i> {{ trans('common.search.button') }}</button>
                         </div>
                     </div>
 
@@ -95,7 +93,7 @@
                             </td>
 
                             <td>
-                                <a href="{{ route('user.edit', $data->id) }}" class="btn btn-default"  data-tooltip="{pos:'top'}" title="수정">수정</a>
+                                <a href="{{ route('bcs.user.edit', $data->id) }}" class="btn btn-default"  data-tooltip="{pos:'top'}" title="수정">수정</a>
                             </td>
                         </tr>
                     @endforeach
