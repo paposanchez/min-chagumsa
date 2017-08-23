@@ -30,7 +30,7 @@
 
                 <li class="{{ Request::is('notice*') ? ' active':''}}"><a href="{{ url('/notice') }}"><i class="fa fa-pencil"></i><span class="nav-label">공지사항</span></a></li>
 
-                <li class="{{ Request::is('info*') ? ' active':''}}"><a href="{{ url('/info') }}"><i class="fa fa-pencil"></i><span class="nav-label">BCS-인포</span></a></li>
+                <li class="{{ Request::is('info*') ? ' active':''}}"><a href="{{ url('/info') }}"><i class="fa fa-info-circle" aria-hidden="true"></i><span class="nav-label">BCS-인포</span></a></li>
 
             </ul>
 

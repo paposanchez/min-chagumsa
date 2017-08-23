@@ -5,9 +5,10 @@
 @endsection
 
 @section( 'content' )
+@section( 'content' )
     <div class="container-fluid">
 
-        <div class="row">
+        <div class="row drow-box">
 
             <div class="col-md-12" >
                 <h3>기본 정보</h3>
@@ -96,125 +97,152 @@
 
         </div>
 
-        @foreach($entrys['entrys'] as $details)
-            <div class="row drow-box">
-                <div class="col-md-2"><h5>{{ $details['name']['display'] }}</h5></div>
-                <div class="col-md-10 drow-left">
-                    @foreach($details['entrys'] as $detail)
-                        <div class="row drow-bottom drow-bmargin">
-                            <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
-                                점검항목
-                            </label>
-                            <div class="col-md-2 no-padding">
-                                <input type="text" class="form-control" placeholder="" value="{{ $detail['name']['display'] }}" style="background-color: #fff;" disabled>
-                            </div>
+        <div class="row" id="diagnosis-info"><div class="col-md-12 text-center alert alert-info"><h1><span class="fa fa-arrow-circle-down"></span> 차량 점검 상세 내역</h1></div></div>
 
-                            <div class="col-md-9 drow-box">
-                                @foreach($detail['entrys'] as $item)
-                                    <div class="row">
-                                        <div class="col-md-6 no-padding">
-                                            @if($item['options'] != null)
-                                                <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                                    <label for="inputName" class="control-label col-md-6 text-left">
-                                                        {{ \App\Helpers\Helper::getCodeName($item['options_cd']) }}
-                                                    </label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $item['selected'] }}" style="background-color: #fff;" disabled>
-                                                    </div>
-                                                </div>
-                                            @elseif($item['use_image'] != 0)
+        <div class="row">
+            @foreach($entrys['entrys'] as $details)
+                <div class="row drow-box">
+                    <div class="col-md-2 text-center"><h3>{{ $details['name']['display'] }}</h3></div>
+                    <div class="col-md-10 drow-left">
+                        @foreach($details['entrys'] as $detail)
+                            <div class="row drow-bottom drow-bmargin">
+                                <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+                                    점검항목
+                                </label>
+                                <div class="col-md-2 no-padding">
+                                    <input type="text" class="form-control" placeholder="" value="{{ $detail['name']['display'] }}" style="background-color: #fff;" disabled>
+                                </div>
 
-                                                <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                                    <label for="inputName" class="control-label col-md-6 text-left">
-                                                        {{ $item['description'] }}
-                                                    </label>
-                                                    <div class="col-md-6">
-                                                        {{--<input type="text" class="form-control" placeholder="" value="{{ $item['description'] }}" style="background-color: #fff;" disabled>--}}
-                                                        <div class='cert_box_cont_img'>
-                                                            @if(count($item['files']) != 0)
-                                                                {{--<img src="http://fakeimg.pl/100x50/" data-url="http://fakeimg.pl/100x50/" alt='차량 이미지' data-toggle="modal" data-target="#pictureModal">--}}
-                                                                <img src="http://fakeimg.pl/100x50/" data-url="http://fakeimg.pl/100x50/" alt='차량 이미지' id="imgLink" data-target="#pictureModal">
-                                                            @else
-                                                                <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @elseif($item['use_voice'] != 0)
-                                                <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                                    {{--<label for="inputId" class="control-label col-md-3">플레이어</label>--}}
-                                                    {{--<div class="col-md-3">--}}
-                                                    {{--<video width="200" height="30" controls>--}}
-                                                    {{--</video>--}}
-                                                    {{--</div>--}}
-                                                    <label for="inputName" class="control-label col-md-6 text-left">
-                                                        플레이어
-                                                    </label>
-                                                    <div class="col-md-6">
-                                                        <video width="200" height="30" controls>
-                                                        </video>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endforeach
-                                @if(count($detail['children']) > 0)
-                                    <div class="col-md-6 no-padding">
-                                        @foreach($detail['children'] as $child)
+                                <div class="col-md-9 drow-box">
+                                    @foreach($detail['entrys'] as $item)
+                                        <div class="row">
 
-                                            <h5>• {{ $child['name']['display'] }}</h5>
 
-                                            @foreach($child['entrys'] as $child_item)
-
-                                                @if($child_item['options'] )
+                                            <div class="col-md-8">
+                                                @if($item['options'] != null)
                                                     <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                                        <label for="inputName" class="control-label col-md-2 text-left">
-                                                            {{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}
-                                                            {{--{{ $child_item['name']['display'] }}--}}
+                                                        <label for="inputName" class="control-label col-md-4 text-left">
+                                                            {{ \App\Helpers\Helper::getCodeName($item['options_cd']) }}
                                                         </label>
-                                                        <div class="col-md-4">
-                                                            <input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $child_item['selected'] }}" style="background-color: #fff;" disabled>
+                                                        <div class="col-md-6">
+                                                            <input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $item['selected'] }}" style="background-color: #fff;" disabled>
                                                         </div>
                                                     </div>
-                                                @elseif($child_item['use_image'] != 0)
+                                                @elseif($item['use_image'] != 0)
+
                                                     <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                                        <label for="inputId" class="control-label col-md-3">참고 사진</label>
-                                                        <div class="col-md-3">
-                                                            <p class='form-control-static'>{{ $child_item['description'] }}</p>
+                                                        <label for="inputName" class="control-label col-md-4 text-left">
+                                                            {{ $item['description'] }}
+                                                        </label>
+                                                        <div class="col-md-6">
+                                                            {{--<input type="text" class="form-control" placeholder="" value="{{ $item['description'] }}" style="background-color: #fff;" disabled>--}}
+                                                            <div class='cert_box_cont_img'>
+                                                                @if($item['files'])
+                                                                    <img src="http://fakeimg.pl/100x50/" alt='차량 이미지' id="imgSrc" data-url="http://fakeimg.pl/440x320/">
+                                                                @else
+                                                                    <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
+                                                                @endif
+
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                @elseif($child_item['use_voice'] != 0)
+                                                @elseif($item['use_voice'] != 0)
                                                     <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                                        <label for="inputId" class="control-label col-md-3">플레이어</label>
-                                                        <div class="col-md-3">
-                                                            <p class='form-control-static'>파일 있다</p>
+                                                        {{--<label for="inputId" class="control-label col-md-3">플레이어</label>--}}
+                                                        {{--<div class="col-md-3">--}}
+                                                        {{--<video width="200" height="30" controls>--}}
+                                                        {{--</video>--}}
+                                                        {{--</div>--}}
+                                                        <label for="inputName" class="control-label col-md-4 text-left">
+                                                            플레이어
+                                                        </label>
+                                                        <div class="col-md-6">
+                                                            <video width="200" height="30" controls>
+                                                            </video>
                                                         </div>
                                                     </div>
                                                 @endif
-                                            @endforeach
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    @if(count($detail['children']) > 0)
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                @foreach($detail['children'] as $child)
 
-                                        @endforeach
-                                    </div>
-                                {{--@else--}}
-                                    {{--<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>--}}
-                                @endif
+                                                    <div class="row">
+                                                        <h5>• {{ $child['name']['display'] }}</h5>
+
+                                                        @foreach($child['entrys'] as $child_item)
+
+                                                            @if($child_item['options'] )
+
+                                                                <table class="table table-bordered">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <th>{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
+                                                                        <td><input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $child_item['selected'] }}" style="background-color: #fff;" disabled></td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            @elseif($child_item['use_image'] != 0)
+
+                                                                <table class="table table-bordered">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <th>참고 사진</th>
+                                                                        <td>{{ $child_item['description'] }}</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            @elseif($child_item['use_voice'] != 0)
+
+                                                                <table class="table table-bordered">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <th>플레이어</th>
+                                                                        <td>파일 있다</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            @endif
+                                                        @endforeach
+
+                                                    </div>
+
+                                                @endforeach
+                                            </div>
+                                        </div>
+
+                                        {{--@else--}}
+                                        {{--<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>--}}
+                                    @endif
+
+
+
+
+
+                                </div>
                             </div>
-                        </div>
 
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
-            </div>
 
-        @endforeach
+            @endforeach
+
+            <a id="back-to-top" href="#diagnosis-info" class="btn btn-primary btn-md back-to-top" role="button" title="상단으로 가기" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
+        </div>
+
 
         <div class="row">
             <div class="col-md-12 text-center">
                 <button type="button" id="self-close" class="btn btn-primary">닫기</button>
             </div>
         </div>
-
-    </div><!-- container -->
 
 
 
@@ -243,7 +271,7 @@
 @push( 'footer-script' )
 <script type="text/javascript">
     $(function() {
-        $("#").on("click", function () {
+        $("#imgSrc").on("click", function () {
             var url = $(this).data('url');
             if(url){
                 $("#img").attr("src", url);
