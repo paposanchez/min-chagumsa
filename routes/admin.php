@@ -14,6 +14,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     // 게시물 
     Route::resource('post', 'PostController');
+    Route::resource('bcs-post', 'BcsPostController');
+
 
     // 코멘트
     Route::resource('comment', 'CommentController');

@@ -40,6 +40,16 @@
             <dt class="">{{ $row->subject }}</dt>
             <dd style="display: none;">
                 {!! nl2br($row->content) !!}
+                <div class="br20"></div>
+
+                @if(count($row->files) != 0)
+                    @foreach($row->files as $file)
+                        <a href="/file/download/{{ $file->id }}">
+                            <i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{ $file->original }}
+                        </a>
+                        <br>
+                    @endforeach
+                @endif
             </dd>
             @endforeach
         </dl>

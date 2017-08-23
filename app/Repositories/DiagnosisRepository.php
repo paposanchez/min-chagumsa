@@ -273,7 +273,8 @@ class DiagnosisRepository {
     // 진단데이터 수정
     public function update($save_data) {
 
-        $json_save_data = json_decode($save_data, true);
+//        $json_save_data = json_decode($save_data, true);
+        $json_save_data = $save_data;
 
         if($this->validate($json_save_data)) {
 

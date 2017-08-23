@@ -21,23 +21,38 @@
             <div class="board_view_title">
                 <div>{{ $data->subject }}</div>
                 <ul>
-                    <li>작성일 <span>{{ \App\Helpers\Helper::getDbDate($data->created_at, $data->updated_at) }}</span></li>
+                    <li>작성일 <span>{{ $data->updated_at ? $data->updated_at->format("Y-m-d") : $data->created_at->format("Y-m-d")  }}</span></li>
                     <li>hit <span>{{ number_format($data->hit) }}</span></li>
                 </ul>
             </div>
             <div class="board_view_cont">
                 {!! $data->content !!}
             </div>
-            <ul class="board_btn_wrap">
-                <li>
-                    <button class="btns2" id='c-list' data-route="{{ route($board_namespace.'.index') }}">목록</button>
-                </li>
-                <li>
-                    <button class="btns2" id='prev' data-route="{{ ($prev)? route($board_namespace.'.show', ['id' => $prev]): '' }}">이전</button>
-                    <button class="btns2" id='next' data-route="{{ ($next)? route($board_namespace.'.show', ['id' => $next]): '' }}">다음</button>
-                </li>
-            </ul>
+
+            @if(count($files) != 0)
+                <div style="border-bottom: 1px solid #7b7b7b; margin-top: 10px; padding-bottom: 10px; padding-left: 20px;">
+                @foreach($files as $file)
+                    <a href="/file/download/{{$file->id}}">
+                        <i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{ $file->original }}
+                    </a>
+                    <br>
+                @endforeach
+                </div>
+            @endif
+
         </div>
+
+
+        <p class="form-control-static">
+
+            <button class="btn btn-default " id='c-list' data-route="{{ route($board_namespace.'.index') }}">목록</button>
+
+      
+            <button class="btn btn-default pull-right" id='next' style="margin:0px 0px 0px 5px;" data-route="{{ ($next)? route($board_namespace.'.show', ['id' => $next]): '' }}">다음</button> 
+
+            <button class="btn btn-default pull-right" id='prev' data-route="{{ ($prev)? route($board_namespace.'.show', ['id' => $prev]): '' }}">이전</button>      
+        </p>
+        
 
     </div>
 @endsection
@@ -63,7 +78,23 @@
         $("#next").on("click", function(){
             location.href = $("#next").data("route");
         });
+
+
+
+
+
+//        $(document).on("click", ".plugin-attach-download", function (e) {
+//            e.preventDefault();
+//            var id = $(this).closest(".plugin-attach-file").data('id');
+//            $.fileDownload('/file/download/' + id, {
+//                error: function (e) {
+//                    $.notify(ZFOOP.Languages.can_not_process_retry, "danger");
+//                }
+//            });
+//
+//        });
     });
+
 
 </script>
 @endpush

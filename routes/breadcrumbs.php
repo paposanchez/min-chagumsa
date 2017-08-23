@@ -12,6 +12,10 @@ Breadcrumbs::register('admin.post', function($breadcrumbs) {
     $breadcrumbs->parent('admin');
     $breadcrumbs->push(trans("admin/post.title"), route('post.index'));
 });
+Breadcrumbs::register('admin.bcs-post', function($breadcrumbs) {
+    $breadcrumbs->parent('admin');
+    $breadcrumbs->push(trans("admin/bcs-post.title"), route('bcs-post.index'));
+});
 Breadcrumbs::register('admin.comment', function($breadcrumbs) {
     $breadcrumbs->parent('admin');
     $breadcrumbs->push(trans("admin/comment.title"), route('comment.index'));
@@ -127,9 +131,13 @@ Breadcrumbs::register('bcs.notice', function($breadcrumbs) {
 //    $breadcrumbs->parent('bcs');
     $breadcrumbs->push(trans("bcs/notice.title"), route('bcs.notice.index'));
 });
-Breadcrumbs::register('bcs.config.tag', function($breadcrumbs) {
+Breadcrumbs::register('bcs.info', function($breadcrumbs) {
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push(trans("bcs/tag.title"), route('bcs.tag.index'));
+    $breadcrumbs->push(trans("bcs/bcs-info.title"), route('bcs.info.index'));
+});
+Breadcrumbs::register('bcs.diagnosis', function($breadcrumbs) {
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/diagnosis.title"), route('bcs.diagnosis.index'));
 });
 
 //############################## Technician

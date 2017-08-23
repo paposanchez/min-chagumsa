@@ -153,6 +153,7 @@ Route::post('register', 'Auth\RegisterController@postRegister');
 Route::any('/', 'WelcomeController');
 
 
+Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");
 
 
 //결제 prototype

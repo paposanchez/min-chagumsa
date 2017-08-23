@@ -1,46 +1,65 @@
 @extends( 'web.layouts.default' )
 
 @section( 'content' )
+<div id='sub_title_wrap'><h2>로그인<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>로그인</span></div></h2></div>
 
-<div id='sub_full_wrap'>
 
-	<div class='login_box_wrap'>
-		{!! Form::open(['url' => 'login', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'login-form']) !!}
-		<h3>{{ Html::image(Helper::theme_web( '/img/sub/logo_big.png')) }}</h3>
-		<div class='br30'></div>
-		<div class='ipt_line br10 has-error'>
-			<input name="email" type='text' class='ipt' placeholder='아이디 (이메일)'>
 
-		</div>
-		<div class='br10'></div>
-		<div class='ipt_line has-error'>
-			<input name="password" type='password' class='ipt' placeholder='비밀번호'>
-			<span class='ipt_msg'></span>
-		</div>
-		<div class='br10'></div>
-		<div class='ipt_line'>
-			<label>
-				<input type='checkbox' class='psk' id="save-email">
-				<span class='lbl'> 아이디 저장</span>
-			</label>
-		</div>
-		<div class='br20'></div>
-		<div class='ipt_line'>
-			<button type="submit" class='btns btns_green'>로그인</button>
-		</div>
-		<div class='br20'></div>
-		<div class='login_link'>
+
+
+	<div class='br30'></div>
+	{!! Form::open(['url' => 'login', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'login-form']) !!}
+
+		<div style="width:500px; padding:20px; background:#fff; margin:0 auto; border:solid 1px #efefef;" class="">
+
+			<p class="form-control-static text-center" style="margin:25px 0px;">
+				{{ Html::image(Helper::theme_web( '/img/sub/logo_big.png'), '로고', array('class' => 'login-logo', 'style'=> 'width:200px;')) }}
+			</p>
+
+			
+			<div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
+			    <label for="inputEmail" class="control-label sr-only">{{ trans('web/register.email') }}</label>
+			    <input type="email" class="form-control  input-lg" placeholder="{{ trans('web/register.email') }}" name="email" id="inputEmail">
+
+			    @if ($errors->has('email'))
+			    <span class="help-block">
+			        {{ $errors->first('email') }}
+			    </span>
+			    @endif
+			</div>
+
+
+			<div class="form-group  {{ $errors->has('password') ? 'has-error' : '' }}">
+			    <label for="inputPassword" class="control-label sr-only">{{ trans('web/register.password') }}</label>
+			    <input type="password" class="form-control  input-lg" placeholder="{{ trans('web/register.password') }}" name="password" id="inputPassword">
+
+			    @if ($errors->has('password'))
+			    <span class="help-block">
+			        {{ $errors->first('password') }}
+			    </span>
+			    @endif
+			</div>
+
+			<p class="text-center">
+			    <button class="btn btn-block btn-lg btn-success btns_green" data-loading-text="처리중..." type="submit">로그인</button>
+			</p>
+
+
+			<hr>
+
+			<div class='login_link'>
 			{{--<a href='{{ route('register') }}'>회원가입</a>--}}
 			<a href='{{ route('register.agreement') }}'>회원가입</a>
-			<a href='/password/reset'>비밀번호 찾기</a>
+			<a href='/password/reset'>{{ trans("passwords.title") }}</a>
+			</div>
+
+
 		</div>
+		
 
-		{!! Form::close() !!}
-	</div>
+	{!! Form::close() !!}
 
-
-</div>
-
+	<div class='br30'></div>
 
 @endsection
 

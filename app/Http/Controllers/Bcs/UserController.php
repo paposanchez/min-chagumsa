@@ -260,21 +260,4 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * bcs 회원정보 수정
-     * todo 회원수정 정보를 구성해야함
-     * @param Request $request
-     */
-    public function bscInfo(Request $request){
-
-        return view("bcs.user.bcs-info");
-    }
-
-    /**
-     * BCS 회원정보 수정
-     * @param Request $request
-     */
-    public function bcsStore(Request $request){
-
-    }
 }

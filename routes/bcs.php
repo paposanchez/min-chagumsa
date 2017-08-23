@@ -8,14 +8,17 @@ Route::group(['middleware' => ['auth', 'role:garage']], function () {
     Route::resource('calculation', 'CalculationController', ['as' => 'bcs']);
     Route::resource('notice', 'NoticeController', ['as' => 'bcs']);
     //정보수정
-    Route::get('user/bcs-info', 'UserController@bscInfo')->name('user.bcs-info');
-    Route::post('user/bcs-store', 'UserController@bscStore')->name('user.bcs-store');
+//    Route::get('bcs-info', 'BcsController@bscInfo')->name('bcs-info');
+//    Route::post('bcs-edit', 'BcsController@bcsEdit')->name('bcs-edit');
+    Route::resource('info', 'BcsController', ['as' => 'bcs']);
     Route::resource('user', 'UserController', ['as' => 'bcs']);
     Route::get('dashboard', 'DashboardController@__invoke')->name('bcs.dashboard.index');
 
     // Avatar
     Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
     Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
+
+    Route::resource('diagnosis', 'DiagnosesController', ['as' => 'bcs']);
 });
 
 // After login in administrator's
@@ -48,3 +51,5 @@ Route::group(['middleware' => ['guest.admin']], function () {
 
 Route::get('logout', 'Auth\LoginController@logout')->name("bcs.logout");
 Route::post('logout', 'Auth\LoginController@logout')->name("bcs.logout");
+
+Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");

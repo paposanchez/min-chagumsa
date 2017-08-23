@@ -103,17 +103,13 @@ class NoticeController extends Controller
     {
         //
         $post = Post::findOrFail($id);
+        // 파일 다운로드 관련
+        $files = File::where('group', 'post')->where('group_id', $id)->get();
+        if(!$files){
+            $files = [];
+        }
 
-        $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
-
-//        $yn_list = Code::getCodesByGroup('yn');
-        $yn_list = Code::getSelectList('yn');
-
-        $shown_role_list = Code::getSelectList('post_shown_role');
-
-        $categorys = Code::where('group', 'category_id')->get();
-
-        return view('bcs.notice.show', compact('post'));
+        return view('bcs.notice.show', compact('post', 'files'));
     }
 
     /**
