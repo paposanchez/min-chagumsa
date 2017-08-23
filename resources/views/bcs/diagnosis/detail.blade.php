@@ -228,7 +228,7 @@
 
             @endforeach
 
-                <a id="back-to-top" href="#diagnosis-info" class="btn btn-primary btn-lg back-to-top" role="button" title="상단으로 가기" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                <a id="back-to-top" href="#diagnosis-info" class="btn btn-primary btn-md back-to-top" role="button" title="상단으로 가기" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
         </div>
 
 
