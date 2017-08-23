@@ -229,7 +229,7 @@
                     <h4 class="modal-title" id="modal-title">Modal Header</h4>
                 </div>
                 <div class="modal-body" id="modal-body">
-                    <img src="http://fakeimg.pl/350x200/" id="aaa" alt='차량 이미지'>
+                    <img src="http://fakeimg.pl/350x200/" id="img" alt='차량 이미지'>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
@@ -243,14 +243,13 @@
 @push( 'footer-script' )
 <script type="text/javascript">
     $(function() {
-        $("#imgLink").on("click", function () {
+        $("#").on("click", function () {
             var url = $(this).data('url');
             if(url){
-                $("#aaa").attr("src", url);
+                $("#img").attr("src", url);
                 $("#pictureModal").modal();
             }
         });
-
     });
 
     /**
@@ -259,7 +258,7 @@
     $("ul.nav-pills > li >a").on("shown.bs.tab", function (e) {
         var id = $(e.target).attr("href").substr(1);
         window.location.hash = id;
-    })
+    });
 
     var hash = window.location.hash;
     $("#certi_tab a[href='" + hash + "']").tab('show');
