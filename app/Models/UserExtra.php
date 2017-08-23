@@ -24,6 +24,10 @@ class UserExtra extends Model {
         'user_extrascol',
         'aliance_id',
         'garage_id',
+        'bcs_bank',
+        'bcs_account',
+        'bcs_account_name',
+
     ];
 
     public function user() {

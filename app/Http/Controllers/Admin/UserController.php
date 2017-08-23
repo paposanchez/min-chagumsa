@@ -126,9 +126,14 @@ class UserController extends Controller {
                 $user_extra->users_id = $user->id;
                 $user_extra->phone = $request->get('garage_tel');
                 $user_extra->zipcode = $request->get('garage_zipcode');
-                $user_extra->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_zipcode')." ".$request->get('garage_address');
+                $user_extra->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_address');
                 $user_extra->address_extra = $request->get('garage_name');
                 $user_extra->aliance_id = $request->get('aliance_id');
+                $user_extra->registration_number = $request->get('registration_number');
+                $user_extra->fax = $request->get('fax');
+                $user_extra->bcs_bank = $request->get('bank');
+                $user_extra->bcs_account = $request->get('account');
+                $user_extra->bcs_account_name = $request->get('owner');
                 $user_extra->save();
 
 
@@ -304,9 +309,14 @@ class UserController extends Controller {
                 $user_extra->users_id = $user->id;
                 $user_extra->phone = $request->get('garage_tel');
                 $user_extra->zipcode = $request->get('garage_zipcode');
-                $user_extra->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_zipcode')." ".$request->get('garage_address');
+                $user_extra->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_address');
                 $user_extra->address_extra = $request->get('garage_name');
                 $user_extra->aliance_id = $request->get('aliance_id');
+                $user_extra->registration_number = $request->get('registration_number');
+                $user_extra->fax = $request->get('fax');
+                $user_extra->bcs_bank = $request->get('bank');
+                $user_extra->bcs_account = $request->get('account');
+                $user_extra->bcs_account_name = $request->get('owner');
                 $user_extra->save();
 
 

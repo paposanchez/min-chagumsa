@@ -173,22 +173,22 @@
                     <div class="form-group {{ $errors->has('bank') ? 'has-error' : '' }} bank">
                         <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.bank') }}</label>
                         <div class="col-md-6 ">
-                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.bank') }}" name="bank" id="bank" value="">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.bank') }}" name="bank" id="bank" value="{{ $user_extras->bcs_bank }}">
                             <span class="help-block">{{ trans('admin/user.help-bank') }}</span>
                         </div>
                     </div>
                     <div class="form-group {{ $errors->has('account') ? 'has-error' : '' }} account">
                         <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.account') }}</label>
                         <div class="col-md-6 ">
-                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.account') }}" name="account" id="account" value="">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.account') }}" name="account" id="account" value="{{ $user_extras->bcs_account }}">
                             <span class="help-block">{{ trans('admin/user.help-account') }}</span>
                         </div>
                     </div>
                     <div class="form-group {{ $errors->has('owner') ? 'has-error' : '' }} bank">
                         <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.owner') }}</label>
                         <div class="col-md-6 ">
-                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.owner') }}" name="owner" id="owner" value="">
-                            <span class="help-block">{{ trans('admin/user.help-bank') }}</span>
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.owner') }}" name="owner" id="owner" value="{{ $user_extras->bcs_account_name }}">
+                            {{--<span class="help-block">{{ trans('admin/user.help-bank') }}</span>--}}
                         </div>
                     </div>
                 </div>
