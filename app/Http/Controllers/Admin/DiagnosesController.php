@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Mixapply\Uploader\Receiver;
 use App\Models\Car;
 use App\Models\Certificate;
+use App\Models\Diagnosis;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -98,6 +99,16 @@ class DiagnosesController extends Controller
         return view('admin.diagnosis.detail', compact('entrys', 'order'));
     }
 
+    public function updateCode(Request $request){
+        $id = $request->get('id');
+        $selected = $request->get('selected');
+        $diagnosis = Diagnosis::where('id', $id)->first();
+        $diagnosis->selected = $selected;
+        $diagnosis->save();
+        return $diagnosis;
+
+    }
+
     public function edit($id){
 
     }
@@ -121,5 +132,6 @@ class DiagnosesController extends Controller
     public function update(Request $request, $id){
 
     }
+
 
 }

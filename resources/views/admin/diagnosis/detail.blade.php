@@ -5,227 +5,327 @@
 @endsection
 
 @section( 'content' )
-<div class="container-fluid">
+    <div class="container-fluid">
 
-    <div class="row">
+        <div class="row drow-box">
 
-        <div class="col-md-12" >
-            <h3>기본 정보</h3>
-            {!! Form::model($order, ['method' => 'PATCH','route' => ['diagnosis.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-user', 'enctype'=>"multipart/form-data"]) !!}
-            <input type="hidden" name="order_status" id="order_status">
-            <input type="hidden" name="id" value="{{ $order->id }}">
+            <div class="col-md-12" >
+                <h3>기본 정보</h3>
+                {!! Form::model($order, ['method' => 'PATCH','route' => ['diagnosis.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-user', 'enctype'=>"multipart/form-data"]) !!}
+                <input type="hidden" name="order_status" id="order_status">
+                <input type="hidden" name="id" value="{{ $order->id }}">
 
 
-            <div class="form-group">
+                <div class="form-group">
                 {{--{{ dd($entrys) }}--}}
                 <!-- 유형선택 -->
-                <label for="inputName" class="control-label col-md-2 text-left">주문번호</label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="{{ $entrys['order_num'] }}" style="background-color: #fff;" disabled>
-                </div>
-                <label for="inputName" class="control-label-2 col-md-2 text-left">차대번호</label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="{{ $order->car->vin_number ? $order->car->vin_number : '' }}" style="background-color: #fff;" disabled>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="inputName" class="control-label col-md-2 text-left">
-                    차량번호
-                </label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="{{ $entrys['car_number'] }}" style="background-color: #fff;" disabled>
-                </div>
-
-                <label for="inputName" class="control-label-2 col-md-2 text-left">
-                    차량명
-                </label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="{{ $entrys['car_name'] }}" style="background-color: #fff;" disabled>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="inputName" class="control-label col-md-2 text-left">
-                    정비소
-                </label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="{{ $order->garageInfo->name }}" style="background-color: #fff;" disabled>
-                </div>
-                <label for="inputName" class="control-label-2 col-md-2 text-left">
-                    정비소 전화번호
-                </label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="{{ $order->garageInfo->tel }}" style="background-color: #fff;" disabled>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="inputName" class="control-label col-md-2 text-left">
-                    엔지니어
-                </label>
-                <div class="col-md-4">
-                    {{-- todo 엔지니어 명으로 추후 변경 --}}
-                    <input type="text" class="form-control" placeholder="" value="{{ $order->engineer->name }}" style="background-color: #fff;" disabled>
-                </div>
-                <label for="inputName" class="control-label-2 col-md-2 text-left">
-                    엔지니어 전화번호
-                </label>
-                <div class="col-md-4">
-                    {{-- todo 엔지니어 전화번호 추후 변경 --}}
-                    <input type="text" class="form-control" placeholder="" value="{{ $order->engineer->mobile }}" style="background-color: #fff;" disabled>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="inputName" class="control-label col-md-2 text-left">
-                    입고 예약일
-                </label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="{{ $order->reservation->reservation_at->format('Y년 m월 d일') }}" style="background-color: #fff;" disabled>
-                </div>
-                <label for="inputName" class="control-label-2 col-md-2 text-left">
-                    진단시작 / 진단 완료
-                </label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="" value="{{$entrys['diagnose_at']}} / {{$entrys['diagnosed_at']}}" style="background-color: #fff;" disabled>
-                </div>
-            </div>
-
-
-
-
-            <fieldset>
-                @foreach($entrys['entrys'] as $details)
-                    <h3>{{ $details['name']['display'] }}</h3>
-                    @foreach($details['entrys'] as $detail)
-                    <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                        <label for="inputName" class="control-label col-md-2 text-left">
-                            점검 항목
-                        </label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="" value="{{ $detail['name']['display'] }}" style="background-color: #fff;" disabled>
-                        </div>
+                    <label for="inputName" class="control-label col-md-2 text-left">주문번호</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="" value="{{ $entrys['order_num'] }}" style="background-color: #fff;" disabled>
                     </div>
+                    <label for="inputName" class="control-label-2 col-md-2 text-left">차대번호</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->car->vin_number ? $order->car->vin_number : '' }}" style="background-color: #fff;" disabled>
+                    </div>
+                </div>
 
-                        @foreach($detail['entrys'] as $item)
-
-                            @if($item['options'] != null)
-                                <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                    <label for="inputName" class="control-label col-md-2 text-left">
-                                        {{ \App\Helpers\Helper::getCodeName($item['options_cd']) }}
-                                    </label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $item['selected'] }}" style="background-color: #fff;" disabled>
-                                    </div>
-                                </div>
-                            @elseif($item['use_image'] != 0)
-
-                                <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                    <label for="inputName" class="control-label col-md-2 text-left">
-                                        {{ $item['description'] }}
-                                    </label>
-                                    <div class="col-md-4">
-                                        {{--<input type="text" class="form-control" placeholder="" value="{{ $item['description'] }}" style="background-color: #fff;" disabled>--}}
-                                        <div class='cert_box_cont_img'>
-                                            <img src="http://fakeimg.pl/200x100/" alt='차량 이미지'>
-                                        </div>
-                                    </div>
-                                </div>
-                            @elseif($item['use_voice'] != 0)
-                                <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                    {{--<label for="inputId" class="control-label col-md-3">플레이어</label>--}}
-                                    {{--<div class="col-md-3">--}}
-                                        {{--<video width="200" height="30" controls>--}}
-                                        {{--</video>--}}
-                                    {{--</div>--}}
-                                    <label for="inputName" class="control-label col-md-2 text-left">
-                                        플레이어
-                                    </label>
-                                    <div class="col-md-4">
-                                        <video width="200" height="30" controls>
-                                        </video>
-                                    </div>
-                                </div>
-                            @endif
-                        @endforeach
-
-                        @foreach($detail['children'] as $child)
-                            <h5>• {{ $child['name']['display'] }}</h5>
-
-                            @foreach($child['entrys'] as $child_item)
-
-                                @if($child_item['options'] )
-                                <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                    <label for="inputName" class="control-label col-md-2 text-left">
-                                        {{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}
-                                        {{--{{ $child_item['name']['display'] }}--}}
-                                    </label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $child_item['selected'] }}" style="background-color: #fff;" disabled>
-                                    </div>
-                                </div>
-                                @elseif($child_item['use_image'] != 0)
-                                <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                    <label for="inputId" class="control-label col-md-3">참고 사진</label>
-                                    <div class="col-md-3">
-                                        <p class='form-control-static'>{{ $child_item['description'] }}</p>
-                                    </div>
-                                </div>
-                                @elseif($child_item['use_voice'] != 0)
-                                <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                    <label for="inputId" class="control-label col-md-3">플레이어</label>
-                                    <div class="col-md-3">
-                                        <p class='form-control-static'>파일 있다</p>
-                                    </div>
-                                </div>
-                                @endif
-                            @endforeach
-                        @endforeach
-                    @endforeach
-                @endforeach
-
-                    <hr>
                 <div class="form-group">
-                    <div class="col-md-9 col-md-offset-3">
-                        <a href="{{ route('diagnosis.index') }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ trans('common.button.back') }}</a>
-                        <button class="btn btn-primary" data-loading-text="{{ trans('common.button.loading') }}" type="submit">{{ trans('common.button.save') }}</button>
+                    <label for="inputName" class="control-label col-md-2 text-left">
+                        차량번호
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="" value="{{ $entrys['car_number'] }}" style="background-color: #fff;" disabled>
+                    </div>
+
+                    <label for="inputName" class="control-label-2 col-md-2 text-left">
+                        차량명
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="" value="{{ $entrys['car_name'] }}" style="background-color: #fff;" disabled>
                     </div>
                 </div>
 
-            </fieldset>
+                <div class="form-group">
+                    <label for="inputName" class="control-label col-md-2 text-left">
+                        정비소
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->garageInfo->name }}" style="background-color: #fff;" disabled>
+                    </div>
+                    <label for="inputName" class="control-label-2 col-md-2 text-left">
+                        정비소 전화번호
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->garageInfo->tel }}" style="background-color: #fff;" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputName" class="control-label col-md-2 text-left">
+                        엔지니어
+                    </label>
+                    <div class="col-md-4">
+                        {{-- todo 엔지니어 명으로 추후 변경 --}}
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->engineer->name }}" style="background-color: #fff;" disabled>
+                    </div>
+                    <label for="inputName" class="control-label-2 col-md-2 text-left">
+                        엔지니어 전화번호
+                    </label>
+                    <div class="col-md-4">
+                        {{-- todo 엔지니어 전화번호 추후 변경 --}}
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->engineer->mobile }}" style="background-color: #fff;" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputName" class="control-label col-md-2 text-left">
+                        입고 예약일
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->reservation->reservation_at->format('Y년 m월 d일') }}" style="background-color: #fff;" disabled>
+                    </div>
+                    <label for="inputName" class="control-label-2 col-md-2 text-left">
+                        진단시작 / 진단 완료
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="" value="{{$entrys['diagnose_at']}} / {{$entrys['diagnosed_at']}}" style="background-color: #fff;" disabled>
+                    </div>
+                </div>
+            </div>
 
 
-            {{--{!! Form::close() !!}--}}
-
-
-
-
-            {{--<div class="row">--}}
-
-                {{--<div class="col-md-6">--}}
-
-                    {{--<a href="" class="btn btn-primary" style="margin-left: 15px;">주문목록</a>--}}
-
-                {{--</div>--}}
-
-                {{--<div class="col-sm-6 text-right">--}}
-
-                        {{--<a href="" class="btn btn-default" style="margin-right: 15px;">진단 결과 보기</a>--}}
-
-                {{--</div>--}}
-
-            {{--</div>--}}
         </div>
-    </div>
 
-</div><!-- container -->
+        <div class="row" id="diagnosis-info"><div class="col-md-12 text-center alert alert-info"><h1><span class="fa fa-arrow-circle-down"></span> 차량 점검 상세 내역</h1></div></div>
+
+        <div class="row">
+            @foreach($entrys['entrys'] as $details)
+                <div class="row drow-box">
+                    <div class="col-md-2 text-center"><h3>{{ $details['name']['display'] }}</h3></div>
+                    <div class="col-md-10 drow-left">
+                        @foreach($details['entrys'] as $detail)
+                            <div class="row drow-bottom drow-bmargin">
+                                <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+                                    점검항목
+                                </label>
+                                <div class="col-md-2 no-padding">
+                                    <input type="text" class="form-control" placeholder="" value="{{ $detail['name']['display'] }}" style="background-color: #fff;" disabled>
+                                </div>
+
+                                <div class="col-md-9 drow-box">
+                                    @foreach($detail['entrys'] as $item)
+                                        <div class="row">
+
+
+                                            <div class="col-md-8">
+                                                @if($item['options'] && $item['use_image'])
+                                                    <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
+                                                        <label for="inputName" class="control-label col-md-4 text-left">
+                                                            {{ $item['description'] }}
+                                                        </label>
+                                                        <div class="col-md-6">
+                                                            {{--<input type="text" class="form-control" placeholder="" value="{{ $item['description'] }}" style="background-color: #fff;" disabled>--}}
+                                                            <div class='cert_box_cont_img'>
+                                                                @if($item['files'])
+                                                                    <img src="http://fakeimg.pl/100x50/" alt='차량 이미지' id="imgSrc" data-url="http://fakeimg.pl/440x320/">
+                                                                @else
+                                                                    <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
+                                                                @endif
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
+                                                        <label for="inputName" class="control-label col-md-4 text-left">
+                                                            {{ \App\Helpers\Helper::getCodeName($item['options_cd']) }}
+                                                        </label>
+                                                        <div class="col-md-6">
+                                                            {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($item['options_cd']), \App\Helpers\Helper::getCodePluck($item['selected']), ['class'=>'form-control selected_cd', 'id'=>'', 'data-id'=>$item['id']]) !!}
+                                                        </div>
+                                                    </div>
+                                                @elseif($item['options'] != null)
+                                                    <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
+                                                        <label for="inputName" class="control-label col-md-4 text-left">
+                                                            {{ \App\Helpers\Helper::getCodeName($item['options_cd']) }}
+                                                        </label>
+                                                        <div class="col-md-6">
+                                                            {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($item['options_cd']), \App\Helpers\Helper::getCodePluck($item['selected']), ['class'=>'form-control selected_cd', 'id'=>'', 'data-id'=>$item['id']]) !!}
+                                                        </div>
+                                                    </div>
+                                                @elseif($item['use_image'] != 0)
+
+                                                    <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
+                                                        <label for="inputName" class="control-label col-md-4 text-left">
+                                                            {{ $item['description'] }}
+                                                        </label>
+                                                        <div class="col-md-6">
+                                                            {{--<input type="text" class="form-control" placeholder="" value="{{ $item['description'] }}" style="background-color: #fff;" disabled>--}}
+                                                            <div class='cert_box_cont_img'>
+                                                                @if($item['files'])
+                                                                    <img src="http://fakeimg.pl/100x50/" alt='차량 이미지' id="imgSrc" data-url="http://fakeimg.pl/440x320/">
+                                                                @else
+                                                                    <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
+                                                                @endif
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @elseif($item['use_voice'] != 0)
+                                                    <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
+                                                        {{--<label for="inputId" class="control-label col-md-3">플레이어</label>--}}
+                                                        {{--<div class="col-md-3">--}}
+                                                        {{--<video width="200" height="30" controls>--}}
+                                                        {{--</video>--}}
+                                                        {{--</div>--}}
+                                                        <label for="inputName" class="control-label col-md-4 text-left">
+                                                            플레이어
+                                                        </label>
+                                                        <div class="col-md-6">
+                                                            <video width="200" height="30" controls>
+                                                            </video>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    @if(count($detail['children']) > 0)
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                @foreach($detail['children'] as $child)
+
+                                                    <div class="row">
+                                                        <h5>• {{ $child['name']['display'] }}</h5>
+
+                                                        @foreach($child['entrys'] as $child_item)
+
+                                                            @if($child_item['options'] )
+
+                                                                <table class="table table-bordered">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <th>{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
+                                                                        {{--<td><input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $child_item['selected'] }}" style="background-color: #fff;" disabled></td>--}}
+                                                                        <td>
+                                                                            {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child_item['options_cd']), \App\Helpers\Helper::getCodePluck($child_item['selected']), ['class'=>'form-control selected_cd', 'id'=>'']) !!}
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            @elseif($child_item['use_image'] != 0)
+
+                                                                <table class="table table-bordered">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <th>참고 사진</th>
+                                                                        <td>{{ $child_item['description'] }}</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            @elseif($child_item['use_voice'] != 0)
+
+                                                                <table class="table table-bordered">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <th>플레이어</th>
+                                                                        <td>파일 있다</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            @endif
+                                                        @endforeach
+
+                                                    </div>
+
+                                                @endforeach
+                                            </div>
+                                        </div>
+
+                                        {{--@else--}}
+                                        {{--<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>--}}
+                                    @endif
+
+
+
+
+
+                                </div>
+                            </div>
+
+                        @endforeach
+                    </div>
+                </div>
+
+            @endforeach
+
+            <a id="back-to-top" href="#diagnosis-info" class="btn btn-primary btn-md back-to-top" role="button" title="상단으로 가기" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button type="button" id="self-close" class="btn btn-primary">닫기</button>
+            </div>
+        </div>
+
+
+
+        <!-- Modal -->
+        <div id="pictureModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" id="modal-title">Modal Header</h4>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <img src="http://fakeimg.pl/350x200/" id="img" alt='차량 이미지'>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 @endsection
 
 @push( 'footer-script' )
 <script type="text/javascript">
     $(function() {
+        $("#imgSrc").on("click", function () {
+            var url = $(this).data('url');
+            if(url){
+                $("#img").attr("src", url);
+                $("#pictureModal").modal();
+            }
+        });
 
+        $(".selected_cd").change(function(){
+            var change_value = $(this).val();
+            var diagnosis_id = $(this).data('id');
+            $.ajax({
+                type : 'post',
+                dataType : 'json',
+                url : '/diagnosis/update-code',
+                data : {
+                    'id' : diagnosis_id,
+                    'selected' : change_value
+                },
+                success : function (data){
+//                    alert(JSON.stringify(data));
+                    alert('코드가 정상적으로 변경되었습니다.');
+                },
+                error : function (data){
+                    alert('변경중 오류가 발생하였습니다.');
+                }
+            })
+        })
     });
 
     /**

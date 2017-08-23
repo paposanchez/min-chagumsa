@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::resource('order', 'OrderController');
 
     // 진단관리
+    Route::post('diagnosis/update-code', 'DiagnosesController@updateCode')->name('diagnosis/update-code');
     Route::resource('diagnosis', 'DiagnosesController');
 
     // 정산관리

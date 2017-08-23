@@ -125,7 +125,8 @@
                                                             {{ \App\Helpers\Helper::getCodeName($item['options_cd']) }}
                                                         </label>
                                                         <div class="col-md-6">
-                                                            <input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $item['selected'] }}" style="background-color: #fff;" disabled>
+                                                            {{--<input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $item['selected'] }}" style="background-color: #fff;" disabled>--}}
+                                                            {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($item['options_cd']), \App\Helpers\Helper::getCodePluck($item['selected']), ['class'=>'form-control', 'id'=>'', 'disabled'=>'disabled']) !!}
                                                         </div>
                                                     </div>
                                                 @elseif($item['use_image'] != 0)
@@ -181,7 +182,10 @@
                                                                     <tbody>
                                                                     <tr>
                                                                         <th>{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
-                                                                        <td><input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $child_item['selected'] }}" style="background-color: #fff;" disabled></td>
+                                                                        {{--<td><input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $child_item['selected'] }}" style="background-color: #fff;" disabled></td>--}}
+                                                                        <td>
+                                                                            {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child_item['options_cd']), \App\Helpers\Helper::getCodePluck($child_item['selected']), ['class'=>'form-control', 'id'=>'', 'disabled'=>'disabled']) !!}
+                                                                        </td>
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
