@@ -189,10 +189,10 @@ class DiagnosisController extends ApiController {
 //            ]);
 
 
-            if ($validator->fails()) {
-                $errors = $validator->errors()->all();
-                throw new Exception($errors[0]);
-            }
+//            if ($validator->fails()) {
+//                $errors = $validator->errors()->all();
+//                throw new Exception($errors[0]);
+//            }
 
 
 
