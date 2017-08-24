@@ -168,7 +168,7 @@
 
                                 <td>
 
-                                        @if($data->status_cd > 104)
+                                        @if($data->status_cd == 102)
                                         <button type="button" title="예약변경" data-idx="{{ $data->reservation->id  }}" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('h') }}" class="btn btn-info changeReservationModalOpen">예약변경</button>
                                         <button type="button" title="예약확정" data-idx="{{ $data->reservation->id  }}" class="btn btn-danger confirmReservation">예약확정</button>
                                         @endif
