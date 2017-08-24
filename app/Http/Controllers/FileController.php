@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\DiagnosisFile;
 use App\Models\File;
 use App\Models\Post;
 use App\Traits\Uploader;
@@ -64,4 +65,5 @@ class FileController extends Controller {
         $real_file_path = storage_path('app/upload' . $file->path . '/') . $file->source;
         return response()->download($real_file_path, $file->original);
     }
+
 }

@@ -154,6 +154,8 @@ Route::any('/', 'WelcomeController');
 
 
 Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");
+Route::get('file/diagnosis-download/{id}', 'FileController@diagnosisDownload')->name("file.diagnosis-download");
+
 
 
 //결제 prototype

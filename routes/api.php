@@ -86,6 +86,7 @@ Route::get('notice/show', "NoticeController@show")->name('notice.show');
 //    });
 //});
 
+
 Route::any('/', function () {
     return view('vendor.l5-swagger.index');
 });
