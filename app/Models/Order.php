@@ -133,7 +133,7 @@ class Order Extends Model
     }
 
     public function garageInfo(){
-        return $this->hasOne(\App\Models\GarageInfo::class, 'id','garage_id');   
+        return $this->hasOne(\App\Models\GarageInfo::class, 'garage_id','garage_id');
     }
 
     public function orderCar(){

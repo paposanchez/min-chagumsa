@@ -298,6 +298,7 @@ class OrderController extends Controller {
         // order_car 의 orders_id 입력
 //        $order_car->orders_id = $order->id;
 //        $order_car->save();
+
         $order_car->update([
             'orders_id' => $order->id
         ]);
