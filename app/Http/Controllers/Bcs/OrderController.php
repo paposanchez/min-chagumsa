@@ -321,9 +321,14 @@ class OrderController extends Controller
         }
 
         public function confirmation(Request $request, $id){
-
                 $reservation = Reservation::findOrFail($id);
-                $reservation->update();
+                $reservation->update([
+                    'updated_at' => Carbon::now()
+                ]);
+
+                $order = Order::find($request->get('order_id'));
+                $order->status_cd = 103;
+                $order->save();
 
                 return response()->json(true);
         }

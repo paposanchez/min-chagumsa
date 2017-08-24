@@ -169,8 +169,8 @@
                                 <td>
 
                                         @if($data->status_cd == 102)
-                                        <button type="button" title="예약변경" data-idx="{{ $data->reservation->id  }}" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('h') }}" class="btn btn-info changeReservationModalOpen">예약변경</button>
-                                        <button type="button" title="예약확정" data-idx="{{ $data->reservation->id  }}" class="btn btn-danger confirmReservation">예약확정</button>
+                                        <button type="button" title="예약변경" data-idx="{{ $data->reservation->id  }}" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('h') }}" data-order_id="{{ $data->id }}" class="btn btn-info changeReservationModalOpen">예약변경</button>
+                                        <button type="button" title="예약확정" data-idx="{{ $data->reservation->id  }}" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation">예약확정</button>
                                         @endif
                                         <a href="{{ url("order", [$data->id]) }}" class="btn btn-default">상세보기</a>
 
@@ -215,27 +215,34 @@
 
 
                                         <div class="form-group">
-                                                <label for="datepickerReservation" class="control-label">날짜</label>
-                                                <div class="col-lg-12">
+                                                <div class="col-md-2">
+                                                        <label for="datepickerReservation" class="control-label">날짜</label>
+                                                </div>
+
+                                                <div class="col-md-10">
                                                         <input type="text" class="form-control datepicker" placeholder="날짜" id="datepickerReservation">
                                                 </div>
                                         </div>
 
                                         <div class="form-group">
-                                                <label for="" class="control-label">시간</label>
-                                                <div class="col-lg-12">
+                                                <div class="col-md-2">
+                                                        <label for="" class="control-label">시간</label>
+                                                </div>
+
+                                                <div class="col-md-10">
                                                         <select class="form-control" id="datepickerReservationTime">
                                                                 <option value="09">9시</option><option value="10">10시</option><option value="11">11시</option><option value="12">12시</option><option value="13">13시</option><option value="14">14시</option><option value="15">15시</option><option value="16">16시</option><option value="17">17시</option>
                                                         </select>
                                                 </div>
                                         </div>
+                                        <input type="hidden" id="order_id" value="">
 
 
 
 
                                 </div>
                                 <div class="modal-footer">
-                                        <button class="btn btn-primary" data-loading-text="처리중..." type="button">예약변경</button>
+                                        <button class="btn btn-primary" data-loading-text="처리중..." type="button" id="reservation_change">예약변경</button>
                                         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
                                 </div>
 
@@ -261,8 +268,10 @@ $(document).ready(function(){
 
                 var d = $(this).data("date");
                 var t = $(this).data("time");
+                var order_id = $(this).data('order_id');
+                $("#datepickerReservation").val(d);
                 $("#datepickerReservationTime").val(t);
-
+                $("#order_id").val(order_id);
                 $("#changeReservationModal").modal();
 
         });
@@ -270,28 +279,46 @@ $(document).ready(function(){
         $(document).on('click', '.confirmReservation', function (e) {
                 var $obj = $(this);
                 var id = $(this).data("idx");
+                var order_id = $(this).data("order_id");
+
                 // var t = $(this).data("time");
                 //
                 // $("#datepickerReservationTime").val(t);
 
                 if(confirm("해당 주문의 예약일자를 확정하시겠습니까?")){
-
-
-                        $.ajax({
-                                url:'/order/confirmation/'+id,
-                                type:'post',
-                                // data:{id : id},
-                                success:function(data){
-
-                                        $obj.parent().find('.changeReservationModalOpen').remove();
-                                        $obj.parent().find('.confirmReservation').remove();
-
-                                }
-                        })
+                    $.ajax({
+                        url:'/order/confirmation/'+id,
+                        type:'post',
+                        data:{
+                            id : id,
+                            order_id : order_id
+                        },
+                        success:function(data){
+                            $obj.parent().find('.changeReservationModalOpen').remove();
+                            $obj.parent().find('.confirmReservation').remove();
+                        },
+                        error:function(data){
+                            alert('error');
+                        }
+                    })
                 }else{
-                        return false;
+                    return false;
                 }
+        });
 
+        $('#reservation_change').click(function(){
+            var date = $("#datepickerReservation").val();
+            var time = $("#datepickerReservationTime").val();
+            var order_id = $("#order_id").val();
+
+
+            $.ajax({
+                type : 'post',
+                url : '/order/reservation_change',
+                data : {
+
+                }
+            })
         });
 
         // var opt = {

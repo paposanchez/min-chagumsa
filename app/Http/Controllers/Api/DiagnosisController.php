@@ -142,7 +142,7 @@ class DiagnosisController extends ApiController {
      *     produces={"application/json"},
      *     @SWG\Parameter(name="user_id",in="query",description="유저 seq",required=true,type="integer"),
      *     @SWG\Parameter(name="order_id",in="query",description="주문 seq",required=true,type="integer"),
-     *     @SWG\Parameter(name="diagnoses_id",in="query",description="진단데이터 seq",required=true,type="integer"),
+     *     @SWG\Parameter(name="diagnosis_id",in="query",description="진단데이터 seq",required=true,type="integer"),
      *     @SWG\Parameter(
      *         description="업로드파일",
      *         in="formData",
@@ -168,7 +168,7 @@ class DiagnosisController extends ApiController {
 
 
 
-        $diagnoses_id = $request->get('diagnoses_id');
+        $diagnoses_id = $request->get('diagnosis_id');
 
         $return = [
             'status' => '',
@@ -551,12 +551,19 @@ class DiagnosisController extends ApiController {
 
             $user = User::findOrFail($user_id);
 
-            $where = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
-                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
-                ->whereNotNull("reservations.updated_at")
-                ->where('orders.garage_id', $user->user_extra->garage_id)
-                ->where('orders.status_cd', ">=", 107)
-                ->select('reservations.*');
+//            $where = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
+//                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+//                ->whereNotNull("reservations.updated_at")
+//                ->where('orders.garage_id', $user->user_extra->garage_id)
+//                ->where('orders.status_cd', ">=", 107)
+//                ->select('reservations.*');
+
+            //            $where = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
+//                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
+//                ->whereNotNull("reservations.updated_at")
+//                ->where('orders.garage_id', $user->user_extra->garage_id)
+//                ->where('orders.status_cd', ">=", 107)
+//                ->select('reservations.*');
 
 
             if($s) {
