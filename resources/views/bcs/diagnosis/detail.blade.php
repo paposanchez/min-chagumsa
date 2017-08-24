@@ -4,7 +4,7 @@
 @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.diagnosis')])
 @endsection
 
-@section( 'content' )
+
 @section( 'content' )
     <div class="container-fluid">
 
@@ -317,6 +317,7 @@
                 <button type="button" id="self-close" class="btn btn-primary">닫기</button>
             </div>
         </div>
+    </div>
 
 
 
