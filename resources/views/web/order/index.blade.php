@@ -426,7 +426,7 @@
 .pt-perspective {
     /*min-height:1000px;*/
     min-height:800px;
-    
+
 }
 .pt-page {
     /*height:1200px;*/
@@ -475,7 +475,7 @@ var PageTransitions = (function() {
         animEndEventName = animEndEventNames[ Modernizr.prefixed( 'animation' ) ],
         // support css animations
         support = Modernizr.cssanimations;
-    
+
     function init() {
 
         $pages.each( function() {
@@ -495,7 +495,7 @@ var PageTransitions = (function() {
         }
 
         isAnimating = true;
-        
+
         var $currPage = $pages.eq( current );
 
 
@@ -545,7 +545,7 @@ var PageTransitions = (function() {
               outClass = 'pt-page-rotateSlideOut';
                 inClass = 'pt-page-rotateSlideIn';
                 break;
-           
+
             default:
                 outClass = 'pt-page-rotateSlideOut';
                 inClass = 'pt-page-rotateSlideIn';
@@ -589,7 +589,7 @@ var PageTransitions = (function() {
 
     init();
 
-    return { 
+    return {
         init : init,
         nextPage : nextPage,
     };
