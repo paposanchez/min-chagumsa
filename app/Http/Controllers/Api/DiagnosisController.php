@@ -560,7 +560,7 @@ class DiagnosisController extends ApiController {
                 ->where('orders.garage_id', $user->user_extra->garage_id)
                 ->where('orders.status_cd', ">=", 107)
                 ->select('reservations.*');
-            
+
 
 
             if($s) {

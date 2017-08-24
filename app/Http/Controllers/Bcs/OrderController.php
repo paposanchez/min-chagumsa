@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Bcs;
 
 use Doctrine\DBAL\Types\ObjectType;
+use DateTime;
 use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -19,6 +20,7 @@ use App\Models\PaymentCancel;
 use App\Models\Purchase;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Exception;
 
 class OrderController extends Controller
 {
@@ -301,6 +303,29 @@ class OrderController extends Controller
         public function destroy($id)
         {
                 //
+        }
+
+        public function reservationChange(Request $request){
+            try{
+                $order_id = $request->get('order_id');
+                $date = $request->get('date');
+                $time = $request->get('time');
+
+                $reservation_date = new DateTime($date.' '.$time.':00:00');
+
+//                var_dump($reservation_date);
+
+                $reservation = Reservation::where('orders_id', $order_id)->first();
+                $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');;
+                $reservation->save();
+
+                return response()->json('success');
+            }
+            catch (Exception $ex){
+                return response()->json($ex->getMessage());
+            }
+
+
         }
 
         //  예약확정

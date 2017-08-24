@@ -316,7 +316,16 @@ $(document).ready(function(){
                 type : 'post',
                 url : '/order/reservation_change',
                 data : {
-
+                    'order_id' : order_id,
+                    'date' : date,
+                    'time' : time
+                },
+                success : function (data){
+                    alert('success');
+                    location.href = '/order';
+                },
+                error : function(data){
+                    alert(JSON.stringify(data));
                 }
             })
         });
