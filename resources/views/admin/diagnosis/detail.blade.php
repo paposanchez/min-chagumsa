@@ -209,7 +209,7 @@
                                                                     </colgroup>
                                                                     <tbody>
                                                                     <tr>
-                                                                        <th>{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
+                                                                        <th style="padding-left: 25px;">{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
                                                                         {{--<td><input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $child_item['selected'] }}" style="background-color: #fff;" disabled></td>--}}
                                                                         <td>
                                                                             {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child_item['options_cd']), \App\Helpers\Helper::getCodePluck($child_item['selected']), ['class'=>'form-control selected_cd', 'id'=>'', 'data-id'=>$child_item['id']]) !!}
@@ -224,7 +224,7 @@
                                                                     </colgroup>
                                                                     <tbody>
                                                                     <tr>
-                                                                        <th>{{ $child_item['description'] }}</th>
+                                                                        <th style="padding-left: 25px;">{{ $child_item['description'] }}</th>
                                                                         <td>
                                                                             @if($child_item['files'])
                                                                                 <img src="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" width="100px;">
@@ -244,7 +244,7 @@
                                                                     </colgroup>
                                                                     <tbody>
                                                                     <tr>
-                                                                        <th>{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
+                                                                        <thstyle="padding-left: 25px;">{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
                                                                         {{--<td><input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $child_item['selected'] }}" style="background-color: #fff;" disabled></td>--}}
                                                                         <td>
                                                                             {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child_item['options_cd']), \App\Helpers\Helper::getCodePluck($child_item['selected']), ['class'=>'form-control selected_cd', 'id'=>'', 'data-id'=>$child_item['id']]) !!}
@@ -261,7 +261,7 @@
                                                                     </colgroup>
                                                                     <tbody>
                                                                     <tr>
-                                                                        <th>{{ $child_item['description'] }}</th>
+                                                                        <th style="padding-left: 25px;">{{ $child_item['description'] }}</th>
                                                                         <td>
                                                                             @if($child_item['files'])
                                                                                 <img src="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" width="100px;">
@@ -279,7 +279,7 @@
                                                                 <table class="table table-bordered">
                                                                     <tbody>
                                                                     <tr>
-                                                                        <th>플레이어</th>
+                                                                        <th style="padding-left: 25px;">플레이어</th>
                                                                         <td>파일 있다</td>
                                                                     </tr>
                                                                     </tbody>
