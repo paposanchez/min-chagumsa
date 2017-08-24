@@ -154,7 +154,7 @@
                             {{ $data->status->display() }}
                         </td>
                         <td >
-                            {{ $data->reservation->reservation_at->format('Y-m-d H시 i분') }}
+                            {{ $data->reservation ? $data->reservation->reservation_at->format('Y-m-d H시 i분') : ''}}
                         </td>
 
                         <td>
