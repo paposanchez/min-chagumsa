@@ -610,10 +610,10 @@ class DiagnosisController extends ApiController {
 
         try {
             $order_id = $request->get('order_id');
-//            $user_id = $request->get('user_id');
+            $user_id = $request->get('user_id');
 
             $validator = Validator::make($request->all(), [
-//                'user_id' => 'required|exists:users,id',
+                'user_id' => 'required|exists:users,id',
                 'order_id' => 'required|exists:orders,id'
             ]);
             if ($validator->fails()) {
@@ -621,8 +621,8 @@ class DiagnosisController extends ApiController {
                 throw new Exception($errors[0]);
             }
 
-
-            $order                  = Order::findOrFail($order_id);
+//            $order                  = Order::findOrFail($order_id);
+            $order = Order::where('id', $order_id)->where('engineer_id', $user_id)->first();
             $order->status_cd       = 107;
             $order->diagnosed_at     = Carbon::now();
             $order->save();
