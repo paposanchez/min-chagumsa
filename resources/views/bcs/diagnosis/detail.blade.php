@@ -26,7 +26,7 @@
                     </div>
                     <label for="inputName" class="control-label-2 col-md-2 text-left">차대번호</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="" value="{{ $order->car->vin_number ? $order->car->vin_number : '' }}" style="background-color: #fff;" disabled>
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->car ? $order->car->vin_number : '' }}" style="background-color: #fff;" disabled>
                     </div>
                 </div>
 
