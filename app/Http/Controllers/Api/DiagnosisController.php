@@ -302,7 +302,7 @@ class DiagnosisController extends ApiController {
     }
 
     /**
-     * @SWG\Get(
+     * @SWG\Post(
      *     path="/diagnosis/grant",
      *     tags={"Diagnosis"},
      *     summary="주문의 엔지니어 설정",
