@@ -633,7 +633,7 @@ class DiagnosisController extends ApiController {
             // 앱에서는 간단하게
         } catch (Exception $e) {
 //            return abort(404, trans('diagnosis.not-found'));
-            return false
+            return false;
         }
     }
 
