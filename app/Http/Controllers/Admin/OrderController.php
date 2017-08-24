@@ -7,6 +7,7 @@ use App\Mixapply\Uploader\Receiver;
 use App\Models\Car;
 use App\Models\Certificate;
 use App\Models\Order;
+use App\Models\OrderCar;
 use App\Models\Payment;
 use App\Models\Reservation;
 use App\Models\User;
@@ -113,7 +114,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
         $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
-
+        $car = OrderCar::where('orders_id', $order->id)->first();
 //        if($order->car){
 //            $car = $order->car;
 //        }else{
