@@ -647,9 +647,9 @@
         });
 
         //금액부문 전체 선택
-        $("input[type='text']").on("click", function () {
-            $(this).select();
-        });
+//        $("input[type='text']").on("click", function () {
+//            $(this).select();
+//        });
 
 
         //진단데이터 윈도우
