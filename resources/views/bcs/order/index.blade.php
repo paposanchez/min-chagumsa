@@ -323,7 +323,7 @@ $(document).ready(function(){
                     'time' : time
                 },
                 success : function (data){
-                    alert('success');
+//                    alert('success');
                     location.href = '/order';
                 },
                 error : function(data){
