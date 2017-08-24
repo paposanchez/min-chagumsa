@@ -263,7 +263,7 @@ class OrderController extends Controller {
         }
         $order->car_number = $request->get('car_number');
         $order->cars_id = $order_car->id;
-        $order->garage_id = $garage_info->id;
+        $order->garage_id = $garage_info->garage_id;
         $order->orderer_id = $orderer->id;
         $order->orderer_name = $request->get('orderer_name');
         $order->orderer_mobile = $request->get('mobile');
