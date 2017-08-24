@@ -560,13 +560,7 @@ class DiagnosisController extends ApiController {
                 ->where('orders.garage_id', $user->user_extra->garage_id)
                 ->where('orders.status_cd', ">=", 107)
                 ->select('reservations.*');
-
-            //            $where = Reservation::leftJoin('orders', 'reservations.orders_id', '=', 'orders.id')
-//                ->where(DB::raw("DATE_FORMAT(reservations.reservation_at, '%Y-%m-%d')"), $date)
-//                ->whereNotNull("reservations.updated_at")
-//                ->where('orders.garage_id', $user->user_extra->garage_id)
-//                ->where('orders.status_cd', ">=", 107)
-//                ->select('reservations.*');
+            
 
 
             if($s) {
