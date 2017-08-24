@@ -156,7 +156,7 @@ class UserController extends Controller {
 
                 // user_extra 데이터 저장
                 $user_extra = UserExtra::where('users_id', $user->id)->first();
-                $garage_info = GarageInfo::where('name', $request->get('garage')->first());
+                $garage_info = GarageInfo::where('name', $request->get('garage'))->first();
                 if(!$user_extra){
                     $user_extra = new UserExtra();
                 }
