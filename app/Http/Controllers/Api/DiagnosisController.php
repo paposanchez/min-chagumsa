@@ -172,13 +172,13 @@ class DiagnosisController extends ApiController {
 
         $return = [
             'status' => '',
-            'msg' => $engineer_check
+            'msg' => '정비사가 동일하지 않습니다.'
         ];
 
 
         try {
             if($engineer_check != 1){
-                throw new Exception();
+                throw new Exception($return);
             }
 
             $uploader_name = 'upfile';
