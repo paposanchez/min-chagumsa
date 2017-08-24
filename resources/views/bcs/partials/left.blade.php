@@ -24,7 +24,7 @@
 
                 <li class="{{ Request::is('diagnosis*') ? ' active':''}}"><a href="/diagnosis"><i class="fa fa-area-chart"></i><span class="nav-label">{{ trans('bcs/diagnosis.title') }}</span></a></li>
 
-                <li class="{{ Request::is('calculation*') ? ' active':''}}"><a href="/calculation"><i class="fa fa-line-chart"></i><span class="nav-label">{{ trans('bcs/calculation.title') }}</span></a></li>
+                {{--<li class="{{ Request::is('calculation*') ? ' active':''}}"><a href="/calculation"><i class="fa fa-line-chart"></i><span class="nav-label">{{ trans('bcs/calculation.title') }}</span></a></li>--}}
 
                 <li class="{{ Request::is('user*') ? ' active':''}}"><a href="/user"><i class="fa fa-group"></i><span class="nav-label">엔지니어 관리</span></a></li>
 

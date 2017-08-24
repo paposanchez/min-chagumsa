@@ -100,6 +100,21 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label for="inputName" class="control-label col-md-2 text-left">
+                        진단 예약일자
+                    </label>
+                    <div class="col-md-2">
+                        <input name='reservation_date' id="reservation_date" type="text " class="form-control datepicker2" data-format="YYYY-MM-DD" placeholder="예약일자를 입력해주세요." value="" style="background-color: #fff;">
+                    </div>
+                    <div class="col-md-2">
+                        {{--<input type="text" class="form-control" placeholder="" value="" style="background-color: #fff;" disabled>--}}
+                        <select class="form-control">
+                            <option>선택하세요.</option>
+                        </select>
+                    </div>
+                </div>
+
                 {!! Form::close() !!}
             </div>
 
@@ -221,7 +236,7 @@
 
 @endsection
 
-@section( 'footer-script' )
+@push ( 'footer-script' )
     <script type="text/javascript">
         $(function () {
             $("#order-modify").on("click", function () {
@@ -268,6 +283,28 @@
                 }
             });
 
+            //########## Pikaday
+            $('.datepicker2').each(function (index, element) {
+                var opt = {
+                    field: element,
+                    format: 'YYYY-MM-DD',
+//                    minDate: moment().add(1, 'days').toDate(),
+                    i18n: {
+                        previousMonth: '이전달',
+                        nextMonth: '다음달',
+                        months: '1월.2월.3월.4월.5월.6월.7월.8월.9월.10월.11월.12월.'.split('.'),
+                        weekdays: '월요일.화요일.수요일.목요일.금요일.토요일.일요일'.split('.'),
+                        weekdaysShort: '월.화.수.목.금.토.일.'.split('.')
+                    },
+                };
+
+                if ($(this).data('format')) {
+                    opt.format = $(this).data('format');
+                }
+
+                new Pikaday(opt);
+            });
+
         });
     </script>
-@endsection
+@endpush

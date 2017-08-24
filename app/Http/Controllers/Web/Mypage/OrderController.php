@@ -46,7 +46,7 @@ class OrderController extends Controller {
         $order = Order::find($id);
 
 
-        $my_garage = GarageInfo::find($order->garage_id)->first();
+        $my_garage = GarageInfo::where('garage_id',$order->garage_id)->first();
         if(!$my_garage){
             $my_garage = [];
         }
