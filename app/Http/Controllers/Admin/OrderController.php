@@ -114,26 +114,26 @@ class OrderController extends Controller
         $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
         $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
 
-        if($order->car){
-            $car = $order->car;
-        }else{
-            // order_cars에만 데이터가 있는 상태이므로 cars에 order_cars의 데이터를 이관해 줌.
-            $car = new Car();
-            $order_car = $order->orderCar;
-            if($order_car){
-                $car->brands_id = $order_car->brands_id;
-                $car->models_id = $order_car->models_id;
-                $car->details_id = $order_car->details_id;
-                $car->grades_id = $order_car->grades_id;
-                $car->save();
-
-                $order->cars_id = $car->id;
-                $order->save();
-
-            }else{
-                return redirect()->back()->with('error', '차량 정보 미입력 상태입니다.<br>관리자에게 해당 주문에 대해 문의해 주세요.');
-            }
-        }
+//        if($order->car){
+//            $car = $order->car;
+//        }else{
+//            // order_cars에만 데이터가 있는 상태이므로 cars에 order_cars의 데이터를 이관해 줌.
+//            $car = new Car();
+//            $order_car = $order->orderCar;
+//            if($order_car){
+//                $car->brands_id = $order_car->brands_id;
+//                $car->models_id = $order_car->models_id;
+//                $car->details_id = $order_car->details_id;
+//                $car->grades_id = $order_car->grades_id;
+//                $car->save();
+//
+//                $order->cars_id = $car->id;
+//                $order->save();
+//
+//            }else{
+//                return redirect()->back()->with('error', '차량 정보 미입력 상태입니다.<br>관리자에게 해당 주문에 대해 문의해 주세요.');
+//            }
+//        }
 
         return view('admin.order.detail', compact('order', 'payment', 'payment_cancel', 'car'));
     }
