@@ -7,7 +7,7 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     Route::resource('order', 'TechOrderController', ['as' => 'technician']);
     //보험이력파일처리
     Route::post('order/insurance-file', 'TechOrderController@insuranceFile')->name('order/insurance-file');
-    Route::get('order/insurance-file-view/{id}', 'TechOrderController@insuranceFileView')->name('order/insurance-file-view');
+
     //용도변경, 차고지 이력 추가
     Route::post('order/history', 'TechOrderController@history')->name('order/history');
 
@@ -59,3 +59,4 @@ Route::group(['middleware' => ['guest.admin']], function () {
 
 Route::get('logout', 'Auth\LoginController@logout')->name("technician.logout");
 Route::post('logout', 'Auth\LoginController@logout')->name("technician.logout");
+Route::get('order/insurance-file-view/{id}', 'TechOrderController@insuranceFileView')->name('order/insurance-file-view');

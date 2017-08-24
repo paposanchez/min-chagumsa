@@ -328,9 +328,9 @@
                 }
             })
         });
-//        $("#self-close").on("click", function(){
-//            window.close();
-//        });
+        $("#self-close").on("click", function(){
+            window.close();
+        });
 
 //        $('#image-modal').on("click", function(){
 //            var img_url = $(this).data('url');
