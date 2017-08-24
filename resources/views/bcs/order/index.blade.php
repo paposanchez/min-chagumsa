@@ -95,12 +95,14 @@
                 <colgroup>
                     {{--<col width="10%">--}}
                     <col width="10">
+                    <col width="10%">
+                    <col width="10%">
                     <col width="15%">
                     <col width="15%">
-                    <col width="15%">
-                    <col width="15%">
-                    <col width="15%">
-                    <col width="15%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
                 </colgroup>
 
                 <thead>
@@ -112,7 +114,9 @@
                     <th class="text-center">정비사</th>
                     <th class="text-center">기술사</th>
                     <th class="text-center">예약날짜</th>
+                    <th class="text-center">예약시간</th>
                     <th class="text-center">상태</th>
+                    <th class="text-center">수정</th>
                 </tr>
                 </thead>
 
@@ -125,9 +129,6 @@
                 @foreach($entrys as $data)
 
                     <tr>
-                        {{--<td class="">--}}
-                        {{--<input type="checkbox">--}}
-                        {{--</td>--}}
                         <td class="text-center">
                             <a href="{{ url("order", [$data->id]) }}">{{ $data->getOrderNumber() }}</a>
                         </td>
@@ -150,12 +151,19 @@
                             @endif
                         </td>
 
+                        <td >
+                            <input type="text" value="{{ $data->reservation->reservation_at->format('Y-m-d') }}">
+                        </td>
+
                         <td>
-                            {{ $data->reservation->reservation_at->format('Y-m-d H') }} 시
+                            <input type="text" value="{{ $data->reservation->reservation_at->format('H') }}">
                         </td>
 
                         <td>
                             {{ $data->status->display() }}
+                        </td>
+                        <td>
+                            <button type="button">수정</button>
                         </td>
                     </tr>
                 @endforeach

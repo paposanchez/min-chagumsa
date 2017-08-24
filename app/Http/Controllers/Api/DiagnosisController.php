@@ -355,6 +355,9 @@ class DiagnosisController extends ApiController {
 
 
 
+
+
+
     /**
      * @SWG\Get(
      *     path="/diagnosis/reservation",
@@ -500,7 +503,7 @@ class DiagnosisController extends ApiController {
 
     /**
      * @SWG\Get(
-     *     path="/diagnosis/complete",
+     *     path="/diagnosis/completed",
      *     tags={"Diagnosis"},
      *     summary="진단완료 목록",
      *     description="진단이 완료된 주문 목록, 오늘부터 과거의 주문 출력",
@@ -522,7 +525,8 @@ class DiagnosisController extends ApiController {
      *     }
      * )
      */
-    public function getDiagnosisComplete(Request $request) {
+    public function getDiagnosisCompleted(Request $request) {
+//    public function getDiagnosisComplete(Request $request) {
         try {
 
             $date = $request->get('date');
@@ -578,6 +582,58 @@ class DiagnosisController extends ApiController {
             // 앱에서는 간단하게
         } catch (Exception $e) {
             return abort(404, trans('diagnosis.not-found'));
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/diagnosis/completed",
+     *     tags={"Diagnosis"},
+     *     summary="주문완료의 상태값 변경",
+     *     description="특정주문의 진단이 완료되면 헤당 상태값을 설정한다.",
+     *     operationId="setDiagnosisEngineer",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Response(response=401, description="unauthorized"),
+     *     @SWG\Response(response=404, description="not found"),
+     *     @SWG\Response(response=500, description="internal server error"),
+     *     @SWG\Response(response="default",description="error",
+     *          @SWG\Schema(ref="#/definitions/Error")
+     *     ),
+     *     security={
+     *     }
+     * )
+     */
+
+    public function getDiagnosisComplete(Request $request) {
+
+        try {
+            $order_id = $request->get('order_id');
+//            $user_id = $request->get('user_id');
+
+            $validator = Validator::make($request->all(), [
+//                'user_id' => 'required|exists:users,id',
+                'order_id' => 'required|exists:orders,id'
+            ]);
+            if ($validator->fails()) {
+                $errors = $validator->errors()->all();
+                throw new Exception($errors[0]);
+            }
+
+
+            $order                  = Order::findOrFail($order_id);
+            $order->status_cd       = 107;
+            $order->diagnosed_at     = Carbon::now();
+            $order->save();
+
+//            return response()->json($order);
+            return true;
+
+            // 앱에서는 간단하게
+        } catch (Exception $e) {
+//            return abort(404, trans('diagnosis.not-found'));
+            return false
         }
     }
 

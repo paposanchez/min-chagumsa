@@ -46,6 +46,8 @@ Route::get('notice/show', "NoticeController@show")->name('notice.show');
         //진단중목록
         Route::get('diagnosis/working', "DiagnosisController@getDiagnosisWorking")->name('diagnosis.working');
         //진단완료목록
+        Route::get('diagnosis/completed', "DiagnosisController@getDiagnosisCompleted")->name('diagnosis.completed');
+        //진단완료 상태 변경
         Route::get('diagnosis/complete', "DiagnosisController@getDiagnosisComplete")->name('diagnosis.complete');
 
         //개별주문조회
