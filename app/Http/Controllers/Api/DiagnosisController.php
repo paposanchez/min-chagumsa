@@ -343,11 +343,12 @@ class DiagnosisController extends ApiController {
             $order->diagnose_at     = Carbon::now();
             $order->save();
 
-            return response()->json($order);
+            return response()->json(true);
 
             // 앱에서는 간단하게
        } catch (Exception $e) {
-           return abort(404, trans('diagnosis.not-found'));
+//           return abort(404, trans('diagnosis.not-found'));
+           return response()->json(false);
        }
     }
 
@@ -586,12 +587,12 @@ class DiagnosisController extends ApiController {
     }
 
     /**
-     * @SWG\Get(
-     *     path="/diagnosis/completed",
+     * @SWG\Post(
+     *     path="/diagnosis/complete",
      *     tags={"Diagnosis"},
      *     summary="주문완료의 상태값 변경",
      *     description="특정주문의 진단이 완료되면 헤당 상태값을 설정한다.",
-     *     operationId="setDiagnosisEngineer",
+     *     operationId="setDiagnosisComplete",
      *     produces={"application/json"},
      *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
      *     @SWG\Response(response=401, description="unauthorized"),
@@ -605,7 +606,7 @@ class DiagnosisController extends ApiController {
      * )
      */
 
-    public function getDiagnosisComplete(Request $request) {
+    public function setDiagnosisComplete(Request $request) {
 
         try {
             $order_id = $request->get('order_id');
@@ -627,12 +628,12 @@ class DiagnosisController extends ApiController {
             $order->save();
 
 //            return response()->json($order);
-            return true;
+            return response()->json(true);
 
             // 앱에서는 간단하게
         } catch (Exception $e) {
 //            return abort(404, trans('diagnosis.not-found'));
-            return false;
+            return response()->json(false);
         }
     }
 

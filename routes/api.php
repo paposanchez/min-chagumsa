@@ -48,7 +48,7 @@ Route::get('notice/show', "NoticeController@show")->name('notice.show');
         //진단완료목록
         Route::get('diagnosis/completed', "DiagnosisController@getDiagnosisCompleted")->name('diagnosis.completed');
         //진단완료 상태 변경
-        Route::get('diagnosis/complete', "DiagnosisController@getDiagnosisComplete")->name('diagnosis.complete');
+        Route::post('diagnosis/complete', "DiagnosisController@setDiagnosisComplete")->name('diagnosis.complete');
 
         //개별주문조회
         Route::get('diagnosis', "DiagnosisController@show")->where('order_id', '[0-9]+')->name('diagnosis');
