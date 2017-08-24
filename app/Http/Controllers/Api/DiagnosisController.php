@@ -184,7 +184,8 @@ class DiagnosisController extends ApiController {
             $uploader_name = 'upfile';
 
             $validator = Validator::make($request->all(), [
-                $uploader_name => 'required|mimes:jpeg,png,jpg,gif,svg, mp3, m4a',
+//                $uploader_name => 'required|mimes:jpeg,png,jpg,gif,svg, mp3, m4a',
+                $uploader_name => 'required',
             ]);
 
 
