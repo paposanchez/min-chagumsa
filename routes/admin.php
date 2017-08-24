@@ -66,6 +66,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::patch('order/update/{id}', 'OrderController@update')->name('order/update');
 
     // 주문관리
+    Route::post('order/reservation_change', 'OrderController@reservationChange');
+    Route::post('order/confirmation/{id}', 'OrderController@confirmation');
     Route::resource('order', 'OrderController');
 
     // 진단관리
