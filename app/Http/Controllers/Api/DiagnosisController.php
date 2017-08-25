@@ -234,14 +234,12 @@ class DiagnosisController extends ApiController {
 
                                 $data->save();
 
-                                $return = [
-                                        'status' => 'success'
-                                        //                    'msg' => trans('file.upload_success'),
-                                        //                    'data' => $data->toArray()
-                                ];
+                                $return = 'success';
+                        }else{
+                                $return = 'error';
                         }
 
-                        return response()->json($return);
+                        return response()->json('success');
                 } catch (Exception $ex) {
                         return response()->json($ex->getMessage());
                 }
