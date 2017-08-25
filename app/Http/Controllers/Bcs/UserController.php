@@ -36,12 +36,18 @@ class UserController extends Controller
         //
         $where = User::orderBy('id', 'DESC');
 //        $role_cd = $request->get('role_cd');
-        $role_cd = 5;
+        $bcs_cd = 4; //role 코드가 bcs
+        $eng_cd = 5; //role 코드가 6
 
-        if($role_cd){
-            $where = $where->join('role_user', 'role_user.user_id', '=', 'users.id')
-                ->where('role_user.role_id', '=', $role_cd);
-        }
+
+        $where = User::join('user_extras', function($extra_qry){
+            $extra_qry->on('users.id', 'user_extras.users_id');
+        })->join('role_user', function($role_user_qry){
+            $role_user_qry->on('user_extras.users_id', 'role_user.user_id');
+        })->join('roles', function($role_qry){
+            $role_qry->on('role_user.role_id', 'roles.id');
+        })->where('role_user.role_id', 5)->where('user_extras.garage_id', Auth::user()->id);
+
 
         $search_fields = [ "name" => "이름", "mobile" => "전화번호" ];
 
