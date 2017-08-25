@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Bcs;
 
+use App\Repositories\DiagnosisRepository;
 use Doctrine\DBAL\Types\ObjectType;
 use DateTime;
 use function GuzzleHttp\Promise\all;
@@ -346,16 +347,23 @@ class OrderController extends Controller
         }
 
         public function confirmation(Request $request, $id){
+            try{
                 $reservation = Reservation::findOrFail($id);
                 $reservation->update([
                     'updated_at' => Carbon::now()
                 ]);
 
                 $order = Order::find($request->get('order_id'));
-                $order->status_cd = 103;
+                $order->status_cd = 104;
                 $order->save();
 
+                $diagnosis = new DiagnosisRepository();
+                $diagnosis->prepare($order->id)->create($order->id);
+
                 return response()->json(true);
+            }catch (Exception $ex){
+                return response()->json(false);
+            }
         }
 
 }

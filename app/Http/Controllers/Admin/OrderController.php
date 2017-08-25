@@ -658,16 +658,26 @@ class OrderController extends Controller
 //    }
 
     public function confirmation(Request $request, $id){
-        $reservation = Reservation::findOrFail($id);
-        $reservation->update([
-            'updated_at' => Carbon::now()
-        ]);
+        try{
+            $reservation = Reservation::findOrFail($id);
+            $reservation->update([
+                'updated_at' => Carbon::now()
+            ]);
 
-        $order = Order::find($request->get('order_id'));
-        $order->status_cd = 103;
-        $order->save();
+            $order = Order::find($request->get('order_id'));
+            $order->status_cd = 104;
+            $order->save();
 
-        return response()->json(true);
+            $diagnosis = new DiagnosisRepository();
+            $diagnosis->prepare($order->id)->create($order->id);
+
+
+
+            return response()->json(true);
+        }catch (Exception $ex){
+            return response()->json(false);
+        }
+
     }
 
 

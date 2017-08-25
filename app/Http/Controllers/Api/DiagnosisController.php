@@ -196,15 +196,15 @@ class DiagnosisController extends ApiController {
 
             // todo 업로드파일을 다 지워야된다
             $diagnoses = Diagnosis::where('order_id', $request->get('order_id'))->get();
-            $diagnoses_id = [];
+            $diagnoses_ids = [];
 
             $where = DiagnosisFile::orderBy('created_at', 'desc');
 
             foreach ($diagnoses as $diagnosis){
 //                $where->where('diagnoses_id', $diagnosis->id)->delete();
-                $diagnoses_id[] = $diagnosis->id;
+                $diagnoses_ids[] = $diagnosis->id;
             }
-            $where->whereIn('diagnoses_id', $diagnoses_id[])->delete();
+            $where->whereIn('diagnoses_id', $diagnoses_ids)->delete();
 
 
 
@@ -236,7 +236,8 @@ class DiagnosisController extends ApiController {
 
                 // Save the record to the db
                 $data = DiagnosisFile::create([
-                    'diagnoses_id' => $diagnoses_id,
+//                    'diagnoses_id' => $diagnoses_id,
+                    'diagnosed_id' => $diagnoses_id,
                     'original' => $response['result']['original'],
                     'source' => $response['result']['source'],
                     'path' => $response['result']['path'],

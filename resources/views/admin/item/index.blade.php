@@ -88,7 +88,7 @@
                         <th class="text-left">인증서 명</th>
                         <th class="text-center">가격</th>
                         <th class="text-center">차량 분류</th>
-                        <th class="text-center">수수료율</th>
+                        <th class="text-center">PG 수수료율</th>
                         <th class="text-center">공임비용</th>
                         <th class="text-center">보증료</th>
                         <th class="text-center">보쉬/브랜드 수수료율</th>

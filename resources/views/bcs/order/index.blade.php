@@ -296,11 +296,14 @@ $(document).ready(function(){
                             order_id : order_id
                         },
                         success:function(data){
+//                            alert(JSON.stringify(data));
                             $obj.parent().find('.changeReservationModalOpen').remove();
                             $obj.parent().find('.confirmReservation').remove();
+                            location.href = '/order';
                         },
                         error:function(data){
-                            alert('error');
+//                            alert('error');
+                            alert(JSON.stringify(data));
                         }
                     })
                 }else{
