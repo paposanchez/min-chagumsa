@@ -175,8 +175,7 @@ class DiagnosisController extends ApiController {
                                 throw new Exception('필수 파라미터가 없습니다.');
                         }
 
-                        $engineer_check = Order::where('id', $order_id)
-                        ->where('engineer_id', $request->get('user_id'))->count();
+                        $engineer_check = Order::where('id', $order_id)->where('engineer_id', $request->get('user_id'))->count();
                         if($engineer_check != 1){
                                 throw new Exception('접근권한이 없습니다.');
                         }
@@ -224,7 +223,7 @@ class DiagnosisController extends ApiController {
                                 // Save the record to the db
                                 $data = DiagnosisFile::create([
                                         //                    'diagnoses_id' => $diagnoses_id,
-                                        'diagnosed_id' => $diagnoses_id,
+                                        'diagnoses_id' => $diagnoses_id,
                                         'original' => $response['result']['original'],
                                         'source' => $response['result']['source'],
                                         'path' => $response['result']['path'],
