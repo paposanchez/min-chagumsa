@@ -55,7 +55,7 @@ class UserController extends Controller
         $s = $request->get('s');
         $sf = $request->get('sf');
         if($s){
-            $where = $where->where($sf, $s);
+            $where = $where->where('users.'.$sf, $s);
         }
 
         $entrys = $where->paginate(25);
