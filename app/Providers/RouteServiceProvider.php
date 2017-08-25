@@ -89,7 +89,7 @@ class RouteServiceProvider extends ServiceProvider {
         Route::group([
             'middleware' => 'web',
             'namespace' => $namespace,
-            'domain' => 'garage.' . config('app.domain'),
+            'domain' => 'bcs.' . config('app.domain'),
                 ], function ($router) {
             require base_path('routes/bcs.php');
         });
