@@ -238,7 +238,7 @@ class DiagnosisController extends ApiController {
                                 $return = 'error';
                         }
 
-                        return response()->json('success');
+                        return response()->json($return);
                 } catch (Exception $ex) {
                         return response()->json($ex->getMessage());
                 }
