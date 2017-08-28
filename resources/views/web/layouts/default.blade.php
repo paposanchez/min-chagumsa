@@ -44,12 +44,12 @@
                     <a href='{{ route('register.agreement') }}'>회원가입</a>
                 @endif
             </div>
-            <form action="{{ route('search.index') }}">
-                <div class='gnb_search_wrap'>
-                    <input type='text' name="q" placeholder='인증서번호 또는 차량번호로 찾기'>
-                    <button type='submit'><i class="fa fa-search" ></i></button>
-                </div>
-            </form>
+            {{--<form action="{{ route('search.index') }}">--}}
+                {{--<div class='gnb_search_wrap'>--}}
+                    {{--<input type='text' name="q" placeholder='인증서번호 또는 차량번호로 찾기'>--}}
+                    {{--<button type='submit'><i class="fa fa-search" ></i></button>--}}
+                {{--</div>--}}
+            {{--</form>--}}
         </div>
         
     @endsection

@@ -12,6 +12,39 @@
     </ul>
 
     <div class='br30'></div>
+    <div class='order_info_box'>
+        <div class='order_info_title'>
+            <strong>주문상태 안내</strong>
+            <a class="text-light text-sm pull-right no-margin" href='{{ route('faq.index') }}'>FAQ 보러가기</a>
+        </div>
+        <div class='order_info_guide'>
+            <ul style="padding-bottom: 20px;">
+                <li>
+                    <div>주문완료</div>
+                    <span  class="text-sm">결제 및 예약확인이<br>완료되었습니다.</span>
+                    <strong style="margin-top:30px;">입고정보변경 가능<br>주문취소 가능</strong>
+                </li>
+                <li>
+                    <div>입고일 확정</div>
+                    <span class="text-sm">예약한 정비소에서<br>입고일을 확정했습니다.</span>
+                    <strong style="margin-top:30px;">주문취소 가능</strong>
+                </li>
+                <li>
+                    <div>진단 중</div>
+                    <span class="text-sm">입고가 완료되어<br>정비사가 차량상태를<br>점검중입니다.</span>
+                </li>
+                <li>
+                    <div>승인 중</div>
+                    <span class="text-sm">점검이 완료되어<br>기술사가 최종 승인을<br>검토중입니다.</span>
+                </li>
+                <li>
+                    <div>발급완료</div>
+                    <span class="text-sm">인증서 발급이<br>완료되었습니다.</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class='br30'></div>
 
     @foreach($my_orders as $orders)
     <div class='order_info_box'>
@@ -80,38 +113,7 @@
 
     <div class='br30'></div>
 
-    <div class='order_info_box'>
-        <div class='order_info_title'>
-            <strong>주문상태 안내</strong>
-            <a class="text-light text-sm pull-right no-margin" href='{{ route('faq.index') }}'>FAQ 보러가기</a>
-        </div>
-        <div class='order_info_guide'>
-            <ul>
-                <li>
-                    <div>주문완료</div>
-                    <span  class="text-sm">결제 및 예약확인이<br>완료되었습니다.</span>
-                    <strong style="margin-top:30px;">입고정보변경 가능<br>주문취소 가능</strong>
-                </li>
-                <li>
-                    <div>입고일 확정</div>
-                    <span class="text-sm">예약한 정비소에서<br>입고일을 확정했습니다.</span>
-                    <strong style="margin-top:30px;">주문취소 가능</strong>
-                </li>
-                <li>
-                    <div>진단 중</div>
-                    <span class="text-sm">입고가 완료되어<br>정비사가 차량상태를<br>점검중입니다.</span>
-                </li>
-                <li>
-                    <div>승인 중</div>
-                    <span class="text-sm">점검이 완료되어<br>기술사가 최종 승인을<br>검토중입니다.</span>
-                </li>
-                <li>
-                    <div>발급완료</div>
-                    <span class="text-sm">인증서 발급이<br>완료되었습니다.</span>
-                </li>
-            </ul>
-        </div>
-    </div>
+
 
 </div>
 

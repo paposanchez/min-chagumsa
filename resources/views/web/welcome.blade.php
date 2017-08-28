@@ -11,7 +11,7 @@
                 <div class='mv_cert_box'>
                     <a href='{{ route('order.index') }}' class='mv_cert_btn1'>차검사 인증서 신청하기</a>
                 </div>
-                <div class='mv_cert_box'>
+                <div class='mv_cert_box' style="display: none;">
                     {!! Form::open(['method' => 'GET', 'route' => ['search.index']]) !!}
                     <div class='mv_cert_search_wrap'>
                         <input type='text' name="q" placeholder='인증서번호 또는 차량번호'>
