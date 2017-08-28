@@ -1,54 +1,19 @@
-@extends( 'web.layouts.default' )
-
+@extends( 'web.layouts.blank' )
 @section( 'content' )
 
-<div id='sub_title_wrap'><h2>회원가입<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>회원가입</span></div></h2></div>
+<!-- <div id='sub_title_wrap'><h2>회원가입<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>회원가입</span></div></h2></div> -->
 
-<div id='sub_wrap'>
-
-
-	<div class='join_wrap'>
+<div id="sub_full_wrap">
+    <div class="login_box_wrap" style="padding:20px;">
 
 
-		<ul class='join_step'>
-			<li class='on'>
-				<strong>01</strong>
-				<span>약관동의</span>
-			</li>
-			<li>
-				<strong>02</strong>
-				<span>회원정보입력</span>
-			</li>
-			<li>
-				<strong>03</strong>
-				<span>회원가입완료</span>
-			</li>
-		</ul>
-
-
-
-		<div class='br30'></div>
-		<div class='br20'></div>
-
-
-
+            <div class="text-center" style="margin:20px 0px 20px;">
+                      {{ Html::image('/assets/themes/v1/web/img/comm/head_logo.png') }}
+                    <h3>회원가입</h3>
+            </div>
 
 
 		{!! Form::open(['method' => 'GET','route' => ['register'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data", "autocomplete" => "off", 'role' => 'form', 'id'=>'join-form']) !!}
-
-        <div style="width:600px; padding:20px; background:#fff; margin:0 auto; border:solid 1px #efefef;" class="">
-
-          <!--   <div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
-                <label for="inputEmail" class="control-label">{{ trans('web/register.email') }}</label>
-                <input type="email" class="form-control  input-lg" placeholder="{{ trans('web/register.email') }}" name="email" id="inputEmail">
-
-                @if ($errors->has('email'))
-                <span class="help-block">
-                    {{ $errors->first('email') }}
-                </span>
-                @endif
-            </div> -->
-
 
 		<div class='join_term_wrap'>
 			<label>이용약관</label>
@@ -84,9 +49,8 @@
 			</div>
 		</div>
 
-		</div>
 
-	
+
          <div class='br30'></div>
 
             <p class="text-center">

@@ -50,9 +50,9 @@
 				</div>
 			@endforeach
 		@else
-			<div class="cont_title2">
+			<div class="no-result">
 
-				<strong>인증받은 인증서가 존재하지 않습니다.</strong>
+				인증받은 인증서가 존재하지 않습니다.
 			</div>
 		@endif
 

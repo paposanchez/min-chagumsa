@@ -53,7 +53,7 @@ class RouteServiceProvider extends ServiceProvider {
             'middleware' => 'web',
             'namespace' => $namespace,
 //            'domain' => config('app.domain'),
-            'domain' => 'www.'.config('app.domain'),
+            'domain' => config('app.domain'),
                 ], function ($router) {
             require base_path('routes/web.php');
         });

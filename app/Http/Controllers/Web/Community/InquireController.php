@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Community;
 
+use App\Models\File;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Board;
@@ -55,8 +56,16 @@ class InquireController extends PostController {
         }else{
             $next=null;
         }
-        return view($this->view_path . 'show', compact('data', 'board_namespace', 'prev', 'next'));
+
+
+        // 파일 다운로드 관련
+        $files = File::where('group', 'post')->where('group_id', $id)->get();
+        if(!$files){
+            $files = [];
+        }
+        return view($this->view_path . 'show', compact('data', 'board_namespace', 'prev', 'next', 'files'));
     }
+
 
     public function chkPassword(Request $request){
 
