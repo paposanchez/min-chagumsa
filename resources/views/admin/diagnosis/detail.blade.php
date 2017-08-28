@@ -244,7 +244,7 @@
                                                                     </colgroup>
                                                                     <tbody>
                                                                     <tr>
-                                                                        <thstyle="padding-left: 25px;">{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
+                                                                        <th style="padding-left: 25px;">{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
                                                                         {{--<td><input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $child_item['selected'] }}" style="background-color: #fff;" disabled></td>--}}
                                                                         <td>
                                                                             {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child_item['options_cd']), \App\Helpers\Helper::getCodePluck($child_item['selected']), ['class'=>'form-control selected_cd', 'id'=>'', 'data-id'=>$child_item['id']]) !!}
@@ -335,6 +335,7 @@
 
             </div>
         </div>
+    </div>
 @endsection
 
 @push( 'footer-script' )

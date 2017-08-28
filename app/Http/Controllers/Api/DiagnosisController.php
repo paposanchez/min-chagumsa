@@ -168,7 +168,7 @@ class DiagnosisController extends ApiController {
 
 
 
-        $diagnoses_id = $request->get('diagnosis_id');
+//        $diagnoses_id = $request->get('diagnosis_id');
 
         $return = [
             'status' => '',
@@ -237,7 +237,7 @@ class DiagnosisController extends ApiController {
                 // Save the record to the db
                 $data = DiagnosisFile::create([
 //                    'diagnoses_id' => $diagnoses_id,
-                    'diagnosed_id' => $diagnoses_id,
+                    'diagnosed_id' => $request->get('diagnosis_id'),
                     'original' => $response['result']['original'],
                     'source' => $response['result']['source'],
                     'path' => $response['result']['path'],

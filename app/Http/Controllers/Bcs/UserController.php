@@ -35,9 +35,7 @@ class UserController extends Controller
     {
         //
         $where = User::orderBy('id', 'DESC');
-//        $role_cd = $request->get('role_cd');
-        $bcs_cd = 4; //role 코드가 bcs
-        $eng_cd = 5; //role 코드가 6
+        $eng_cd = 5; //role 코드가 5
 
 
         $where = User::join('user_extras', function($extra_qry){
@@ -46,7 +44,7 @@ class UserController extends Controller
             $role_user_qry->on('user_extras.users_id', 'role_user.user_id');
         })->join('roles', function($role_qry){
             $role_qry->on('role_user.role_id', 'roles.id');
-        })->where('role_user.role_id', 5)->where('user_extras.garage_id', Auth::user()->id);
+        })->where('role_user.role_id', $eng_cd)->where('user_extras.garage_id', Auth::user()->id);
 
 
         $search_fields = [ "name" => "이름", "mobile" => "전화번호" ];
@@ -54,10 +52,12 @@ class UserController extends Controller
         //  이름 & 전화번호 검색
         $s = $request->get('s');
         $sf = $request->get('sf');
-        if($s){
-            $where = $where->where('users.'.$sf, $s);
-        }
 
+
+        if($s){
+            $where = $where->select('users.'.$sf)->where('users.'.$sf, $s)->first();
+        }
+        
         $entrys = $where->paginate(25);
         return view('bcs.user.index', compact('entrys','search_fields'));
 

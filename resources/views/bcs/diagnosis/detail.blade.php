@@ -229,7 +229,7 @@
                                                                             @if($child_item['files'])
                                                                                 {{--<img src="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" width="100px;">--}}
                                                                                 <img src="http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}">
-                                                                            @elses
+                                                                            @else
                                                                                 <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
                                                                             @endif
                                                                         </td>
