@@ -114,7 +114,7 @@
 
                                 <div class="col-md-9 drow-box">
                                     @foreach($detail['entrys'] as $item)
-                                        <div class="row">
+                                        <div class="row img-block">
 
 
                                             <div class="col-md-8">
@@ -127,34 +127,8 @@
                                                             {{--<input type="text" class="form-control" placeholder="" value="{{ $item['description'] }}" style="background-color: #fff;" disabled>--}}
                                                             <div class='cert_box_cont_img'>
                                                                 @if($item['files'])
-                                                                    <img src="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" width="100px;">
-                                                                    {{--<img src="http://fakeimg.pl/100x50/" alt='차량 이미지' id="imgSrc" data-url="http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}">--}}
-                                                                @else
-                                                                    <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
-                                                                @endif
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                                        <label for="inputName" class="control-label col-md-4 text-left">
-                                                            {{ \App\Helpers\Helper::getCodeName($item['options_cd']) }}
-                                                        </label>
-                                                        <div class="col-md-6">
-                                                            {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($item['options_cd']), \App\Helpers\Helper::getCodePluck($item['selected']), ['class'=>'form-control selected_cd', 'id'=>'', 'data-id'=>$item['id']]) !!}
-                                                        </div>
-                                                    </div>
-                                                @elseif($item['options'] && $item['use_image'])
-                                                    <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
-                                                        <label for="inputName" class="control-label col-md-4 text-left">
-                                                            {{ $item['description'] }}
-                                                        </label>
-                                                        <div class="col-md-6">
-                                                            {{--<input type="text" class="form-control" placeholder="" value="{{ $item['description'] }}" style="background-color: #fff;" disabled>--}}
-                                                            <div class='cert_box_cont_img'>
-                                                                @if($item['files'])
                                                                     {{--<img src="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" width="100px;">--}}
-                                                                    <img src="http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}">
+                                                                    <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff">
                                                                 @else
                                                                     <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
                                                                 @endif
@@ -190,7 +164,7 @@
                                                             <div class='cert_box_cont_img'>
                                                                 @if($item['files'])
                                                                     {{--<img src="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" width="100px;">--}}
-                                                                    <img src="http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}">
+                                                                    <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff">
                                                                 @else
                                                                     <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
                                                                 @endif
@@ -218,7 +192,7 @@
                                         </div>
                                     @endforeach
                                     @if(count($detail['children']) > 0)
-                                        <div class="row">
+                                        <div class="row img-block">
                                             <div class="col-md-8">
                                                 @foreach($detail['children'] as $child)
 
@@ -252,7 +226,7 @@
                                                                         <td>
                                                                             @if($child_item['files'])
                                                                                 {{--<img src="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" width="100px;">--}}
-                                                                                <img src="http://www.chagumsa.com" alt='차량 이미지' id="imgSrc" data-url="http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}">
+                                                                                <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" width="100px;">
                                                                             @else
                                                                                 <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
                                                                             @endif
@@ -289,7 +263,7 @@
                                                                         <td>
                                                                             @if($child_item['files'])
                                                                                 {{--<img src="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" width="100px;">--}}
-                                                                                <img src="http://www.chagumsa.com" alt='차량 이미지' id="imgSrc" data-url="http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}">
+                                                                                <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" width="100px;">
                                                                             @else
                                                                                 <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
                                                                             @endif
@@ -373,7 +347,7 @@
     //todo 이미지 모달창 띄움 처리 해야 함.
 
     $(function() {
-        $("#imgSrc").on("click", function () {
+        $(".img-block").delegate(".img", "click", function () {
             var url = $(this).data('url');
             if(url){
                 // todo 추후에 diagnosis_id 에 대한 image를 loop를 통해 추출

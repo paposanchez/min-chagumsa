@@ -63,7 +63,10 @@ Breadcrumbs::register('admin.diagnosis', function($breadcrumbs) {
     $breadcrumbs->push(trans("admin/diagnosis.title"), route('diagnosis.index'));
 });
 
-
+Breadcrumbs::register('admin.sms', function($breadcrumbs) {
+    $breadcrumbs->parent('admin');
+    $breadcrumbs->push('SMS 전송', route('sms.index'));
+});
 
 //############################## Web
 Breadcrumbs::register('web', function($breadcrumbs) {

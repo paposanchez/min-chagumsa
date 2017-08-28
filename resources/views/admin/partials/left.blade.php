@@ -34,7 +34,9 @@
 
                 <li class="{{ Request::is('bcs-post*') ? ' active':''}}"><a href="/bcs-post"><i class="fa fa-bell"></i><span class="nav-label">{{ trans('admin/bcs-post.title') }}</span></a></li>
 
-                <li class="{{ Request::is('comment*') ? ' active':''}}"><a href="/comment"><i class="fa fa-comments"></i><span class="nav-label">{{ trans('admin/comment.title') }}</span></a></li>
+                <li class="{{ Request::is('sms*') ? ' active':''}}"><a href="/sms"><i class="fa fa-comments" aria-hidden="true"></i><span class="nav-label">SMS 전송</span></a></li>
+
+                {{--<li class="{{ Request::is('comment*') ? ' active':''}}"><a href="/comment"><i class="fa fa-comments"></i><span class="nav-label">{{ trans('admin/comment.title') }}</span></a></li>--}}
 
                 <li class="dropdown {{ Request::is('config*') ? ' active':''}}">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-gears"></i><span class="nav-label">{{ trans('admin/config.title') }}</span><b class="caret"></b></a>

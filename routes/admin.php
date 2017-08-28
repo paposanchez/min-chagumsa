@@ -80,7 +80,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     // 아이템 관리
     Route::resource('item', 'ItemController');
 
-
+    Route::post('send-sms', 'SmsController@sendSms')->name('send-sms');
+    Route::resource('sms', 'SmsController',['only' => ['index']]);
 });
 
 // After login in administrator's
@@ -113,32 +114,32 @@ Route::group(['middleware' => ['guest.admin']], function () {
 Route::get('logout', 'Auth\LoginController@logout')->name("admin.logout");
 Route::post('logout', 'Auth\LoginController@logout')->name("admin.logout");
 
-Route::get('mail', function() {
-    $to = 'antshin72@gmail.com';
-    $subject = '메일군을 이용한 시스템 메일 발송입니다';
-    $data = [
-        'title' => '여기는 타이틀이 들어가는 곳입니다.',
-        'body'  => '본문글에 대한 방송이 필요해요.\n푸하하\n동해물과 백두산이 마르고 닳도록',
-        'user'  => '사용자 정보입니다'
-    ];
+//Route::get('mail', function() {
+//    $to = 'antshin72@gmail.com';
+//    $subject = '메일군을 이용한 시스템 메일 발송입니다';
+//    $data = [
+//        'title' => '여기는 타이틀이 들어가는 곳입니다.',
+//        'body'  => '본문글에 대한 방송이 필요해요.\n푸하하\n동해물과 백두산이 마르고 닳도록',
+//        'user'  => '사용자 정보입니다'
+//    ];
+//
+//    $send = Mail::send('admin.dashboard.email', $data, function($message) use($to, $subject) {
+//        $message->to($to)->subject($subject);
+//    });
+//
+//    dd($send);
+//});
 
-    $send = Mail::send('admin.dashboard.email', $data, function($message) use($to, $subject) {
-        $message->to($to)->subject($subject);
-    });
-
-    dd($send);
-});
-
-Route::get('sms', function(){
-    //$tr_senddate, $tr_phone, $tr_callback, $tr_msg, $tr_sendstat=0, $tr_msgtype=1
-    $senddate = Carbon\Carbon::now()->toDateTimeString();
-    $tr_phone = "01030255305";
-    $tr_callback = "18336889";
-    $tr_msg = "SMS 발송 테스트3[".$senddate."]";
-    $tr_sendstat = 0;
-    $tr_msgtype = 0;
-
-    $sms_model = new \App\Models\ScTran();
-    $send = $sms_model->send($tr_phone, $tr_callback, $tr_msg, $tr_sendstat, $tr_msgtype);
-    dd($send);
-});
+//Route::get('sms', function(){
+//    //$tr_senddate, $tr_phone, $tr_callback, $tr_msg, $tr_sendstat=0, $tr_msgtype=1
+//    $senddate = Carbon\Carbon::now()->toDateTimeString();
+//    $tr_phone = "01030255305";
+//    $tr_callback = "18336889";
+//    $tr_msg = "SMS 발송 테스트3[".$senddate."]";
+//    $tr_sendstat = 0;
+//    $tr_msgtype = 0;
+//
+//    $sms_model = new \App\Models\ScTran();
+//    $send = $sms_model->send($tr_phone, $tr_callback, $tr_msg, $tr_sendstat, $tr_msgtype);
+//    dd($send);
+//});
