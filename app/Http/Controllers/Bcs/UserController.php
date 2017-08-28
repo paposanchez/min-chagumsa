@@ -38,7 +38,7 @@ class UserController extends Controller
         $eng_cd = 5; //role 코드가 5
 
 
-        $where = User::join('user_extras', function($extra_qry){
+        $where = User::select('users.*')->join('user_extras', function($extra_qry){
             $extra_qry->on('users.id', 'user_extras.users_id');
         })->join('role_user', function($role_user_qry){
             $role_user_qry->on('user_extras.users_id', 'role_user.user_id');
@@ -55,9 +55,10 @@ class UserController extends Controller
 
 
         if($s){
-            $where = $where->select('users.'.$sf)->where('users.'.$sf, $s)->first();
+            $where = $where->where('users.'.$sf, $s);
         }
-        
+
+
         $entrys = $where->paginate(25);
         return view('bcs.user.index', compact('entrys','search_fields'));
 
