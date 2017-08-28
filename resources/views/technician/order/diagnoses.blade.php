@@ -128,7 +128,7 @@
                                                             <div class='cert_box_cont_img'>
                                                                 @if($item['files'])
                                                                     {{--<img src="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" width="100px;">--}}
-                                                                    <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff">
+                                                                    <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff">
                                                                 @else
                                                                     <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
                                                                 @endif
@@ -164,7 +164,7 @@
                                                             <div class='cert_box_cont_img'>
                                                                 @if($item['files'])
                                                                     {{--<img src="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" width="100px;">--}}
-                                                                    <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff">
+                                                                    <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff">
                                                                 @else
                                                                     <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
                                                                 @endif
@@ -226,7 +226,7 @@
                                                                         <td>
                                                                             @if($child_item['files'])
                                                                                 {{--<img src="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" width="100px;">--}}
-                                                                                <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" width="100px;">
+                                                                                <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff">
                                                                             @else
                                                                                 <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
                                                                             @endif
@@ -263,7 +263,7 @@
                                                                         <td>
                                                                             @if($child_item['files'])
                                                                                 {{--<img src="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $child_item['id'] }}" width="100px;">--}}
-                                                                                <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" width="100px;">
+                                                                                <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff">
                                                                             @else
                                                                                 <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
                                                                             @endif
@@ -330,7 +330,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title" id="modal-title">Modal Header</h4>
                     </div>
-                    <div class="modal-body" id="modal-body">
+                    <div class="modal-body text-center" id="modal-body">
                         <img src="http://fakeimg.pl/350x200/" id="img" alt='차량 이미지'>
                     </div>
                     <div class="modal-footer">

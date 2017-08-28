@@ -117,7 +117,7 @@ class DiagnosisController extends ApiController {
                         }
 
                         // todo 업로드파일을 다 지워야된다
-                        $diagnoses = Diagnosis::where('order_id', $request->get('order_id'))->get();
+                        $diagnoses = Diagnosis::where('orders_id', $request->get('order_id'))->get();
                         $diagnoses_ids = [];
                         foreach ($diagnoses as $diagnosis){
                                 //                $where->where('diagnoses_id', $diagnosis->id)->delete();
