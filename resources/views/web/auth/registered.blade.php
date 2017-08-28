@@ -1,79 +1,43 @@
-@extends( 'web.layouts.default' )
-
+@extends( 'web.layouts.blank' )
 @section( 'content' )
 
-<div id='sub_title_wrap'><h2>회원가입<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>회원가입</span></div></h2></div>
+<!-- <div id='sub_title_wrap'><h2>회원가입<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>회원가입</span></div></h2></div> -->
 
-<div id='sub_wrap'>
+<div id="sub_full_wrap">
+        <div class="login_box_wrap" style="padding:20px;">
+
+                <div class="text-center" style="margin:20px 0px 20px;">
+                          {{ Html::image('/assets/themes/v1/web/img/comm/head_logo.png') }}
+                        <h3>회원가입완료</h3>
+
+                </div>
+
+                <h4 class="text-danger" style="margin:30px 0px; font-size:18px;color:#ff6600;">
+                        {{ $user->email }}
+                </h4>
 
 
-	<div class='join_wrap'>
+                <div class='ipt_line ipt_guide text-justify' style="margin:25px 0px;">
+			입력하신 이메일로 인증메일이 발송되었습니다.
+			메일을 확인하시고 [이메일 인증하기] 버튼을 눌러주시면 인증이 완료됩니다.
 
-		<ul class='join_step'>
-			<li class='on link'>
-				<strong>01</strong>
-				<span>약관동의</span>
-			</li>
-			<li class='on'>
-				<strong>02</strong>
-				<span>회원정보입력</span>
-			</li>
-			<li class="on">
-				<strong>03</strong>
-				<span>회원가입완료</span>
-			</li>
-		</ul>
-
-		<div class='br30'></div>
-		<div class='br20'></div>
-
-		<h3>이메일 인증을 해주세요.<br>인증 완료 후에 차검사를 이용하실 수 있습니다.</h3>
-
-		<div class='br30'></div>
-
-		<div class='psk_table_wrap'>
-			<table style="width: 50%;margin: auto;">
-				<colgroup>
-					<col style='width:50%;'>
-					<col style='width:50px;'>
-				</colgroup>
-				<tbody>
-				<tr>
-					<th>이메일</th>
-					<td>
-						<span>
-							{{ $user->email }}
-						</span>
-					</td>
-				</tr>
-				</tbody>
-			</table>
 		</div>
+                <!-- <div class='ipt_line ipt_guide' style="margin:25px 0px;">
+			인증메일을 받지 못하셨나요? <a href='' style="color: #ff6600 !important;">인증메일 재발송하기</a>
+		</div> -->
 
-		<div class='br20'></div>
 
-		<div class='ipt_line ipt_guide' style='width:400px;'>
-			<span>입력하신 이메일로 인증메일이 발송되었습니다.
-			메일을 확인하시고 [이메일 인증하기] 버튼을 눌러주시면 인증이 완료됩니다.<br><br>
-			인증메일을 받지 못하셨나요?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='' style="color: black !important; font-style: italic;">인증메일 재발송 ></a>
-			</span>
-		</div>
+                <p class="text-center">
+                        <a href="/" class='btn btn-lg btn-success  btns_green' style='display:inline-block;'>홈으로 이동</a>
+                </p>
 
-		<div class='br40'></div>
 
-		<div class='ipt_line wid20'>
-			<a href="/" class='btns btns_green' style='display:inline-block;'>홈으로 이동</a>
-		</div>
 
-		{{--<p class="form-control-static text-center">--}}
-
-			{{--<button type="button" class='btn btn-primary2 btn-lg wid25 order-page-move' data-index="2">홈으로 이동</button>--}}
-		{{--</p>--}}
-
-	</div>
+        </div>
 
 
 </div>
+
 @endsection
 
 

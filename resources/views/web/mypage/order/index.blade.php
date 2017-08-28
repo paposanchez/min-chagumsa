@@ -16,7 +16,7 @@
     @foreach($my_orders as $orders)
     <div class='order_info_box'>
         <div class='order_info_title clearfix '>
-            
+
             <a class="text-lg text-light" href="{{ route('mypage.order.show', ['id'=>$orders->id]) }}">{{ $orders->getOrderNumber() }}</a>
 
             <small class="pull-right text-muted text-light" data-toggle="tooltip" title="주문일자" >{{ $orders->created_at->format('Y년 m월 d일 H:i') }}</small>
@@ -24,16 +24,19 @@
 
 
         <div class='order_info_cont'>
+
+
+
             <div class='order_info_desc'>
-                <span>주문자 정보</span>
-                <span>차량정보</span>
-                <span>주문정보</span>
+                    <span>주문자정보</span>
+                    <span>차량정보</span>
+                    <span>주문정보</span>
             </div>
 
             <div class='order_info_desc'>
-                <span>{{ $orders->orderer_name }} <small>{{ $orders->orderer_mobile }}</small></span>
+                <span>{{ $orders->orderer_name }} <small class="text-muted">{{ $orders->orderer_mobile }}</small></span>
                 <span>{{ $orders->getCarFullName() }}</span>
-                <span>{{ $orders->created_at->format('Y년 m월 d일 H:i') }}</span>
+                <span>{{ $orders->item->name }} <small class="text-muted">{{ number_format($orders->item->price) }}원</small></span>
             </div>
 
             <div class='order_info_btn text-center'>
@@ -56,7 +59,7 @@
                 <li><small><span>결제일</span> {{ $orders->created_at }}</small></li>
                 <li><small><span>진단일</span> {{ $orders->created_at }}</small></li>
                 <li><small><span>발급일</span> {{ $orders->created_at }}</small></li>
-                
+
                 </ul> -->
 
 
