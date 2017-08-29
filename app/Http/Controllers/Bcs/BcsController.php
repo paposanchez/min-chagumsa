@@ -38,8 +38,8 @@ class BcsController extends Controller {
 
         $this->validate($request, [
             'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'required|min:6|confirmed',
-            'password_confirmation' => 'required|min:6|same:password',
+            'password' => 'nullable|min:6|confirmed',
+            'password_confirmation' => 'nullable|min:6|same:password',
             'name' => 'required|min:2',
             'mobile' => 'min:2',
             'aliance' => 'required',

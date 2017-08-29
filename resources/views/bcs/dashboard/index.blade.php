@@ -14,8 +14,8 @@
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <span class="fa fa-question"></span> BCS 공지사항
-                        <span class="pull-right" data-url="/notice" id="notice_more">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                        <span class="fa fa-file-text-o" style="padding-right: 5px;"></span> BCS 공지사항
+                        <span class="pull-right more-click" data-url="{{ url('notice')}}">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
                     </div>
                     <div class="panel-body">
                         <table class="table">
@@ -50,7 +50,8 @@
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <span class="fa fa-question"></span> 최근 진단현황 <span class="pull-right" data-url="/diagnosis" id="diagnosis_more">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                        <span class="fa fa-file-text-o" style="padding-right: 5px;"></span> 최근 진단현황
+                        <span class="pull-right more-click" data-url="{{ url('diagnosis')}}">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
                     </div>
                     <div class="panel-body">
                         <table class="table">
@@ -89,7 +90,7 @@
             {{--<div class="col-lg-6 col-md-6 col-sm-6">--}}
                 {{--<div class="panel panel-primary">--}}
                     {{--<div class="panel-heading">--}}
-                        {{--<span class="fa fa-question"></span> 최근 게시물<span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>--}}
+                        {{--<span class="fa fa-file-text-o" style="padding-right: 5px;"></span> 최근 게시물<span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>--}}
                     {{--</div>--}}
                     {{--<div class="panel-body">--}}
                         {{--<table class="table">--}}
@@ -126,7 +127,7 @@
             {{--<div class="col-lg-6 col-md-6 col-sm-6">--}}
                 {{--<div class="panel panel-primary">--}}
                     {{--<div class="panel-heading">--}}
-                        {{--<span class="fa fa-question"></span> 인증서 발급현 <span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>--}}
+                        {{--<span class="fa fa-file-text-o" style="padding-right: 5px;"></span> 인증서 발급현 <span class="pull-right" data-url="">more <i class="fa fa-fw fa-caret-right text-success"></i></span>--}}
                     {{--</div>--}}
                     {{--<div class="panel-body">--}}
                         {{--<table class="table">--}}
@@ -168,11 +169,11 @@
 @push( 'footer-script' )
 <script type="text/javascript">
     $(function(){
-        $('#notice_more').click(function(){
-            location.href = $(this).data('url');
-        });
-        $('#diagnosis_more').click(function(){
-            location.href = $(this).data('url');
+        $(".more-click").on("click", function(){
+            var link = $(this).data("url");
+            if(link){
+                location.href = link;
+            }
         });
     });
 </script>

@@ -15,7 +15,8 @@
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <span class="fa fa-question"></span> 인증서 대기 목록 <span class="pull-right more-click" data-url="{{ url("order?status_cd=107") }}">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                        <span class="fa fa-file-text-o" style="padding-right: 5px;"></span> 인증서 대기 목록
+                        <span class="pull-right more-click" data-url="{{ url('order')}}">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
                     </div>
                     <div class="panel-body">
                         <table class="table">
@@ -50,7 +51,8 @@
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <span class="fa fa-question"></span> 인증서 발급환황 <span class="pull-right more-click" data-url="{{ url("order?status_cd=109") }}">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                        <span class="fa fa-file-text-o" style="padding-right: 5px;"></span> 인증서 발급환황
+                        <span class="pull-right more-click" data-url="{{ url('order')}}">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
                     </div>
                     <div class="panel-body">
                         <table class="table">
@@ -89,7 +91,8 @@
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <span class="fa fa-question"></span> 공지사항<span class="pull-right more-click" data-url="{{ url("notice") }}">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                        <span class="fa fa-file-text-o" style="padding-right: 5px;"></span> 공지사항
+                        <span class="pull-right more-click" data-url="{{ url('notice')}}">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
                     </div>
                     <div class="panel-body">
                         <table class="table">
@@ -129,7 +132,7 @@
 
 @endsection
 
-@section( 'footer-script' )
+@push( 'footer-script' )
     <script type="text/javascript">
         $(function () {
             $(".more-click").on("click", function(){
@@ -140,4 +143,4 @@
             });
         });
     </script>
-@endsection
+@endpush

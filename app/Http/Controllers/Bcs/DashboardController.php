@@ -28,7 +28,7 @@ class DashboardController extends Controller
 //        $qna = Post::where('category_id', '2')->orderBy('created_at', 'desc')->take(5)->get();
 //        $lated_post = Post::where('category_id', '1')->orderBy('created_at', 'desc')->take(5)->get();
         $lated_post = Post::where('board_id', 4)->orderBy('created_at', 'desc')->take(5)->get();
-        $lated_order = Order::where('garage_id', Auth::user()->id)->orderBy('created_at', 'desc')->take(5)->get();
+        $lated_order = Order::where('garage_id', Auth::user()->id)->where('status_cd', 107)->orderBy('created_at', 'desc')->take(5)->get();
 
         return view('bcs.dashboard.index', compact('post','lated_post', 'lated_order'));
     }

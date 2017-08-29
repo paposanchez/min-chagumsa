@@ -58,6 +58,27 @@ todo 패스워드 변경은 별도 모달로 한다.
                     </div>
                 </div>
 
+                <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
+                    <label for="inputAvatar" class="control-label col-md-3">{{ trans('admin/user.avatar') }}</label>
+                    <div class="col-md-6">
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+
+                            <div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
+                                {{ Html::image('/avatar', 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 200px;"></div>
+                            <div>
+                            <span class="btn btn-default btn-file">
+                                <span class="fileinput-new">{{ trans('common.button.file-select') }}</span>
+                                <span class="fileinput-exists">{{ trans('common.button.change') }}</span>
+                                <input type="file" placeholder="{{ trans('admin/user.avatar') }}" name="avatar" id="inputAvatar">
+                            </span>
+                                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">{{ trans('common.button.destroy') }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <div class="col-md-9 col-md-offset-3">
                         <button class="btn btn-primary" type="submit">수정하기</button>

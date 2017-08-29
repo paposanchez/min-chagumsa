@@ -27,6 +27,10 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     Route::post('user/update', 'UserController@update')->name('technician.user.update');
     Route::post('user/pass-update', 'UserController@passUpdate')->name('technician.user.pass-update');
     Route::get('dashboard', 'DashboardController@__invoke')->name('technician.dashboard.index');
+
+    // Avatar
+    Route::get('thumbnail/{id?}', '\App\Http\Controllers\Admin\ImageController@thumbnail')->name("thumbnail");
+    Route::get('avatar/{user_id?}', '\App\Http\Controllers\Admin\ImageController@avatar')->name("avatar");
 });
 
 // After login in administrator's
