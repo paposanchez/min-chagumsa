@@ -17,7 +17,7 @@
                         <label for="inputEmail" class="control-label col-xs-3">{{ trans('web/register.email') }}</label>
 
                         <div class=" col-xs-9">
-                                <input type="email" class="form-control  input-lg" placeholder="{{ trans('web/register.email') }}" name="email" id="inputEmail">
+                                <input type="email" class="form-control  input-lg" placeholder="{{ trans('web/register.email') }}" name="email" id="inputEmail" value="{{ old("email") }}">
 
 
                                 <span class="help-block">
@@ -36,7 +36,7 @@
                         <label for="inputName" class="control-label col-xs-3">{{ trans('web/register.name') }}</label>
 
                         <div class=" col-xs-9">
-                                <input type="text" class="form-control  input-lg" placeholder="{{ trans('web/register.name') }}" name="name" id="inputName">
+                                <input type="password" class="form-control  input-lg" placeholder="{{ trans('web/register.name') }}" name="name" id="inputName" value="{{ old("name") }}">
 
                                 @if ($errors->has('name'))
                                 <span class="help-block">
@@ -63,7 +63,7 @@
                 <div class="form-group  {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
                         <label for="inputPasswordConfirmation" class="control-label col-xs-3"></label>
                         <div class=" col-xs-9">
-                                <input type="password" class="form-control  input-lg" placeholder="{{ trans('web/register.confirm-password') }}" name="password_confirmation" id="inputPasswordConfirmation">
+                                <input type="text" class="form-control  input-lg" placeholder="{{ trans('web/register.confirm-password') }}" name="password_confirmation" id="inputPasswordConfirmation">
 
                                 @if ($errors->has('password'))
                                 <span class="help-block">
@@ -75,15 +75,9 @@
 
                 <p class="text-center">
                         <button class="btn btn-lg btn-success btns_green" data-loading-text="처리중..." type="submit">가입완료</button>
-
                 </p>
                 {!! Form::close() !!}
-
-
-
         </div>
-
-
 </div>
 
 @endsection
@@ -97,7 +91,6 @@
 <script type="text/javascript">
 $(function(){
         $("#register-form").validate({
-                debug: true,
                 rules: {
                         name: {
                                 required: true,
@@ -112,20 +105,11 @@ $(function(){
                                 required: true,
                                 minlength: 8,
                                 maxlength: 16,
-                                equalTo: "[name='password']"
+                                equalTo: "#inputPasswordConfirmation"
                         },
                         email: {
                                 required: true,
-                                email: true,
-                                remote: {
-                                        url: "/verify",
-                                        type: "get",
-                                        data: {
-                                                "email": function () {
-                                                        return $(":input[name='email']").val();
-                                                }
-                                        },
-                                }
+                                email: true
                         }
                 },
                 messages: {
@@ -137,10 +121,6 @@ $(function(){
                         name: "이름을 입력하세요.",
                         password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)",
                         password_confirmation: "입력된 비밀번호 확인값이 다릅니다."
-                },
-
-                submitHandler: function(form){
-                        form.submit();
                 }
         });
 });

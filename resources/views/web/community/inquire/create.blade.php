@@ -25,7 +25,7 @@
                 <label for="inputEmail" class="control-label col-xs-3">{{ trans('web/register.email') }}</label>
 
                 <div class=" col-xs-4">
-                        <input type="email" class="form-control " placeholder="{{ trans('web/register.email') }}" name="email" id="inputEmail" value="">
+                        <input type="email" class="form-control " placeholder="{{ trans('web/register.email') }}" name="email" id="inputEmail" value="{{ $user->email }}">
 
 
                         @if ($errors->has('email'))
@@ -70,7 +70,7 @@
         </div>
 
 
-        <div class="form-group  {{ $errors->has('password') ? 'has-error' : '' }}">
+        <!-- <div class="form-group  {{ $errors->has('password') ? 'has-error' : '' }}">
                 <label for="inputPassword" class="control-label col-xs-3">{{ trans('web/register.password') }}</label>
 
                 <div class=" col-xs-9">
@@ -82,7 +82,7 @@
                         </span>
                         @endif
                 </div>
-        </div>
+        </div> -->
 
 
 

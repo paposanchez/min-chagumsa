@@ -56,7 +56,7 @@
                                         <li><strong class="text-light text-muted">결제일</strong> <span>{{ $order->purchase->updated_at }}</span>
 
                                                 @if( $order->status_cd != 107 && $order->status_cd != 100 )
-                                                <a  href="javascript:;" class="pull-right text-muted" id="cancel" data-cancel_order_id="{{ $order->id }}">결제취소</a>
+                                                <a  href="javascript:;" class="pull-right text-muted" id="cancel-click" data-cancel_order_id="{{ $order->id }}">결제취소</a>
                                                 @endif
 
                                         </li>
@@ -79,9 +79,7 @@
                                 <ul>
                                         <li><strong class="text-light text-muted">예약상태</strong> <span>미정</span>
                                         </li>
-                                        <li><strong class="text-light text-muted">입고예정일</strong> <span>{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y년 m월 d일') }}</span>
-                                                <a href="">예약변경</a>
-                                        </li>
+                                        <li><strong class="text-light text-muted">입고예정일</strong> <span>{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y년 m월 d일') }}</span></li>
                                         <li><strong class="text-light text-muted">입고대리점</strong> <span>{{ $my_garage->name }} <small>{{ $my_garage->tel }}</small></span></li>
                                 </ul>
                         </div>
@@ -89,7 +87,7 @@
                         <strong class="text-light text-left">차량정보
 
                                 @if( $order->status_cd != 107 && $order->status_cd != 100 )
-                                        <a class='pull-right text-sm text-danger ' href="{{ route('mypage.order.edit_car', ['order_id' => $order->id]) }}">변경</a>
+                                        <a class='pull-right text-danger ' href="{{ route('mypage.order.edit_car', ['order_id' => $order->id]) }}">변경</a>
                                 @endif
                         </strong>
                         <br class="clearfix"/>
@@ -135,7 +133,7 @@ $(function (){
                 location.href = '{{ route('mypage.order.index') }}';
         });
 
-        $(".cancel-click").on("click", function(){
+        $("#cancel-click").on("click", function(){
                 if(confirm("해당 주문에 대한 결제를 취소하시겠습니까?")){
                         var order_id = $(this).data("cancel_order_id");
                         if(order_id){

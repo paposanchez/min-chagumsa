@@ -114,8 +114,7 @@
 /* 게시판 */
 .board_wrap {}
 .board_wrap table {width:100%;border-top:1px solid #7b7b7b;border-top:1px solid #7b7b7b;}
-.board_wrap table thead th, .board_wrap table tbody td, .board_wrap table tbody th {padding:15px 10px;font-size:14px;
-    text-align: center;}
+.board_wrap table thead th, .board_wrap table tbody td, .board_wrap table tbody th {padding:15px 10px;font-size:14px; text-align: center;}
 .board_wrap table thead th {border-bottom:1px solid #ddd;background:#f6f6f6;position:relative;font-weight:bold;}
 .board_wrap table thead th:after {content:'|';right:0px;color:#d1d1d1;position:absolute;}
 .board_wrap table thead th:last-child:after {display:none;}
@@ -172,38 +171,47 @@
 
 
 #cert_list_wrap {width:940px;margin:0 auto;padding:55px 0;min-height:460px;position:relative;}
-.cert_list_title {font-size:16px;color:#444;}
-.cert_list_title span {color:#5fb4ef;}
-.cert_list_box {border:1px solid #e5e5e5;margin:15px 0 20px 0;}
-.cert_box_head {position:relative;}
+.cert_list_title {margin-bottom:10px; color:#555;}
+.cert_list_title strong {color:#0b4777;}
+.cert_list_box {margin:0px 0 20px 0;}
+.cert_box_head {position:relative; background:#fff;}
 .cert_list_box.expire .cert_box_head:after {position:absolute;right:-10px;top:-7px;content:'';width:158px;height:99px;background:url('../img/sub/cert_expire_icon.png') no-repeat;}
 .cert_box_head div {padding-left:25px;height:60px;line-height:60px;font-size:22px;}
-.cert_box_head span {position:absolute;right:25px;top:25px;font-size:14px;color:#444;}
-.cert_box_head span strong {padding-right:15px;}
-.cert_box_cont {border-top:1px solid #e5e5e5;height:250px;padding:20px 25px;box-sizing:border-box;overflow:hidden;}
+.cert_box_head span {position:absolute;right:25px;top:25px;color:#0b4777;}
+.cert_box_head span strong {padding-right:15px;color:#999; font-weight: 400;}
+
+.cert_box_cont {padding:20px 25px;box-sizing:border-box;overflow:hidden; background:#f6f6f6; border-top:solid 1px #eee; border-bottom:solid 1px #eee;}
 .cert_box_cont_img {float:left;}
 .cert_box_cont_info {float:left;}
-.cert_box_cont_info ul {padding:0 0 0 25px;width:300px;height:204px;box-sizing:border-box;border-right:1px solid #e5e5e5;}
-.cert_box_cont_info ul li {font-size:14px;margin-bottom:10px;letter-spacing:-1px;}
-.cert_box_cont_info ul li label {display:inline-block;color:#0b4777;width:95px;}
-.cert_box_cont_info ul li span {display:inline-block;color:#444;}
-.cert_box_cont_result {float:left;}
-.cert_box_cont_result ul {padding:0 0 0 25px;width:300px;height:204px;box-sizing:border-box;}
+.cert_box_cont_info ul {padding:0 0 0 20px;width:350px;box-sizing:border-box;border-right:1px solid #e5e5e5;}
+.cert_box_cont_info ul li {padding:4px 0px; letter-spacing:-1px;}
+.cert_box_cont_info ul li label {display:inline-block;font-weight: 400;color:#999;width:95px;}
+.cert_box_cont_info ul li span {display:inline-block;color:#0b4777;}
+.cert_box_cont_result {float:left;width:250px;}
+.cert_box_cont_result div {display:block; text-align: center;margin:30px 0px;}
+.cert_box_cont_result div label {display:block;font-weight:400;color:#999;}
+.cert_box_cont_result div span {display:block; color:#0b4777; font-size:36px;}
+.cert_box_cont_result div span strong {}
+/*.cert_box_cont_result ul {padding:0 0 0 25px;width:300px;height:204px;box-sizing:border-box;}
 .cert_box_cont_result ul li {font-size:14px;margin-bottom:40px;letter-spacing:-1px;}
 .cert_box_cont_result ul li label {display:block;color:#0b4777;width:95px;margin-bottom:10px;}
 .cert_box_cont_result ul li span {display:block;color:#444;font-size:20px;}
-.cert_box_cont_result ul li span strong {font-size:36px;}
-.cert_box_foot {padding:15px 25px;height:70px;line-height:70px;box-sizing:border-box;border-top:1px solid #e5e5e5;background:#f4f4f4;position:relative;}
+.cert_box_cont_result ul li span strong {font-size:36px;}*/
+.cert_box_foot {padding:15px 25px;height:70px;line-height:70px;box-sizing:border-box;background:#fff;position:relative;}
 .cert_box_foot .cert_msg {position:absolute;font-size:14px;top:15px;left:230px;height:40px;line-height:40px;display:inline-block;color:#bbb;}
+
 .cert_copy {position:absolute;background:#fff;top:16px;left:180px;height:38px;border:1px solid #bbb;overflow:hidden;border-radius:5px;}
 .cert_copy input {position:relative;top:-4px;padding-left:15px;width:235px;height:38px;line-height:38px;font-size:12px;border:0;}
 .cert_copy button {border:0;border-radius:0;border-left:1px solid #bbb;width:77px;height:38px;padding:0;}
-.cert_detail {position:absolute;right:15px;top:15px;}
-.cert_detail button {height:40px;line-height:40px;box-shadow:none;}
+.cert_detail {position:absolute;right:15px;top:25px;}
+.cert_detail button {}
 
 /* 주문 */
-.order_info_box {}
+.order_info_box {margin-top:20px;}
 .order_info_title {position:relative;padding-bottom:10px;font-size:16px;color:#444;}
+.order_info_title a:hover,
+.order_info_title a:focus {color:#a4cd17;}
+
 /*.order_info_title strong {color:#0b4777;padding-right:5px;}
 .order_info_title span {}
 .order_info_title a {position:absolute;right:5px;top:0;color:#444;}

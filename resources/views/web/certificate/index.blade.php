@@ -9,15 +9,19 @@
 
         <div class='cert_list_title'>총 <strong>{{ count($orders) }}</strong>개의 인증서를 발급하셨습니다.</div>
 
-        @if(count($orders) < 0)
+        @unless(count($orders))
         <div class="no-result">
 
-                인증받은 인증서가 존재하지 않습니다.
+                발급받은 인증서가 존재하지 않습니다.
         </div>
-        @endif
+        @endunless
 
         @foreach($orders as $key => $order)
-        <div class='cert_list_box'>
+        <div class="cert_list_box
+        @if($order->certificates->isExpired())
+        expire
+        @endif
+        ">
                 <div class='cert_box_head'>
                         <div>{{ $order->getOrderNumber() }}</div>
                         <span><strong>보증기간</strong> {{ $order->certificates->getExpireDate()->format("Y년 m월 d일 ") }} 까지</span>
@@ -95,7 +99,6 @@ $(function (){
                         open_value = $(this).data('private');
                 }
 
-
                 $.ajax({
                         type : 'get',
                         url : '/certificate/change-open-cd',
@@ -104,8 +107,6 @@ $(function (){
                                 'order_id' :  $(this).data('idx')
                         },
                         success : function (response) {
-
-
                                 alert(response);
 
                                 // $.notify({
@@ -119,11 +120,6 @@ $(function (){
                                 //         },
                                 //         message : response
                                 // });
-
-
-
-
-
                         },
                         error : function (data) {
                                 alert('처리중 오류가 발생했습니다.');

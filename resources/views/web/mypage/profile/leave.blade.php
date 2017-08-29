@@ -1,14 +1,5 @@
 @extends( 'web.layouts.blank' )
 
-
-
-
-
-
-
-
-
-
 @section( 'content' )
 
 <div id="sub_full_wrap">

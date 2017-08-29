@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth']], function () {
 //    Route::resource('order', 'OrderController');
 //    Route::post('order/order-store', 'OrderController@orderStore')->name("order.order-store");
 //    Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase");
-    Route::post('order/complete', 'OrderController@complete')->name("order.complete");
+    Route::get('order/complete', 'OrderController@complete')->name("order.complete");
     Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
     Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");
     Route::get('order/factory/{page?}', 'OrderController@factory')->name("order.factory");
@@ -162,4 +162,3 @@ Route::get('file/diagnosis-download/{id}', '\App\Http\Controllers\FileController
 //Route::get('pay-test/index', 'PayTestController@index');
 //Route::post('pay-test/pay-result', 'PayTestController@payResult');
 //Route::post('pay-test/callback', 'PayTestController@payCallback');
-
