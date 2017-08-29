@@ -87,9 +87,9 @@
                 <div class="form-group {{ $errors->has('garage') ? 'has-error' : 'garage' }} " style="display: none;">
                     <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.garage') }}</label>
                     <div class="col-md-6 selected_garage">
-
-
-                        <input type="text" class="form-control" name="garage" id="selected_garage" value="{{ $user_extras->address_extra }}" readonly>
+                        @if($user_extras->garage)
+                            <input type="text" class="form-control" name="garage" id="selected_garage" value="{{ $user_extras->garage->garageInfo->name }}" readonly>
+                        @endif
 
 
                         {{--<input type="text" class="form-control" name="garage" id="selected_garage" value="" readonly>--}}

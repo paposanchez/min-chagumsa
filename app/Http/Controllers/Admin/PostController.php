@@ -130,8 +130,10 @@ class PostController extends Controller {
             'thumbnail' => 'exists:files,id',
             'name' => 'min:1',
             'email' => 'email',
-            'password' => 'min:4',
-                ], [], [
+            'password' => 'nullable|min:4',
+        ],
+        [],
+        [
             'board_id' => trans('admin/post.board_id'),
             'user_id' => trans('admin/post.user_id'),
 //            'category_id' => trans('admin/post.category'),
@@ -210,7 +212,7 @@ class PostController extends Controller {
             'thumbnail' => 'exists:files,id',
             'name' => 'min:1',
             'email' => 'email',
-            'password' => 'min:4',
+            'password' => 'nullable|min:4',
                 ], [], [
             'board_id' => trans('admin/post.board_id'),
             'user_id' => trans('admin/post.user_id'),
