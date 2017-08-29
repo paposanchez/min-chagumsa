@@ -69,11 +69,11 @@
                     <label for="inputRoles" class="control-label col-md-3">{{ trans('admin/user.roles') }}</label>
                     <div class="col-md-6 role_selector">
 
-                        @if ($user->id == 1)
-                        {!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'disabled'=>'disabled',  'id'=>'user-role']) !!}
-                        @else
+                        {{--@if ($user->id == 1)--}}
+                        {{--{!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'disabled'=>'disabled',  'id'=>'user-role']) !!}--}}
+                        {{--@else--}}
                         {!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'id'=>'user-role']) !!}
-                        @endif
+                        {{--@endif--}}
 
 
                         @if ($errors->has('roles'))

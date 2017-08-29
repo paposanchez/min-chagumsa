@@ -238,7 +238,7 @@ class UserController extends Controller {
                 'required',
                 Rule::in(Code::getCodeFieldArray('user_status')->toArray()),
             ],
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'], [], [
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024'], [], [
             'email' => trans('admin/user.email'),
             'password' => trans('admin/user.new-password'),
             'password_confirmation' => trans('admin/user.new-password_confirmation'),

@@ -67,8 +67,8 @@ class OrderController extends Controller {
 //        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->pluck('garage_id', 'area');
         $garages = GarageInfo::orderBy('area', 'DESC')->groupBy('area')->get();
 
-        return view('web.order.index', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
-//        return view('web.order.index_2', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
+//        return view('web.order.index', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
+        return view('web.order.index_2', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
     }
 
     public function reservation(Request $request){
