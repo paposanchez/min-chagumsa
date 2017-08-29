@@ -21,7 +21,7 @@
                 <!-- 유형선택 -->
                     <label for="inputName" class="control-label col-md-2 text-left">주문번호</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="" value="{{ $entrys['order_num'] }}" style="background-color: #fff;" disabled>
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->getOrderNumber() }}" style="background-color: #fff;" disabled>
                     </div>
                     <label for="inputName" class="control-label-2 col-md-2 text-left">차대번호</label>
                     <div class="col-md-4">
