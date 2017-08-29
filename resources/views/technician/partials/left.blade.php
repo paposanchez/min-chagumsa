@@ -24,7 +24,7 @@
 
                 <li class="{{ Request::is('notice*') ? ' active':''}}"><a href="{{ url('/notice') }}"><i class="fa fa-pencil"></i><span class="nav-label">공지사항</span></a></li>
 
-                <li class="{{ Request::is('technician-info*') ? ' active':''}}"><a href="{{ url('/user/edit') }}"><i class="fa fa-pencil"></i><span class="nav-label">정보수정</span></a></li>
+                <li class="{{ Request::is('technician-info*') ? ' active':''}}"><a href="{{ url('/user/edit') }}"><i class="fa fa-info-circle"></i><span class="nav-label">정보수정</span></a></li>
 
             </ul>
 

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => 'BCS 공지사항',
+    'title' => '공지사항',
     'subject' => '제목',
     'board_id' => '게시판',
     'user_id' => '작성 회원',
