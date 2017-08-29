@@ -34,31 +34,19 @@ use GuzzleHttp\Client;
 
 class OrderController extends Controller {
 
-<<<<<<< HEAD
-        //todo 현재 테스트 계정임. 변경할
-        protected $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";//상점키
-        protected $mid = "tpaytest0m";//상점id
 
-        public function index(Request $request) {
-                $user = Auth::user();
-                if(!$user){
-                        return redirect('/login')->with('error', '로그인이 필요한 서비스입니다.');
-                }
-=======
     //todo 현재 테스트 계정임. 변경할
     protected $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";//상점키
     protected $mid = "tpaytest0m";//상점id
-    
-    public function index(Request $request) {
+
+    public function index(Request $request){
         $user = Auth::user();
-        if(!$user){
+        if (!$user) {
             return redirect('/login')->with('error', '로그인이 필요한 서비스입니다.');
         }
 
-        $user = Auth::user();
-
         if($user->status_cd != 1){
-            return redirect('/mypage/profile')->with('error', "현재 계정이 비활성화 상태입니댜.<br>계정이 활성화되어야 주문신청이 가능합니다.");
+            return redirect('/mypage/profile')->with('error', "현재 계정이 비활성화 상태입니댜. <br>계정이 활성화되어야 주문신청이 가능합니다.");
         }
 
 
@@ -70,45 +58,19 @@ class OrderController extends Controller {
         $multimedia_option = Code::where('group', 'car_option_multimedia')->get();
 
         $items = Item::where("id", ">", "0")->get();
- 
+
         $search_fields = [
-            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
+            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
         ];
 
-//        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->pluck('garage_id', 'area');
+
         $garages = GarageInfo::orderBy('area', 'DESC')->groupBy('area')->get();
 
 //        return view('web.order.index', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
-        return view('web.order.index_2', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
+        return view('web.order.index_2', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
     }
->>>>>>> c71d03330b5892db0d22a250fb361ca437f820a1
-
-                $user = Auth::user();
-
-                if($user->status_cd != 1){
-                        return redirect('/mypage/profile')->with('error', "현재 계정이 비활성화 상태입니댜.<br>계정이 활성화되어야 주문신청이 가능합니다.");
-                }
 
 
-                $brands = Brand::select('id', 'name')->get();
-                $exterior_option = Code::where('group', 'car_option_exterior')->get();
-                $interior_option = Code::where('group', 'car_option_interior')->get();
-                $safety_option = Code::where('group', 'car_option_safety')->get();
-                $facilities_option = Code::where('group', 'car_option_facilities')->get();
-                $multimedia_option = Code::where('group', 'car_option_multimedia')->get();
-
-                $items = Item::where("id", ">", "0")->get();
-
-                $search_fields = [
-                        '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
-                ];
-
-                //        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->pluck('garage_id', 'area');
-                $garages = GarageInfo::orderBy('area', 'DESC')->groupBy('area')->get();
-
-                return view('web.order.index', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
-                //        return view('web.order.index_2', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
-        }
 
         public function reservation(Request $request){
 
