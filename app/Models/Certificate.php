@@ -19,8 +19,6 @@ class Certificate Extends Model
         'price',
         'grade',
         'expire_period',
-        'created_at',
-        'updated_at',
         'opinion',
         'history_insurance',
         'history_insurance_file',
@@ -63,5 +61,12 @@ class Certificate Extends Model
 
     public function getVinCd(){
         return $this->hasOne(Code::class, 'id', 'vin_yn_cd');
+    }
+
+    public function getExpireDate()
+    {
+
+            $date = $this->updated_at->addDays($this->expire_period);
+            return $date;
     }
 }

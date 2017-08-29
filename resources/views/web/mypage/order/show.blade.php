@@ -33,7 +33,7 @@
                         <div class='order_info_desc'>
                             <span>{{ $order->orderer_name }} <small class="text-muted">{{ $order->orderer_mobile }}</small></span>
                             <span>{{ $order->getCarFullName() }}</span>
-                            <span>{{ $order->item->name }} <small class="text-muted">{{ number_format($order->item->price) }}원</small></span>
+                            <span>{{ $order->item->name }} <small class="text-muted">({{ number_format($order->item->price) }}원)</small></span>
                         </div>
 
                         <div class='order_info_btn text-center'>
