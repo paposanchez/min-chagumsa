@@ -80,6 +80,7 @@
                 <table class="table text-middle text-center">
                     <colgroup>
                         <col width="8%">
+                        <col width="15%">
                         <col width="*">
                         <col width="10%">
                         <col width="8%">
@@ -88,8 +89,8 @@
                     <thead>
                     <tr class="active">
                         <th class="text-center">#</th>
-                        <th class="text-left">제목</th>
-                        <th class="text-center">상태</th>
+                        <th class="text-center">분류</th>
+                        <th class="text-center">제목</th>
                         <th class="text-center">등록일</th>
                     </tr>
                     </thead>
@@ -107,16 +108,12 @@
                                 {{ $data->id }}
                             </td>
 
-
-
-                            <td class="text-left">
-                                <a href="{{ url("notice", ['id'=> $data->id]) }}">{{ $data->subject }}</a>
+                            <td>
+                                {{ $data->board->name }}
                             </td>
 
-
-
-                            <td class="">
-                                <span class="label label-default">{{ $data->shown? $data->shown->display(): '-' }}</span>
+                            <td>
+                                <a href="{{ url("notice", ['id'=> $data->id]) }}">{{ $data->subject }}</a>
                             </td>
 
                             <td class="">
