@@ -46,6 +46,7 @@
             <input type="text" name="buyerName" value="{{ $buyerName }}" readonly>
             <input type="text" name="buyerTel" value="{{ $buyerTel }}" readonly>
             <input type="text" name="buyerEmail" value="{{ $buyerEmail }}" readonly>
+        </form>
     </div>
 
     <script type="text/javascript" src="//webtx.tpay.co.kr/js/jquery.nyroModal.tpay.custom.js"></script>

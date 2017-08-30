@@ -25,6 +25,9 @@ use App\Models\Payment;
 use App\Models\PaymentResult;
 use App\Models\ScTran;
 
+use App\Models\Coupon;
+use Illuminate\Support\Facades\Crypt;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -66,8 +69,8 @@ class OrderController extends Controller {
 
         $garages = GarageInfo::orderBy('area', 'DESC')->groupBy('area')->get();
 
-//        return view('web.order.index', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
-        return view('web.order.index_2', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
+        return view('web.order.index', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
+//        return view('web.order.index_2', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
     }
 
 
@@ -648,9 +651,17 @@ public function complete(Request $request) {
                 return redirect("/order")->with("error", "잘못된 접근 또는 결제가 정상 처리되지 못하였습니다. 관리자에게 문의해 주세요.");
         }
 
+        $is_coupon = $request->get('is_coupon');
+        $coupon = Coupon::find($request->get('coupon_id'));
+        if($coupon){
+            $coupon_kind = $coupon->coupon_kind;
+        }else{
+            $coupon_kind = '쿠폰주문 상품입니다.';
+        }
+
         //주문정보 갱신함.
         $reservation = $order->getReservation($order->id);
-        return view('web.order.complete', compact('order', 'reservation'));
+        return view('web.order.complete', compact('order', 'reservation', 'is_coupon', 'coupon_kind'));
 }
 
 public function orderCancelCallback(Request $request){
@@ -946,6 +957,222 @@ public function deleteSms(Request $request){
         return \GuzzleHttp\json_encode($result);
 }
 
+    /**
+     * 쿠폰 번호 검증 메소드
+     * @param Request $request
+     */
+public function couponVerify(Request $request){
+    $validate = Validator::make($request->all(), [
+       'coupon_number' => 'required|min:10|max:20'
+    ]);
 
+    $result = [
+        'status' => 'fail', 'msg' => '', 'id' => '', 'coupon_number' => ''
+    ];
+
+    if($validate->fails()){
+        $result['msg'] = "필수파라미터가 누락되거나 쿠폰번호가 잘못 입력되었습니다.";
+        return $result;
+    }
+
+    $where = Coupon::where('coupon_number', $request->get('coupon_number'))->first();
+    if($where){
+        if($where->is_use == 1) {
+            $result['msg'] = "해당 쿠폰번호는 등록완료된 쿠폰번호입니다.";
+
+        }else{
+            if(Auth::user()->id != $where->users_id && $where->users_id != 0){
+                //쿠폰 인증 후 재입력시 사용자 계정이 바뀜
+                //쿠폰 임시 인증시에는 재인증 및 결제를 하더라도 임시처리가 되면 유저가 동일해야 한다.
+                $result['msg'] = '해당 쿠폰번호는 인증 진행 중인 쿠폰번호 입니다.';
+            }else{
+                $where->is_use = 3; //임시 사용 번호로 변경함.
+                $where->users_id = Auth::user()->id;
+                $where->save();
+                $result['status'] = 'ok';
+                $result['msg'] = '쿠폰이 등록되었습니다.';
+                $result['id'] = $where->id;
+
+                //임시 쿠폰번호를 전달함.
+                $result['coupon_number'] = Crypt::encryptString($where->coupon_number);
+            }
+
+
+
+
+        }
+    }else{
+        $result['msg'] = "입력하신 쿠폰번호를 찾을 수 없습니다.";
+    }
+    return $result;
+}
+
+public function couponProcess(Request $request){
+    /*
+     * areas    서울시
+    brands:  1
+    car_number:  00허0000
+    coupon_id :  2
+    details: 519
+    grades:  1
+    mobile:  01030255305
+    models:  319
+    orderer_mobile:  010-0000-0000
+    orderer_name:   Daily Jude
+    payment_method:  21
+    reservation_date    2017-08-31
+    sections    동작구
+    sel_time    09
+
+    use_coupon_number   eyJpdiI6IkI5VzRuUlRCSGJabG1UXC9cL1RDQVM4Zz09IiwidmFsdWUiOiJwRGU4TCtzTmtnQTFpUHlHM25vVHhnPT0iLCJtYWMiOiJkN2U5ODFlNzk5NTliMzhjNjc1YjZkMzc2NmRlMGZhM2FlYmExN2Q0YmFjYjEyN2IyZDg4ZTU3ZDI5ZjZkMTM3In0
+
+     */
+
+    $validate = Validator::make($request->all(), [
+        'use_coupon_number' => 'required', 'coupon_id' => 'required|int'
+    ]);
+
+    if($validate->fails()){
+        return redirect()->back()->with('error', '쿠폰정보가 없습니다.');
+    }
+
+    //coup 사용 갱신
+    $descript_coupon_number = Crypt::decryptString($request->get('use_coupon_number'));
+
+    $coupon_where = Coupon::find($request->get('coupon_id'));
+    if(!$coupon_where){
+        $coupon_where = Coupon::where('coupon_number', $descript_coupon_number)->first();
+        if(!$coupon_where){
+            return redirect()->back()->with('erroe', '코폰번호 유효성 검증을 실패하였습니다');
+        }
+    }
+
+    if($coupon_where){
+        //쿠폰 작업
+        $coupon_where->is_use = 1;
+        $coupon_where->save();
+    }
+
+
+    $orderer = Auth::user();
+
+
+    $datekey = Carbon::now()->format('ymd');
+
+
+
+    $order = Order::OrderBy('id', 'DESC')->where('car_number', $request->get('car_number'))->first();
+
+
+    $garage_info = GarageInfo::where('area', $request->get('areas'))
+        ->where('section', $request->get('sections'))
+        ->where('name', $request->get('garages'))->first();
+    if(!$garage_info){
+        $garage_info = new GarageInfo();
+    }
+
+    //        $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
+    $order_car = OrderCar::where('car_number', $request->get('car_number'))->first();
+    if(!$order_car){
+        $order_car = new OrderCar();
+        //            $order_car->vin_number = $request->get('car_number');
+        $order_car->car_number = $request->get('car_number');
+        $order_car->brands_id = $request->get('brands');
+        $order_car->models_id = $request->get('models');
+        $order_car->details_id = $request->get('details');
+        $order_car->grades_id = $request->get('grades');
+        $order_car->save();
+    }
+
+
+    if(!$order){
+        $order = new Order();
+    }
+    $order->car_number = $request->get('car_number');
+    //        $order->cars_id = $order_car->id;
+    $order->garage_id = $garage_info->garage_id;
+    $order->orderer_id = $orderer->id;
+    $order->orderer_name = $request->get('orderer_name');
+    $order->orderer_mobile = $request->get('mobile');
+    $order->registration_file = 0;
+    $order->open_cd = 1327; //default로 비공개코드 삽입 1326 인증서 공개 1327 인증서 비공개
+    $order->status_cd = 102;
+
+    if($request->get('flooding')){
+        $order->flooding_state_cd = 1;
+    }else{
+        $order->flooding_state_cd = 0;
+    }
+
+    if($request->get('accident')){
+        $order->accident_state_cd = 1;
+    }else{
+        $order->accident_state_cd = 0;
+    }
+
+    $order->item_id = 0; //상품 정보가 없음
+
+    $purchase = new Purchase();
+    $purchase->amount = 0; //결제 완료 후 update
+    $purchase->type = $request->get('payment_method'); // 결제방법
+    $purchase->status_cd = 101; // 결제상태
+    $purchase->save();
+
+    $order->purchase_id = $purchase->id;
+    $order->save();
+
+
+    // order_car 의 orders_id 입력
+    //        $order_car->orders_id = $order->id;
+    //        $order_car->save();
+
+    $order_car->update([
+        'orders_id' => $order->id
+    ]);
+
+
+    // 예약 관련
+    $reservation_date = new \DateTime($request->get('reservation_date').' '.$request->get('sel_time').':00:00');
+
+    $reservation = Reservation::where('orders_id', $order->id)->first();
+    if(!$reservation){
+        $reservation = new Reservation();
+    }
+    $reservation->orders_id = $order->id;
+    $reservation->garage_id = $garage_info->garage_id;
+    $reservation->created_id = $order->orderer_id;
+    $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
+    $reservation->save();
+
+
+    if($request->get('options_ck') != []){
+        $order_features = OrderFeature::where('orders_id', $order->id)->first();
+        if(!$order_features){
+            $order_features = new OrderFeature();
+        }else{
+            OrderFeature::where('orders_id', $order->id)->delete();
+        }
+        $order_features_list = [];
+        foreach ($request->get('options_ck') as $key => $options){
+            $order_features_list[$key]['orders_id'] = $order->id;
+            $order_features_list[$key]['features_id'] = $options;
+        }
+        $order_features->insert($order_features_list);
+        $order_features->save();
+    }
+
+
+    return redirect()->route('order.complete', [
+        'orders_id' => $order->id, 'is_complete' => 1,
+        'is_coupon' => 1, 'coupon_id' => $coupon_where->id
+    ])->with('success', '주문이 완료되었습니다');
+//    return view('web.order.null');
+    //return view('web.order.complete', compact('order', 'reservation'));
+
+
+
+
+
+}
 
 }
