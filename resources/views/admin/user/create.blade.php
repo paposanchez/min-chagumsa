@@ -252,23 +252,23 @@
             </div>
 
 
-            <!-- 파일 업로드 -->
-            <div class="form-group attachment" style="display: none">
-                <label for="" class="control-label col-md-3">정비소 사진</label>
+            {{--<!-- 파일 업로드 -->--}}
+            {{--<div class="form-group attachment" style="display: none">--}}
+                {{--<label for="" class="control-label col-md-3">정비소 사진</label>--}}
 
-                <div class="col-md-9">
+                {{--<div class="col-md-9">--}}
 
-                    <div class="plugin-attach" id="plugin-attachment"></div>
+                    {{--<div class="plugin-attach" id="plugin-attachment"></div>--}}
 
-                    @if ($errors->has('attachment'))
-                        <span class="help-block">
-                            {{ $errors->first('attachment') }}
-                        </span>
-                    @endif
+                    {{--@if ($errors->has('attachment'))--}}
+                        {{--<span class="help-block">--}}
+                            {{--{{ $errors->first('attachment') }}--}}
+                        {{--</span>--}}
+                    {{--@endif--}}
 
-                </div>
+                {{--</div>--}}
 
-            </div>
+            {{--</div>--}}
 
 
 
