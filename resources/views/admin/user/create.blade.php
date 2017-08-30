@@ -12,7 +12,7 @@
         <div class="col-md-12">
 
             {!! Form::open(['method' => 'POST','route' => ['user.store'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
-            <input type="hidden" value="1" name="status_cd">
+            {{--<input type="hidden" value="1" name="status_cd">--}}
             <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                 <label for="inputEmail" class="control-label col-md-3">{{ trans('admin/user.email') }}</label>
                 <div class="col-md-6">

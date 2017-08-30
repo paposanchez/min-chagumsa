@@ -90,6 +90,7 @@ class UserController extends Controller
             'password_confirmation' => 'required|min:6|same:password',
             'name' => 'required|min:2',
             'mobile' => 'min:2',
+            'status_cd' => 'required',
 
             'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'], [], [
             'email' => trans('bcs/user.email'),

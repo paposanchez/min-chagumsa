@@ -133,6 +133,9 @@ class User extends Authenticatable {
         return false;
     }
 
+    public function files() {
+        return $this->hasMany(File::class, 'group_id', 'id')->where("group", 'bcs');
+    }
 
 //    public function getFilesDirectory() {
 //        $folderPath = 'user/' . $this->id;
