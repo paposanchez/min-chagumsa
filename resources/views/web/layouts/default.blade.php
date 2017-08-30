@@ -68,7 +68,7 @@
             <div id='foot_cont'>
                 <div class='foot_link'>
                     <h1><a href='/'>
-                            {{ Html::image(Helper::theme_web( '/img/comm/head_logo.png' )) }}
+                            {{ Html::image(Helper::theme_web( '/img/comm/head_logo2.png',array('style' => 'margin-top : 5px;') )) }}
                         </a></h1>
                     <ul>
                         <li><a class='{{ (Request::path() == "agreement/usage")? "foot_active": '' }}' href='{{ route('agreement.usage') }}'>이용약관</a></li>
@@ -80,7 +80,7 @@
                     <ul class='foot_desc_wrap'>
                         <li class='foot_desc'>
                             <strong>주식회사 짐브러스</strong>
-                            <p>주소 : 서울시 마포구 월드컵북로 402, 19충 1626호(상암동, KGIT센터)<br>
+                            <p>주소 : 서울시 마포구 월드컵북로 402, 10충 1026호(상암동, KGIT센터)<br>
                                대표자 : 황병도&nbsp;&nbsp;&nbsp;&nbsp;사업자 등록번호 : 646-88-00594<br>
 
                                통신판매업신고 : 제 2017-서울마포-1209호</p>
@@ -88,7 +88,7 @@
                         <li class='foot_desc'>
                             <strong>고객센터</strong>
                             <p>상담시간 : 오전 9:30분~오후 6시(토요일 및 공휴일은 휴무)<br>
-                                주소 : 서울시 마포구 월드컵북로 402, 10층 1626호(상암동, KGIT센터)<br>
+                                주소 : 서울시 마포구 월드컵북로 402, 10충 1026호(상암동, KGIT센터)<br>
                                 Tel : 1833-6889 Fax : 0505-333-6889</p>
                         </li>
                         <li class='foot_desc'>

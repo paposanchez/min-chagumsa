@@ -266,7 +266,8 @@ html, body {width:100%;height:100%;margin:0; padding:0;overflow-y:hidden;}
 
 .foot_link {position:relative;overflow:hidden;}
 .foot_link h1 {}
-.foot_link h1 img {position:relative;top:-5px;height:22px;}
+/*.foot_link h1 img {position:relative;top:-5px;height:22px;}*/
+.foot_link h1 img {position:relative;height:22px;}
 .foot_link ul {position:absolute;left:162px;top:0px;z-index:1;}
 .foot_link ul li {float:left;height:22px;border-right:1px solid #7f8388;}
 .foot_link ul li:last-child {border:0;}
