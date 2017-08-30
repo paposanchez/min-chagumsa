@@ -160,8 +160,7 @@
                     </div>
                 </div>
                 <div class="modal-footer text-center">
-                    <button type="button" class="btn btn-success order-submit" id="order-modal-submit">주문상태 변경</button>
-                    <button type="button" class="btn btn-primary order-close" data-dismiss="modal" id="order-modal-close">취소</button>
+                    <button type="button" class="btn btn-primary order-close" data-dismiss="modal" id="order-modal-close">닫기</button>
                 </div>
             </div>
         </div>
