@@ -52,16 +52,19 @@
                 <table class="table text-middle text-center">
                     <colgroup>
                         <col width="10%">
-                        <col width="20%" class="">
-                        <col width="20%" class=" ">
+                        <col width="20%">
                         <col width="10%">
+                        <col width="30%">
+                        <col width="20%">
                     </colgroup>
 
                     <thead>
                     <tr class="active">
-                        <th class="text-center">#</th>
+                        {{--<th class="text-center">#</th>--}}
+                        <th class="text-center">정비사 번호</th>
                         <th class="">이메일</th>
                         <th class="text-center">성명</th>
+                        <th class="text-center">전화번호</th>
                         <th class="text-center">등록일</th>
                         <th class="text-center">처리</th>
                     </tr>
@@ -86,6 +89,10 @@
 
                             <td class="">
                                 {{ $data->name }}
+                            </td>
+
+                            <td>
+                                {{ $data->mobile }}
                             </td>
 
                             <td class="">

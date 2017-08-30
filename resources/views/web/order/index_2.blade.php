@@ -475,7 +475,7 @@ var PageTransitions = (function() {
         animEndEventName = animEndEventNames[ Modernizr.prefixed( 'animation' ) ],
         // support css animations
         support = Modernizr.cssanimations;
-    
+
     function init() {
 
         $pages.each( function() {
@@ -495,7 +495,7 @@ var PageTransitions = (function() {
         }
 
         isAnimating = true;
-        
+
         var $currPage = $pages.eq( current );
 
 
@@ -545,7 +545,7 @@ var PageTransitions = (function() {
               outClass = 'pt-page-rotateSlideOut';
                 inClass = 'pt-page-rotateSlideIn';
                 break;
-           
+
             default:
                 outClass = 'pt-page-rotateSlideOut';
                 inClass = 'pt-page-rotateSlideIn';
@@ -589,7 +589,7 @@ var PageTransitions = (function() {
 
     init();
 
-    return { 
+    return {
         init : init,
         nextPage : nextPage,
     };
@@ -847,7 +847,7 @@ var countdown;
 
                     }else{
 //                        console.log(jdata);
-                        alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");                       
+                        alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");
                         return false;
                     }
                 },
@@ -1086,7 +1086,7 @@ var countdown;
 
 
         $('#modalPurchase').on('show.bs.modal', function (event) {
-                 $('#orderFrm').attr('target', 'purchase-frame').submit();       
+                 $('#orderFrm').attr('target', 'purchase-frame').submit();
         });
 
 

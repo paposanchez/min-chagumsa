@@ -156,7 +156,7 @@ class UserController extends Controller {
 
                 // user_extra 데이터 저장
                 $user_extra = UserExtra::where('users_id', $user->id)->first();
-                $garage_info = GarageInfo::where('name', $request->get('garage')->first());
+                $garage_info = GarageInfo::where('name', $request->get('garage'))->first();
                 if(!$user_extra){
                     $user_extra = new UserExtra();
                 }
@@ -238,7 +238,7 @@ class UserController extends Controller {
                 'required',
                 Rule::in(Code::getCodeFieldArray('user_status')->toArray()),
             ],
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'], [], [
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024'], [], [
             'email' => trans('admin/user.email'),
             'password' => trans('admin/user.new-password'),
             'password_confirmation' => trans('admin/user.new-password_confirmation'),
@@ -320,46 +320,29 @@ class UserController extends Controller {
                 $user_extra->save();
 
 
-                // user_sequence 데이터 저장
-//                $user_seq = UserSequence::where('users_id', $user->id)->first();
-//                if(!$user_seq){
-//                    $user_seq = new UserSequence();
-//                }
-//                $user_seq->users_id = $user->id;
-////                    $user_seq->seq = str_pad($user_seq, 5 , "0", STR_PAD_LEFT);
-////                    $user_seq->garage_seq = str_pad($garage_seq, 5 , "0", STR_PAD_LEFT);
-//                $user_seq->save();
-//                $user_seq->setNewGarageSeq($user->id);
-
-
             }else{
                 $this->validate($request, [
                     'garage' => 'required',
                 ]);
 
-                // user_extra 데이터 저장
-                $user_extra = UserExtra::where('users_id', $user->id)->first();
-                $garage_info = GarageInfo::where('name', $request->get('garage'))->first();
-                if(!$user_extra){
-                    $user_extra = new UserExtra();
+
+                $my_extra = UserExtra::where('users_id', $user->id)->first();
+
+                if($my_extra->garage->garageInfo->name != $request->get('garage')){
+                    // user_extra 데이터 저장
+                    $user_extra = UserExtra::where('users_id', $user->id)->first();
+                    $garage_info = GarageInfo::where('name', $request->get('garage'))->first();
+                    if(!$user_extra){
+                        $user_extra = new UserExtra();
+                    }
+                    $user_extra->users_id = $user->id;
+                    $user_extra->phone = $request->get('mobile');
+                    $user_extra->zipcode = $garage_info->tel;
+                    $user_extra->address = $garage_info->address;
+                    $user_extra->address_extra = $garage_info->name;
+                    $user_extra->garage_id = $garage_info->garage_id;
+                    $user_extra->save();
                 }
-                $user_extra->users_id = $user->id;
-                $user_extra->phone = $request->get('mobile');
-                $user_extra->zipcode = $garage_info->tel;
-                $user_extra->address = $garage_info->address;
-                $user_extra->address_extra = $garage_info->name;
-                $user_extra->garage_id = $garage_info->garage_id;
-                $user_extra->save();
-
-
-                // user_sequence 데이터 저장
-//                $user_seq = UserSequence::where('users_id', $user->id)->first();
-//                if(!$user_seq){
-//                    $user_seq = new UserSequence();
-//                }
-//                $user_seq->users_id = $user->id;
-//                $user_seq->save();
-//                $user_seq->setNewEngineerSeq($user->id, $garage_info->garage_id);
             }
         }
 
@@ -367,13 +350,12 @@ class UserController extends Controller {
         // 아바타 변경
         if ($request->file('avatar')) {
             Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
-
             $user->avatar = 1;
             $user->save();
         }
 
         return redirect()
-                        ->route('user.index', $user->id)
+                        ->route('user.edit', ['id' => $user->id])
                         ->with('success', trans('admin/user.updated'));
     }
 

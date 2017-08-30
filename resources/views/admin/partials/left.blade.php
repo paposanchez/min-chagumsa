@@ -2,7 +2,8 @@
 
     <div class="aside-profile">
 
-        {{ Html::image('/avatar/'.Auth::id(), 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
+        {{ Helper::imageTag('/avatar/'.Auth::id(), 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
+
 
         <div class="aside-profile-info">
             <a href="{{ route("user.edit", [Auth::id()]) }}" class="aside-profile-info-name">{{ Auth::user()->name }}</a>
@@ -34,7 +35,9 @@
 
                 <li class="{{ Request::is('bcs-post*') ? ' active':''}}"><a href="/bcs-post"><i class="fa fa-bell"></i><span class="nav-label">{{ trans('admin/bcs-post.title') }}</span></a></li>
 
-                <li class="{{ Request::is('comment*') ? ' active':''}}"><a href="/comment"><i class="fa fa-comments"></i><span class="nav-label">{{ trans('admin/comment.title') }}</span></a></li>
+                <li class="{{ Request::is('sms*') ? ' active':''}}"><a href="/sms"><i class="fa fa-comments" aria-hidden="true"></i><span class="nav-label">SMS 전송</span></a></li>
+
+                {{--<li class="{{ Request::is('comment*') ? ' active':''}}"><a href="/comment"><i class="fa fa-comments"></i><span class="nav-label">{{ trans('admin/comment.title') }}</span></a></li>--}}
 
                 <li class="{{ Request::is('coupon*') ? ' active':''}}"><a href="/coupon"><i class="fa fa-comments"></i><span class="nav-label">쿠폰</span></a></li>
 

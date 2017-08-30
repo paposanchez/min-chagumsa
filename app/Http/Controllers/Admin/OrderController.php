@@ -7,7 +7,9 @@ use App\Mixapply\Uploader\Receiver;
 use App\Models\Car;
 use App\Models\Certificate;
 use App\Models\Order;
+use App\Models\OrderCar;
 use App\Models\Payment;
+use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -22,7 +24,7 @@ use Carbon\Carbon;
 use App\Models\ScTran;
 use App\Models\PaymentCancel;
 use App\Models\Purchase;
-
+use DateTime;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
@@ -112,27 +114,27 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
         $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
-
-        if($order->car){
-            $car = $order->car;
-        }else{
-            // order_cars에만 데이터가 있는 상태이므로 cars에 order_cars의 데이터를 이관해 줌.
-            $car = new Car();
-            $order_car = $order->orderCar;
-            if($order_car){
-                $car->brands_id = $order_car->brands_id;
-                $car->models_id = $order_car->models_id;
-                $car->details_id = $order_car->details_id;
-                $car->grades_id = $order_car->grades_id;
-                $car->save();
-
-                $order->cars_id = $car->id;
-                $order->save();
-
-            }else{
-                return redirect()->back()->with('error', '차량 정보 미입력 상태입니다.<br>관리자에게 해당 주문에 대해 문의해 주세요.');
-            }
-        }
+        $car = OrderCar::where('orders_id', $order->id)->first();
+//        if($order->car){
+//            $car = $order->car;
+//        }else{
+//            // order_cars에만 데이터가 있는 상태이므로 cars에 order_cars의 데이터를 이관해 줌.
+//            $car = new Car();
+//            $order_car = $order->orderCar;
+//            if($order_car){
+//                $car->brands_id = $order_car->brands_id;
+//                $car->models_id = $order_car->models_id;
+//                $car->details_id = $order_car->details_id;
+//                $car->grades_id = $order_car->grades_id;
+//                $car->save();
+//
+//                $order->cars_id = $car->id;
+//                $order->save();
+//
+//            }else{
+//                return redirect()->back()->with('error', '차량 정보 미입력 상태입니다.<br>관리자에게 해당 주문에 대해 문의해 주세요.');
+//            }
+//        }
 
         return view('admin.order.detail', compact('order', 'payment', 'payment_cancel', 'car'));
     }
@@ -616,5 +618,68 @@ class OrderController extends Controller
             return \redirect()->route("order.edit", ["id" => $id])->with('success', '인증서 정보가 갱신되었습니다');
         }
     }
+
+    public function reservationChange(Request $request){
+        try{
+            $order_id = $request->get('order_id');
+            $date = $request->get('date');
+            $time = $request->get('time');
+
+            $reservation_date = new DateTime($date.' '.$time.':00:00');
+
+//                var_dump($reservation_date);
+
+            $reservation = Reservation::where('orders_id', $order_id)->first();
+            $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');;
+            $reservation->save();
+
+            return response()->json('success');
+        }
+        catch (Exception $ex){
+            return response()->json($ex->getMessage());
+        }
+    }
+
+    //  예약확정
+//    public function updateRservation(Request $request, $id){
+//        $validate = Validator::make($request->all(), [
+//            'date' => 'required',
+//            'time' => 'required',
+//            'id' => 'required'
+//        ]);
+//
+//        if ($validate->fails())
+//        {
+//            return redirect()->back()->with('error', "필수파라미터가 입력되지 않았습니다.");
+//        }
+//
+//        $reservation = Reservation::findOrFail($request->get('id'));
+//
+//    }
+
+    public function confirmation(Request $request, $id){
+        try{
+            $reservation = Reservation::findOrFail($id);
+            $reservation->update([
+                'updated_at' => Carbon::now()
+            ]);
+
+            $order = Order::find($request->get('order_id'));
+            $order->status_cd = 104;
+            $order->save();
+
+            $diagnosis = new DiagnosisRepository();
+            $diagnosis->prepare($order->id)->create($order->id);
+
+
+
+            return response()->json(true);
+        }catch (Exception $ex){
+            return response()->json(false);
+        }
+
+    }
+
+
 
 }

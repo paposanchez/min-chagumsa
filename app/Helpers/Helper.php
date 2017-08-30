@@ -25,6 +25,10 @@ class Helper {
         return app('url')->asset("assets/themes/v1/mobile" . $path);
     }
 
+    public static function imageTag($url, $alt, $params = []) {
+        return \Html::image($url . '?'. str_random(10) , $alt, $params);
+    }
+
     /**
      * 역할 이름을 문자열로 리턴한다
      * @param type $roles

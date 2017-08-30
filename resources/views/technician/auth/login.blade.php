@@ -14,7 +14,7 @@
                 <div class="tile-row">
                     <div class="tile-col text-center">
                         <h3 class="text-muted">차검사 기술사 System</h3>
-                        <p class="text-muted">Login in. To see it in action.</p>
+                        {{--<p class="text-muted">Login in. To see it in action.</p>--}}
                     </div>
                 </div>
 
@@ -49,12 +49,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group ">
-                            <div class="col-lg-12">
-                                <label class=""><input type="checkbox" name="remember_me"> 기억하기</label>
-                                <a class="pull-right link-muted" href="{{ url('/password/reset') }}">비밀번호 분실?</a>
-                            </div>
-                        </div>
+
 
                         <div class="form-group">
                             <div class="col-lg-12">
@@ -64,11 +59,7 @@
 
                         <hr>
 
-                        <div class="form-group">
-                            <div class="col-lg-12">
-                                아직 회원이 아닌가요? <a href="{{ url('register') }}">회원가입?</a>
-                            </div>
-                        </div>
+
 
                         {!! Form::close() !!}
 
@@ -78,7 +69,7 @@
 
             </div>
 
-            <p class="text-center"><small class="text-muted text-light">Copyrights by <a target="_blank" href="/about">mixapply.com</a> © 2015. All right reserved.</small></p>
+            <p class="text-center"><small class="text-muted text-light">Copyrights by <a target="_blank" href="http://www.chargumsa.com">www.chargumsa.com</a> © 2017. All right reserved.</small></p>
 
         </div>
 

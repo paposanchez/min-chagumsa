@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Diagnosis;
+use App\Models\Order;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,10 +26,11 @@ class DashboardController extends Controller {
 //        $handler->setNewEngineerSeq(4, 1);
 //        $handler->setNewEngineerSeq(5, 1);
 
-        $qna = Post::where('category_id', '2')->orderBy('created_at', 'desc')->take(5)->get();
-        $lated_post = Post::where('category_id', '1')->orderBy('created_at', 'desc')->take(5)->get();
+        $lated_inquire = Post::where('board_id', '3')->orderBy('created_at', 'desc')->take(5)->get();
+        $lated_post = Post::where('board_id', '1')->orderBy('created_at', 'desc')->take(5)->get();
+        $lated_diagnosis = Order::where('status_cd', 107)->orderBy('created_at', 'desc')->take(5)->get();
 
-        return view('admin.dashboard.index', compact('post', 'qna', 'lated_post'));
+        return view('admin.dashboard.index', compact('post', 'lated_inquire', 'lated_post', 'lated_diagnosis'));
     }
 
 }

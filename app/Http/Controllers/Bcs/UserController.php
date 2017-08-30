@@ -35,18 +35,16 @@ class UserController extends Controller
     {
         //
         $where = User::orderBy('id', 'DESC');
-//        $role_cd = $request->get('role_cd');
-        $bcs_cd = 4; //role 코드가 bcs
-        $eng_cd = 5; //role 코드가 6
+        $eng_cd = 5; //role 코드가 5
 
 
-        $where = User::join('user_extras', function($extra_qry){
+        $where = User::select('users.*')->join('user_extras', function($extra_qry){
             $extra_qry->on('users.id', 'user_extras.users_id');
         })->join('role_user', function($role_user_qry){
             $role_user_qry->on('user_extras.users_id', 'role_user.user_id');
         })->join('roles', function($role_qry){
             $role_qry->on('role_user.role_id', 'roles.id');
-        })->where('role_user.role_id', 5)->where('user_extras.garage_id', Auth::user()->id);
+        })->where('role_user.role_id', $eng_cd)->where('user_extras.garage_id', Auth::user()->id);
 
 
         $search_fields = [ "name" => "이름", "mobile" => "전화번호" ];
@@ -54,9 +52,12 @@ class UserController extends Controller
         //  이름 & 전화번호 검색
         $s = $request->get('s');
         $sf = $request->get('sf');
+
+
         if($s){
-            $where = $where->where($sf, $s);
+            $where = $where->where('users.'.$sf, $s);
         }
+
 
         $entrys = $where->paginate(25);
         return view('bcs.user.index', compact('entrys','search_fields'));
@@ -133,6 +134,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('bcs.user.index')
+//            ->route('bcs.user.edit',['id' => $user->id])
             ->with('success', trans('bcs/user.created'));
 
     }
@@ -199,8 +201,8 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'required|min:6|confirmed',
-            'password_confirmation' => 'required|min:6|same:password',
+            'password' => 'nullable|min:6|confirmed',
+            'password_confirmation' => 'nullable|min:6|same:password',
             'name' => 'required|min:2',
             'mobile' => 'min:2',
 
@@ -237,7 +239,7 @@ class UserController extends Controller
         }
 
         return redirect()
-            ->route('bcs.user.index', $user->id)
+            ->route('bcs.user.edit', ['id' => $user->id])
             ->with('success', trans('bcs/user.updated'));
     }
 

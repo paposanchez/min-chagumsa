@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\DiagnosisFile;
 use App\Models\File;
 use App\Models\Post;
 use App\Traits\Uploader;
@@ -15,6 +16,7 @@ class FileController extends Controller {
 
     // 파일다운로드
     public function download(Request $request, $id) {
+        dd('dd');
         $file = File::findOrFail($id);
 
         ##@TODO 권한체크
@@ -59,6 +61,20 @@ class FileController extends Controller {
         // 다운로드 카운트 업데이트
         $file->download += 1;
         $file->save();
+
+        // 실제파일 위치
+        $real_file_path = storage_path('app/upload' . $file->path . '/') . $file->source;
+        return response()->download($real_file_path, $file->original);
+    }
+
+
+    // diagnosis 파일다운로드
+    public function diagnosisDownload(Request $request, $id) {
+
+        $file = DiagnosisFile::where('diagnoses_id', $id)->first();
+
+//        $file->download += 1;
+//        $file->save();
 
         // 실제파일 위치
         $real_file_path = storage_path('app/upload' . $file->path . '/') . $file->source;

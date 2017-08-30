@@ -66,7 +66,7 @@
 
             </div>
 
-            <p class="text-center"><small class="text-muted text-light">Copyrights by <a target="_blank" href="/about">mixapply.com</a> © 2015. All right reserved.</small></p>
+            <p class="text-center"><small class="text-muted text-light">Copyrights by <a target="_blank" href="http://www.chagumsa.com">www.chagumsa.com</a> © 2017. All right reserved.</small></p>
 
         </div>
 

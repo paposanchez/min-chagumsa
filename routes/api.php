@@ -46,7 +46,9 @@ Route::get('notice/show', "NoticeController@show")->name('notice.show');
         //진단중목록
         Route::get('diagnosis/working', "DiagnosisController@getDiagnosisWorking")->name('diagnosis.working');
         //진단완료목록
-        Route::get('diagnosis/complete', "DiagnosisController@getDiagnosisComplete")->name('diagnosis.complete');
+        Route::get('diagnosis/completed', "DiagnosisController@getDiagnosisCompleted")->name('diagnosis.completed');
+        //진단완료 상태 변경
+        Route::post('diagnosis/complete', "DiagnosisController@setDiagnosisComplete")->name('diagnosis.complete');
 
         //개별주문조회
         Route::get('diagnosis', "DiagnosisController@show")->where('order_id', '[0-9]+')->name('diagnosis');
@@ -61,7 +63,7 @@ Route::get('notice/show', "NoticeController@show")->name('notice.show');
         Route::get('diagnosis/item', "DiagnosisController@getItem")->name('diagnosis.item');
 
         //주문 엔지니어에 할당
-        Route::get('diagnosis/grant', "DiagnosisController@setDiagnosisEngineer")->name('diagnosis.grant');
+        Route::post('diagnosis/grant', "DiagnosisController@setDiagnosisEngineer")->name('diagnosis.grant');
 
 
         Route::post('user', "UserController@show");
@@ -83,6 +85,7 @@ Route::get('notice/show', "NoticeController@show")->name('notice.show');
 //        });
 //    });
 //});
+
 
 Route::any('/', function () {
     return view('vendor.l5-swagger.index');

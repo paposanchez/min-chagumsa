@@ -145,8 +145,22 @@ class UserController extends Controller
             $message = '회원정보 갱신이 실패하였습니다.';
         }
         $user->save();
-//        throw new \Exception($b);
-        return redirect()->back()->with($event, $message);
+
+
+        // 아바타 변경
+        if ($request->file('avatar')) {
+            Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
+
+            $user->avatar = 1;
+            $user->save();
+        }
+
+        return redirect()
+            ->route('technician.user.edit')
+            ->with($event, $message);
+
+//        return redirect()->back()->with($event, $message);
+
     }
 
     public function passUpdate(Request $request){

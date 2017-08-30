@@ -76,10 +76,9 @@
 
             <table class="table text-middle text-center">
                 <colgroup>
-                    {{--<col width="10%">--}}
-                    <col width="10">
+                    <col width="5%">
                     <col width="15%">
-                    <col width="15%">
+                    <col width="*">
                     <col width="15%">
                     <col width="15%">
                     <col width="15%">
@@ -88,8 +87,7 @@
 
                 <thead>
                     <tr class="active">
-                        {{--<th class="text-center">#</th>--}}
-
+                        <th class="text-center">#</th>
                         <th class="text-center">주문번호</th>
                         <th class="text-center">차량명</th>
                         <th class="text-center">주문자</th>
@@ -107,9 +105,9 @@
                     @foreach($entrys as $data)
 
                     <tr>
-                        {{--<td class="">--}}
-                            {{--<input type="checkbox">--}}
-                        {{--</td>--}}
+                        <td class="">
+                            {{ $data->id }}
+                        </td>
                         <td class="text-center">
                             <a href="{{ route('diagnosis.show', $data->id) }}"> {{ $data->getOrderNumber() }}</a>
                         </td>
@@ -126,10 +124,6 @@
 
                         <td class="">
                             {{ $data->diagnosed_at }}
-                        </td>
-
-                        <td>
-
                         </td>
                     </tr>
                     @endforeach

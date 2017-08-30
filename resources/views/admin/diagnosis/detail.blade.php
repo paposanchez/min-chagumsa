@@ -21,11 +21,12 @@
                 <!-- 유형선택 -->
                     <label for="inputName" class="control-label col-md-2 text-left">주문번호</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="" value="{{ $entrys['order_num'] }}" style="background-color: #fff;" disabled>
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->getOrderNumber() }}" style="background-color: #fff;" disabled>
                     </div>
                     <label for="inputName" class="control-label-2 col-md-2 text-left">차대번호</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="" value="{{ $order->car->vin_number ? $order->car->vin_number : '' }}" style="background-color: #fff;" disabled>
+                        {{--<input type="text" class="form-control" placeholder="" value="{{ $order->car->vin_number ? $order->car->vin_number : '' }}" style="background-color: #fff;" disabled>--}}
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->car ? $order->car->vin_number : '' }}" style="background-color: #fff;" disabled>
                     </div>
                 </div>
 
@@ -117,7 +118,7 @@
                                         <div class="row">
 
 
-                                            <div class="col-md-8">
+                                            <div class="col-md-8 img-block">
                                                 @if($item['options'] && $item['use_image'])
                                                     <div class="form-group {{ $errors->has('id') ? 'has-error' : '' }}">
                                                         <label for="inputName" class="control-label col-md-4 text-left">
@@ -125,9 +126,10 @@
                                                         </label>
                                                         <div class="col-md-6">
                                                             {{--<input type="text" class="form-control" placeholder="" value="{{ $item['description'] }}" style="background-color: #fff;" disabled>--}}
-                                                            <div class='cert_box_cont_img'>
+                                                            <div class='cert_box_cont_img' >
                                                                 @if($item['files'])
-                                                                    <img src="http://fakeimg.pl/100x50/" alt='차량 이미지' id="imgSrc" data-url="http://fakeimg.pl/440x320/">
+                                                                    {{--<img src="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" width="100px;">--}}
+                                                                    <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff">
                                                                 @else
                                                                     <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
                                                                 @endif
@@ -162,7 +164,8 @@
                                                             {{--<input type="text" class="form-control" placeholder="" value="{{ $item['description'] }}" style="background-color: #fff;" disabled>--}}
                                                             <div class='cert_box_cont_img'>
                                                                 @if($item['files'])
-                                                                    <img src="http://fakeimg.pl/100x50/" alt='차량 이미지' id="imgSrc" data-url="http://fakeimg.pl/440x320/">
+                                                                    {{--<img src="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.localhost:8000/file/diagnosis-download/{{ $item['id'] }}" width="100px;">--}}
+                                                                    <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff">
                                                                 @else
                                                                     <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
                                                                 @endif
@@ -191,7 +194,7 @@
                                     @endforeach
                                     @if(count($detail['children']) > 0)
                                         <div class="row">
-                                            <div class="col-md-8">
+                                            <div class="col-md-8 img-block">
                                                 @foreach($detail['children'] as $child)
 
                                                     <div class="row">
@@ -199,15 +202,52 @@
 
                                                         @foreach($child['entrys'] as $child_item)
 
-                                                            @if($child_item['options'] )
-
+                                                            @if($child_item['options'] && $child_item['use_image'])
                                                                 <table class="table table-bordered">
+                                                                    <colgroup>
+                                                                        <col width="35%">
+                                                                    </colgroup>
                                                                     <tbody>
                                                                     <tr>
-                                                                        <th>{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
+                                                                        <th style="padding-left: 25px;">{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
                                                                         {{--<td><input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $child_item['selected'] }}" style="background-color: #fff;" disabled></td>--}}
                                                                         <td>
-                                                                            {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child_item['options_cd']), \App\Helpers\Helper::getCodePluck($child_item['selected']), ['class'=>'form-control selected_cd', 'id'=>'']) !!}
+                                                                            {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child_item['options_cd']), \App\Helpers\Helper::getCodePluck($child_item['selected']), ['class'=>'form-control selected_cd', 'id'=>'', 'data-id'=>$child_item['id']]) !!}
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                                <table class="table table-bordered">
+                                                                    <colgroup>
+                                                                        <col width="35%">
+                                                                    </colgroup>
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <th style="padding-left: 25px;">{{ $child_item['description'] }}</th>
+                                                                        <td>
+                                                                            @if($child_item['files'])
+                                                                                <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff">
+                                                                                {{--<img src="http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}">--}}
+                                                                            @else
+                                                                                <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
+                                                                            @endif
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            @elseif($child_item['options'] )
+
+                                                                <table class="table table-bordered">
+                                                                    <colgroup>
+                                                                        <col width="35%">
+                                                                    </colgroup>
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <th style="padding-left: 25px;">{{ \App\Helpers\Helper::getCodeName($child_item['options_cd']) }}</th>
+                                                                        {{--<td><input type="text" class="form-control" placeholder="" value="선택된 값 = {{ $child_item['selected'] }}" style="background-color: #fff;" disabled></td>--}}
+                                                                        <td>
+                                                                            {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child_item['options_cd']), \App\Helpers\Helper::getCodePluck($child_item['selected']), ['class'=>'form-control selected_cd', 'id'=>'', 'data-id'=>$child_item['id']]) !!}
                                                                         </td>
                                                                     </tr>
                                                                     </tbody>
@@ -216,10 +256,20 @@
                                                             @elseif($child_item['use_image'] != 0)
 
                                                                 <table class="table table-bordered">
+                                                                    <colgroup>
+                                                                        <col width="35%">
+                                                                    </colgroup>
                                                                     <tbody>
                                                                     <tr>
-                                                                        <th>참고 사진</th>
-                                                                        <td>{{ $child_item['description'] }}</td>
+                                                                        <th style="padding-left: 25px;">{{ $child_item['description'] }}</th>
+                                                                        <td>
+                                                                            @if($child_item['files'])
+                                                                                <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}&format=png&h_pos=10&bg_rgb=ffffff">
+                                                                                {{--<img src="http://www.chagumsa.com/file/diagnosis-download/{{ $child_item['id'] }}" alt='차량 이미지' id="imgSrc" data-url="http://www.chagumsa.com/file/diagnosis-download/{{ $item['id'] }}">--}}
+                                                                            @else
+                                                                                <img src="http://fakeimg.pl/100x50/" alt='차량 이미지'>
+                                                                            @endif
+                                                                        </td>
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
@@ -229,7 +279,7 @@
                                                                 <table class="table table-bordered">
                                                                     <tbody>
                                                                     <tr>
-                                                                        <th>플레이어</th>
+                                                                        <th style="padding-left: 25px;">플레이어</th>
                                                                         <td>파일 있다</td>
                                                                     </tr>
                                                                     </tbody>
@@ -243,15 +293,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
-
-                                        {{--@else--}}
-                                        {{--<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>--}}
                                     @endif
-
-
-
-
-
                                 </div>
                             </div>
 
@@ -275,7 +317,7 @@
 
         <!-- Modal -->
         <div id="pictureModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
 
                 <!-- Modal content-->
                 <div class="modal-content">
@@ -283,8 +325,8 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title" id="modal-title">Modal Header</h4>
                     </div>
-                    <div class="modal-body" id="modal-body">
-                        <img src="http://fakeimg.pl/350x200/" id="img" alt='차량 이미지'>
+                    <div class="modal-body text-center" id="modal-body">
+                        <img src="http://fakeimg.pl/350x200/" id="img" alt='차량 이미지' width="800px">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
@@ -293,15 +335,18 @@
 
             </div>
         </div>
+    </div>
 @endsection
 
 @push( 'footer-script' )
 <script type="text/javascript">
     $(function() {
-        $("#imgSrc").on("click", function () {
+        $(".img-block").delegate(".img", "click", function () {
             var url = $(this).data('url');
             if(url){
+                // todo 추후에 diagnosis_id 에 대한 image를 loop를 통해 추출
                 $("#img").attr("src", url);
+
                 $("#pictureModal").modal();
             }
         });
@@ -322,6 +367,7 @@
                     alert('코드가 정상적으로 변경되었습니다.');
                 },
                 error : function (data){
+//                    alert(JSON.stringify(data));
                     alert('변경중 오류가 발생하였습니다.');
                 }
             })

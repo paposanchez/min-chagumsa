@@ -68,7 +68,7 @@ class Post extends Model {
 
     public function board() {
 //        return $this->hasOne(Board::class, 'id', 'board_id');
-        return $this->hasOne(Board::class, 'id', 'category_id');
+        return $this->hasOne(Board::class, 'id', 'board_id');
     }
 
     public function answered() {
