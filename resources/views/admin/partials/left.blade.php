@@ -36,6 +36,8 @@
 
                 <li class="{{ Request::is('comment*') ? ' active':''}}"><a href="/comment"><i class="fa fa-comments"></i><span class="nav-label">{{ trans('admin/comment.title') }}</span></a></li>
 
+                <li class="{{ Request::is('coupon*') ? ' active':''}}"><a href="/coupon"><i class="fa fa-comments"></i><span class="nav-label">쿠폰</span></a></li>
+
                 <li class="dropdown {{ Request::is('config*') ? ' active':''}}">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-gears"></i><span class="nav-label">{{ trans('admin/config.title') }}</span><b class="caret"></b></a>
                     <ul class="dropdown-menu">

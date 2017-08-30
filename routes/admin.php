@@ -78,6 +78,10 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     // 아이템 관리
     Route::resource('item', 'ItemController');
 
+    //쿠폰
+    Route::post('coupon/user-info', 'CouponController@getUserInfo')->name('coupon/user-info');
+    Route::resource('coupon', 'CouponController', ['only' => ['index', 'store', 'create', 'destroy']]);
+
 
 });
 
