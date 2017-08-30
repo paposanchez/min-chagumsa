@@ -2,7 +2,7 @@
 
     <div class="aside-profile">
 
-        {{ Html::image('/avatar/'.Auth::id(), 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
+        {{ Helper::imageTag('/avatar/'.Auth::id(), 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
 
         <div class="aside-profile-info">
             <a href="{{ url("user/edit") }}" class="aside-profile-info-name">{{ Auth::user()->name }}</a>

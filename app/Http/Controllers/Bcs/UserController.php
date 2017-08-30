@@ -134,6 +134,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('bcs.user.index')
+//            ->route('bcs.user.edit',['id' => $user->id])
             ->with('success', trans('bcs/user.created'));
 
     }
@@ -200,8 +201,8 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|required|min:6|confirmed',
-            'password_confirmation' => 'nullable|required|min:6|same:password',
+            'password' => 'nullable|min:6|confirmed',
+            'password_confirmation' => 'nullable|min:6|same:password',
             'name' => 'required|min:2',
             'mobile' => 'min:2',
 
@@ -238,7 +239,7 @@ class UserController extends Controller
         }
 
         return redirect()
-            ->route('bcs.user.index', $user->id)
+            ->route('bcs.user.edit', ['id' => $user->id])
             ->with('success', trans('bcs/user.updated'));
     }
 

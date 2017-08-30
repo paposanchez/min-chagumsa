@@ -64,7 +64,7 @@ todo 패스워드 변경은 별도 모달로 한다.
                         <div class="fileinput fileinput-new" data-provides="fileinput">
 
                             <div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
-                                {{ Html::image('/avatar', 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
+                                {{ Helper::imageTag('/avatar/'.$user->id, 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
                             </div>
                             <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 200px;"></div>
                             <div>
