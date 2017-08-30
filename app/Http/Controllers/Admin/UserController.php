@@ -350,15 +350,12 @@ class UserController extends Controller {
         // 아바타 변경
         if ($request->file('avatar')) {
             Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
-
-
-//            $user->avatar = 1;
+            $user->avatar = 1;
             $user->save();
         }
 
         return redirect()
                         ->route('user.edit', ['id' => $user->id])
-//                        ->route('user.index')
                         ->with('success', trans('admin/user.updated'));
     }
 
