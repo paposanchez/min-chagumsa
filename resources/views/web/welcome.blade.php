@@ -94,7 +94,7 @@
         $('.mv_report').click(function(){
             var order_id = $(this).data('order_id');
             //todo 임시로 order_id 를 4로 입력
-            window.open('/certificate/'+4+'/summary',"", "width=1400, height=1400");
+            window.open('/certificate/'+5+'/summary',"", "width=1400, height=1400");
         });
     });
 </script>

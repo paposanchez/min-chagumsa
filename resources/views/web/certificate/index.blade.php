@@ -37,7 +37,7 @@
                                         <li><label>사용연료</label><span>{{ $order->car->getFuelType->display() }}</span></li>
                                         <li><label>주행거리</label><span>{{ number_format($order->mileage) }} km</span></li>
                                         <li><label>차대번호</label><span>{{ $order->car->vin_number }}</span></li>
-                                        <li><label>인증서발급일</label><span>{{ $order->certificates->updated_at->format('Y년 m월 d일') }}</span></li>
+                                        <li><label>인증서발급일</label><span>{{ $order->certificates->updated_at ? $order->certificates->updated_at->format('Y년 m월 d일') : '-' }}</span></li>
 
                                 </ul>
                         </div>
