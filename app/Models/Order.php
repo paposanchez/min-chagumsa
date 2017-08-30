@@ -176,7 +176,7 @@ class Order Extends Model
 
 
     public function settlement_features(){
-        return $this->hasMany(\App\Models\SettlementFeature::class);
+        return $this->hasMany(\App\Models\SettlementFeature::class, 'orders_id', 'id');
     }
 
     public function getReservationDate($order_id) {
