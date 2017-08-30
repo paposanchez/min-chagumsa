@@ -170,9 +170,32 @@
                         </div>
                     </div>
 
+                    <div class="form-group {{ $errors->has('bank') ? 'has-error' : '' }} bank">
+                        <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.bank') }}</label>
+                        <div class="col-md-6 ">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.bank') }}" name="bank" id="bank" value="{{ $user->user_extra->bcs_bank }}">
+                            <span class="help-block">{{ trans('admin/user.help-bank') }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group {{ $errors->has('account') ? 'has-error' : '' }} account">
+                        <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.account') }}</label>
+                        <div class="col-md-6 ">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.account') }}" name="account" id="account" value="{{ $user->user_extra->bcs_account }}">
+                            <span class="help-block">{{ trans('admin/user.help-account') }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group {{ $errors->has('owner') ? 'has-error' : '' }} bank">
+                        <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.owner') }}</label>
+                        <div class="col-md-6 ">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.owner') }}" name="owner" id="owner" value="{{ $user->user_extra->bcs_account_name }}">
+                            <span class="help-block">{{ trans('admin/user.help-bank') }}</span>
+                        </div>
+                    </div>
+
+
 
                     <div class="form-group {{ $errors->has('garage-avatar') ? 'has-error' : '' }}">
-                        <label for="inputGarage" class="control-label col-md-3">{{ trans('bcs/bcs-info.garage-avatar') }}</label>
+                        <label for="inputGarage" class="control-label col-md-3">{{ trans('bcs/bcs-info.avatar') }}</label>
                         <div class="col-md-6">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
 
@@ -198,31 +221,22 @@
                         </div>
                     </div>
 
-                    <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
-                        <label for="inputAvatar" class="control-label col-md-3">{{ trans('bcs/bcs-info.avatar') }}</label>
-                        <div class="col-md-6">
-                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <!-- 파일 업로드 -->
+                    <div class="form-group {{ $errors->has('attachment') ? 'has-error' : '' }}">
+                        <label for="" class="control-label col-md-3">정비소 사진</label>
 
-                                <div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
-                                    {{ Helper::imageTag('/avatar/'.$user->id, 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
-                                </div>
-                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 200px;"></div>
-                                <div>
-                                <span class="btn btn-default btn-file">
-                                    <span class="fileinput-new">{{ trans('common.button.file-select') }}</span>
-                                    <span class="fileinput-exists">{{ trans('common.button.change') }}</span>
-                                    <input type="file" placeholder="{{ trans('bcs/bcs-info.avatar') }}" name="avatar" id="inputAvatar">
-                                </span>
-                                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">{{ trans('common.button.destroy') }}</a>
-                                </div>
-                            </div>
+                        <div class="col-md-9">
 
-                            @if ($errors->has('avatar'))
+                            <div class="plugin-attach" id="plugin-attachment"></div>
+
+                            @if ($errors->has('attachment'))
                                 <span class="help-block">
-                            {{ $errors->first('avatar') }}
+                            {{ $errors->first('attachment') }}
                         </span>
                             @endif
+
                         </div>
+
                     </div>
 
 
@@ -266,7 +280,54 @@
 
 
 @push( 'footer-script' )
-    <script type="text/javascript">
-
-    </script>
+<link rel="stylesheet" href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}" />
+<script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
+<script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
+<script type="text/template" id="qq-template">@include("partials/files", ['files'=> $user->files])</script>
+<script type="text/javascript">
+    $(function () {
+        $('#plugin-attachment').fineUploader({
+            debug: true,
+            //        template: 'qq-template',
+            request: {
+                inputName: "upfile",
+                endpoint: '/file/upload',
+                customHeaders: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            },
+            deleteFile: {
+                enabled: true,
+                endpoint: '/file/delete',
+                customHeaders: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            },
+            thumbnails: {
+                placeholders: {
+                    waitingPath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/waiting-generic.png' ) }}",
+                    notAvailablePath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/not_available-generic.png' ) }}",
+                }
+            },
+            validation: {
+                //            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'hwp'],
+                itemLimit: 3,
+                sizeLimit: 5120000, // 50 kB = 50 * 1024 bytes
+                stopOnFirstInvalidFile: true
+            },
+            callbacks: {
+                onSubmit: function (id, fileName) {
+                    this.setParams({'upfile_group': "bcs", 'upfile_group_id': "{{ $user->id }}"});
+                },
+                onComplete: function (id, fileName, responseJSON) {
+                    if (responseJSON.success == true) {
+                        $.notify(responseJSON.msg, "success");
+                    } else {
+                        $.notify(responseJSON.msg, "error");
+                    }
+                }
+            }
+        });
+    })
+</script>
 @endpush

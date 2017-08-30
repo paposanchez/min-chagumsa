@@ -252,6 +252,25 @@
             </div>
 
 
+            <!-- 파일 업로드 -->
+            <div class="form-group attachment" style="display: none">
+                <label for="" class="control-label col-md-3">정비소 사진</label>
+
+                <div class="col-md-9">
+
+                    <div class="plugin-attach" id="plugin-attachment"></div>
+
+                    @if ($errors->has('attachment'))
+                        <span class="help-block">
+                            {{ $errors->first('attachment') }}
+                        </span>
+                    @endif
+
+                </div>
+
+            </div>
+
+
 
             <div class="form-group">
                 <div class="col-md-9 col-md-offset-3">
@@ -319,12 +338,17 @@
 
 
 @push( 'footer-script' )
+<link rel="stylesheet" href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}" />
+<script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
+<script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
+<script type="text/template" id="qq-template">@include("partials/files")</script>
     <script type="text/javascript">
         $(function () {
             $('.roles').on("click", '#user-role', function (){
                 if($('#user-role option:selected').val() == 5){
                     $('#garage_info').css('display', 'none');
                     $("#garage-modal").modal();
+
                 }
                 else if ($('#user-role option:selected').val() == 4){
                     $('#garage_info').css('display', '');
@@ -335,11 +359,13 @@
                     $('#garage_area').val('');
                     $('#garage_section').val('');
                     $('#garage_address').val('');
+                    $('.attachment').css('display', '');
                 }
                 else{
                     $('.garage').css('display', 'none');
                     $('#garage_info').css('display', 'none');
                     $('#selected_garage').val('');
+                    $('.attachment').css('display', 'none');
                 }
             });
 
@@ -383,7 +409,73 @@
                         }
                     })
                 }
-            })
+            });
+
+            $('#plugin-attachment').fineUploader({
+                debug: true,
+//        template: 'qq-template',
+                request: {
+                    inputName: "upfile",
+                    endpoint: '/file/upload',
+                    customHeaders: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                },
+                deleteFile: {
+                    enabled: true,
+                    endpoint: '/file/delete',
+                    customHeaders: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                },
+                thumbnails: {
+                    placeholders: {
+                        waitingPath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/waiting-generic.png' ) }}",
+                        notAvailablePath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/not_available-generic.png' ) }}",
+                    }
+                },
+                validation: {
+                    allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'hwp'],
+                    itemLimit: 3,
+                    sizeLimit: 5120000, // 50 kB = 50 * 1024 bytes
+                    stopOnFirstInvalidFile: true
+                },
+                text: {
+                    uploadButton: 'Upload a file',
+                    cancelButton: 'Cancel',
+                    retryButton: 'Retry',
+                    failUpload: 'Upload failed',
+                    dragZone: 'Drop files here to upload',
+                    formatProgress: "{percent}% of {total_size}",
+                    waitingForResponse: "Processing..."
+                },
+                messages: {
+                    typeError: "{file} has an invalid extension. Valid extension(s): {extensions}.",
+                    sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+                    minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                    emptyError: "{file} is empty, please select files again without it.",
+                    noFilesError: "No files to upload.",
+                    onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
+                },
+                callbacks: {
+                    onSubmit: function (id, fileName) {
+                        this.setParams({'upfile_group': "bcs"});
+                    },
+                    onComplete: function (id, fileName, responseJSON) {
+                        if (responseJSON.success == true) {
+                            $.notify(responseJSON.msg, "success");
+
+                            var $listItem = $(this).fineUploader('getItemByFileId', id);
+                            $listItem.find('.plugin-attach-file-input').val(responseJSON.data.id);
+
+                        } else {
+                            $.notify(responseJSON.msg, "error");
+                        }
+                    }
+
+
+                }
+            });
 
             $(document).on("click", '#btn-user-destory', function (e) {
                 e.preventDefault();

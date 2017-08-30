@@ -264,7 +264,7 @@
 
             @if($user->role_user->role_id == 4)
                 <!-- 파일 업로드 -->
-                <div class="form-group {{ $errors->has('attachment') ? 'has-error' : '' }}">
+                <div class="form-group attachment">
                     <label for="" class="control-label col-md-3">정비소 사진</label>
 
                     <div class="col-md-9">
@@ -455,10 +455,12 @@
             if($('.role_selector option:selected').val() == 5){
                 $('#garage_info').css('display', 'none');
                 $("#garage-modal").modal();
+
             }
             else if ($('#user-role option:selected').val() == 4){
                 $('#garage_info').css('display', '');
                 $('.garage').css('display', 'none');
+                $('.attachment').css('display', '');
 //                $('#garage_name').val('');
 //                $('#garage_tel').val('');
 //                $('#garage_zipcode').val('');
@@ -477,7 +479,7 @@
             $('#selected_garage').val($(this).text());
             $('.garage').css('display', '');
             $("#garage-modal").modal('hide');
-
+            $('.attachment').css('display', 'none');
         });
 
         $('#search').click(function (){
