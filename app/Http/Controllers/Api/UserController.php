@@ -75,6 +75,10 @@ class UserController extends ApiController {
 //                $user_seq->update([
 //                    'logined_at' => Carbon::now()
 //                ]);
+                $url = 'http://www.chagumsa.com/avatar';
+                if($user->avatar == 1){
+                    $url = 'http://www.chagumsa.com/avatar/'.$user->id;
+                }
 
 
                 // 정비소 정보
@@ -85,6 +89,7 @@ class UserController extends ApiController {
                     "name"      => $user->name,
                     "email"     => $user->email,
                     "mobile"    => $user->mobile,
+                    "avatar"    => $url,
                     "status"    => $user->status->display(),
                     "garage"    => [
                         "seq"       => $garage->id,

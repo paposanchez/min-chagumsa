@@ -70,7 +70,11 @@
                 </div>
         </div>
         @endforeach
-
+        <div class="br30"></div>
+        {{-- 페이징 추가 --}}
+        <div class='board_pagination_wrap'>
+                @include('vendor.pagination.web-page', ['paginator' => $orders])
+        </div>
 
 
 </div>
