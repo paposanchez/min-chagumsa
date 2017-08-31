@@ -74,7 +74,7 @@
                 </div>
 
                 <p class="text-center">
-                        <button class="btn btn-lg btn-success btns_green" data-loading-text="처리중..." type="submit">가입완료</button>
+                        <button class="btn btn-lg btn-success btns_green" data-loading-text="처리중..." type="submit">가입하기</button>
                 </p>
                 {!! Form::close() !!}
         </div>
