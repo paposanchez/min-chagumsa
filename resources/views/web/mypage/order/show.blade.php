@@ -79,7 +79,7 @@
                                 <ul>
                                         <li><strong class="text-light text-muted">예약상태</strong> <span>미정</span>
                                         </li>
-                                        <li><strong class="text-light text-muted">입고예정일</strong> <span>{{ Carbon\Carbon::parse($order->reservation->reservation_at)->format('Y년 m월 d일') }}</span></li>
+                                        <li><strong class="text-light text-muted">입고예정일</strong> <span>{{ $order->reservation->reservation_at->format('Y년 m월 d일 H시 i분') }}</span></li>
                                         <li><strong class="text-light text-muted">입고대리점</strong> <span>{{ $my_garage->name }} <small>{{ $my_garage->tel }}</small></span></li>
                                 </ul>
                         </div>

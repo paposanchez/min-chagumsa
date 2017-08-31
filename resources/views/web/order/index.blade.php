@@ -93,24 +93,23 @@
 
                                         <div class="col-xs-4">
                                                 {{--{!! Form::select('sel_area', $garages, [], ['class'=>'form-control', 'size'=>"5",   'id'=>'sel_area']) !!}--}}
-                                                <select class="form-control" size="5" id="areas" name="areas" autocomplete="off" style="padding:15px !important;">
+                                                <select class="form-control" size="5" id="areas" name="areas" style="padding:15px !important;">
                                                         @foreach($garages as $key => $garage)
                                                         <option value="{{ $garage->area }}">{{ $garage->area }}</option>
                                                         @endforeach
                                                 </select>
-
                                         </div>
 
                                         <div class="col-xs-4">
                                                 {{--{!! Form::select('sel_section', [""=> "구군을 선택하세요"], [], ['class'=>'form-control', 'size'=>"5",  'id'=>'sel_section']) !!}--}}
-                                                <select class="form-control" size="5" id="sections" name="sections"  autocomplete="off">
+                                                <select class="form-control" size="5" id="sections" name="sections"  style="padding:15px !important;">
                                                         <option disabled="true">구/군을 선택하세요.</option>
                                                 </select>
                                         </div>
 
                                         <div class="col-xs-4">
                                                 {{--                            {!! Form::select('garage', [""=> "대리점을 선택하세요"], [], ['class'=>'form-control', 'size'=>"5",  'id'=>'garage']) !!}--}}
-                                                <select class="form-control" size="5" id="garages" name="garages"  autocomplete="off">
+                                                <select class="form-control" size="5" id="garages" name="garages"  style="padding:15px !important;">
                                                         <option disabled="true">대리점을 선택하세요.</option>
                                                 </select>
                                         </div>
@@ -181,7 +180,7 @@
                                 <div class="row no-margin-bottom">
 
                                         <div class="col-xs-3">
-                                                <select class="form-control" id="brands" name="brands" autocomplete="off" size="5">
+                                                <select class="form-control" id="brands" name="brands" autocomplete="off" size="5" style="padding:15px !important;">
                                                         @foreach($brands as $brand)
                                                         <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                                                         @endforeach
@@ -189,19 +188,19 @@
                                         </div>
 
                                         <div class="col-xs-3">
-                                                <select class="form-control " id="models" name="models" autocomplete="off" size="5">
+                                                <select class="form-control " id="models" name="models" autocomplete="off" size="5" style="padding:15px !important;">
                                                         <option disabled="true">모델을 선택하세요.</option>
                                                 </select>
                                         </div>
 
                                         <div class="col-xs-3">
-                                                <select class="form-control " id="details" name="details" size="5" autocomplete="off">
+                                                <select class="form-control " id="details" name="details" size="5" autocomplete="off" style="padding:15px !important;">
                                                         <option disabled="true">세부모델을 선택하세요.</option>
                                                 </select>
                                         </div>
 
                                         <div class="col-xs-3">
-                                                <select class="form-control " id="grades" name="grades" size="5" autocomplete="off">
+                                                <select class="form-control " id="grades" name="grades" size="5" autocomplete="off" style="padding:15px !important;">
                                                         <option disabled="true">등급을 선택하세요.</option>
                                                 </select>
                                         </div>
