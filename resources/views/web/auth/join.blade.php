@@ -36,7 +36,7 @@
                         <label for="inputName" class="control-label col-xs-3">{{ trans('web/register.name') }}</label>
 
                         <div class=" col-xs-9">
-                                <input type="password" class="form-control  input-lg" placeholder="{{ trans('web/register.name') }}" name="name" id="inputName" value="{{ old("name") }}">
+                                <input type="text" class="form-control  input-lg" placeholder="{{ trans('web/register.name') }}" name="name" id="inputName" value="{{ old("name") }}">
 
                                 @if ($errors->has('name'))
                                 <span class="help-block">
@@ -63,7 +63,7 @@
                 <div class="form-group  {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
                         <label for="inputPasswordConfirmation" class="control-label col-xs-3"></label>
                         <div class=" col-xs-9">
-                                <input type="text" class="form-control  input-lg" placeholder="{{ trans('web/register.confirm-password') }}" name="password_confirmation" id="inputPasswordConfirmation">
+                                <input type="password" class="form-control  input-lg" placeholder="{{ trans('web/register.confirm-password') }}" name="password_confirmation" id="inputPasswordConfirmation">
 
                                 @if ($errors->has('password'))
                                 <span class="help-block">

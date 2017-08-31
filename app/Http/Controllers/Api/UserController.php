@@ -80,6 +80,7 @@ class UserController extends ApiController {
                     $url = 'http://www.chagumsa.com/avatar/'.$user->id;
                 }
 
+//                $garage_src = 'http://www.chagumsa.com/file/download/'.$user->user_extra->garage_id;
 
                 // 정비소 정보
                 $garage = $user->user_extra->garage;
@@ -95,6 +96,7 @@ class UserController extends ApiController {
                         "seq"       => $garage->id,
                         "name"      => $garage->name,
                         "phone"     => $garage->user_extra->phone,
+//                        "profile_image" => $garage_src,
                         "address"   => "(".$garage->user_extra->zipcode.")".$garage->user_extra->address                   
                     ],
                 ]);

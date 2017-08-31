@@ -84,7 +84,7 @@ class DiagnosisRepository {
             'status_cd'         => $this->obj->status_cd,
             'status'            => $this->obj->status->display(),
             'car_name'          => $this->obj->getCarFullName(),
-            'reservation_at'    => $reservation_date->format("Y-m-d H:i"), // 예약일
+            'reservation_at'    => $reservation_date->format("Y-m-d H:i:s"), // 예약일
             'reservation_time'  => $reservation_date->format("H:i"), // 예약시간
             'diagnose_at'       => ($this->obj->diagnose_at ? $this->obj->diagnose_at->format("Y-m-d H:i:s") : ''),
             'diagnosed_at'      => ($this->obj->diagnosed_at ? $this->obj->diagnosed_at->format("Y-m-d H:i:s") : ''),

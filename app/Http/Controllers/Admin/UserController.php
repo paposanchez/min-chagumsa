@@ -92,14 +92,14 @@ class UserController extends Controller {
         if($request->get('roles')[0] == 5 || $request->get('roles')[0] == 4){
             $rol = $request->get('roles')[0];
             if($rol == 4){
-                $this->validate($request, [
-                    'garage_name' => 'required|min:2',
-                    'garage_tel' => 'required',
-                    'garage_zipcode' => 'required',
-                    'garage_area' => 'required',
-                    'garage_section' => 'required',
-                    'garage_address' => 'required'
-                ]);
+//                $this->validate($request, [
+//                    'garage_name' => 'required|min:2',
+//                    'garage_tel' => 'required',
+//                    'garage_zipcode' => 'required',
+//                    'garage_area' => 'required',
+//                    'garage_section' => 'required',
+//                    'garage_address' => 'required'
+//                ]);
 
 
                 // garage_info 데이터 저장
@@ -150,9 +150,9 @@ class UserController extends Controller {
 
 
             }else{
-                $this->validate($request, [
-                    'garage' => 'required'
-                ]);
+//                $this->validate($request, [
+//                    'garage' => 'required'
+//                ]);
 
                 // user_extra 데이터 저장
                 $user_extra = UserExtra::where('users_id', $user->id)->first();
@@ -190,7 +190,7 @@ class UserController extends Controller {
         }
 
         return redirect()
-                        ->route('user.index', $user->id)
+                        ->route('user.index')
                         ->with('success', trans('admin/user.created'));
     }
 
@@ -281,7 +281,7 @@ class UserController extends Controller {
                     'garage_zipcode' => 'required',
                     'garage_area' => 'required',
                     'garage_section' => 'required',
-                    'garage_address' => 'required'
+                    'garage_address' => 'required',
                 ]);
 
 

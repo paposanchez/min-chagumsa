@@ -72,7 +72,7 @@
                         {{--@if ($user->id == 1)--}}
                         {{--{!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'disabled'=>'disabled',  'id'=>'user-role']) !!}--}}
                         {{--@else--}}
-                        {!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'id'=>'user-role']) !!}
+                        {!! Form::select('roles[]', $roles or old('roles[]'), $userRole, ['class'=>'form-control', 'multiple', 'id'=>'user-role']) !!}
                         {{--@endif--}}
 
 
@@ -109,6 +109,12 @@
                             {{--<input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="">--}}
                             {!! Form::select('aliance_id', $aliances, $user_extras->aliance_id, ['class'=>'form-control', 'multiple', 'id'=>'aliance']) !!}
                         </div>
+
+                        @if ($errors->has('garage'))
+                            <span class="help-block">
+                            {{ $errors->first('garage') }}
+                        </span>
+                        @endif
                     </div>
                     <div class="form-group {{ $errors->has('garage_name') ? 'has-error' : '' }} garage_name">
                         <label for="inputGarage" class="control-label col-md-3">정비소 명</label>
