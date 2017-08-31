@@ -16,7 +16,6 @@ class FileController extends Controller {
 
     // 파일다운로드
     public function download(Request $request, $id) {
-        dd('dd');
         $file = File::findOrFail($id);
 
         ##@TODO 권한체크
