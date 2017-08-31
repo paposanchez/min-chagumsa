@@ -18,7 +18,7 @@
 			</tr>
 			<tr>
 				<td style="background:#f4f4f4;padding:50px 60px;">
-					<span style="display:block;font-size:28px;color:#0b4777;letter-spacing:-1px;">회원님의 이메일을 활성화시켜주세요.</span>
+					<span style="display:block;font-size:28px;color:#0b4777;letter-spacing:-1px;">회원님의 이메일 인증이 완료되지 않았습니다.</span>
 					<div class="br20"></div>
 					<p style='font-size:14px;color:#444;letter-spacing:-1px;'>
 						차검사를 선택해주신 회원님 감사합니다!<br>
