@@ -55,3 +55,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name("bcs.logout");
 Route::post('logout', 'Auth\LoginController@logout')->name("bcs.logout");
 
 Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");
+Route::post('file/thumbnail', '\App\Http\Controllers\FileController@thumbnail')->name("file/thumbnail");
+Route::post('file/upload', '\App\Http\Controllers\FileController@upload')->name("file/upload");
+Route::post('file/image', '\App\Http\Controllers\FileController@image')->name("file/image");
+Route::delete('file/delete/{id}', '\App\Http\Controllers\FileController@delete')->name("file/delete");
