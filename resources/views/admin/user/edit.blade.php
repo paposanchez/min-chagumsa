@@ -199,6 +199,26 @@
                     </div>
                 </div>
 
+
+                <div class="form-group with_eng hide">
+                    <label for="inputUserEngineer" class="control-label col-md-3">정비사 선택</label>
+                    <div class="col-md-3">
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default" id="with_eng_lavel">
+                                <input type="checkbox" name="with_eng" autocomplete="off" value="5"><i class="fa fa-check" aria-hidden="true"></i>
+                                정비사
+                            </label>
+                        </div>
+
+                        @if ($errors->has('with_eng'))
+                            <span class="help-block">
+                        {{ $errors->first('with_eng') }}
+                    </span>
+                        @endif
+                    </div>
+                </div>
+
+
                 <div class="form-group {{ $errors->has('status_cd') ? 'has-error' : '' }}">
                     <label for="inputUserStatus" class="control-label col-md-3">{{ trans('admin/user.status') }}</label>
                     <div class="col-md-9">
@@ -438,19 +458,24 @@
 
 
 
-        var load_role = $('.role_selector option:selected').val();
+//        var load_role = $('.role_selector option:selected').val();
+        var load_role = $('#user-role').val();
 
         // garage 랑 engineer 부분 데이터 로드
-        if(load_role == 5){
-            $('#garage_info').css('display', 'none');
-            $('.garage').css('display', '');
-        }else if(load_role == 4){
+        if($.inArray("5", load_role) >= 0 && $.inArray("4", load_role) >= 0){
             $('#garage_info').css('display', '');
             $('.garage').css('display', 'none');
+            $('.with_eng').removeClass('hide');
+            $('#with_eng_lavel').click();
         }
-
-
-
+        else if($.inArray("4", load_role) >= 0){
+            $('#garage_info').css('display', '');
+            $('.garage').css('display', 'none');
+            $('.with_eng').removeClass('hide');
+        }else if($.inArray("5", load_role) >= 0){
+            $('#garage_info').css('display', 'none');
+            $('.garage').css('display', '');
+        }
 
 
 
@@ -458,27 +483,18 @@
         var $frm_target = $('#frm-user');
 
         $('.roles').on("click", '.role_selector', function (){
-            if($('.role_selector option:selected').val() == 5){
+            var roles = $('#user-role').val();
+
+            if($.inArray("5", roles) >= 0){
                 $('#garage_info').css('display', 'none');
                 $("#garage-modal").modal();
-
             }
-            else if ($('#user-role option:selected').val() == 4){
+            else if($.inArray("4", roles) >= 0){
                 $('#garage_info').css('display', '');
                 $('.garage').css('display', 'none');
                 $('.attachment').css('display', '');
-//                $('#garage_name').val('');
-//                $('#garage_tel').val('');
-//                $('#garage_zipcode').val('');
-//                $('#garage_area').val('');
-//                $('#garage_section').val('');
-//                $('#garage_address').val('');
             }
-            else{
-                $('.garage').css('display', 'none');
-                $('#garage_info').css('display', 'none');
-                $('#selected_garage').val('');
-            }
+
         });
 
         $("#tbody").delegate(".select-garage", "click", function(){

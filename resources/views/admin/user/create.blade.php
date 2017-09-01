@@ -27,7 +27,7 @@
             </div>
 
             <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                <label for="inputName" class="control-label col-md-3">{{ trans('admin/user.name') }}</label>
+                <label for="inputName" class="control-label col-md-3" id="name_title">{{ trans('admin/user.name') }}</label>
                 <div class="col-md-6">
                     <input type="name" class="form-control" placeholder="{{ trans('admin/user.name') }}" name="name" id="inputName" value="{{ old('name') }}">
 
@@ -118,19 +118,19 @@
                 <div class="form-group {{ $errors->has('garage_name') ? 'has-error' : '' }} garage_name">
                     <label for="inputGarage" class="control-label col-md-3">정비소 명</label>
                     <div class="col-md-6 ">
-                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="{{ old('garage_name') }}">
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('garage_tel') ? 'has-error' : '' }} garage_tel">
                     <label for="inputGarage" class="control-label col-md-3">정비소 전화번호</label>
                     <div class="col-md-6 ">
-                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_tel') }}" name="garage_tel" id="garage_tel" value="">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_tel') }}" name="garage_tel" id="garage_tel" value="{{ old('garage_tel') }}">
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('fax') ? 'has-error' : '' }}">
                     <label for="fax" class="control-label col-md-3">{{ trans('bcs/bcs-info.fax') }}</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.fax') }}" name="fax" id="fax" value="">
+                        <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.fax') }}" name="fax" id="fax" value="{{ old('fax') }}">
 
                         @if ($errors->has('fax'))
                             <span class="help-block">
@@ -200,20 +200,38 @@
             </div>
 
 
+            <div class="form-group with_eng hide">
+                <label for="inputUserEngineer" class="control-label col-md-3">정비사 선택</label>
+                <div class="col-md-3">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default">
+                            <input type="checkbox" name="with_eng" autocomplete="off" value="5"><i class="fa fa-check" aria-hidden="true"></i>
+                            정비사
+                        </label>
+                    </div>
+
+                    @if ($errors->has('with_eng'))
+                        <span class="help-block">
+                        {{ $errors->first('with_eng') }}
+                    </span>
+                    @endif
+                </div>
+            </div>
+
 
             <div class="form-group {{ $errors->has('status_cd') ? 'has-error' : '' }}">
                 <label for="inputUserStatus" class="control-label col-md-3">{{ trans('admin/user.status') }}</label>
                 <div class="col-md-3">
                     <div class="btn-group" data-toggle="buttons">
                         @foreach($status_cd_list as $code)
-                        <label class="btn btn-default">
-                            <input type="radio" name="status_cd" autocomplete="off" value="{{ $code->id }}"> {{ $code->display() }}
-                        </label>
+                            <label class="btn btn-default">
+                                <input type="radio" name="status_cd" autocomplete="off" value="{{ $code->id }}"> {{ $code->display() }}
+                            </label>
                         @endforeach
                     </div>
 
                     @if ($errors->has('status_cd'))
-                    <span class="help-block">
+                        <span class="help-block">
                         {{ $errors->first('status_cd') }}
                     </span>
                     @endif
@@ -357,14 +375,19 @@
                     $('#garage_area').val('');
                     $('#garage_section').val('');
                     $('#garage_address').val('');
+                    $('.with_eng').removeClass('hide');
                     $('.attachment').css('display', '');
-                }else if($.inArray("5", roles) >= 0){
-
                 }
-
-
-
-
+                else if($.inArray("5", roles) >= 0){
+                    $('#garage_info').css('display', 'none');
+                    $("#garage-modal").modal();
+                }
+                else{
+                    $('.garage').css('display', 'none');
+                    $('#garage_info').css('display', 'none');
+                    $('#selected_garage').val('');
+                    $('.attachment').css('display', 'none');
+                }
 
 //                if($('#user-role option:selected').val() == 5){
 //                    $('#garage_info').css('display', 'none');
