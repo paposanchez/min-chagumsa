@@ -18,8 +18,6 @@
 
                         <div class=" col-xs-9">
                                 <input type="email" class="form-control  input-lg" placeholder="{{ trans('web/register.email') }}" name="email" id="inputEmail" value="{{ old("email") }}">
-
-
                                 <span class="help-block">
 
                                         @if ($errors->has('email'))
@@ -28,7 +26,6 @@
                                         <small>가입완료 후 인증메일이 발송됩니다.</small>
                                         @endif
                                 </span>
-
                         </div>
                 </div>
 
@@ -45,7 +42,6 @@
                                 @endif
                         </div>
                 </div>
-
 
                 <div class="form-group  {{ $errors->has('password') ? 'has-error' : '' }}">
                         <label for="inputPassword" class="control-label col-xs-3">{{ trans('web/register.password') }}</label>
@@ -74,7 +70,7 @@
                 </div>
 
                 <p class="text-center">
-                        <button class="btn btn-lg btn-success btns_green" data-loading-text="처리중..." type="submit">가입하기</button>
+                        <button class="btn btn-lg btn-block btn-success btns_green" data-loading-text="처리중..." type="submit">가입하기</button>
                 </p>
                 {!! Form::close() !!}
         </div>

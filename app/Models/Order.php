@@ -51,6 +51,9 @@ class Order Extends Model
         return $this->hasMany(DiagnosisDetails::class,'orders_id', '');
     }
 
+    public function order_features(){
+        return $this->hasMany(OrderFeature::class,'orders_id', 'id');
+    }
 
 
     // 해당 주문의 차량 풀네임을 조회

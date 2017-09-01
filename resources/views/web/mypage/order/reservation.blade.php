@@ -38,7 +38,7 @@
         <br/>
         <br/>
 
-        {!! Form::model($order, ['method' => 'PATCH','route' => ['mypage.order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-user', 'enctype'=>"multipart/form-data"]) !!}
+        {!! Form::open(['method' => 'POST','class'=>'form-horizontal', 'id'=>'frmOrder', 'enctype'=>"multipart/form-data"]) !!}
         <div class="form-group">
                 <label for="exampleInputEmail1" class="">입고대리점</label>
 
@@ -48,10 +48,10 @@
                         <div class="col-xs-4">
                                 <select class="form-control" size="5" id="areas" name="areas" autocomplete="off" style="padding:15px !important;">
                                         @foreach($areas as $key => $val)
-                                        <option value="{{ $val->area }}"
-                                                @if($order->garage->area == $val->area)
+                                        <option value="{{ $key }}"
+                                                @if($order->garage->area == $val)
                                                 selected
-                                                @endif>{{ $val->area }}</option>
+                                                @endif>{{ $val }}</option>
                                         @endforeach
                                 </select>
                         </div>
@@ -59,21 +59,21 @@
                         <div class="col-xs-4">
                                 <select class="form-control" size="5" id="sections" name="sections"  style="padding:15px !important;">
                                         @foreach($sections as $key => $val)
-                                        <option value="{{ $val->section }}"
-                                                @if($order->garage->section == $val->section)
+                                        <option value="{{ $key }}"
+                                                @if($order->garage->section == $val)
                                                 selected
-                                                @endif>{{ $val->section }}</option>
+                                                @endif>{{ $val}}</option>
                                         @endforeach
                                 </select>
                         </div>
 
                         <div class="col-xs-4">
                                 <select class="form-control" size="5" id="garages" name="garage_id"  style="padding:15px !important;">
-                                        @foreach($garages as $val)
-                                        <option value="{{ $val->garage_id }}"
-                                                @if($order->garage_id == $val->garage_id)
+                                        @foreach($garages as $key => $val)
+                                        <option value="{{ $key }}"
+                                                @if($order->garage_id == $key)
                                                 selected
-                                                @endif>{{ $val->name }}</option>
+                                                @endif>{{ $val }}</option>
                                         @endforeach
                                 </select>
                         </div>
@@ -154,15 +154,9 @@ $(function(){
                                 $('#sel_area').val(garage_area);
                                 $.each(data, function (key, value) {
                                         $('#sections').append($('<option/>', {
-                                                //                            value: value.id,
-                                                value: value.section,
-                                                text : value.section
+                                                value: value,
+                                                text : value
                                         }));
-                                        // garage list append
-                                        //                        $('#garages').append($('<option/>', {
-                                        //                            value: value.id,
-                                        //                            text : value.name
-                                        //                        }))
                                 });
                         },
                         error : function () {
@@ -188,8 +182,8 @@ $(function(){
 
                                 $.each(data, function (key, value) {
                                         $('#garages').append($('<option/>', {
-                                                value: value.name,
-                                                text : value.name
+                                                value: key,
+                                                text : value
                                         }));
                                 });
                         },
