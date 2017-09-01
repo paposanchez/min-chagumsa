@@ -21,15 +21,15 @@
             <input type="hidden" name="encryptData" value="{{ $encryptData }}">
             <input type="hidden" name="userIp"	value="{{ $request->server('SERVER_ADDR') }}">
             <input type="hidden" name="browserType" id="browserType">
-            <input type="hidden" name="mallUserId" value="tpay_id">
+            <input type="hidden" name="mallUserId" value="{{ Auth::user()->email }}">
             <input type="hidden" name="parentEmail">
-            <input type="hidden" name="buyerAddr" value="서울특별시 구로구 디지털로 30길28, 마리오타워 9F">
-            <input type="hidden" name="buyerPostNo" value="463400">
+            <input type="hidden" name="buyerAddr" value="서울특별시 마포구 월드컴북로402 KG-IT센터 1026호">
+            <input type="hidden" name="buyerPostNo" value="03925">
             <input type="hidden" name="mallIp" value="{{ $request->server('SERVER_ADDR') }}">
             <input type="hidden" name="mallReserved" value="MallReserved">
             <input type="hidden" name="vbankExpDate" value="{{ $vbankExpDate }}">
-            <input type="hidden" name="rcvrMsg" value="rcvrMsg">
-            <input type="hidden" name="prdtExpDate" value="20151231">
+            <input type="hidden" name="rcvrMsg" value="">
+            <input type="hidden" name="prdtExpDate" value="">
             <input type="hidden" name="resultYn" value="Y">
             <input type="hidden" name="quotaFixed" value="">
             <input type="hidden" name="domain" value="{{ $payLocalUrl }}">
@@ -46,6 +46,7 @@
             <input type="text" name="buyerName" value="{{ $buyerName }}" readonly>
             <input type="text" name="buyerTel" value="{{ $buyerTel }}" readonly>
             <input type="text" name="buyerEmail" value="{{ $buyerEmail }}" readonly>
+        </form>
     </div>
 
     <script type="text/javascript" src="//webtx.tpay.co.kr/js/jquery.nyroModal.tpay.custom.js"></script>

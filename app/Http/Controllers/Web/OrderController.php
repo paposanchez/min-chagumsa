@@ -36,8 +36,15 @@ class OrderController extends Controller {
 
 
     //todo 현재 테스트 계정임. 변경할
-    protected $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";//상점키
-    protected $mid = "tpaytest0m";//상점id
+    protected $merchantKey;//상점키
+    protected $mid;//상점id
+
+    public function __construct()
+    {
+        $this->merchantKey = env('PG_KEY');
+        $this->mid = env('PG_ID');
+
+    }
 
     public function index(Request $request){
         $user = Auth::user();
