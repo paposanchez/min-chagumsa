@@ -80,7 +80,7 @@
                                         <li><strong class="text-light text-muted">예약상태</strong> <span>미정</span>
                                         </li>
                                         <li><strong class="text-light text-muted">입고예정일</strong> <span>{{ $order->reservation->reservation_at->format('Y년 m월 d일 H시 i분') }}</span></li>
-                                        <li><strong class="text-light text-muted">입고대리점</strong> <span>{{ $order->garage->name }} <small>{{ $order->garage->tel }}</small></span></li>
+                                        <li><strong class="text-light text-muted">입고대리점</strong> <span>{{ $order->garage->name }} <small>{{ $order->garage->user_extra->phone }}</small></span></li>
                                 </ul>
                         </div>
 
@@ -98,8 +98,8 @@
                                         <li><strong class="text-light text-muted">모델</strong> <span>{{ $order->orderCar->models->name }}</span></li>
                                         <li><strong class="text-light text-muted">세무보델</strong> <span>{{ $order->orderCar->detail->name }}</span></li>
                                         <li><strong class="text-light text-muted">등급</strong> <span>{{ $order->orderCar->grade->name }}</span></li>
-                                        <li><strong class="text-light text-muted">침수여부</strong> <span>{{ $order->orderCar->flooding }}</span></li>
-                                        <li><strong class="text-light text-muted">사고여부</strong> <span>{{ $order->orderCar->accident }}</span></li>
+                                        <li><strong class="text-light text-muted">침수여부</strong> <span>{{ $order->flooding_state_cd ? "예" : "아니요" }}</span></li>
+                                        <li><strong class="text-light text-muted">사고여부</strong> <span>{{ $order->flooding_state_cd ? "예" : "아니요"  }}</span></li>
                                         <li><strong class="text-light text-muted">옵션</strong> <span>{{ $features }}</span></li>
 
                                 </ul>

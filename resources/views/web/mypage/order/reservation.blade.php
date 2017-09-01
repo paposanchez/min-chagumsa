@@ -49,20 +49,25 @@
                                 <select class="form-control" size="5" id="areas" name="areas" autocomplete="off" style="padding:15px !important;">
                                         @foreach($areas as $key => $val)
                                         <option value="{{ $key }}"
-                                                @if($order->garage->area == $val)
-                                                selected
+                                                @if($order->garage->user_extra->area == $val)
+                                                 selected
                                                 @endif>{{ $val }}</option>
                                         @endforeach
+
+
+
                                 </select>
                         </div>
 
                         <div class="col-xs-4">
                                 <select class="form-control" size="5" id="sections" name="sections"  style="padding:15px !important;">
                                         @foreach($sections as $key => $val)
+
                                         <option value="{{ $key }}"
-                                                @if($order->garage->section == $val)
-                                                selected
+                                                @if($order->garage->user_extra->section == $val)
+                                                 selected
                                                 @endif>{{ $val}}</option>
+
                                         @endforeach
                                 </select>
                         </div>

@@ -17,6 +17,11 @@ class OrderFeature extends Model {
 
 
 
+        public function feature() {
+            return $this->hasOne(\App\Models\Code::class, 'id', 'features_id');
+        }
+
+
         public static function replaceAll($order_id, $params = []) {
 
                 self::where('orders_id',$order_id)->delete();
