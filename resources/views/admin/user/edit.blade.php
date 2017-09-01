@@ -72,7 +72,7 @@
                         {{--@if ($user->id == 1)--}}
                         {{--{!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'disabled'=>'disabled',  'id'=>'user-role']) !!}--}}
                         {{--@else--}}
-                        {!! Form::select('roles[]', $roles or old('roles[]'), $userRole, ['class'=>'form-control', 'multiple', 'id'=>'user-role']) !!}
+                        {!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'id'=>'user-role']) !!}
                         {{--@endif--}}
 
 

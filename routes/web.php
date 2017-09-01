@@ -24,9 +24,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     // 주문하기
 
-//    Route::resource('order', 'OrderController');
-//    Route::post('order/order-store', 'OrderController@orderStore')->name("order.order-store");
-//    Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase");
     Route::get('order/complete', 'OrderController@complete')->name("order.complete");
     Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
     Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");
@@ -42,11 +39,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/order/get_address', 'OrderController@getAddress')->name("order.get_address");
 
     Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd')->name('certificate.change-open-cd');
-//    Route::resource('/certificate', 'CertificateController',['only' => ['index']]);
-
-
-//    Route::get('certificate/performance/{id}', 'CertificateController@performance')->name("certificate.performance");
-
 });
 
 /////////////////////////////////////////////////////////////
@@ -79,13 +71,7 @@ Route::get('information/certificate', function () {
 Route::get('information/guide', function () {
     return view('web.information.guide');
 })->name('information.guide');
-//Route::get('information/price', function () {
-//    return view('web.information.price');
-//})->name('information.price');
 Route::get('information/price', 'InformationController@price')->name('information.price');
-//Route::get('information/find-garage', function () {
-//    return view('web.information.find-garage');
-//})->name('information.find-garage');
 Route::get('/information/find-garage', 'InformationController@findGarage')->name('information.find-garage');
 
 
