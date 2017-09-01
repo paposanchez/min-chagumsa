@@ -345,12 +345,10 @@
     <script type="text/javascript">
         $(function () {
             $('.roles').on("click", '#user-role', function (){
-                if($('#user-role option:selected').val() == 5){
-                    $('#garage_info').css('display', 'none');
-                    $("#garage-modal").modal();
+                var roles = $('#user-role').val();
 
-                }
-                else if ($('#user-role option:selected').val() == 4){
+                if($.inArray("4", roles) >= 0){
+
                     $('#garage_info').css('display', '');
                     $('.garage').css('display', 'none');
                     $('#garage_name').val('');
@@ -360,13 +358,36 @@
                     $('#garage_section').val('');
                     $('#garage_address').val('');
                     $('.attachment').css('display', '');
+                }else if($.inArray("5", roles) >= 0){
+
                 }
-                else{
-                    $('.garage').css('display', 'none');
-                    $('#garage_info').css('display', 'none');
-                    $('#selected_garage').val('');
-                    $('.attachment').css('display', 'none');
-                }
+
+
+
+
+
+//                if($('#user-role option:selected').val() == 5){
+//                    $('#garage_info').css('display', 'none');
+//                    $("#garage-modal").modal();
+//
+//                }
+//                else if ($('#user-role option:selected').val() == 4){
+//                    $('#garage_info').css('display', '');
+//                    $('.garage').css('display', 'none');
+//                    $('#garage_name').val('');
+//                    $('#garage_tel').val('');
+//                    $('#garage_zipcode').val('');
+//                    $('#garage_area').val('');
+//                    $('#garage_section').val('');
+//                    $('#garage_address').val('');
+//                    $('.attachment').css('display', '');
+//                }
+//                else{
+//                    $('.garage').css('display', 'none');
+//                    $('#garage_info').css('display', 'none');
+//                    $('#selected_garage').val('');
+//                    $('.attachment').css('display', 'none');
+//                }
             });
 
             $("#tbody").delegate(".select-garage", "click", function(){
