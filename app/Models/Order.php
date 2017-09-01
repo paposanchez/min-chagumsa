@@ -132,8 +132,8 @@ class Order Extends Model
         return $this->hasOne(\App\Models\Reservation::class, 'orders_id','id');
     }
 
-    public function garageInfo(){
-        return $this->hasOne(\App\Models\GarageInfo::class, 'garage_id','garage_id');
+    public function garage(){
+        return $this->hasOne(\App\Models\UserExtra::class, 'users_id','garage_id');
     }
 
     public function orderCar(){
@@ -154,7 +154,7 @@ class Order Extends Model
 
     // public function diagnosis_items(){
     //     return $this->hasMany(\App\Models\DiagnosisItems::class, 'orders_id', 'id');
-    // }    
+    // }
 
     // public function diagnosis_details(){
     //     return $this->hasMany(\App\Models\DiagnosisDetails::class, 'orders_id', 'id');
@@ -162,7 +162,7 @@ class Order Extends Model
 
 
     //========================== 아래는 검증안된 메쏘드
-   
+
 
     public function order_feature(){
         return $this->hasMany(OrderFeature::class);

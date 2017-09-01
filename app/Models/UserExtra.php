@@ -27,7 +27,10 @@ class UserExtra extends Model {
         'bcs_bank',
         'bcs_account',
         'bcs_account_name',
-
+        'area',
+        'section',
+        'ceo_name',
+        'ceo_mobile',
     ];
 
     public function user() {
@@ -48,6 +51,16 @@ class UserExtra extends Model {
      */
     public function garage() {
         return $this->hasOne(User::class, 'id', 'garage_id');
+    }
+
+
+    public static function getGarageArea() {
+
+            
+
+        //     return RoleUser:where:
+
+
     }
 
 }

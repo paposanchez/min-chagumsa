@@ -64,6 +64,14 @@ class User extends Authenticatable {
 
 
 
+   public function garages()
+   {
+
+        //    return RoleUser::where("role_id", 4)->get();
+           return $this->belongsToMany(RoleUser::class,"role_id", 4);
+
+   }
+
     /**
      * One to Many relation
      *
@@ -136,6 +144,7 @@ class User extends Authenticatable {
     public function files() {
         return $this->hasMany(File::class, 'group_id', 'id')->where("group", 'bcs');
     }
+
 
 //    public function getFilesDirectory() {
 //        $folderPath = 'user/' . $this->id;
