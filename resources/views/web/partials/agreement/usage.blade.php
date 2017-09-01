@@ -1,7 +1,7 @@
 <div class='term_title'>
     차검사 관련 제반 서비스의 이용과 관련하여 필요한 사항을 규정합니다.			
 </div>
-<div class='term_cont'>
+<div class='term_cont' style="overflow:scroll; overflow-x: hidden; overflow-y: scroll;height:135px;">
     <div>
         <strong>제1조 ( 목 적 )</strong>
         이 약관은 (주)짐브러스가 운영하는 차검사 웹사이트(http://www.chagumsa.com, 이하 “차검사”라 한다)에서 제공하는 인터넷 관련 서비스 및 기타 부대서비스를 이용함에 있어 (주)짐브러스와 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.

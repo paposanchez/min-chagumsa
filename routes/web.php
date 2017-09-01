@@ -8,9 +8,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('profile', 'ProfileController');
         Route::resource('history', 'HistoryController');
         Route::resource('order', 'OrderController');
-        Route::get('/order/edit_car/{order_id}', 'OrderController@editCar')->name('order.edit_car');
-        Route::get('/order/edit_garage/{order_id}', 'OrderController@editGarage')->name('order.edit_garage');
         Route::post('/order/cancel', 'OrderController@cancel')->name('order.cancel');
+
+        Route::get('/order/change-car/{order_id}', 'OrderController@changeCar');
+        Route::post('/order/change-car/{order_id}', 'OrderController@updateCar');
+        Route::get('/order/change-reservation/{order_id}', 'OrderController@changeReservation');
+        Route::post('/order/change-reservation/{order_id}', 'OrderController@updateReservation');
 
 
         Route::get('/leave', 'ProfileController@leaveForm');

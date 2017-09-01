@@ -39,7 +39,7 @@
         <br/>
         <br/>
 
-        {!! Form::model($order, ['method' => 'PATCH','route' => ['mypage.order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-user', 'enctype'=>"multipart/form-data"]) !!}
+        {!! Form::open(['method' => 'POST','class'=>'form-horizontal', 'id'=>'frmOrder', 'enctype'=>"multipart/form-data"]) !!}
 
         <fieldset>
 
@@ -79,8 +79,8 @@
                                                 <label>
                                                         <input type="checkbox" name="flooding"
                                                         value='1'
-                                                        @if($order->accident == 1)
-                                                        chekced
+                                                        @if($order->flooding_state_cd == 1)
+                                                        checked
                                                         @endif
                                                         ><span>침수차량일 경우 선택하세요</span>
                                                 </label>
@@ -91,12 +91,14 @@
                         <div class="col-xs-6">
                                 <div class="form-group">
                                         <label for="exampleInputEmail1">사고여부</label>
+
+
                                         <div class="checkbox checkbox-slider--c checkbox-slider-md">
                                                 <label>
                                                         <input type="checkbox" name="accident"
                                                         value='1'
-                                                        @if($order->accident == 1)
-                                                        chekced
+                                                        @if($order->accident_state_cd == 1)
+                                                        checked
                                                         @endif
                                                         ><span>사고차량일 경우 선택하세요</span>
                                                 </label>
@@ -113,59 +115,28 @@
                         </label>
 
                         <ul class='order_option_wrap'>
-                                <li><strong>외관</strong>
-                                        @foreach($exterior_option as $exterior)
-                                        <div class='option_box'>
-                                                <label>
-                                                        <input type='checkbox' class='psk type2' value="{{ $exterior->id }}" name="options_ck[]">
-                                                        <span class='lbl' name="exterior_ck"> {{ $exterior->display() }}</span>
-                                                </label>
-                                        </div>
+
+                                @foreach($options_group as $key => $val)
+                                <li><strong>{{ $val }}</strong>
+                                        @foreach($options as $option)
+                                                @if($key == $option->group)
+                                                <div class='option_box'>
+                                                        <label>
+                                                                <input type='checkbox' class='psk type2' value="{{ $option->id }}"
+                                                                @foreach($order_features as $feature)
+                                                                        @if($feature->features_id == $option->id)
+                                                                        checked
+                                                                        @endif
+                                                                @endforeach
+                                                                name="options_ck[]">
+                                                                <span class='lbl' name="exterior_ck"> {{ $option->display() }}</span>
+                                                        </label>
+                                                </div>
+                                                @endif
                                         @endforeach
                                 </li>
-                                <li><strong>내장</strong>
-                                        @foreach($interior_option as $interior)
-                                        <div class='option_box'>
-                                                <label>
-                                                        <input type='checkbox' class='psk type2' value="{{ $interior->id }}" name="options_ck[]">
-                                                        <span class='lbl' name="exterior_ck"> {{ $interior->display() }}</span>
-                                                </label>
-                                        </div>
-                                        @endforeach
-                                </li>
-                                <li><strong>안전</strong>
-                                        @foreach($safety_option as $safety)
-                                        <div class='option_box'>
-                                                <label>
-                                                        <input type='checkbox' class='psk type2' value="{{ $safety->id }}" name="options_ck[]">
-                                                        <span class='lbl' name="exterior_ck"> {{ $safety->display() }}</span>
-                                                </label>
-                                        </div>
-                                        @endforeach
-                                </li>
-                                <li><strong>편의</strong>
-                                        @foreach($facilities_option as $facilites)
-                                        <div class='option_box'>
-                                                <label>
-                                                        <input type='checkbox' class='psk type2' value="{{ $facilites->id }}" name="options_ck[]">
-                                                        <span class='lbl' name="exterior_ck"> {{ $facilites->display() }}</span>
-                                                </label>
-                                        </div>
-                                        @endforeach
-                                </li>
-                                <li><strong>멀티미디어</strong>
-                                        @foreach($multimedia_option as $multimedia)
-                                        <div class='option_box'>
-                                                <label>
-                                                        <input type='checkbox' class='psk type2' value="{{ $multimedia->id }}" name="options_ck[]">
-                                                        <span class='lbl' name="exterior_ck"> {{ $multimedia->display() }}</span>
-                                                </label>
-                                        </div>
-                                        @endforeach
-                                </li>
+                                @endforeach
                         </ul>
-
-
                 </div>
 
 

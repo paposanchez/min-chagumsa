@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web\Mypage;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
-use App\Models\GarageInfo;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\OrderCar;
@@ -16,7 +15,7 @@ use App\Models\Reservation;
 use App\Models\PaymentCancel;
 use App\Models\Code;
 use App\Models\User;
-
+use App\Models\Role;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -64,148 +63,120 @@ class OrderController extends Controller
 
     public function show($id)
     {
-
             $order = Order::find($id);
-
-
-            $my_garage = GarageInfo::where('garage_id', $order->garage_id)->first();
-            if (!$my_garage) {
-                    $my_garage = [];
-            }
-
-            $order_features = OrderFeature::where('orders_id', $order->id)->pluck('features_id');
-            $features = [];
-            if ($order_features) {
-                    foreach ($order_features as $feature) {
-                            $features[] = Helper::getCodeName($feature);
-                    }
-                    $features = str_replace(array("[", "]", "\""), "", json_encode($features, JSON_UNESCAPED_UNICODE));
-                    $features = str_replace(",", ", ", $features);
-            }
-
-
-            return view('web.mypage.order.show', compact('order', 'my_garage', 'features'));
+            $order_features = $order->order_features->map(function ($feature) {
+                    return $feature->feature->display();
+                });
+            $features = implode(', ', $order_features->toArray());
+            return view('web.mypage.order.show', compact('order', 'features'));
     }
 
-    public function editCar($order_id)
+    public function changeReservation($order_id)
     {
+            $order = Order::findOrFail($order_id);
+            $my_garage = $order->garage;
 
-            $order = Order::where('id', $order_id)->first();
-            if (!$order) {
-                    $order = [];
-            }
-            $brands = Brand::select('id', 'name')->get();
-            if (!$brands) {
-                    $brands = [];
-            }
 
-            $order_features = OrderFeature::where('orders_id', $order->id)->pluck('features_id');
-            $features = [];
-            if ($order_features) {
-                    foreach ($order_features as $feature) {
-                            $features[] = Helper::getCodeName($feature);
+        //     $reservation = $order->getReservation($order->id);
+
+            //@TODO  Role을 통한 BCS 조회
+            $users          = Role::find(4)->users;
+            $areas          = [];
+            $sections       = [];
+            $garages        = [];
+            foreach($users as $user) {
+                    $areas[$user->user_extra->area] = $user->user_extra->area;
+
+                    if($user->user_extra->area == $order->garage->user_extra->area) {
+                            $sections[$user->user_extra->section] = $user->user_extra->section;
                     }
-                    $features = str_replace(array("[", "]", "\""), "", json_encode($features, JSON_UNESCAPED_UNICODE));
-                    $features = str_replace(",", ", ", $features);
+
+                    if($user->user_extra->area == $order->garage->user_extra->area &&  $user->user_extra->section == $order->garage->user_extra->section) {
+                            $garages[$user->id] = $user->name;
+                    }
             }
-
-
-
-
-            $brands = Brand::select('id', 'name')->get();
-            $exterior_option = Code::where('group', 'car_option_exterior')->get();
-            $interior_option = Code::where('group', 'car_option_interior')->get();
-            $safety_option = Code::where('group', 'car_option_safety')->get();
-            $facilities_option = Code::where('group', 'car_option_facilities')->get();
-            $multimedia_option = Code::where('group', 'car_option_multimedia')->get();
-
-    //        return view('web.order.index', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
-            // return view('web.order.index_2', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
-
-
-            return view('web.mypage.order.edit_car', compact('order', 'brands', 'features', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option'));
-    }
-
-    public function editGarage($order_id)
-    {
-            $order = Order::where('id', $order_id)->first();
-            $my_garage = GarageInfo::find($order->garage_id)->first();
-
-
-            //@TODO
-            $areas = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->get();
-            $sections = GarageInfo::where("area", $order->garage->area)->orderBy('section', 'ASC')->groupBy('section')->get();
-            $garages = GarageInfo::where("area", $order->garage->area)->where("section", $order->garage->section)->orderBy('name', 'ASC')->get();
 
             $search_fields = [
                     '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
             ];
-            return view('web.mypage.order.edit_garage', compact('order', 'search_fields', 'areas', 'sections', 'garages', 'my_garage'));
+            return view('web.mypage.order.reservation', compact('order', 'search_fields', 'areas', 'sections', 'garages', 'my_garage'));
     }
 
-    public function update(Request $request, $order_id)
+
+    public function updateReservation(Request $request, $order_id)
     {
-            $input = $request->all();
-            $order = Order::where('id', $order_id)->first();
-            // 차량 정보 변경
-            if (!empty($input['car_number'])) {
-                    $validate = Validator::make($request->all(), [
-                            'brands_id' => 'required',
-                            'models_id' => 'required',
-                            'details_id' => 'required',
-                            'grades_id' => 'required',
-                            'car_number' => 'required'
-                    ]);
 
-                    if ($validate->fails()) {
-                            return redirect()->back()->with('error', trans('web/mypage.modify_error'));
-                    }
+            $validate = Validator::make($request->all(), [
+                    'garage_id' => 'required',
+                    'reservation_date' => 'required',
+                    'sel_time' => 'required'
+            ]);
 
-                    //            $car = Order::find($order_id)->car;
-                    //
-                    //            if($order->where('car_number', $request->get('car_number'))->first()){
-                    //                return redirect()->back()->with('error', trans('web/mypage.duplicated_car_number'));
-                    //            }
-
-                    $order_car = OrderCar::where('orders_id', $order->id)->first();
-                    $order_car->update($input);
-                    $order->update($input);
+            if ($validate->fails()) {
+                    return redirect()->back()->with('error', '입고대리점을 선택하세요.');
             }
 
-            //입고 정보 변경
-            if ($request->get('reservation_date')) {
-                    $validate = Validator::make($request->all(), [
-                            'reservation_date' => 'required',
-                            'sel_time' => 'required',
-                            //                'name' => 'required',
-                            //                'zipcode' => 'required',
-                            //                'area' => 'required',
-                            //                'section' => 'required'
-                    ]);
 
-                    if ($validate->fails()) {
-                            return redirect()->back()->with('error', trans('web/mypage.modify_error'));
-                    }
-                    $date = new \DateTime($input['reservation_date'] . ' ' . $input['sel_time'] . ':00:00');
+            $order = Order::findOrFail($order_id);
+            $order->garage_id = $request->get('garage_id');
+            $order->save();
 
-                    $reservation = $order->reservation;
-                    $reservation->reservation_at = $date->format('Y-m-d H:i:s');
-                    $reservation->save();
-
-                    if ($request->get('address')) {
-                            $my_garage = GarageInfo::find($order->garage_id)->first();
-                            $my_garage->area = $request->get('sel_area');
-                            $my_garage->section = $request->get('sel_section');
-                            $my_garage->address = $request->get('address');
-                            $my_garage->save();
-                    }
+            $order->reservation->reservation_at = Carbon::parse($request->get('reservation_date') . ' ' . $request->get('sel_time') . ':00:00');
+             $order->push();
 
 
-            }
+        //     $reservation = $order->reservation;
+        //     $reservation->reservation_at = Carbon::now();
+        //     $reservation->save();
+
             return redirect()
             ->route('mypage.order.show', $order->id)
             ->with('success', trans('web/mypage.modify_complete'));
     }
+
+
+    public function changeCar(Request $request, $order_id)
+    {
+
+            $order = Order::findOrFail($order_id);
+            $order_features = $order->order_features;
+            $options_group = [
+                    'car_option_exterior' => "외관",
+                    'car_option_interior' => "내장",
+                    'car_option_safety' => "안전",
+                    'car_option_facilities' => "편의",
+                    'car_option_multimedia' => "멀티미디어",
+            ];
+
+            $options = Code::whereIn('group', array_keys($options_group))->get();
+
+            return view('web.mypage.order.car', compact('order', 'order_features',
+            'options_group',
+            'options',
+            'order_features'
+            ));
+    }
+
+
+    public function updateCar(Request $request, $order_id)
+    {
+            $order = Order::findOrFail($order_id);
+
+            $order->flooding_state_cd = $request->get('flooding');
+            $order->accident_state_cd = $request->get('accident');
+            $order->car_number = $request->get('car_number');
+            $order->save();
+
+            //@TODO orderCar에 차량번호를 굳이 업데이트 해줘야 하는 이유가 없으면 빼는것으로
+            // $order->orderCar->car_number = $request->get('car_number');
+            // $order->orderCar->save();
+            OrderFeature::replaceAll($order_id, $request->get('options_ck'));
+
+            return redirect()
+            ->route('mypage.order.show', $order->id)
+            ->with('success', trans('web/mypage.modify_complete'));
+    }
+
 
     public function cancel(Request $request)
     {

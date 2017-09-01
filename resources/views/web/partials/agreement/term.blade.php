@@ -1,7 +1,7 @@
 <div class='term_title'>
     차검사 관련 제반 서비스의 이용과 관련하여 필요한 사항을 규정합니다.
 </div>
-<div class='term_cont'>
+<div class='term_cont' style="overflow:scroll; overflow-x: hidden; overflow-y: scroll;height:135px;">
 
     <div>
         <strong>제1장 총칙</strong>
