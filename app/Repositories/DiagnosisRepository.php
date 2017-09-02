@@ -71,8 +71,8 @@ class DiagnosisRepository {
     // 주문데이터 완성
     public function order() {
 
-        $reservation_date = $this->obj->getReservation($this->obj->id)->reservation_at;
-
+//        $reservation_date = $this->obj->getReservation($this->obj->id)->reservation_at;
+        $reservation_date = $this->obj->reservation->reservation_at;
         return array(
             'id'                => $this->obj->id,
             'engineer_id'       => $this->obj->engineer_id,
