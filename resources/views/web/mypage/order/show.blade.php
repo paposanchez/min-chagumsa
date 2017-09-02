@@ -56,7 +56,7 @@
                                         <li><strong class="text-light text-muted">결제일</strong> <span>{{ $order->purchase->updated_at }}</span>
 
                                                 @if( $order->status_cd != 107 && $order->status_cd != 100 )
-                                                <a  href="javascript:;" class="pull-right text-muted" id="cancel-click" data-cancel_order_id="{{ $order->id }}">결제취소</a>
+                                                <a  href="javascript:;" class="pull-right text-muted text-danger" id="cancel-click" data-cancel_order_id="{{ $order->id }}">결제취소</a>
                                                 @endif
 
                                         </li>
@@ -77,7 +77,7 @@
                         </strong>
                         <div class="block bg-white">
                                 <ul>
-                                        <li><strong class="text-light text-muted">예약상태</strong> <span>미정</span>
+                                        <li><strong class="text-light text-muted">예약상태</strong> <span>{{ $order->status->display() }}</span>
                                         </li>
                                         <li><strong class="text-light text-muted">입고예정일</strong> <span>{{ $order->reservation->reservation_at->format('Y년 m월 d일 H시 i분') }}</span></li>
                                         <li><strong class="text-light text-muted">입고대리점</strong> <span>{{ $order->garage->name }} <small>{{ $order->garage->user_extra->phone }}</small></span></li>

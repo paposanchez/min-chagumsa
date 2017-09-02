@@ -85,6 +85,7 @@ class OrderController extends Controller
             $sections       = [];
             $garages        = [];
             foreach($users as $user) {
+
                     $areas[$user->user_extra->area] = $user->user_extra->area;
 
                     if($user->user_extra->area == $order->garage->user_extra->area) {

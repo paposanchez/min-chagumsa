@@ -129,11 +129,8 @@ class OrderController extends Controller {
 
 
 
-                $order = Order::OrderBy('id', 'DESC')->where('car_number', $request->get('car_number'))->first();
-                //                if($datekey == $order->created_at->format('ymd')){
-                //                    // todo 추후에 어떻게 처리해야 할 지 물어보기, 주문을 넣을 수 없다.
-                //                    return false;
-                //                }
+//                $order = Order::OrderBy('id', 'DESC')->where('car_number', $request->get('car_number'))->first();
+
 
                 $garage_info = GarageInfo::where('area', $request->get('areas'))
                 ->where('section', $request->get('sections'))
@@ -156,9 +153,9 @@ class OrderController extends Controller {
                 }
 
 
-                if(!$order){
-                        $order = new Order();
-                }
+//                if(!$order){
+                $order = new Order();
+//                }
                 $order->car_number = $request->get('car_number');
                 //        $order->cars_id = $order_car->id;
                 $order->garage_id = $garage_info->garage_id;
