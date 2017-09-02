@@ -17,6 +17,8 @@
                     <div class="col-md-9">
                         <input type="text" class="form-control" placeholder="ex) 010-0000-0000,010-0000-0001" name="mobiles" id="mobiles" value="">
                         <span class="help-block">* 여러명 보낼 시 ex) 010-0000-0000,010-0000-0001</span>
+                        <button class="btn btn-default" type="button" id="total-bcs">BCS 전체</button>
+                        <button class="btn btn-default" type="button" id="delete">모두 지우기</button>
                     </div>
                 </div>
 
@@ -82,8 +84,24 @@ $(document).ready(function () {
         }else{
             alert('입력한 정보가 충분하지 않습니다.');
         }
+    });
 
+    $(document).on('click', '#total-bcs', function (){
+        $.ajax({
+            type : 'get',
+            url : '/total-bcs',
+            success : function (data){
+                $('#mobiles').val(data);
+            },
+            error : function (){
+                alert('error');
+            }
+        })
+    });
 
+    $(document).on('click', '#delete', function(){
+        $('#mobiles').val("");
+        $('#mobiles').focus();
     });
 });
 </script>

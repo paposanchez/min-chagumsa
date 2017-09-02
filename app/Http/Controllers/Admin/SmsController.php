@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class SmsController extends Controller
@@ -33,6 +34,16 @@ class SmsController extends Controller
         }catch (\Exception $ex){
             return response()->json('fail');
         }
+    }
+
+    public function totalBcs(){
+        $garages = Role::find(4)->users;
+        $bcs_numbers = [];
+
+        foreach ($garages as $key=>$garage){
+            $bcs_numbers[] = $garage->mobile;
+        }
+        return response()->json($bcs_numbers);
     }
 
 }

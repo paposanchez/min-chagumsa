@@ -86,7 +86,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::resource('coupon', 'CouponController', ['only' => ['index', 'store', 'create', 'destroy']]);
 
 
-
+    Route::get('total-bcs', 'SmsController@totalBcs')->name('total-bcs');
     Route::post('send-sms', 'SmsController@sendSms')->name('send-sms');
     Route::resource('sms', 'SmsController',['only' => ['index']]);
 
