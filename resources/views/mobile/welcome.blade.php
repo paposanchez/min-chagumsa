@@ -47,7 +47,7 @@
             </div>
         </div>
 
-        <div id="main_standard_wrap" style="margin-top: 8px;">
+        <div id="main_standard_wrap">
             <div class='main_standard'>
                 <strong>중고차 거래의<br><span>새로운 방법을</span> 제시합니다</strong>
                 <p>중고차  가치산정에 대한 정확하고 공정한 판단 기준  카검사 인증서!</p>
@@ -78,7 +78,7 @@
 
 
 @push( 'header-script' )
-{{ Html::style(Helper::assets( 'themes/v1/mobile/css/main.css' )) }}
+
 @endpush
 
 @push( 'footer-script' )

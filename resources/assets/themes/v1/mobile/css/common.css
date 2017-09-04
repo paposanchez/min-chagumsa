@@ -39,7 +39,7 @@ img, input, select{ vertical-align:middle; }
 
 textarea {-webkit-appearance: none;appearance: none;}
 input { font-size:13px; color:#000; vertical-align:middle; -webkit-appearance: none;appearance: none;}
-select { font-size:13px; border:1px solid #D0D0D0; background:url('../img/comm/select_bg.png') right center no-repeat #fff;background-size:50px;-webkit-appearance: none;appearance: none;position:relative;}
+select { font-size:13px; border:1px solid #D0D0D0; background:url('/assets/themes/v1/mobile/img/comm/select_bg.png') right center no-repeat #fff;background-size:50px;-webkit-appearance: none;appearance: none;position:relative;}
 
 /*------------------------------------------------------------------------------------------------------------*/
 
@@ -306,9 +306,9 @@ input[type=checkbox].psk.psk-switch:checked + .lbl::after {left:28px;content:'ON
 .menu_wrap {height:100%;padding-right:60px;box-sizing:border-box;}
 .menu_inner {height:100%;background:#fff;}
 
-.menu_head {width:100%;height:100px;background:url('../img/comm/menu_head_bg.png') center right no-repeat #0b4777;background-size:auto 100%;box-sizing:border-box;}
+.menu_head {width:100%;height:100px;background:url('/assets/themes/v1/mobile/img/comm/menu_head_bg.png') center right no-repeat #0b4777;background-size:auto 100%;box-sizing:border-box;}
 .menu_head_profile {padding:14px 13px 10px 13px;position:relative;}
-.menu_head_profile span {padding-left:28px;color:#fff;background:url('../img/comm/profile_icon.png') 3px center no-repeat #0b4777;background-size:auto 100%;font-size:13px;}
+.menu_head_profile span {padding-left:28px;color:#fff;background:url('/assets/themes/v1/mobile/img/comm/profile_icon.png') 3px center no-repeat #0b4777;background-size:auto 100%;font-size:13px;}
 .menu_head_profile a {position:absolute;right:20px;top:14px;color:#fff;font-size:15px;}
 .menu_head_btn {padding:0 13px;}
 .menu_head_btn.type2 {padding:30px 13px 0 13px;}
@@ -317,7 +317,7 @@ input[type=checkbox].psk.psk-switch:checked + .lbl::after {left:28px;content:'ON
 .menu_list {}
 .menu_list > li {}
 .menu_list > li > a {display:block;height:47px;line-height:45px;position:relative;padding-left:47px;color:#555;font-size:14px;text-align:left;border-bottom:1px solid #f2f2f2;}
-.menu_list > li > a:before {top:10px;left:10px;content:'';width:27px;height:27px;position:absolute;background:url('../img/comm/menu_icon.png') no-repeat;background-size:cover;}
+.menu_list > li > a:before {top:10px;left:10px;content:'';width:27px;height:27px;position:absolute;background:url('/assets/themes/v1/mobile/img/comm/menu_icon.png') no-repeat;background-size:cover;}
 .menu_list > li > a:after {top:5px;right:5px;content:'折�';width:27px;height:27px;position:absolute;font-weight:bold;}
 .menu_list > li > a.menu_open:after {top:0px;content:'截�';}
 .menu_list li a.menu1:before {}

@@ -3,7 +3,8 @@
 
     {{-- 헤더 스크립트 --}}
     @section( 'content-header-script' )
-        
+        <script src="https://use.fontawesome.com/23c54b84b1.js"></script>
+
         {{ Html::style(Helper::assets( 'themes/v1/mobile/css/common.css' )) }}
         {{ Html::style(Helper::assets( 'themes/v1/mobile/css/main.css' )) }}
         {{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' )) }}
