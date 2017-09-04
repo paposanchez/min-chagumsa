@@ -266,7 +266,8 @@ class OrderController extends Controller
         $buyerName = $request->get('orderer_name');
         $buyerEmail = $orderer->email;
         $buyerTel = $request->get('orderer_mobile');
-        $product_name = $order->car_number . " " . $order->getCarFullName();
+//        $product_name = $order->car_number . " " . $order->getCarFullName();
+        $product_name = $order->item->name;
         $mid = $this->mid;
         $merchantKey = $this->merchantKey;
 
@@ -660,7 +661,7 @@ class OrderController extends Controller
         }
 
         //주문정보 갱신함.
-        $reservation = $order->getReservation($order->id);
+        $reservation = $order->reservation;
         return view('web.order.complete', compact('order', 'reservation'));
     }
 
