@@ -95,7 +95,7 @@
                     {{--<col width="10%">--}}
                     <col width="10%">
                     <col width="10%">
-                    <col width="10%">
+                    {{--<col width="10%">--}}
                     <col width="10%">
                     <col width="10%">
                     <col width="10%">
@@ -108,10 +108,11 @@
                         <th class="text-center">주문번호</th>
                         <th class="text-center">주문자</th>
                         <th class="text-center">연락처</th>
-                        <th class="text-center">정비사</th>
-                        <th class="text-center">기술사</th>
+                        {{--<th class="text-center">정비사</th>--}}
+                        {{--<th class="text-center">기술사</th>--}}
                         <th class="text-center">상태</th>
                         <th class="text-center">입고일</th>
+                        <th class="text-center">주문일</th>
                         <th class="text-center">수정</th>
                     </tr>
                 </thead>
@@ -138,23 +139,26 @@
                             {{ $data->orderer_mobile }}
                         </td>
 
-                        <td class="">
+                        {{--<td class="">--}}
                             {{--@if($data->engineer)--}}
-                                {{ $data->engineer ? $data->engineer->name : '-' }}
+                                {{--{{ $data->engineer ? $data->engineer->name : '-' }}--}}
                             {{--@endif--}}
-                        </td>
+                        {{--</td>--}}
 
-                        <td class="">
+                        {{--<td class="">--}}
                             {{--@if($data->technicion)--}}
-                                {{ $data->technicion ? $data->technicion->name : '-' }}
+                                {{--{{ $data->technicion ? $data->technicion->name : '-' }}--}}
                             {{--@endif--}}
-                        </td>
+                        {{--</td>--}}
 
                         <td>
                             {{ $data->status->display() }}
                         </td>
                         <td >
                             {{ $data->reservation ? $data->reservation->reservation_at->format('Y-m-d H시 i분') : ''}}
+                        </td>
+                        <td>
+                            {{ $data->created_at->format('Y-m-d H시 i분') }}
                         </td>
 
                         <td>

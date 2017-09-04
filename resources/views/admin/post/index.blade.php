@@ -102,7 +102,7 @@
                         <th class="text-center">작성자</th>
                         <th class="text-center">상태</th>
                         <th class="text-center">등록일</th>
-                        <th class="text-center">처리</th>
+                        <th class="text-center">수정</th>
                     </tr>
                 </thead>
 

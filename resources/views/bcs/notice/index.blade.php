@@ -80,7 +80,7 @@
                 <table class="table text-middle text-center">
                     <colgroup>
                         <col width="8%">
-                        <col width="15%">
+                        <col width="10%">
                         <col width="*">
                         <col width="10%">
                         <col width="8%">
@@ -92,6 +92,7 @@
                         <th class="text-center">분류</th>
                         <th class="text-center">제목</th>
                         <th class="text-center">등록일</th>
+                        <th class="text-center">상세보기</th>
                     </tr>
                     </thead>
 
@@ -118,6 +119,9 @@
 
                             <td class="">
                                 {{ $data->created_at->format('Y.m.d') }}
+                            </td>
+                            <td>
+                                <a href="{{ url("notice", ['id'=> $data->id]) }}" class="btn btn-default"  data-tooltip="{pos:'top'}" title="상세보기">상세보기</a>
                             </td>
 
                         </tr>

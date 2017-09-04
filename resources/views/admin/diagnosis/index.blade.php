@@ -76,23 +76,24 @@
 
             <table class="table text-middle text-center">
                 <colgroup>
-                    <col width="5%">
+                    {{--<col width="5%">--}}
                     <col width="15%">
                     <col width="*">
                     <col width="15%">
                     <col width="15%">
                     <col width="15%">
-
+                    <col width="10%">
                 </colgroup>
 
                 <thead>
                     <tr class="active">
-                        <th class="text-center">#</th>
+                        {{--<th class="text-center">#</th>--}}
                         <th class="text-center">주문번호</th>
                         <th class="text-center">차량명</th>
-                        <th class="text-center">주문자</th>
+                        <th class="text-center">정비사</th>
                         <th class="text-center">연락처</th>
                         <th class="text-center">잔단 완료일</th>
+                        <th class="text-center">수정</th>
                     </tr>
                 </thead>
 
@@ -105,9 +106,9 @@
                     @foreach($entrys as $data)
 
                     <tr>
-                        <td class="">
-                            {{ $data->id }}
-                        </td>
+                        {{--<td class="">--}}
+                            {{--{{ $data->id }}--}}
+                        {{--</td>--}}
                         <td class="text-center">
                             <a href="{{ route('diagnosis.show', $data->id) }}"> {{ $data->getOrderNumber() }}</a>
                         </td>
@@ -124,6 +125,9 @@
 
                         <td class="">
                             {{ $data->diagnosed_at }}
+                        </td>
+                        <td>
+                            <a href="{{ route('diagnosis.show', $data->id) }}" class="btn btn-default">상세보기</a>
                         </td>
                     </tr>
                     @endforeach

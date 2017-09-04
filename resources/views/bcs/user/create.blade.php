@@ -42,9 +42,9 @@
                     </div>
 
                     <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
-                        <label for="inputPassword" class="control-label col-md-3">{{ trans('bcs/user.new-password') }}</label>
+                        <label for="inputPassword" class="control-label col-md-3">{{ trans('bcs/user.password') }}</label>
                         <div class="col-md-4">
-                            <input type="password" class="form-control" placeholder="{{ trans('bcs/user.new-password') }}" name="password" id="inputPassword">
+                            <input type="password" class="form-control" placeholder="{{ trans('bcs/user.password') }}" name="password" id="inputPassword">
 
                             @if ($errors->has('password'))
                                 <span class="help-block">
@@ -55,9 +55,9 @@
                     </div>
 
                     <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
-                        <label for="inputPasswordConfirmation" class="control-label col-md-3">{{ trans('bcs/user.new-password_confirmation') }}</label>
+                        <label for="inputPasswordConfirmation" class="control-label col-md-3">{{ trans('bcs/user.password_confirmation') }}</label>
                         <div class="col-md-4">
-                            <input type="password" class="form-control" placeholder="{{ trans('bcs/user.new-password_confirmation') }}" name="password_confirmation" id="inputPasswordConfirmation">
+                            <input type="password" class="form-control" placeholder="{{ trans('bcs/user.password_confirmation') }}" name="password_confirmation" id="inputPasswordConfirmation">
 
                             @if ($errors->has('password_confirmation'))
                                 <span class="help-block">

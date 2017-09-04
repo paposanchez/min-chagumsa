@@ -34,7 +34,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         //
-        $where = User::orderBy('id', 'DESC');
+//        $where = User::orderBy('id', 'DESC');
         $eng_cd = 5; //role 코드가 5
 
 
@@ -44,7 +44,7 @@ class UserController extends Controller
             $role_user_qry->on('user_extras.users_id', 'role_user.user_id');
         })->join('roles', function($role_qry){
             $role_qry->on('role_user.role_id', 'roles.id');
-        })->where('role_user.role_id', $eng_cd)->where('user_extras.garage_id', Auth::user()->id);
+        })->where('role_user.role_id', $eng_cd)->where('user_extras.garage_id', Auth::user()->id)->orderBy('created_at', 'DESC');
 
 
         $search_fields = [ "name" => "이름", "mobile" => "전화번호" ];
@@ -83,14 +83,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
         $this->validate($request, [
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
             'password_confirmation' => 'required|min:6|same:password',
             'name' => 'required|min:2',
             'mobile' => 'min:2',
-            'status_cd' => 'required',
+
 
             'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'], [], [
             'email' => trans('bcs/user.email'),
@@ -99,7 +98,7 @@ class UserController extends Controller
             'name' => trans('bcs/user.name'),
             'roles' => trans('bcs/user.roles'),
             'mobile' => trans('bcs/user.mobile'),
-            'status_cd' => trans('bcs/user.status'),
+
             'avatar' => trans('bcs/user.avatar'),
         ]);
         $garage_id = Auth::user()->id;
@@ -115,7 +114,7 @@ class UserController extends Controller
 
         // user_extra 데이터 저장
         $user_extra = UserExtra::where('users_id', $user->id)->first();
-        $garage_info = GarageInfo::where('garage_id', $garage_id)->first();
+        $garage_info = UserExtra::where('users_id', $garage_id)->first();
         if(!$user_extra){
             $user_extra = new UserExtra();
         }
