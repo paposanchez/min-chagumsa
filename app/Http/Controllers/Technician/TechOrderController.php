@@ -26,6 +26,8 @@ use App\Repositories\DiagnosisRepository;
 
 use App\Mixapply\Uploader\Receiver;
 
+use DB;
+
 
 class TechOrderController extends Controller
 {
@@ -207,28 +209,7 @@ class TechOrderController extends Controller
         $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
         $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
 
-        if($order->car){
-            $car = $order->car;
-        }else{
-            // order_cars에만 데이터가 있는 상태이므로 cars에 order_cars의 데이터를 이관해 줌.
-            $car = new Car();
-            $order_car = $order->orderCar;
-            if($order_car){
-                $car->brands_id = $order_car->brands_id;
-                $car->models_id = $order_car->models_id;
-                $car->details_id = $order_car->details_id;
-                $car->grades_id = $order_car->grades_id;
-                $car->save();
-
-                $order->cars_id = $car->id;
-                $order->save();
-
-            }else{
-               return redirect()->back()->with('error', '차량 정보 미입력 상태입니다.<br>관리자에게 해당 주문에 대해 문의해 주세요.');
-            }
-
-
-        }
+        $car = $order->orderCar;
 
         return view('technician.order.show', compact('order', 'payment', 'payment_cancel', 'car'));
     }
@@ -290,7 +271,8 @@ class TechOrderController extends Controller
             $car = $order->car;
         }else{
             // 차량정보 확인 시 cars에 대한 처리가 일어나므로 에러로 처리함.
-            return redirect()->back()->with('error', '차량 정보 미입력 상태입니다.<br>관리자에게 해당 주문에 대해 문의해 주세요.');
+//            return redirect()->back()->with('error', '차량 정보 미입력 상태입니다.<br>관리자에게 해당 주문에 대해 문의해 주세요.');
+            $car = $order->orderCar;
         }
 //        $order = $this->edit($id);
 
@@ -309,16 +291,13 @@ class TechOrderController extends Controller
         //
         $section = $request->get('section');
 
-        $order_where = Order::findOrFail($id);
+        $order_where = Order::find($id);
 
-        // 현재 주문상태를 확인함.
-        // 주문상태가 109 일때는 상태값을 변경하지 않음
         if($order_where->status_cd == 109){
-            $order_status = null;
-        }else{
-            //진단서 수정중이므로 상태값을 변경함
-            $order_status = 108;
+            return redirect()->back()->with('error', '발급완료된 인증서입니다.');
         }
+
+        $certificates_where = Certificate::find($id);
 
         if(in_array($section, ['basic', 'history', 'price'])){
             if($section == 'basic'){
@@ -326,14 +305,18 @@ class TechOrderController extends Controller
                 $order_data = [
                     "car_number" => $request->get('orders_car_number'),
                     "mileage" => $request->get('orders_mileage'),
+                    "status_cd" => 108
                 ];
 
-                if($order_status){
-                    $order_data['statuc_cd'] = $order_status;
-                }
+
 
                 $car_data = [
+                    "brands_id" => $request->get("brands_id"),
+                    "models_id" => $request->get("models_id"),
+                    "details_id" => $request->get("details_id"),
+                    "grades_id" => $request->get("grades_id"),
                     "vin_number" => $request->get('cars_vin_number'),
+                    "imported_vin_number" => $request->get('car_imported_vin_number'),
                     "registration_date" => $request->get('cars_registration_date'),
                     "exterior_color_cd" => $request->get('cars_exterior_color'),
                     "interior_color_cd" => $request->get('cars_interior_color'),
@@ -344,31 +327,38 @@ class TechOrderController extends Controller
                     "engine_type" => $request->get("cars_engine_type"),
                     "fueltype_cd" => $request->get("cars_fueltype_cd")
                 ];
+
                 $certificate_data = [
-                    'vin_yn_cd' => $request->get("certificates_vin_yn_cd")
+                    'orders_id' => $order_where->id,
+                    'vin_yn_cd' => $request->get("certificates_vin_yn_cd"),
+                    'price' => $request->get('pst'),
+                    'history_owner' => $request->get('certificates_history_owner'),
+                    'history_maintance' => $request->get('certificates_history_maintance')
                 ];
+
             }
             elseif ($section == 'history'){
-                $order_data = [];
+                $order_data = ["status_cd" => 108];
 
-                if($order_status){
-                    $order_data['statuc_cd'] = $order_status;
-                }
 
                 $car_data = [];
-                $certificate_data = [
-                    "history_insurance" => $request->get("history_insurance"),
-                    "history_owner" => $request->get("certificates_history_owner"),
-                    "history_maintance" => $request->get("certificates_history_maintance"),
-                    "history_purpose" => $request->get("certificates_history_purpose"),
-                    "history_garage" => $request->get("certificates_history_garage"),
-                ];
+
+                if($certificates_where){
+                    $certificate_data = [
+                        "history_insurance" => $request->get("certificates_history_insurance"),
+                        "history_purpose" => $request->get("certificates_history_purpose"),
+                        "history_garage" => $request->get("certificates_history_garage"),
+                    ];
+                }else{
+                    $certificate_data = null;
+                }
+
 
             }else{
                 $order_data = ['status_cd' => 109]; //최종 발행함
                 $car_data = [];
                 $certificate_data = [
-                    "pst" => $request->get("pst"),
+                    "price" => $request->get("pst"),
                     "vat" => $request->get("certificates_vat"),
                     "new_car_price" => $request->get("certificates_new_car_price"),
                     "basic_registraion" => $request->get("certificates_basic_registraion"),
@@ -402,50 +392,73 @@ class TechOrderController extends Controller
 
 
 
-            $order_car = $order_where->orderCar;
-            if(count($car_data) > 0){
-                $cars_id = $order_where->cars_id;
-                $car_where = Car::find($cars_id);
-                if(!$car_where){
-                    $car_where = new Car();
-                    $car_where->brands_id = $order_car->brands_id;
-                    $car_where->models_id = $order_car->models_id;
-                    $car_where->details_id = $order_car->details_id;
-                    $car_where->grades_id = $order_car->grades_id;
+            try{
+                DB::beginTransaction();
+
+                $order_car = $order_where->orderCar;
+                if(count($car_data) > 0){
+                    $cars_id = $order_where->cars_id;
+
+                    $car_filter = array_filter(array_map('trim', $car_data));
+
+
+
+                    if($cars_id){
+                        $car_where = Car::find($cars_id);
+                    }else{
+                        $car_where = new Car();
+                    }
+
+                    foreach ($car_filter as $property => $value){
+                        try{$car_where->$property = $value;}
+                        catch (\Exception $e){
+//                            dd($property, $e->getMessage(), $car_where);
+                        }
+                    }
+
+//                $car_where->update($car_filter);
+                    $car_where->save();
+
+                    $order_data['cars_id'] = $car_where->id;
                 }
-                $car_filter = array_filter(array_map('trim', $car_data));
-                $car_where->update($car_filter);
-                $car_where->save();
-            }
 
-            if(count($certificate_data) > 0){
+                if(count($certificate_data) > 0){
 
-                $certificates_filter = array_filter(array_map('trim', $certificate_data));
+                    $certificates_filter = array_filter(array_map('trim', $certificate_data));
 
-                $certificates_where = Certificate::findOrFail($id);
-                if($id){
-                    $certificates_where->update($certificates_filter);
-                }else{
-                    $certificates_where = new Certificate();
 
-                    $certificates_where->insert($certificates_filter);
-                }
 
-                try{
+                    if(!$certificates_where){
+                        $certificates_where = new Certificate();
+                    }
+
+                    foreach($certificates_filter as $property => $value){
+                        $certificates_where->$property = $value;
+                    }
+
                     $certificates_where->save();
-                }catch (\Exception $e){
-//                    dd($id, $e->getMessage());
+
+                }
+                if(count($order_data) > 0){
+
+                    $order_filter = array_filter(array_map('trim', $order_data));
+                    $order_where->update($order_filter);
+                    $order_where->save();
                 }
 
-            }
-            if(count($order_data) > 0){
+                DB::commit();
 
-                $order_filter = array_filter(array_map('trim', $order_data));
-                $order_where->update($order_filter);
-                $order_where->save();
+                return redirect()->back()->with('success', '인증서 정보가 갱신되었습니다');
+
+            }catch (\Exception $e){
+                DB::rollBack();
+
+                return redirect()->back()->with('error', '인증서 정보가 갱신이 실패하였습니다.<br>'.$e->getMessage());
             }
 
-            return redirect()->back()->with('success', '인증서 정보가 갱신되었습니다');
+
+
+
         }
     }
 
