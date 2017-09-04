@@ -661,6 +661,7 @@ class OrderController extends Controller
         try{
             $reservation = Reservation::findOrFail($id);
             $reservation->update([
+                'updated_id' => Auth::user()->id,
                 'updated_at' => Carbon::now()
             ]);
 
