@@ -92,10 +92,8 @@
 
             <table class="table text-middle text-center">
                 <colgroup>
-                    {{--<col width="10%">--}}
                     <col width="10%">
                     <col width="10%">
-                    {{--<col width="10%">--}}
                     <col width="10%">
                     <col width="10%">
                     <col width="10%">
@@ -104,12 +102,9 @@
 
                 <thead>
                     <tr class="active">
-                        {{--<th class="text-center">#</th>--}}
                         <th class="text-center">주문번호</th>
                         <th class="text-center">주문자</th>
                         <th class="text-center">연락처</th>
-                        {{--<th class="text-center">정비사</th>--}}
-                        {{--<th class="text-center">기술사</th>--}}
                         <th class="text-center">상태</th>
                         <th class="text-center">입고일</th>
                         <th class="text-center">주문일</th>
@@ -126,9 +121,6 @@
                     @foreach($entrys as $data)
 
                     <tr>
-                        {{--<td class="">--}}
-                            {{--<input type="checkbox">--}}
-                        {{--</td>--}}
                         <td class="text-center">
                             <a href="{{ route('order.show', $data->id) }}">{{ $data->getOrderNumber() }}</a>
                         </td>
@@ -138,21 +130,18 @@
                         <td class="">
                             {{ $data->orderer_mobile }}
                         </td>
-
-                        {{--<td class="">--}}
-                            {{--@if($data->engineer)--}}
-                                {{--{{ $data->engineer ? $data->engineer->name : '-' }}--}}
-                            {{--@endif--}}
-                        {{--</td>--}}
-
-                        {{--<td class="">--}}
-                            {{--@if($data->technicion)--}}
-                                {{--{{ $data->technicion ? $data->technicion->name : '-' }}--}}
-                            {{--@endif--}}
-                        {{--</td>--}}
-
                         <td>
-                            {{ $data->status->display() }}
+                                <span class="label
+                                @if($data->status_cd == 100)
+                                        label-default
+                                @elseif($data->status_cd == 106)
+                                        label-primary
+                                @else
+                                        label-info
+                                @endif
+                                ">
+                                    {{ $data->status->display() }}
+                                </span>
                         </td>
                         <td >
                             {{ $data->reservation ? $data->reservation->reservation_at->format('Y-m-d H시 i분') : ''}}
@@ -277,12 +266,7 @@
 
         $(document).on('click', '.confirmReservation', function (e) {
             var $obj = $(this);
-
             var order_id = $(this).data("order_id");
-
-            // var t = $(this).data("time");
-            //
-            // $("#datepickerReservationTime").val(t);
 
             if(confirm("해당 주문의 예약일자를 확정하시겠습니까?")){
                 $.ajax({

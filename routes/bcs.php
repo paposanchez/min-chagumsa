@@ -5,7 +5,7 @@ Route::group(['middleware' => ['auth', 'role:garage']], function () {
 
     //주문
     Route::resource('order', 'OrderController', ['as' => 'bcs']);
-    Route::post('order/confirmation/{id}', 'OrderController@confirmation');
+    Route::post('order/confirmation/{order_id}', 'OrderController@confirmation');
     Route::post('order/reservation_change', 'OrderController@reservationChange');
     Route::resource('calculation', 'CalculationController', ['as' => 'bcs']);
     Route::resource('notice', 'NoticeController', ['as' => 'bcs']);

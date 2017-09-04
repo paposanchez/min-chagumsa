@@ -76,7 +76,6 @@
 
             <table class="table text-middle text-center">
                 <colgroup>
-                    {{--<col width="5%">--}}
                     <col width="15%">
                     <col width="*">
                     <col width="15%">
@@ -87,7 +86,6 @@
 
                 <thead>
                     <tr class="active">
-                        {{--<th class="text-center">#</th>--}}
                         <th class="text-center">주문번호</th>
                         <th class="text-center">차량명</th>
                         <th class="text-center">정비사</th>
@@ -106,9 +104,6 @@
                     @foreach($entrys as $data)
 
                     <tr>
-                        {{--<td class="">--}}
-                            {{--{{ $data->id }}--}}
-                        {{--</td>--}}
                         <td class="text-center">
                             <a href="{{ route('diagnosis.show', $data->id) }}"> {{ $data->getOrderNumber() }}</a>
                         </td>
@@ -116,11 +111,11 @@
                             {{ $data->getCarFullName() }}
                         </td>
                         <td class="">
-                            {{ $data->orderer_name }}
+                            {{ $data->engineer ?$data->engineer->name : ''}}
                         </td>
 
                         <td class="">
-                            {{ $data->orderer_mobile }}
+                            {{ $data->engineer ?$data->engineer->mobile : ''}}
                         </td>
 
                         <td class="">
@@ -138,12 +133,6 @@
 
 
     <div class="row">
-
-        <div class="col-sm-6">
-
-            {{--<a href="{{ route('order.edit', $data->id) }}" class="btn btn-primary">등록</a>--}}
-
-        </div>
 
         <div class="col-sm-6 text-right">
             {!! $entrys->render() !!}

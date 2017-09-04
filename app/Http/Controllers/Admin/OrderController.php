@@ -627,8 +627,6 @@ class OrderController extends Controller
 
             $reservation_date = new DateTime($date.' '.$time.':00:00');
 
-//                var_dump($reservation_date);
-
             $reservation = Reservation::where('orders_id', $order_id)->first();
             $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');;
             $reservation->save();
