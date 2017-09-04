@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\GarageInfo;
 use App\Models\Role;
+use App\Models\RoleUser;
 use App\Models\User;
 use App\Models\Code;
 use App\Models\UserExtra;
@@ -194,7 +195,6 @@ class UserController extends Controller {
     }
 
     public function update(Request $request, $id) {
-        dd($request->get('with_eng'));
         $this->validate($request, [
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|min:6|confirmed',
@@ -254,6 +254,7 @@ class UserController extends Controller {
 //                ]);
 
                 if ($request->get('with_eng')) {
+                    $eng_role = RoleUser::where('user_id', $id)->where('role_id', 5)->delete();
                     $user->attachRole($request->get('with_eng'));
                 }
 
@@ -267,15 +268,15 @@ class UserController extends Controller {
                 $user_extra->zipcode = $request->get('garage_zipcode');
                 $user_extra->area = $request->get('garage_area');
                 $user_extra->section = $request->get('garage_section');
-                $user_extra->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_address'); // 정비소 나머지 주소
                 $user_extra->address_extra = $request->get('garage_address');
+                $user_extra->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_address'); // 정비소 나머지 주소
                 $user_extra->aliance_id = $request->get('aliance_id');
                 $user_extra->registration_number = $request->get('registration_number');
                 $user_extra->fax = $request->get('fax');
                 $user_extra->bcs_bank = $request->get('bank');
                 $user_extra->bcs_account = $request->get('account');
                 $user_extra->bcs_account_name = $request->get('owner');
-                $user_extra->ceo_name = $request->get('name');
+                $user_extra->ceo_name = $request->get('garage_name');
                 $user_extra->ceo_mobile = $request->get('mobile');
                 $user_extra->save();
 

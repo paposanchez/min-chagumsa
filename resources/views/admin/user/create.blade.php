@@ -116,7 +116,7 @@
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('garage_name') ? 'has-error' : '' }} garage_name">
-                    <label for="inputGarage" class="control-label col-md-3">정비소 명</label>
+                    <label for="inputGarage" class="control-label col-md-3">정비소 대표자명</label>
                     <div class="col-md-6 ">
                         <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="{{ old('garage_name') }}">
                     </div>

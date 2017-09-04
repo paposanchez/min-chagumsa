@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Bcs;
 
 use App\Http\Controllers\Controller;
-use App\Models\GarageInfo;
+use App\Models\user_extra;
 use App\Models\User;
 use App\Models\UserExtra;
 use Illuminate\Http\Request;
@@ -23,8 +23,8 @@ class BcsController extends Controller {
         $aliance_list = User::select()->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->where('role_user.role_id', '=', 3)->pluck('name', 'id');
 
-        $my_area = $user->garageInfo->area;
-        $my_section = $user->garageInfo->section;
+        $my_area = $user->user_extra->area;
+        $my_section = $user->user_extra->section;
 
 
         return view("bcs.user.bcs-info", compact('user', 'my_area', 'my_section', 'aliance_list'));
@@ -75,28 +75,25 @@ class BcsController extends Controller {
 
         $area = $request->get('area');
         $section = $request->get('section');
-//        $address = $area." ".$section." ".$request->get('address');
-        $address = $request->get('address');
 
-        // garage_info 정보 업데이트
-        $garage_info = GarageInfo::where('name', $user->name)->first();
-        if($garage_info){
-            $garage_info->area = $area;
-            $garage_info->section = $section;
-            $garage_info->address = $address;
-            $garage_info->name = $request->get('name');
-            $garage_info->save();
-        }
+        $address = $request->get('address');
 
         // user_extra 정보 업데이트
         $user_extra = UserExtra::where('users_id', $id)->first();
         if($user_extra){
-            $user_extra->registration_number = $request->get('registration_number');
             $user_extra->phone = $request->get('tel');
             $user_extra->fax = $request->get('fax');
             $user_extra->aliance_id = $request->get('aliance');
-            $user_extra->address_extra = $garage_info->name;
-            $user_extra->address = $area." ".$section." ".$address;
+            $user_extra->area = $area;
+            $user_extra->section = $section;
+            $user_extra->address_extra = $address;
+            $user_extra->address = $area." ".$section." ".$address; // 정비소 나머지 주소
+            $user_extra->zipcode = $request->get('zipcode');
+            $user_extra->bcs_bank = $request->get('bank');
+            $user_extra->bcs_account = $request->get('account');
+            $user_extra->bcs_account_name = $request->get('owner');
+            $user_extra->ceo_name = $request->get('ceo_name');
+            $user_extra->ceo_mobile = $request->get('mobile');
             $user_extra->save();
         }
 
