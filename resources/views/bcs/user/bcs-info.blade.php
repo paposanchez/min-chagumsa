@@ -73,64 +73,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group {{ $errors->has('select-aliance') ? 'has-error' : '' }}">
-                        <label for="engineer_number" class="control-label col-md-3">{{ trans('bcs/bcs-info.select-aliance') }}</label>
-                        <div class="col-md-4">
-                            {{--<p class='form-control-static'>{{ $user->user_extra->aliance_id }}</p>--}}
-                            {!! Form::select('aliance', $aliance_list, $user->user_extra->aliance_id, ['class'=>'form-control', 'multiple', 'id'=>'aliance']) !!}
-                        </div>
-                    </div>
-
-                    {{-- 정비소 주소 관련 --}}
-
-                    <div class="form-group {{ $errors->has('zipcode') ? 'has-error' : '' }}">
-                        <label for="address" class="control-label col-md-3">{{ trans('bcs/bcs-info.zipcode') }}</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.zipcode') }}" name="zipcode" id="zipcode" value="{{ $user->garageInfo->zipcode }}">
-                            <span class="help-block">{{ trans('bcs/bcs-info.help-zipcode') }}</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group {{ $errors->has('area') ? 'has-error' : '' }}">
-                        <label for="area" class="control-label col-md-3">{{ trans('bcs/bcs-info.area') }}</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.area') }}" name="area" id="area" value="{{ $user->garageInfo->area }}">
-                            <span class="help-block">{{ trans('bcs/bcs-info.help-area') }}</span>
-                            @if ($errors->has('area'))
-                                <span class="help-block">
-                            {{ $errors->first('area') }}
-                        </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group {{ $errors->has('section') ? 'has-error' : '' }}">
-                        <label for="section" class="control-label col-md-3">{{ trans('bcs/bcs-info.section') }}</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.section') }}" name="section" id="section" value="{{ $user->garageInfo->section }}">
-                            <span class="help-block">{{ trans('bcs/bcs-info.help-section') }}</span>
-                            @if ($errors->has('section'))
-                                <span class="help-block">
-                            {{ $errors->first('section') }}
-                        </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group {{ $errors->has('address') ? 'has-error' : '' }}">
-                        <label for="address" class="control-label col-md-3">{{ trans('bcs/bcs-info.address') }}</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.address') }}" name="address" id="address" value="{{ $user->garageInfo->address }}">
-                            <span class="help-block">{{ trans('bcs/bcs-info.help-zipcode') }}</span>
-                            @if ($errors->has('address'))
-                                <span class="help-block">
-                            {{ $errors->first('address') }}
-                        </span>
-                            @endif
-                        </div>
-                    </div>
-                    {{-- 정비소 주소 관련 --}}
-
                     <div class="form-group {{ $errors->has('mobile') ? 'has-error' : '' }}">
                         <label for="inputMobile" class="control-label col-md-3">{{ trans('bcs/bcs-info.mobile') }}</label>
                         <div class="col-md-4">
@@ -144,10 +86,26 @@
                         </div>
                     </div>
 
-                    <div class="form-group {{ $errors->has('tel') ? 'has-error' : '' }}">
-                        <label for="tel" class="control-label col-md-3">{{ trans('bcs/bcs-info.tel') }}</label>
+                    <div class="form-group {{ $errors->has('select-aliance') ? 'has-error' : '' }}">
+                        <label for="engineer_number" class="control-label col-md-3">{{ trans('bcs/bcs-info.select-aliance') }}</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.tel') }}" name="tel" id="tel" value="{{ $user->user_extra->phone }}">
+                            {{--<p class='form-control-static'>{{ $user->user_extra->aliance_id }}</p>--}}
+                            {!! Form::select('aliance', $aliance_list, $user->user_extra->aliance_id, ['class'=>'form-control', 'multiple', 'id'=>'aliance']) !!}
+                        </div>
+                    </div>
+
+                    {{-- 정비소 주소 관련 --}}
+                    <div class="form-group {{ $errors->has('ceo_name') ? 'has-error' : '' }} ceo_name">
+                        <label for="inputCeo" class="control-label col-md-3">정비소 대표자명</label>
+                        <div class="col-md-4 ">
+                            <input type="text" class="form-control" placeholder="정비소 대표자명" name="ceo_name" id="ceo_name" value="{{ $user->user_extra->ceo_name }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group {{ $errors->has('tel') ? 'has-error' : '' }}">
+                        <label for="tel" class="control-label col-md-3">정비소 전화번호</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="정비소 전화번호" name="tel" id="tel" value="{{ $user->user_extra->phone }}">
 
                             @if ($errors->has('tel'))
                                 <span class="help-block">
@@ -169,6 +127,59 @@
                             @endif
                         </div>
                     </div>
+
+
+                    <div class="form-group {{ $errors->has('zipcode') ? 'has-error' : '' }}">
+                        <label for="address" class="control-label col-md-3">{{ trans('bcs/bcs-info.zipcode') }}</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.zipcode') }}" name="zipcode" id="zipcode" value="{{ $user->user_extra->zipcode }}">
+                            <span class="help-block">{{ trans('bcs/bcs-info.help-zipcode') }}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group {{ $errors->has('area') ? 'has-error' : '' }}">
+                        <label for="area" class="control-label col-md-3">{{ trans('bcs/bcs-info.area') }}</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.area') }}" name="area" id="area" value="{{ $user->user_extra->area }}">
+                            <span class="help-block">{{ trans('bcs/bcs-info.help-area') }}</span>
+                            @if ($errors->has('area'))
+                                <span class="help-block">
+                            {{ $errors->first('area') }}
+                        </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group {{ $errors->has('section') ? 'has-error' : '' }}">
+                        <label for="section" class="control-label col-md-3">{{ trans('bcs/bcs-info.section') }}</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.section') }}" name="section" id="section" value="{{ $user->user_extra->section }}">
+                            <span class="help-block">{{ trans('bcs/bcs-info.help-section') }}</span>
+                            @if ($errors->has('section'))
+                                <span class="help-block">
+                            {{ $errors->first('section') }}
+                        </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group {{ $errors->has('address') ? 'has-error' : '' }}">
+                        <label for="address" class="control-label col-md-3">{{ trans('bcs/bcs-info.address') }}</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.address') }}" name="address" id="address" value="{{ $user->user_extra->address_extra }}">
+                            <span class="help-block">{{ trans('bcs/bcs-info.help-zipcode') }}</span>
+                            @if ($errors->has('address'))
+                                <span class="help-block">
+                            {{ $errors->first('address') }}
+                        </span>
+                            @endif
+                        </div>
+                    </div>
+                    {{-- 정비소 주소 관련 --}}
+
+
+
+
 
                     <div class="form-group {{ $errors->has('bank') ? 'has-error' : '' }} bank">
                         <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.bank') }}</label>
