@@ -234,7 +234,7 @@
 
                     <!-- 파일 업로드 -->
                     <div class="form-group {{ $errors->has('attachment') ? 'has-error' : '' }}">
-                        <label for="" class="control-label col-md-3">정비소 사진</label>
+                        <label for="" class="control-label col-md-3">정비소 관련자료</label>
 
                         <div class="col-md-9">
 

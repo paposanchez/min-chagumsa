@@ -45,7 +45,7 @@
                 <label for="inputContent" class="control-label col-md-3">{{ trans('admin/bcs-post.content') }}</label>
                 <div class="col-md-9">
                     {{--<textarea  class="form-control wysiwyg" placeholder="{{ trans('admin/post.content') }}" name="content" id="inputContent">--}}
-                    <textarea  class="form-control" placeholder="{{ trans('admin/bcs-post.content') }}" name="content" id="inputContent2" style="height: 250px;">{{ $post->content or old('content') }}</textarea>
+                    <textarea  class="form-control" placeholder="{{ trans('admin/bcs-post.content') }}" name="content2" id="inputContent2" style="height: 250px;">{{ $post->content or old('content') }}</textarea>
 
                     @if ($errors->has('content'))
                         <span class="help-block">
