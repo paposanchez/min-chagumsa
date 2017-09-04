@@ -99,7 +99,7 @@
                 });
 
                 $('#mypage').click(function (){
-                        location.href = '{{ route('mypage.order.index') }}';
+                        location.href = '{{ route('mypage.order.show', ['order_id' => $order->id]) }}';
                 });
         });
         </script>
