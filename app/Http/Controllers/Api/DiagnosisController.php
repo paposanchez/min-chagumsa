@@ -116,14 +116,16 @@ class DiagnosisController extends ApiController {
                                 throw new Exception("접근권한이 없습니다.");
                         }
 
-                        // todo 업로드파일을 다 지워야된다
-                        $diagnoses = Diagnosis::where('orders_id', $request->get('order_id'))->get();
-                        $diagnoses_ids = [];
-                        foreach ($diagnoses as $diagnosis){
-                                //                $where->where('diagnoses_id', $diagnosis->id)->delete();
-                                $diagnoses_ids[] = $diagnosis->id;
+                        //@TODO 업로드파일을 다 지워야된다
+                        $diagnoses_files = Diagnosis::where('orders_id', $request->get('order_id'))->get();
+                        if(count($diagnoses_files)) {
+                                $diagnoses_ids = [];
+                                foreach ($diagnoses_files as $diagnosis){
+                                        //                $where->where('diagnoses_id', $diagnosis->id)->delete();
+                                        $diagnoses_ids[] = $diagnosis->id;
+                                }
+                                DiagnosisFile::whereIn('diagnoses_id', $diagnoses_ids)->delete();
                         }
-                        DiagnosisFile::whereIn('diagnoses_id', $diagnoses_ids)->delete();
 
 
                         $diagnosis = new DiagnosisRepository();
