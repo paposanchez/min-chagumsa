@@ -633,6 +633,10 @@ class OrderController extends Controller
             $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');;
             $reservation->save();
 
+            $order = Order::find($order_id);
+            $order->status_cd = 104;
+            $order->save();
+
             return response()->json('success');
         }
         catch (Exception $ex){
@@ -641,38 +645,20 @@ class OrderController extends Controller
     }
 
     //  예약확정
-//    public function updateRservation(Request $request, $id){
-//        $validate = Validator::make($request->all(), [
-//            'date' => 'required',
-//            'time' => 'required',
-//            'id' => 'required'
-//        ]);
-//
-//        if ($validate->fails())
-//        {
-//            return redirect()->back()->with('error', "필수파라미터가 입력되지 않았습니다.");
-//        }
-//
-//        $reservation = Reservation::findOrFail($request->get('id'));
-//
-//    }
-
-    public function confirmation(Request $request, $id){
+    public function confirmation($order_id){
         try{
-            $reservation = Reservation::findOrFail($id);
+            $reservation = Reservation::where('orders_id', $order_id);
             $reservation->update([
                 'updated_id' => Auth::user()->id,
                 'updated_at' => Carbon::now()
             ]);
 
-            $order = Order::find($request->get('order_id'));
+            $order = Order::find($order_id);
             $order->status_cd = 104;
             $order->save();
 
             $diagnosis = new DiagnosisRepository();
             $diagnosis->prepare($order->id)->create($order->id);
-
-
 
             return response()->json(true);
         }catch (Exception $ex){

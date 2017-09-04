@@ -98,8 +98,8 @@
                                         <li><strong class="text-light text-muted">모델</strong> <span>{{ $order->orderCar->models->name }}</span></li>
                                         <li><strong class="text-light text-muted">세무보델</strong> <span>{{ $order->orderCar->detail->name }}</span></li>
                                         <li><strong class="text-light text-muted">등급</strong> <span>{{ $order->orderCar->grade->name }}</span></li>
-                                        <li><strong class="text-light text-muted">침수여부</strong> <span>{{ $order->flooding_state_cd ? "예" : "아니요" }}</span></li>
-                                        <li><strong class="text-light text-muted">사고여부</strong> <span>{{ $order->flooding_state_cd ? "예" : "아니요"  }}</span></li>
+                                        <li><strong class="text-light text-muted">침수여부</strong> <span>{{ $order->flooding_state_cd == 1 ? "예" : "아니요" }}</span></li>
+                                        <li><strong class="text-light text-muted">사고여부</strong> <span>{{ $order->flooding_state_cd == 1 ? "예" : "아니요"  }}</span></li>
                                         <li><strong class="text-light text-muted">옵션</strong> <span>{{ $features }}</span></li>
 
                                 </ul>

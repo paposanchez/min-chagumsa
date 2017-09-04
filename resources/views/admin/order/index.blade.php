@@ -164,10 +164,10 @@
                         <td>
 
                             {{--@if($data->status_cd == 102)--}}
-                            @if($data->status_cd >= 101 && $data->status_cd <= 104 )
+                            @if($data->status_cd >= 102 && $data->status_cd <= 104 )
                                 @if($data->reservation)
-                                <button type="button" title="예약변경" data-idx="{{ $data->reservation->id  }}" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" class="btn btn-info changeReservationModalOpen">예약변경</button>
-                                <button type="button" title="예약확정" data-idx="{{ $data->reservation->id  }}" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation">예약확정</button>
+                                <button type="button" title="예약변경" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" class="btn btn-info changeReservationModalOpen">예약변경</button>
+                                <button type="button" title="예약확정" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation">예약확정</button>
                                 @endif
                             @endif
                             <a href="{{ url("order", [$data->id]) }}" class="btn btn-default">상세보기</a>
@@ -277,7 +277,7 @@
 
         $(document).on('click', '.confirmReservation', function (e) {
             var $obj = $(this);
-            var id = $(this).data("idx");
+
             var order_id = $(this).data("order_id");
 
             // var t = $(this).data("time");
@@ -286,14 +286,13 @@
 
             if(confirm("해당 주문의 예약일자를 확정하시겠습니까?")){
                 $.ajax({
-                    url:'/order/confirmation/'+id,
+                    url:'/order/confirmation/'+order_id,
                     type:'post',
                     data:{
-                        id : id,
                         order_id : order_id
                     },
                     success:function(data){
-//                        alert('success');
+                        alert(data);
                         $obj.parent().find('.changeReservationModalOpen').remove();
                         $obj.parent().find('.confirmReservation').remove();
                         location.href = '/order';
