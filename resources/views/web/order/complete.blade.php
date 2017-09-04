@@ -69,7 +69,7 @@
                                                 <li><strong class="text-light text-muted">예약상태</strong> <span>미정</span>
                                                 </li>
                                                 <li><strong class="text-light text-muted">입고예정일</strong> <span>{{ $reservation->reservation_at->format('Y년 m월 d일') }}</span></li>
-                                                <li><strong class="text-light text-muted">입고대리점</strong> <span>{{ $order->garageInfo->name }} <small>{{ $order->garageInfo->tel }}</small></span></li>
+                                                <li><strong class="text-light text-muted">입고대리점</strong> <span>{{ $order->garage->name }} <small>{{ $order->garage->user_extra->phone }}</small></span></li>
                                         </ul>
                                 </div>
                         </div>
