@@ -34,7 +34,7 @@
         "orangehill/iseed": "^2.4",
         "phpunit/phpunit": "~5.7",
         "xethron/migrations-generator": "^2.0",
-        "darkaonline/l5-swagger": "~4.0"
+        "darkaonline/l5-swagger": "5.5.*"
     },
     "autoload": {
         "classmap": [
