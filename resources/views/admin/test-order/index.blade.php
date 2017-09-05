@@ -25,7 +25,7 @@
                             <div class="col-md-3">
                                 <input type="text" class="form-control" placeholder="seq 번호" name="garage_id"
                                        id="garage_id" value="">
-                                <span class="help-block">ex) 정비소 5 (moon@2by.kr) => 주문하고자 하는 정비소 번호 </span>
+                                <span class="help-block">ex) 정비소 4 (moon@2by.kr) => 주문하고자 하는 정비소 번호 </span>
                             </div>
                         </div>
 
