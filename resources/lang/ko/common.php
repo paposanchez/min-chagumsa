@@ -12,7 +12,7 @@ return [
         'save' => '저장',
         'back' => '돌아가기',
         'select' => '선택',
-        'file-select' => '파일선택',
+        'file-select' => '파일등록',
         'upload' => '올리기',
         'download' => '내려받기',
         'drop' => 'dlrhtdp vkdlfdmf 올리기',

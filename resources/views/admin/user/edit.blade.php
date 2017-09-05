@@ -291,7 +291,7 @@
             @if($user->role_user->role_id == 4)
                 <!-- 파일 업로드 -->
                 <div class="form-group attachment">
-                    <label for="" class="control-label col-md-3">정비소 사진</label>
+                    <label for="" class="control-label col-md-3">정비소 관련자료</label>
 
                     <div class="col-md-9">
 

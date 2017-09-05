@@ -12,9 +12,9 @@ Breadcrumbs::register('admin.post', function($breadcrumbs) {
     $breadcrumbs->parent('admin');
     $breadcrumbs->push(trans("admin/post.title"), route('post.index'));
 });
-Breadcrumbs::register('admin.bcs-post', function($breadcrumbs) {
+Breadcrumbs::register('admin.test', function($breadcrumbs) {
     $breadcrumbs->parent('admin');
-    $breadcrumbs->push(trans("admin/bcs-post.title"), route('bcs-post.index'));
+    $breadcrumbs->push('테스트 주문', route('test.index'));
 });
 Breadcrumbs::register('admin.comment', function($breadcrumbs) {
     $breadcrumbs->parent('admin');
