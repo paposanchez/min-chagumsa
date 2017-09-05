@@ -38,7 +38,7 @@
 			<tr>
 				<td style="background:#f4f4f4;border-top:1px solid #dbdbdb;padding:15px 60px;">
 					<p style='font-size:14px;color:#444;letter-spacing:-1px;'>
-						Copyright &copy JIMBROS Co., Ltd. All rights reserved.
+						Copyright &copy JIMBROS INC. All rights reserved.
 					</p>
 				</td>
 			</tr>

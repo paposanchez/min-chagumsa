@@ -55,7 +55,7 @@
                                         <li><strong class="text-light text-muted">결제금액</strong> <span>{{ $order->item->price }}</span></li>
                                         <li><strong class="text-light text-muted">결제일</strong> <span>{{ $order->purchase->updated_at }}</span>
 
-                                                @if( $order->status_cd != 107 && $order->status_cd != 100 )
+                                                @if( $order->status_cd >= 101 && $order->status_cd <= 104 )
                                                 <a  href="javascript:;" class="pull-right text-muted text-danger" id="cancel-click" data-cancel_order_id="{{ $order->id }}">결제취소</a>
                                                 @endif
 

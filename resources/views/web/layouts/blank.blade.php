@@ -30,7 +30,7 @@
             {{-- 푸터 카피라이트 --}}
             <div id='foot_full_wrap'>
                 <div class='foot_full_desc'>
-                    <p>Copyright &copy; JIMBROS Co., Ltd. All rights reserved.<br>
+                    <p>Copyright &copy; JIMBROS INC. All rights reserved.<br>
                         (주)짐브러스의 사전 서명동의없이 차검사사이트의 일체의 정보,콘텐츠를 상업적인 목적으로 전재, 전송, 스크래핑 등 무단 사용할 수 없습니다.</p>
                 </div>
             </div>
