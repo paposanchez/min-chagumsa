@@ -10,8 +10,8 @@
             <div class="col-md-12">
                 <form class="form-horizontal">
                     <fieldset>
-                        <div class="form-group {{ $errors->has('mobiles') ? 'has-error' : '' }}">
-                            <label for="inputSubject" class="control-label col-md-3">주문 생성자</label>
+                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                            <label for="" class="control-label col-md-3">주문 생성자</label>
 
                             <div class="col-md-3">
                                 <input type="text" class="form-control" placeholder="seq 번호" name="user_id" id="user_id"
@@ -20,12 +20,21 @@
                             </div>
                         </div>
 
-                        <div class="form-group {{ $errors->has('mobiles') ? 'has-error' : '' }}">
-                            <label for="inputSubject" class="control-label col-md-3">정비소 번호</label>
+                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                            <label for="" class="control-label col-md-3">정비소 번호</label>
                             <div class="col-md-3">
                                 <input type="text" class="form-control" placeholder="seq 번호" name="garage_id"
                                        id="garage_id" value="">
                                 <span class="help-block">ex) 정비소 5 (moon@2by.kr) => 주문하고자 하는 정비소 번호 </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                            <label for="" class="control-label col-md-3">차량번호</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder="차량번호 ex) 00허0000" name="car_number"
+                                       id="car_number" value="">
+                                <span class="help-block">ex) 00허000</span>
                             </div>
                         </div>
 
@@ -53,7 +62,7 @@
         $(document).on('click', '#create_order', function () {
             var user_id = $('#user_id').val();
             var garage_id = $('#garage_id').val();
-
+            var car_number = $('#car_number').val();
 
             $.ajax({
                 type : 'get',
@@ -61,7 +70,8 @@
                 url : '/test/create-order',
                 data : {
                     "user_id" : user_id,
-                    "garage_id" : garage_id
+                    "garage_id" : garage_id,
+                    "car_number" : car_number
                 },
                 success : function (data){
                     alert('태스트 주문이 생성되었습니다.');

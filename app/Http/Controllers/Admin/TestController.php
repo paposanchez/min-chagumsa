@@ -29,6 +29,7 @@ class TestController extends Controller {
         try{
             $user_id = $request->get('user_id');
             $garage_id = $request->get('garage_id');
+            $car_number = $request->get('car_number');
 
             $user = User::find($user_id);
             $item = Item::find(1);
@@ -39,7 +40,7 @@ class TestController extends Controller {
             $purchase->save();
 
             $order = new Order();
-            $order->car_number = '00짐0001';
+            $order->car_number = $car_number;
             $order->garage_id = $garage_id;
             $order->item_id = $item->id;
             $order->purchase_id = $purchase->id;
@@ -55,7 +56,7 @@ class TestController extends Controller {
 
             $order_car = new OrderCar();
             $order_car->orders_id = $order->id;
-            $order_car->car_number = '00짐0001';
+            $order_car->car_number = $car_number;
             $order_car->brands_id = 1;
             $order_car->models_id = 329;
             $order_car->details_id = 211;
