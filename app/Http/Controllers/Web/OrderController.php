@@ -1039,14 +1039,7 @@ class OrderController extends Controller
             $coupon_where->save();
         }
 
-
         $orderer = Auth::user();
-
-
-        $datekey = Carbon::now()->format('ymd');
-
-
-        $order = Order::OrderBy('id', 'DESC')->where('car_number', $request->get('car_number'))->first();
 
         $garage_info = UserExtra::where('users_id', $request->get('garages'))->first();
 
@@ -1095,9 +1088,9 @@ class OrderController extends Controller
         $order->item_id = $request->get('item_id');
 
         $purchase = new Purchase();
-        $purchase->amount = $request->get('payment_price'); //결제 완료 후 update
+        $purchase->amount = 0; //결제 완료 후 update
         $purchase->type = $request->get('payment_method'); // 결제방법
-        $purchase->status_cd = 101; // 결제상태
+        $purchase->status_cd = 102; // 결제상태
         $purchase->save();
 
         $order->purchase_id = $purchase->id;
