@@ -148,7 +148,6 @@
                                     <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD"
                                            placeholder="{{ trans('web/order.reservation_date') }}" name='reservation_date'
                                            id="reservation_date" value='' style="margin-right: 5px;">
-                                    style="margin-right: 5px;">
                                     <span class="input-group-btn">
                                                                 <button class="btn btn-default2" type="button"
                                                                         id="calendar-opener"><i
@@ -837,13 +836,9 @@
             var coupon_id = $("#coupon_id").val()
             if (use_coupon_number && coupon_id) {
                 $("#orderFrm").removeAttr("target");
-                $("#orderFrm").attr("action", "{{ url(" / order / coupon - process
-                ") }}"
-                )
-                ;
+                $("#orderFrm").attr("action", "{{ url("order/coupon-process") }}");
                 $("#orderFrm").submit();
             }
-
         });
 
 
