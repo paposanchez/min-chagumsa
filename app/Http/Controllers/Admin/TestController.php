@@ -12,6 +12,7 @@ use App\Models\File;
 use App\Http\Controllers\Controller;
 use App\Models\Purchase;
 use App\Models\Reservation;
+use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
@@ -20,8 +21,10 @@ use Illuminate\Http\Request;
 class TestController extends Controller {
 
     public function index(Request $request, $page = 1) {
+        $users = Role::find(2)->users->pluck('name', 'id');
+        $garages = Role::find(4)->users->pluck('name', 'id');
 
-        return view('admin.test-order.index');
+        return view('admin.test-order.index', compact('users', 'garages'));
     }
 
     public function createOrder(Request $request) {
