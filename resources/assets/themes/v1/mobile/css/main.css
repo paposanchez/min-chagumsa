@@ -42,7 +42,7 @@
 .main_standard ul li {margin:10px;font-size:13px;color:#fff;width:148px;height:36px;line-height:36px;display:inline-block;background:rgba(95,180,238,0.33);border:1px solid rgba(255,255,255,0.25);border-radius:56px;box-shadow:0px 0px 8px rgba(0,0,0,0.25);text-align:center;font-weight:bold;}
 
 
-#main_service_wrap {height:332px;position:relative;}
+#main_service_wrap {height:340px;position:relative;}
 #main_service_wrap nav {position:absolute;top:82px;width:100%;z-index:9999;overflow:hidden;}
 #main_service_wrap nav div {width:14px;height:28.5px;display:block;background-size:100%;background-repeat:no-repeat;margin:0 20px;}
 #main_service_wrap nav div.msb_prev {float:left;background-image:url('/assets/themes/v1/mobile/img/main/nav_prev.png');}
