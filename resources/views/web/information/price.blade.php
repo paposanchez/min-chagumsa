@@ -20,7 +20,7 @@
 
     <div class='intro3_step_box'>
         <div>
-            <strong>STEP01</strong>차량정보 입력
+            <strong>STEP01</strong>정보 입력
         </div>
         <p>
             <span>간단한 차량정보를 입력합니다.</span>
@@ -33,7 +33,7 @@
 
     <div class='intro3_step_box'>
         <div>
-            <strong>STEP02</strong>차량검사 장소 및<br>시간 선택
+            <strong>STEP02</strong>장소/시간 선택
         </div>
         <p>
             <span>전국 400개 BOSCH 카정비소에서 정밀한 진단이 가능합니다. </span>
@@ -45,7 +45,7 @@
 
     <div class='intro3_step_box'>
         <div>
-            <strong>STEP03</strong>결제하기
+            <strong>STEP03</strong>결제
         </div>
         <p>
             <span class='br30'>결제를 진행합니다.</span>
@@ -82,44 +82,95 @@
     <div class='intro3_title'>인증서 발급수수료</div>
     <div class='br20'></div>
     <div class='para_type1'>
-        신청 자동차 성능진단 및 가치산정발급수수료는 아래와 같습니다. 국산차와 수입차의 가격차는정확한 성능진단 시 진단장비 사용 및 진단비용과 보증수수료 차이를 반영한 금액입니다.
+        차검사 인증서 발급수수료는 아래와 같습니다. 국산차와 수입차의 발급수수료 차이는 진단장비 사용, 진단비용과 보증수수료 차이를 반영한 금액입니다.
     </div><div class='br20'></div>
 
+    {{--<div class='board_wrap'>--}}
+        {{--<table>--}}
+            {{--<colgroup>--}}
+                {{--<col style='width:15%;'>--}}
+                {{--<col style='width:15%;'>--}}
+                {{--<col style='width:20%;'>--}}
+                {{--<col style='width:40%;'>--}}
+            {{--</colgroup>--}}
+            {{--<thead>--}}
+            {{--<tr>--}}
+                {{--<th colspan='2'>구분</th>--}}
+                {{--<th class='alg_c'>인증 수수료<br>(VAT 포함)--}}
+                {{--</th>--}}
+                {{--<th class='alg_c'>인증서보장내역</th>--}}
+            {{--</tr>--}}
+            {{--</thead>--}}
+            {{--<tbody>--}}
+            {{--@foreach($item as $key => $row)--}}
+                {{--<tr>--}}
+                    {{--@if($key == 0)--}}
+                        {{--<th rowspan="{{ $local_cnt }}">국산차</th>--}}
+                    {{--@elseif(count($item) - $local_cnt == $key)--}}
+                        {{--<th rowspan="{{ $forein_cnt }}">수입차</th>--}}
+                    {{--@endif--}}
+
+                    {{--<th>{{ number_format($row->price) }}원</th>--}}
+                    {{--<th>{{ $row->name }}</th>--}}
+                    {{--@if($key == 0)--}}
+                        {{--<td rowspan='{{ count($item) }}' style='padding-left:30px;'>--}}
+                            {{--- 품질등급 B 등급이상에 대해, 3개월 5000km 내 수리보장<br><br>--}}
+                            {{--- 전국 500개 보쉬카서비스에서 수리가능함(자기 부담금 30,000원)<br><br>--}}
+                            {{--- 보장범위는 품질인증서에서 양호로 진단된 범위 내--}}
+                        {{--</td>--}}
+                    {{--@endif--}}
+                {{--</tr>--}}
+            {{--@endforeach()--}}
+
+            {{--</tbody>--}}
+        {{--</table>--}}
+    {{--</div>--}}
     <div class='board_wrap'>
         <table>
             <colgroup>
                 <col style='width:15%;'>
                 <col style='width:15%;'>
                 <col style='width:20%;'>
-                <col style='width:40%;'>
+                <col style='width:20%;'>
+                <col style='width:30%;'>
             </colgroup>
             <thead>
             <tr>
                 <th colspan='2'>구분</th>
-                <th class='alg_c'>인증수수료</th>
+                <th class='alg_c'>인증 수수료<br>(VAT 포함)</th>
+                <th>설명</th>
                 <th class='alg_c'>인증서보장내역</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($item as $key => $row)
-                <tr>
-                    @if($key == 0)
-                        <th rowspan="{{ $local_cnt }}">국산차</th>
-                    @elseif(count($item) - $local_cnt == $key)
-                        <th rowspan="{{ $forein_cnt }}">수입차</th>
-                    @endif
+            <tr>
+                <th rowspan="2">국산차</th>
 
-                    <th>{{ number_format($row->price) }}원</th>
-                    <th>{{ $row->name }}</th>
-                    @if($key == 0)
-                        <td rowspan='{{ count($item) }}' style='padding-left:30px;'>
-                            - 품질등급 B 등급이상에 대해, 3개월 5000km 내 수리보장<br><br>
-                            - 전국 500개 보쉬카서비스에서 수리가능함(자기 부담금 30,000원)<br><br>
-                            - 보장범위는 품질인증서에서 양호로 진단된 범위 내
-                        </td>
-                    @endif
-                </tr>
-            @endforeach()
+                <th>150,000원</th>
+                <th rowspan="2">150,000원 / 200,000원</th>
+                <th rowspan="4">제조사, 모델, 배기량에 따라 다르며, 인증서 신청 시 자동 결정됩니다.</th>
+                <td rowspan='4' style='padding-left:30px;'>
+                    - 품질등급 B 이상 차량에 한해 3개월/5천km 내 수리 보증<br><br>
+                    - 전국 200개 보쉬카서비스에서 수리가능(자기 부담금 30,000원)<br><br>
+                    - 보장 범위는 품질 인증서에서 양호로 진단된 범위 내
+                </td>
+            </tr>
+            <tr>
+                <th>200,000원</th>
+
+            </tr>
+
+            <tr>
+                <th rowspan="2">수입차</th>
+
+                <th>300,000원</th>
+                <th rowspan="2">300,000원 / 350,000원</th>
+            </tr>
+            <tr>
+
+                <th>350,000원</th>
+
+            </tr>
 
             </tbody>
         </table>

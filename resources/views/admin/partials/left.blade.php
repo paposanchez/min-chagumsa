@@ -33,7 +33,7 @@
 
                 <li class="{{ Request::is('post*') ? ' active':''}}"><a href="/post"><i class="fa fa-pencil"></i><span class="nav-label">{{ trans('admin/post.title') }}</span></a></li>
 
-                <li class="{{ Request::is('bcs-post*') ? ' active':''}}"><a href="/test"><i class="fa fa-bell"></i><span class="nav-label">테스트 주문</span></a></li>
+                <li class="{{ Request::is('bcs-post*') ? ' active':''}}"><a href="/test"><i class="fa fa-flask" aria-hidden="true"></i><span class="nav-label">테스트 주문</span></a></li>
 
                 <li class="{{ Request::is('sms*') ? ' active':''}}"><a href="/sms"><i class="fa fa-comments" aria-hidden="true"></i><span class="nav-label">SMS 전송</span></a></li>
 

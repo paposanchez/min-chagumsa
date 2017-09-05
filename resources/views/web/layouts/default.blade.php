@@ -98,7 +98,7 @@
                         </li>
                     </ul>
                     <div class='foot_desc'>
-                        <strong>Copyright &copy; Ginbros Co., Ltd. All rights reserved.</strong>
+                        <strong>Copyright &copy; JIMBROS INC. All rights reserved.</strong>
                         <p>(주)짐브러스의 사전 서명동의없이 차검사사이트의 일체의 정보,콘텐츠를 상업적인 목적으로 전재, 전송, 스크래핑 등 무단 사용할 수 없습니다.</p>
                     </div>
                 </div>

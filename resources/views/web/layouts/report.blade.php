@@ -25,7 +25,7 @@
             <li><a class="{{ $page == 'price' ? ' select':''}}" href='{{ route('certificate', ['id'=>4,'page'=>'price']) }}'>자동차 가격조사산정서</a></li>
         </ul>
         <p>
-            <span>Copyright © Ginbros Co., Ltd. All rights reserved.</span>
+            <span>Copyright © JIMBROS INC. All rights reserved.</span>
             (주)진브러스의 사전 서명동의없이 차검사사이트의 일체의 정보, 콘텐츠를 상업적인 목적으로 전재, 전송, 스크래핑 등 무단 사용할 수 없습니다.
         </p>
 
