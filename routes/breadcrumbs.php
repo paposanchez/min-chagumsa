@@ -2,7 +2,7 @@
 
 //############################## Admin
 Breadcrumbs::register('admin', function($breadcrumbs) {
-    $breadcrumbs->push(trans("admin/dashboard.title"), route('dashboard.index'));
+    $breadcrumbs->push(trans("admin/dashboard.title"), url('/dashboard'));
 });
 Breadcrumbs::register('admin.user', function($breadcrumbs) {
     $breadcrumbs->parent('admin');

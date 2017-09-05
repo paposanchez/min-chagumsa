@@ -7,122 +7,87 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 class RouteServiceProvider extends ServiceProvider {
 
-    /**
-     * This namespace is applied to your controller routes.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'App\Http\Controllers';
+        protected $namespace = 'App\Http\Controllers';
 
-    /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
-     */
-    public function boot() {
-        //
-        parent::boot();
-    }
+        public function map() {
+                $this->mapAdminRoutes();
+                $this->mapAllianceRoutes();
+                $this->mapBcsRoutes();
+                $this->mapTechnicianRoutes();
+                $this->mapApiRoutes();
+                $this->mapWebRoutes();
+        }
 
-    /**
-     * Define the routes for the application.
-     *
-     * @return void
-     */
-    public function map() {
-        $this->mapApiRoutes();
-        $this->mapAllianceRoutes();
-        $this->mapBcsRoutes();
-        $this->mapAdminRoutes();
-        $this->mapWebRoutes();
-        $this->mapTechnicianRoutes();
-    }
 
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapWebRoutes() {
-        $namespace = $this->namespace . '\Web';
-        Route::group([
-            'middleware' => 'web',
-            'namespace' => $namespace,
-            'domain' => "www.".config('app.domain'),
-//            'domain' => config('app.domain'),
+        protected function mapAdminRoutes() {
+                $namespace = $this->namespace . '\Admin';
+
+                Route::group([
+                        'middleware' => 'web',
+                        'namespace' => $namespace,
+                        'domain' => 'admin.' . config('app.domain'),
                 ], function ($router) {
-            require base_path('routes/web.php');
-        });
-    }
+                        require base_path('routes/admin.php');
+                });
+        }
 
-    protected function mapAdminRoutes() {
-        $namespace = $this->namespace . '\Admin';
+        protected function mapAllianceRoutes() {
+                $namespace = $this->namespace . '\Alliance';
 
-        Route::group([
-            'middleware' => 'web',
-            'namespace' => $namespace,
-            'domain' => 'admin.' . config('app.domain'),
+                Route::group([
+                        'middleware' => 'web',
+                        'namespace' => $namespace,
+                        'domain' => 'alliance.' . config('app.domain'),
                 ], function ($router) {
-            require base_path('routes/admin.php');
-        });
-    }
+                        require base_path('routes/alliance.php');
+                });
+        }
 
-    protected function mapAllianceRoutes() {
-        $namespace = $this->namespace . '\Alliance';
+        protected function mapBcsRoutes() {
+                $namespace = $this->namespace . '\Bcs';
 
-        Route::group([
-            'middleware' => 'web',
-            'namespace' => $namespace,
-            'domain' => 'alliance.' . config('app.domain'),
+                Route::group([
+                        'middleware' => 'web',
+                        'namespace' => $namespace,
+                        'domain' => 'bcs.' . config('app.domain'),
                 ], function ($router) {
-            require base_path('routes/alliance.php');
-        });
-    }
+                        require base_path('routes/bcs.php');
+                });
+        }
 
-    protected function mapBcsRoutes() {
-        $namespace = $this->namespace . '\Bcs';
+        protected function mapTechnicianRoutes() {
+                $namespace = $this->namespace . '\Technician';
 
-        Route::group([
-            'middleware' => 'web',
-            'namespace' => $namespace,
-            'domain' => 'bcs.' . config('app.domain'),
+                Route::group([
+                        'middleware' => 'web',
+                        'namespace' => $namespace,
+                        'domain' => 'tech.' . config('app.domain'),
                 ], function ($router) {
-            require base_path('routes/bcs.php');
-        });
-    }
+                        require base_path('routes/technician.php');
+                });
+        }
 
-    protected function mapTechnicianRoutes() {
-        $namespace = $this->namespace . '\Technician';
-
-        Route::group([
-            'middleware' => 'web',
-            'namespace' => $namespace,
-            'domain' => 'tech.' . config('app.domain'),
-        ], function ($router) {
-            require base_path('routes/technician.php');
-        });
-    }
-
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
-    protected function mapApiRoutes() {
-        $namespace = $this->namespace . '\Api';
-        Route::group([
-            'middleware' => 'api',
-            'namespace' => $namespace,
-            'domain' => 'api.' . config('app.domain'),
+        protected function mapApiRoutes() {
+                $namespace = $this->namespace . '\Api';
+                Route::group([
+                        // 'middleware' => 'api',
+                        'namespace' => $namespace,
+                        'domain' => 'api.' . config('app.domain'),
                 ], function ($router) {
-            require base_path('routes/api.php');
-        });
-    }
+                        require base_path('routes/api.php');
+                });
+        }
+
+        protected function mapWebRoutes() {
+                $namespace = $this->namespace . '\Web';
+                Route::group([
+                        'middleware' => 'web',
+                        'namespace' => $namespace,
+                        // 'domain' => config('app.domain'),
+                        //            'domain' => config('app.domain'),
+                ], function ($router) {
+                        require base_path('routes/web.php');
+                });
+        }
 
 }

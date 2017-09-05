@@ -63,6 +63,9 @@ Route::get('certificate/{id}/{page?}', 'CertificateController')->name("certifica
 Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
 Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 
+Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");
+Route::get('file/diagnosis-download/{id}', '\App\Http\Controllers\FileController@diagnosisDownload')->name("file.diagnosis-download");
+
 
 //결제결과 수신
 Route::match(['GET', 'POST'], 'payment/pay-result', 'PaymentController@payCallback')->name('payment.pay-result');
@@ -147,9 +150,6 @@ Auth::routes();
 Route::post('register', 'Auth\RegisterController@postRegister');
 Route::any('/', 'WelcomeController');
 
-
-Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");
-Route::get('file/diagnosis-download/{id}', '\App\Http\Controllers\FileController@diagnosisDownload')->name("file.diagnosis-download");
 
 
 
