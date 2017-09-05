@@ -42,6 +42,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/order/get_section', 'OrderController@getSection')->name("order.get_section");
     Route::get('/order/get_address', 'OrderController@getAddress')->name("order.get_address");
 
+    //쿠폰인증
+    Route::post('/order/coupon-verify', 'OrderController@couponVerify')->name("order.coupon-verify");
+    //쿠폰 주문 등록
+    Route::post('/order/coupon-process', 'OrderController@couponProcess')->name("order.coupon-process");
+
     Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd')->name('certificate.change-open-cd');
 });
 

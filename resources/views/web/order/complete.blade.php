@@ -52,11 +52,12 @@
                     <div class="block bg-white">
                         <ul>
                             <li><strong class="text-light text-muted">주문상품</strong>
-                                <span>{{ $order->item->name }}</span></li>
+                                <span>{{ ($is_coupon) ? $coupon_kind: $order->item->name }}</span></li>
                             <li><strong class="text-light text-muted">결제방법</strong>
-                                <span>{{ $order->purchase->payment_type->display() }}</span></li>
-                            <li><strong class="text-light text-muted">결제금액</strong> <span>{{ number_format($order->item->price) }}
-                                    원</span></li>
+                                <span>{{  $is_coupon? '쿠폰':$order->purchase->payment_type->display() }}</span></li>
+                            <li><strong class="text-light text-muted">결제금액</strong>
+                                <span>{{  $is_coupon? '쿠폰주문 상품입니다.': number_format($order->item->price).'원' }}</span>
+                            </li>
                             <li><strong class="text-light text-muted">결제일</strong>
                                 <span>{{ $order->purchase->updated_at }}</span></li>
                         </ul>
@@ -87,23 +88,24 @@
 
 
         </div>
-        @endsection
+    </div>
+@endsection
 
 
-        @push( 'header-script' )
-        @endpush
+@push( 'header-script' )
+@endpush
 
-        @push( 'footer-script' )
-        <script type="text/javascript">
-            $(function () {
-                $('#home').click(function () {
-                    location.href = '/';
-                });
+@push( 'footer-script' )
+<script type="text/javascript">
+    $(function () {
+        $('#home').click(function () {
+            location.href = '/';
+        });
 
-                $('#mypage').click(function () {
-                    location.href = '{{ route('mypage.order.show', ['order_id' => $order->id]) }}';
-                });
-            });
-        </script>
+        $('#mypage').click(function () {
+            location.href = '{{ route('mypage.order.show', ['order_id' => $order->id]) }}';
+        });
+    });
+</script>
 
-    @endpush
+@endpush
