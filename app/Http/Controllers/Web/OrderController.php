@@ -145,10 +145,10 @@ class OrderController extends Controller
         $garage_info = UserExtra::where('users_id', $request->get('garages'))->first();
 
         if (!$garage_info) {
-            $garage_info = new GarageInfo();
+            $garage_info = new UserExtra();
         }
 
-        //        $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
+
         $order_car = OrderCar::where('car_number', $request->get('car_number'))->first();
         if (!$order_car) {
             $order_car = new OrderCar();
@@ -1014,26 +1014,6 @@ class OrderController extends Controller
 
     public function couponProcess(Request $request)
     {
-        /*
-         * areas    서울시
-        brands:  1
-        car_number:  00허0000
-        coupon_id :  2
-        details: 519
-        grades:  1
-        mobile:  01030255305
-        models:  319
-        orderer_mobile:  010-0000-0000
-        orderer_name:   Daily Jude
-        payment_method:  21
-        reservation_date    2017-08-31
-        sections    동작구
-        sel_time    09
-
-        use_coupon_number   eyJpdiI6IkI5VzRuUlRCSGJabG1UXC9cL1RDQVM4Zz09IiwidmFsdWUiOiJwRGU4TCtzTmtnQTFpUHlHM25vVHhnPT0iLCJtYWMiOiJkN2U5ODFlNzk5NTliMzhjNjc1YjZkMzc2NmRlMGZhM2FlYmExN2Q0YmFjYjEyN2IyZDg4ZTU3ZDI5ZjZkMTM3In0
-
-         */
-
         $validate = Validator::make($request->all(), [
             'use_coupon_number' => 'required', 'coupon_id' => 'required|int'
         ]);
@@ -1068,15 +1048,12 @@ class OrderController extends Controller
 
         $order = Order::OrderBy('id', 'DESC')->where('car_number', $request->get('car_number'))->first();
 
+        $garage_info = UserExtra::where('users_id', $request->get('garages'))->first();
 
-        $garage_info = GarageInfo::where('area', $request->get('areas'))
-            ->where('section', $request->get('sections'))
-            ->where('name', $request->get('garages'))->first();
         if (!$garage_info) {
-            $garage_info = new GarageInfo();
+            $garage_info = new UserExtra();
         }
 
-        //        $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
         $order_car = OrderCar::where('car_number', $request->get('car_number'))->first();
         if (!$order_car) {
             $order_car = new OrderCar();
@@ -1090,12 +1067,12 @@ class OrderController extends Controller
         }
 
 
-        if (!$order) {
-            $order = new Order();
-        }
+
+        $order = new Order();
+
         $order->car_number = $request->get('car_number');
         //        $order->cars_id = $order_car->id;
-        $order->garage_id = $garage_info->garage_id;
+        $order->garage_id = $garage_info->users_id;
         $order->orderer_id = $orderer->id;
         $order->orderer_name = $request->get('orderer_name');
         $order->orderer_mobile = $request->get('mobile');
@@ -1115,10 +1092,10 @@ class OrderController extends Controller
             $order->accident_state_cd = 0;
         }
 
-        $order->item_id = 0; //상품 정보가 없음
+        $order->item_id = $request->get('item_id');
 
         $purchase = new Purchase();
-        $purchase->amount = 0; //결제 완료 후 update
+        $purchase->amount = $request->get('payment_price'); //결제 완료 후 update
         $purchase->type = $request->get('payment_method'); // 결제방법
         $purchase->status_cd = 101; // 결제상태
         $purchase->save();
@@ -1128,12 +1105,9 @@ class OrderController extends Controller
 
 
         // order_car 의 orders_id 입력
-        //        $order_car->orders_id = $order->id;
-        //        $order_car->save();
-
-        $order_car->update([
-            'orders_id' => $order->id
-        ]);
+        $my_order_car = OrderCar::where('car_number', $order_car->car_number)->first();
+        $my_order_car->orders_id = $order->id;
+        $my_order_car->save();
 
 
         // 예약 관련
@@ -1144,7 +1118,7 @@ class OrderController extends Controller
             $reservation = new Reservation();
         }
         $reservation->orders_id = $order->id;
-        $reservation->garage_id = $garage_info->garage_id;
+        $reservation->garage_id = $garage_info->users_id;
         $reservation->created_id = $order->orderer_id;
         $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
         $reservation->save();
@@ -1171,9 +1145,6 @@ class OrderController extends Controller
             'orders_id' => $order->id, 'is_complete' => 1,
             'is_coupon' => 1, 'coupon_id' => $coupon_where->id
         ])->with('success', '주문이 완료되었습니다');
-//    return view('web.order.null');
-        //return view('web.order.complete', compact('order', 'reservation'));
-
 
     }
 

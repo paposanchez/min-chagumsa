@@ -68,7 +68,7 @@
                     <strong class="text-light text-md">예약정보</strong>
                     <div class="block bg-white">
                         <ul>
-                            <li><strong class="text-light text-muted">예약상태</strong> <span>미정</span>
+                            <li><strong class="text-light text-muted">예약상태</strong> <span>{{ $order->status->display() }}</span>
                             </li>
                             <li><strong class="text-light text-muted">입고예정일</strong>
                                 <span>{{ $reservation->reservation_at->format('Y년 m월 d일') }}</span></li>

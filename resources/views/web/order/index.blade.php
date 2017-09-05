@@ -33,11 +33,7 @@
             </ul>
 
 
-            {!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal
-            pt-perspective', 'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
-            {{-- {!! Form::open(['route' => ["order.complete"], 'target'=>'purchase-frame', 'class' =>'form-horizontal
-            pt-perspective', 'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}--}}
-
+            {!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective', 'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
 
             <input type="hidden" name="item_id" id="item_id" value="">
             <input type="hidden" name="payment_price" id="payment_price" value="">
@@ -51,16 +47,7 @@
             <input type="hidden" name="use_coupon_number" id="use_coupon_number" autocomplete="off">
             <input type="hidden" name="coupon_id" id="coupon_id" autocomplete="off">
 
-        <!--         <input name="cars_id" value="" type="hidden">
-                <input name="id" id="moid" type="hidden" value="">{{-- 주문번호 --}}
-                <input name="goodsName" id="goodsName" type="hidden" value="">{{-- 상품명 --}}
-                <input name="buyerName" id="buyerName" type="hidden" value="">{{-- 구매자명 --}}
-                <input name="buyerTel" id="buyerTel" type="hidden" value="">{{-- 구매자연락처 --}}
-                <input name="buyerEmail" id="buyerEmail" type="hidden" value="">{{-- 구매자메일주소 --}}
-                <input name="userIp" id="userIp" type="hidden" value="{{ $_SERVER['REMOTE_ADDR'] }}">{{--  --}}
-                <input type="hidden" name="amt" id="amt" autocomplete="off">
-                <input type="hidden" name="product_name" id="product_name" autocomplete="off">
-        -->
+
 
             <div class="pt-page pt-page-1">
 
@@ -85,12 +72,9 @@
                                     <input type='text' id="orderer_mobile" class='form-control ' name="orderer_mobile"
                                            placeholder='휴대폰 번호' value="" autocomplete="off">
                                     <span class="input-group-btn">
-                                                                <button class="btn btn-default2" type="button"
-                                                                        id="mobile-verification">인증번호 전송</button>
-                                                        </span>
+                                        <button class="btn btn-default2" type="button" id="mobile-verification">인증번호 전송</button>
+                                    </span>
                                 </div>
-
-
                             </div>
                         </div>
 
@@ -103,10 +87,7 @@
                         <div class="row no-margin-bottom">
 
                             <div class="col-xs-4">
-                                {{--{!! Form::select('sel_area', $garages, [], ['class'=>'form-control', 'size'=>"5",
-                                'id'=>'sel_area']) !!}--}}
-                                <select class="form-control" size="5" id="areas" name="areas" autocomplete="off"
-                                        style="padding:15px !important;">
+                                <select class="form-control" size="5" id="areas" name="areas" autocomplete="off" style="padding:15px !important;">
                                     @foreach($garages as $key => $garage)
                                         <option value="{{ $garage->area }}">{{ $garage->area }}</option>
                                     @endforeach
@@ -114,19 +95,13 @@
                             </div>
 
                             <div class="col-xs-4">
-                                {{--{!! Form::select('sel_section', [""=> "구군을 선택하세요"], [], ['class'=>'form-control',
-                                'size'=>"5", 'id'=>'sel_section']) !!}--}}
                                 <select class="form-control" size="5" id="sections" name="sections" autocomplete="off">
-                                    style="padding:15px !important;">
                                     <option disabled="true">구/군을 선택하세요.</option>
                                 </select>
                             </div>
 
                             <div class="col-xs-4">
-                                {{-- {!! Form::select('garage', [""=> "대리점을 선택하세요"], [], ['class'=>'form-control',
-                                'size'=>"5", 'id'=>'garage']) !!}--}}
-                                <select class="form-control" size="5" id="garages" name="garages"
-                                        style="padding:15px !important;">
+                                <select class="form-control" size="5" id="garages" name="garages" style="padding:15px !important;">
                                     <option disabled="true">대리점을 선택하세요.</option>
                                 </select>
                             </div>
@@ -149,36 +124,28 @@
                                            placeholder="{{ trans('web/order.reservation_date') }}" name='reservation_date'
                                            id="reservation_date" value='' style="margin-right: 5px;">
                                     <span class="input-group-btn">
-                                                                <button class="btn btn-default2" type="button"
-                                                                        id="calendar-opener"><i
-                                                                            class="fa fa-calendar"></i></button>
-                                                        </span>
+                                        <button class="btn btn-default2" type="button" id="calendar-opener"><i class="fa fa-calendar"></i></button>
+                                    </span>
                                 </div>
                             </div>
 
                             <div class="col-xs-3">
                                 <div class="input-group-lg">
-
-                                    {!! Form::select('sel_time', $search_fields, [], ['class'=>'form-control ',
-                                    'id'=>'sel_time']) !!}
-
+                                    {!! Form::select('sel_time', $search_fields, [], ['class'=>'form-control ','id'=>'sel_time']) !!}
                                 </div>
 
                             </div>
                         </div>
 
-
                     </div>
-
 
                     <p class="form-control-static text-center">
                         <button type="button" class='btn btn-primary2 btn-lg wid25  order-page-move' data-index="1">다음
                         </button>
                     </p>
-
-
+                </fieldset>
             </div>
-            </fieldset>
+
             <!-- pt-page pt-page-1 -->
 
 
@@ -189,10 +156,8 @@
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">차량번호</label>
-                        <input type="text" class="form-control input-lg wid50" id="car_number" placeholder='차량번호'
-                               value="{{ old('car_number') }}" name="car_number">
+                        <input type="text" class="form-control input-lg wid50" id="car_number" placeholder='차량번호' value="{{ old('car_number') }}" name="car_number">
                     </div>
-
 
                     <div class="form-group">
                         <label for="exampleInputEmail1" class="">모델정보</label>
@@ -201,8 +166,7 @@
                         <div class="row no-margin-bottom">
 
                             <div class="col-xs-3">
-                                <select class="form-control" id="brands" name="brands" autocomplete="off" size="5"
-                                        style="padding:15px !important;">
+                                <select class="form-control" id="brands" name="brands" autocomplete="off" size="5" style="padding:15px !important;">
                                     @foreach($brands as $brand)
                                         <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                                     @endforeach
@@ -210,28 +174,24 @@
                             </div>
 
                             <div class="col-xs-3">
-                                <select class="form-control " id="models" name="models" autocomplete="off" size="5"
-                                        style="padding:15px !important;">
+                                <select class="form-control " id="models" name="models" autocomplete="off" size="5" style="padding:15px !important;">
                                     <option disabled="true">모델을 선택하세요.</option>
                                 </select>
                             </div>
 
                             <div class="col-xs-3">
-                                <select class="form-control " id="details" name="details" size="5" autocomplete="off"
-                                        style="padding:15px !important;">
+                                <select class="form-control " id="details" name="details" size="5" autocomplete="off" style="padding:15px !important;">
                                     <option disabled="true">세부모델을 선택하세요.</option>
                                 </select>
                             </div>
 
                             <div class="col-xs-3">
-                                <select class="form-control " id="grades" name="grades" size="5" autocomplete="off"
-                                        style="padding:15px !important;">
+                                <select class="form-control " id="grades" name="grades" size="5" autocomplete="off" style="padding:15px !important;">
                                     <option disabled="true">등급을 선택하세요.</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-
 
                     <div class="row">
 
@@ -271,8 +231,7 @@
                                 @foreach($exterior_option as $exterior)
                                     <div class='option_box'>
                                         <label>
-                                            <input type='checkbox' class='psk type2' value="{{ $exterior->id }}"
-                                                   name="options_ck[]">
+                                            <input type='checkbox' class='psk type2' value="{{ $exterior->id }}" name="options_ck[]">
                                             <span class='lbl' name="exterior_ck"> {{ $exterior->display() }}</span>
                                         </label>
                                     </div>
@@ -282,8 +241,7 @@
                                 @foreach($interior_option as $interior)
                                     <div class='option_box'>
                                         <label>
-                                            <input type='checkbox' class='psk type2' value="{{ $interior->id }}"
-                                                   name="options_ck[]">
+                                            <input type='checkbox' class='psk type2' value="{{ $interior->id }}" name="options_ck[]">
                                             <span class='lbl' name="exterior_ck"> {{ $interior->display() }}</span>
                                         </label>
                                     </div>
@@ -293,8 +251,7 @@
                                 @foreach($safety_option as $safety)
                                     <div class='option_box'>
                                         <label>
-                                            <input type='checkbox' class='psk type2' value="{{ $safety->id }}"
-                                                   name="options_ck[]">
+                                            <input type='checkbox' class='psk type2' value="{{ $safety->id }}" name="options_ck[]">
                                             <span class='lbl' name="exterior_ck"> {{ $safety->display() }}</span>
                                         </label>
                                     </div>
@@ -304,8 +261,7 @@
                                 @foreach($facilities_option as $facilites)
                                     <div class='option_box'>
                                         <label>
-                                            <input type='checkbox' class='psk type2' value="{{ $facilites->id }}"
-                                                   name="options_ck[]">
+                                            <input type='checkbox' class='psk type2' value="{{ $facilites->id }}" name="options_ck[]">
                                             <span class='lbl' name="exterior_ck"> {{ $facilites->display() }}</span>
                                         </label>
                                     </div>
@@ -315,8 +271,7 @@
                                 @foreach($multimedia_option as $multimedia)
                                     <div class='option_box'>
                                         <label>
-                                            <input type='checkbox' class='psk type2' value="{{ $multimedia->id }}"
-                                                   name="options_ck[]">
+                                            <input type='checkbox' class='psk type2' value="{{ $multimedia->id }}" name="options_ck[]">
                                             <span class='lbl' name="exterior_ck"> {{ $multimedia->display() }}</span>
                                         </label>
                                     </div>
@@ -329,10 +284,8 @@
 
 
                     <p class="form-control-static text-center">
-                        <button type="button" class='btn btn-default2 btn-lg wid25 order-page-move' data-index="0">이전
-                        </button>
-                        <button type="button" class='btn btn-primary2 btn-lg wid25 order-page-move' data-index="2">다음
-                        </button>
+                        <button type="button" class='btn btn-default2 btn-lg wid25 order-page-move' data-index="0">이전</button>
+                        <button type="button" class='btn btn-primary2 btn-lg wid25 order-page-move' data-index="2">다음</button>
                     </p>
                 </fieldset>
             </div>
@@ -349,11 +302,7 @@
                         <div class="row">
                             @foreach($items as $item)
                                 <div class="col-xs-3">
-                                    {{--
-                                    <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}"
-                                         data-display="3">--}}
-                                    <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}"
-                                         data-price="{{ $item->price }}">
+                                    <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-price="{{ $item->price }}">
                                         <div class="point-price">{{ $item->name }}</div>
                                         <div class="point-desc text-muted">{{ number_format($item->price) }}원</div>
                                     </div>
@@ -391,11 +340,8 @@
                     </div>
 
                     <p class="form-control-static text-center">
-                        <button type="button" class='btn btn-default2 btn-lg wid25 order-page-move' data-index="1">이전
-                        </button>
-                        <button type="button" class='btn btn-primary2 btn-lg wid25 bmd-modalButton'
-                                id="payment-process">결제
-                        </button>
+                        <button type="button" class='btn btn-default2 btn-lg wid25 order-page-move' data-index="1">이전</button>
+                        <button type="button" class='btn btn-primary2 btn-lg wid25 bmd-modalButton' id="payment-process">결제</button>
                     </p>
                 </fieldset>
             </div>
@@ -424,8 +370,7 @@
 
                         <div class="form-group">
                             <label for="exampleInputEmail1" class="sr-only">인증번호</label>
-                            <input type="text" class="form-control input-lg" id="sms_num" placeholder='인증번호'
-                                   value="{{ old('car_number') }}" name="sms_num">
+                            <input type="text" class="form-control input-lg" id="sms_num" placeholder='인증번호' value="{{ old('car_number') }}" name="sms_num">
                         </div>
 
                         <p class="form-control-static text-center">
@@ -434,10 +379,6 @@
                         </p>
                     </form>
                 </div>
-                <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-success">Save changes</button>
-                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-        </div> -->
             </div>
         </div>
     </div>
@@ -447,8 +388,7 @@
         <div class="modal-dialog">
             <div class="modal-content bmd-modalContent">
                 <div class="modal-body">
-                    <iframe class="embed-responsive-item" src="javascript:false;" name="purchase-frame" frameborder="0"
-                            width="648" height="590"></iframe>
+                    <iframe class="embed-responsive-item" src="javascript:false;" name="purchase-frame" frameborder="0" width="648" height="590"></iframe>
                 </div>
             </div>
         </div>
@@ -466,16 +406,14 @@
 
                         <div class="form-group">
                             <label for="exampleInputCoupon" class="sr-only">쿠폰 번호</label>
-                            <input type="text" class="form-control input-lg" id="coupon_number" placeholder='쿠폰번호를 입력해 주세요.'
-                                   name="coupon_number">
+                            <input type="text" class="form-control input-lg" id="coupon_number" placeholder='쿠폰번호를 입력해 주세요.' name="coupon_number">
                             <span class="coupon-error text-center"></span>
                         </div>
 
                         <p class="form-control-static text-center">
                             <button type="button" class="btn btn-default2 btn-lg" id="modal-coupon-close">취소</button>
                             <button type="button" class='btn btn-primary2 btn-lg' id="modal-coupon-verify">인증</button>
-                            <button type="button" class='btn btn-warning  btn-lg' style="display: none;"
-                                    id="coupon-process">쿠폰결제 진행하기
+                            <button type="button" class='btn btn-warning  btn-lg' style="display: none;" id="coupon-process">쿠폰결제 진행하기
                             </button>
                         </p>
                     </form>
