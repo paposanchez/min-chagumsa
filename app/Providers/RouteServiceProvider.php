@@ -7,87 +7,99 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 class RouteServiceProvider extends ServiceProvider {
 
-        protected $namespace = 'App\Http\Controllers';
+    protected $namespace = 'App\Http\Controllers';
 
-        public function map() {
-                $this->mapAdminRoutes();
-                $this->mapAllianceRoutes();
-                $this->mapBcsRoutes();
-                $this->mapTechnicianRoutes();
-                $this->mapApiRoutes();
-                $this->mapWebRoutes();
-        }
+    public function map() {
+        $this->mapAdminRoutes();
+        $this->mapAllianceRoutes();
+        $this->mapBcsRoutes();
+        $this->mapTechnicianRoutes();
+        $this->mapApiRoutes();
+        $this->mapWebRoutes();
+    }
 
 
-        protected function mapAdminRoutes() {
-                $namespace = $this->namespace . '\Admin';
+    protected function mapAdminRoutes() {
+        $namespace = $this->namespace . '\Admin';
 
-                Route::group([
-                        'middleware' => 'web',
-                        'namespace' => $namespace,
-                        'domain' => 'admin.' . config('app.domain'),
-                ], function ($router) {
-                        require base_path('routes/admin.php');
-                });
-        }
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $namespace,
+            'domain' => 'admin.' . config('app.domain'),
+        ], function ($router) {
+            require base_path('routes/admin.php');
+        });
+    }
 
-        protected function mapAllianceRoutes() {
-                $namespace = $this->namespace . '\Alliance';
+    protected function mapMobileRoutes() {
+        $namespace = $this->namespace . '\Mobile';
 
-                Route::group([
-                        'middleware' => 'web',
-                        'namespace' => $namespace,
-                        'domain' => 'alliance.' . config('app.domain'),
-                ], function ($router) {
-                        require base_path('routes/alliance.php');
-                });
-        }
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $namespace,
+            'domain' => 'm.' . config('app.domain'),
+        ], function ($router) {
+            require base_path('routes/mobile.php');
+        });
+    }
 
-        protected function mapBcsRoutes() {
-                $namespace = $this->namespace . '\Bcs';
+    protected function mapAllianceRoutes() {
+        $namespace = $this->namespace . '\Alliance';
 
-                Route::group([
-                        'middleware' => 'web',
-                        'namespace' => $namespace,
-                        'domain' => 'bcs.' . config('app.domain'),
-                ], function ($router) {
-                        require base_path('routes/bcs.php');
-                });
-        }
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $namespace,
+            'domain' => 'alliance.' . config('app.domain'),
+        ], function ($router) {
+            require base_path('routes/alliance.php');
+        });
+    }
 
-        protected function mapTechnicianRoutes() {
-                $namespace = $this->namespace . '\Technician';
+    protected function mapBcsRoutes() {
+        $namespace = $this->namespace . '\Bcs';
 
-                Route::group([
-                        'middleware' => 'web',
-                        'namespace' => $namespace,
-                        'domain' => 'tech.' . config('app.domain'),
-                ], function ($router) {
-                        require base_path('routes/technician.php');
-                });
-        }
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $namespace,
+            'domain' => 'bcs.' . config('app.domain'),
+        ], function ($router) {
+            require base_path('routes/bcs.php');
+        });
+    }
 
-        protected function mapApiRoutes() {
-                $namespace = $this->namespace . '\Api';
-                Route::group([
-                        // 'middleware' => 'api',
-                        'namespace' => $namespace,
-                        'domain' => 'api.' . config('app.domain'),
-                ], function ($router) {
-                        require base_path('routes/api.php');
-                });
-        }
+    protected function mapTechnicianRoutes() {
+        $namespace = $this->namespace . '\Technician';
 
-        protected function mapWebRoutes() {
-                $namespace = $this->namespace . '\Web';
-                Route::group([
-                        'middleware' => 'web',
-                        'namespace' => $namespace,
-                        // 'domain' => config('app.domain'),
-                        //            'domain' => config('app.domain'),
-                ], function ($router) {
-                        require base_path('routes/web.php');
-                });
-        }
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $namespace,
+            'domain' => 'tech.' . config('app.domain'),
+        ], function ($router) {
+            require base_path('routes/technician.php');
+        });
+    }
+
+    protected function mapApiRoutes() {
+        $namespace = $this->namespace . '\Api';
+        Route::group([
+            // 'middleware' => 'api',
+            'namespace' => $namespace,
+            'domain' => 'api.' . config('app.domain'),
+        ], function ($router) {
+            require base_path('routes/api.php');
+        });
+    }
+
+    protected function mapWebRoutes() {
+        $namespace = $this->namespace . '\Web';
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $namespace,
+            // 'domain' => config('app.domain'),
+            //            'domain' => config('app.domain'),
+        ], function ($router) {
+            require base_path('routes/web.php');
+        });
+    }
 
 }
