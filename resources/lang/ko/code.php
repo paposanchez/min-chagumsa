@@ -447,11 +447,11 @@ return [
         'ordered' => '주문완료', //102
         'request' => '예약확인', //103
         'reserved' => '입고대기', //104
-        'arrived' => '입고',
-        'diagnosing' => '진단중',
-        'diagnosed' => '진단완료',
-        'certificating' => '검토중',
-        'certificated' => '인증발급완료'
+        'arrived' => '입고',      //105
+        'diagnosing' => '진단중',  //106
+        'diagnosed' => '진단완료',  //107
+        'certificating' => '검토중',//108
+        'certificated' => '인증발급완료'//109
     ],
     'wear_state_cd' => [
         'good' => '없음',

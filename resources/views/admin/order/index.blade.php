@@ -34,8 +34,10 @@
                         <button class="btn btn-default" name="status_cd" value="">전체</button>
                         <button class="btn btn-default" name="status_cd" value="100">주문취소</button>
                         <button class="btn btn-default" name="status_cd" value="101">주문신청</button>
-                        <button class="btn btn-default" name="status_cd" value="102">주문완</button>
+                        <button class="btn btn-default" name="status_cd" value="102">주문완료</button>
+                        <button class="btn btn-default" name="status_cd" value="103">예약확인</button>
                         <button class="btn btn-default" name="status_cd" value="104">입고대기</button>
+                        <button class="btn btn-default" name="status_cd" value="105">입고</button>
                         <button class="btn btn-default" name="status_cd" value="106">진단중</button>
                         <button class="btn btn-default" name="status_cd" value="107">진단완료</button>
                         <button class="btn btn-default" name="status_cd" value="108">검토중</button>
