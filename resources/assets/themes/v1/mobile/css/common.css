@@ -318,8 +318,8 @@ input[type=checkbox].psk.psk-switch:checked + .lbl::after {left:28px;content:'ON
 .menu_list > li {}
 .menu_list > li > a {display:block;height:47px;line-height:45px;position:relative;padding-left:47px;color:#555;font-size:14px;text-align:left;border-bottom:1px solid #f2f2f2;}
 .menu_list > li > a:before {top:10px;left:10px;content:'';width:27px;height:27px;position:absolute;background:url('/assets/themes/v1/mobile/img/comm/menu_icon.png') no-repeat;background-size:cover;}
-.menu_list > li > a:after {top:5px;right:5px;content:'折�';width:27px;height:27px;position:absolute;font-weight:bold;}
-.menu_list > li > a.menu_open:after {top:0px;content:'截�';}
+.menu_list > li > a:after {top:5px;right:5px;content:'+';width:27px;height:27px;position:absolute;font-weight:bold;}
+.menu_list > li > a.menu_open:after {top:0px;content:'-';}
 .menu_list li a.menu1:before {}
 .menu_list li a.menu2:before {background-position:0 -27px;}
 .menu_list li a.menu3:before {background-position:0 -54px;}
@@ -333,8 +333,8 @@ input[type=checkbox].psk.psk-switch:checked + .lbl::after {left:28px;content:'ON
 /* head */
 .head_wrap {height:60px;position:relative;}
 .head_wrap a {display:block;}
-.head_wrap h1 {line-height:56px;text-align:center;}
-.head_wrap h1 img {height:22px;}
+.head_wrap span {line-height:56px;text-align:center;}
+.head_wrap span img {height:22px;}
 
 #menu_btn {color:#0b4777;position:absolute;left:17px;top:17px;font-size:21px;}
 

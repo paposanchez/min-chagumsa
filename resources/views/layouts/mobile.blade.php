@@ -26,9 +26,16 @@
 
     @yield('content-header-script')
 </head>
-<body class="@yield( 'body-class' )" @yield( 'body-attr' )>
 
-<div id='document'>
+@if(in_array(Route::currentRouteName(), ['login']))
+    <body class="document_login @yield( 'body-class' )" @yield( 'body-attr' )>
+    <div id='sub_full_wrap'>
+@else
+    <body class="@yield( 'body-class' )" @yield( 'body-attr' )>
+    <div id='document'>
+@endif
+
+
     @yield('content-header')
 
     @yield('content-body')
