@@ -50,7 +50,7 @@ class TestController extends Controller {
             $order->orderer_id = $user_id;
             $order->orderer_name = $user->name;
             $order->orderer_mobile = $user->mobile;
-            $order->open_cd = 1307;
+            $order->open_cd = 1327;
             $order->status_cd = 103;
             $order->flooding_state_cd = 0;
             $order->accident_state_cd = 0;
