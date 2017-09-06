@@ -161,6 +161,7 @@
                                                 data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}"
                                                 data-time="{{  $data->reservation->reservation_at->format('H') }}"
                                                 data-order_id="{{ $data->id }}"
+                                                data-order_number="{{ $data->getOrderNumber() }}"
                                                 class="btn btn-info changeReservationModalOpen">예약변경
                                         </button>
                                         <button type="button" title="예약확정" data-order_id="{{ $data->id }}"
@@ -207,8 +208,11 @@
 
                     <form class="form-horizontal">
                         <div class="modal-body">
-
-
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="control-label" id="order_number"></label>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="col-md-2">
                                     <label for="datepickerReservation" class="control-label">날짜</label>
@@ -273,9 +277,11 @@
             var d = $(this).data("date");
             var t = $(this).data("time");
             var order_id = $(this).data('order_id');
+            var order_number = $(this).data("order_number");
             $("#datepickerReservation").val(d);
             $("#datepickerReservationTime").val(t);
             $("#order_id").val(order_id);
+            $("#order_number").html("주문번호 : "+order_number);
             $("#changeReservationModal").modal();
 
         });
