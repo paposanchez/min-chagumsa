@@ -41,31 +41,31 @@
                         </div>
                     </div>
 
-                    <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
-                        <label for="inputPassword" class="control-label col-md-3">{{ trans('bcs/user.password') }}</label>
-                        <div class="col-md-4">
-                            <input type="password" class="form-control" placeholder="{{ trans('bcs/user.password') }}" name="password" id="inputPassword">
+                    {{--<div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">--}}
+                        {{--<label for="inputPassword" class="control-label col-md-3">{{ trans('bcs/user.password') }}</label>--}}
+                        {{--<div class="col-md-4">--}}
+                            {{--<input type="password" class="form-control" placeholder="{{ trans('bcs/user.password') }}" name="password" id="inputPassword">--}}
 
-                            @if ($errors->has('password'))
-                                <span class="help-block">
-                                {{ $errors->first('password') }}
-                            </span>
-                            @endif
-                        </div>
-                    </div>
+                            {{--@if ($errors->has('password'))--}}
+                                {{--<span class="help-block">--}}
+                                {{--{{ $errors->first('password') }}--}}
+                            {{--</span>--}}
+                            {{--@endif--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
-                        <label for="inputPasswordConfirmation" class="control-label col-md-3">{{ trans('bcs/user.password_confirmation') }}</label>
-                        <div class="col-md-4">
-                            <input type="password" class="form-control" placeholder="{{ trans('bcs/user.password_confirmation') }}" name="password_confirmation" id="inputPasswordConfirmation">
+                    {{--<div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">--}}
+                        {{--<label for="inputPasswordConfirmation" class="control-label col-md-3">{{ trans('bcs/user.password_confirmation') }}</label>--}}
+                        {{--<div class="col-md-4">--}}
+                            {{--<input type="password" class="form-control" placeholder="{{ trans('bcs/user.password_confirmation') }}" name="password_confirmation" id="inputPasswordConfirmation">--}}
 
-                            @if ($errors->has('password_confirmation'))
-                                <span class="help-block">
-                                {{ $errors->first('password_confirmation') }}
-                            </span>
-                            @endif
-                        </div>
-                    </div>
+                            {{--@if ($errors->has('password_confirmation'))--}}
+                                {{--<span class="help-block">--}}
+                                {{--{{ $errors->first('password_confirmation') }}--}}
+                            {{--</span>--}}
+                            {{--@endif--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
                     {{--<div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">--}}
                         {{--<label for="bcs_number" class="control-label col-md-3">{{ trans('bcs/user.bcs_number') }}</label>--}}
