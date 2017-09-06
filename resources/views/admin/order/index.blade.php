@@ -285,7 +285,7 @@
                         order_id : order_id
                     },
                     success:function(data){
-                        alert(data);
+
                         $obj.parent().find('.changeReservationModalOpen').remove();
                         $obj.parent().find('.confirmReservation').remove();
                         location.href = '/order';
