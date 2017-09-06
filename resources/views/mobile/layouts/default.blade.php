@@ -40,9 +40,9 @@
         {{-- 푸터 카피라이트 --}}
         <div class='foot_wrap'>
             <ul>
-                <li><a href='{{ url("agrement/usage") }}'>이용약관</a></li>
-                <li><a href='{{ url("agrement/term") }}'>전자금융거래약관</a></li>
-                <li><a href='{{ url("agrement/privacy") }}'>개인정보 취급방침</a></li>
+                <li><a href='{{ url("agreement/usage") }}'>이용약관</a></li>
+                <li><a href='{{ url("agreement/term") }}'>전자금융거래약관</a></li>
+                <li><a href='{{ url("agreement/privacy") }}'>개인정보 취급방침</a></li>
             </ul>
             <p>Copyright &copy; JIMBROS Co., Ltd. All rights reserved.</p>
         </div>
