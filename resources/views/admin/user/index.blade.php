@@ -57,6 +57,12 @@
                         <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}" name='s' value=''>
                     </div>
                 </div>
+                <div class="form-group no-margin-bottom">
+                    <label class="control-label col-sm-3 sr-only">{{ trans('common.search.button') }}</label>
+                    <div class="col-sm-4 col-sm-offset-3">
+                        <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i> {{ trans('common.search.button') }}</button>
+                    </div>
+                </div>
 
             </form>
         </div>

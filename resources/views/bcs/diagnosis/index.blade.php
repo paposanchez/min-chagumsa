@@ -110,6 +110,9 @@
                         <td>
                             {{ $data->diagnosed_at }}
                         </td>
+                        <td>
+                            <a href="{{ route('bcs.diagnosis.show', $data->id) }}" class="btn btn-default"  data-tooltip="{pos:'top'}" title="상세보기">상세보기</a>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

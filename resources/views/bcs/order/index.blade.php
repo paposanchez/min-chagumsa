@@ -103,8 +103,8 @@
                         <th class="text-center">주문자</th>
                         <th class="text-center">연락처</th>
                         <th class="text-center">상태</th>
-                        <th class="text-center">입고일</th>
                         <th class="text-center">주문일</th>
+                        <th class="text-center">입고일</th>
                         <th class="text-center">수정</th>
                     </tr>
                     </thead>
@@ -144,10 +144,14 @@
                                 </span>
                             </td>
                             <td>
-                                {{ $data->reservation->reservation_at->format('Y-m-d H시 i분') }}
+                                {{ $data->created_at->format('Y-m-d H시 i분') }}
                             </td>
                             <td>
-                                {{ $data->created_at->format('Y-m-d H시 i분') }}
+                                {{ $data->reservation->reservation_at->format('Y-m-d H시 i분') }}
+                                @if($data->status_cd == 104)
+                                    <span class="label label-warning">예약확정</span>
+                                @endif
+
                             </td>
 
                             <td>

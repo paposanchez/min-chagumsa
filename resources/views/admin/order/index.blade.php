@@ -143,11 +143,16 @@
                                     {{ $data->status->display() }}
                                 </span>
                         </td>
-                        <td >
-                            {{ $data->reservation ? $data->reservation->reservation_at->format('Y-m-d H시 i분') : ''}}
-                        </td>
+
                         <td>
                             {{ $data->created_at->format('Y-m-d H시 i분') }}
+
+                        </td>
+                        <td >
+                            {{ $data->reservation ? $data->reservation->reservation_at->format('Y-m-d H시 i분') : ''}}
+                            @if($data->status_cd == 104)
+                                <span class="label label-warning">예약확정</span>
+                            @endif
                         </td>
 
                         <td>
@@ -231,7 +236,9 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" data-loading-text="처리중..." type="button" id="reservation_change">예약변경</button>
+                    <button class="btn btn-danger" data-loading-text="처리중..." type="button"
+                            id="reservation_change">예약확정
+                    </button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
                 </div>
 
