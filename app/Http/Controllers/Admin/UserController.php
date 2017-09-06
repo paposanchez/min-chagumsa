@@ -25,13 +25,20 @@ class UserController extends Controller {
 
         $role_cd = $request->get('role_cd');
 
+//        $search_fields = [
+//            "order_num" => "주문번호", "car_number" => "차량번호", 'orderer_name'=>'주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
+//        ];
+        $search_fields = [
+            "order_num" => "이름", "car_number" => "차량번호", 'orderer_name'=>'주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
+        ];
+
         if($role_cd){
             $where = $where->join('role_user', 'role_user.user_id', '=', 'users.id')
                         ->where('role_user.role_id', '=', $role_cd);
         }
 
         $entrys = $where->paginate(25);
-        return view('admin.user.index', compact('entrys'));
+        return view('admin.user.index', compact('entrys', 'search_fields'));
     }
 
     public function create() {

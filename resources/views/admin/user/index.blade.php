@@ -47,6 +47,17 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
+                    <div class="col-sm-3">
+                        {!! Form::select('sf', $search_fields, [], ['class'=>'form-control']) !!}
+
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}" name='s' value=''>
+                    </div>
+                </div>
+
             </form>
         </div>
     </div>
@@ -75,7 +86,7 @@
                     <tr class="active">
                         <th class="text-center">#</th>
                         <th class="">이메일</th>
-                        <th class="text-center">닉네임</th>
+                        <th class="text-center">이름</th>
                         <th class="text-center">역활</th>
                         <th class="text-center">상태</th>
                         <th class="text-center">등록일</th>

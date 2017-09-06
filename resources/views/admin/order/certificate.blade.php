@@ -674,7 +674,7 @@
         //진단데이터 윈도우
         $("#diag-win").on("click", function(){
             //todo 진단데이터 윈도우 띄움.
-            var diagnoses_win = window.open("{{ url("order/diagnoses", ["id" => $order->id]) }}", "diagnoses", "location=no,resize=auto,width=998,height=1024");
+            var diagnoses_win = window.open("{{ url("order/diagnoses", ["id" => $order->id]) }}", "diagnoses", "location=no,resize=auto,width=998,height=1024,scrollbars = yes");
             diagnoses_win.focus();
         });
 

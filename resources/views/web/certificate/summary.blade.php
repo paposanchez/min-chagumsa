@@ -113,7 +113,7 @@
 		<label>진단장소</label>
 		<span>
 			<!-- 한스모터스 -->
-			{{ $order->garageInfo->name }}
+			{{ $order->garage->name }}
 			<img src="http://fakeimg.pl/275x185/" class='img_place'>
 		</span>
 	</li>

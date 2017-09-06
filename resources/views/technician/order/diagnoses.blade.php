@@ -50,13 +50,13 @@
                         정비소
                     </label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="" value="{{ $order->garageInfo->name }}" style="background-color: #fff;" disabled>
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->garage->name }}" style="background-color: #fff;" disabled>
                     </div>
                     <label for="inputName" class="control-label-2 col-md-2 text-left">
                         정비소 전화번호
                     </label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="" value="{{ $order->garageInfo->tel }}" style="background-color: #fff;" disabled>
+                        <input type="text" class="form-control" placeholder="" value="{{ $order->garage->user_extra->tel }}" style="background-color: #fff;" disabled>
                     </div>
                 </div>
 
