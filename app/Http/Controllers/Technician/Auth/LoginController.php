@@ -43,26 +43,13 @@ use AuthenticatesUsers;
 
     protected function authenticated(Request $request, User $user) {
 
-        if ($user->status_cd == 'U') {
-            $this->guard()->logout();
-            $request->session()->flush();
-            $request->session()->regenerate();
-            return redirect('/')->with('error', trans('auth.status.unactive'));
-        }
-
-        if ($user->status_cd == 'W') {
-            $this->guard()->logout();
-            $request->session()->flush();
-            $request->session()->regenerate();
-            return redirect('/')->with('error', trans('auth.status.unactive'));
-        }
-
-        if ($user->status_cd == 'X') {
-            $this->guard()->logout();
-            $request->session()->flush();
-            $request->session()->regenerate();
-            return redirect('/')->with('error', trans('auth.status.leaved'));
-        }
+            if(!$user->hasRole("technician"))
+            {
+                    $this->guard()->logout();
+                    $request->session()->flush();
+                    $request->session()->regenerate();
+                    return redirect('/')->with('error', trans('auth.status.unauthorized'));
+            }
     }
 
 }

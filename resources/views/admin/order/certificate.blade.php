@@ -492,7 +492,7 @@
 
 @else
     <div class="col-md-11 col-md-push-1">
-        <p class="label label-danger fa-2x">인증서 기본내영에 대한 작성을 완료해 주세요.</p>
+        <p class="label label-danger fa-2x">인증서 기본내역에 대한 작성을 완료해 주세요.</p>
     </div>
 @endif
 

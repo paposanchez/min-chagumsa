@@ -17,10 +17,7 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     //진단데이터
     Route::get('order/diagnoses/{id}', 'TechOrderController@diagnoses')->name('technician.diagnoses');
     //진단 선택값 변경
-    Route::post('order/update-code', 'TechOrderController@updateCode')->name('order/update-code');
-
-
-
+    Route::post('order/update-code', 'TechOrderController@updateCode')->name('order.update-code');
 
     Route::resource('notice', 'NoticeController', ['as' => 'technician']);
     Route::get('user/edit', 'UserController@edit')->name('technician.user.edit');
@@ -33,34 +30,15 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     Route::get('avatar/{user_id?}', '\App\Http\Controllers\Admin\ImageController@avatar')->name("avatar");
 });
 
-// After login in administrator's
+
+Route::get('order/insurance-file-view/{id}', 'TechOrderController@insuranceFileView')->name('order/insurance-file-view');
+
+Route::any('logout', 'Auth\LoginController@logout');
 Route::group(['middleware' => ['guest.admin']], function () {
     Route::get('login', function () {
         return redirect('/');
     });
     // 로그인 처리
     Route::post('login', 'Auth\LoginController@login');
-
-    // 회원정보 분실
-    // Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
-    // Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    // Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
-    // Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-
-    // Email confirmation
-    //Route::get('resend', 'Auth\RegisterController@resend');
-    //Route::get('confirm/{token}', 'Auth\RegisterController@confirm');
-    // Notifications
-    //Route::get('notifications/{user}', 'NotificationController@index');
-    //Route::put('notifications/{notification}', 'NotificationController@update');
-
-    // 로그인 페이지
-    Route::get('/', 'WelcomeController');
-
-//    Route::get('order/', 'OrderController@index');
 });
-
-
-Route::get('logout', 'Auth\LoginController@logout')->name("technician.logout");
-Route::post('logout', 'Auth\LoginController@logout')->name("technician.logout");
-Route::get('order/insurance-file-view/{id}', 'TechOrderController@insuranceFileView')->name('order/insurance-file-view');
+Route::any( '/', 'WelcomeController');
