@@ -11,17 +11,6 @@
 
         <div class="panel-heading">
             <span class="panel-title">검색조건</span>
-
-            {{--<div class="panel-heading-controls">--}}
-
-                {{--<div class="checkbox checkbox-slider--b-flat zfp-panel-collapse">--}}
-                    {{--<label>--}}
-                        {{--<input type="checkbox" >--}}
-                        {{--<span></span>--}}
-                    {{--</label>--}}
-                {{--</div>--}}
-
-            {{--</div>--}}
         </div>
 
         <div class="panel-body">
@@ -180,12 +169,6 @@
 
     <div class="row">
 
-        <div class="col-sm-6">
-
-            {{--<a href="{{ route('order.edit', $data->id) }}" class="btn btn-primary">등록</a>--}}
-
-        </div>
-
         <div class="col-sm-6 text-right">
             {!! $entrys->render() !!}
         </div>
@@ -236,9 +219,6 @@
                     </div>
                     <input type="hidden" id="order_id" value="">
 
-
-
-
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-danger" data-loading-text="처리중..." type="button"
@@ -246,7 +226,6 @@
                     </button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
                 </div>
-
 
             </form>
         </div>

@@ -48,13 +48,9 @@ class OrderController extends Controller
     public function index()
     {
             $user_id = Auth::user()->id;
-            //                $my_orders = Order::where('orderer_id', $user_id)->whereNotIn('status_cd', [101])
-            //                ->orderBy('status_cd', 'ASC')
-            //                ->orderBy(DB::raw('CASE status_cd WHEN 100 THEN 9999 ELSE status_cd END'), 'ASC')
-            //                ->orderBy('created_at', 'DESC')->get();
 
             $my_orders = Order::where('orderer_id', $user_id)->whereNotIn('status_cd', [101])
-            ->orderBy('status_cd', 'ASC')
+            ->orderBy('status_cd', 'DESC')
             ->orderBy(DB::raw('CASE status_cd WHEN 100 THEN 9999 ELSE status_cd END'), 'ASC')
             ->orderBy('created_at', 'DESC')->paginate(10);
 

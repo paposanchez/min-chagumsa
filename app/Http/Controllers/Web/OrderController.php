@@ -75,7 +75,7 @@ class OrderController extends Controller
         ];
 
 
-        $garages = UserExtra::orderBy('area', 'DESC')->groupBy('area')->whereNotNull('aliance_id')->get();
+        $garages = UserExtra::orderBy('area', 'ASC')->groupBy('area')->whereNotNull('aliance_id')->get();
 
 
         return view('web.order.index', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
@@ -821,23 +821,6 @@ class OrderController extends Controller
         }catch(\Exception $ex){
             return response()->json('error');
         }
-    }
-
-
-////////////////////////
-    public function verification(Request $request)
-    {
-
-    }
-
-    public function factory()
-    {
-
-    }
-
-    public function process()
-    {
-
     }
 
     /**
