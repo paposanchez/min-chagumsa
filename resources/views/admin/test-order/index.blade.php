@@ -67,7 +67,7 @@
             var user_id = $('[name=user_id]').val();
             var garage_id = $('[name=garage_id]').val();
             var car_number = $('#car_number').val();
-            alert(car_number);
+            
             if(car_number.length>0){
                 $.ajax({
                     type : 'get',
