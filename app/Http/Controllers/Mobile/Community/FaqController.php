@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Mobile\Community;
 
+use App\Models\File;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Board;
-use App\Http\Controllers\Mobile\PostController;
+use App\Http\Controllers\Web\PostController;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -30,6 +31,8 @@ class FaqController extends PostController {
         $entrys = $where->paginate($this->num_of_page);
 
         $start_num = \App\Helpers\Helper::getStartNum($entrys);
+
+
 
         return view($this->view_path . 'index', compact('entrys', 'board_namespace', 'start_num', 'category_id'));
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mobile\Mypage;
 
 use App\Http\Controllers\Controller;
 //use GuzzleHttp\Psr7\Request;
+use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use GuzzleHttp\Psr7\Response;
@@ -12,13 +13,12 @@ use App\Models\User;
 use Mockery\Exception;
 
 
-class ProfileController extends Controller {
+class ProfileController extends Controller
+{
 
-    public function index() {
-        
-//        $profile = Auth::user()->findOrFail(Auth::id());
+    public function index()
+    {
         $profile = User::where("email", Auth::user()->email)->first();
-        
         return view('mobile.mypage.profile.index', compact('profile'));
     }
 
@@ -27,60 +27,38 @@ class ProfileController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
-        $where = User::findOrFail($request->id);
-        if($where->email == $request->get('email')){
-            $pwd_crypt = bcrypt($request->get('old_password'));
-            if(Auth::attempt(array('email' => $request->get('email'), 'password' => $request->get('old_password')))){
-                //update
-                $where->password = bcrypt($request->password);
-                $where->save();
-
-                return redirect('/');
-//                return redirect()
-//                    ->route('mypage.profile.index');
-            }else{
-                throw new Exception('invalid password');
-            }
-        }else{
-            throw new Exception('invalid email');
+        if ($request->get('old_password') === $request->get('password')) {
+            return redirect()->back()->with("error", "새 비밀번호가 현재 비밀번호와 동일합니다.");
         }
 
+        $user = User::findOrFail(Auth::id());
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return redirect("/mypage/profile")->with("success", "비밀번호가 변경되었습니다.");
     }
 
-    public function chkPwd(Request $request){
-
-        $where = User::where('email', $request->get('email'))->first();
-
-        if($where){
-            $pwd_crypt = bcrypt($request->get('old_password'));
-
-            if(Auth::attempt(array('email' => $request->get('email'), 'password' => $request->get('old_password')))){
-                $result = true;
-            }else{
-                $result = false;
-            }
-
-        }else{
-//            throw new Exception("잘못된 접근입니다.");
-            $result = false;
-        }
-        return \response()->json($result);
-    }
-
-
-    public function leaveForm(){
+    public function leaveForm()
+    {
         $profile = Auth::user();
+        //@TODO 현재 주문완료상태 입고대기등의 진행중인 주문이 잇는 경우 탈퇴불가
+        $order = Order::whereIn('status_cd', [105,106,107])->get();
+        if($order){
+            return redirect("/mypage/profile")->with('error', '진행중인 주문이 있어 탈퇴가 불가능합니다. 관리자에게 문의하세요.');
+        }
+
         return view('mobile.mypage.profile.leave', compact('profile'));
     }
 
-    public function leave(Request $request) {
-
+    public function leave(Request $request)
+    {
         $user = Auth::user();
         $user->delete();
 
-        return redirect()->route('logout')->with('success', '회원탈퇴처리가 정상적으로 이루어졌습니다.');
+        return redirect('logout');
     }
 
 }

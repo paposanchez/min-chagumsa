@@ -85,18 +85,18 @@
 
 
 
-{{ Html::script(Helper::assets( 'themes/v1/mobile/js/main.js' )) }}
-{{ Html::script(Helper::assets( 'themes/v1/mobile/js/modernizr.custom.53451.js' )) }}
-{{ Html::script(Helper::assets( 'themes/v1/mobile/js/jquery.gallery.js' )) }}
+{{--{{ Html::script(Helper::assets( 'themes/v1/mobile/js/main.js' )) }}--}}
+{{--{{ Html::script(Helper::assets( 'themes/v1/mobile/js/modernizr.custom.53451.js' )) }}--}}
+{{--{{ Html::script(Helper::assets( 'themes/v1/mobile/js/jquery.gallery.js' )) }}--}}
 <script type="text/javascript">
-    $(function () {
-        $('#main_service').gallery();
-
-        $('.mv_report').click(function(){
-            var order_id = $(this).data('order_id');
-            //todo 임시로 order_id 를 4로 입력
-            window.open('/certificate/'+4+'/summary',"", "width=1400, height=1400");
-        });
-    });
+//    $(function () {
+//        $('#main_service').gallery();
+//
+//        $('.mv_report').click(function(){
+//            var order_id = $(this).data('order_id');
+//            //todo 임시로 order_id 를 4로 입력
+//            window.open('/certificate/'+4+'/summary',"", "width=1400, height=1400");
+//        });
+//    });
 </script>
 @endpush

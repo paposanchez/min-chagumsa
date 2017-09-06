@@ -34,7 +34,7 @@ class RegisterController extends Controller {
     public function agreement() {
         return view('mobile.auth.agreement');
     }
-    
+
 
     // 회원가입폼 setter
     public function showRegistrationForm() {
@@ -48,7 +48,7 @@ class RegisterController extends Controller {
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data) {
-       
+
         $validator = Validator::make($data, [
                     'email' => 'required|email|max:255|unique:users',
                     'name' => 'max:100',
@@ -63,7 +63,7 @@ class RegisterController extends Controller {
             'password_confirmation' => trans('web/register.confirm-password'),
             'mobile' => trans('web/register.mobile'),
         ]);
-        
+
         return $validator;
     }
 
@@ -131,9 +131,6 @@ class RegisterController extends Controller {
         }catch(Exception $e) {
             return redirect('/')->with("error", "가입실패");
         }
-
-
-
     }
 
     private function notify( $user) {
@@ -155,7 +152,7 @@ class RegisterController extends Controller {
         $activator = new ActivationRepository();
         $return = $activator->getActivationByToken($confirmation_code);
         if($return) {
-//            return view('web.verify.success', compact());
+//            return view('mobile.verify.success', compact());
             return redirect('/')->with('success', trans('verification.success'));
         }else{
             return redirect('resend')->with('error', trans('verification.resend'));

@@ -72,10 +72,12 @@ Route::match(['GET', 'POST'], 'order/payment-result', 'OrderController@paymentRe
 // Information
 Route::get('information/index', function () {
     return view('mobile.information.index');
-})->name('information.index');
+})->name('mobile.information.index');
+
 Route::get('information/certificate', function () {
     return view('mobile.information.certificate');
-})->name('information.certificate');
+})->name('mobile.information.certificate');
+
 Route::get('information/guide', function () {
     return view('mobile.information.guide');
 })->name('mobile.information.guide');
@@ -92,13 +94,15 @@ Route::get('/information/find-garage', 'InformationController@findGarage')->name
 
 // Agreement
 Route::get('agreement/usage', function () {
-    return view('web.agreement.usage');
+    return view('mobile.agreement.usage');
 })->name('mobile.agreement.usage');
+
 Route::get('agreement/term', function () {
-    return view('web.agreement.term');
+    return view('mobile.agreement.term');
 })->name('mobile.agreement.term');
+
 Route::get('agreement/privacy', function () {
-    return view('web.agreement.privacy');
+    return view('mobile.agreement.privacy');
 })->name('mobile.agreement.privacy');
 
 // 커뮤니티
@@ -106,6 +110,7 @@ Route::get('agreement/privacy', function () {
 Route::get('community', function () {
     return redirect('community/notice');
 });
+
 Route::group(['namespace' => 'Community', 'prefix' => 'community'], function () {
     Route::resource('notice', 'NoticeController', ['as' => 'mobile.notice']);
     Route::resource('faq', 'FaqController', ['as' => 'mobile.faq']);
@@ -119,10 +124,10 @@ Route::get('search{q?}', 'SearchController@index')->name('mobile.search.index');
 // Authentication
 Route::get('logout', 'Auth\LoginController@logout');
 // 회원가입폼
-Route::get('agreement', 'Auth\RegisterController@agreement')->name('register.agreement');
+Route::get('agreement', 'Auth\RegisterController@agreement')->name('mobile.register.agreement');
 // Route::post('register/join', 'Auth\RegisterController@join')->name('register.join');
 // 회원가입완료
-Route::get('register/registered', 'Auth\RegisterController@registered')->name('register.registered');
+Route::get('register/registered', 'Auth\RegisterController@registered')->name('mobile.register.registered');
  // 이메일 인증
 // Route::get('verify', 'Auth\VerifyController@emailCheck');
 
@@ -141,11 +146,11 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
 // 회원가입시 이메일 인증 재발송폼
-Route::get('resend', 'Auth\RegisterController@resend')->name('register.resend');
+Route::get('resend', 'Auth\RegisterController@resend')->name('mobile.register.resend');
 // 회원강비시 이메일 인증 재발송 처리
-Route::post('resent', 'Auth\RegisterController@resent')->name('register.resent');
+Route::post('resent', 'Auth\RegisterController@resent')->name('rmobile.egister.resent');
 // 회원가입시 이메일 인증 처리
-Route::get('verify/{token}', 'Auth\RegisterController@verify')->name('verify');
+Route::get('verify/{token}', 'Auth\RegisterController@verify')->name('mobile.verify');
 Auth::routes();
 
 // Route::get('register', 'Auth\RegisterController@getRegister');

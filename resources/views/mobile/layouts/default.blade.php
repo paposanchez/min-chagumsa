@@ -16,53 +16,11 @@
     @section( 'content-header' )
 
         {{-- 헤더 메뉴 --}}
-        <div id='navi_wrap'><div id='navi_cont'>
-                <a class='navi_close'>?옪</a>
-                <div class='menu_wrap'>
-                    <div class='menu_inner'>
-
-                        <div class='menu_head'>
-                            <!-- 로그인 전 -->
-                            <div class='menu_head_btn type2'><button class='btns btns_skyblue btn_sdw'>로그인 하기</button></div>
-                            <!-- 로그인 전 -->
-                            <!-- 로그인 후 -->
-                            <div class='menu_head_profile'>
-                                <span>User01@gmail.com</span>
-                                <a class='profile_setting'><i class="fa fa-cog"></i></a>
-                            </div>
-                            <div class='menu_head_btn'><button class='btns btns_skyblue btn_sdw'>주문목록</button></div>
-                            <!-- 로그인 후 -->
-                        </div>
-                        <ul class='menu_list'>
-                            <li><a class='sub_menu menu1'>카검사 소개</a>
-                                <div>
-                                    <a class='' href='intro1.html'>서비스 소개</a>
-                                    <a class='' href='intro2.html'>카검사인증서란?</a>
-                                    <a class='' href='intro3.html'>카검사인증서의 특징</a>
-                                    <a class='' href='intro4.html'>신청절차 및 수수류</a>
-                                </div>
-                            </li>
-                            <li><a class='menu2' href=''>인증서 신청</a></li>
-                            <li><a class='menu3' href=''>MY 인증서</a></li>
-                            <li><a class='menu4' href=''>인증서 찾기</a></li>
-                            <li><a class='sub_menu menu5'>고객센터</a>
-                                <div>
-                                    <a href=''>공지사항</a>
-                                    <a href=''>FAQ</a>
-                                    <a href=''>1:1 문의</a>
-                                    <a href=''>기타 정보</a>
-                                </div>
-                            </li>
-                        </ul>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include("mobile.partials.menu")
 
         <div class='head_wrap'>
             <a href="/"><h1>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/sub/logo_big.png")) }}</h1></a>
-            <div id='menu_btn'><i class="fa fa-bars"></i></div>
+            <div id='menu_btn'><i class="fa fa-bars" id="slide-menu" style="cursor: pointer"></i></div>
         </div>
         
     @endsection
@@ -87,11 +45,27 @@
             </ul>
             <p>Copyright &copy; JIMBROS Co., Ltd. All rights reserved.</p>
         </div>
+
+        <script type="javascript">
+            $(function(){
+
+                alert('aaaa');
+                $("#slide-menu").on("click", function(){
+                    alert('aaaa');
+                    $("#navi_wrap").show(function(){
+                        this.css("z-index", 1000);
+                    });
+                });
+            });
+        </script>
     @endsection
 
     {{-- 푸터 스크립트 --}}
     @section( 'content-footer-script' )
         @stack( 'footer-script' )
+
+
+
         {{-- tracking script --}}
         @if( config('app.analytics'))
         <script type="text/javascript" >
@@ -108,5 +82,6 @@
             ga('create', "{{ config('app.analytics') }}", 'auto');
             ga('send', 'pageview');
         </script>
+
         @endif
     @endsection
