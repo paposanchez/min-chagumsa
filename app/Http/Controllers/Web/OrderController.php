@@ -796,7 +796,6 @@ class OrderController extends Controller
 
     public function getAddress(Request $request)
     {
-
         $users = \App\Models\Role::find(4)->users;
         $garages = [];
         foreach ($users as $user) {
@@ -805,9 +804,23 @@ class OrderController extends Controller
             }
 
         }
-
         return response()->json($garages);
 
+    }
+
+    public function getFullAddress(Request $request){
+        try{
+            $garage_id = $request->get('garage_id');
+            $full_address = UserExtra::where('users_id', $garage_id)->first()->address;
+            if(!$full_address){
+                $full_address = new UserExtra();
+            }
+
+
+            return response()->json($full_address);
+        }catch(\Exception $ex){
+            return response()->json('error');
+        }
     }
 
 

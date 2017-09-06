@@ -85,16 +85,16 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'password_confirmation' => 'required|min:6|same:password',
+//            'password' => 'required|min:6|confirmed',
+//            'password_confirmation' => 'required|min:6|same:password',
             'name' => 'required|min:2',
             'mobile' => 'min:2',
 
 
             'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'], [], [
             'email' => trans('bcs/user.email'),
-            'password' => trans('bcs/user.password'),
-            'password_confirmation' => trans('bcs/user.password_confirmation'),
+//            'password' => trans('bcs/user.password'),
+//            'password_confirmation' => trans('bcs/user.password_confirmation'),
             'name' => trans('bcs/user.name'),
             'roles' => trans('bcs/user.roles'),
             'mobile' => trans('bcs/user.mobile'),
@@ -103,10 +103,22 @@ class UserController extends Controller
         ]);
         $garage_id = Auth::user()->id;
 
-        $input = $request->all();
 
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
+        $user = new User();
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        if(strpos($request->get('mobile'), '-') !== false){
+            $pass = str_replace('-', '',$request->get('mobile'));
+            $pass = substr($pass, 3);
+            $user->password = bcrypt($pass);
+        }else{
+            $pass = substr($request->get('mobile'), 3);
+            $user->password = bcrypt($pass);
+        }
+        $user->mobile = $request->get('mobile');
+        $user->status_cd = 1;
+        $user->save();
+
 
         // 사용자 역활 추가, role_user 테이블
         $user->attachRole(5);

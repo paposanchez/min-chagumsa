@@ -240,8 +240,6 @@
 
 
 
-
-
             <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
                 <label for="inputAvatar" class="control-label col-md-3">{{ trans('admin/user.avatar') }}</label>
                 <div class="col-md-6">

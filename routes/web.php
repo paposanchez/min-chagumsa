@@ -41,6 +41,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/order/sel_item', 'OrderController@selItem')->name("order.sel_item");
     Route::get('/order/get_section', 'OrderController@getSection')->name("order.get_section");
     Route::get('/order/get_address', 'OrderController@getAddress')->name("order.get_address");
+    Route::get('/order/get_full_address', 'OrderController@getFullAddress')->name("order.get_full_address");
+
 
     //쿠폰인증
     Route::post('/order/coupon-verify', 'OrderController@couponVerify')->name("order.coupon-verify");

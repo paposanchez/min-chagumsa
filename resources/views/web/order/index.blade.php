@@ -100,13 +100,15 @@
                                 </select>
                             </div>
 
-                            <div class="col-xs-4">
+                            <div class="col-xs-4" id="garage_box">
                                 <select class="form-control" size="5" id="garages" name="garages" style="padding:15px !important;">
                                     <option disabled="true">대리점을 선택하세요.</option>
                                 </select>
                             </div>
 
                         </div>
+                        <div class="br10"></div>
+                        <span class='help-block' id="select_garage"></span>
 
                     </div>
 
@@ -114,7 +116,6 @@
                     <div class="form-group">
 
                         <label for="exampleInputEmail1" style="width:100%;">입고희망일
-                            <small class='text-info pull-right'>{{ trans('web/order.reservation_info') }}</small>
                         </label>
 
                         <div class="row">
@@ -136,7 +137,8 @@
 
                             </div>
                         </div>
-
+                        <div class="br10"></div>
+                        <small class='text-info pull-left'>{{ trans('web/order.reservation_info') }}</small>
                     </div>
 
                     <p class="form-control-static text-center">
@@ -844,6 +846,26 @@
                 },
                 error: function (data) {
                     alert('error');
+                }
+            });
+        });
+
+        $('#garage_box').delegate('#garages option', 'click', function(){
+            var garage_id = $(this).val();
+
+            $.ajax({
+                type : 'get',
+                dataType : 'json',
+                url : '/order/get_full_address',
+                data : {
+                    'garage_id' : garage_id
+                },
+                success : function (data){
+                    $('#select_garage').html('');
+                    $('#select_garage').html('※ 선택하신 정비소의 주소 : '+data);
+                },
+                error : function (data){
+                    alert(data);
                 }
             });
         });
