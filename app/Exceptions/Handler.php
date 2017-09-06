@@ -42,14 +42,6 @@ class Handler extends ExceptionHandler {
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e) {
-
-//        if ($exception instanceof TokenMismatchException) {
-//            return redirect()->route('/')->with('error', trans('auth.token-mismatch'));
-//        }
-//        return parent::render($request, $exception);
-        
-        
-//        dd($request->getUri());
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json(
                             $this->getJsonMessage($e), $this->getExceptionHTTPStatusCode($e)
@@ -71,7 +63,7 @@ class Handler extends ExceptionHandler {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        return redirect()->guest(route('login'));
+        return redirect()->back();
     }
 
     protected function getJsonMessage($e) {

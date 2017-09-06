@@ -4,7 +4,7 @@ Route::get('codes', "CodeController");
 
 // Route::post('user', "UserController@show");
 Route::post('login', "UserController@login");
-Route::get('logout', "UserController@logout");
+Route::any('logout', "UserController@logout");
 
 Route::post('password', "UserController@changePassword");
 
@@ -37,7 +37,8 @@ Route::get('diagnosis/item', "DiagnosisController@getItem");
 //주문 엔지니어에 할당
 Route::post('diagnosis/grant', "DiagnosisController@setDiagnosisEngineer");
 
-Route::any( '/', function( ){
+
+Route::any( '(.*)', function( ){
         return response()->json([
                 "SERVICE" => config('app.domain'),
                 "VERSION" => 'v.1.0.0',

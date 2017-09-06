@@ -13,8 +13,6 @@
                 <br/>
 
                 <!-- detail error messge -->
-                {!! dump($exception) !!}
-
         </div>
 </div>
 @endsection

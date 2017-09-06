@@ -99,4 +99,5 @@ Route::group(['middleware' => ['guest.admin']], function () {
     // 로그인 처리
     Route::post('login', 'Auth\LoginController@login');
 });
-Route::any( '/', 'WelcomeController');
+
+Route::any( '(.*)', 'WelcomeController');
