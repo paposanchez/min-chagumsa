@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Category;
 use App\Models\Board;
 use App\Http\Controllers\Web\PostController;
+use GuzzleHttp\Psr7\Request;
 
 class NoticeController extends PostController {
 
@@ -58,6 +59,28 @@ class NoticeController extends PostController {
 
 
         return view($this->view_path . 'show', compact('data', 'board_namespace', 'prev', 'next', 'files'));
+    }
+
+    public function getNextRows(){
+
+
+        $entrys = parent::index()->entrys;
+
+        $data = [];
+        foreach ($entrys as $k => $row){
+
+            if($row->updated_at){
+                $date = $row->updated_at->format("Y년m월d일");
+            }else{
+                $date = $row->created_at->format("Y년m월d일");
+            }
+
+            $data[$k] = [
+                'id' => $row->id, 'subject' => mb_strimwidth($row->subject, 0, 50, '...'),
+                'date' => $date
+            ];
+        }
+        return $data;
     }
 
 }

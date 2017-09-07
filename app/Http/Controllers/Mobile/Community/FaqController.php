@@ -37,5 +37,10 @@ class FaqController extends PostController {
         return view($this->view_path . 'index', compact('entrys', 'board_namespace', 'start_num', 'category_id'));
     }
 
+    public function getNextRows(){
 
+
+        $entrys = parent::index()->entrys;
+        return $entrys;
+    }
 }

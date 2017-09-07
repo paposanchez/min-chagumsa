@@ -111,7 +111,13 @@ Route::get('community', function () {
     return redirect('community/notice');
 });
 
+
+
 Route::group(['namespace' => 'Community', 'prefix' => 'community'], function () {
+
+    Route::any('notice/next', 'NoticeController@getNextRows')->name('mobile.notice.next');
+    Route::any('faq/next', 'FaqController@getNextRows')->name('mobile.faq.next');
+
     Route::resource('notice', 'NoticeController', ['as' => 'mobile.notice']);
     Route::resource('faq', 'FaqController', ['as' => 'mobile.faq']);
     Route::resource('inquire', 'InquireController', ['as' => 'mobile.inquire']);
