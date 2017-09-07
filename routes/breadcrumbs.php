@@ -160,5 +160,5 @@ Breadcrumbs::register('technician.user.edit', function($breadcrumbs){
 });
 Breadcrumbs::register('technician.dashboard', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push("대시보드", route("technician.dashboard.index"));
+    $breadcrumbs->push("대시보드", url("/"));
 });
