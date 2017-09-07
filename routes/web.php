@@ -150,6 +150,11 @@ Auth::routes();
 
 // Route::get('register', 'Auth\RegisterController@getRegister');
 Route::post('register', 'Auth\RegisterController@postRegister');
+
+
+
+
+
 Route::any('/', 'WelcomeController');
 
 

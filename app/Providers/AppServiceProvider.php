@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider {
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
 
             // swagger load
-            $this->app->register(\L5Swagger\L5SwaggerServiceProvider::class);
+        //     $this->app->register(\L5Swagger\L5SwaggerServiceProvider::class);
         }
     }
 
