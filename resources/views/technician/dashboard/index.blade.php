@@ -57,7 +57,7 @@
                         <table class="table">
                             <colgroup>
                                 <col width="*">
-                                <col width="70px">
+                                <col width="100px">
                             </colgroup>
                             <tbody>
                             @unless(count($fin_order) >0)
