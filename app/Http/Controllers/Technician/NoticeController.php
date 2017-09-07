@@ -25,7 +25,7 @@ class NoticeController extends Controller
 
         $search_fields = Code::getSelectList('post_search_field');
 
-        $where = Post::orderBy('id', 'desc')->where('board_id', $b2b_board_id);
+        $where = Post::orderBy('id', 'desc')->where('board_id', $b2b_board_id)->where('is_shown', 6);
 
 
         //기간 검색

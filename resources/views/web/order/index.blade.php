@@ -95,7 +95,7 @@
                             </div>
 
                             <div class="col-xs-4">
-                                <select class="form-control" size="5" id="sections" name="sections" autocomplete="off">
+                                <select class="form-control" size="5" id="sections" name="sections" autocomplete="off" style="padding: 15px !important;">
                                     <option disabled="true">구/군을 선택하세요.</option>
                                 </select>
                             </div>
@@ -176,13 +176,13 @@
                             </div>
 
                             <div class="col-xs-3">
-                                <select class="form-control " id="models" name="models" autocomplete="off" size="5" style="padding:15px !important;">
+                                <select class="form-control" id="models" name="models" autocomplete="off" size="5" style="padding:15px !important;">
                                     <option disabled="true">모델을 선택하세요.</option>
                                 </select>
                             </div>
 
                             <div class="col-xs-3">
-                                <select class="form-control " id="details" name="details" size="5" autocomplete="off" style="padding:15px !important;">
+                                <select class="form-control" id="details" name="details" size="5" autocomplete="off" style="padding:15px !important;">
                                     <option disabled="true">세부모델을 선택하세요.</option>
                                 </select>
                             </div>

@@ -241,6 +241,20 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->update($input);
 
+        // user_extra 데이터 저장
+        $user_extra = UserExtra::where('users_id', $user->id)->first();
+        $garage_info = UserExtra::where('users_id', $garage_id)->first();
+        if(!$user_extra){
+            $user_extra = new UserExtra();
+        }
+        $user_extra->users_id = $user->id;
+        $user_extra->phone = $request->get('mobile');
+        $user_extra->zipcode = $garage_info->zipcode;
+        $user_extra->address = $garage_info->address;
+        $user_extra->address_extra = $garage_info->name;
+        $user_extra->garage_id = $garage_id;
+        $user_extra->save();
+
 
         // 아바타 변경
         if ($request->file('avatar')) {

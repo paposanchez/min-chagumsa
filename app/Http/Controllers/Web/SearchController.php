@@ -19,7 +19,7 @@ class SearchController extends Controller {
         $orders = [];
         if($request->get('q')) {
                 $qs = explode($request->get('q'), "-");
-                $where = Order::select()->where("car_number", $qs[0]);
+                $where = Order::select()->where("car_number", $qs[0])->where('open_cd', 1327);
                 if(isset($qs[1])) {
                         $where->where("datekey", $qs[1]);
                 }
