@@ -38,7 +38,7 @@ Route::get('diagnosis/item', "DiagnosisController@getItem");
 Route::post('diagnosis/grant', "DiagnosisController@setDiagnosisEngineer");
 
 
-Route::any( '(.*)', function( ){
+Route::any( '/', function( ){
         return response()->json([
                 "SERVICE" => config('app.domain'),
                 "VERSION" => 'v.1.0.0',

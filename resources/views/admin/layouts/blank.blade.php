@@ -6,13 +6,13 @@
 @section('body-class') layout-blank @endsection
 
 @section( 'content-body' )
-    
+
     @include('flash::message')
-        
-    <div id="body">  
-        @yield( 'content' )    
+
+    <div id="body">
+        @yield( 'content' )
     </div>
-    
+
 @endsection
 
 
@@ -22,7 +22,7 @@
 
 @section( 'content-footer-script' )
 {{-- 본문에서 오는 푸터 --}}
-@yield( 'footer-script' )
+@stack( 'footer-script' )
 
 {{-- tracking script --}}
 @if( config('app.analytics'))
