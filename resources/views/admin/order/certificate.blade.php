@@ -319,7 +319,6 @@
                 </td>
                 <td colspan="2">
                     {{--todo 현재 usage_history_cd 필드가 int로 되어 있다. 이부분을 varchar로 변경하거나 각 옵션값을 필드로 가지고 있어야 한다--}}
-                    {{ $order->certificates->usage_history_cd }}
                     무사고 {{ Form::radio('certificates_usage_history_cd', 1285, \App\Helpers\Helper::isCheckd(1285, $order->certificates->usage_history_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
                     단순교환 {{ Form::radio('certificates_usage_history_cd', 1286, \App\Helpers\Helper::isCheckd(1286, $order->certificates->usage_history_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
                     중손상 {{ Form::radio('certificates_usage_history_cd', 1287, \App\Helpers\Helper::isCheckd(1287, $order->certificates->usage_history_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
