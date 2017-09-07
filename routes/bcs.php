@@ -1,5 +1,8 @@
 <?php
 Route::group(['middleware' => ['auth', 'role:garage']], function () {
+
+        Route::get('dashboard', 'DashboardController');
+
         //주문
         Route::resource('order', 'OrderController', ['as' => 'bcs']);
         Route::post('order/confirmation/{order_id}', 'OrderController@confirmation');
@@ -11,7 +14,6 @@ Route::group(['middleware' => ['auth', 'role:garage']], function () {
         //    Route::post('bcs-edit', 'BcsController@bcsEdit')->name('bcs-edit');
         Route::resource('info', 'BcsController', ['as' => 'bcs']);
         Route::resource('user', 'UserController', ['as' => 'bcs']);
-        Route::get('dashboard', 'DashboardController@__invoke')->name('bcs.dashboard.index');
 
         // Avatar
         Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");

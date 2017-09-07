@@ -3,7 +3,7 @@
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
         // 대시보드
-        // Route::get('dashboard', 'DashboardController');
+        Route::get('dashboard', 'DashboardController');
 
         // 사용자
         Route::resource('user', 'UserController', ['except' => ['show']]);
@@ -88,7 +88,6 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::resource('sms', 'SmsController',['only' => ['index']]);
 
 });
-
 
 Route::any('logout', 'Auth\LoginController@logout');
 // After login in administrator's
