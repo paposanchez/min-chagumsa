@@ -100,4 +100,4 @@ Route::group(['middleware' => ['guest.admin']], function () {
     Route::post('login', 'Auth\LoginController@login');
 });
 
-Route::any( '(.*)', 'WelcomeController');
+Route::any( '/', 'WelcomeController');

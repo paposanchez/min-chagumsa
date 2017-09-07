@@ -16,7 +16,7 @@
         <!-- Styles -->
         {{ Html::style(Helper::assets('css/app.css')) }}
         {{ Html::style(Helper::assets('css/vendor.css')) }}
-        
+
 
         <!-- Scripts -->
         <script>
@@ -32,9 +32,9 @@
     </head>
 
     <body class="@yield( 'body-class' )" @yield( 'body-attr' )>
-          
+
         <div id='document'>
-        
+
             @yield('content-header')
 
             @yield('content-body')
