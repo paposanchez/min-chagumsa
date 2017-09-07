@@ -323,7 +323,7 @@ $(function () {
                 }
         });
 
-        $('.perfect-scrollbar').perfectScrollbar();
+        // $('.perfect-scrollbar').perfectScrollbar();
 
         if ($('.alert-autoclose').length > 0) {
                 $('.alert-autoclose').each(function () {
