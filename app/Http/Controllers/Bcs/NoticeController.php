@@ -25,8 +25,8 @@ class NoticeController extends Controller
         $shown_role_list = Code::getSelectList('post_shown_role');
         $search_fields = Code::getSelectList('post_search_field');
 
-        $where = Post::orderBy('id', 'desc')->where('board_id',4);
-
+        // 6번이 공개
+        $where = Post::orderBy('id', 'desc')->where('board_id',4)->where('is_shown', 6);
 
         //기간 검색
         $trs = $request->get('trs');

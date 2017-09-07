@@ -45,7 +45,7 @@ class CertificateController extends Controller
         }
 
         $orders = Order::where('orderer_id', $user->id)
-            ->where('status_cd', 107)
+            ->where('status_cd', 109)
             ->join('certificates', function ($join) {
                 $join->on('orders.id', '=', 'certificates.orders_id');
             })->paginate(10);
