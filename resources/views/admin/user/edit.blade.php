@@ -119,13 +119,13 @@
                     <div class="form-group {{ $errors->has('garage_name') ? 'has-error' : '' }} garage_name">
                         <label for="inputGarage" class="control-label col-md-3">정비소 대표자명</label>
                         <div class="col-md-6 ">
-                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="{{ $garage_info->name }}">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="{{ $garage_info->ceo_name }}">
                         </div>
                     </div>
                     <div class="form-group {{ $errors->has('garage_tel') ? 'has-error' : '' }} garage_tel">
                         <label for="inputGarage" class="control-label col-md-3">정비소 전화번호</label>
                         <div class="col-md-6 ">
-                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_tel') }}" name="garage_tel" id="garage_tel" value="{{ $garage_info->tel }}">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_tel') }}" name="garage_tel" id="garage_tel" value="{{ $garage_info->phone }}">
                         </div>
                     </div>
                     <div class="form-group {{ $errors->has('fax') ? 'has-error' : '' }}">
@@ -164,7 +164,7 @@
                     <div class="form-group {{ $errors->has('garage_address') ? 'has-error' : '' }} garage_address">
                         <label for="inputGarage" class="control-label col-md-3">나머지 주소</label>
                         <div class="col-md-6 ">
-                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_address') }}" name="garage_address" id="garage_address" value="{{ $garage_info->address }}">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_address') }}" name="garage_address" id="garage_address" value="{{ $garage_info->address_extra }}">
                             <span class="help-block">{{ trans('bcs/bcs-info.help-address') }}</span>
                         </div>
                     </div>
@@ -466,7 +466,7 @@
             $('#garage_info').css('display', '');
             $('.garage').css('display', 'none');
             $('.with_eng').removeClass('hide');
-            $('#with_eng_lavel').click();
+//            $('#with_eng_lavel').click();
         }
         else if($.inArray("4", load_role) >= 0){
             $('#garage_info').css('display', '');
