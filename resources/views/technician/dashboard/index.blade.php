@@ -36,8 +36,7 @@
                                     </td>
 
                                     <td class="">
-                                        {{--{{ $data->created_at }}--}}
-                                        {{ Carbon\Carbon::parse($data->created_at)->format('Y-m-d') }}
+                                        {{ $data->created_at->format('Y-m-d') }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -72,8 +71,7 @@
                                     </td>
 
                                     <td class="">
-                                        {{--{{ $data->created_at }}--}}
-                                        {{ Carbon\Carbon::parse($data->created_at)->format('Y-m-d') }}
+                                        {{ $data->created_at->format('Y-m-d') }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -112,8 +110,7 @@
                                     </td>
 
                                     <td class="">
-                                        {{--{{ $data->created_at }}--}}
-                                        {{ Carbon\Carbon::parse($data->created_at)->format('Y-m-d') }}
+                                        {{ $data->created_at->format('Y-m-d') }}
                                     </td>
                                 </tr>
                             @endforeach

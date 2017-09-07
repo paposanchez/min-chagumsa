@@ -7,8 +7,6 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 class RouteServiceProvider extends ServiceProvider {
 
-        protected $namespace = 'App\Http\Controllers';
-
         public function map() {
                 $this->mapAdminRoutes();
                 $this->mapAllianceRoutes();
@@ -18,10 +16,12 @@ class RouteServiceProvider extends ServiceProvider {
                 $this->mapWebRoutes();
         }
 
+
         protected function mapAdminRoutes() {
                 $namespace = $this->namespace . '\Admin';
+
                 Route::group([
-                        // 'middleware' => 'web',
+                        'middleware' => 'web',
                         'namespace' => $namespace,
                         'domain' => 'admin.' . config('app.domain'),
                 ], function ($router) {
@@ -29,10 +29,23 @@ class RouteServiceProvider extends ServiceProvider {
                 });
         }
 
+        protected function mapMobileRoutes() {
+                $namespace = $this->namespace . '\Mobile';
+
+                Route::group([
+                        'middleware' => 'web',
+                        'namespace' => $namespace,
+                        'domain' => 'm.' . config('app.domain'),
+                ], function ($router) {
+                        require base_path('routes/mobile.php');
+                });
+        }
+
         protected function mapAllianceRoutes() {
                 $namespace = $this->namespace . '\Alliance';
+
                 Route::group([
-                        // 'middleware' => 'web',
+                        'middleware' => 'web',
                         'namespace' => $namespace,
                         'domain' => 'alliance.' . config('app.domain'),
                 ], function ($router) {
@@ -42,8 +55,9 @@ class RouteServiceProvider extends ServiceProvider {
 
         protected function mapBcsRoutes() {
                 $namespace = $this->namespace . '\Bcs';
+
                 Route::group([
-                        // 'middleware' => 'web',
+                        'middleware' => 'web',
                         'namespace' => $namespace,
                         'domain' => 'bcs.' . config('app.domain'),
                 ], function ($router) {
@@ -53,8 +67,9 @@ class RouteServiceProvider extends ServiceProvider {
 
         protected function mapTechnicianRoutes() {
                 $namespace = $this->namespace . '\Technician';
+
                 Route::group([
-                        // 'middleware' => 'web',
+                        'middleware' => 'web',
                         'namespace' => $namespace,
                         'domain' => 'tech.' . config('app.domain'),
                 ], function ($router) {
@@ -65,7 +80,7 @@ class RouteServiceProvider extends ServiceProvider {
         protected function mapApiRoutes() {
                 $namespace = $this->namespace . '\Api';
                 Route::group([
-                        'middleware' => 'api',
+                        // 'middleware' => 'api',
                         'namespace' => $namespace,
                         'domain' => 'api.' . config('app.domain'),
                 ], function ($router) {
@@ -76,7 +91,7 @@ class RouteServiceProvider extends ServiceProvider {
         protected function mapWebRoutes() {
                 $namespace = $this->namespace . '\Web';
                 Route::group([
-                        // 'middleware' => 'web',
+                        'middleware' => 'web',
                         'namespace' => $namespace,
                         // 'domain' => config('app.domain'),
                         //            'domain' => config('app.domain'),

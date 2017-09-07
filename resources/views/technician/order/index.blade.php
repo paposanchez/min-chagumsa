@@ -87,25 +87,23 @@
 
             <table class="table text-middle text-center">
                 <colgroup>
-                    {{--<col width="10%">--}}
-                    <col width="10">
-                    <col width="15%">
-                    <col width="15%">
-                    <col width="15%">
-                    <col width="15%">
-                    <col width="15%">
-
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="25%">
                 </colgroup>
 
                 <thead>
                 <tr class="active">
-                    {{--<th class="text-center">#</th>--}}
                     <th class="text-center">주문번호</th>
                     <th class="text-center">주문자</th>
                     <th class="text-center">연락처</th>
-                    <th class="text-center">정비사</th>
-                    <th class="text-center">기술사</th>
                     <th class="text-center">상태</th>
+                    <th class="text-center">주문일</th>
+                    <th class="text-center">입고일</th>
+                    <th class="text-center">수정</th>
                 </tr>
                 </thead>
 
@@ -118,9 +116,6 @@
                 @foreach($entrys as $data)
 
                     <tr>
-                        {{--<td class="">--}}
-                        {{--<input type="checkbox">--}}
-                        {{--</td>--}}
                         <td class="text-center">
                             <a href="{{ url("order", [$data->id]) }}">{{ $data->getOrderNumber() }}</a>
                         </td>
@@ -132,19 +127,28 @@
                         </td>
 
                         <td class="">
-                            @if($data->engineer)
-                                {{ $data->engineer->name }}
-                            @endif
+                            <span class="label
+                                @if($data->status_cd == 100)
+                                    label-default
+                                @elseif($data->status_cd == 106)
+                                    label-primary
+                                @else
+                                    label-info
+                                @endif
+                                    ">
+                                    {{ $data->status->display() }}
+                                </span>
                         </td>
 
                         <td class="">
-                            @if($data->technicion)
-                                {{ $data->technicion->name }}
-                            @endif
+                            {{ $data->created_at->format('Y-m-d H시 i분') }}
                         </td>
 
                         <td>
-                            {{ $data->status->display() }}
+                            {{ $data->reservation->reservation_at->format('Y-m-d H시 i분') }}
+                        </td>
+                        <td>
+                            <a href="{{ url("order", [$data->id]) }}" class="btn btn-default">상세보기</a>
                         </td>
                     </tr>
                 @endforeach

@@ -12,18 +12,6 @@
 
             <div class="panel-heading">
                 <span class="panel-title">검색조건</span>
-
-                {{--<div class="panel-heading-controls">--}}
-
-                {{--<div class="checkbox checkbox-slider--b-flat zfp-panel-collapse">--}}
-                {{--<label>--}}
-                {{--<input type="checkbox" >--}}
-                {{--<span></span>--}}
-                {{--</label>--}}
-                {{--</div>--}}
-
-                {{--</div>--}}
-
             </div>
 
             <div class="panel-body">
@@ -81,6 +69,7 @@
                 <table class="table text-middle text-center">
                     <colgroup>
                         <col width="8%">
+                        <col width="10%">
                         <col width="*">
                         <col width="10%">
                         <col width="8%">
@@ -89,9 +78,10 @@
                     <thead>
                     <tr class="active">
                         <th class="text-center">#</th>
-                        <th class="text-left">제목</th>
-                        <th class="text-center">상태</th>
+                        <th class="text-center">분류</th>
+                        <th class="text-center">제목</th>
                         <th class="text-center">등록일</th>
+                        <th class="text-center">상세보기</th>
                     </tr>
                     </thead>
 
@@ -103,25 +93,26 @@
 
                     @foreach($entrys as $n => $data)
                         <tr>
-
                             <td class="">
-                                {{ $start_num - $n }}
+                                {{--{{ $start_num - $n }}--}}
+                                {{ $data->id }}
                             </td>
 
+                            <td>
+                                {{ $data->board->name }}
+                            </td>
 
-
-                            <td class="text-left">
+                            {{--<td class="text-left">--}}
+                            <td>
                                 <a href="{{ url("notice", ['id'=> $data->id]) }}">{{ $data->subject }}</a>
-                            </td>
-
-
-
-                            <td class="">
-                                <span class="label label-default">{{ $data->shown? $data->shown->display(): '-' }}</span>
                             </td>
 
                             <td class="">
                                 {{ $data->created_at->format('Y.m.d') }}
+                            </td>
+
+                            <td class="">
+                                <a href="{{ url("notice", ['id'=> $data->id]) }}" class="btn btn-default"  data-tooltip="{pos:'top'}" title="상세보기">상세보기</a>
                             </td>
 
                         </tr>
@@ -134,19 +125,19 @@
         </div>
 
 
-        <div class="row">
+        {{--<div class="row">--}}
 
-            <div class="col-sm-6">
+            {{--<div class="col-sm-6">--}}
 
-                <a href="{{ route('post.create') }}" class="btn btn-primary">등록</a>
+                {{--<a href="{{ route('post.create') }}" class="btn btn-primary">등록</a>--}}
 
-            </div>
+            {{--</div>--}}
 
-            <div class="col-sm-6 text-right">
-                {!! $entrys->render() !!}
-            </div>
+            {{--<div class="col-sm-6 text-right">--}}
+                {{--{!! $entrys->render() !!}--}}
+            {{--</div>--}}
 
-        </div>
+        {{--</div>--}}
 
     </div>
 

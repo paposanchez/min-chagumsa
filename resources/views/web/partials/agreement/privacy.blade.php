@@ -1,7 +1,8 @@
 <div class='term_title'>
     차검사 관련 제반 서비스의 이용과 관련하여 필요한 사항을 규정합니다.
 </div>
-<div class='term_cont' style="overflow:scroll; overflow-x: hidden; overflow-y: scroll;height:135px;">
+{{--<div class='term_cont' style="overflow:scroll; overflow-x: hidden; overflow-y: scroll;height:135px;">--}}
+<div class='term_cont'>
     <div>
         <strong>개인정보 수집/이용에 관한 안내</strong>
         (주)짐브러스(이하 "회사")에 회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.<br>
