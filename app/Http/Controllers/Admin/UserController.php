@@ -197,9 +197,9 @@ class UserController extends Controller {
         }
 
         // garage의 정보 및 network 정보
-        $garage_info = GarageInfo::where('garage_id', $user->id)->first();
+        $garage_info = UserExtra::where('users_id', $user->id)->first();
         if(!$garage_info){
-            $garage_info = new GarageInfo();
+            $garage_info = new UserExtra();
         }
 
 
@@ -300,10 +300,10 @@ class UserController extends Controller {
 
                 $my_extra = UserExtra::where('users_id', $user->id)->first();
 
-                if($my_extra->garage->garageInfo->name != $request->get('garage')){
+                if($my_extra->garage->name != $request->get('garage')){
                     // user_extra 데이터 저장
                     $user_extra = UserExtra::where('users_id', $user->id)->first();
-                    $garage_info = GarageInfo::where('name', $request->get('garage'))->first();
+                    $garage_info = UserExtra::where('users_id', $request->get('garage'))->first();
                     if(!$user_extra){
                         $user_extra = new UserExtra();
                     }
@@ -311,8 +311,8 @@ class UserController extends Controller {
                     $user_extra->phone = $request->get('mobile');
                     $user_extra->zipcode = $garage_info->tel;
                     $user_extra->address = $garage_info->address;
-                    $user_extra->address_extra = $garage_info->name;
-                    $user_extra->garage_id = $garage_info->garage_id;
+                    $user_extra->address_extra = $garage_info->address_extra;
+                    $user_extra->garage_id = $garage_info->users_id;
                     $user_extra->save();
                 }
             }
