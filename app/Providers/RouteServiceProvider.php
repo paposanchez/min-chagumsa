@@ -6,20 +6,37 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider {
+        /**
+         * This namespace is applied to your controller routes.
+         *
+         * In addition, it is set as the URL generator's root namespace.
+         *
+         * @var string
+         */
+        protected $namespace = 'App\Http\Controllers';
+
+        /**
+         * Define your route model bindings, pattern filters, etc.
+         *
+         * @return void
+         */
+        public function boot() {
+            //
+            parent::boot();
+        }
 
         public function map() {
-                $this->mapAdminRoutes();
-                $this->mapAllianceRoutes();
-                $this->mapBcsRoutes();
                 $this->mapTechnicianRoutes();
+                $this->mapBcsRoutes();
+                $this->mapAllianceRoutes();
+                $this->mapAdminRoutes();
                 $this->mapApiRoutes();
+                $this->mapMobileRoutes();
                 $this->mapWebRoutes();
         }
 
-
         protected function mapAdminRoutes() {
                 $namespace = $this->namespace . '\Admin';
-
                 Route::group([
                         'middleware' => 'web',
                         'namespace' => $namespace,
@@ -29,21 +46,8 @@ class RouteServiceProvider extends ServiceProvider {
                 });
         }
 
-        protected function mapMobileRoutes() {
-                $namespace = $this->namespace . '\Mobile';
-
-                Route::group([
-                        'middleware' => 'web',
-                        'namespace' => $namespace,
-                        'domain' => 'm.' . config('app.domain'),
-                ], function ($router) {
-                        require base_path('routes/mobile.php');
-                });
-        }
-
         protected function mapAllianceRoutes() {
                 $namespace = $this->namespace . '\Alliance';
-
                 Route::group([
                         'middleware' => 'web',
                         'namespace' => $namespace,
@@ -55,7 +59,6 @@ class RouteServiceProvider extends ServiceProvider {
 
         protected function mapBcsRoutes() {
                 $namespace = $this->namespace . '\Bcs';
-
                 Route::group([
                         'middleware' => 'web',
                         'namespace' => $namespace,
@@ -67,7 +70,6 @@ class RouteServiceProvider extends ServiceProvider {
 
         protected function mapTechnicianRoutes() {
                 $namespace = $this->namespace . '\Technician';
-
                 Route::group([
                         'middleware' => 'web',
                         'namespace' => $namespace,
@@ -80,11 +82,22 @@ class RouteServiceProvider extends ServiceProvider {
         protected function mapApiRoutes() {
                 $namespace = $this->namespace . '\Api';
                 Route::group([
-                        // 'middleware' => 'api',
+                        'middleware' => 'api',
                         'namespace' => $namespace,
                         'domain' => 'api.' . config('app.domain'),
                 ], function ($router) {
                         require base_path('routes/api.php');
+                });
+        }
+
+        protected function mapMobileRoutes() {
+                $namespace = $this->namespace . '\Mobile';
+                Route::group([
+                        'middleware' => 'web',
+                        'namespace' => $namespace,
+                        'domain' => 'm.' . config('app.domain'),
+                ], function ($router) {
+                        require base_path('routes/web.php');
                 });
         }
 
