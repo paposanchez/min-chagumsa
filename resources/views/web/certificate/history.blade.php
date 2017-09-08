@@ -142,17 +142,18 @@
 @endpush
 
 @push( 'footer-script' )
+<script type="text/javascript">
 
-<script>
-$(window).load(function(){
-	$('.bubble_desc dt').click(function(){
-		$('.bubble_desc dd').hide();
-		$(this).next().show();
-	});
-	$('.bubble_desc dd').click(function(){
-		$(this).hide();
-	});
+    $(window).on("load", function(){
+        $('.bubble_desc dt').click(function(){
+            $('.bubble_desc dd').hide();
+            $(this).next().show();
+        });
+        $('.bubble_desc dd').click(function(){
+            $(this).hide();
+        });
+    });
 
-});
+
 </script>
 @endpush

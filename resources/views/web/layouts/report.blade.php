@@ -36,7 +36,7 @@
         <div class='report_frame_wrap'>
 
             <div class='report_frame_title'>
-                <button class='btns btns_green'><i class="fa fa-download"></i> PDF 다운로드</button>
+                {{--<button class='btns btns_green'><i class="fa fa-download"></i> PDF 다운로드</button>--}}
 
                 <div class='report_title'><h2>자동차 성능진단 리포트</h2></div></div>
             <div class='report_frame_cont'>

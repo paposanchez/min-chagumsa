@@ -104,32 +104,32 @@ class OrderController extends Controller
     {
 
 
-        //        $validate = Validator::make($request->all(), [
-        //            'item_id' => 'required',        // item seq
-        //            'payment_price' => 'required',  // item 가격
-        //            'payment_method' => 'required', // 결제 방식 11 = 카드, 12 = 실시간 계좌 이체
-        //            'orderer_name' => 'required',   // 주문자 이름
-        //            'orderer_mobile' => 'required',
-        //            'areas' => 'required',          // 정비소 시/도
-        //            'sections' => 'required',       // 정비소 구/군
-        //            'garages' => 'required',        // 정비소명
-        //            'reservation_date' => 'required',// 예약날짜 (Y-m-d)
-        //            'sel_time' => 'required',       // 예약 시간
-        //            'car_number' => 'required',     // 차량 번호
-        //            'brands' => 'required',         // 브랜드 seq
-        //            'models' => 'required',         // 모델 seq
-        //            'details' => 'required',        // 디테일 seq
-        //            'grades' => 'required',         // 등급 seq
-        //        ]);
-        //
-        //        if ($validate->fails())
-        //        {
-        //            foreach ($validate->messages()->getMessages() as $field_name => $messages)
-        //            {
-        //                //                var_dump($messages); // messages are retrieved (publicly)
-        //            }
-        //            return redirect()->back()->with('error', '인증서 신청 정보를 충분히 입력하세요.');
-        //        }
+//                $validate = Validator::make($request->all(), [
+//                    'item_id' => 'required',        // item seq
+//                    'payment_price' => 'required',  // item 가격
+//                    'payment_method' => 'required', // 결제 방식 11 = 카드, 12 = 실시간 계좌 이체
+//                    'orderer_name' => 'required',   // 주문자 이름
+//                    'orderer_mobile' => 'required',
+//                    'areas' => 'required',          // 정비소 시/도
+//                    'sections' => 'required',       // 정비소 구/군
+//                    'garages' => 'required',        // 정비소명
+//                    'reservation_date' => 'required',// 예약날짜 (Y-m-d)
+//                    'sel_time' => 'required',       // 예약 시간
+//                    'car_number' => 'required',     // 차량 번호
+//                    'brands' => 'required',         // 브랜드 seq
+//                    'models' => 'required',         // 모델 seq
+//                    'details' => 'required',        // 디테일 seq
+//                    'grades' => 'required',         // 등급 seq
+//                ]);
+
+//                if ($validate->fails())
+//                {
+//                    foreach ($validate->messages()->getMessages() as $field_name => $messages)
+//                    {
+//                        //                var_dump($messages); // messages are retrieved (publicly)
+//                    }
+//                    return redirect()->back()->with('error', '인증서 신청 정보를 충분히 입력하세요.');
+//                }
         $orderer = Auth::user();
 
 
