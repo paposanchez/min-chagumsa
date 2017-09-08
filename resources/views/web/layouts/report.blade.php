@@ -19,9 +19,9 @@
 
         <h1>{{ Html::image(Helper::theme_web( '/img/report/report_logo.png')) }}</h1>
         <ul>
-            <li><a class="{{ ( !in_array($page, ['performance','history','price'])) ? ' select': ''}}" href='{{ route('certificate', ['id'=>4,'page'=>'summary']) }}'>자동차 인증서 요약리포트</a></li>
-            <li><a class="{{ $page == 'performance' ? ' select':''}}" href='{{ route('certificate', ['id'=>4,'page'=>'performance']) }}'>자동차 성능진단 리포트</a></li>
-            <li><a class="{{ $page == 'history' ? ' select':''}}" href='{{ route('certificate', ['id'=>4,'page'=>'history']) }}'>자동차 이력 리포트</a></li>
+            <li><a class="{{ ( !in_array($page, ['performance','history','price'])) ? ' select': ''}}" href='{{ route('certificate', ['id'=>4,'page'=>'summary']) }}'>자동차 인증서 요약 보고서</a></li>
+            <li><a class="{{ $page == 'performance' ? ' select':''}}" href='{{ route('certificate', ['id'=>4,'page'=>'performance']) }}'>자동차 성능진단 보고서</a></li>
+            <li><a class="{{ $page == 'history' ? ' select':''}}" href='{{ route('certificate', ['id'=>4,'page'=>'history']) }}'>자동차 이력 보고서</a></li>
             <li><a class="{{ $page == 'price' ? ' select':''}}" href='{{ route('certificate', ['id'=>4,'page'=>'price']) }}'>자동차 가격조사산정서</a></li>
         </ul>
         <p>
@@ -38,7 +38,18 @@
             <div class='report_frame_title'>
                 {{--<button class='btns btns_green'><i class="fa fa-download"></i> PDF 다운로드</button>--}}
 
-                <div class='report_title'><h2>자동차 성능진단 리포트</h2></div></div>
+                <div class='report_title'><h2>
+                        @if($page == 'summary')
+                            자동차 인증서 요약 보고서
+                        @elseif($page == 'performance')
+                            자동차 성능진단 보고서
+                        @elseif($page == 'history')
+                            자동차 이력 보고서
+                        @else
+                            자동차 가격조사산정서
+                        @endif
+
+                    </h2></div></div>
             <div class='report_frame_cont'>
                 @endsection
 
