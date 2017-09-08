@@ -97,7 +97,7 @@ class RouteServiceProvider extends ServiceProvider {
                         'namespace' => $namespace,
                         'domain' => 'm.' . config('app.domain'),
                 ], function ($router) {
-                        require base_path('routes/web.php');
+                        require base_path('routes/mobile.php');
                 });
         }
 

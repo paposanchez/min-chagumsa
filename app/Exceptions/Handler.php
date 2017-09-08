@@ -48,6 +48,12 @@ class Handler extends ExceptionHandler {
             );
         }
 
+    //
+    //     if ($e instanceof TokenMismatchException) {
+    //
+    //     return redirect()->back()->with('error', 'You page session expired. Please try again');
+    // }
+
         return parent::render($request, $e);
     }
 
