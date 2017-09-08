@@ -107,23 +107,23 @@
     <div class='br30'></div>
 
     <div class='cont_title'>
-        <strong>중고차 거래의 <span>새롭고 신뢰할만한</span> 방법을 제시합니다.</strong>
+        <strong>차검사 인증서는 <span>4개의 보고서</span>로 구성됩니다.</strong>
     </div>
     <div class='br30'></div>
     <ul class='intro2_wrap'>
         <li>
-            <div class='intro2_btm_box'><strong class='fcol_lightGreen'>01</strong>차검사인증서는 차검사만의 고유한 차량성능진단과 연도, 제조사, 모델, 주행거리, 위치 및 조건을 고려하여 차량식별번호(차대번호) 별로 고유하게 발급됩니다.</div>
+            <div class='intro2_btm_box'><strong class='fcol_lightGreen'>01</strong>[요약 보고서] 전체 항목에 대해 간단히 보여주는 보고서입니다. 품질 등급과 산정 가격은 물론 종합진단 결과에서는 모든 영역에 대한 평가를 한 눈에 볼 수 있습니다.</div>
             <div class='br30'></div>
         </li>
         <li>
-            <div class='intro2_btm_box'><strong class='fcol_lightGreen'>02</strong>차량별 성능진단보고서는 글로벌 차량진단정비 전문업체인 보쉬카서비스(BOSCH Car Service)의 진단전문 장비와 전문인력을 통해 평가되어 신뢰할 수 있는 보고서를 제공합니다.</div>
+            <div class='intro2_btm_box'><strong class='fcol_lightGreen'>02</strong>[품질 보고서] 차량정보와 진단 결과를 자세히 볼 수 있습니다. 차량정보, 진단정보, 주요상태와 진단결과로 구성되어 있으며, 인증등급이 표시됩니다. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
             <div class='br30'></div>
         </li>
         <li>
-            <div class='intro2_btm_box'><strong class='fcol_lightGreen'>03</strong>차량가치(가격산정) 보고서는 각 차량의 사고횟수, 소유자 수 및 서비스 내역을 조사하고, 차량의 사용방법(개인용, 법인용, 임대용 또는 상업용)과 같은 요소도 정확한 가치를 산정하는데 도움이 됩니다.</div>
+            <div class='intro2_btm_box'><strong class='fcol_lightGreen'>03</strong>[가격 산정 보고서] 실제 거래 시 활용할 수 있는 보고서입니다. 차량정보와 가격산정내역이 상세히 표시되어 있으며, 해당 내용을 차검사가 인증합니다.</div>
         </li>
         <li>
-            <div class='intro2_btm_box'><strong class='fcol_lightGreen'>04</strong>차량가치산정평가서는 자동차관리법 제58조 1항 등 자동차 가격산정에 대한 법적 권한을 보유한 자동차기술관련 명인인 자동차기술사가 평가하고 가치평가보고서를 제공합니다.</div>
+            <div class='intro2_btm_box'><strong class='fcol_lightGreen'>04</strong>[이력 보고서] 차량의 이력을 보여줍니다. 연식과 주행거리 등의 기본 정보부터 보험사고, 소유자, 정비, 용도 변경 등의 상세 정보까지 기록됩니다.</div>
         </li>
     </ul>
 

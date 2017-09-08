@@ -705,9 +705,16 @@
         $(document).on("click", ".purchase-item-method", function () {
             $('.purchase-item-method').removeClass("active");
             $(this).toggleClass("active");
+            var item_id = $('#item_id').val();
 
             if ($(this).data('index') == '21') { //쿠폰
-                $('#modal-coupon').modal();
+                if(item_id.length != 0){
+                    $('#modal-coupon').modal();
+                }else{
+                    alert('상품을 선택하세요.');
+                   $(this).removeClass('active');
+                }
+
             }
 
             $('#payment_method').val($(this).data("index"));
@@ -773,7 +780,7 @@
         $("#coupon-process").on("click", function () {
 
             var use_coupon_number = $("#use_coupon_number").val();
-            var coupon_id = $("#coupon_id").val()
+            var coupon_id = $("#coupon_id").val();
             if (use_coupon_number && coupon_id) {
                 $("#orderFrm").removeAttr("target");
                 $("#orderFrm").attr("action", "{{ url("order/coupon-process") }}");
@@ -829,8 +836,7 @@
                 url: '/order/get_address/',
                 data: {
                     'sel_area': garage_area,
-                    'sel_section': garage_section,
-                    '_token': '{{ csrf_token() }}'
+                    'sel_section': garage_section
                 },
                 success: function (data) {
 //                    alert(JSON.stringify(data));
@@ -1149,12 +1155,15 @@
 
 
         $("#payment-process").on("click", function () {
-            var item_id = $('#item_id').val()
-            if(item_id.length > 0 ){
-                var u = "{{ route('order.payment-popup') }}";
+            var item_id = $('#item_id').val();
+            var payment_method = $('#payment_method').val();
 
-                // $('#orderFrm').submit();
-
+            if(item_id.length == 0){
+                alert('상품을 선택하세요.');
+            }else if(payment_method.length == 0){
+                alert('결제 방법을 선택하세요.');
+            }else{
+                {{--var u = "{{ route('order.payment-popup') }}";--}}
                 $('#modalPurchase').modal({
                     backdrop: 'static',
                     keyboard: false,
@@ -1162,10 +1171,7 @@
                     width: 1000,
                     height: 1000
                 });
-            }else{
-                alert('아이템을 선택하세요.');
             }
-
 
         });
 
