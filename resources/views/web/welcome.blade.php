@@ -28,6 +28,24 @@
         </div>
     </div>
 
+    <div id='main_visual2_wrap'>
+        <div class='main_visual2'>
+
+            <div class='mv2_cert_wrap'>
+                {{ Html::image(Helper::theme_web( '/img/main/mv2_title.png'), '중고차 공인인증 서비스 차검사') }}
+                <ul>
+                    {{--<li><a href=''>인증서 신청하기</a></li>--}}
+                    {{--<li><a href=''>인증서 신청하기</a></li>--}}
+                </ul>
+            </div>
+
+            <div class='mv2_exp_wrap'>
+                <a href='{{ url("/community/notice") }}'>체험단 신청하기</a>
+            </div>
+
+        </div>
+    </div>
+
     <div id='main_service_wrap'>
         <section id="main_service" class="dg-container">
             <div class="dg-wrapper"><a class='service1'></a><a class='service2'></a><a class='service3'></a></div>
