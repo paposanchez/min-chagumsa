@@ -33,6 +33,7 @@ class CodesTableSeeder extends Seeder {
             ['id'=>19, 'group' => 'category_id', 'name' => 'refund'],
             ['id'=>20, 'group' => 'category_id', 'name' => 'guide'],
             ['id'=>21, 'group' => 'payment_cd', 'name' => 'coupon'],
+            ['id'=>22, 'group' => 'payment_cd', 'name' => 'test'],
         ]);
 
 

@@ -12,7 +12,9 @@
     @if(preg_match("/technician/", Route::currentRouteName()))
         <div class="row">
             <div class="col-md-3"><h2>기본 정보</h2></div>
-            <div class="col-md-9 text-right"><button type="button" class="btn btn-warning" id="diag-win">진단데이터 보기</button> </div>
+            <div class="col-md-9 text-right">
+                <button type="button" class="btn btn-warning" id="diag-win">진단데이터 보기</button>
+            </div>
         </div>
         {!! Form::model($order, ['method' => 'PATCH','route' => ['technician.order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
     @else
@@ -35,7 +37,8 @@
         <tr>
             <th>자동차 등록번호</th>
             <td>
-                <input type="text" class="form-control" name="orders_car_number" value="{{ $order->car_number }}" required>
+                <input type="text" class="form-control" name="orders_car_number" value="{{ $order->car_number }}"
+                       required>
             </td>
             <th>주행거리(km)</th>
             <td>
@@ -45,11 +48,13 @@
         <tr>
             <th>차대번호</th>
             <td>
-                <input type="text" class="form-control" name="cars_vin_number" placeholder="차대번호를 입력해 주세요." value="{{ $car->vin_number ? $car->vin_number : '' }}" required>
+                <input type="text" class="form-control" name="cars_vin_number" placeholder="차대번호를 입력해 주세요."
+                       value="{{ $car->vin_number ? $car->vin_number : '' }}" required>
             </td>
             <th>수입차 차대번호</th>
             <td>
-                <input type="text" class="form-control" placeholder="수입차 차대번호를 입력해 주세요." name="car_imported_vin_number" value="{{ $car->imported_vin_number ? $car->imported_vin_number : '' }}">
+                <input type="text" class="form-control" placeholder="수입차 차대번호를 입력해 주세요." name="car_imported_vin_number"
+                       value="{{ $car->imported_vin_number ? $car->imported_vin_number : '' }}">
             </td>
         </tr>
         <tr>
@@ -57,19 +62,29 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
-                    <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" name="cars_registration_date" value="{{ $car->registration_date ? $car->registration_date : '' }}" required>
+                    <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
+                           name="cars_registration_date"
+                           value="{{ $car->registration_date ? $car->registration_date : '' }}" required>
                 </div>
             </td>
             <th>사용월수</th>
             <td>
-                <input type="text" class="form-control" name="cars_history" value="{{ \App\Helpers\Helper::getMonthNum($car->registration_date ? $car->registration_date : '') }}" readonly>
+                {{--<input type="text" class="form-control" name="cars_history" value="{{ \App\Helpers\Helper::getMonthNum($car->registration_date ? $car->registration_date : '') }}" readonly>--}}
+                @if($car->registration_date)
+                    <input type="text" class="form-control" name="cars_history"
+                           value="{{ \App\Helpers\Helper::getMonthNum($car->registration_date) }}" readonly>
+                @else
+                    <input type="text" class="form-control" name="cars_history" value="최초등록시 입력됩니다." readonly>
+                @endif
             </td>
         </tr>
 
         <tr>
             <th>기준가격(Pst)</th>
             <td>
-                <div class="input-group"><input type="text" class="form-control" name="pst" id="pst" value="{{ $order->certificates ? $order->certificates->price : '' }}" required><span class="input-group-addon">만원</span></div>
+                <div class="input-group"><input type="text" class="form-control" name="pst" id="pst"
+                                                value="{{ $order->certificates ? $order->certificates->price : '' }}"
+                                                required><span class="input-group-addon">만원</span></div>
             </td>
             <th>차대번호 동일성확인</th>
             <td>
@@ -80,20 +95,24 @@
         <tr>
             <th>소유자 이력</th>
             <td>
-                <div class="input-group"><input type="text" class="form-control" name="certificates_history_owner" value="{{ $order->certificates ? $order->certificates->history_owner : '' }}" required><span class="input-group-addon">명</span></div>
+                <div class="input-group"><input type="text" class="form-control" name="certificates_history_owner"
+                                                value="{{ $order->certificates ? $order->certificates->history_owner : '' }}"
+                                                required><span class="input-group-addon">명</span></div>
             </td>
             <th>정비 이력</th>
             <td colspan="3">
-                <div class="input-group"><input type="text" class="form-control" name="certificates_history_maintance" value="{{ $order->certificates ? $order->certificates->history_maintance : '' }}" required><span class="input-group-addon">번</span></div>
+                <div class="input-group"><input type="text" class="form-control" name="certificates_history_maintance"
+                                                value="{{ $order->certificates ? $order->certificates->history_maintance : '' }}"
+                                                required><span class="input-group-addon">번</span></div>
             </td>
         </tr>
-
 
 
         <tr>
             <th>차명</th>
             <td>
-                <input type="text" class="form-control" name="detail_name" value="{{ \App\Helpers\Helper::getCarModel($car) }}">
+                <input type="text" class="form-control" name="detail_name"
+                       value="{{ \App\Helpers\Helper::getCarModel($car) }}">
             </td>
             <th>세부모델</th>
             <td>
@@ -111,7 +130,8 @@
         <tr>
             <th>연식 (형식)</th>
             <td>
-                <input type="text" class="form-control" name="cars_year" value="{{ $car->year ? $car->year : '' }}" required>
+                <input type="text" class="form-control" name="cars_year" value="{{ $car->year ? $car->year : '' }}"
+                       required>
             </td>
             <th>변속기</th>
             <td>
@@ -121,7 +141,8 @@
         <tr>
             <th>엔진타입</th>
             <td>
-                <input type="text" class="form-control" name="cars_engine_type" value="{{ $car->engine_type ? $car->engine_type : '' }}">
+                <input type="text" class="form-control" name="cars_engine_type"
+                       value="{{ $car->engine_type ? $car->engine_type : '' }}">
             </td>
             <th>사용연료</th>
             <td>
@@ -131,11 +152,14 @@
         <tr>
             <th>배기량 (cc)</th>
             <td>
-                <input type="text" class="form-control" name="cars_displacement" value="{{ $car->displacement ? $car->displacement : ''}}" required>
+                <input type="text" class="form-control" name="cars_displacement"
+                       value="{{ $car->displacement ? $car->displacement : ''}}" required>
             </td>
             <th>연비</th>
             <td>
-                <input type="text" class="form-control" name="cars_fuel_consumption" value="{{ $car->fuel_consumption ? $car->fuel_consumption : '' }}" required>
+                <div class="input-group"><input type="text" class="form-control" name="cars_fuel_consumption"
+                                                value="{{ $car->fuel_consumption ? $car->fuel_consumption : '' }}"
+                                                required><span class="input-group-addon">km</span></div>
             </td>
         </tr>
         </tbody>
@@ -143,7 +167,8 @@
 
 
     <div class="text-right">
-        <button class="btn btn-primary text-right" type="submit"{{ ($order->status_cd == 109)? ' disabled': '' }}>저장</button>
+        <button class="btn btn-primary text-right" type="submit"{{ ($order->status_cd == 109)? ' disabled': '' }}>저장
+        </button>
     </div>
     {!! Form::close() !!}
 </div>
@@ -171,30 +196,37 @@
             <tr>
                 <th>보험사고 이력 건수</th>
                 <td>
-                    <div class="input-group"><input type="text" class="form-control" name="certificates_history_insurance" placeholder="보험이력건수를 입력해 주세요" value="{{ $order->certificates->history_insurance }}" required><span class="input-group-addon">건</span></div>
+                    <div class="input-group"><input type="text" class="form-control"
+                                                    name="certificates_history_insurance" placeholder="보험이력건수를 입력해 주세요"
+                                                    value="{{ $order->certificates->history_insurance }}" required><span
+                                class="input-group-addon">건</span></div>
                 </td>
                 <th>보험사고 이력 파일</th>
                 <td>
-                    <button class="btn btn-info" type="button" id="insurance-upload"{{ ($order->status_cd == 109)? ' disabled': '' }}>사고이력 이미지</button>
+                    <button class="btn btn-info" type="button"
+                            id="insurance-upload"{{ ($order->status_cd == 109)? ' disabled': '' }}>사고이력 이미지
+                    </button>
                 </td>
             </tr>
             <tr>
                 <th>용도변경이력</th>
                 <td colspan="3">
-                        <ul id="history_purpose">
-                            @if($order->certificates->history_purpose)
-                                @foreach(json_decode($order->certificates->history_purpose, true) as $garage_row)
-                                    <li>{{ $garage_row }}</li>
-                                @endforeach
-                            @else
-                                <li><strong class="text-danger">용도변경 이력이 없습니다.</strong></li>
-                            @endif
-                        </ul>
+                    <ul id="history_purpose">
+                        @if($order->certificates->history_purpose)
+                            @foreach(json_decode($order->certificates->history_purpose, true) as $garage_row)
+                                <li>{{ $garage_row }}</li>
+                            @endforeach
+                        @else
+                            <li><strong class="text-danger">용도변경 이력이 없습니다.</strong></li>
+                        @endif
+                    </ul>
 
                     <div class="input-group">
-                        <input type="text" name="certificates_history_purpose" class="form-control" id="certificates_history_purpose" placeholder="용도변경 정보를 입력해주세요.">
+                        <input type="text" name="certificates_history_purpose" class="form-control"
+                               id="certificates_history_purpose" placeholder="용도변경 정보를 입력해주세요.">
                         <span class="input-group-btn">
-                            <button class="btn btn-info" type="button" id="history_purpose_add"{{ ($order->status_cd == 109)? ' disabled': '' }}>용도변경 이력 추가</button>
+                            <button class="btn btn-info" type="button"
+                                    id="history_purpose_add"{{ ($order->status_cd == 109)? ' disabled': '' }}>용도변경 이력 추가</button>
                         </span>
                     </div>
 
@@ -216,11 +248,12 @@
                     </ul>
 
 
-
                     <div class="input-group">
-                        <input type="text" name="certificates_history_garage" class="form-control" id="certificates_history_garage" placeholder="차고지 주소 및 정보를 입력해주세요.">
+                        <input type="text" name="certificates_history_garage" class="form-control"
+                               id="certificates_history_garage" placeholder="차고지 주소 및 정보를 입력해주세요.">
                         <span class="input-group-btn">
-                            <button class="btn btn-info" type="button" id="history_garage_add"{{ ($order->status_cd == 109)? ' disabled': '' }}>차고지 이력 추가</button>
+                            <button class="btn btn-info" type="button"
+                                    id="history_garage_add"{{ ($order->status_cd == 109)? ' disabled': '' }}>차고지 이력 추가</button>
                         </span>
                     </div>
 
@@ -230,7 +263,9 @@
         </table>
 
         <div class="text-right">
-            <button class="btn btn-primary text-right" type="submit"{{ ($order->status_cd == 109)? ' disabled': '' }}>저장</button>
+            <button class="btn btn-primary text-right" type="submit"{{ ($order->status_cd == 109)? ' disabled': '' }}>
+                저장
+            </button>
         </div>
         {!! Form::close() !!}
     </div>
@@ -255,17 +290,26 @@
             <tr>
                 <th>기준가격(Pst)</th>
                 <td>
-                    <div class="input-group"><input type="text" class="form-control" name="pst" id="pst" value="{{ $order->certificates ? $order->certificates->price : '' }}"><span class="input-group-addon">만원</span></div>
+                    <div class="input-group"><input type="text" class="form-control" name="pst" id="pst"
+                                                    value="{{ $order->certificates ? $order->certificates->price : '' }}"><span
+                                class="input-group-addon">만원</span></div>
                 </td>
 
                 <th>
                     신차출고가격
                 </th>
                 <td>
-                    <label for="" class="radio-inline">{{ Form::radio('vat', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->vat), ['required']) }} 부가세 포함</label>
-                    <label for="" class="radio-inline">{{ Form::radio('vat', 4, \App\Helpers\Helper::isCheckd(4, $order->certificates->vat), ['required']) }} 부가세 제외</label>
+                    <label for=""
+                           class="radio-inline">{{ Form::radio('vat', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->vat), ['required']) }}
+                        부가세 포함</label>
+                    <label for=""
+                           class="radio-inline">{{ Form::radio('vat', 4, \App\Helpers\Helper::isCheckd(4, $order->certificates->vat), ['required']) }}
+                        부가세 제외</label>
 
-                    <div class="input-group"><input type="text" name="certificates_new_car_price" id="new_car_price" value="{{ $order->certificates ? $order->certificates->new_car_price : '' }}" class="form-control" required="required"><span class="input-group-addon">만원</span></div>
+                    <div class="input-group"><input type="text" name="certificates_new_car_price" id="new_car_price"
+                                                    value="{{ $order->certificates ? $order->certificates->new_car_price : '' }}"
+                                                    class="form-control" required="required"><span
+                                class="input-group-addon">만원</span></div>
                 </td>
 
             </tr>
@@ -274,11 +318,18 @@
                     <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 등록일 보정(+)
                 </td>
                 <td colspan="3">
-                    {{ Form::radio('certificates_basic_registraion', 1283, \App\Helpers\Helper::isCheckd(1283, $order->certificates->basic_registraion), ['required']) }} 표준 &nbsp;&nbsp;&nbsp;
-                    {{ Form::radio('certificates_basic_registraion', 1282, \App\Helpers\Helper::isCheckd(1282, $order->certificates->basic_registraion), ['required']) }} 초과 &nbsp;&nbsp;&nbsp;
-                    {{ Form::radio('certificates_basic_registraion', 1284, \App\Helpers\Helper::isCheckd(1284, $order->certificates->basic_registraion), ['required']) }} 미달
+                    {{ Form::radio('certificates_basic_registraion', 1283, \App\Helpers\Helper::isCheckd(1283, $order->certificates->basic_registraion), ['required']) }}
+                    표준 &nbsp;&nbsp;&nbsp;
+                    {{ Form::radio('certificates_basic_registraion', 1282, \App\Helpers\Helper::isCheckd(1282, $order->certificates->basic_registraion), ['required']) }}
+                    초과 &nbsp;&nbsp;&nbsp;
+                    {{ Form::radio('certificates_basic_registraion', 1284, \App\Helpers\Helper::isCheckd(1284, $order->certificates->basic_registraion), ['required']) }}
+                    미달
 
-                    <div class="input-group"><input type="text" class="form-control" name="certificates_basic_registraion_depreciation" id="basic_registraion_depreciation" value="{{ $order->certificates ? $order->certificates->basic_registraion_depreciation : '' }}" required="required"><span class="input-group-addon">만원</span></div>
+                    <div class="input-group"><input type="text" class="form-control"
+                                                    name="certificates_basic_registraion_depreciation"
+                                                    id="basic_registraion_depreciation"
+                                                    value="{{ $order->certificates ? $order->certificates->basic_registraion_depreciation : '' }}"
+                                                    required="required"><span class="input-group-addon">만원</span></div>
                 </td>
             </tr>
             <tr>
@@ -286,15 +337,21 @@
                     <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 장착품(추가옵션)
                 </td>
                 <td colspan="3">
-                    <div class="input-group"><input type="text" class="form-control" name="certificates_basic_mounting_cd" id="basic_mounting_cd" value="{{ $order->certificates ? $order->certificates->basic_mounting_cd : '' }}" required="required"><span class="input-group-addon">만원</span></div>
+                    <div class="input-group"><input type="text" class="form-control"
+                                                    name="certificates_basic_mounting_cd" id="basic_mounting_cd"
+                                                    value="{{ $order->certificates ? $order->certificates->basic_mounting_cd : '' }}"
+                                                    required="required"><span class="input-group-addon">만원</span></div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i>  색상 등 기타
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 색상 등 기타
                 </td>
                 <td colspan="3">
-                    <div class="input-group"><input type="text" class="form-control" name="certificates_basic_etc" id="basic_etc" value="{{ $order->certificates ? $order->certificates->basic_etc : '' }}" required="required"><span class="input-group-addon">만원</span></div>
+                    <div class="input-group"><input type="text" class="form-control" name="certificates_basic_etc"
+                                                    id="basic_etc"
+                                                    value="{{ $order->certificates ? $order->certificates->basic_etc : '' }}"
+                                                    required="required"><span class="input-group-addon">만원</span></div>
                 </td>
             </tr>
 
@@ -305,12 +362,19 @@
 
                 </td>
                 <td>
-                    {{ Form::radio('certificates_usage_mileage_cd', 1283, \App\Helpers\Helper::isCheckd(1283, $order->certificates->usage_mileage_cd), ['required']) }} 표준 &nbsp;&nbsp;&nbsp;
-                    {{ Form::radio('certificates_usage_mileage_cd', 1282, \App\Helpers\Helper::isCheckd(1282, $order->certificates->usage_mileage_cd), ['required']) }} 초과 &nbsp;&nbsp;&nbsp;
-                    {{ Form::radio('certificates_usage_mileage_cd', 1284, \App\Helpers\Helper::isCheckd(1284, $order->certificates->usage_mileage_cd), ['required']) }} 미달
+                    {{ Form::radio('certificates_usage_mileage_cd', 1283, \App\Helpers\Helper::isCheckd(1283, $order->certificates->usage_mileage_cd), ['required']) }}
+                    표준 &nbsp;&nbsp;&nbsp;
+                    {{ Form::radio('certificates_usage_mileage_cd', 1282, \App\Helpers\Helper::isCheckd(1282, $order->certificates->usage_mileage_cd), ['required']) }}
+                    초과 &nbsp;&nbsp;&nbsp;
+                    {{ Form::radio('certificates_usage_mileage_cd', 1284, \App\Helpers\Helper::isCheckd(1284, $order->certificates->usage_mileage_cd), ['required']) }}
+                    미달
                 </td>
                 <td>
-                    <div class="input-group"><input type="text" class="form-control" name="certificates_usage_mileage_depreciation" id="usage_mileage_depreciation" value="{{ $order->certificates ? $order->certificates->usage_mileage_depreciation : 0 }}" required="required"><span class="input-group-addon">만원</span></div>
+                    <div class="input-group"><input type="text" class="form-control"
+                                                    name="certificates_usage_mileage_depreciation"
+                                                    id="usage_mileage_depreciation"
+                                                    value="{{ $order->certificates ? $order->certificates->usage_mileage_depreciation : 0 }}"
+                                                    required="required"><span class="input-group-addon">만원</span></div>
                 </td>
             </tr>
             <tr>
@@ -319,10 +383,14 @@
                 </td>
                 <td colspan="2">
                     {{--todo 현재 usage_history_cd 필드가 int로 되어 있다. 이부분을 varchar로 변경하거나 각 옵션값을 필드로 가지고 있어야 한다--}}
-                    무사고 {{ Form::radio('certificates_usage_history_cd', 1285, \App\Helpers\Helper::isCheckd(1285, $order->certificates->usage_history_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
-                    단순교환 {{ Form::radio('certificates_usage_history_cd', 1286, \App\Helpers\Helper::isCheckd(1286, $order->certificates->usage_history_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
-                    중손상 {{ Form::radio('certificates_usage_history_cd', 1287, \App\Helpers\Helper::isCheckd(1287, $order->certificates->usage_history_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
-                    대손상 {{ Form::radio('certificates_usage_history_cd', 1288, \App\Helpers\Helper::isCheckd(1288, $order->certificates->usage_history_cd), ['required']) }}
+                    사고이력
+                    없음 {{ Form::radio('certificates_usage_history_cd', 1285, \App\Helpers\Helper::isCheckd(1285, $order->certificates->usage_history_cd), ['required']) }}
+                    &nbsp;&nbsp;&nbsp;
+                    단순수리 {{ Form::radio('certificates_usage_history_cd', 1286, \App\Helpers\Helper::isCheckd(1286, $order->certificates->usage_history_cd), ['required']) }}
+                    &nbsp;&nbsp;&nbsp;
+                    기본차체판금 {{ Form::radio('certificates_usage_history_cd', 1287, \App\Helpers\Helper::isCheckd(1287, $order->certificates->usage_history_cd), ['required']) }}
+                    &nbsp;&nbsp;&nbsp;
+                    기본차체교환/골격수리 {{ Form::radio('certificates_usage_history_cd', 1288, \App\Helpers\Helper::isCheckd(1288, $order->certificates->usage_history_cd), ['required']) }}
                 </td>
                 <td>
                 </td>
@@ -330,7 +398,11 @@
             <tr>
                 <td>감가금액</td>
                 <td>
-                    <div class="input-group"><input type="text" class="form-control" name="certificates_usage_history_depreciation" id="usage_history_depreciation" value="{{ $order->certificates ? $order->certificates->usage_history_depreciation : 0 }}" required="required"><span class="input-group-addon">만원</span></div>
+                    <div class="input-group"><input type="text" class="form-control"
+                                                    name="certificates_usage_history_depreciation"
+                                                    id="usage_history_depreciation"
+                                                    value="{{ $order->certificates ? $order->certificates->usage_history_depreciation : 0 }}"
+                                                    required="required"><span class="input-group-addon">만원</span></div>
                 </td>
             </tr>
             <tr>
@@ -340,8 +412,10 @@
                     <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 휠/타이어
                 </td>
                 <td colspan="2">
-                    양호 {{ Form::radio('certificates_performance_tire_cd', 1198, \App\Helpers\Helper::isCheckd(1198, $order->certificates->performance_tire_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
-                    보통 {{ Form::radio('certificates_performance_tire_cd', 1199, \App\Helpers\Helper::isCheckd(1199, $order->certificates->performance_tire_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
+                    양호 {{ Form::radio('certificates_performance_tire_cd', 1198, \App\Helpers\Helper::isCheckd(1198, $order->certificates->performance_tire_cd), ['required']) }}
+                    &nbsp;&nbsp;&nbsp;
+                    보통 {{ Form::radio('certificates_performance_tire_cd', 1199, \App\Helpers\Helper::isCheckd(1199, $order->certificates->performance_tire_cd), ['required']) }}
+                    &nbsp;&nbsp;&nbsp;
                     불량/정비요 {{ Form::radio('certificates_performance_tire_cd', 1200, \App\Helpers\Helper::isCheckd(1200, $order->certificates->performance_tire_cd), ['required']) }}
                 </td>
             </tr>
@@ -350,8 +424,10 @@
                     <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 외관(외장)
                 </td>
                 <td colspan="2">
-                    양호 {{ Form::radio('certificates_performance_exterior_cd', 1198, \App\Helpers\Helper::isCheckd(1198, $order->certificates->performance_exterior_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
-                    보통 {{ Form::radio('certificates_performance_exterior_cd', 1199, \App\Helpers\Helper::isCheckd(1199, $order->certificates->performance_exterior_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
+                    양호 {{ Form::radio('certificates_performance_exterior_cd', 1198, \App\Helpers\Helper::isCheckd(1198, $order->certificates->performance_exterior_cd), ['required']) }}
+                    &nbsp;&nbsp;&nbsp;
+                    보통 {{ Form::radio('certificates_performance_exterior_cd', 1199, \App\Helpers\Helper::isCheckd(1199, $order->certificates->performance_exterior_cd), ['required']) }}
+                    &nbsp;&nbsp;&nbsp;
                     불량/정비요 {{ Form::radio('certificates_performance_exterior_cd', 1200, \App\Helpers\Helper::isCheckd(1200, $order->certificates->performance_exterior_cd), ['required']) }}
                 </td>
             </tr>
@@ -360,8 +436,10 @@
                     <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 실내/내장
                 </td>
                 <td colspan="2">
-                    양호 {{ Form::radio('certificates_performance_interior_cd', 1198, \App\Helpers\Helper::isCheckd(1198, $order->certificates->performance_interior_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
-                    보통 {{ Form::radio('certificates_performance_interior_cd', 1199, \App\Helpers\Helper::isCheckd(1199, $order->certificates->performance_interior_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
+                    양호 {{ Form::radio('certificates_performance_interior_cd', 1198, \App\Helpers\Helper::isCheckd(1198, $order->certificates->performance_interior_cd), ['required']) }}
+                    &nbsp;&nbsp;&nbsp;
+                    보통 {{ Form::radio('certificates_performance_interior_cd', 1199, \App\Helpers\Helper::isCheckd(1199, $order->certificates->performance_interior_cd), ['required']) }}
+                    &nbsp;&nbsp;&nbsp;
                     불량/정비요 {{ Form::radio('certificates_performance_interior_cd', 1200, \App\Helpers\Helper::isCheckd(1200, $order->certificates->performance_interior_cd), ['required']) }}
                 </td>
             </tr>
@@ -370,26 +448,37 @@
                     <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 주요장치/성능
                 </td>
                 <td colspan="2">
-                    양호 {{ Form::radio('certificates_performance_device_cd', 1198, \App\Helpers\Helper::isCheckd(1198, $order->certificates->performance_device_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
-                    보통 {{ Form::radio('certificates_performance_device_cd', 1199, \App\Helpers\Helper::isCheckd(1199, $order->certificates->performance_device_cd), ['required']) }}&nbsp;&nbsp;&nbsp;
+                    양호 {{ Form::radio('certificates_performance_device_cd', 1198, \App\Helpers\Helper::isCheckd(1198, $order->certificates->performance_device_cd), ['required']) }}
+                    &nbsp;&nbsp;&nbsp;
+                    보통 {{ Form::radio('certificates_performance_device_cd', 1199, \App\Helpers\Helper::isCheckd(1199, $order->certificates->performance_device_cd), ['required']) }}
+                    &nbsp;&nbsp;&nbsp;
                     불량/정비요 {{ Form::radio('certificates_performance_device_cd', 1200, \App\Helpers\Helper::isCheckd(1200, $order->certificates->performance_device_cd), ['required']) }}
                 </td>
             </tr>
             <tr>
                 <td><i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 감가금액</td>
                 <td colspan="2">
-                    <div class="input-group"><input type="text" class="form-control" name="certificates_performance_depreciation" id="performance_depreciation" value="{{ $order->certificates? $order->certificates->performance_depreciation : '' }}" required="required"><span class="input-group-addon">만원</span></div>
+                    <div class="input-group"><input type="text" class="form-control"
+                                                    name="certificates_performance_depreciation"
+                                                    id="performance_depreciation"
+                                                    value="{{ $order->certificates? $order->certificates->performance_depreciation : '' }}"
+                                                    required="required"><span class="input-group-addon">만원</span></div>
                 </td>
             </tr>
 
             <tr>
                 <th rowspan="3">특별요인(S)</th>
                 <td colspan="3">
-                    {{ Form::checkbox('certificates_special_flooded_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_flooded_cd)) }} 침수차량&nbsp;&nbsp;&nbsp;
-                    {{ Form::checkbox('certificates_special_fire_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_fire_cd)) }} 화재차량&nbsp;&nbsp;&nbsp;
-                    {{ Form::checkbox('certificates_special_fulllose_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_fulllose_cd)) }} 전손차량&nbsp;&nbsp;&nbsp;
-                    {{ Form::checkbox('certificates_special_remodel_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_remodel_cd)) }} 불법개조&nbsp;&nbsp;&nbsp;
-                    {{ Form::checkbox('certificates_special_etc_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_etc_cd)) }} 기타요인&nbsp;&nbsp;&nbsp;
+                    {{ Form::checkbox('certificates_special_flooded_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_flooded_cd)) }}
+                    침수차량&nbsp;&nbsp;&nbsp;
+                    {{ Form::checkbox('certificates_special_fire_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_fire_cd)) }}
+                    화재차량&nbsp;&nbsp;&nbsp;
+                    {{ Form::checkbox('certificates_special_fulllose_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_fulllose_cd)) }}
+                    전손차량&nbsp;&nbsp;&nbsp;
+                    {{ Form::checkbox('certificates_special_remodel_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_remodel_cd)) }}
+                    불법개조&nbsp;&nbsp;&nbsp;
+                    {{ Form::checkbox('certificates_special_etc_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_etc_cd)) }}
+                    기타요인&nbsp;&nbsp;&nbsp;
                 </td>
 
             </tr>
@@ -417,34 +506,63 @@
             <tr>
                 <td>감가금액</td>
                 <td colspan="2">
-                    <div class="input-group"><input type="text" class="form-control" name="certificates_special_depreciation" id="special_depreciation" value="{{ $order->certificates ? $order->certificates->special_depreciation : 0 }}" required="required"><span class="input-group-addon">만원</span></div>
+                    <div class="input-group"><input type="text" class="form-control"
+                                                    name="certificates_special_depreciation" id="special_depreciation"
+                                                    value="{{ $order->certificates ? $order->certificates->special_depreciation : 0 }}"
+                                                    required="required"><span class="input-group-addon">만원</span></div>
                 </td>
             </tr>
 
             <tr>
                 <th>평가금액</th>
-                <td colspan="2">V=Pst+(A+B+C+S)</td>
+                {{--<td>V=Pst+(A+B+C+S)</td>--}}
                 <td>
-                    <div class="input-group"><input type="text" class="form-control" name="certificates_valuation" id="valuation" value="{{ $order->certificates ? $order->certificates->valuation : '' }}" required="required"><span class="input-group-addon">만원</span></div>
+                    <div class="input-group"><input type="text" class="form-control" name="certificates_valuation"
+                                                    id="valuation"
+                                                    value="{{ $order->certificates ? $order->certificates->valuation : '' }}"
+                                                    required="required"><span class="input-group-addon">만원</span></div>
+                </td>
+
+                <th>
+                    차량등급평가
+                </th>
+                <td>
+                    <div class="input-group">
+                        {{--<input type="text" class="form-control" name="grade" id="grade"--}}
+                                                    {{--value="{{ $order->certificates ? $order->certificates->grade : '' }}"--}}
+                                                    {{--required="required">--}}
+                        {!! Form::select('grade',$grades, $my_grade, ['class'=>'form-control']) !!}
+                        <span class="input-group-addon">등급</span>
+                    </div>
                 </td>
             </tr>
+
             <tr>
                 <th>종합 의견</th>
                 <td colspan="3">
-                    <textarea name="certificates_opinion" class="form-control wysiwyg" required="required">{{ $order->certificates ? $order->certificates->opinion : '' }}</textarea>
+                    <textarea name="certificates_opinion" class="form-control wysiwyg"
+                              required="required">{{ $order->certificates ? $order->certificates->opinion : '' }}</textarea>
                 </td>
             </tr>
             </tbody>
         </table>
 
         <div class="text-right">
-            <button class="btn btn-primary text-right" type="submit"{{ ($order->status_cd == 109)? ' disabled': '' }}>인증서 발급</button>
+            @if($order->status_cd != 109)
+                <button class="btn btn-primary text-right"
+                        type="submit"{{ ($order->status_cd == 109)? ' disabled': '' }}>저장
+                </button>
+            @endif
+            <button class="btn btn-primary text-right" type="button"
+                    {{ ($order->status_cd == 109)? ' disabled': '' }} id="issue" data-id="{{ $order->id }}">인증서 발급
+            </button>
         </div>
         {!! Form::close() !!}
     </div>
 
     {{-- 사고이력 이미지 업로드 model --}}
-    <div class="modal fade bs-example-modal-lg in purchase-modal" id="insurance-modal" tabindex="-1" role="dialog" aria-labelledby="insurance-modal" aria-hidden="true">
+    <div class="modal fade bs-example-modal-lg in purchase-modal" id="insurance-modal" tabindex="-1" role="dialog"
+         aria-labelledby="insurance-modal" aria-hidden="true">
         <div class="modal-dialog modal-lg form-group">
             <div class="modal-content">
                 <div class="modal-header">
@@ -455,35 +573,35 @@
 
                     <table class="table">
                         <thead>
-                            <tr>
-                                <td colspan="2" class="text-center">
-                                    <a href="javascript:void(0);" class="thumbnail" id="insurance-win">
-                                        <img src="{{ $order->certificates->history_insurance_file ? '/order/insurance-file-view/'.$order->id : '' }}" id="history_insurance_src">
-                                    </a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td colspan="2" class="text-center">
+                                <a href="javascript:void(0);" class="thumbnail" id="insurance-win">
+                                    <img src="{{ $order->certificates->history_insurance_file ? '/order/insurance-file-view/'.$order->id : '' }}"
+                                         id="history_insurance_src">
+                                </a>
+                            </td>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th>보험사고이력 파일 첨부</th>
-                                <td>
-                                    <div class="input-group">
-                                        <input type="file" class="form-control" id="insurance_file">
-                                        <span class="input-group-btn">
+                        <tr>
+                            <th>보험사고이력 파일 첨부</th>
+                            <td>
+                                <div class="input-group">
+                                    <input type="file" class="form-control" id="insurance_file">
+                                    <span class="input-group-btn">
                                             <button class="btn btn-info" type="button" id="insurance_file_upload">사고이력 이미지 업로드</button>
                                         </span>
-                                    </div>
-                                </td>
-                            </tr>
+                                </div>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
 
 
-
-
                 </div>
                 <div class="modal-footer text-center">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="purchase-modal-close">닫기</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="purchase-modal-close">닫기
+                    </button>
                 </div>
             </div>
         </div>
@@ -496,8 +614,8 @@
 @endif
 
 @push( 'header-script' )
-<link rel="stylesheet" href="{{ Helper::assets( 'vendor/summernote/summernote.css' ) }}" />
-<link rel="stylesheet" href="{{ Helper::assets( 'vendor/select2/css/select2.min.css' ) }}" />
+<link rel="stylesheet" href="{{ Helper::assets( 'vendor/summernote/summernote.css' ) }}"/>
+<link rel="stylesheet" href="{{ Helper::assets( 'vendor/select2/css/select2.min.css' ) }}"/>
 @endpush
 
 
@@ -507,13 +625,14 @@
 <script src="{{ Helper::assets( 'vendor/select2/js/i18n/ko.js' ) }}"></script>
 
 <script type="text/template" id="qq-template">@include("partials/files", [])</script>
-<link rel="stylesheet" href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}" />
+<link rel="stylesheet"
+      href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}"/>
 <script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
 <script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
 <script src="{{ Helper::assets( 'js/plugin/post.js' ) }}"></script>
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         //기본정보 수정
         $("#frm-basic").validate({
             messages: {
@@ -535,7 +654,7 @@
                 certificates_history_maintance: "정비이력을 입력해 주세요.",
                 pst: "기존가격을 입력해 주세요."
             },
-            submitHandler: function(form){
+            submitHandler: function (form) {
                 form.submit();
             }
         });
@@ -557,21 +676,21 @@
                 type: "POST",
                 contentType: false,
                 processData: false,
-                success: function(jdata){
-                    if(jdata.success == true){
+                success: function (jdata) {
+                    if (jdata.success == true) {
                         var img_url = jdata.img_path;
                         $("#history_insurance_src").attr("src", img_url);
-                    }else{
+                    } else {
                         alert(jdata.msg);
                     }
                 },
-                error: function(jqXHR, textStatus, errorThrown){
+                error: function (jqXHR, textStatus, errorThrown) {
                     alert('사고이력 이미지 업로드를 실패하였습니다.');
                 }
             });
         });
 
-        $("#insurance-win").on("click", function(){
+        $("#insurance-win").on("click", function () {
             $("#insurance-modal").modal('toggle');
             window.open($("#history_insurance_src").attr("src"));
         });
@@ -581,7 +700,7 @@
             messages: {
                 certificates_history_insurance: "보험사고 이력건수를 입력해 주세요.",
             },
-            submitHandler: function(form){
+            submitHandler: function (form) {
                 form.submit();
             }
         });
@@ -610,7 +729,7 @@
                 certificates_opinion: "종합의견을 입력해 주세요."
 
             },
-            submitHandler: function(form){
+            submitHandler: function (form) {
                 form.submit();
             }
         });
@@ -621,7 +740,6 @@
         });
 
 
-
         //변경이력 form 초기화
         $("#history-modal-close").on("hide.bs.modal", function () {
             $("#history-method").val('');
@@ -629,10 +747,10 @@
         });
 
         // 용도변경 이력 추가
-        $("#history_purpose_add").on("click", function(){
-            if($("#certificates_history_purpose").val()){
+        $("#history_purpose_add").on("click", function () {
+            if ($("#certificates_history_purpose").val()) {
                 history_data("history_purpose", $("#certificates_history_purpose").val());
-            }else{
+            } else {
                 alert('용도변경 이력 내용을 입력해 주세요.');
                 $("#certificates_history_purpose").focus();
             }
@@ -641,24 +759,25 @@
 
         // 차고지 이력 추가
         $("#history_garage_add").on("click", function () {
-            if($("#certificates_history_garage").val()){
+            if ($("#certificates_history_garage").val()) {
                 history_data("history_garage", $("#certificates_history_garage").val());
-            }else{
+            } else {
                 alert("차고지 이력 정보를 입력해 주세요.");
                 $("#certificates_history_garage").focus();
             }
 
         });
 
-        $("#valuation").on("click", function(){
-            if(confirm("평가금액을 계산하시겠습니까?")){
+        $("#valuation").on("click", function () {
+            if (confirm("평가금액을 계산하시겠습니까?")) {
                 var valuation = sum_certificate_price();
-                if(valuation != NaN){
+
+                if (!isNaN(valuation)) {
                     $("#valuation").val(valuation);
-                }else{
-                    alert('감가금액을 정확히 입력해 주세요.')
+                } else {
+                    alert('평가금액 계산을 위해 금액을 정확히 입력해 주세요.')
                 }
-            }else {
+            } else {
                 $("#valuation").focus();
             }
 
@@ -670,11 +789,34 @@
 //        });
 
 
+
         //진단데이터 윈도우
-        $("#diag-win").on("click", function(){
+        $("#diag-win").on("click", function () {
             //todo 진단데이터 윈도우 띄움.
             var diagnoses_win = window.open("{{ url("order/diagnoses", ["id" => $order->id]) }}", "diagnoses", "location=no,resize=auto,width=998,height=1024,scrollbars = yes");
             diagnoses_win.focus();
+        });
+
+        $("#issue").click(function () {
+            var id = $(this).data('id');
+            var c = confirm("인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
+            if (c == true) {
+                $.ajax({
+                    'type': 'post',
+                    'url': '/order/issue',
+                    data: {
+                        'order_id': id
+                    },
+                    success: function (data) {
+                        alert('인증서 발급이 완료되었습니다.');
+                        location.href = "{{ url('/order/'.$order->id ) }}";
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                })
+            }
+
         });
 
     });
@@ -686,37 +828,34 @@
                 "_token": "{{ csrf_token() }}", "id": "{{ $order->id }}", "method": method, "data": input_data
             },
             type: "POST",
-            success: function(jdata){
+            success: function (jdata) {
                 var success = jdata.success;
                 var msg = jdata.msg;
                 var data = jdata.data;
-                if(success == true){
-                    $("#"+method+" > li").remove(); // 기존 데이터 삭제
-                    $.each(data, function(key, row){
-                        $("#"+method).after("<li>" + row + "</li>");
+                if (success == true) {
+                    $("#" + method + " > li").remove(); // 기존 데이터 삭제
+                    $.each(data, function (key, row) {
+                        $("#" + method).after("<li>" + row + "</li>");
                     });
-
 
                     $("#certificates_" + method).val('');
 
-
-
-                }else{
+                } else {
                     //갱신 실패
                     alert(msg);
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown){
+            error: function (jqXHR, textStatus, errorThrown) {
                 alert('이력 정보 처리를 실패하였습니다.');
             }
 
         });
-    }
+    };
 
-    var sum_certificate_price = function(){
+    var sum_certificate_price = function () {
         var Pst = parseInt($("#pst").val());
         var A = parseInt($("#basic_registraion_depreciation").val())
-        + parseInt($("#basic_mounting_cd").val()) + parseInt($("#basic_etc").val());
+            + parseInt($("#basic_mounting_cd").val()) + parseInt($("#basic_etc").val());
         var B = parseInt($("#usage_mileage_depreciation").val()) + parseInt($("#usage_history_depreciation").val());
         var C = parseInt($("#performance_depreciation").val());
         var S = parseInt($("#special_depreciation").val());

@@ -471,7 +471,8 @@ return [
     'payment_cd' => [
         'card' => '신용/체크카드', //11
         'account' => '실시간 계좌이체', //12
-        'coupon' => '쿠폰'
+        'coupon' => '쿠폰',   //21
+        'test' => '직권결제' //22
     ],
 
     'kind_cd' => [

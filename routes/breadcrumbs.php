@@ -147,7 +147,7 @@ Breadcrumbs::register('bcs.diagnosis', function($breadcrumbs) {
 
 Breadcrumbs::register('technician.order', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push(trans("admin/order.title"), route("order.index"));
+    $breadcrumbs->push("인증서관리", route("order.index"));
 });
 
 Breadcrumbs::register('technician.notice', function($breadcrumbs){
