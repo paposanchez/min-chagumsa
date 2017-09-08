@@ -78,8 +78,8 @@
 
                                                 <table class="table text-middle text-center">
                                                         <colgroup>
-                                                                <col width="12%">
-                                                                <col width="15%">
+                                                                <col width="8%">
+                                                                <col width="20%">
                                                                 <col width="15%">
                                                                 <col width="15%">
                                                                 <col width="15%">
@@ -115,7 +115,6 @@
 
                                                                 <tr>
 
-
                                                                         <td>
                                                                                 <span class="label
                                                                                 @if($data->status_cd == 100)
@@ -136,18 +135,18 @@
 
                                                                 <td class="">
                                                                         {{ $data->orderer_name }}
-                                                                        <br/><small>{{ $data->orderer_mobile }}</small>
+                                                                        <br/><small class="text-warning">{{ $data->orderer_mobile }}</small>
                                                                 </td>
 
                                                                 <td class="">
-                                                                        {{ $data->item->name }} <span class="text-muted">{{ number_format($data->item->price) }}원</span>
-                                                                        <br/><small>{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
+                                                                        <a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span class="text-muted">{{ number_format($data->item->price) }}원</span></a>
+                                                                        <br/><small class="text-warning">{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
                                                                 </td>
 
 
                                                                 <td class="">
-                                                                        {{ $data->garage->name }}
-                                                                        <br/><small>{{  $data->reservation ? $data->reservation->reservation_at->format("m월 d일 H시") : '-' }}</small>
+                                                                        <a href="/user/{{ $data->garage->id }}/edit">{{ $data->garage->name }}</a>
+                                                                        <br/><small class="text-danger">{{  $data->reservation ? $data->reservation->reservation_at->format("m월 d일 H시") : '-' }}</small>
                                                                 </td>
 
 

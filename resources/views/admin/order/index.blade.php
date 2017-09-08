@@ -90,12 +90,12 @@
                         <table class="table text-middle text-center">
 
                                 <colgroup>
-                                        <col width="12%">
+                                        <col width="8%">
+                                        <col width="20%">
                                         <col width="15%">
                                         <col width="15%">
-                                        <col width="15%">
-                                        <col width="15%">
-                                        <col width="12%">
+                                        <col width="10%">
+                                        <col width="10%">
                                         <col width="*">
                                 </colgroup>
 
@@ -120,8 +120,6 @@
                                         @foreach($entrys as $data)
 
                                         <tr>
-
-
                                                 <td>
                                                         <span class="label
                                                         @if($data->status_cd == 100)
@@ -142,19 +140,20 @@
 
                                         <td class="">
                                                 {{ $data->orderer_name }}
-                                                <br/><small>{{ $data->orderer_mobile }}</small>
+                                                <br/><small class="text-warning">{{ $data->orderer_mobile }}</small>
                                         </td>
 
                                         <td class="">
-                                                {{ $data->item->name }} <span class="text-muted">{{ number_format($data->item->price) }}원</span>
-                                                <br/><small>{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
+                                                <a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span class="text-muted">{{ number_format($data->item->price) }}원</span></a>
+                                                <br/><small class="text-warning">{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
                                         </td>
 
 
                                         <td class="">
-                                                {{ $data->garage->name }}
-                                                <br/><small>{{  $data->reservation ? $data->reservation->reservation_at->format("m월 d일 H시") : '-' }}</small>
+                                                <a href="/user/{{ $data->garage->id }}/edit">{{ $data->garage->name }}</a>
+                                                <br/><small class="text-danger">{{  $data->reservation ? $data->reservation->reservation_at->format("m월 d일 H시") : '-' }}</small>
                                         </td>
+
 
 
                                         <td>
@@ -163,11 +162,12 @@
 
                                         <td>
 
-                                                @if($data->status_cd >= 102 && $data->status_cd <= 104 )
+                                                @if($data->status_cd < 105 )
 
-                                                @if($data->reservation)
-                                                <button type="button" title="예약변경" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" data-order_number="{{ $data->getOrderNumber() }}" class="btn btn-info changeReservationModalOpen">예약변경</button>
-                                                <button type="button" title="예약확정" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation">예약확정</button>
+                                                <button type="button" title="변경" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" data-order_number="{{ $data->getOrderNumber() }}" class="btn btn-info changeReservationModalOpen">변경</button>
+
+                                                @if($data->status_cd < 104 )
+                                                <button type="button" title="확정" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation">확정</button>
                                                 @endif
 
 
@@ -189,7 +189,7 @@
 
 
         <div class="col-sm-6">
-                <a href="/test" class="btn btn-default">테스트 주문</a>
+                <a href="/test" class="btn btn-info">테스트 주문</a>
         </div>
 
 
@@ -209,33 +209,28 @@
                 <div class="modal-content">
                         <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">예약변경</h4>
+                                <h4 class="modal-title">예약변경 <span  id="order_number"></span></h4>
                         </div>
 
                         <form class="form-horizontal">
                                 <div class="modal-body">
-                                        <div class="form-group">
-                                                <div class="col-md-12">
-                                                        <label class="control-label" id="order_number"></label>
-                                                </div>
-                                        </div>
 
                                         <div class="form-group">
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                         <label for="datepickerReservation" class="control-label">날짜</label>
                                                 </div>
 
-                                                <div class="col-md-10">
+                                                <div class="col-md-4">
                                                         <input type="text" class="form-control datepicker" placeholder="날짜" id="datepickerReservation">
                                                 </div>
                                         </div>
 
                                         <div class="form-group">
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                         <label for="" class="control-label">시간</label>
                                                 </div>
 
-                                                <div class="col-md-10">
+                                                <div class="col-md-4">
                                                         <select class="form-control" id="datepickerReservationTime">
                                                                 <option value="09">9시</option><option value="10">10시</option><option value="11">11시</option><option value="12">12시</option><option value="13">13시</option><option value="14">14시</option><option value="15">15시</option><option value="16">16시</option><option value="17">17시</option>
                                                         </select>
@@ -245,8 +240,8 @@
 
                                 </div>
                                 <div class="modal-footer">
-                                        <button class="btn btn-danger" data-loading-text="처리중..." type="button"
-                                        id="reservation_change">예약확정
+                                        <button class="btn btn-success" data-loading-text="처리중..." type="button"
+                                        id="reservation_change">예약변경
                                 </button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
                         </div>
@@ -273,7 +268,7 @@ $(function () {
                 $("#datepickerReservation").val(d);
                 $("#datepickerReservationTime").val(t);
                 $("#order_id").val(order_id);
-                $("#order_number").html("주문번호 : "+order_number);
+                $("#order_number").html(order_number);
                 $("#changeReservationModal").modal();
 
         });
