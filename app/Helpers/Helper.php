@@ -25,6 +25,10 @@ class Helper {
         return app('url')->asset("assets/themes/v1/mobile" . $path);
     }
 
+    public static function imageTag($url, $alt, $params = []) {
+        return \Html::image($url . '?'. str_random(10) , $alt, $params);
+    }
+
     /**
      * 역할 이름을 문자열로 리턴한다
      * @param type $roles
@@ -207,6 +211,22 @@ class Helper {
         return $select_list;
     }
 
+    public static function getCodeArray($code_group){
+        $select_list = [];
+        $grouo_name = Code::where('id', $code_group)->first();
+        $codes = Code::where('group', $grouo_name->name)->get();
+
+        foreach ($codes as $code) {
+            $select_list[$code->id] = self::getCodeName($code->id);
+        }
+        return $select_list;
+
+    }
+
+    public static function getCodePluck($code){
+        return Code::where('id', $code)->pluck('id', 'name')->toArray();
+    }
+
     public static function isCheckd($checkd, $data){
         if($checkd == $data){
             return true;
@@ -225,4 +245,6 @@ class Helper {
         $board = Board::where('id', $board_id)->first();
         return $board;
     }
+
+//$user->roles->pluck('id', 'name')->toArray();
 }

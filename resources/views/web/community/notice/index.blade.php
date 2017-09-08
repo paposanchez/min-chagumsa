@@ -31,25 +31,24 @@
 				</tr>
 			</thead>
 			<tbody>
+
+			@unless($entrys)
+		    <tr>
+			    <td colspan="4" class="no-result">등록된 공지사항이 없습니다.</td>
+		    </tr>
+		    @endunless
+
+		    @foreach($entrys as $key => $row)
 			<tr>
-				<th><span>공지사항</span></th>
-				<td>차검사 사이트 오픈 준비중입니다.</td>
-				<th>2017-05-22</th>
-				<th>120</th>
+				<th>{{ $start_num - $key }}</th>
+				{{--<th><span>공지사항</span></th>--}}
+				<td><a href="{{ route("notice.show", ["id" => $row->id]) }}">{{ mb_strimwidth($row->subject, 0, 50, '...') }}</a></td>
+				<th>{{ $row->updated_at ? $row->updated_at->format("Y-m-d") : $row->created_at->format("Y-m-d") }}</th>
+				<th>{{ number_format($row->hit) }}</th>
 			</tr>
-				@if($entrys->total())
-					@foreach($entrys as $key => $row)
-					<tr>
-						<th>{{ $start_num - $key }}</th>
-						{{--<th><span>공지사항</span></th>--}}
-						<td><a href="{{ route("notice.show", ["id" => $row->id]) }}">{{ mb_strimwidth($row->subject, 0, 30, '...') }}</a></td>
-						<th>{{ \App\Helpers\Helper::getDbDate($row->created_at, $row->updated_at) }}</th>
-						<th>{{ number_format($row->hit) }}</th>
-					</tr>
-					@endforeach
-				@else
-					<th colspan="4">등록된 공지사항이 없습니다.</th>
-				@endif
+			@endforeach
+
+
 
 			</tbody>
 		</table>

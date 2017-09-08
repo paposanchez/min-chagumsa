@@ -76,25 +76,22 @@
 
             <table class="table text-middle text-center">
                 <colgroup>
-                    {{--<col width="10%">--}}
-                    <col width="10">
+                    <col width="15%">
+                    <col width="*">
                     <col width="15%">
                     <col width="15%">
                     <col width="15%">
-                    <col width="15%">
-                    <col width="15%">
-
+                    <col width="10%">
                 </colgroup>
 
                 <thead>
                     <tr class="active">
-                        {{--<th class="text-center">#</th>--}}
-
                         <th class="text-center">주문번호</th>
                         <th class="text-center">차량명</th>
-                        <th class="text-center">주문자</th>
+                        <th class="text-center">정비사</th>
                         <th class="text-center">연락처</th>
                         <th class="text-center">잔단 완료일</th>
+                        <th class="text-center">수정</th>
                     </tr>
                 </thead>
 
@@ -107,9 +104,6 @@
                     @foreach($entrys as $data)
 
                     <tr>
-                        {{--<td class="">--}}
-                            {{--<input type="checkbox">--}}
-                        {{--</td>--}}
                         <td class="text-center">
                             <a href="{{ route('diagnosis.show', $data->id) }}"> {{ $data->getOrderNumber() }}</a>
                         </td>
@@ -117,19 +111,18 @@
                             {{ $data->getCarFullName() }}
                         </td>
                         <td class="">
-                            {{ $data->orderer_name }}
+                            {{ $data->engineer ?$data->engineer->name : ''}}
                         </td>
 
                         <td class="">
-                            {{ $data->orderer_mobile }}
+                            {{ $data->engineer ?$data->engineer->mobile : ''}}
                         </td>
 
                         <td class="">
                             {{ $data->diagnosed_at }}
                         </td>
-
                         <td>
-
+                            <a href="{{ route('diagnosis.show', $data->id) }}" class="btn btn-default">상세보기</a>
                         </td>
                     </tr>
                     @endforeach
@@ -140,12 +133,6 @@
 
 
     <div class="row">
-
-        <div class="col-sm-6">
-
-            {{--<a href="{{ route('order.edit', $data->id) }}" class="btn btn-primary">등록</a>--}}
-
-        </div>
 
         <div class="col-sm-6 text-right">
             {!! $entrys->render() !!}

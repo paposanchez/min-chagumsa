@@ -7,16 +7,17 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     Route::resource('order', 'TechOrderController', ['as' => 'technician']);
     //보험이력파일처리
     Route::post('order/insurance-file', 'TechOrderController@insuranceFile')->name('order/insurance-file');
-    Route::get('order/insurance-file-view/{id}', 'TechOrderController@insuranceFileView')->name('order/insurance-file-view');
+
     //용도변경, 차고지 이력 추가
     Route::post('order/history', 'TechOrderController@history')->name('order/history');
 
     //인증서 데이터 갱신
     Route::patch('order/update/{id}', 'TechOrderController@update')->name('order/update');
 
-    //진단데이ㅓ
+    //진단데이터
     Route::get('order/diagnoses/{id}', 'TechOrderController@diagnoses')->name('technician.diagnoses');
-
+    //진단 선택값 변경
+    Route::post('order/update-code', 'TechOrderController@updateCode')->name('order/update-code');
 
 
 
@@ -26,6 +27,10 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     Route::post('user/update', 'UserController@update')->name('technician.user.update');
     Route::post('user/pass-update', 'UserController@passUpdate')->name('technician.user.pass-update');
     Route::get('dashboard', 'DashboardController@__invoke')->name('technician.dashboard.index');
+
+    // Avatar
+    Route::get('thumbnail/{id?}', '\App\Http\Controllers\Admin\ImageController@thumbnail')->name("thumbnail");
+    Route::get('avatar/{user_id?}', '\App\Http\Controllers\Admin\ImageController@avatar')->name("avatar");
 });
 
 // After login in administrator's
@@ -58,3 +63,4 @@ Route::group(['middleware' => ['guest.admin']], function () {
 
 Route::get('logout', 'Auth\LoginController@logout')->name("technician.logout");
 Route::post('logout', 'Auth\LoginController@logout')->name("technician.logout");
+Route::get('order/insurance-file-view/{id}', 'TechOrderController@insuranceFileView')->name('order/insurance-file-view');

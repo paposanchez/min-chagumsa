@@ -126,7 +126,16 @@ class BoardController extends Controller {
         }
 
         $board = Board::find($id);
-        $board->update($input);
+        $board->update([
+            'use_secret' => $request->get('use_secret') ? $request->get('use_secret') : 0,
+            'use_captcha' => $request->get('use_captcha') ? $request->get('use_captcha') : 0,
+            'use_comment' => $request->get('use_comment') ? $request->get('use_comment') : 0,
+            'use_opinion' => $request->get('use_opinion') ? $request->get('use_opinion') : 0,
+            'use_tag' => $request->get('use_tag') ? $request->get('use_tag') : 0,
+            'use_category' => $request->get('use_category') ? $request->get('use_category') : 0,
+            'use_upload' => $request->get('use_upload') ? $request->get('use_upload') : 0,
+            'use_thumbnail' => $request->get('use_thumbnail') ? $request->get('use_thumbnail') : 0
+        ]);
 
 
         return redirect()

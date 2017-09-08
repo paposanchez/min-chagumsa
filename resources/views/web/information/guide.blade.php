@@ -15,18 +15,18 @@
 	<div class='br20'></div>
 	<div class='br20'></div>
 
-	<div class='intro3_title'>차검사서비스에서 제공하는 중고차인증은 크게 2가지 인증보고서를 포함합니다.</div>
+	<div class='intro3_title'>차검사 인증서는 2가지 보고서를 제공합니다.</div>
 
 	<div class='br20'></div>
 
 	<div class='intro3_tab_wrap'>
 		<ul>
 			<li id='intro3_tab1' class='intro3_tab tab_on'><a>
-					<span>중고차 품질인증 보고서</span>
+					<span>품질 보고서</span>
 					차량진단, 정비의 글로벌 전문업체인 <strong>보쉬카서비스</strong>가<br>직접 진단하고 평가합니다
 				</a></li>
 			<li id='intro3_tab2' class='intro3_tab '><a>
-					<span>중고차 가치평가 보고서</span>
+					<span>가격 산정 보고서</span>
 					자동차관리법에 의거 중고차 가격산정 법적자격자로<br>자동차명인인 <strong>자동차기술사</strong>가 평가합니다
 				</a></li>
 		</ul>
@@ -134,7 +134,7 @@
 
 			<div class='para_type1'>
 				<strong>품질등급 인증</strong>
-				중고차의 정밀한 진단을 통해 진단 중고차에 대한 등급을 인증하고, 이를 보장(3개월, 5000km 내)합니다.
+				중고차의 정밀한 진단을 통해 진단 중고차에 대한 등급을 인증하고, B등급 이상부터 3개월, 5천km 내 수리를 보증합니다.
 			</div><div class='br30'></div>
 
 			<div class='board_wrap'>
@@ -287,15 +287,15 @@
 
 		<div class='intro3_tab_cont intro3_tab2'>
 			<div class='para_type1'>
-				<strong>중고차 가치산정 자격</strong>
+				<strong>중고차 가격 산정 자격</strong>
 				자동차관리법 제 58조 제1항, 제4호 및 같은 법 시행규칙 120조 제5항, 기술사법 제3조의 직무에 따라 법적 자격을 가진 자동차기술사가 중고차의 가격을 조사, 산정합니다.
 			</div><div class='br30'></div>
 			<div class='para_type1'>
-				<strong>중고차 가치산정 보고서</strong>
+				<strong>중고차 가격 산정 보고서</strong>
 				중고차를 구입할때 품질만큼 중요한 것은 바로 가격입니다. 하지만 중고차의 가격을 결정하는 주체에 따라 천차만별이 될 수 있고, 판매자이자 구매자인 소비자들은 가격에 대한 불안과 불만을 가지고 있는 것이 사실입니다.<br>차검사인증서의 중고차 가치산정보고서는 법적 자격자인 자동차기술사가 제3자적 관점에서 제시하여 공인 보고서를 발급합니다. 이를 중고차 거래에 참조할 수 있습니다.
 			</div><div class='br30'></div>
 			<div class='para_type1'>
-				<strong>중고차 가치산정 방법</strong>
+				<strong>중고차 가격 산정 방법</strong>
 				중고차 가격 산정 절차와 방법을 객관적이고 공정한 절차에 의거 산정내역을 제시합니다. 가치산정을 위해 차검사인증서 신청 시 추가장착품에 대해 정확히 기재해야 좀더 높은 가치를 산정받을  수 있으며, 차량성능 상태에 대한 사전 보쉬카서비스에서 정확하게 검사받아야 합니다.
 				<br><br>
 				{{--<img src='{{ Html::image(Helper::theme_web( '/img/intro/intro3_2.png')) }}' alt='자동차 점검중인 이미지'>--}}

@@ -12,7 +12,7 @@
         <div class="col-md-12">
 
             {!! Form::open(['method' => 'POST','route' => ['user.store'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
-
+            {{--<input type="hidden" value="1" name="status_cd">--}}
             <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                 <label for="inputEmail" class="control-label col-md-3">{{ trans('admin/user.email') }}</label>
                 <div class="col-md-6">
@@ -27,7 +27,7 @@
             </div>
 
             <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                <label for="inputName" class="control-label col-md-3">{{ trans('admin/user.name') }}</label>
+                <label for="inputName" class="control-label col-md-3" id="name_title">{{ trans('admin/user.name') }}</label>
                 <div class="col-md-6">
                     <input type="name" class="form-control" placeholder="{{ trans('admin/user.name') }}" name="name" id="inputName" value="{{ old('name') }}">
 
@@ -65,6 +65,19 @@
                 </div>
             </div>
 
+            <div class="form-group {{ $errors->has('mobile') ? 'has-error' : '' }}">
+                <label for="inputMobile" class="control-label col-md-3">{{ trans('admin/user.mobile') }}</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="{{ trans('admin/user.mobile') }}" name="mobile" id="inputMobile" value="{{ old('mobile') }}">
+
+                    @if ($errors->has('mobile'))
+                        <span class="help-block">
+                        {{ $errors->first('mobile') }}
+                    </span>
+                    @endif
+                </div>
+            </div>
+
             <div class="form-group {{ $errors->has('roles') ? 'has-error' : 'roles' }}">
                 <label for="inputRoles" class="control-label col-md-3">{{ trans('admin/user.roles') }}</label>
                 <div class="col-md-6">
@@ -92,6 +105,8 @@
                 </div>
             </div>
 
+
+
             <div id="garage_info" style="display: none">
                 <div class="form-group {{ $errors->has('aliance') ? 'has-error' : '' }} aliance">
                     <label for="inputGarage" class="control-label col-md-3">BCS 네트워크</label>
@@ -101,43 +116,107 @@
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('garage_name') ? 'has-error' : '' }} garage_name">
-                    <label for="inputGarage" class="control-label col-md-3">정비소 명</label>
+                    <label for="inputGarage" class="control-label col-md-3">정비소 대표자명</label>
                     <div class="col-md-6 ">
-                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="{{ old('garage_name') }}">
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('garage_tel') ? 'has-error' : '' }} garage_tel">
                     <label for="inputGarage" class="control-label col-md-3">정비소 전화번호</label>
                     <div class="col-md-6 ">
-                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_tel') }}" name="garage_tel" id="garage_tel" value="">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_tel') }}" name="garage_tel" id="garage_tel" value="{{ old('garage_tel') }}">
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('fax') ? 'has-error' : '' }}">
+                    <label for="fax" class="control-label col-md-3">{{ trans('bcs/bcs-info.fax') }}</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.fax') }}" name="fax" id="fax" value="{{ old('fax') }}">
+
+                        @if ($errors->has('fax'))
+                            <span class="help-block">
+                            {{ $errors->first('fax') }}
+                        </span>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('garage_zipcode') ? 'has-error' : '' }} garage_zipcode">
                     <label for="inputGarage" class="control-label col-md-3">우편번호</label>
                     <div class="col-md-6 ">
                         <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_zipcode') }}" name="garage_zipcode" id="garage_zipcode" value="">
+                        <span class="help-block">{{ trans('bcs/bcs-info.help-zipcode') }}</span>
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('garage_area') ? 'has-error' : '' }} garage_area">
                     <label for="inputGarage" class="control-label col-md-3">시/도</label>
                     <div class="col-md-6 ">
                         <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_area') }}" name="garage_area" id="garage_area" value="">
+                        <span class="help-block">{{ trans('bcs/bcs-info.help-area') }}</span>
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('garage_name') ? 'has-error' : '' }} garage_section">
                     <label for="inputGarage" class="control-label col-md-3">구/군</label>
                     <div class="col-md-6 ">
                         <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_section') }}" name="garage_section" id="garage_section" value="">
+                        <span class="help-block">{{ trans('bcs/bcs-info.help-section') }}</span>
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('garage_address') ? 'has-error' : '' }} garage_address">
                     <label for="inputGarage" class="control-label col-md-3">나머지 주소</label>
                     <div class="col-md-6 ">
                         <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_address') }}" name="garage_address" id="garage_address" value="">
+                        <span class="help-block">{{ trans('bcs/bcs-info.help-address') }}</span>
                     </div>
                 </div>
+
+                <div class="form-group {{ $errors->has('registration_number') ? 'has-error' : '' }} registration_number">
+                    <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.registration_number') }}</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.registration_number') }}" name="registration_number" id="registration_number" value="">
+                        {{--<span class="help-block">{{ trans('bcs/bcs-info.help-address') }}</span>--}}
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('bank') ? 'has-error' : '' }} bank">
+                    <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.bank') }}</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.bank') }}" name="bank" id="bank" value="">
+                        <span class="help-block">{{ trans('admin/user.help-bank') }}</span>
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('account') ? 'has-error' : '' }} account">
+                    <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.account') }}</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.account') }}" name="account" id="account" value="">
+                        <span class="help-block">{{ trans('admin/user.help-account') }}</span>
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('owner') ? 'has-error' : '' }} bank">
+                    <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.owner') }}</label>
+                    <div class="col-md-6 ">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/user.owner') }}" name="owner" id="owner" value="">
+                        <span class="help-block">{{ trans('admin/user.help-bank') }}</span>
+                    </div>
+                </div>
+
             </div>
 
+
+            <div class="form-group with_eng hide">
+                <label for="inputUserEngineer" class="control-label col-md-3">정비사 선택</label>
+                <div class="col-md-3">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default">
+                            <input type="checkbox" name="with_eng" autocomplete="off" value="5"><i class="fa fa-check" aria-hidden="true"></i>
+                            정비사
+                        </label>
+                    </div>
+
+                    @if ($errors->has('with_eng'))
+                        <span class="help-block">
+                        {{ $errors->first('with_eng') }}
+                    </span>
+                    @endif
+                </div>
+            </div>
 
 
             <div class="form-group {{ $errors->has('status_cd') ? 'has-error' : '' }}">
@@ -145,14 +224,14 @@
                 <div class="col-md-3">
                     <div class="btn-group" data-toggle="buttons">
                         @foreach($status_cd_list as $code)
-                        <label class="btn btn-default">
-                            <input type="radio" name="status_cd" autocomplete="off" value="{{ $code->id }}"> {{ $code->display() }}
-                        </label>
+                            <label class="btn btn-default">
+                                <input type="radio" name="status_cd" autocomplete="off" value="{{ $code->id }}"> {{ $code->display() }}
+                            </label>
                         @endforeach
                     </div>
 
                     @if ($errors->has('status_cd'))
-                    <span class="help-block">
+                        <span class="help-block">
                         {{ $errors->first('status_cd') }}
                     </span>
                     @endif
@@ -160,18 +239,7 @@
             </div>
 
 
-            <div class="form-group {{ $errors->has('mobile') ? 'has-error' : '' }}">
-                <label for="inputMobile" class="control-label col-md-3">{{ trans('admin/user.mobile') }}</label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="{{ trans('admin/user.mobile') }}" name="mobile" id="inputMobile" value="{{ old('mobile') }}">
 
-                    @if ($errors->has('mobile'))
-                    <span class="help-block">
-                        {{ $errors->first('mobile') }}
-                    </span>
-                    @endif
-                </div>
-            </div>
 
 
             <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
@@ -180,7 +248,7 @@
                     <div class="fileinput fileinput-new" data-provides="fileinput">
 
                         <div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
-                            {{ Html::image('/avatar', 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}                            
+                            {{ Html::image('/avatar', 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
                         </div>
                         <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 200px;"></div>
                         <div>
@@ -200,6 +268,25 @@
                     @endif
                 </div>
             </div>
+
+
+            {{--<!-- 파일 업로드 -->--}}
+            {{--<div class="form-group attachment" style="display: none">--}}
+                {{--<label for="" class="control-label col-md-3">정비소 사진</label>--}}
+
+                {{--<div class="col-md-9">--}}
+
+                    {{--<div class="plugin-attach" id="plugin-attachment"></div>--}}
+
+                    {{--@if ($errors->has('attachment'))--}}
+                        {{--<span class="help-block">--}}
+                            {{--{{ $errors->first('attachment') }}--}}
+                        {{--</span>--}}
+                    {{--@endif--}}
+
+                {{--</div>--}}
+
+            {{--</div>--}}
 
 
 
@@ -269,14 +356,17 @@
 
 
 @push( 'footer-script' )
+<link rel="stylesheet" href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}" />
+<script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
+<script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
+<script type="text/template" id="qq-template">@include("partials/files")</script>
     <script type="text/javascript">
         $(function () {
             $('.roles').on("click", '#user-role', function (){
-                if($('#user-role option:selected').val() == 5){
-                    $('#garage_info').css('display', 'none');
-                    $("#garage-modal").modal();
-                }
-                else if ($('#user-role option:selected').val() == 4){
+                var roles = $('#user-role').val();
+
+                if($.inArray("4", roles) >= 0){
+
                     $('#garage_info').css('display', '');
                     $('.garage').css('display', 'none');
                     $('#garage_name').val('');
@@ -285,12 +375,42 @@
                     $('#garage_area').val('');
                     $('#garage_section').val('');
                     $('#garage_address').val('');
+                    $('.with_eng').removeClass('hide');
+                    $('.attachment').css('display', '');
+                }
+                else if($.inArray("5", roles) >= 0){
+                    $('#garage_info').css('display', 'none');
+                    $("#garage-modal").modal();
                 }
                 else{
                     $('.garage').css('display', 'none');
                     $('#garage_info').css('display', 'none');
                     $('#selected_garage').val('');
+                    $('.attachment').css('display', 'none');
                 }
+
+//                if($('#user-role option:selected').val() == 5){
+//                    $('#garage_info').css('display', 'none');
+//                    $("#garage-modal").modal();
+//
+//                }
+//                else if ($('#user-role option:selected').val() == 4){
+//                    $('#garage_info').css('display', '');
+//                    $('.garage').css('display', 'none');
+//                    $('#garage_name').val('');
+//                    $('#garage_tel').val('');
+//                    $('#garage_zipcode').val('');
+//                    $('#garage_area').val('');
+//                    $('#garage_section').val('');
+//                    $('#garage_address').val('');
+//                    $('.attachment').css('display', '');
+//                }
+//                else{
+//                    $('.garage').css('display', 'none');
+//                    $('#garage_info').css('display', 'none');
+//                    $('#selected_garage').val('');
+//                    $('.attachment').css('display', 'none');
+//                }
             });
 
             $("#tbody").delegate(".select-garage", "click", function(){
@@ -333,7 +453,73 @@
                         }
                     })
                 }
-            })
+            });
+
+            $('#plugin-attachment').fineUploader({
+                debug: true,
+//        template: 'qq-template',
+                request: {
+                    inputName: "upfile",
+                    endpoint: '/file/upload',
+                    customHeaders: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                },
+                deleteFile: {
+                    enabled: true,
+                    endpoint: '/file/delete',
+                    customHeaders: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                },
+                thumbnails: {
+                    placeholders: {
+                        waitingPath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/waiting-generic.png' ) }}",
+                        notAvailablePath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/not_available-generic.png' ) }}",
+                    }
+                },
+                validation: {
+                    allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'hwp'],
+                    itemLimit: 3,
+                    sizeLimit: 5120000, // 50 kB = 50 * 1024 bytes
+                    stopOnFirstInvalidFile: true
+                },
+                text: {
+                    uploadButton: 'Upload a file',
+                    cancelButton: 'Cancel',
+                    retryButton: 'Retry',
+                    failUpload: 'Upload failed',
+                    dragZone: 'Drop files here to upload',
+                    formatProgress: "{percent}% of {total_size}",
+                    waitingForResponse: "Processing..."
+                },
+                messages: {
+                    typeError: "{file} has an invalid extension. Valid extension(s): {extensions}.",
+                    sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+                    minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                    emptyError: "{file} is empty, please select files again without it.",
+                    noFilesError: "No files to upload.",
+                    onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
+                },
+                callbacks: {
+                    onSubmit: function (id, fileName) {
+                        this.setParams({'upfile_group': "bcs"});
+                    },
+                    onComplete: function (id, fileName, responseJSON) {
+                        if (responseJSON.success == true) {
+                            $.notify(responseJSON.msg, "success");
+
+                            var $listItem = $(this).fineUploader('getItemByFileId', id);
+                            $listItem.find('.plugin-attach-file-input').val(responseJSON.data.id);
+
+                        } else {
+                            $.notify(responseJSON.msg, "error");
+                        }
+                    }
+
+
+                }
+            });
 
             $(document).on("click", '#btn-user-destory', function (e) {
                 e.preventDefault();

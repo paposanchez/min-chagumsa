@@ -115,10 +115,9 @@ class PostController extends Controller {
     public function store(Request $request) {
         $this->validate($request, [
             'subject' => 'required|min:1',
-            'content' => 'required|min:1',
+//            'content' => 'required|min:1',
             'board_id' => 'required|exists:boards,id',
             'user_id' => 'exists:users,id',
-//            'category_id' => 'exists:categorys,id',
             'is_shown' => [
                 'required',
                 Rule::in(Code::getCodeFieldArray('post_shown_role')->toArray()),
@@ -130,8 +129,10 @@ class PostController extends Controller {
             'thumbnail' => 'exists:files,id',
             'name' => 'min:1',
             'email' => 'email',
-            'password' => 'min:4',
-                ], [], [
+            'password' => 'nullable|min:4',
+        ],
+        [],
+        [
             'board_id' => trans('admin/post.board_id'),
             'user_id' => trans('admin/post.user_id'),
 //            'category_id' => trans('admin/post.category'),
@@ -147,8 +148,13 @@ class PostController extends Controller {
 
         $post = new Post();
         $post -> subject = $request->get('subject');
-        $post -> content = $request->get('content');
         $post -> board_id = $request->get('board_id');
+        if($request->get('board_id') == 4){
+            $post -> content = $request->get('content2');
+        }else{
+            $post -> content = $request->get('content');
+        }
+
         $post -> user_id = $request->get('user_id');
         $post -> password = $request->get('password');
         if($request->get('board_id') == 2){
@@ -210,7 +216,7 @@ class PostController extends Controller {
             'thumbnail' => 'exists:files,id',
             'name' => 'min:1',
             'email' => 'email',
-            'password' => 'min:4',
+            'password' => 'nullable|min:4',
                 ], [], [
             'board_id' => trans('admin/post.board_id'),
             'user_id' => trans('admin/post.user_id'),

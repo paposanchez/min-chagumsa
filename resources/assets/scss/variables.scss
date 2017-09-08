@@ -616,7 +616,8 @@ $label-default-bg                               :$bg-default !default;
 //** Primary label background color
 $label-primary-bg                               :$brand-primary !default;
 //** Success label background color
-$label-success-bg                               :$brand-success !default;
+//$label-success-bg                               :$brand-success !default;
+$label-success-bg                               :#9cc414 !default;
 //** Info label background color
 $label-info-bg                                  :$brand-info !default;
 //** Warning label background color

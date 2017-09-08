@@ -51,6 +51,9 @@ class Order Extends Model
         return $this->hasMany(DiagnosisDetails::class,'orders_id', '');
     }
 
+    public function order_features(){
+        return $this->hasMany(OrderFeature::class,'orders_id', 'id');
+    }
 
 
     // 해당 주문의 차량 풀네임을 조회
@@ -92,9 +95,9 @@ class Order Extends Model
     }
 
 
-    public function getReservation($order_id) {
-        return Reservation::whereNotNull("updated_at")->where('orders_id', $order_id)->first();
-    }
+    // public function getReservation($order_id) {
+    //     return Reservation::whereNotNull("updated_at")->where('orders_id', $order_id)->first();
+    // }
 
     public function getOrderNumber() {
         return  $this->car_number . "-" . $this->created_at->format('ymd');
@@ -132,8 +135,8 @@ class Order Extends Model
         return $this->hasOne(\App\Models\Reservation::class, 'orders_id','id');
     }
 
-    public function garageInfo(){
-        return $this->hasOne(\App\Models\GarageInfo::class, 'id','garage_id');   
+    public function garage(){
+        return $this->hasOne(\App\Models\User::class, 'id','garage_id');
     }
 
     public function orderCar(){
@@ -154,7 +157,7 @@ class Order Extends Model
 
     // public function diagnosis_items(){
     //     return $this->hasMany(\App\Models\DiagnosisItems::class, 'orders_id', 'id');
-    // }    
+    // }
 
     // public function diagnosis_details(){
     //     return $this->hasMany(\App\Models\DiagnosisDetails::class, 'orders_id', 'id');
@@ -162,7 +165,7 @@ class Order Extends Model
 
 
     //========================== 아래는 검증안된 메쏘드
-   
+
 
     public function order_feature(){
         return $this->hasMany(OrderFeature::class);
@@ -176,7 +179,7 @@ class Order Extends Model
 
 
     public function settlement_features(){
-        return $this->hasMany(\App\Models\SettlementFeature::class);
+        return $this->hasMany(\App\Models\SettlementFeature::class, 'orders_id', 'id');
     }
 
     public function getReservationDate($order_id) {

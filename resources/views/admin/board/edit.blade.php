@@ -66,7 +66,7 @@
                     <div class="col-md-6">
                         <div class="checkbox checkbox-slider--b-flat">
                             <label>
-                                <input type="checkbox" value="1" name="use_captcha" {{ $board->use_secret == 1 ? 'checked="checked"' : '' }}><span></span>
+                                <input type="checkbox" value="1" name="use_captcha" {{ $board->use_captcha == 1 ? 'checked="checked"' : '' }}><span></span>
                             </label>
                         </div>
 

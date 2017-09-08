@@ -29,9 +29,11 @@
                 <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
                     <label for="inputContent" class="control-label col-md-3">{{ trans('admin/post.content') }}</label>
                     <div class="col-md-9">
-                        <textarea  class="form-control wysiwyg" placeholder="{{ trans('admin/post.content') }}" name="content" id="inputContent">
-                                                        {{ $post->content or old('content') }}
-                        </textarea>
+                        <textarea  class="form-control
+                        @if($post->board->use_tag)
+                        wysiwyg
+                        @endif
+                        " placeholder="{{ trans('admin/post.content') }}" name="content" id="inputContent" style="height: 250px;">{{ $post->content or old('content') }}</textarea>
 
                         @if ($errors->has('content'))
                         <span class="help-block">
@@ -88,7 +90,7 @@
                 <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                     <label for="inputName" class="control-label col-md-3">{{ trans('admin/post.name') }}</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="{{ trans('admin/post.name') }}" name="name" id="inputName" value="{{ $post->name or old('name') }}">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/post.name') }}" name="name" id="inputName" value="{{ $post->name or \Illuminate\Support\Facades\Auth::user()->name }}">
 
                         @if ($errors->has('name'))
                         <span class="help-block">

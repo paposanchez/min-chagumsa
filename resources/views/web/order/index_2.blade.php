@@ -9,7 +9,7 @@
 
     <div class='join_wrap order-container'>
 
-        <ul class='join_step' id="join_step">
+        <ul class='join_step type2' id="join_step">
             <li class='on'>
                 <strong>01</strong>
                 <span>주문</span>
@@ -41,6 +41,9 @@
         <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off" >
         <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off" >
         <input type="hidden" name="mobile" id="mobile" value="123123" >
+
+        <input type="hidden" name="use_coupon_number" id="use_coupon_number" autocomplete="off">
+        <input type="hidden" name="coupon_id" id="coupon_id" autocomplete="off">
 
 <!--         <input name="cars_id" value="" type="hidden">
         <input name="id" id="moid" type="hidden" value="">{{-- 주문번호 --}}
@@ -342,6 +345,12 @@
                                 <div class="point-desc text-muted">실시간 계좌이체</div>
                             </div>
                         </div>
+                        <div class="col-xs-4">
+                            <div class="purchase-item purchase-item-method" data-index="21">
+                                <div class="point-icon"><i class="fa fa-tags"></i></div>
+                                <div class="point-desc text-muted">쿠폰결제</div>
+                            </div>
+                        </div>
                     </div>                
 
                 </div>
@@ -412,7 +421,36 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-coupon" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title text-center">쿠폰번호 입력</h2>
+            </div>
 
+            <div class="modal-body">
+                <form class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="exampleInputCoupon" class="sr-only">쿠폰 번호</label>
+                        <input type="text" class="form-control input-lg" id="coupon_number" placeholder='쿠폰번호를 입력해 주세요.'  name="coupon_number">
+                        <span class="coupon-error text-center"></span>
+                    </div>
+
+                    <p class="form-control-static text-center">
+                        <button type="button" class="btn btn-default2 btn-lg" id="modal-coupon-close">취소</button>
+                        <button type="button" class='btn btn-primary2 btn-lg' id="modal-coupon-verify">인증</button>
+                        <button type="button" class='btn btn-warning  btn-lg' style="display: none;" id="coupon-process">쿠폰결제 진행하기</button>
+                    </p>
+                </form>
+            </div>
+            <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-success">Save changes</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+            </div> -->
+        </div>
+    </div>
+</div>
 
 @endsection
 
@@ -475,7 +513,7 @@ var PageTransitions = (function() {
         animEndEventName = animEndEventNames[ Modernizr.prefixed( 'animation' ) ],
         // support css animations
         support = Modernizr.cssanimations;
-    
+
     function init() {
 
         $pages.each( function() {
@@ -495,7 +533,7 @@ var PageTransitions = (function() {
         }
 
         isAnimating = true;
-        
+
         var $currPage = $pages.eq( current );
 
 
@@ -545,7 +583,7 @@ var PageTransitions = (function() {
               outClass = 'pt-page-rotateSlideOut';
                 inClass = 'pt-page-rotateSlideIn';
                 break;
-           
+
             default:
                 outClass = 'pt-page-rotateSlideOut';
                 inClass = 'pt-page-rotateSlideIn';
@@ -589,7 +627,7 @@ var PageTransitions = (function() {
 
     init();
 
-    return { 
+    return {
         init : init,
         nextPage : nextPage,
     };
@@ -700,7 +738,81 @@ var countdown;
         $(document).on("click", ".purchase-item-method", function() {
             $('.purchase-item-method').removeClass("active");
             $(this).toggleClass("active");
+
+            if($(this).data('index') == '21'){ //쿠폰
+                $('#modal-coupon').modal();
+            }
+
             $('#payment_method').val($(this).data("index"));
+
+
+        });
+
+        //쿠폰 모달 제어
+
+        $("#modal-coupon-close").on("click", function(){
+            $("#coupon_number").val("");
+            $("#modal-coupon").modal('hide');
+        });
+
+        $("#modal-coupon-verify").on("click", function(){
+
+            var coupon_number = $("#coupon_number").val();
+
+
+            if (coupon_number.length > 9 && coupon_number.length < 21) {
+                $.ajax({
+                    url: "/order/coupon-verify",
+                    type: "post",
+                    dataType: "json",
+                    data: {'coupon_number': coupon_number, '_token': '{{ csrf_token() }}'},
+                    success: function (jdata, textStatus, jqXHR) {
+                        var verify = jdata.status;
+
+                        if (verify === 'ok') {
+                            //인증서 유효성 확인됨.
+
+                            $("#use_coupon_number").val(jdata.coupon_number);
+                            $("#coupon_id").val(jdata.id);
+
+                            $(".coupon-error").css({'color': '#0b4777'});
+
+                            //인증버튼을 결제처리 버튼으로 변경한다.
+                            $("#modal-coupon-verify").attr("disabled", "disabled");
+                            $("#coupon-process").show(0.5);
+
+                        } else {
+                            $(".coupon-error").css({'color': 'red'});
+                            $("#coupon_number").select();
+
+                        }
+                        $(".coupon-error").text(jdata.msg);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $(".coupon-error").css({'color': 'red'});
+                        $("#coupon_number").focus();
+                        $(".coupon-error").text('쿠폰번호를 확인하지 못하였습니다.');
+                    }
+                });
+            } else {
+
+                $(".coupon-error").css({'color': 'red'});
+                $("#coupon_number").focus();
+                $(".coupon-error").text('쿠폰번호를 확인해주세요');
+            }
+
+        });
+
+        //쿠폰 결제 진행
+        $("#coupon-process").on( "click", function(){
+
+            var use_coupon_number = $("#use_coupon_number").val();
+            var coupon_id = $("#coupon_id").val()
+            if(use_coupon_number && coupon_id){
+                $("#orderFrm").removeAttr("target");
+                $("#orderFrm").attr("action", "{{ url("/order/coupon-process") }}");
+                $("#orderFrm").submit();
+            }
 
         });
 
@@ -847,7 +959,7 @@ var countdown;
 
                     }else{
 //                        console.log(jdata);
-                        alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");                       
+                        alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");
                         return false;
                     }
                 },
@@ -893,6 +1005,8 @@ var countdown;
             });
 
         });
+
+
 
         var smsTempDelete = function(sms_id){
             if(sms_id){
@@ -1086,7 +1200,7 @@ var countdown;
 
 
         $('#modalPurchase').on('show.bs.modal', function (event) {
-                 $('#orderFrm').attr('target', 'purchase-frame').submit();       
+                 $('#orderFrm').attr('target', 'purchase-frame').submit();
         });
 
 

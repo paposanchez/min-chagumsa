@@ -15,6 +15,7 @@
     <div class='br30'></div>
 
     <div class='board_wrap'>
+
         <table>
             <colgroup>
                 <col style='width:110px;'>
@@ -51,9 +52,17 @@
 
     <div class='br30'></div>
 
-    <div class='board_pagination_wrap  alg_r'>
-        @include('vendor.pagination.web-page', ['paginator' => $entrys])
-        <button type="button" class='btn btn-primary wid10 bmd-modalButton' id="write">글쓰기</button>
+
+    <div class="row">
+
+            <div class="col-xs-9">
+                    <div class='board_pagination_wrap '>
+                        @include('vendor.pagination.web-page', ['paginator' => $entrys])
+                    </div>
+            </div>
+            <div class="col-xs-3 text-right">
+                    <button type="button" class='btn btn-primary bmd-modalButton' id="write">글쓰기</button>
+            </div>
     </div>
 
 </div>

@@ -12,6 +12,9 @@
                 width: 100% !important;
             }
         }
+        body {
+
+        }
     </style>
 </head>
 
@@ -90,7 +93,7 @@ $style = [
                                                 @if ($level == 'error')
                                                     Whoops!
                                                 @else
-                                                    Hello!
+                                                    안녕하세요! 중고차 인증 서비스 차검사입니다.
                                                 @endif
                                             @endif
                                         </h1>

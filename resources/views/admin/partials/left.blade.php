@@ -2,7 +2,8 @@
 
     <div class="aside-profile">
 
-        {{ Html::image('/avatar/'.Auth::id(), 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
+        {{ Helper::imageTag('/avatar/'.Auth::id(), 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
+
 
         <div class="aside-profile-info">
             <a href="{{ route("user.edit", [Auth::id()]) }}" class="aside-profile-info-name">{{ Auth::user()->name }}</a>
@@ -32,7 +33,13 @@
 
                 <li class="{{ Request::is('post*') ? ' active':''}}"><a href="/post"><i class="fa fa-pencil"></i><span class="nav-label">{{ trans('admin/post.title') }}</span></a></li>
 
-                <li class="{{ Request::is('comment*') ? ' active':''}}"><a href="/comment"><i class="fa fa-comments"></i><span class="nav-label">{{ trans('admin/comment.title') }}</span></a></li>
+                <li class="{{ Request::is('bcs-post*') ? ' active':''}}"><a href="/test"><i class="fa fa-flask" aria-hidden="true"></i><span class="nav-label">테스트 주문</span></a></li>
+
+                <li class="{{ Request::is('sms*') ? ' active':''}}"><a href="/sms"><i class="fa fa-comments" aria-hidden="true"></i><span class="nav-label">SMS 전송</span></a></li>
+
+                {{--<li class="{{ Request::is('comment*') ? ' active':''}}"><a href="/comment"><i class="fa fa-comments"></i><span class="nav-label">{{ trans('admin/comment.title') }}</span></a></li>--}}
+
+                <li class="{{ Request::is('coupon*') ? ' active':''}}"><a href="/coupon"><i class="fa fa-comments"></i><span class="nav-label">쿠폰</span></a></li>
 
                 <li class="dropdown {{ Request::is('config*') ? ' active':''}}">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-gears"></i><span class="nav-label">{{ trans('admin/config.title') }}</span><b class="caret"></b></a>

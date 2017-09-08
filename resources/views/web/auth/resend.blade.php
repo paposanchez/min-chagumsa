@@ -4,7 +4,7 @@
 
 @section('content')
 	<div class="br40"></div>
-	<div style="width:640px;margin:0 auto !important; line-height:1.5;">
+	<div style="position: absolute;left: 50%;margin-left: -300px;top: 50%;transform: translateY(-55%);">
 		{!! Form::open(['route' => ["register.resent"], 'method' => 'post', 'role' => 'form', 'id' => 'resendFrm']) !!}
 		<input type="hidden" name="email" value="{{ $email }}" />
 		<table style="width:100%;padding:0;margin:0;" cellspacing="0">
@@ -18,7 +18,7 @@
 			</tr>
 			<tr>
 				<td style="background:#f4f4f4;padding:50px 60px;">
-					<span style="display:block;font-size:28px;color:#0b4777;letter-spacing:-1px;">회원님의 이메일을 활성화시켜주세요.</span>
+					<span style="display:block;font-size:28px;color:#0b4777;letter-spacing:-1px;">회원님의 이메일 인증이 완료되지 않았습니다.</span>
 					<div class="br20"></div>
 					<p style='font-size:14px;color:#444;letter-spacing:-1px;'>
 						차검사를 선택해주신 회원님 감사합니다!<br>
@@ -29,7 +29,6 @@
 					<div class="br40"></div>
 					<div class="ipt_line wid40">
 						<button class="btns btns_green" style="display:inline-block;" type="submit">
-							{{--<a href="http://www.chagumsa.com/mypage/order">주문목록 돌아가기</a>--}}
 							인증메일 재발송 하기
 						</button>
 					</div>
@@ -39,7 +38,7 @@
 			<tr>
 				<td style="background:#f4f4f4;border-top:1px solid #dbdbdb;padding:15px 60px;">
 					<p style='font-size:14px;color:#444;letter-spacing:-1px;'>
-						Copyright &copy JIMBROS Co., Ltd. All rights reserved.
+						Copyright &copy JIMBROS INC. All rights reserved.
 					</p>
 				</td>
 			</tr>

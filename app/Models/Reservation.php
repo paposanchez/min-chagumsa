@@ -14,9 +14,8 @@ use App\Models\Order;
 
 class Reservation extends Model
 {
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'orders_id';
     protected $fillable = [
-        'id',
         'orders_id',
         'garage_id',
         'reservation_at',

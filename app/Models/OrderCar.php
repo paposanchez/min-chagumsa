@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderCar Extends Model
 {
+    protected $primaryKey = 'orders_id';
     protected $fillable = [
-        'id',
         'orders_id',
         'car_number',
         'brands_id',

@@ -26,10 +26,10 @@
                 </div>
             </div>
 
-            <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
+            <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}" id="wysiwyg">
                 <label for="inputContent" class="control-label col-md-3">{{ trans('admin/post.content') }}</label>
                 <div class="col-md-9">
-                    <textarea  class="form-control wysiwyg" placeholder="{{ trans('admin/post.content') }}" name="content" id="inputContent">
+                    <textarea  class="form-control wysiwyg" placeholder="{{ trans('admin/post.content') }}" name="content" id="inputContent1">
                         {{ old('content') }}
                     </textarea>
 
@@ -37,6 +37,20 @@
                     <span class="help-block">
                         {{ $errors->first('content') }}
                     </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }} disabled" id="none-wysiwyg" style="display: none;">
+                <label for="inputContent" class="control-label col-md-3">{{ trans('admin/bcs-post.content') }}</label>
+                <div class="col-md-9">
+                    {{--<textarea  class="form-control wysiwyg" placeholder="{{ trans('admin/post.content') }}" name="content" id="inputContent">--}}
+                    <textarea  class="form-control" placeholder="{{ trans('admin/bcs-post.content') }}" name="content2" id="inputContent2" style="height: 250px;">{{ $post->content or old('content') }}</textarea>
+
+                    @if ($errors->has('content'))
+                        <span class="help-block">
+                            {{ $errors->first('content') }}
+                        </span>
                     @endif
                 </div>
             </div>
@@ -317,11 +331,22 @@ $(document).ready(function () {
     });
 
     $('#inputBoardId').change(function (){
-        if($('#inputBoardId option:selected').val() == 2){
+        var board_category = $('#inputBoardId option:selected').val();
+        if(board_category == 2){
             $('.category').css('display', '');
+            $('#wysiwyg').css('display', '');
+            $('#none-wysiwyg').css('display', 'none');
+//            $('#inputContent2').attr('disabled')
+//            $('#inputContent2').attr('disabled')
+        }
+        else if(board_category == 4){
+            $('#wysiwyg').css('display', 'none');
+            $('#none-wysiwyg').css('display', '');
         }
         else{
             $('.category').css('display', 'none');
+            $('#wysiwyg').css('display', '');
+            $('#none-wysiwyg').css('display', 'none');
         }
     });
 

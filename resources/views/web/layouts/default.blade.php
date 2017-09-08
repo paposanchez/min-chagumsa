@@ -14,6 +14,9 @@
     {{-- 헤더 섹션 --}}
     @section( 'content-header' )
 
+    @includeIf('flash::message')
+        
+
         {{-- 헤더 메뉴 --}}
         <div id='gnb_wrap'>
             <h1>
@@ -41,20 +44,18 @@
                     <a href='{{ route('register.agreement') }}'>회원가입</a>
                 @endif
             </div>
-            <form action="{{ route('search.index') }}">
-                <div class='gnb_search_wrap'>
-                    <input type='text' name="q" placeholder='인증서번호 또는 차량번호로 찾기'>
-                    <button type='submit'><i class="fa fa-search" ></i></button>
-                </div>
-            </form>
+            {{--<form action="{{ route('search.index') }}">--}}
+                {{--<div class='gnb_search_wrap'>--}}
+                    {{--<input type='text' name="q" placeholder='인증서번호 또는 차량번호로 찾기'>--}}
+                    {{--<button type='submit'><i class="fa fa-search" ></i></button>--}}
+                {{--</div>--}}
+            {{--</form>--}}
         </div>
         
     @endsection
 
     {{-- 본문 섹션 --}}
     @section( 'content-body' )
-        
-        @includeIf('flash::message')
         
         @yield( 'content' )    
         
@@ -67,7 +68,7 @@
             <div id='foot_cont'>
                 <div class='foot_link'>
                     <h1><a href='/'>
-                            {{ Html::image(Helper::theme_web( '/img/comm/head_logo.png' )) }}
+                            {{ Html::image(Helper::theme_web( '/img/comm/head_logo2.png',array('style' => 'margin-top : 5px;') )) }}
                         </a></h1>
                     <ul>
                         <li><a class='{{ (Request::path() == "agreement/usage")? "foot_active": '' }}' href='{{ route('agreement.usage') }}'>이용약관</a></li>
@@ -79,7 +80,7 @@
                     <ul class='foot_desc_wrap'>
                         <li class='foot_desc'>
                             <strong>주식회사 짐브러스</strong>
-                            <p>주소 : 서울시 마포구 월드컵북로 402, 19충 1626호(상암동, KGIT센터)<br>
+                            <p>주소 : 서울시 마포구 월드컵북로 402, 10충 1026호(상암동, KGIT센터)<br>
                                대표자 : 황병도&nbsp;&nbsp;&nbsp;&nbsp;사업자 등록번호 : 646-88-00594<br>
 
                                통신판매업신고 : 제 2017-서울마포-1209호</p>
@@ -87,7 +88,7 @@
                         <li class='foot_desc'>
                             <strong>고객센터</strong>
                             <p>상담시간 : 오전 9:30분~오후 6시(토요일 및 공휴일은 휴무)<br>
-                                주소 : 서울시 마포구 월드컵북로 402, 10층 1626호(상암동, KGIT센터)<br>
+                                주소 : 서울시 마포구 월드컵북로 402, 10충 1026호(상암동, KGIT센터)<br>
                                 Tel : 1833-6889 Fax : 0505-333-6889</p>
                         </li>
                         <li class='foot_desc'>
@@ -97,7 +98,7 @@
                         </li>
                     </ul>
                     <div class='foot_desc'>
-                        <strong>Copyright &copy; Ginbros Co., Ltd. All rights reserved.</strong>
+                        <strong>Copyright &copy; JIMBROS INC. All rights reserved.</strong>
                         <p>(주)짐브러스의 사전 서명동의없이 차검사사이트의 일체의 정보,콘텐츠를 상업적인 목적으로 전재, 전송, 스크래핑 등 무단 사용할 수 없습니다.</p>
                     </div>
                 </div>

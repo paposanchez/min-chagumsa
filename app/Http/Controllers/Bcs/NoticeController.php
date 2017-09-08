@@ -25,34 +25,7 @@ class NoticeController extends Controller
         $shown_role_list = Code::getSelectList('post_shown_role');
         $search_fields = Code::getSelectList('post_search_field');
 
-        $where = Post::orderBy('id', 'desc');
-
-//        if ($request->query('board_id')) {
-//            $where->where('board_id', $request->query('board_id'));
-//        }
-//
-//        if ($request->query('trs')) {
-//            $where->where('created_at', '>=', $request->query('trs') . ' 00:00:00');
-//        }
-//
-//        if ($request->query('tre')) {
-//            $where->where('created_at', '<', $request->query('tre') . ' 00:00:00');
-//        }
-//
-//        if ($request->query('sf') && $request->query('s')) {
-//
-//            if ($request->query('sf') == 'subject') {
-//                $where->where('subject', $request->query('s'));
-//            }
-//            if ($request->query('sf') == 'content') {
-//                $where->where('content', $request->query('s'));
-//            }
-//            if ($request->query('sf') == 'writer_name') {
-//                $where->where('name', $request->query('s'))
-//                        ->orWhere('email', $request->query('s'));
-//            }
-//        }
-
+        $where = Post::orderBy('id', 'desc')->where('board_id',4);
 
 
         //기간 검색
@@ -130,17 +103,13 @@ class NoticeController extends Controller
     {
         //
         $post = Post::findOrFail($id);
+        // 파일 다운로드 관련
+        $files = File::where('group', 'post')->where('group_id', $id)->get();
+        if(!$files){
+            $files = [];
+        }
 
-        $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
-
-//        $yn_list = Code::getCodesByGroup('yn');
-        $yn_list = Code::getSelectList('yn');
-
-        $shown_role_list = Code::getSelectList('post_shown_role');
-
-        $categorys = Code::where('group', 'category_id')->get();
-
-        return view('bcs.notice.show', compact('post'));
+        return view('bcs.notice.show', compact('post', 'files'));
     }
 
     /**

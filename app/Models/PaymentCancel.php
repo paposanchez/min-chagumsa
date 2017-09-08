@@ -18,6 +18,7 @@ use GuzzleHttp\Client;
 
 class PaymentCancel Extends Model
 {
+
     protected $fillable = [
         'id',
         'payMethod',
@@ -42,10 +43,10 @@ class PaymentCancel Extends Model
         return $this->belongsTo(Order::class, 'orders_id', 'id');
     }
 
-    protected $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";//상점키
-    protected $mid = "tpaytest0m";//상점id
-    protected $cancel_passwd = "123456"; //취소 시 사용되는 패스워드(Tpay 계정 설정 참조)
-    protected $paycancel_url = "https://webtx.tpay.co.kr/api/v1/refunds";
+    protected $merchantKey;//상점키
+    protected $mid;//상점id
+    protected $cancel_passwd; //취소 시 사용되는 패스워드(Tpay 계정 설정 참조)
+    protected $paycancel_url;
 
     /**
      * @param $order_id 주문번호
@@ -56,6 +57,12 @@ class PaymentCancel Extends Model
      * @return array
      */
     public function paymentCancelProcess($order_id, $order_price, $tid, $partial=0, $cancel_msg='고객요청'){
+
+        $this->merchantKey = env('PG_KEY');
+        $this->mid = env('PG_ID');
+        $this->cancel_passwd = env('PG_CANCEL');
+        $this->paycancel_url = env('PG_CANCEL_URL');
+
         try{
             $send_data = [
                 "form_params" => [

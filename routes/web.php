@@ -8,9 +8,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('profile', 'ProfileController');
         Route::resource('history', 'HistoryController');
         Route::resource('order', 'OrderController');
-        Route::get('/order/edit_car/{order_id}', 'OrderController@editCar')->name('order.edit_car');
-        Route::get('/order/edit_garage/{order_id}', 'OrderController@editGarage')->name('order.edit_garage');
         Route::post('/order/cancel', 'OrderController@cancel')->name('order.cancel');
+
+        Route::get('/order/change-car/{order_id}', 'OrderController@changeCar');
+        Route::post('/order/change-car/{order_id}', 'OrderController@updateCar');
+        Route::get('/order/change-reservation/{order_id}', 'OrderController@changeReservation');
+        Route::post('/order/change-reservation/{order_id}', 'OrderController@updateReservation');
 
 
         Route::get('/leave', 'ProfileController@leaveForm');
@@ -24,10 +27,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     // 주문하기
 
-//    Route::resource('order', 'OrderController');
-//    Route::post('order/order-store', 'OrderController@orderStore')->name("order.order-store");
-//    Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase");
-    Route::post('order/complete', 'OrderController@complete')->name("order.complete");
+
+    Route::match(['get', 'post'],'order/complete', 'OrderController@complete')->name("order.complete");
     Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
     Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");
     Route::get('order/factory/{page?}', 'OrderController@factory')->name("order.factory");
@@ -41,12 +42,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/order/get_section', 'OrderController@getSection')->name("order.get_section");
     Route::get('/order/get_address', 'OrderController@getAddress')->name("order.get_address");
 
+    //쿠폰인증
+    Route::post('/order/coupon-verify', 'OrderController@couponVerify')->name("order.coupon-verify");
+    //쿠폰 주문 등록
+    Route::post('/order/coupon-process', 'OrderController@couponProcess')->name("order.coupon-process");
+
     Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd')->name('certificate.change-open-cd');
-//    Route::resource('/certificate', 'CertificateController',['only' => ['index']]);
-
-
-//    Route::get('certificate/performance/{id}', 'CertificateController@performance')->name("certificate.performance");
-
 });
 
 /////////////////////////////////////////////////////////////
@@ -79,13 +80,7 @@ Route::get('information/certificate', function () {
 Route::get('information/guide', function () {
     return view('web.information.guide');
 })->name('information.guide');
-//Route::get('information/price', function () {
-//    return view('web.information.price');
-//})->name('information.price');
 Route::get('information/price', 'InformationController@price')->name('information.price');
-//Route::get('information/find-garage', function () {
-//    return view('web.information.find-garage');
-//})->name('information.find-garage');
 Route::get('/information/find-garage', 'InformationController@findGarage')->name('information.find-garage');
 
 
@@ -153,10 +148,12 @@ Route::post('register', 'Auth\RegisterController@postRegister');
 Route::any('/', 'WelcomeController');
 
 
+Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");
+Route::get('file/diagnosis-download/{id}', '\App\Http\Controllers\FileController@diagnosisDownload')->name("file.diagnosis-download");
+
 
 
 //결제 prototype
 //Route::get('pay-test/index', 'PayTestController@index');
 //Route::post('pay-test/pay-result', 'PayTestController@payResult');
 //Route::post('pay-test/callback', 'PayTestController@payCallback');
-

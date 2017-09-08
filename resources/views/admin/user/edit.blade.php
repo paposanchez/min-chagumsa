@@ -69,11 +69,11 @@
                     <label for="inputRoles" class="control-label col-md-3">{{ trans('admin/user.roles') }}</label>
                     <div class="col-md-6 role_selector">
 
-                        @if ($user->id == 1)
-                        {!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'disabled'=>'disabled',  'id'=>'user-role']) !!}
-                        @else
+                        {{--@if ($user->id == 1)--}}
+                        {{--{!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'disabled'=>'disabled',  'id'=>'user-role']) !!}--}}
+                        {{--@else--}}
                         {!! Form::select('roles[]', $roles, $userRole, ['class'=>'form-control', 'multiple', 'id'=>'user-role']) !!}
-                        @endif
+                        {{--@endif--}}
 
 
                         @if ($errors->has('roles'))
@@ -87,9 +87,9 @@
                 <div class="form-group {{ $errors->has('garage') ? 'has-error' : 'garage' }} " style="display: none;">
                     <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.garage') }}</label>
                     <div class="col-md-6 selected_garage">
-
-
-                        <input type="text" class="form-control" name="garage" id="selected_garage" value="{{ $user_extras->address_extra }}" readonly>
+                        @if($user_extras->garage)
+                            <input type="text" class="form-control" name="garage" id="selected_garage" value="{{ $user_extras->garage->name }}" readonly>
+                        @endif
 
 
                         {{--<input type="text" class="form-control" name="garage" id="selected_garage" value="" readonly>--}}
@@ -107,11 +107,17 @@
                         <label for="inputGarage" class="control-label col-md-3">BCS 네트워크</label>
                         <div class="col-md-6 ">
                             {{--<input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="">--}}
-                            {!! Form::select('aliance_id', $aliances, [], ['class'=>'form-control', 'multiple', 'id'=>'aliance']) !!}
+                            {!! Form::select('aliance_id', $aliances, $user_extras->aliance_id, ['class'=>'form-control', 'multiple', 'id'=>'aliance']) !!}
                         </div>
+
+                        @if ($errors->has('garage'))
+                            <span class="help-block">
+                            {{ $errors->first('garage') }}
+                        </span>
+                        @endif
                     </div>
                     <div class="form-group {{ $errors->has('garage_name') ? 'has-error' : '' }} garage_name">
-                        <label for="inputGarage" class="control-label col-md-3">정비소 명</label>
+                        <label for="inputGarage" class="control-label col-md-3">정비소 대표자명</label>
                         <div class="col-md-6 ">
                             <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_name') }}" name="garage_name" id="garage_name" value="{{ $garage_info->name }}">
                         </div>
@@ -122,31 +128,96 @@
                             <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_tel') }}" name="garage_tel" id="garage_tel" value="{{ $garage_info->tel }}">
                         </div>
                     </div>
+                    <div class="form-group {{ $errors->has('fax') ? 'has-error' : '' }}">
+                        <label for="fax" class="control-label col-md-3">{{ trans('bcs/bcs-info.fax') }}</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="{{ trans('bcs/bcs-info.fax') }}" name="fax" id="fax" value="{{ $user_extras->fax }}">
+
+                            @if ($errors->has('fax'))
+                                <span class="help-block">
+                            {{ $errors->first('fax') }}
+                        </span>
+                            @endif
+                        </div>
+                    </div>
                     <div class="form-group {{ $errors->has('garage_zipcode') ? 'has-error' : '' }} garage_zipcode">
                         <label for="inputGarage" class="control-label col-md-3">우편번호</label>
                         <div class="col-md-6 ">
                             <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_zipcode') }}" name="garage_zipcode" id="garage_zipcode" value="{{ $garage_info->zipcode }}">
+                            <span class="help-block">{{ trans('bcs/bcs-info.help-zipcode') }}</span>
                         </div>
                     </div>
                     <div class="form-group {{ $errors->has('garage_area') ? 'has-error' : '' }} garage_area">
                         <label for="inputGarage" class="control-label col-md-3">시/도</label>
                         <div class="col-md-6 ">
                             <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_area') }}" name="garage_area" id="garage_area" value="{{ $garage_info->area }}">
+                            <span class="help-block">{{ trans('bcs/bcs-info.help-area') }}</span>
                         </div>
                     </div>
                     <div class="form-group {{ $errors->has('garage_name') ? 'has-error' : '' }} garage_section">
                         <label for="inputGarage" class="control-label col-md-3">구/군</label>
                         <div class="col-md-6 ">
                             <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_section') }}" name="garage_section" id="garage_section" value="{{ $garage_info->section }}">
+                            <span class="help-block">{{ trans('bcs/bcs-info.help-section') }}</span>
                         </div>
                     </div>
                     <div class="form-group {{ $errors->has('garage_address') ? 'has-error' : '' }} garage_address">
                         <label for="inputGarage" class="control-label col-md-3">나머지 주소</label>
                         <div class="col-md-6 ">
                             <input type="text" class="form-control" placeholder="{{ trans('admin/user.garage_address') }}" name="garage_address" id="garage_address" value="{{ $garage_info->address }}">
+                            <span class="help-block">{{ trans('bcs/bcs-info.help-address') }}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group {{ $errors->has('registration_number') ? 'has-error' : '' }} registration_number">
+                        <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.registration_number') }}</label>
+                        <div class="col-md-6 ">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.registration_number') }}" name="registration_number" id="registration_number" value="{{ $user_extras->registration_number }}">
+                            {{--<span class="help-block">{{ trans('bcs/bcs-info.help-address') }}</span>--}}
+                        </div>
+                    </div>
+                    <div class="form-group {{ $errors->has('bank') ? 'has-error' : '' }} bank">
+                        <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.bank') }}</label>
+                        <div class="col-md-6 ">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.bank') }}" name="bank" id="bank" value="{{ $user_extras->bcs_bank }}">
+                            <span class="help-block">{{ trans('admin/user.help-bank') }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group {{ $errors->has('account') ? 'has-error' : '' }} account">
+                        <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.account') }}</label>
+                        <div class="col-md-6 ">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.account') }}" name="account" id="account" value="{{ $user_extras->bcs_account }}">
+                            <span class="help-block">{{ trans('admin/user.help-account') }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group {{ $errors->has('owner') ? 'has-error' : '' }} bank">
+                        <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.owner') }}</label>
+                        <div class="col-md-6 ">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/user.owner') }}" name="owner" id="owner" value="{{ $user_extras->bcs_account_name }}">
+                            {{--<span class="help-block">{{ trans('admin/user.help-bank') }}</span>--}}
                         </div>
                     </div>
                 </div>
+
+
+                <div class="form-group with_eng hide">
+                    <label for="inputUserEngineer" class="control-label col-md-3">정비사 선택</label>
+                    <div class="col-md-3">
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default" id="with_eng_lavel">
+                                <input type="checkbox" name="with_eng" autocomplete="off" value="5"><i class="fa fa-check" aria-hidden="true"></i>
+                                정비사
+                            </label>
+                        </div>
+
+                        @if ($errors->has('with_eng'))
+                            <span class="help-block">
+                        {{ $errors->first('with_eng') }}
+                    </span>
+                        @endif
+                    </div>
+                </div>
+
 
                 <div class="form-group {{ $errors->has('status_cd') ? 'has-error' : '' }}">
                     <label for="inputUserStatus" class="control-label col-md-3">{{ trans('admin/user.status') }}</label>
@@ -183,12 +254,20 @@
 
 
                 <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
-                    <label for="inputAvatar" class="control-label col-md-3">{{ trans('admin/user.avatar') }}</label>
+                    <label for="inputAvatar" class="control-label col-md-3">
+
+                    @if($user->role_user->role_id != 4)
+                            {{ trans('admin/user.avatar') }}
+                    @else
+                            대표자 사진
+                    @endif
+
+                    </label>
                     <div class="col-md-6">
                         <div class="fileinput fileinput-new" data-provides="fileinput">
 
                             <div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
-                                {{ Html::image('/avatar/'.$user->id, 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}                            
+                                {{ Helper::imageTag('/avatar/'.$user->id, 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
                             </div>
                             <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 200px;"></div>
                             <div>
@@ -208,6 +287,28 @@
                         @endif
                     </div>
                 </div>
+
+            @if($user->role_user->role_id == 4)
+                <!-- 파일 업로드 -->
+                <div class="form-group attachment">
+                    <label for="" class="control-label col-md-3">정비소 관련자료</label>
+
+                    <div class="col-md-9">
+
+                        <div class="plugin-attach" id="plugin-attachment"></div>
+
+                        @if ($errors->has('attachment'))
+                            <span class="help-block">
+                            {{ $errors->first('attachment') }}
+                        </span>
+                        @endif
+
+                    </div>
+
+                </div>
+            @endif
+
+
 
 
                 <div class="form-group">
@@ -305,21 +406,76 @@
 
 @push( 'footer-script' )
 
+<link rel="stylesheet" href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}" />
+<script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
+<script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
+<script type="text/template" id="qq-template">@include("partials/files", ['files'=> $user->files])</script>
 <script type="text/javascript">
     $(function () {
-        var load_role = $('.role_selector option:selected').val();
+        $('#plugin-attachment').fineUploader({
+            debug: true,
+            //        template: 'qq-template',
+            request: {
+                inputName: "upfile",
+                endpoint: '/file/upload',
+                customHeaders: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            },
+            deleteFile: {
+                enabled: true,
+                endpoint: '/file/delete',
+                customHeaders: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            },
+            thumbnails: {
+                placeholders: {
+                    waitingPath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/waiting-generic.png' ) }}",
+                    notAvailablePath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/not_available-generic.png' ) }}",
+                }
+            },
+            validation: {
+                //            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'hwp'],
+                itemLimit: 3,
+                sizeLimit: 5120000, // 50 kB = 50 * 1024 bytes
+                stopOnFirstInvalidFile: true
+            },
+            callbacks: {
+                onSubmit: function (id, fileName) {
+                    this.setParams({'upfile_group': "bcs", 'upfile_group_id': "{{ $user->id }}"});
+                },
+                onComplete: function (id, fileName, responseJSON) {
+                    if (responseJSON.success == true) {
+                        $.notify(responseJSON.msg, "success");
+                    } else {
+                        $.notify(responseJSON.msg, "error");
+                    }
+                }
+            }
+        });
+
+
+
+
+//        var load_role = $('.role_selector option:selected').val();
+        var load_role = $('#user-role').val();
 
         // garage 랑 engineer 부분 데이터 로드
-        if(load_role == 5){
-            $('#garage_info').css('display', 'none');
-            $('.garage').css('display', '');
-        }else if(load_role == 4){
+        if($.inArray("5", load_role) >= 0 && $.inArray("4", load_role) >= 0){
             $('#garage_info').css('display', '');
             $('.garage').css('display', 'none');
+            $('.with_eng').removeClass('hide');
+            $('#with_eng_lavel').click();
         }
-
-
-
+        else if($.inArray("4", load_role) >= 0){
+            $('#garage_info').css('display', '');
+            $('.garage').css('display', 'none');
+            $('.with_eng').removeClass('hide');
+        }else if($.inArray("5", load_role) >= 0){
+            $('#garage_info').css('display', 'none');
+            $('.garage').css('display', '');
+        }
 
 
 
@@ -327,32 +483,25 @@
         var $frm_target = $('#frm-user');
 
         $('.roles').on("click", '.role_selector', function (){
-            if($('.role_selector option:selected').val() == 5){
+            var roles = $('#user-role').val();
+
+            if($.inArray("5", roles) >= 0){
                 $('#garage_info').css('display', 'none');
                 $("#garage-modal").modal();
             }
-            else if ($('#user-role option:selected').val() == 4){
+            else if($.inArray("4", roles) >= 0){
                 $('#garage_info').css('display', '');
                 $('.garage').css('display', 'none');
-//                $('#garage_name').val('');
-//                $('#garage_tel').val('');
-//                $('#garage_zipcode').val('');
-//                $('#garage_area').val('');
-//                $('#garage_section').val('');
-//                $('#garage_address').val('');
+                $('.attachment').css('display', '');
             }
-            else{
-                $('.garage').css('display', 'none');
-                $('#garage_info').css('display', 'none');
-                $('#selected_garage').val('');
-            }
+
         });
 
         $("#tbody").delegate(".select-garage", "click", function(){
             $('#selected_garage').val($(this).text());
             $('.garage').css('display', '');
             $("#garage-modal").modal('hide');
-
+            $('.attachment').css('display', 'none');
         });
 
         $('#search').click(function (){

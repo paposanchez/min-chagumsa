@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use DB;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Order;
 
@@ -19,8 +20,6 @@ class Certificate Extends Model
         'price',
         'grade',
         'expire_period',
-        'created_at',
-        'updated_at',
         'opinion',
         'history_insurance',
         'history_insurance_file',
@@ -64,4 +63,16 @@ class Certificate Extends Model
     public function getVinCd(){
         return $this->hasOne(Code::class, 'id', 'vin_yn_cd');
     }
+
+    public function isExpired()
+    {
+         return  Carbon::now() >= $this->order->diagnosed_at->addDays($this->expire_period);
+    }
+
+    public function getExpireDate()
+    {
+           return $this->order->diagnosed_at->addDays($this->expire_period);
+    }
+
+
 }

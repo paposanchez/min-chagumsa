@@ -12,6 +12,10 @@ Breadcrumbs::register('admin.post', function($breadcrumbs) {
     $breadcrumbs->parent('admin');
     $breadcrumbs->push(trans("admin/post.title"), route('post.index'));
 });
+Breadcrumbs::register('admin.test', function($breadcrumbs) {
+    $breadcrumbs->parent('admin');
+    $breadcrumbs->push('테스트 주문', route('test.index'));
+});
 Breadcrumbs::register('admin.comment', function($breadcrumbs) {
     $breadcrumbs->parent('admin');
     $breadcrumbs->push(trans("admin/comment.title"), route('comment.index'));
@@ -59,7 +63,10 @@ Breadcrumbs::register('admin.diagnosis', function($breadcrumbs) {
     $breadcrumbs->push(trans("admin/diagnosis.title"), route('diagnosis.index'));
 });
 
-
+Breadcrumbs::register('admin.sms', function($breadcrumbs) {
+    $breadcrumbs->parent('admin');
+    $breadcrumbs->push('SMS 전송', route('sms.index'));
+});
 
 //############################## Web
 Breadcrumbs::register('web', function($breadcrumbs) {
@@ -109,7 +116,31 @@ Breadcrumbs::register('web.mypage.history', function($breadcrumbs) {
 //############################## BCS
 Breadcrumbs::register('bcs.order', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push(trans("admin/order.title"), route("order.index"));
+    $breadcrumbs->push(trans("bcs/order.title"), route("bcs.order.index"));
+});
+Breadcrumbs::register('bcs', function($breadcrumbs){
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/dashboard.title"), url('/'));
+});
+Breadcrumbs::register('bcs.calculation', function($breadcrumbs) {
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/calculation.title"), route('bcs.calculation.index'));
+});
+Breadcrumbs::register('bcs.user', function($breadcrumbs) {
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/user.title"), route('bcs.user.index'));
+});
+Breadcrumbs::register('bcs.notice', function($breadcrumbs) {
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/notice.title"), route('bcs.notice.index'));
+});
+Breadcrumbs::register('bcs.info', function($breadcrumbs) {
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/bcs-info.title"), route('bcs.info.index'));
+});
+Breadcrumbs::register('bcs.diagnosis', function($breadcrumbs) {
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push(trans("bcs/diagnosis.title"), route('bcs.diagnosis.index'));
 });
 
 //############################## Technician

@@ -1,36 +1,20 @@
-@extends( 'web.layouts.default' )
-
+@extends( 'web.layouts.blank' )
 @section( 'content' )
 
-<div id='sub_title_wrap'><h2>회원가입<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>회원가입</span></div></h2></div>
+<!-- <div id='sub_title_wrap'><h2>회원가입<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>회원가입</span></div></h2></div> -->
 
-<div id='sub_wrap'>
-
-
-	<div class='join_wrap'>
+<div id="sub_full_wrap">
+    <div class="login_box_wrap" style="padding:20px;">
 
 
-		<ul class='join_step text-center'>
-			<li class='on'>
-				<strong>01</strong>
-				<span>약관동의</span>
-			</li>
-			<li>
-				<strong>02</strong>
-				<span>회원정보입력</span>
-			</li>
-			<li>
-				<strong>03</strong>
-				<span>회원가입완료</span>
-			</li>
-		</ul>
+            <div class="text-center" style="margin:20px 0px 20px;">
+                      {{ Html::image('/assets/themes/v1/web/img/comm/head_logo.png') }}
+                    <h3>회원가입</h3>
+            </div>
 
-
-
-		<div class='br30'></div>
-		<div class='br20'></div>
 
 		{!! Form::open(['method' => 'GET','route' => ['register'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data", "autocomplete" => "off", 'role' => 'form', 'id'=>'join-form']) !!}
+
 		<div class='join_term_wrap'>
 			<label>이용약관</label>
 			<div class='term_area'>
@@ -65,13 +49,18 @@
 			</div>
 		</div>
 
-		<div class='br30'></div>
-		<div class='br30'></div>
 
-		<div class='ipt_line wid45'>
-			<button class='btns btns_blue wid45' type="button" id="disagree" style='display:inline-block;'>동의하지 않음</button>&nbsp;&nbsp; <button type="submit" class='btns btns_green wid45' style='display:inline-block;'>동의</button>
-		</div>
-    	{!! Form::close() !!}
+
+         <div class='br30'></div>
+
+            <p class="text-center">
+
+                <button class="btn btn-lg btn-success btns_green" data-loading-text="처리중..." type="submit">동의합니다</button>
+
+            </p>
+            {!! Form::close() !!}
+
+
 
 	</div>
 

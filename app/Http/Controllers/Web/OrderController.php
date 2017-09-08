@@ -25,6 +25,9 @@ use App\Models\Payment;
 use App\Models\PaymentResult;
 use App\Models\ScTran;
 
+use App\Models\Coupon;
+use Illuminate\Support\Facades\Crypt;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -32,22 +35,29 @@ use Illuminate\Support\Facades\Validator;
 use App\Tpay\TpayLib as Encryptor;
 use GuzzleHttp\Client;
 
-class OrderController extends Controller {
+class OrderController extends Controller
+{
+
 
     //todo 현재 테스트 계정임. 변경할
-    protected $merchantKey = "VXFVMIZGqUJx29I/k52vMM8XG4hizkNfiapAkHHFxq0RwFzPit55D3J3sAeFSrLuOnLNVCIsXXkcBfYK1wv8kQ==";//상점키
-    protected $mid = "tpaytest0m";//상점id
-    
-    public function index(Request $request) {
+    protected $merchantKey;//상점키
+    protected $mid;//상점id
+
+    public function __construct()
+    {
+        $this->merchantKey = env('PG_KEY');
+        $this->mid = env('PG_ID');
+    }
+
+    public function index(Request $request)
+    {
         $user = Auth::user();
-        if(!$user){
+        if (!$user) {
             return redirect('/login')->with('error', '로그인이 필요한 서비스입니다.');
         }
 
-        $user = Auth::user();
-
-        if($user->status_cd != 1){
-            return redirect('/mypage/profile')->with('error', "현재 계정이 비활성화 상태입니댜.<br>계정이 활성화되어야 주문신청이 가능합니다.");
+        if ($user->status_cd != 1) {
+            return redirect('/mypage/profile')->with('error', "현재 계정이 비활성화 상태입니댜. <br>계정이 활성화되어야 주문신청이 가능합니다.");
         }
 
 
@@ -59,137 +69,28 @@ class OrderController extends Controller {
         $multimedia_option = Code::where('group', 'car_option_multimedia')->get();
 
         $items = Item::where("id", ">", "0")->get();
- 
+
         $search_fields = [
-            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
+            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
         ];
 
-//        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->pluck('garage_id', 'area');
-        $garages = GarageInfo::orderBy('area', 'DESC')->groupBy('area')->get();
 
-//        return view('web.order.index', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
-        return view('web.order.index_2', compact('items','garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
+        $garages = UserExtra::orderBy('area', 'DESC')->groupBy('area')->whereNotNull('aliance_id')->get();
+
+
+        return view('web.order.index', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
+        //        return view('web.order.index_2', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
+
     }
 
-    public function reservation(Request $request) {
 
+    public function reservation(Request $request)
+    {
 
-//         $validate = Validator::make($request->all(), [
-//             'orderer_name' => 'required',
-//             'orderer_mobile' => 'required',
-//             'car_number' => 'required',
-//             'brands_id' => 'required',
-//             'models_id' => 'required',
-//             'details_id' => 'required',
-//             'grades_id' => 'required',
-//             'flooding' => 'required',
-//             'accident' => 'required'
-//         ]);
-//
-//         if ($validate->fails())
-//         {
-//             foreach ($validate->messages()->getMessages() as $field_name => $messages)
-//             {
-// //                var_dump($messages); // messages are retrieved (publicly)
-//             }
-//             return redirect()->back()->with('error', '입고예약에 대한 정보를 충분히 입력하세요.');
-//         }
-
-//        $search_fields = [
-//            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시','15' => '15시','16' => '16시','17' => '17시'
-//        ];
-//
-//        $garages = GarageInfo::orderBy('area', 'ASC')->groupBy('area')->get();
-//
-//        return view('web.order.reservation', compact('search_fields', 'request', 'garages', 'garage_sections'));
     }
 
-//    public function purchase(Request $request) {
-//
-//
-//        return view('web.order.purchase', compact('order', 'items', 'request'));
-//    }
-
-    public function purchase(Request $request) {
-
-//        $datekey = substr(str_replace("-","",$request->reservaton_date), -6);
-//
-//        $orderer_id = Auth::user()->id;
-//
-//        $order = Order::where('datekey', $datekey)->where('car_number', $request->get('car_number'))->first();
-//
-//        if(!$order){
-//            $order = new Order();
-//         }
-//
-//        $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
-//        if(!$car){
-//            $car = new Car();
-//            $car->vin_number = $request->get('car_number');
-//            $car->brands_id = $request->get('brands_id');
-//            $car->models_id = $request->get('models_id');
-//            $car->details_id = $request->get('details_id');
-//            $car->grades_id = $request->get('grades_id');
-//            $car->save();
-//
-//        }
-//        $cars_id = $car->id; //자동차 ID 설정
-//
-//        $order->datekey = $datekey;
-//        $order->car_number = $request->get('car_number');
-//        $order->cars_id = $car->id;
-//        $order->garage_id = $request->get('garage_id');
-//        $order->orderer_id = $orderer_id;
-//        $order->orderer_name = $request->get('orderer_name');
-//        $order->orderer_mobile = $request->get('orderer_mobile');
-//        $order->registration_file = 0;
-//
-//        $order->open_cd = 1327; //default로 비공개코드 삽입
-//        $order->status_cd = 101;
-//        $order->flooding_state_cd = $request->get('flooding');
-//        $order->accident_state_cd = $request->get('accident');
-//        $order->item_id = 0;
-//
-//        $purchase = new Purchase();
-//        $purchase->amount = 0; //결제 완료 후 update
-//        $purchase->type = 0; // 결제방법
-//        $purchase->status_cd = 101; // 결제상태
-//        $purchase->save();
-//
-//        $order->purchase_id = $purchase->id;
-//        $order->save();
-//
-//
-//
-//        $orders_id = $order->id;
-//
-//        if($request->get('options_ck') != []){
-//            $order_features = OrderFeature::where('orders_id', $order->id)->first();
-//            if(!$order_features){
-//                $order_features = new OrderFeature();
-//            }else{
-//                OrderFeature::where('orders_id', $order->id)->delete();
-//            }
-//            $order_features_list = [];
-//            foreach ($request->get('options_ck') as $key => $options){
-//                $order_features_list[$key]['orders_id'] = $order->id;
-//                $order_features_list[$key]['features_id'] = $options;
-//            }
-//            $order_features->insert($order_features_list);
-//            $order_features->save();
-//        }
-//        $items = Item::all();
-////        $order = Order::find(4)->first();
-//
-//        $garage_info = GarageInfo::findOrFail($request->get('garage_id'));
-//
-//
-//        $date = new \DateTime($request->reservaton_date);
-//
-//        $reservation_date = $date->format('Y년 m월d일');
-
-
-//        return view('web.order.purchase', compact('order', 'items', 'garage_info', 'request', 'datekey', 'cars_id', 'orders_id', 'reservation_date'));
+    public function purchase(Request $request)
+    {
 
     }
 
@@ -199,70 +100,74 @@ class OrderController extends Controller {
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function paymentPopup(Request $request){
+    public function paymentPopup(Request $request)
+    {
 
-//        $validate = Validator::make($request->all(), [
-//            'item_id' => 'required',        // item seq
-//            'payment_price' => 'required',  // item 가격
-//            'payment_method' => 'required', // 결제 방식 11 = 카드, 12 = 실시간 계좌 이체
-//            'orderer_name' => 'required',   // 주문자 이름
-//            'orderer_mobile' => 'required',
-//            'areas' => 'required',          // 정비소 시/도
-//            'sections' => 'required',       // 정비소 구/군
-//            'garages' => 'required',        // 정비소명
-//            'reservation_date' => 'required',// 예약날짜 (Y-m-d)
-//            'sel_time' => 'required',       // 예약 시간
-//            'car_number' => 'required',     // 차량 번호
-//            'brands' => 'required',         // 브랜드 seq
-//            'models' => 'required',         // 모델 seq
-//            'details' => 'required',        // 디테일 seq
-//            'grades' => 'required',         // 등급 seq
-//        ]);
-//
-//        if ($validate->fails())
-//        {
-//            foreach ($validate->messages()->getMessages() as $field_name => $messages)
-//            {
-//                //                var_dump($messages); // messages are retrieved (publicly)
-//            }
-//            return redirect()->back()->with('error', '인증서 신청 정보를 충분히 입력하세요.');
-//        }
+
+        //        $validate = Validator::make($request->all(), [
+        //            'item_id' => 'required',        // item seq
+        //            'payment_price' => 'required',  // item 가격
+        //            'payment_method' => 'required', // 결제 방식 11 = 카드, 12 = 실시간 계좌 이체
+        //            'orderer_name' => 'required',   // 주문자 이름
+        //            'orderer_mobile' => 'required',
+        //            'areas' => 'required',          // 정비소 시/도
+        //            'sections' => 'required',       // 정비소 구/군
+        //            'garages' => 'required',        // 정비소명
+        //            'reservation_date' => 'required',// 예약날짜 (Y-m-d)
+        //            'sel_time' => 'required',       // 예약 시간
+        //            'car_number' => 'required',     // 차량 번호
+        //            'brands' => 'required',         // 브랜드 seq
+        //            'models' => 'required',         // 모델 seq
+        //            'details' => 'required',        // 디테일 seq
+        //            'grades' => 'required',         // 등급 seq
+        //        ]);
+        //
+        //        if ($validate->fails())
+        //        {
+        //            foreach ($validate->messages()->getMessages() as $field_name => $messages)
+        //            {
+        //                //                var_dump($messages); // messages are retrieved (publicly)
+        //            }
+        //            return redirect()->back()->with('error', '인증서 신청 정보를 충분히 입력하세요.');
+        //        }
         $orderer = Auth::user();
 
 
         $datekey = Carbon::now()->format('ymd');
 
 
+//                $order = Order::OrderBy('id', 'DESC')->where('car_number', $request->get('car_number'))->first();
 
-        $order = Order::OrderBy('id', 'DESC')->where('car_number', $request->get('car_number'))->first();
 
+//        $garage_info = UserExtra::where('area', $request->get('areas'))
+//        ->where('section', $request->get('sections'))
+//        ->where('name', $request->get('garages'))->first();
+        $garage_info = UserExtra::where('users_id', $request->get('garages'))->first();
 
-        $garage_info = GarageInfo::where('area', $request->get('areas'))
-            ->where('section', $request->get('sections'))
-            ->where('name', $request->get('garages'))->first();
-        if(!$garage_info){
-            $garage_info = new GarageInfo();
+        if (!$garage_info) {
+            $garage_info = new UserExtra();
         }
 
-//        $car = Car::where('vin_number', $request->get('car_number'))->get()->first();
+
         $order_car = OrderCar::where('car_number', $request->get('car_number'))->first();
-        if(!$order_car){
+        if (!$order_car) {
             $order_car = new OrderCar();
-//            $order_car->vin_number = $request->get('car_number');
+            //            $order_car->vin_number = $request->get('car_number');
             $order_car->car_number = $request->get('car_number');
             $order_car->brands_id = $request->get('brands');
             $order_car->models_id = $request->get('models');
             $order_car->details_id = $request->get('details');
             $order_car->grades_id = $request->get('grades');
+            $order_car->save();
         }
 
 
-        if(!$order){
-            $order = new Order();
-        }
+//                if(!$order){
+        $order = new Order();
+//                }
         $order->car_number = $request->get('car_number');
-        $order->cars_id = $order_car->id;
-        $order->garage_id = $garage_info->id;
+        //        $order->cars_id = $order_car->id;
+        $order->garage_id = $garage_info->users_id;
         $order->orderer_id = $orderer->id;
         $order->orderer_name = $request->get('orderer_name');
         $order->orderer_mobile = $request->get('mobile');
@@ -270,15 +175,15 @@ class OrderController extends Controller {
         $order->open_cd = 1327; //default로 비공개코드 삽입 1326 인증서 공개 1327 인증서 비공개
         $order->status_cd = 101;
 
-        if($request->get('flooding')){
+        if ($request->get('flooding')) {
             $order->flooding_state_cd = 1;
-        }else{
+        } else {
             $order->flooding_state_cd = 0;
         }
 
-        if($request->get('accident')){
+        if ($request->get('accident')) {
             $order->accident_state_cd = 1;
-        }else{
+        } else {
             $order->accident_state_cd = 0;
         }
 
@@ -295,33 +200,34 @@ class OrderController extends Controller {
 
 
         // order_car 의 orders_id 입력
-        $order_car->orders_id = $order->id;
-        $order_car->save();
+        $my_order_car = OrderCar::where('car_number', $order_car->car_number)->first();
+        $my_order_car->orders_id = $order->id;
+        $my_order_car->save();
 
 
         // 예약 관련
-        $reservation_date = new \DateTime($request->get('reservation_date').' '.$request->get('sel_time').':00:00');
+        $reservation_date = new \DateTime($request->get('reservation_date') . ' ' . $request->get('sel_time') . ':00:00');
 
         $reservation = Reservation::where('orders_id', $order->id)->first();
-        if(!$reservation){
+        if (!$reservation) {
             $reservation = new Reservation();
         }
         $reservation->orders_id = $order->id;
-        $reservation->garage_id = $garage_info->garage_id;
+        $reservation->garage_id = $garage_info->users_id;
         $reservation->created_id = $order->orderer_id;
         $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
         $reservation->save();
 
 
-        if($request->get('options_ck') != []){
+        if ($request->get('options_ck') != []) {
             $order_features = OrderFeature::where('orders_id', $order->id)->first();
-            if(!$order_features){
+            if (!$order_features) {
                 $order_features = new OrderFeature();
-            }else{
+            } else {
                 OrderFeature::where('orders_id', $order->id)->delete();
             }
             $order_features_list = [];
-            foreach ($request->get('options_ck') as $key => $options){
+            foreach ($request->get('options_ck') as $key => $options) {
                 $order_features_list[$key]['orders_id'] = $order->id;
                 $order_features_list[$key]['features_id'] = $options;
             }
@@ -330,14 +236,14 @@ class OrderController extends Controller {
         }
 
         // payment_method 11 - 신용카드, 12 - 실시간 계좌이체
-        if(!in_array($request->get('payment_method'), [11, 12])){
+        if (!in_array($request->get('payment_method'), [11, 12])) {
             $error = true;
-        }else{
-            if($request->get('payment_method') == 11) {
+        } else {
+            if ($request->get('payment_method') == 11) {
                 $payMethod = 'CARD';
-            }elseif ($request->get('payment_method') == 12){
+            } elseif ($request->get('payment_method') == 12) {
                 $payMethod = 'BANK';
-            }else{
+            } else {
                 $error = true;
                 //결제 방식이 카드,체크카드,실시간계좌이체 이외에는 error임.
             }
@@ -345,16 +251,16 @@ class OrderController extends Controller {
 
 
         //결제금액을 구함.
-        if($request->get('payment_price')){
+        if ($request->get('payment_price')) {
             $amt = $request->get('payment_price');//결제금액
-        }else{
+        } else {
             $error = false;
         }
 
         $moid = $order->id;
         //$ediDate, $mid, $merchantKey, $amt
         $encryptor = new Encryptor($this->merchantKey);
-        $encryptData = $encryptor->encData($amt.$this->mid.$moid);
+        $encryptData = $encryptor->encData($amt . $this->mid . $moid);
         $ediDate = $encryptor->getEdiDate();
 
         $vbankExpDate = $encryptor->getVBankExpDate();
@@ -363,7 +269,8 @@ class OrderController extends Controller {
         $buyerName = $request->get('orderer_name');
         $buyerEmail = $orderer->email;
         $buyerTel = $request->get('orderer_mobile');
-        $product_name = $order->car_number." ".$order->getCarFullName();
+//        $product_name = $order->car_number . " " . $order->getCarFullName();
+        $product_name = $order->item->name;
         $mid = $this->mid;
         $merchantKey = $this->merchantKey;
 
@@ -373,7 +280,8 @@ class OrderController extends Controller {
         );
     }
 
-    public function paymentResult(Request $request){
+    public function paymentResult(Request $request)
+    {
         //webTx에서 받은 결과값들
         $payMethod = $request->get('payMethod');//
         $mid = $request->get('mid');//
@@ -420,11 +328,11 @@ class OrderController extends Controller {
         $receiptTypeNo = $request->get('receiptTypeNo');
 
 
-        try{
+        try {
             $encryptor = new Encryptor($this->merchantKey, $ediDate);
             $decAmt = $encryptor->decData($amt); //실제 결제금액
             $decMoid = $encryptor->decData($moid); // 결제시 등록된 주문번호
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $decAmt = null;
             $decMoid = null;
             $event = false; //결제확인이 완료되지 않음
@@ -432,56 +340,56 @@ class OrderController extends Controller {
 
         //등록된 정보 가져오기
         $order_where = Order::find($decMoid);
-        if($order_where){
+        if ($order_where) {
 
-//            $order_price = $order_where->item->price;
-//            $purchase_id = $order_where->purchase_id;
-//
-//            //결제결과 purchase update
-//            $purchase = Purchase::find($purchase_id);
-//            $purchase->status_cd = 102;
-//            $purchase->amount =;
-//            $purchase->refund_name =;
-//            $purchase->refund_bank =;
-//            $purchase->refund_account =;
-//            $purchase->type=; //todo type이 실시간 계좌이체일 시 계좌관련정보(위에 property)를 갱신한다.
-//            $purchase->save();
-//
-//            //order 결제상태 변경
-//            $order_where->item_id =;
-//            $order_where->status_cd = 102;
-//            $order_where->save();
+            //            $order_price = $order_where->item->price;
+            //            $purchase_id = $order_where->purchase_id;
+            //
+            //            //결제결과 purchase update
+            //            $purchase = Purchase::find($purchase_id);
+            //            $purchase->status_cd = 102;
+            //            $purchase->amount =;
+            //            $purchase->refund_name =;
+            //            $purchase->refund_bank =;
+            //            $purchase->refund_account =;
+            //            $purchase->type=; //todo type이 실시간 계좌이체일 시 계좌관련정보(위에 property)를 갱신한다.
+            //            $purchase->save();
+            //
+            //            //order 결제상태 변경
+            //            $order_where->item_id =;
+            //            $order_where->status_cd = 102;
+            //            $order_where->save();
 
             $order_price = $order_where->item->price;
             $purchase_id = $order_where->purchase_id;
 
 
-        }else{
+        } else {
             $order_where = new Order();
             $order_price = false;
             $purchase_id = false;
 
         }
 
-//        if( $decAmt != $order_price || $decMoid != $order_where->id ){
+        //        if( $decAmt != $order_price || $decMoid != $order_where->id ){
         //todo 실 결제 처리시에는 위의 주석된 부분으로
-        if( $decMoid != $order_where->id ){
+        if ($decMoid != $order_where->id) {
 
             $result = "결제처리 진행 중입니다.";
             $event = true; //결제완료
-        }else{
+        } else {
 
 
             //결제결과 purchase update
             $purchase = Purchase::find($purchase_id);
             $purchase->status_cd = 102;
-            $purchase->amount =$decAmt;
+            $purchase->amount = $decAmt;
 
 
-            if($payMethod == 'CARD'){
+            if ($payMethod == 'CARD') {
                 $purchase->type = 11;
-            }elseif ($payMethod == 'BANK'){
-                $purchase->type= 12;
+            } elseif ($payMethod == 'BANK') {
+                $purchase->type = 12;
 
                 $purchase->refund_name = $buyerName;
                 $purchase->refund_bank = $fnName;
@@ -491,11 +399,9 @@ class OrderController extends Controller {
             $purchase->save();
 
             //order 결제상태 변경
-//            $order_where->item_id =;
+            //            $order_where->item_id =;
             $order_where->status_cd = 102;
             $order_where->save();
-
-
 
 
             //상점DB처리
@@ -553,7 +459,7 @@ class OrderController extends Controller {
 
             $url = 'https://webtx.tpay.co.kr/resultConfirm';
 
-            if($tid){
+            if ($tid) {
                 $client = new Client();
                 $contents = $client->post($url, [
                     'form_params' => [
@@ -576,7 +482,9 @@ class OrderController extends Controller {
      * 결제 callback action. purchase에서 처리 에러가 발생시 콜백을 통하여 처리 가능함.
      * @param Request $request
      */
-    public function payResult(Request $request){
+    public function payResult(Request $request)
+    {
+
         $payMethod = $request->get('payMethod');//
         $mid = $request->get('mid');//
         $tid = $request->get('tid');//
@@ -622,37 +530,35 @@ class OrderController extends Controller {
         $receiptTypeNo = $request->get('receiptTypeNo');
 
 
-
         //todo moid값이 정확히 오는것을 확인하기 위하여 order_where 에 대한 체크를 구성 안함.
 
-        try{
+        try {
             $encryptor = new Encryptor($this->merchantKey, $ediDate);
             $decAmt = $encryptor->decData($amt); //실제 결제금액
             $decMoid = $encryptor->decData($moid); // 결제시 등록된 주문번호
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $decAmt = null;
             $decMoid = null;
 
         }
 
 
-
         //등록된 정보 가져오기
         $order_where = Order::find($decMoid);
-        if($order_where){
+        if ($order_where) {
             $order_price = $order_where->item->price;
             $purchase_id = $order_where->purchase_id;
 
 
         }
 
-        if( $decAmt != $order_price || $decMoid != $order_where->id ){
+        if ($decAmt != $order_price || $decMoid != $order_where->id) {
             $result = "error";
-        }else{
+        } else {
 
             $payment = Payment::where('orders_id', $order_where->id)->first();
 
-            if(!$payment){
+            if (!$payment) {
                 $payment = new Payment();
                 //결제정보 등록
                 $payment->payMethod = $payMethod;
@@ -697,24 +603,24 @@ class OrderController extends Controller {
                 $payment->save();
             }
 
-            if($order_where->status_cd != 102){
+            if ($order_where->status_cd != 102) {
                 $order_where->status_cd = 102;
                 $order_where->save();
             }
 
             //결제결과 purchase update
             $purchase = Purchase::find($purchase_id);
-            if($purchase){
+            if ($purchase) {
 
-                if($purchase->status_cd != 102){
+                if ($purchase->status_cd != 102) {
                     $purchase->status_cd = 102;
-                    $purchase->amount =$decAmt;
+                    $purchase->amount = $decAmt;
 
 
-                    if($payMethod == 'CARD'){
+                    if ($payMethod == 'CARD') {
                         $purchase->type = 11;
-                    }elseif ($payMethod == 'BANK'){
-                        $purchase->type= 12;
+                    } elseif ($payMethod == 'BANK') {
+                        $purchase->type = 12;
 
                         $purchase->refund_name = $buyerName;
                         $purchase->refund_bank = $fnName;
@@ -731,7 +637,7 @@ class OrderController extends Controller {
 
             $url = 'https://webtx.tpay.co.kr/resultConfirm';
 
-            if($tid){
+            if ($tid) {
                 $client = new Client();
                 $contents = $client->post($url, [
                     'form_params' => [
@@ -744,27 +650,36 @@ class OrderController extends Controller {
 
         return \GuzzleHttp\json_encode(['result' => 'ok']);
     }
-    
-    public function complete(Request $request) {
+
+    public function complete(Request $request)
+    {
         //todo 결제정보에서 데이터를 request로 받는다는 전제하에 작성
         // $moid 주문번호
         //todo 예약일자를 받아와야한다
 
         $order = Order::where('id', $request->get('orders_id'))->first();
-
-        if($order){
-            //주문정보 갱신함.
-            $order->status_cd = 103;
-            $order->save();
-            $error = null;
-        }else{
-            $order = new Order();
-            $error = "잘못된 접근 또는 결제가 정상 처리되지 못하였습니다.\n관리자에게 문의해 주세요.";
+        // ->where("status_cd", 102)
+        if (!$order) {
+            return redirect("/order")->with("error", "잘못된 접근 또는 결제가 정상 처리되지 못하였습니다. 관리자에게 문의해 주세요.");
         }
-        return view('web.order.complete', compact('order', 'error'));
+
+        $is_coupon = $request->get('is_coupon');
+        $coupon = Coupon::find($request->get('coupon_id'));
+        if ($coupon) {
+            $coupon_kind = $coupon->coupon_kind;
+        } else {
+            $coupon_kind = '쿠폰주문 상품입니다.';
+        }
+
+        //주문정보 갱신함.
+
+        $reservation = $order->reservation;
+        return view('web.order.complete', compact('order', 'reservation', 'is_coupon', 'coupon_kind'));
     }
 
-    public function orderCancelCallback(Request $request){
+
+    public function orderCancelCallback(Request $request)
+    {
 
         $payMethod = $request->get('payMethod');
         $ediDate = $request->get('ediDate');
@@ -780,41 +695,38 @@ class OrderController extends Controller {
         //파라미터 연동을 위하여 내용을 우선 file에 저장함
         $params = $request->all();
         $param_str = implode(", ", array_map(
-            function($v, $k) {
+            function ($v, $k) {
                 return sprintf("%s='%s'", $k, $v);
             },
             $params,
             array_keys($params)
         ));
-        $fp = fopen("/tmp/pay-cancel.txt", "w");
-        fwrite($fp, $param_str, 2048);
-        fclose($fp);
 
-        try{
+        try {
             $encryptor = new Encryptor($this->merchantKey, $ediDate);
             $decAmt = $encryptor->decData($cancelAmt); //실제 결제 취소 금액
             $decMoid = $encryptor->decData($moid); // 결제시 등록된 주문번호
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $decAmt = null;
             $decMoid = null;
 
         }
 
         $order_where = Order::find($decMoid);
-        if($order_where){
+        if ($order_where) {
             $order_price = $order_where->item->price;
-            if($order_price == $cancelAmt){
+            if ($order_price == $cancelAmt) {
                 //주문 취소 완료 해야함.
                 $order_where->status_cd = 100;
                 $order_where->save();
                 $cancel_result = 1;
-            }else{
+            } else {
                 $cancel_result = 0;
             }
 
             //결제취소 내역을 저장한다.
             $payment_cancel = PaymentCancel::where('moid', $moid)->first();
-            if(!$payment_cancel){
+            if (!$payment_cancel) {
                 $payment_cancel = new PaymentCancel();
             }
 
@@ -832,7 +744,7 @@ class OrderController extends Controller {
             $payment_cancel->save();
 
 
-        }else{
+        } else {
             $cancel_result = -1;
         }
 
@@ -840,84 +752,78 @@ class OrderController extends Controller {
 
     }
 
-    public function getModels(Request $request) {
+    public function getModels(Request $request)
+    {
         $brand_id = $request->get('brand');
         $models = Models::where('brands_id', $brand_id)->get();
         return $models;
     }
 
-    public function getDetails(Request $request) {
+    public function getDetails(Request $request)
+    {
         $model_id = $request->get('model');
         $details = Detail::where('models_id', $model_id)->get();
         return $details;
     }
 
-    public function getGrades(Request $request) {
+    public function getGrades(Request $request)
+    {
         $detail_id = $request->get('detail');
         $grades = Grade::where('details_id', $detail_id)->get();
         return $grades;
     }
 
-    public function selItem(Request $request) {
+    public function selItem(Request $request)
+    {
         $item = Item::find($request->get('sel_item'));
         return $item;
     }
 
-    public function getSection(Request $request) {
-        $garage_sections = GarageInfo::where('area',$request->get('garage_area'))->GroupBy('section');
-        if($garage_sections){
-            $json = $garage_sections->get()->toArray();
-        }else{
-            $json = [];
-        }
-        return \GuzzleHttp\json_encode($json);
-    }
+    public function getSection(Request $request)
+    {
+        $users = \App\Models\Role::find(4)->users;
+        $sections = [];
+        foreach ($users as $user) {
+            if ($user->user_extra->area == $request->get('garage_area')) {
+                $sections[$user->user_extra->section] = $user->user_extra->section;
+            }
 
-    public function getAddress(Request $request) {
-        $selected_garage =  GarageInfo::where('area', $request->get('sel_area'))->where('section', $request->get('sel_section'));
-
-        if($selected_garage){
-            $json = $selected_garage->get()->toArray();
-        }else{
-            $json = [];
         }
 
-//        if($request->get('sel_section')){
-//            $selected_garage->where('section', $request->get('sel_section'));
-//        }
-//
-//        if($selected_garage){
-//            $selected_garage_list = $selected_garage->get()->toArray();
-//
-//            foreach ($selected_garage->get() as $key => $garage){
-//                if($garage->user) {
-//                    $user_info = $garage->user->toArray();
-//                    $selected_garage_list[$key]['user_info'] = $user_info;
-//                }
-//            }
-//        }else{
-//            $selected_garage_list = [];
-//        }
-
-
-
-
-        return \GuzzleHttp\json_encode($json, true);
-//        return \GuzzleHttp\json_encode(['ddd', 'ddd'], true);
-    }
-
-
-
-    ////////////////////////
-    public function verification(Request $request) {
+        return response()->json(array_keys($sections));
 
     }
 
-    public function factory() {
+    public function getAddress(Request $request)
+    {
+
+        $users = \App\Models\Role::find(4)->users;
+        $garages = [];
+        foreach ($users as $user) {
+            if ($user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
+                $garages[$user->id] = $user->name;
+            }
+
+        }
+
+        return response()->json($garages);
 
     }
 
-    public function process() {
+
+////////////////////////
+    public function verification(Request $request)
+    {
+
+    }
+
+    public function factory()
+    {
+
+    }
+
+    public function process()
+    {
 
     }
 
@@ -925,7 +831,8 @@ class OrderController extends Controller {
      * SMS 전송 메소드
      * @param Request $request
      */
-    public function sendSms(Request $request){
+    public function sendSms(Request $request)
+    {
         $validate = Validator::make($request->all(), [
             'mobile_num' => 'required',
         ]);
@@ -934,11 +841,10 @@ class OrderController extends Controller {
             'result' => '', 'id' => '', 'error' => '', 'error_msg' => ''
         ];
 
-        if ($validate->fails())
-        {
+        if ($validate->fails()) {
             $result['result'] = 'FAIL';
             $result['error'] = '000';
-        }else{
+        } else {
             $rand_num = rand(100000, 999999);
             $data = [
                 'mobile_num' => $request->get('mobile_num'), 'comfirm_msg' => $rand_num,
@@ -947,21 +853,21 @@ class OrderController extends Controller {
 
             $tr_phone = $request->get('mobile_num');
             $tr_callback = "1833-6889";
-            $tr_msg = "차검사 주문신청 인증번호: ".$rand_num;
+            $tr_msg = "차검사 주문신청 인증번호: " . $rand_num;
             $tr_sendstat = 0;
             $tr_msgtype = 0;
 
-            try{
+            try {
                 $sms_model = new \App\Models\ScTran();
                 $sms_model->send($tr_phone, $tr_callback, $tr_msg, $tr_sendstat, $tr_msgtype);
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $result['result'] = 'FAIL';
                 $result['error'] = '001';
                 $result['error_msg'] = $e->getMessage();
             }
 
             $data['send_time'] = time();
-            try{
+            try {
                 $sms_chk_model = new SmsTemp();
                 $sms_chk_model->mobile_num = $request->get('mobile_num');
                 $sms_chk_model->confirm_msg = $rand_num;
@@ -970,12 +876,11 @@ class OrderController extends Controller {
 
                 $result['result'] = 'OK';
                 $result['id'] = $sms_chk_model->id;
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $result['result'] = 'FAIL';
                 $result['error'] = '002';
                 $result['error_msg'] = $e->getMessage();
             }
-
 
 
         }
@@ -986,7 +891,8 @@ class OrderController extends Controller {
      * SMS 코드 검증 메소드
      * @param Request $request
      */
-    public function isSms(Request $request){
+    public function isSms(Request $request)
+    {
 
         $result = [
             'result' => '', 'id' => '', 'error' => ''
@@ -995,32 +901,31 @@ class OrderController extends Controller {
         $validate = Validator::make($request->all(), [
             'sms_num' => 'required', 'sms_id' => 'required'
         ]);
-        if ($validate->fails())
-        {
+        if ($validate->fails()) {
             $result['result'] = 'FAIL';
             $result['error'] = '000';
-        }else{
+        } else {
             $current_tieme = time();
 
             $sms_model = SmsTemp::findOrFail($request->get('sms_id'));
-            if($sms_model){
+            if ($sms_model) {
                 $div_num = $current_tieme - $sms_model->send_time;
-                if($div_num <= 300){
+                if ($div_num <= 300) {
                     //전송후 5분이내
 
-                    if($request->get('sms_num') == $sms_model->confirm_msg){
+                    if ($request->get('sms_num') == $sms_model->confirm_msg) {
                         $result['result'] = 'OK';
                         $result['id'] = $sms_model->id;
-                    }else{ //등록된 인증번호와 사용자가 입력한 인증번호가 틀림
+                    } else { //등록된 인증번호와 사용자가 입력한 인증번호가 틀림
                         $result['result'] = 'FAIL';
                         $result['error'] = '020';
                     }
 
-                }else{ //300초 이후 인증번호 입력
+                } else { //300초 이후 인증번호 입력
                     $result['result'] = 'FAIL';
                     $result['error'] = '011';
                 }
-            }else{ //해당 인증 record가 없음.
+            } else { //해당 인증 record가 없음.
                 $result['result'] = 'FAIL';
                 $result['error'] = '010';
             }
@@ -1032,7 +937,8 @@ class OrderController extends Controller {
      * SMS 임시코드 삭제 메소드
      * @param Request $request
      */
-    public function deleteSms(Request $request){
+    public function deleteSms(Request $request)
+    {
         $result = [
             'result' => '', 'id' => '', 'error' => ''
         ];
@@ -1043,12 +949,12 @@ class OrderController extends Controller {
         if ($validate->fails()) {
             $result['result'] = 'FAIL';
             $result['error'] = '000';
-        }else{
+        } else {
             $sms_model = SmsTemp::where('mobile_num', $request->get('mobile_num'));
-            if($sms_model){
+            if ($sms_model) {
                 $sms_model->delete();
                 $result['result'] = 'OK';
-            }else{//해당 인증 record가 없음.
+            } else {//해당 인증 record가 없음.
                 $result['result'] = 'FAIL';
                 $result['error'] = '010';
             }
@@ -1058,6 +964,181 @@ class OrderController extends Controller {
     }
 
 
+    /**
+     * 쿠폰 번호 검증 메소드
+     * @param Request $request
+     */
+    public function couponVerify(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'coupon_number' => 'required|min:10|max:20'
+        ]);
+
+        $result = [
+            'status' => 'fail', 'msg' => '', 'id' => '', 'coupon_number' => ''
+        ];
+
+        if ($validate->fails()) {
+            $result['msg'] = "필수파라미터가 누락되거나 쿠폰번호가 잘못 입력되었습니다.";
+            return $result;
+        }
+
+        $where = Coupon::where('coupon_number', $request->get('coupon_number'))->first();
+        if ($where) {
+            if ($where->is_use == 1) {
+                $result['msg'] = "해당 쿠폰번호는 등록완료된 쿠폰번호입니다.";
+
+            } else {
+                if (Auth::user()->id != $where->users_id && $where->users_id != 0) {
+                    //쿠폰 인증 후 재입력시 사용자 계정이 바뀜
+                    //쿠폰 임시 인증시에는 재인증 및 결제를 하더라도 임시처리가 되면 유저가 동일해야 한다.
+                    $result['msg'] = '해당 쿠폰번호는 인증 진행 중인 쿠폰번호 입니다.';
+                } else {
+                    $where->is_use = 3; //임시 사용 번호로 변경함.
+                    $where->users_id = Auth::user()->id;
+                    $where->save();
+                    $result['status'] = 'ok';
+                    $result['msg'] = '쿠폰이 등록되었습니다.';
+                    $result['id'] = $where->id;
+
+                    //임시 쿠폰번호를 전달함.
+                    $result['coupon_number'] = Crypt::encryptString($where->coupon_number);
+                }
+
+            }
+        } else {
+            $result['msg'] = "입력하신 쿠폰번호를 찾을 수 없습니다.";
+        }
+        return $result;
+    }
+
+    public function couponProcess(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'use_coupon_number' => 'required', 'coupon_id' => 'required|int'
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', '쿠폰정보가 없습니다.');
+        }
+
+        //coup 사용 갱신
+        $descript_coupon_number = Crypt::decryptString($request->get('use_coupon_number'));
+
+        $coupon_where = Coupon::find($request->get('coupon_id'));
+        if (!$coupon_where) {
+            $coupon_where = Coupon::where('coupon_number', $descript_coupon_number)->first();
+            if (!$coupon_where) {
+                return redirect()->back()->with('erroe', '코폰번호 유효성 검증을 실패하였습니다');
+            }
+        }
+
+        if ($coupon_where) {
+            //쿠폰 작업
+            $coupon_where->is_use = 1;
+            $coupon_where->save();
+        }
+
+        $orderer = Auth::user();
+
+        $garage_info = UserExtra::where('users_id', $request->get('garages'))->first();
+
+        if (!$garage_info) {
+            $garage_info = new UserExtra();
+        }
+
+        $order_car = OrderCar::where('car_number', $request->get('car_number'))->first();
+        if (!$order_car) {
+            $order_car = new OrderCar();
+            //            $order_car->vin_number = $request->get('car_number');
+            $order_car->car_number = $request->get('car_number');
+            $order_car->brands_id = $request->get('brands');
+            $order_car->models_id = $request->get('models');
+            $order_car->details_id = $request->get('details');
+            $order_car->grades_id = $request->get('grades');
+            $order_car->save();
+        }
+
+
+
+        $order = new Order();
+
+        $order->car_number = $request->get('car_number');
+        //        $order->cars_id = $order_car->id;
+        $order->garage_id = $garage_info->users_id;
+        $order->orderer_id = $orderer->id;
+        $order->orderer_name = $request->get('orderer_name');
+        $order->orderer_mobile = $request->get('mobile');
+        $order->registration_file = 0;
+        $order->open_cd = 1327; //default로 비공개코드 삽입 1326 인증서 공개 1327 인증서 비공개
+        $order->status_cd = 102;
+
+        if ($request->get('flooding')) {
+            $order->flooding_state_cd = 1;
+        } else {
+            $order->flooding_state_cd = 0;
+        }
+
+        if ($request->get('accident')) {
+            $order->accident_state_cd = 1;
+        } else {
+            $order->accident_state_cd = 0;
+        }
+
+        $order->item_id = $request->get('item_id');
+
+        $purchase = new Purchase();
+        $purchase->amount = 0; //결제 완료 후 update
+        $purchase->type = $request->get('payment_method'); // 결제방법
+        $purchase->status_cd = 102; // 결제상태
+        $purchase->save();
+
+        $order->purchase_id = $purchase->id;
+        $order->save();
+
+
+        // order_car 의 orders_id 입력
+        $my_order_car = OrderCar::where('car_number', $order_car->car_number)->first();
+        $my_order_car->orders_id = $order->id;
+        $my_order_car->save();
+
+
+        // 예약 관련
+        $reservation_date = new \DateTime($request->get('reservation_date') . ' ' . $request->get('sel_time') . ':00:00');
+
+        $reservation = Reservation::where('orders_id', $order->id)->first();
+        if (!$reservation) {
+            $reservation = new Reservation();
+        }
+        $reservation->orders_id = $order->id;
+        $reservation->garage_id = $garage_info->users_id;
+        $reservation->created_id = $order->orderer_id;
+        $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
+        $reservation->save();
+
+
+        if ($request->get('options_ck') != []) {
+            $order_features = OrderFeature::where('orders_id', $order->id)->first();
+            if (!$order_features) {
+                $order_features = new OrderFeature();
+            } else {
+                OrderFeature::where('orders_id', $order->id)->delete();
+            }
+            $order_features_list = [];
+            foreach ($request->get('options_ck') as $key => $options) {
+                $order_features_list[$key]['orders_id'] = $order->id;
+                $order_features_list[$key]['features_id'] = $options;
+            }
+            $order_features->insert($order_features_list);
+            $order_features->save();
+        }
+
+
+        return redirect()->route('order.complete', [
+            'orders_id' => $order->id, 'is_complete' => 1,
+            'is_coupon' => 1, 'coupon_id' => $coupon_where->id
+        ])->with('success', '주문이 완료되었습니다');
+
+    }
 
 }
-

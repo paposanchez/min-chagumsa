@@ -1,7 +1,7 @@
 @extends( 'bcs.layouts.default' )
 
 @section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.order')])
+    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.notice')])
 @endsection
 
 @section( 'content' )
@@ -29,13 +29,6 @@
             <div class="panel-body">
 
                 <form  method="GET" class="form-horizontal no-margin-bottom" role="form">
-
-                    <div class="form-group">
-                        <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/post.board_id') }}</label>
-                        <div class="col-sm-3">
-                            {!! Form::select('board_id', [null=>trans('common.search.first_select')] + $board_list, $request->query('board_id'), ['class'=>'form-control', 'id'=>'inputBoardId']) !!}
-                        </div>
-                    </div>
 
                     <div class="form-group">
                         <label class="control-label col-sm-3">{{ trans('common.search.period') }}</label>
@@ -87,6 +80,7 @@
                 <table class="table text-middle text-center">
                     <colgroup>
                         <col width="8%">
+                        <col width="10%">
                         <col width="*">
                         <col width="10%">
                         <col width="8%">
@@ -95,9 +89,10 @@
                     <thead>
                     <tr class="active">
                         <th class="text-center">#</th>
-                        <th class="text-left">제목</th>
-                        <th class="text-center">상태</th>
+                        <th class="text-center">분류</th>
+                        <th class="text-center">제목</th>
                         <th class="text-center">등록일</th>
+                        <th class="text-center">상세보기</th>
                     </tr>
                     </thead>
 
@@ -114,20 +109,19 @@
                                 {{ $data->id }}
                             </td>
 
-
-
-                            <td class="text-left">
-                                <a href="{{ url("notice", ['id'=> $data->id]) }}">{{ $data->subject }}</a>
+                            <td>
+                                {{ $data->board->name }}
                             </td>
 
-
-
-                            <td class="">
-                                <span class="label label-default">{{ $data->shown? $data->shown->display(): '-' }}</span>
+                            <td>
+                                <a href="{{ url("notice", ['id'=> $data->id]) }}">{{ $data->subject }}</a>
                             </td>
 
                             <td class="">
                                 {{ $data->created_at->format('Y.m.d') }}
+                            </td>
+                            <td>
+                                <a href="{{ url("notice", ['id'=> $data->id]) }}" class="btn btn-default"  data-tooltip="{pos:'top'}" title="상세보기">상세보기</a>
                             </td>
 
                         </tr>
@@ -144,7 +138,7 @@
 
             <div class="col-sm-6">
 
-                <a href="{{ route('post.create') }}" class="btn btn-primary">등록</a>
+
 
             </div>
 

@@ -13,8 +13,8 @@
 
                 <div class="tile-row">
                     <div class="tile-col text-center">
-                        <h3 class="text-muted">ZLARA ADMINISTRATOR</h3>
-                        <p class="text-muted">Login in. To see it in action.</p>
+                        <h3 class="text-muted">차검사 Admin</h3>
+                        {{--<p class="text-muted">Login in. To see it in action.</p>--}}
                     </div>
                 </div>
 
@@ -78,7 +78,7 @@
 
             </div>
 
-            <p class="text-center"><small class="text-muted text-light">Copyrights by <a target="_blank" href="/about">mixapply.com</a> © 2015. All right reserved.</small></p>
+            <p class="text-center"><small class="text-muted text-light">Copyrights by <a target="_blank" href="http://www.chagumsa.com">www.chagumsa.com</a> © 2017. All right reserved.</small></p>
 
         </div>
 

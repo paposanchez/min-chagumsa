@@ -1,102 +1,79 @@
-@extends( 'web.layouts.default' )
-
+@extends( 'web.layouts.blank' )
 @section( 'content' )
 
-<div id='sub_title_wrap'><h2>회원가입<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>회원가입</span></div></h2></div>
+<!-- <div id='sub_title_wrap'><h2>회원가입<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>회원가입</span></div></h2></div> -->
 
-<div id='sub_wrap'>
+<div id="sub_full_wrap">
+        <div class="login_box_wrap" style="padding:20px;">
 
+                <div class="text-center" style="margin:20px 0px 20px;">
+                          {{ Html::image('/assets/themes/v1/web/img/comm/head_logo.png') }}
+                        <h3>회원가입</h3>
+                </div>
 
-    <div class='join_wrap'>
+                {!! Form::open(['route' => ['register'], 'id' => 'register-form', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
 
-        <ul class='join_step'>
-            <li class='on link'>
-                <strong>01</strong>
-                <span>약관동의</span>
-            </li>
-            <li class='on'>
-                <strong>02</strong>
-                <span>회원정보입력</span>
-            </li>
-            <li>
-                <strong>03</strong>
-                <span>회원가입완료</span>
-            </li>
-        </ul>
+                <div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
+                        <label for="inputEmail" class="control-label col-xs-3">{{ trans('web/register.email') }}</label>
 
-        <div class='br30'></div>
-        <div class='br20'></div>
+                        <div class=" col-xs-9">
+                                <input type="email" class="form-control  input-lg" placeholder="{{ trans('web/register.email') }}" name="email" id="inputEmail" value="{{ old("email") }}">
+                                <span class="help-block">
 
-        {!! Form::open(['route' => ['register'], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+                                        @if ($errors->has('email'))
+                                        {{ $errors->first('email') }}
+                                        @else
+                                        <small>가입완료 후 인증메일이 발송됩니다.</small>
+                                        @endif
+                                </span>
+                        </div>
+                </div>
 
-        <div class='ipt_line ipt_guide' style='width:940px;'>
-            <span>차검사는 회원님의 개인정보를 안전하게 보호하고 있으며, 회원님의 명백한 동의 없이는 공개되거나 제3자에게 제공되지 않습니다.<br>자세한 내용은 개인정보취급방침을 확인해 주세요.</span>
+                <div class="form-group  {{ $errors->has('name') ? 'has-error' : '' }}">
+                        <label for="inputName" class="control-label col-xs-3">{{ trans('web/register.name') }}</label>
+
+                        <div class=" col-xs-9">
+                                <input type="text" class="form-control  input-lg" placeholder="{{ trans('web/register.name') }}" name="name" id="inputName" value="{{ old("name") }}">
+
+                                @if ($errors->has('name'))
+                                <span class="help-block">
+                                        {{ $errors->first('name') }}
+                                </span>
+                                @endif
+                        </div>
+                </div>
+
+                <div class="form-group  {{ $errors->has('password') ? 'has-error' : '' }}">
+                        <label for="inputPassword" class="control-label col-xs-3">{{ trans('web/register.password') }}</label>
+                        <div class=" col-xs-9">
+                                <input type="password" class="form-control  input-lg" placeholder="{{ trans('web/register.password') }}" name="password" id="inputPassword">
+
+                                @if ($errors->has('password'))
+                                <span class="help-block">
+                                        {{ $errors->first('password') }}
+                                </span>
+                                @endif
+                        </div>
+                </div>
+
+                <div class="form-group  {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
+                        <label for="inputPasswordConfirmation" class="control-label col-xs-3"></label>
+                        <div class=" col-xs-9">
+                                <input type="password" class="form-control  input-lg" placeholder="{{ trans('web/register.confirm-password') }}" name="password_confirmation" id="inputPasswordConfirmation">
+
+                                @if ($errors->has('password'))
+                                <span class="help-block">
+                                        {{ $errors->first('password_confirmation') }}
+                                </span>
+                                @endif
+                        </div>
+                </div>
+
+                <p class="text-center">
+                        <button class="btn btn-lg btn-block btn-success btns_green" data-loading-text="처리중..." type="submit">가입하기</button>
+                </p>
+                {!! Form::close() !!}
         </div>
-
-        <div class='br20'></div>
-
-        <div class='psk_table_wrap'>
-            <table>
-                <colgroup>
-                    <col style='width:140px;'>
-                    <col style='width:800px;'>
-                </colgroup>
-                <tbody>
-                    <tr>
-                        <th>아이디(이메일)</th>
-                        <td>
-                            <input type='text' name="email" class='ipt wid33' placeholder='이메일을 입력하세요'>{{-- <span class='ipt_msg warn' id="email-error">이미 등록된 이메일이거나 잘못 입력하셨습니다.</span> --}}
-                            @if ($errors->has('email'))
-                           <span class='ipt_msg warn' id="email-error">이미 등록된 이메일이거나 잘못 입력하셨습니다.</span>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>이름</th>
-                        <td>
-                            <input type='text' name="name" class='ipt wid33' placeholder='성함을 입력하세요'>{{-- <span class='ipt_msg warn' id="email-error">이미 등록된 이메일이거나 잘못 입력하셨습니다.</span> --}}
-                            @if ($errors->has('name'))
-                            <span class="help-block" id="email-error">
-                                {{ $errors->first('name') }}
-                            </span>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>비밀번호</th>
-                        <td>
-                            <input type='password' name="password" class='ipt wid33' placeholder='비밀번호를 입력하세요'><span class='ipt_msg' id="password-error">8~16 자리의 영문/숫자/특수문자를 두 가지 이상 조합하세요.</span>
-                            @if ($errors->has('password'))
-                            <span class="help-block ipt_msg warn">
-                                {{ $errors->first('password') }}
-                            </span>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>비밀번호 확인</th>
-                        <td>
-                            <input type='password' name="password_confirmation" class='ipt wid33' placeholder='비밀번호를 다시 입력하세요'><span class='ipt_msg' id="password_confirmation-error"></span>
-                            @if ($errors->has('password_confirmation'))
-                            <span class="help-block ipt_msg warn">
-                                {{ $errors->first('password_confirmation') }}
-                            </span>
-                            @endif
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="br40"></div>
-        <div class='ipt_line wid20'>
-            <button class='btns btns_green' type="submit">회원가입</button>
-        </div>
-
-        {!! Form::close() !!}
-
-    </div>
-
 </div>
 
 @endsection
@@ -108,50 +85,41 @@
 @push( 'footer-script' )
 
 <script type="text/javascript">
-//    $(function(){
-//         $("#register-form").validate({
-//             debug: true,
-//             rules: {
-//                 password: {
-//                     required: true,
-//                     minlength: 8,
-//                     maxlength: 16
-//                 },
-//                 password_confirmation: {
-//                     minlength: 8,
-//                     maxlength: 16,
-//                     equalTo: "[name='password']"
-//                 },
-//                 email: {
-//                     required: true,
-//                     email: true,
-//                     remote: {
-//                         url: "/verify",
-//                         type: "get",
-//                         data: {
-//                             "email": function () {
-//                                 return $(":input[name='email']").val();
-//                             }
-//                         },
-//                     }
-//                 }
-//             },
-//             messages: {
-//                 email: {
-//                     required: "정확한 메일 주소를 입력해 주세요.",
-//                     email: '이메일 주소가 잘못 입력 되었습니.',
-//                     remote: '이미 등록된 이메일 주소입니다.'
-//                 },
-//                 password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)",
-//                 password_confirmation: "입력된 비밀번호 확인값이 틀립니다."
-//             },
-//
-//             submitHandler: function(form){
-//                 form.submit();
-//             }
-//         });
-//    });
+$(function(){
+        $("#register-form").validate({
+                rules: {
+                        name: {
+                                required: true,
+                                minlength: 2
+                        },
+                        password: {
+                                required: true,
+                                minlength: 8,
+                                maxlength: 16
+                        },
+                        password_confirmation: {
+                                required: true,
+                                minlength: 8,
+                                maxlength: 16,
+                                equalTo: "#inputPasswordConfirmation"
+                        },
+                        email: {
+                                required: true,
+                                email: true
+                        }
+                },
+                messages: {
+                        email: {
+                                required: "정확한 메일 주소를 입력해 주세요.",
+                                email: '이메일 주소가 잘못 입력 되었습니다.',
+                                remote: '이미 등록된 이메일 주소입니다.'
+                        },
+                        name: "이름을 입력하세요.",
+                        password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)",
+                        password_confirmation: "입력된 비밀번호 확인값이 다릅니다."
+                }
+        });
+});
 
 </script>
-
 @endpush
