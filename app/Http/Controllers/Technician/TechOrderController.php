@@ -266,7 +266,6 @@ class TechOrderController extends Controller
          *
          */
 
-
         if($order->car){
             $car = $order->car;
         }else{
@@ -274,9 +273,13 @@ class TechOrderController extends Controller
 //            return redirect()->back()->with('error', '차량 정보 미입력 상태입니다.<br>관리자에게 해당 주문에 대해 문의해 주세요.');
             $car = $order->orderCar;
         }
-//        $order = $this->edit($id);
 
-        return view('technician.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car'));
+        $grades = [
+            'AA' => 'AA', 'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D'
+        ];
+        $my_grade = Certificate::where('orders_id', $order->id)->first()->pluck('grade', 'grade');
+
+        return view('technician.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car', 'my_grade', 'grades'));
     }
 
     /**
@@ -355,7 +358,8 @@ class TechOrderController extends Controller
 
 
             }else{
-                $order_data = ['status_cd' => 109]; //최종 발행함
+//                $order_data = ['status_cd' => 109]; //최종 발행함
+                $order_data = ['status_cd' => 108]; //인증서 검토중
                 $car_data = [];
                 $certificate_data = [
                     "price" => $request->get("pst"),
@@ -382,6 +386,7 @@ class TechOrderController extends Controller
                     "special_depreciation" => $request->get("certificates_special_depreciation"),
                     "valuation" => $request->get("certificates_valuation"),
                     "opinion" => $request->get("certificates_opinion"),
+                    "grade" => $request->get('grade')
                 ];
             }
 
@@ -461,6 +466,21 @@ class TechOrderController extends Controller
 
         }
     }
+
+    public function issue(Request $request){
+        try{
+            $order_id = $request->get('order_id');
+            $order = Order::findOrFail($order_id);
+            $order->status_cd = 109;
+            $order->save();
+
+            return response()->json('success');
+        }catch (Exception $ex){
+            return response()->json($ex->getMessage());
+        }
+
+    }
+
 
     /**
      * Remove the specified resource from storage.

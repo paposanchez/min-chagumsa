@@ -20,7 +20,7 @@
 
                 <li class="{{ Request::is('dashboard*') ? ' active':''}}"><a href="/dashboard"><i class="fa fa-gear"></i><span class="nav-label">{{ trans('admin/dashboard.title') }}</span></a></li>
 
-                <li class="{{ Request::is('order*') ? ' active':''}}"><a href="/order"><i class="fa fa-shopping-basket"></i><span class="nav-label">{{ trans('admin/order.title') }}</span></a></li>
+                <li class="{{ Request::is('order*') ? ' active':''}}"><a href="/order"><i class="fa fa-shopping-basket"></i><span class="nav-label">인증서관리</span></a></li>
 
                 <li class="{{ Request::is('notice*') ? ' active':''}}"><a href="{{ url('/notice') }}"><i class="fa fa-pencil"></i><span class="nav-label">공지사항</span></a></li>
 
