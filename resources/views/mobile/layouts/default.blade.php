@@ -57,10 +57,10 @@
         <script type="text/javascript">
             $(function () {
                 $("#slide-menu").on("click", function () {
-                    $("#navi_wrap").slideToggle(500);
+                    $("#navi_wrap").animate({width:'toggle'},350);
                 });
                 $("#navi_close").on("click", function () {
-                    $("#navi_wrap").slideToggle(500);
+                    $("#navi_wrap").animate({width:'toggle'},350);
                 });
 
                 $("#menu-login").on("click", function(){
