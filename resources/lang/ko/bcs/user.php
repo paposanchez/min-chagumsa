@@ -31,7 +31,7 @@ return [
     'garage_address' => '나머지 상세 주소',
 
     'destroy-warning' => '해당 회원을 삭제하시겠습니까?',
-    
+
     'fail' => 'Update fail.',
     'not-confirmed' => 'Not confirmed',
     'posts-count' => 'Total blogs',
@@ -40,9 +40,5 @@ return [
 
     'bcs_number' => '정비소 번호',
     'engineer_number' => '엔지니어 번호',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => ''
 
 ];

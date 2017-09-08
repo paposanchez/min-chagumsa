@@ -26,9 +26,11 @@ class DashboardController extends Controller {
 
         $lated_inquire = Post::where('board_id', '3')->orderBy('created_at', 'desc')->take(5)->get();
         $lated_post = Post::where('board_id', '1')->orderBy('created_at', 'desc')->take(5)->get();
-        $lated_diagnosis = Order::where('status_cd', 107)->orderBy('created_at', 'desc')->take(5)->get();
 
-        return view('admin.dashboard.index', compact('post', 'lated_inquire', 'lated_post', 'lated_diagnosis'));
+        $lated_diagnosis = Order::where('status_cd', ">",  101)->orderBy('created_at', 'desc')->take(15)->get();
+        $total_diagnosis = Order::where('status_cd', ">",  101)->count();
+
+        return view('admin.dashboard.index', compact('total_diagnosis', 'post', 'lated_inquire', 'lated_post', 'lated_diagnosis'));
     }
 
 }

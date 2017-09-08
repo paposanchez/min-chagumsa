@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler {
 
                 if ($e instanceof TokenMismatchException) {
 
-                        return redirect(route('/login'))->withError('error', trans("auth.token-mismatch"));
+                        return redirect()->guest('login')->withError('error', trans("auth.token-mismatch"));
                 }
 
                 if ($request->ajax() || $request->wantsJson()) {
@@ -71,10 +71,10 @@ class Handler extends ExceptionHandler {
         */
         protected function unauthenticated($request, AuthenticationException $exception) {
                 if ($request->expectsJson()) {
-                        return response()->json(['error' => 'Unauthenticated.'], 401);
+                        return response()->json(['error' => trans("auth.unauthorized")], 401);
                 }
 
-                return redirect()->back();
+                return redirect()->guest('login');
         }
 
         protected function getJsonMessage($e) {
