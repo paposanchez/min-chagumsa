@@ -22,7 +22,7 @@
                     <li><a class='sub_menu menu1' href="#">차검사 소개</a>
                         <div>
                             <a class='' href='{{ url("/information/index") }}'>서비스 소개</a>
-                            <a class='' href='{{ url("/information/certificate") }}'>카검사인증서란?</a>
+                            <a class='' href='{{ url("/information/certificate") }}'>차검사인증서란?</a>
                             <a class='' href='{{ url("/information/guide") }}'>특징 및 절차</a>
                             <a class='' href='{{ url("/information/price") }}'>신청절차 및 수수류</a>
                         </div>

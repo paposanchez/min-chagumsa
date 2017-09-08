@@ -20,7 +20,7 @@
         @include("mobile.partials.menu")
 
         <div class='head_wrap'>
-            <span><a href="/">{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/comm/head_logo.png"), "차검사", ['id' => 'top-logo']) }}</a></span>
+            <span><a href="/" style="margin-left: 50px; margin-right: 50px;">{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/comm/head_logo.png"), "차검사", ['id' => 'top-logo']) }}</a></span>
             <div id='menu_btn'><i class="fa fa-bars" id="slide-menu" style="cursor: pointer; margin-right: 15px;"></i></div>
         </div>
         
