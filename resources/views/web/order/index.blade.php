@@ -1149,7 +1149,7 @@
 
 
         $("#payment-process").on("click", function () {
-            var item_id = $('#item_id').val()
+            var item_id = $('#item_id').val();
             if(item_id.length > 0 ){
                 var u = "{{ route('order.payment-popup') }}";
 
@@ -1163,7 +1163,7 @@
                     height: 1000
                 });
             }else{
-                alert('아이템을 선택하세요.');
+                alert('상품을 선택하세요.');
             }
 
 
