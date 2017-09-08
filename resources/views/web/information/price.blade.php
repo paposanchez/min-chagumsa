@@ -144,9 +144,9 @@
             </thead>
             <tbody>
             <tr>
-                <th rowspan="2">국산차</th>
+                <th rowspan="2" colspan="2">국산차</th>
 
-                <th>150,000원</th>
+
                 <th rowspan="2">150,000원 / 200,000원</th>
                 <th rowspan="4">제조사, 모델, 배기량에 따라 다르며, 인증서 신청 시 자동 결정됩니다.</th>
                 <td rowspan='4' style='padding-left:30px;'>
@@ -156,22 +156,14 @@
                 </td>
             </tr>
             <tr>
-                <th>200,000원</th>
+
 
             </tr>
 
             <tr>
-                <th rowspan="2">수입차</th>
-
-                <th>300,000원</th>
+                <th rowspan="2" colspan="2">수입차</th>
                 <th rowspan="2">300,000원 / 350,000원</th>
             </tr>
-            <tr>
-
-                <th>350,000원</th>
-
-            </tr>
-
             </tbody>
         </table>
     </div>

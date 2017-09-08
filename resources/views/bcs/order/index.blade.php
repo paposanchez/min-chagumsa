@@ -84,7 +84,7 @@
             <div class="col-md-12">
 
                 <p class="form-control-static">
-
+                    {!! trans('common.search-result', ['count' => '<span class="text-danger">'.number_format($entrys->total()).'</span>']) !!}
                 </p>
 
                 <table class="table text-middle text-center">
