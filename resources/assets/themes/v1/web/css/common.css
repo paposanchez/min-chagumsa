@@ -3,7 +3,7 @@
 
 /*
 =============================================
-|  조성민    SungMin Jo                    |
+|  議곗꽦誘�    SungMin Jo                    |
 |  Cell: +82-10-8837-4565, 010-8837-4565    |
 |  Home: http://www.alitaz.com              |
 |  e-mail: miracle_runa@naver.com           |
@@ -11,7 +11,7 @@
 */
 
 div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td, abbr, acronym, address, big, cite, code, ins, small, sub, sup
-{ font:normal 14px/22px 'Noto Sans KR', sans-serif; padding:0; margin:0; }
+{ font:normal 12px/22px 'Noto Sans KR', sans-serif; padding:0; margin:0; }
 
 div img, dl img, dt img, dd img, ul img, ol img, li img, h1 img, h2 img, h3 img, h4 img, h5 img, h6 img, pre img, form img, fieldset img, input img, textarea img, p img, blockquote img, th img, td img{ font-size:0; line-height:0; }
 table{ border-collapse:collapse; border-spacing:0; }
@@ -235,12 +235,13 @@ html, body {width:100%;height:100%;margin:0; padding:0;overflow-y:hidden;}
 #document { width:100%;height:100%;margin:0 auto;overflow:auto;overflow-x:hidden;}
 
 /*navigator*/
-#gnb_wrap {width:1052px;height:120px;margin:0 auto;overflow:hidden;position:relative;z-index:2;}
-#gnb_wrap h1 {float:left;position:relative;height:120px;line-height:145px;top:-2px;}
-#gnb_wrap h1 img {position:relative;top:-5px;}
+#gnb_wrap {position:relative;z-index:2;width:100%;height:90px;-webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.25);-moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.25);box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.25);}
+#gnb_wrap .gnb_inner {width:1144px;height:90px;margin:0 auto;overflow:hidden;position:relative;z-index:2;}
+#gnb_wrap h1 {float:left;position:relative;height:90px;line-height:90px;top:-2px;}
+#gnb_wrap h1 img {position:relative;}
 #gnb_wrap ul {float:left;position:relative;z-index:1;padding-left:8px;}
-#gnb_wrap ul li {float:left;height:120px;line-height:145px;margin-left:40px;}
-#gnb_wrap ul li a {font-size:19px;font-weight:bold;color:#444;display:block;text-decoration:none;}
+#gnb_wrap ul li {float:left;height:90px;line-height:90px;margin-left:96px;}
+#gnb_wrap ul li a {font-size:20px;font-weight:bold;color:#000;display:block;text-decoration:none;}
 #gnb_wrap ul li a:hover {color:#5fb4ee;}
 
 .gnb_search_wrap {float:right;position:relative;width:248px;height:44px;top:52px;z-index:1;border:1px solid #d6d6d6;border-radius:5px;overflow:hidden;}
@@ -250,7 +251,7 @@ html, body {width:100%;height:100%;margin:0; padding:0;overflow-y:hidden;}
 .gnb_search_wrap button i {position:relative;top:-1px;width: 24px;}
 /*.gnb_search_wrap button i {position:relative;top:-1px;}*/
 
-.gnb_login_wrap {position:absolute;right:-10px;top:22px;z-index:1;}
+.gnb_login_wrap {position:absolute;right:0;top:36px;z-index:1;}
 .gnb_login_wrap a {height:16px;line-height:16px;float:left;display:block;color:#646970;font-size:12px;padding:0 10px;}
 .gnb_login_wrap a:first-child {border-right:1px solid #e0e1e2;}
 .gnb_login_wrap a:hover {color:#3d4146;}
@@ -260,31 +261,37 @@ html, body {width:100%;height:100%;margin:0; padding:0;overflow-y:hidden;}
 .document_login {height:100%;min-height:100%;background:url('../img/comm/login_bg.png') center center no-repeat;background-size:cover;}
 
 /*footer*/
+
+
+/* /////// */
 #foot_wrap {width:100%;border-top:1px solid #e5e5e5;}
-/*#foot_cont {width:1052px;margin:0 auto;position:relative;padding:40px 0;}*/
-#foot_cont {width:1107px;margin:0 auto;position:relative;padding:40px 0;}
+#foot_cont {width:1144px;margin:0 auto;position:relative;padding:30px 0;}
 
 .foot_link {position:relative;overflow:hidden;}
-.foot_link h1 {}
-/*.foot_link h1 img {position:relative;top:-5px;height:22px;}*/
-.foot_link h1 img {position:relative;height:22px;}
-.foot_link ul {position:absolute;left:162px;top:0px;z-index:1;}
-.foot_link ul li {float:left;height:22px;border-right:1px solid #7f8388;}
+.foot_link h1 {height:30px;}
+.foot_link h1 a {display:block;}
+.foot_link h1 a img {position:relative;height:30px;}
+
+.foot_link ul {position:absolute;left:100px;top:8px;z-index:1;}
+.foot_link ul li {float:left;height:14px;border-right:1px solid #7f8388;}
 .foot_link ul li:last-child {border:0;}
-.foot_link ul li a {font-size:17px;line-height:22px;color:#444;display:block;text-decoration:none;padding:0 13px;}
-/*.foot_link ul li:last-child a {color:#0b4777;}*/
-.foot_active {color:#0b4777 !important;}
+.foot_link ul li a {font-size:14px;line-height:14px;color:#000;display:block;text-decoration:none;padding:0 13px;}
 .foot_link ul li a:hover {color:#5fb4ee;}
-.foot_link ul li:last-child a:hover {color:#0b4777;}
 
-.foot_info_wrap {padding:30px 0 0 0px;}
+.foot_info_wrap {padding:30px 0 0 0;}
 
-.foot_desc_wrap {overflow:hidden;margin-bottom:40px;}
-.foot_desc_wrap li {float:left;margin-right:35px;}
-.foot_desc_wrap li:last-child {margin-right:0;}
-.foot_desc {}
-.foot_desc strong {display:block;color:#646970;margin-bottom:5px;}
-.foot_desc p {color:#aeaeae;line-height:20px;}
+.foot_desc_wrap {overflow:hidden;margin-bottom:10px;color:#000;font-size:12px;}
+.foot_desc_wrap span {display:block;margin-bottom:10px;}
+
+.foot_desc {color:#7b7b7b;line-height:20px;}
+
+.foot_sns {position:absolute;right:0;top:30px;overflow:hidden;}
+.foot_sns li {float:left;margin-left:7px;}
+.foot_sns li a {display:block;width:29px;height:29px;border-radius:100%;background-color:#d4d4d4;background-repeat:none;text-indent:-999999999999px;overflow:hidden;}
+.foot_sns li a.sns_fb {background-image:url('../img/comm/fb_icon.png');}
+.foot_sns li a.sns_blog {background-image:url('../img/comm/blog_icon.png');}
+.foot_sns li a.sns_fb:hover {background-color:#4267b2;}
+.foot_sns li a.sns_blog:hover {background-color:#00c73c;}
 
 /* foot_full */
 #foot_full_wrap {width:100%;position:fixed;padding:20px 0;bottom:0;}

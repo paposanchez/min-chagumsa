@@ -2,7 +2,7 @@
 
 /*
 =============================================
-|  조성민    SungMin Jo                    |
+|  議곗꽦誘�    SungMin Jo                    |
 |  Cell: +82-10-8837-4565, 010-8837-4565    |
 |  Home: http://www.alitaz.com              |
 |  e-mail: miracle_runa@naver.com           |
@@ -31,9 +31,22 @@
 .mv_report {position:relative;}
 .mv_report a {position:absolute;top:-10px;right:105px;}
 
+#main_visual2_wrap {width:100%;background:url('../img/main/mv2_bg.png') center center no-repeat;height:574px;}
+.main_visual2 {width:1144px;height:100%;margin:0 auto;position:relative;}
+
+.mv2_cert_wrap {position:absolute;top:113px;left:50px;}
+.mv2_cert_wrap ul {padding:30px 0 0 0;overflow:hidden;}
+.mv2_cert_wrap ul li {float:left;margin-right:8px;}
+.mv2_cert_wrap ul li a {display:block;width:140px;height:43px;font-size:18px;line-height:43px;text-align:center;border:1px solid #034c82;color:#034c82;}
+.mv2_cert_wrap ul li a:hover {border-color:#156dae;color:#156dae;}
+
+.mv2_exp_wrap {position:absolute;width:388px;height:574px;top:0;right:0;background:url('../img/main/mv2_exp.png') center center no-repeat;}
+.mv2_exp_wrap a {position:relative;top:350px;margin:0 auto;display:block;width:140px;height:43px;font-size:18px;line-height:43px;text-align:center;border:1px solid #fff;color:#fff;}
+.mv2_exp_wrap a:hover {border-color:#d4e8f4;color:#d4e8f4;}
+
 #main_standard_wrap {width:100%;background:url('../img/main/main_standard_bg.png') top center no-repeat #205781;}
 .main_standard {width:1200px;text-align:center;margin:0 auto;}
-.main_standard strong {padding:60px 0 30px 0;line-height:38px;font-size:38px;display:block;color:#fff;}
+.main_standard strong {padding:30px 0 30px 0;line-height:38px;font-size:38px;display:block;color:#fff;}
 .main_standard strong img {display:inline-block;margin-bottom:10px;}
 .main_standard strong span {color:#a4cd17;}
 .main_standard ul {overflow:hidden;}
@@ -42,8 +55,8 @@
 .main_standard div span {color:#5fb4ee;}
 
 
-#main_service_wrap {height:600px;padding:75px 0;}
-.dg-container {width:100%;height:450px;position: relative;}
+#main_service_wrap {height:620px;padding:75px 0;}
+.dg-container {width:100%;height:470px;position: relative;}
 .dg-wrapper {width:452px;height:270px;margin:0 auto;position:relative;-webkit-transform-style:preserve-3d;-moz-transform-style: preserve-3d;-o-transform-style: preserve-3d;-ms-transform-style: preserve-3d;transform-style: preserve-3d;-webkit-perspective: 1000px;-moz-perspective: 1000px;-o-perspective: 1000px;-ms-perspective: 1000px;perspective: 1000px;}
 .dg-wrapper a {	width: 452px;height: 270px;display:block;position:absolute;left:0;top:0;box-shadow: 0px 0px 10px rgba(0,0,0,0.15);}
 .dg-wrapper a.dg-transition{-webkit-transition: all 0.5s ease-in-out;-moz-transition: all 0.5s ease-in-out;-o-transition: all 0.5s ease-in-out;-ms-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;}
