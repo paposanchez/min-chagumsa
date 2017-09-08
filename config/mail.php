@@ -16,7 +16,7 @@ return [
       |
      */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
+    'driver' => env('MAIL_DRIVER', 'mailgun'),
     /*
       |--------------------------------------------------------------------------
       | SMTP Host Address
@@ -76,8 +76,8 @@ return [
       | connection. You may also set the "password" value below this one.
       |
      */
-    'username' => env('MAIL_USERNAME'),
-    'password' => env('MAIL_PASSWORD'),
+    'username' => env('postmaster@mailer.chagumsa.com'),
+    'password' => env('84307b1392431ca3aee174b8ebf438be'),
     /*
       |--------------------------------------------------------------------------
       | Sendmail System Path
