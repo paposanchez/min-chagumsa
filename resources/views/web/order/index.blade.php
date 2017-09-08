@@ -1149,18 +1149,23 @@
 
 
         $("#payment-process").on("click", function () {
+            var item_id = $('#item_id').val()
+            if(item_id.length > 0 ){
+                var u = "{{ route('order.payment-popup') }}";
 
-            var u = "{{ route('order.payment-popup') }}";
+                // $('#orderFrm').submit();
 
-            // $('#orderFrm').submit();
+                $('#modalPurchase').modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show: true,
+                    width: 1000,
+                    height: 1000
+                });
+            }else{
+                alert('아이템을 선택하세요.');
+            }
 
-            $('#modalPurchase').modal({
-                backdrop: 'static',
-                keyboard: false,
-                show: true,
-                width: 1000,
-                height: 1000
-            });
 
         });
 
