@@ -20,7 +20,7 @@
         @include("mobile.partials.menu")
 
         <div class='head_wrap'>
-            <span><a href="/">{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/sub/logo_big.png")) }}</a></span>
+            <span><a href="/">{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/comm/head_logo.png"), "차검사", ['id' => 'top-logo']) }}</a></span>
             <div id='menu_btn'><i class="fa fa-bars" id="slide-menu" style="cursor: pointer; margin-right: 15px;"></i></div>
         </div>
         
@@ -56,16 +56,14 @@
 
         <script type="text/javascript">
             $(function () {
-                $("#slide-menu").on("click", function () {
+                $("#menu_btn").on("click", function () {
                     $("#navi_wrap").animate({width:'toggle'},350);
                 });
                 $("#navi_close").on("click", function () {
                     $("#navi_wrap").animate({width:'toggle'},350);
                 });
 
-                $("#menu-login").on("click", function(){
-                    location.href = $(this).data('url');
-                });
+
             });
 
         {{-- tracking script --}}
