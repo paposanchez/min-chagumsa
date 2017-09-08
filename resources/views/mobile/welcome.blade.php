@@ -23,7 +23,7 @@
 
 	<div class='mv_cert_wrap'>
 		<div class='mv_cert_box'>
-			<a href='' class='mv_cert_btn1'>카검사 인증서 신청하기</a>
+			<a href='' class='mv_cert_btn1'>차검사 인증서 신청하기</a>
 		</div>
 		<div class='br10'></div>
 		<div class='mv_cert_box'>
@@ -37,8 +37,8 @@
         <div id='mv2_wrap'>
             <div class='mv2_top'>
                 {{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/mv2_top_text.png")) }}
-                <a href=''>인증서 신청하기</a>
-                <a href=''>인증서 신청하기</a>
+                {{--<a href=''>인증서 신청하기</a>--}}
+                {{--<a href=''>인증서 신청하기</a>--}}
             </div>
             <div class='mv2_btm'>
                 {{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/mv2_btm_text.png")) }}
