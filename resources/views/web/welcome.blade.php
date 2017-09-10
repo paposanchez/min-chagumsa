@@ -16,7 +16,7 @@
             </div>
 
             <div class='mv2_exp_wrap'>
-                <a href='{{ url("/community/notice/id/46") }}'>체험단 신청하기</a>
+                <a href='{{ url("/community/notice/46") }}'>체험단 신청하기</a>
             </div>
 
         </div>
@@ -28,7 +28,7 @@
             <div class='dg-desc'>
                 <div>
                     {{ Html::image(Helper::theme_web( '/img/main/service_desc1.png'), '내외부 점검, 작동상태 점감, 소모품상태 점검, 성능점검 종합의견') }}
-                </div>			
+                </div>
                 <div>
                     {{ Html::image(Helper::theme_web( '/img/main/service_desc2.png'), '차량성능평가, 차량상태점검평가, 차량품질인증평가, 차량침수평가, 차량수리상태평가, 차량가격산정') }}
                 </div>

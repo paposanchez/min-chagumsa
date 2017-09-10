@@ -1,39 +1,8 @@
 @extends( 'mobile.layouts.default' )
 
 @section( 'content' )
-
-
-
-
-
-
-
     <div id='main_wrap'>
 
-
-
-
-
-        <!--
-	<div id='main_visual_wrap'>
-		<div class='main_visual'>
-			<img src='../img/main/mv_text.png'>
-		</div>
-	</div>
-
-	<div class='mv_cert_wrap'>
-		<div class='mv_cert_box'>
-			<a href='' class='mv_cert_btn1'>차검사 인증서 신청하기</a>
-		</div>
-		<div class='br10'></div>
-		<div class='mv_cert_box'>
-			<div class='mv_cert_search_wrap'>
-				<input type='text' placeholder='인증서번호 또는 차량번호'>
-				<button type='submit'><i class="fa fa-search" ></i></button>
-			</div>
-		</div>
-	</div>
-	-->
         <div id='mv2_wrap'>
             <div class='mv2_top'>
                 {{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/mv2_top_text.png")) }}
@@ -42,7 +11,7 @@
             </div>
             <div class='mv2_btm'>
                 {{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/mv2_btm_text.png")) }}
-                <a href='{{ url("/community/notice/id/46") }}'>체험단 신청하기</a>
+                <a href='{{ url("/community/notice/46") }}'>체험단 신청하기</a>
             </div>
         </div>
 
