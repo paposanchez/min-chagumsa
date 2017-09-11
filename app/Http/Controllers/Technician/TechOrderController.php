@@ -21,6 +21,7 @@ use App\Models\PaymentCancel;
 use App\Models\Purchase;
 use App\Models\OrderCar;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\DiagnosisRepository;
 
@@ -277,9 +278,16 @@ class TechOrderController extends Controller
         $grades = [
             'AA' => 'AA', 'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D'
         ];
-        $my_grade = Certificate::where('orders_id', $order->id)->first()->pluck('grade', 'grade');
+        $my_certi = Certificate::where('orders_id', $order->id)->first();
+        if($my_certi){
+            $my_grade = $my_certi->pluck('grade', 'grade');
+        }else{
+            $my_grade = [];
+        }
 
-        return view('technician.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car', 'my_grade', 'grades'));
+        $kinds = Helper::getCodeSelectArray(Code::getCodesByGroup('kind_cd'), 'kind_cd', '차종을 선택해 주세요.');
+
+        return view('technician.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car', 'my_grade', 'grades', 'kinds', 'my_kind'));
     }
 
     /**
@@ -291,7 +299,7 @@ class TechOrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
         $section = $request->get('section');
 
         $order_where = Order::find($id);
@@ -328,7 +336,9 @@ class TechOrderController extends Controller
                     "displacement" => $request->get('cars_displacement'),
                     "fuel_consumption" => $request->get('cars_fuel_consumption'),
                     "engine_type" => $request->get("cars_engine_type"),
-                    "fueltype_cd" => $request->get("cars_fueltype_cd")
+                    "fueltype_cd" => $request->get("cars_fueltype_cd"),
+                    "kind_cd" => $request->get('kind_cd'),
+                    "passenger" => $request->get('passenger')
                 ];
 
                 $certificate_data = [
@@ -340,10 +350,27 @@ class TechOrderController extends Controller
                 ];
 
             }
-            elseif ($section == 'history'){
-                $order_data = ["status_cd" => 108];
-
-
+//            elseif ($section == 'history'){
+//                $order_data = ["status_cd" => 108];
+//
+//
+//                $car_data = [];
+//
+//                if($certificates_where){
+//                    $certificate_data = [
+//                        "history_insurance" => $request->get("certificates_history_insurance"),
+//                        "history_purpose" => $request->get("certificates_history_purpose"),
+//                        "history_garage" => $request->get("certificates_history_garage"),
+//                    ];
+//                }else{
+//                    $certificate_data = null;
+//                }
+//
+//
+//            }
+            else{
+//                $order_data = ['status_cd' => 109]; //최종 발행함
+                $order_data = ['status_cd' => 108]; //인증서 검토중
                 $car_data = [];
 
                 if($certificates_where){
@@ -351,44 +378,38 @@ class TechOrderController extends Controller
                         "history_insurance" => $request->get("certificates_history_insurance"),
                         "history_purpose" => $request->get("certificates_history_purpose"),
                         "history_garage" => $request->get("certificates_history_garage"),
+                        "price" => $request->get("pst"),
+                        "vat" => $request->get("certificates_vat"),
+                        "new_car_price" => $request->get("certificates_new_car_price"),
+                        "basic_registraion" => $request->get("certificates_basic_registraion"),
+                        "basic_registraion_depreciation" => $request->get("certificates_basic_registraion_depreciation"),
+                        "basic_mounting_cd" => $request->get("certificates_basic_mounting_cd"),
+                        "basic_etc" => $request->get("certificates_basic_etc"),
+                        "usage_mileage_cd" => $request->get("certificates_usage_mileage_cd"),
+                        "usage_mileage_depreciation" => $request->get("certificates_usage_mileage_depreciation"),
+                        "usage_history_cd" => $request->get("certificates_usage_history_cd"),
+                        "usage_history_depreciation" => $request->get("certificates_usage_history_depreciation"),
+                        "performance_tire_cd" => $request->get("certificates_performance_tire_cd"),
+                        "performance_exterior_cd" => $request->get("certificates_performance_exterior_cd"),
+                        "performance_interior_cd" => $request->get("certificates_performance_interior_cd"),
+                        "performance_device_cd" => $request->get("certificates_performance_device_cd"),
+                        "performance_depreciation" => $request->get("certificates_performance_depreciation"),
+                        "special_flooded_cd" => $request->get("certificates_special_flooded_cd"),
+                        "special_fire_cd" => $request->get("certificates_special_fire_cd"),
+                        "special_fulllose_cd" => $request->get("certificates_special_fulllose_cd"),
+                        "special_remodel_cd" => $request->get("certificates_special_remodel_cd"),
+                        "special_etc_cd" => $request->get("certificates_special_etc_cd"),
+                        "special_depreciation" => $request->get("certificates_special_depreciation"),
+                        "valuation" => $request->get("certificates_valuation"),
+                        "opinion" => $request->get("certificates_opinion"),
+                        "grade" => $request->get('grade')
                     ];
                 }else{
                     $certificate_data = null;
                 }
-
-
-            }else{
-//                $order_data = ['status_cd' => 109]; //최종 발행함
-                $order_data = ['status_cd' => 108]; //인증서 검토중
-                $car_data = [];
-                $certificate_data = [
-                    "price" => $request->get("pst"),
-                    "vat" => $request->get("certificates_vat"),
-                    "new_car_price" => $request->get("certificates_new_car_price"),
-                    "basic_registraion" => $request->get("certificates_basic_registraion"),
-                    "basic_registraion_depreciation" => $request->get("certificates_basic_registraion_depreciation"),
-                    "basic_mounting_cd" => $request->get("certificates_basic_mounting_cd"),
-                    "basic_etc" => $request->get("certificates_basic_etc"),
-                    "usage_mileage_cd" => $request->get("certificates_usage_mileage_cd"),
-                    "usage_mileage_depreciation" => $request->get("certificates_usage_mileage_depreciation"),
-                    "usage_history_cd" => $request->get("certificates_usage_history_cd"),
-                    "usage_history_depreciation" => $request->get("certificates_usage_history_depreciation"),
-                    "performance_tire_cd" => $request->get("certificates_performance_tire_cd"),
-                    "performance_exterior_cd" => $request->get("certificates_performance_exterior_cd"),
-                    "performance_interior_cd" => $request->get("certificates_performance_interior_cd"),
-                    "performance_device_cd" => $request->get("certificates_performance_device_cd"),
-                    "performance_depreciation" => $request->get("certificates_performance_depreciation"),
-                    "special_flooded_cd" => $request->get("certificates_special_flooded_cd"),
-                    "special_fire_cd" => $request->get("certificates_special_fire_cd"),
-                    "special_fulllose_cd" => $request->get("certificates_special_fulllose_cd"),
-                    "special_remodel_cd" => $request->get("certificates_special_remodel_cd"),
-                    "special_etc_cd" => $request->get("certificates_special_etc_cd"),
-                    "special_depreciation" => $request->get("certificates_special_depreciation"),
-                    "valuation" => $request->get("certificates_valuation"),
-                    "opinion" => $request->get("certificates_opinion"),
-                    "grade" => $request->get('grade')
-                ];
             }
+
+
 
             //DB처리
             /**
@@ -425,6 +446,7 @@ class TechOrderController extends Controller
                     $car_where->save();
 
                     $order_data['cars_id'] = $car_where->id;
+                    $order_data['technist_id'] = Auth::user()->id;
                 }
 
                 if(count($certificate_data) > 0){

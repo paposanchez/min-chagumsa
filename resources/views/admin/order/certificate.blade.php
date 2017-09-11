@@ -54,7 +54,11 @@
             <th>수입차 차대번호</th>
             <td>
                 <input type="text" class="form-control" placeholder="수입차 차대번호를 입력해 주세요." name="car_imported_vin_number"
-                       value="{{ $car->imported_vin_number ? $car->imported_vin_number : '' }}">
+                       value="{{ $car->imported_vin_number ? $car->imported_vin_number : '' }}"
+                @if(!$car->imported_vin_number)
+                    readonly
+                @endif
+                >
             </td>
         </tr>
         <tr>
@@ -112,13 +116,27 @@
             <th>차명</th>
             <td>
                 <input type="text" class="form-control" name="detail_name"
-                       value="{{ \App\Helpers\Helper::getCarModel($car) }}">
+                       value="{{ \App\Helpers\Helper::getCarModel($car) }}" readonly>
             </td>
             <th>세부모델</th>
             <td>
-                <input type="text" class="form-control" name="model_name" value="{{ $car->detail->name }}">
+                <input type="text" class="form-control" name="model_name" value="{{ $car->detail->name }}" readonly>
             </td>
         </tr>
+
+        <tr>
+            <th>차종</th>
+            <td>
+                {{--<input type="text" class="form-control" name="kind_cd" value="" placeholder="ex) SUV, 중형, 소형...">--}}
+            {!! Form::select('kind_cd', $kinds, [$car->kind_cd ? $car->kind_cd : ''], ['class'=>'form-control', 'required']) !!}
+            </td>
+            <th>승차인원</th>
+            <td>
+                <input type="text" class="form-control" name="passenger" value="{{ $car->passenger ? $car->passenger : '' }}" placeholder="">
+            </td>
+        </tr>
+
+
         <tr>
             <th>외부색상</th>
             <td colspan="1">
@@ -262,22 +280,22 @@
             </tbody>
         </table>
 
-        <div class="text-right">
-            <button class="btn btn-primary text-right" type="submit"{{ ($order->status_cd == 109)? ' disabled': '' }}>
-                저장
-            </button>
-        </div>
-        {!! Form::close() !!}
+        {{--<div class="text-right">--}}
+            {{--<button class="btn btn-primary text-right" type="submit"{{ ($order->status_cd == 109)? ' disabled': '' }}>--}}
+                {{--저장--}}
+            {{--</button>--}}
+        {{--</div>--}}
+        {{--{!! Form::close() !!}--}}
     </div>
 
     <div class='col-md-12'>
         <h2>가격 산정</h2>
 
-        @if(preg_match("/technician/", Route::currentRouteName()))
-            {!! Form::model($order, ['method' => 'PATCH','route' => ['technician.order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
-        @else
-            {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-price', 'enctype'=>"multipart/form-data"]) !!}
-        @endif
+        {{--@if(preg_match("/technician/", Route::currentRouteName()))--}}
+            {{--{!! Form::model($order, ['method' => 'PATCH','route' => ['technician.order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}--}}
+        {{--@else--}}
+            {{--{!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-price', 'enctype'=>"multipart/form-data"]) !!}--}}
+        {{--@endif--}}
         <input type="hidden" name="section" value="price">
         <table class="table table-bordered">
             <colgroup>
@@ -300,10 +318,10 @@
                 </th>
                 <td>
                     <label for=""
-                           class="radio-inline">{{ Form::radio('vat', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->vat), ['required']) }}
+                           class="radio-inline">{{ Form::radio('certificates_vat', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->vat), ['required']) }}
                         부가세 포함</label>
                     <label for=""
-                           class="radio-inline">{{ Form::radio('vat', 4, \App\Helpers\Helper::isCheckd(4, $order->certificates->vat), ['required']) }}
+                           class="radio-inline">{{ Form::radio('certificates_vat', 4, \App\Helpers\Helper::isCheckd(4, $order->certificates->vat), ['required']) }}
                         부가세 제외</label>
 
                     <div class="input-group"><input type="text" name="certificates_new_car_price" id="new_car_price"
@@ -528,10 +546,7 @@
                 </th>
                 <td>
                     <div class="input-group">
-                        {{--<input type="text" class="form-control" name="grade" id="grade"--}}
-                                                    {{--value="{{ $order->certificates ? $order->certificates->grade : '' }}"--}}
-                                                    {{--required="required">--}}
-                        {!! Form::select('grade',$grades, $my_grade, ['class'=>'form-control']) !!}
+                        {!! Form::select('grade',$grades, [$order->certificates->grade ? $order->certificates->grade : ''], ['class'=>'form-control']) !!}
                         <span class="input-group-addon">등급</span>
                     </div>
                 </td>
@@ -540,22 +555,35 @@
             <tr>
                 <th>종합 의견</th>
                 <td colspan="3">
-                    <textarea name="certificates_opinion" class="form-control wysiwyg"
-                              required="required">{{ $order->certificates ? $order->certificates->opinion : '' }}</textarea>
+                    <textarea name="certificates_opinion" class="form-control"
+                              required="required" style="height: 300px;">{{ $order->certificates ? $order->certificates->opinion : '' }}</textarea>
                 </td>
             </tr>
             </tbody>
         </table>
 
         <div class="text-right">
-            @if($order->status_cd != 109)
+            {{--@if($order->status_cd != 109)--}}
+                {{--<button class="btn btn-primary text-right"--}}
+                        {{--type="submit"{{ ($order->status_cd == 109)? ' disabled': '' }}>저장--}}
+                {{--</button>--}}
+            {{--@endif--}}
+            {{--<button class="btn btn-primary text-right" type="button"--}}
+                    {{--{{ ($order->status_cd == 109)? ' disabled': '' }} id="issue" data-id="{{ $order->id }}">인증서 발급--}}
+            {{--</button>--}}
+
                 <button class="btn btn-primary text-right"
-                        type="submit"{{ ($order->status_cd == 109)? ' disabled': '' }}>저장
+                        type="submit" {{ ($order->status_cd == 109)? ' disabled': '' }}>저장
                 </button>
-            @endif
-            <button class="btn btn-primary text-right" type="button"
-                    {{ ($order->status_cd == 109)? ' disabled': '' }} id="issue" data-id="{{ $order->id }}">인증서 발급
-            </button>
+
+                {{--@if($order->status_cd >= 107 && $order->status_cd <= 108)--}}
+                    {{--<a href="{{ route('technician.order.edit', $order->id) }}" class="btn btn-info"--}}
+                       {{--style="margin-left: 15px;">인증서 수정하기</a>--}}
+                {{--@endif--}}
+                @if($order->status_cd >= 108)
+                    <a href="#" class="btn btn-warning"
+                       style="margin-left: 15px;" id="preview" data-id="{{ $order->id }}">인증서 미리보기</a>
+                @endif
         </div>
         {!! Form::close() !!}
     </div>
@@ -817,6 +845,13 @@
                 })
             }
 
+        });
+
+
+
+        $('#preview').click(function(){
+            var order_id = $(this).data('id');
+            window.open('/certificate/'+order_id+'/summary',"", "width=1400, height=1400");
         });
 
     });
