@@ -21,6 +21,7 @@ use App\Models\PaymentCancel;
 use App\Models\Purchase;
 use App\Models\OrderCar;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\DiagnosisRepository;
 
@@ -277,7 +278,12 @@ class TechOrderController extends Controller
         $grades = [
             'AA' => 'AA', 'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D'
         ];
-        $my_grade = Certificate::where('orders_id', $order->id)->first()->pluck('grade', 'grade');
+        $my_grade = Certificate::where('orders_id', $order->id)->first();
+        if($my_grade){
+            $my_grade = $my_grade->pluck('grade', 'grade');
+        }
+
+
 
         return view('technician.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car', 'my_grade', 'grades'));
     }
@@ -425,6 +431,7 @@ class TechOrderController extends Controller
                     $car_where->save();
 
                     $order_data['cars_id'] = $car_where->id;
+                    $order_data['technist_id'] = Auth::user()->id;
                 }
 
                 if(count($certificate_data) > 0){

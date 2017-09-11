@@ -88,8 +88,8 @@
                 </div>
 
                 <ul class='foot_sns'>
-                    <li><a href='' class='sns_fb'>페이스북</a></li>
-                    <li><a href='' class='sns_blog'>블로그</a></li>
+                    <li><a href='https://www.facebook.com/permalink.php?story_fbid=545562222458911&id=539851119696688' class='sns_fb' target="_blank">페이스북</a></li>
+                    <li><a href='http://blog.naver.com/prologue/PrologueList.nhn?blogId=jimbros' class='sns_blog' target="_blank">블로그</a></li>
                 </ul>
 
             </div>
