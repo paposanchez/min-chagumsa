@@ -74,5 +74,4 @@ class Certificate Extends Model
            return $this->order->diagnosed_at->addDays($this->expire_period);
     }
 
-
 }
