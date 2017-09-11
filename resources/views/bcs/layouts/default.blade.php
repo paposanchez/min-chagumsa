@@ -42,7 +42,7 @@
 
 @section( 'content-footer-script' )
 {{-- tracking script --}}
-@if( config('app.analytics'))
+@if( config('zlara.analytics.bcs'))
 <script type="text/javascript" >
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
@@ -54,7 +54,7 @@
         a.src = g;
         m.parentNode.insertBefore(a, m)
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-    ga('create', "{{ config('app.analytics') }}", 'auto');
+    ga('create', "{{ config('zlara.analytics.bcs') }}", 'auto');
     ga('send', 'pageview');
 </script>
 @endif

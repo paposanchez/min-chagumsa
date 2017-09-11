@@ -100,7 +100,7 @@
     @section( 'content-footer-script' )
         @stack( 'footer-script' )
         {{-- tracking script --}}
-        @if( config('zlara.analytics'))
+        @if( config('zlara.analytics.default'))
         <script type="text/javascript" >
             (function (i, s, o, g, r, a, m) {
                 i['GoogleAnalyticsObject'] = r;
@@ -112,7 +112,7 @@
                 a.src = g;
                 m.parentNode.insertBefore(a, m)
             })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-            ga('create', "{{ config('zlara.analytics') }}", 'auto');
+            ga('create', "{{ config('zlara.analytics.default') }}", 'auto');
             ga('send', 'pageview');
         </script>
         @endif

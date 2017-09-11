@@ -1,8 +1,11 @@
 <?php
 
 return [
-
-        'analytics' => 'UA-104235029-1',
+        'analytics' => [
+                'default' => 'UA-104235029-1',
+                'bcs' => 'UA-104235029-2',
+                'api' => 'UA-104235029-3'
+        ],
 
         'cache' => [
                 'use' => true,
