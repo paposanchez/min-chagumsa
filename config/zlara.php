@@ -2,6 +2,7 @@
 
 return [
 
+        'analytics' => 'UA-104235029-1',
 
         'cache' => [
                 'use' => true,
