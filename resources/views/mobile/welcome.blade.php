@@ -48,15 +48,15 @@
 
         <div id='main_service_wrap'>
             <nav>	<div class="msb_prev"></div><div class="msb_next"></div></nav>
-            <div class='main_service_box' id='msb_1'>
+            <div class='main_service_box' id='msb_1' data-index="0">
                 <div class='msb_top'>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/msb_icon1.png")) }}</div>
                 <div class='msb_btm'>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/msb_text1.png")) }}</div>
             </div>
-            <div class='main_service_box' id='msb_2'>
+            <div class='main_service_box' id='msb_2' data-index="1">
                 <div class='msb_top'>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/msb_icon2.png")) }}</div>
                 <div class='msb_btm'>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/msb_text2.png")) }}</div>
             </div>
-            <div class='main_service_box' id='msb_3'>
+            <div class='main_service_box' id='msb_3' data-index="2">
                 <div class='msb_top'>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/msb_icon3.png")) }}</div>
                 <div class='msb_btm'>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/msb_text3.png")) }}</div>
             </div>
@@ -105,13 +105,39 @@
 {{--{{ Html::script(Helper::assets( 'themes/v1/mobile/js/modernizr.custom.53451.js' )) }}--}}
 {{--{{ Html::script(Helper::assets( 'themes/v1/mobile/js/jquery.gallery.js' )) }}--}}
 <script type="text/javascript">
-//    $(function () {
-//        $("#slide-menu").on("click", function(){
-//            alert('aaaa');
-//            $("#navi_wrap").show(function(){
-//                this.css("z-index", 1000);
-//            });
-//        });
-//    });
+    $(function () {
+
+        var c = 1;
+
+        $(".msb_next").on("click", function(){
+
+            var n = c+1;
+            if(c < 3){
+                $("#msb_" + c).hide();
+                $("#msb_" + n).fadeIn(400);
+                c++;
+            }else{
+                $("#msb_" + c).hide();
+                $("#msb_1").fadeIn(400);
+                c=1;
+            }
+
+
+        });
+
+        $(".msb_prev").on("click", function(){
+            var p = c-1;
+            if(c > 1){
+                $("#msb_" + c).hide();
+                $("#msb_" + p).fadeIn(400);
+                c--;
+            }else{
+                $("#msb_1").hide();
+                $("#msb_3").fadeIn(400);
+                c=3;
+            }
+        });
+
+    });
 </script>
 @endpush
