@@ -20,7 +20,7 @@
 
                 <div class='order_info_box'>
 
-                        
+
                         <div class='order_info_title clearfix '>
 
                                 <span class="text-lg text-light">{{ $order->getOrderNumber() }}</span>
@@ -61,9 +61,8 @@
                                                                 <li><strong class="text-light text-muted">주문상품</strong> <span>{{ $order->item->name }}</span>
                                                                 </li>
                                                                 <li><strong class="text-light text-muted">결제방법</strong>
-                                                                        <span>{{ \App\Helpers\Helper::getCodeName($order->purchase->type) }}</span></li>
-                                                                        <li><strong class="text-light text-muted">결제금액</strong> <span>{{ $order->item->price }}</span>
-                                                                        </li>
+                                                                        <span>{{ $order->purchase->payment_type->display() }}</span></li>
+                                                                        <li><strong class="text-light text-muted">결제금액</strong> <span>{{ number_format($order->item->price) }}원</span></li>
                                                                         <li><strong class="text-light text-muted">결제일</strong>
                                                                                 <span>{{ $order->purchase->updated_at }}</span>
 
@@ -112,7 +111,17 @@
                                                                                 <ul>
                                                                                         <li><strong class="text-light text-muted">차량번호</strong> <span>{{ $order->car_number }}</span>
                                                                                         </li>
-                                                                                        <li><strong class="text-light text-muted">제조사</strong>
+
+                                                                                        <li><strong class="text-light text-muted">모델</strong>
+
+                                                                                                <span>{{ $order->orderCar->brand->name }}</span>
+                                                                                                <span>{{ $order->orderCar->models->name }}</span>
+                                                                                                <span>{{ $order->orderCar->detail->name }}</span>
+                                                                                                <span>{{ $order->orderCar->grade->name }}</span>
+                                                                                        </li>
+
+
+                                                                                        <!-- <li><strong class="text-light text-muted">제조사</strong>
                                                                                                 <span>{{ $order->orderCar->brand->name }}</span></li>
                                                                                                 <li><strong class="text-light text-muted">모델</strong>
                                                                                                         <span>{{ $order->orderCar->models->name }}</span></li>
@@ -120,11 +129,12 @@
                                                                                                                 <span>{{ $order->orderCar->detail->name }}</span></li>
                                                                                                                 <li><strong class="text-light text-muted">등급</strong>
                                                                                                                         <span>{{ $order->orderCar->grade->name }}</span></li>
+                                                                                                                         -->
                                                                                                                         <li><strong class="text-light text-muted">침수여부</strong>
                                                                                                                                 <span>{{ $order->flooding_state_cd == 1 ? "예" : "아니요" }}</span></li>
                                                                                                                                 <li><strong class="text-light text-muted">사고여부</strong>
                                                                                                                                         <span>{{ $order->accident_state_cd == 1 ? "예" : "아니요"  }}</span></li>
-                                                                                                                                        <li><strong class="text-light text-muted">옵션</strong> <span>{{ $features }}</span></li>
+                                                                                                                                        <li><strong class="text-light text-muted">옵션</strong> <span>{!! implode(', ',  $features) !!}</span></li>
 
                                                                                                                                 </ul>
                                                                                                                         </div>
@@ -133,9 +143,7 @@
 
 
                                                                                                         <div class='ipt_line wid25'>
-                                                                                                                <button class='btns btns_green history-back' style='display:inline-block;' type="button" id="mypage">주문목록
-                                                                                                                        돌아가기
-                                                                                                                </button>
+                                                                                                                <button class='btn btn-default btn-lg history-back' type="button" id="mypage">주문목록 돌아가기</button>
                                                                                                         </div>
 
                                                                                                 </div>
@@ -156,7 +164,7 @@
                                                                                                 <script type="text/javascript">
                                                                                                 $(function () {
                                                                                                         $('#mypage').click(function () {
-                                                                                                                location.href = '{{ route('mypage.order.index') }}';
+                                                                                                                history.back();
                                                                                                         });
 
                                                                                                         $("#cancel-click").on("click", function () {

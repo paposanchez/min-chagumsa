@@ -80,7 +80,7 @@
                         <div class="panel panel-primary">
                                 <div class="panel-heading dark">
                                         <i class="fa fa-file-text-o"></i> 최근 주문
-                                        <a href="{{ url('diagnosis')}}" class="pull-right">총 {{ number_format($total_diagnosis) }} 개</a>
+                                        <a href="{{ url('order')}}" class="pull-right">총 {{ number_format($total_diagnosis) }} 개</a>
                                 </div>
 
                                 <div class="list-group">
@@ -90,7 +90,7 @@
                                         @endunless
 
                                         @foreach($lated_diagnosis as $n => $data)
-                                        <a href="{{ url('diagnosis/'.$data->id) }}" class="list-group-item">
+                                        <a href="{{ url('order', [$data->id]) }}" class="list-group-item">
                                                 <span class="label label-default" style="width:90px;display:inline-block;">{{ $data->status->display() }}</span>
 
                                                 {{ $data->getOrderNumber() }}

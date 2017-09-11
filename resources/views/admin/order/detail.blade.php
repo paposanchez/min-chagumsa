@@ -105,13 +105,16 @@
         </div>
 
 
-        <h1 class="page-header">PG 정보</h1>
+
+
         <div class="row">
                 <div class="col-md-12">
+
                         <ul class="nav nav-tabs">
                                 <li class="active"><a href="#payment-list" data-toggle="tab">결제정보</a></li>
                                 <li><a href="#payment-cencel-list" data-toggle="tab">결제취소 정보</a> </li>
                         </ul>
+
                         <div class="tab-content">
                                 <div id="payment-list" class="tab-pane fade in active">
                                         <table class="table table-bordered">
@@ -312,66 +315,7 @@
 @push( 'footer-script' )
 <script type="text/javascript">
 $(function () {
-        $("#order-modify").on("click", function () {
-                $("#order-modal").modal();
-        });
 
-        $("#order-purchase").on("click", function(){
-                $("#purchase-modal").modal();
-        })
-        //주문상태 form 초기화
-        $("#order-modal").on("hide.bs.modal", function () {
-                $("#order_status").val('');
-        });
-
-        $("#order-modal-submit").on("click", function (e) {
-                if(confirm("주문정보를 변경하시겠습니까?")){
-
-                        var current_status = parseInt('{{ $order->status_cd }}');
-                        var choice_status = parseInt($("input[name='status_cd']:checked").val());
-
-
-                        if(current_status <= 105 && choice_status <= 105){
-                                if(current_status == 100){
-                                        alert('주문취소된 주문은 상태를 변경할 수 없습니다.');
-                                        e.preventDefault();
-                                        return false;
-                                }else{
-                                        $("#order_status").val(choice_status);
-                                        $("#frmPost").submit();
-                                }
-
-                        }else if(current_status > 105 && choice_status > 105){
-                                $("#order_status").val(choice_status);
-                                $("#frmPost").submit();
-                        }else{
-                                alert('현재 주문상태와 수정하려는 수정상태를 확인해 주세요.\n1. 입고대기이전: 주문취소 가능\n2.점검진행 이후: 주문취소 불가');
-                                e.preventDefault();
-                                return false;
-
-                        }
-
-
-                }
-        });
-
-
-        // Select all tabs
-        $('.nav-tabs a').click(function(){
-                $(this).tab('show');
-        })
-
-        // Select tab by name
-        $('.nav-tabs a[href="#home"]').tab('show')
-
-        // Select first tab
-        $('.nav-tabs a:first').tab('show')
-
-        // Select last tab
-        $('.nav-tabs a:last').tab('show')
-
-        // Select fourth tab (zero-based)
-        $('.nav-tabs li:eq(3) a').tab('show')
 
 });
 </script>

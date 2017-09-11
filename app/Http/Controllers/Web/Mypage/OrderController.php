@@ -63,7 +63,7 @@ class OrderController extends Controller
             $order_features = $order->order_features->map(function ($feature) {
                     return $feature->feature->display();
                 });
-            $features = implode(', ', $order_features->toArray());
+            $features = $order_features->toArray();
             return view('web.mypage.order.show', compact('order', 'features'));
     }
 
