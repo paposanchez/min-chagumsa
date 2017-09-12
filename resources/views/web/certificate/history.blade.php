@@ -74,7 +74,13 @@
 	<tbody>
 		<tr>
 			<th class='fcol_navy'>보험사고 이력</th>
-			<td>{{ $order->certificates->history_insurance }}회</td>
+			<td>
+				@if($order->certificates->history_insurance > 0)
+				{{ $order->certificates->history_insurance }}회
+				@else
+					없음
+				@endif
+			</td>
 			<td>
 				@if($order->certificates->history_insurance > 0)
 					사고보험처리이력 정보 조회 시 사고이력 있음
@@ -96,7 +102,13 @@
 		</tr>
 		<tr>
 			<th class='fcol_navy'>정비 이력</th>
-			<td>{{ $order->certificates->history_maintance }}번</td>
+			<td>
+				@if($order->certificates->history_maintance > 0)
+				{{ $order->certificates->history_maintance }}번
+				@else
+					없음
+				@endif
+			</td>
 			<td>
 				@if($order->certificates->history_maintance > 0)
 					{{ $order->certificates->history_maintance }}번의 정비이력을 보유함
@@ -115,19 +127,32 @@
 				@endif
 			</td>
 			<td>
-				@foreach(json_decode($order->certificates->history_purpose, true) as $key => $purpose)
-					{{ $purpose }}
-				@endforeach
+				@if($order->certificates->history_purpose)
+					@foreach(json_decode($order->certificates->history_purpose, true) as $key => $purpose)
+						{{ $purpose }}
+					@endforeach
+				@else
+					용도변경이력이 없음
+				@endif
 			</td>
 		</tr>
 		<tr>
 			<th class='fcol_navy'>차고지 이력</th>
-			<td>최근 / {{ json_decode($order->certificates->history_garage, true)[0] }}</td>
+			<td>
+				@if($order->certificates->history_garage)
+					최근 / {{ json_decode($order->certificates->history_garage, true)[0] }}</td>
+				@else
+					없음
+				@endif
 			{{--<td>강원도/강릉, 경기도/파주</td>--}}
 			<td>
-			@foreach(json_decode($order->certificates->history_garage, true) as $key => $garage_row)
-					• {{ $garage_row }}
-			@endforeach
+				@if($order->certificates->history_garage)
+					@foreach(json_decode($order->certificates->history_garage, true) as $key => $garage_row)
+						• {{ $garage_row }}
+					@endforeach
+				@else
+					차고지이력이 없음
+				@endif
 			</td>
 		</tr>
 	</tbody>

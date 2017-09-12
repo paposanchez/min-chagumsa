@@ -50,7 +50,8 @@
 				</td>
 				<th>사용월수</th>
 				<td>
-					{{ \Carbon\Carbon::parse($order->car->registration_date)->diffInMonths(\Carbon\Carbon::now()) }} 개월
+					{{--{{ \Carbon\Carbon::parse($order->car->registration_date)->diffInMonths(\Carbon\Carbon::now()) }} 개월--}}
+					{{ \App\Helpers\Helper::getMonthNum($order->car->registration_date) }} 개월
 				</td>
 			</tr>
 			<tr>
@@ -90,7 +91,11 @@
 				</td>
 				<th>최종등록차고지</th>
 				<td>
+					@if($order->certificates->history_garage)
 					최근 / {{ json_decode($order->certificates->history_garage, true)[0] }}
+					@else
+						없음
+					@endif
 				</td>
 			</tr>
 			</tbody>

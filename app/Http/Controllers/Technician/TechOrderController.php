@@ -276,18 +276,15 @@ class TechOrderController extends Controller
         }
 
         $grades = [
-            'AA' => 'AA', 'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D'
+            '' => '등급을 선택해주세요.', 'AA' => 'AA', 'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D'
         ];
-        $my_certi = Certificate::where('orders_id', $order->id)->first();
-        if($my_certi){
-            $my_grade = $my_certi->pluck('grade', 'grade');
-        }else{
-            $my_grade = [];
-        }
 
         $kinds = Helper::getCodeSelectArray(Code::getCodesByGroup('kind_cd'), 'kind_cd', '차종을 선택해 주세요.');
 
-        return view('technician.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car', 'my_grade', 'grades', 'kinds', 'my_kind'));
+        $certificate_state_cd = Helper::getCodeSelectArray(Code::getCodesByGroup('certificate_state_cd'), 'certificate_state_cd');
+
+
+        return view('technician.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car', 'my_grade', 'grades', 'kinds', 'my_kind', 'certificate_state_cd'));
     }
 
     /**
@@ -389,10 +386,44 @@ class TechOrderController extends Controller
                         "usage_mileage_depreciation" => $request->get("certificates_usage_mileage_depreciation"),
                         "usage_history_cd" => $request->get("certificates_usage_history_cd"),
                         "usage_history_depreciation" => $request->get("certificates_usage_history_depreciation"),
-                        "performance_tire_cd" => $request->get("certificates_performance_tire_cd"),
-                        "performance_exterior_cd" => $request->get("certificates_performance_exterior_cd"),
-                        "performance_interior_cd" => $request->get("certificates_performance_interior_cd"),
-                        "performance_device_cd" => $request->get("certificates_performance_device_cd"),
+
+                        "performance_exterior_cd" => $request->get("performance_exterior_cd"),
+                        "performance_flooded_cd" => $request->get("performance_flooded_cd"),
+                        "performance_consumption_cd" => $request->get("performance_consumption_cd"),
+                        "performance_broken_cd" => $request->get("performance_broken_cd"),
+                        "performance_powor_cd" => $request->get('performance_powor_cd'),
+                        "performance_electronic_cd" => $request->get('performance_electronic_cd'),
+                        "performance_interior_cd" => $request->get('performance_interior_cd'),
+                        "performance_exteriortest_cd" => $request->get('performance_exteriortest_cd'),
+                        "performance_plugin_cd" => $request->get('performance_plugin_cd'),
+                        "performance_engine_cd" => $request->get('performance_engine_cd'),
+                        "performance_steering_cd" => $request->get('performance_steering_cd'),
+                        "performance_tire_cd" => $request->get('performance_tire_cd'),
+                        "performance_accident_cd" => $request->get('performance_accident_cd'),
+                        "performance_interiortest_cd" => $request->get('performance_interiortest_cd'),
+                        "performance_driving_cd" => $request->get('performance_driving_cd'),
+                        "performance_transmission_cd" => $request->get('performance_transmission_cd'),
+                        "performance_braking_cd" => $request->get('performance_braking_cd'),
+
+                        "exterior_comment" => $request->get('exterior_comment'),
+                        "flooded_comment" => $request->get('flooded_comment'),
+                        "consumption_comment" => $request->get('consumption_comment'),
+                        "broken_comment" => $request->get('broken_comment'),
+                        "power_comment" => $request->get('power_comment'),
+                        "electronic_comment" => $request->get('electronic_comment'),
+                        "interior_comment" => $request->get('interior_comment'),
+                        "exteriortest_comment" => $request->get('exteriortest_comment'),
+                        "plugin_comment" => $request->get('plugin_comment'),
+                        "engine_comment" => $request->get('engine_comment'),
+                        "steering_comment" => $request->get('steering_comment'),
+                        "tire_comment" => $request->get('tire_comment'),
+                        "accident_comment" => $request->get('accident_comment'),
+                        "interiortest_comment" => $request->get('interiortest_comment'),
+                        "driving_comment" => $request->get('driving_comment'),
+                        "transmission_comment" => $request->get('transmission_comment'),
+                        "braking_comment" => $request->get('braking_comment'),
+
+
                         "performance_depreciation" => $request->get("certificates_performance_depreciation"),
                         "special_flooded_cd" => $request->get("certificates_special_flooded_cd"),
                         "special_fire_cd" => $request->get("certificates_special_fire_cd"),

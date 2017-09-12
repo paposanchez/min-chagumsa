@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Models\Certificate;
 use App\Models\Code;
 use App\Models\Order;
+use App\Models\OrderFeature;
 use Illuminate\Support\Facades\Auth;
 use Response;
 use File AS FileHandler;
@@ -19,7 +20,8 @@ class CertificateController extends Controller
 
     public function __invoke(Request $request, $order_id, $page = 'summary')
     {
-        $order = Order::find($order_id)->first();
+
+        $order = Order::find($order_id);
 
         if (isset($order->certificates) !== true) {
             $order->certificates = new Certificate();
@@ -31,7 +33,37 @@ class CertificateController extends Controller
             case 'history':
                 return view('web.certificate.history', compact('order', 'page'));
             case 'price':
-                return view('web.certificate.price', compact('order', 'page'));
+                //특별요인
+                $specials = [];
+                if($order->certificates->special_flooded_cd){
+                    $specials[] = '침수차량';
+                }
+                if($order->certificates->special_fire_cd){
+                    $specials[] = '화재차량';
+                }
+                if($order->certificates->special_fulllose_cd){
+                    $specials[] = '전손차량';
+                }
+                if($order->certificates->special_remodel_cd){
+                    $specials[] = '불법개조';
+                }
+                if($order->certificates->special_etc_cd){
+                    $specials[] = '기타요인';
+                }
+                $specials = implode(", ", $specials);
+
+                //장착품
+                $features = [];
+                $my_features = OrderFeature::where('orders_id', $order->id)->get();
+
+                if($my_features){
+                    foreach ($my_features as $my_feature){
+                        $features[] = $my_feature->feature->display();
+                    }
+                }
+                $features = implode(", ", $features);
+
+                return view('web.certificate.price', compact('order', 'page', 'specials', 'features'));
             default:
                 return view('web.certificate.summary', compact('order', 'page'));
         }

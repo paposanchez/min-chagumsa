@@ -453,6 +453,10 @@ class CodesTableSeeder extends Seeder {
 
             ['group' => 'part_state_cd', 'name' => 'good'],
 
+
+            ['group' => 'certificate_state_cd', 'name' => 'good'],
+            ['group' => 'certificate_state_cd', 'name' => 'maintenance'],
+            ['group' => 'certificate_state_cd', 'name' => 'substitute'],
         ]);
 
 

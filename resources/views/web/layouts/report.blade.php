@@ -19,10 +19,10 @@
 
             <h1>{{ Html::image(Helper::theme_web( '/img/report/report_logo.png')) }}</h1>
             <ul>
-                <li><a class="{{ ( !in_array($page, ['performance','history','price'])) ? ' select': ''}}" href='{{ route('certificate', ['id'=>4,'page'=>'summary']) }}'>자동차 인증서 요약 보고서</a></li>
-                <li><a class="{{ $page == 'performance' ? ' select':''}}" href='{{ route('certificate', ['id'=>4,'page'=>'performance']) }}'>자동차 성능진단 보고서</a></li>
-                <li><a class="{{ $page == 'history' ? ' select':''}}" href='{{ route('certificate', ['id'=>4,'page'=>'history']) }}'>자동차 이력 보고서</a></li>
-                <li><a class="{{ $page == 'price' ? ' select':''}}" href='{{ route('certificate', ['id'=>4,'page'=>'price']) }}'>자동차 가격조사산정서</a></li>
+                <li><a class="{{ ( !in_array($page, ['performance','history','price'])) ? ' select': ''}}" href='{{ route('certificate', ['id'=>$order->id,'page'=>'summary']) }}'>자동차 인증서 요약 보고서</a></li>
+                <li><a class="{{ $page == 'performance' ? ' select':''}}" href='{{ route('certificate', ['id'=>$order->id,'page'=>'performance']) }}'>자동차 성능진단 보고서</a></li>
+                <li><a class="{{ $page == 'history' ? ' select':''}}" href='{{ route('certificate', ['id'=>$order->id,'page'=>'history']) }}'>자동차 이력 보고서</a></li>
+                <li><a class="{{ $page == 'price' ? ' select':''}}" href='{{ route('certificate', ['id'=>$order->id,'page'=>'price']) }}'>자동차 가격조사산정서</a></li>
             </ul>
             <p>
                 <span>Copyright © JIMBROS INC. All rights reserved.</span>

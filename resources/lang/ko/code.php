@@ -516,6 +516,12 @@ return [
         'complete' => '정산완료'
     ],
 
+    'certificate_state_cd' => [
+        'good' => '양호',
+        'maintenance' => '정비요망',
+        'substitute' => '교체'
+    ],
+
 
 
 
