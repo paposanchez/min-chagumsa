@@ -9,7 +9,12 @@
         {{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub.css' )) }}
         {{ Html::style(Helper::assets( 'themes/v1/mobile/css/main.css' )) }}
         {{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' )) }}
-        
+
+        {{-- margin이 bootstrap과 충돌이 있어 일단 배제함 --}}
+        {{ Html::style(Helper::assets('css/app.css')) }}
+        {{ Html::style(Helper::assets('css/vendor.css')) }}
+        {{ Html::style(Helper::assets('themes/v1/mobile/css/mobile.css')) }}
+
         @stack('header-script')
     @endsection
 
@@ -63,6 +68,13 @@
                     $("#navi_wrap").animate({width:'toggle'},350);
                 });
 
+                $("#menu-login").on("click", function () {
+                    location.href = $(this).data('url');
+                });
+
+                $("#order-list").on("click", function () {
+                    location.href = $(this).data("url");
+                })
 
             });
 

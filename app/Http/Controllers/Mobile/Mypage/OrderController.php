@@ -58,7 +58,7 @@ class OrderController extends Controller
             ->orderBy(DB::raw('CASE status_cd WHEN 100 THEN 9999 ELSE status_cd END'), 'ASC')
             ->orderBy('created_at', 'DESC')->paginate(10);
 
-            return view('web.mypage.order.index', compact('my_orders'));
+            return view('mobile.mypage.order.index', compact('my_orders'));
     }
 
     public function show($id)

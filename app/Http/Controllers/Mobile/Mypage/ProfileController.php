@@ -30,6 +30,7 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
 
+
         if ($request->get('old_password') === $request->get('password')) {
             return redirect()->back()->with("error", "새 비밀번호가 현재 비밀번호와 동일합니다.");
         }

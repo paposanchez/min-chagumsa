@@ -4,27 +4,42 @@
 
     <div id='sub_title_wrap'>1:1문의</div>
 
-    <ul class='board_list_wrap'>
-        <li><a href='' class='faq_wait'>
-                <div>회원가입은 유료인가요? 결제는 어떻게 해야하나요?</div>
-                <span>2017년 01월 03일</span>
-            </a></li>
-        <li><a href='' class='faq_finish'>
-                <div>12월 하반기 공지사항</div>
-                <span>2017년 01월 03일</span>
-            </a></li>
-        <li><a href='' class='faq_finish'>
-                <div>11월 하반기 공지사항</div>
-                <span>2017년 01월 03일</span>
-            </a></li>
-    </ul>
+    <dl class='inquery_view_wrap faq_query'>
+        <dt>문의</dt>
+        <dd>
+            <div>
+                {{ $data->subject }}
+            </div>
+            <span>{{ $data->updated_at ? $data->updated_at->format("Y-m-d") : $data->created_at->format("Y-m-d")  }}</span>
+        </dd>
+    </dl>
+    <dl class='inquery_view_wrap faq_answer'>
+        <dt>
+            @if($data->is_answered === 1)
+                {!! nl2br($data->answered) !!}
+            @else
+                답변대기중입니다.
+            @endif
+        </dt>
+        <dd>
+            <div> {!! $data->content !!}</div>
+            @foreach($files as $file)
+                <span>
+                    <a href="/file/download/{{$file->id}}">
+                    <i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{ $file->original }}
+                    </a>
+                </span>
+                <br>
+            @endforeach
+        </dd>
+    </dl>
 
     <div class='br20'></div>
 
     <div id='sub_wrap'>
 
         <div class='ipt_line'>
-            <button class='btns btns_navy' style='display:inline-block;'>글쓰기</button>
+            <button class='btns btns_navy' style='display:inline-block;' id="list" data-url="{{ route($board_namespace.'.index') }}">목록</button>
         </div>
 
     </div>
@@ -38,5 +53,12 @@
 
 @push( 'footer-script' )
 
+<script type="text/javascript">
+    $(function () {
+        $("#list").on("click", function () {
+            location.href = $(this).data("url");
+        })
+    })
+</script>
 
 @endpush
