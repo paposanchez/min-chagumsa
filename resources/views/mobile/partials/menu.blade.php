@@ -26,7 +26,8 @@
                             <a class='' href='{{ url("/information/price") }}'>신청절차 및 수수류</a>
                         </div>
                     </li>
-                    <li><a class='menu2' href='{{ url("/order") }}'>인증서 신청</a></li>
+                    {{--<li><a class='menu2' href='{{ url("/order") }}'>인증서 신청</a></li>--}}
+                    <li><a class='menu2' href='javascript:alert("차검사 서비스 이용에 불편을 드려 죄송합니다.\nhttp://www.chagumsa.com [PC버전]을 이용해 주세요.");'>인증서 신청</a></li>
                                         <li><a class='menu3' href='{{ url("/certificate") }}'>MY 인증서</a></li>
                     {{--<li><a class='menu4' href='{{ url("") }}'>인증서 찾기</a></li>--}}
                     <li><a class='sub_menu menu2' href="#">고객센터</a>
