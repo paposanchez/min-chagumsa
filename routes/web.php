@@ -136,7 +136,7 @@ Route::post('register', 'Auth\RegisterController@postRegister');
 
 Route::any('/', 'WelcomeController');
 
-
+Route::get('sample', 'CertificateController@sample')->name('certificate.sample');
 //결제 prototype
 //Route::get('pay-test/index', 'PayTestController@index');
 //Route::post('pay-test/pay-result', 'PayTestController@payResult');
