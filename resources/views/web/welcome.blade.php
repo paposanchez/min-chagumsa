@@ -10,7 +10,7 @@
             <div class='mv2_cert_wrap'>
                 {{ Html::image(Helper::theme_web( '/img/main/mv2_title.png'), '중고차 공인인증 서비스 차검사') }}
                 <ul>
-                    {{--<li><a href=''>인증서 신청하기</a></li>--}}
+                    <li><a href='{{ url("/sample") }}' target="_blank">인증서 샘플보기</a></li>
                     {{--<li><a href=''>인증서 신청하기</a></li>--}}
                 </ul>
             </div>
@@ -52,7 +52,7 @@
                 <li>침수여부</li>
                 <li>엔진 및 구동장치</li>
                 <li>전장 및 주요부품</li>
-                <li>차량 내 · 외부 수리상ㅇ태</li>
+                <li>차량 내 · 외부 수리상태</li>
                 <li>로드테스트 기반 운행상태</li>
                 <li>차량운행이력</li>
                 <li>리콜정보</li>

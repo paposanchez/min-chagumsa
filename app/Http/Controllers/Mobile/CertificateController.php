@@ -68,4 +68,8 @@ class CertificateController extends Controller
         $order->save();
         return "인증서 공개여부가 변경되었습니다.";
     }
+
+    public function sample(){
+        return view('mobile.certificate.sample');
+    }
 }
