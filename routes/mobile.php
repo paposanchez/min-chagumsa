@@ -165,6 +165,7 @@ Route::any('/', 'WelcomeController');
 
 
 
+Route::get('sample', 'CertificateController@sample')->name('mobile.certificate.sample');
 
 //결제 prototype
 //Route::get('pay-test/index', 'PayTestController@index');
