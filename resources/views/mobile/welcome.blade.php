@@ -42,7 +42,7 @@
             </div>
             <div class='mv2_btm'>
                 {{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/mv2_btm_text.png")) }}
-                <a href=''>체험단 신청하기</a>
+                <a href='{{ url("/community/notice/46") }}'>체험단 신청하기</a>
             </div>
         </div>
 

@@ -3,14 +3,14 @@
 @section( 'content' )
 
     <ul class='report_menu_wrap'>
-        <li class='select'><a href='cert_report1.html'>자동차 인증서</a></li>
-        <li class=''><a href='cert_report2.html'>가격산정서</a></li>
+        <li class='select'><a href='{{ url("/certificate", ['id' => 4, 'summary']) }}'>자동차 인증서</a></li>
+        <li class=''><a href='{{ url("/certificate", ['id' => 4, 'price']) }}'>가격산정서</a></li>
     </ul>
 
     <div class='br20'></div>
 
     <div class='report_title_type1'>
-        쉐보레(GM대우) 더 넥스트 스파크 LT
+        {{ $order->getCarFullName() }}
     </div>
 
     <div class='report_table exp'>
@@ -22,39 +22,39 @@
             <tbody>
             <tr>
                 <th>산정가격</th>
-                <td><strong class='fsize_23'>2,000만원</strong></td>
+                <td><strong class='fsize_23'>{{ number_format($order->certificates->valuation) }}만원</strong></td>
             </tr>
             <tr>
                 <th>차량 성능 등급</th>
-                <td><strong class='fsize_23'>AA</strong></td>
+                <td><strong class='fsize_23'>{{ $order->certificates->grade }}</strong></td>
             </tr>
             <tr>
                 <th>연식</th>
-                <td>2005</td>
+                <td>{{ $order->car->year }}</td>
             </tr>
             <tr>
                 <th>차대번호</th>
-                <td>1HGCM567X5A03****</td>
+                <td>{{ mb_strimwidth($order->car_number, 0, 10, '****') }}</td>
             </tr>
             <tr>
                 <th>차종구분</th>
-                <td>승용 4 Door</td>
+                <td>{{ $order->car->getKind->display() }} {{ $order->car->passenger }}인승</td>
             </tr>
             <tr>
                 <th>사용연료</th>
-                <td>Gasoline(휘발유/무연)</td>
+                <td>{{ $order->car->getFuelType->display() }}</td>
             </tr>
             <tr>
                 <th>주행거리</th>
-                <td>33,000km</td>
+                <td>{{ number_format($order->mileage) }} km</td>
             </tr>
             <tr>
                 <th>인증서 발급일</th>
-                <td><strong class='fcol_navy'>2017년 1월 13일</strong></td>
+                <td><strong class='fcol_navy'>{{ \Carbon\Carbon::parse($order->certificates->created_at)->format('Y년 m월 d일') }}</strong></td>
             </tr>
             <tr>
                 <th>보증기간</th>
-                <td><strong class='fcol_navy '>2017년 2월 13일</strong><span class='exp'>만료</span></td>
+                <td><strong class='fcol_navy '>{{ $order->certificates->getExpireDate()->format("Y년 m월 d일 ") }} </strong><span class='exp'>만료</span></td>
             </tr>
             <tr>
                 <td colspan='2' class='img_type1'><img src="http://fakeimg.pl/88x50/"><img src="http://fakeimg.pl/88x50/"><img src="http://fakeimg.pl/88x50/"><img src="http://fakeimg.pl/88x50/"></td>
