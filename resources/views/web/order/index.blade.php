@@ -37,8 +37,8 @@
         <input type="hidden" name="item_id" id="item_id" value="">
         <input type="hidden" name="payment_price" id="payment_price" value="">
         <input type="hidden" name="payment_method" id="payment_method" value="">
-        <input type="hidden" name="sms_id" id="sms_id" autocomplete="off">
-        <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off">
+        <input type="hidden" name="sms_id" id="sms_id" autocomplete="off" value="1">
+        <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off" value="1">
         <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off">
         <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off">
         <input type="hidden" name="mobile" id="mobile" value="">
@@ -356,19 +356,19 @@
                                 <div class="block">
                                         <div class="row">
                                                 <div class="col-xs-4">
-                                                        <div class="purchase-item purchase-item-method" data-index="11">
+                                                        <div class="purchase-item purchase-item-method" id="card" data-index="11">
                                                                 <div class="point-icon"><i class="fa fa-credit-card"></i></div>
                                                                 <div class="point-desc text-muted">신용/체크카드</div>
                                                         </div>
                                                 </div>
                                                 <div class="col-xs-4">
-                                                        <div class="purchase-item purchase-item-method" data-index="12">
+                                                        <div class="purchase-item purchase-item-method" id="account" data-index="12">
                                                                 <div class="point-icon"><i class="fa fa-krw"></i></div>
                                                                 <div class="point-desc text-muted">실시간 계좌이체</div>
                                                         </div>
                                                 </div>
                                                 <div class="col-xs-4">
-                                                        <div class="purchase-item purchase-item-method" data-index="21">
+                                                        <div class="purchase-item purchase-item-method" id="coupon" data-index="21">
                                                                 <div class="point-icon"><i class="fa fa-tags"></i></div>
                                                                 <div class="point-desc text-muted">쿠폰결제</div>
                                                         </div>
@@ -595,104 +595,6 @@ $(document).ready(function () {
 });
 
 $(function () {
-
-        // 상품선
-        $(document).on("click", ".purchase-item-product", function () {
-
-                $('.purchase-item-product').removeClass("active");
-                $(this).toggleClass("active");
-
-                $('#item_id').val($(this).data("index"));
-                $('#payment_price').val($(this).data("price"));
-        });
-
-
-        $(document).on("click", ".purchase-item-method", function () {
-                $('.purchase-item-method').removeClass("active");
-                $(this).toggleClass("active");
-                var item_id = $('#item_id').val();
-
-                if ($(this).data('index') == '21') { //쿠폰
-                        if(item_id.length != 0){
-                                $('#modal-coupon').modal();
-                        }else{
-                                alert('상품을 선택하세요.');
-                                $(this).removeClass('active');
-                        }
-
-                }
-
-                $('#payment_method').val($(this).data("index"));
-
-        });
-
-        //쿠폰 모달 제어
-
-        $("#modal-coupon-close").on("click", function () {
-                $("#coupon_number").val("");
-                $("#modal-coupon").modal('hide');
-        });
-
-        $("#modal-coupon-verify").on("click", function () {
-
-                var coupon_number = $("#coupon_number").val();
-
-
-                if (coupon_number.length > 9 && coupon_number.length < 21) {
-                        $.ajax({
-                                url: "/order/coupon-verify",
-                                type: "post",
-                                dataType: "json",
-                                data: {'coupon_number': coupon_number, '_token': '{{ csrf_token() }}'},
-                                success: function (jdata, textStatus, jqXHR) {
-                                        var verify = jdata.status;
-
-                                        if (verify === 'ok') {
-                                                //인증서 유효성 확인됨.
-
-                                                $("#use_coupon_number").val(jdata.coupon_number);
-                                                $("#coupon_id").val(jdata.id);
-
-                                                $(".coupon-error").css({'color': '#0b4777'});
-                                                //인증버튼을 결제처리 버튼으로 변경한다.
-
-                                                $("#modal-coupon-verify").attr("disabled", "disabled");
-                                                $("#coupon-process").show(0.5);
-
-                                        } else {
-                                                $(".coupon-error").css({'color': 'red'});
-                                                $("#coupon_number").select();
-
-                                        }
-                                        $(".coupon-error").text(jdata.msg);
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                        $(".coupon-error").css({'color': 'red'});
-                                        $("#coupon_number").focus();
-                                        $(".coupon-error").text('쿠폰번호를 확인하지 못하였습니다.');
-                                }
-                        });
-                } else {
-
-                        $(".coupon-error").css({'color': 'red'});
-                        $("#coupon_number").focus();
-                        $(".coupon-error").text('쿠폰번호를 확인해주세요');
-                }
-
-        });
-
-        //쿠폰 결제 진행
-        $("#coupon-process").on("click", function () {
-
-                var use_coupon_number = $("#use_coupon_number").val();
-                var coupon_id = $("#coupon_id").val();
-                if (use_coupon_number && coupon_id) {
-                        $("#orderFrm").removeAttr("target");
-                        $("#orderFrm").attr("action", "{{ url("order/coupon-process") }}");
-                        $("#orderFrm").submit();
-                }
-        });
-
 
         // 정비소 관련 리스트
         $('#areas').change(function () {
@@ -1039,12 +941,118 @@ $(function () {
         });
 
 
-        $("#payment-process").on("click", function () {
+
+
+
+        /////////////////////// 결제 관련
+
+    // 상품선택
+    $(document).on("click", ".purchase-item-product", function () {
+
+        $('.purchase-item-product').removeClass("active");
+        $(this).toggleClass("active");
+
+        $('#item_id').val($(this).data("index"));
+        $('#payment_price').val($(this).data("price"));
+    });
+
+
+    $(document).on("click", ".purchase-item-method", function () {
+        $('.purchase-item-method').removeClass("active");
+        $(this).toggleClass("active");
+        var item_id = $('#item_id').val();
+
+        if ($(this).data('index') == '21') { //쿠폰
+            if(item_id.length != 0){
+                $('#payment_method').val($(this).data("index"));
+                $('#modal-coupon').modal();
+            }else{
+                alert('상품을 선택하세요.');
+                $('#payment_method').val('');
+                $(this).removeClass('active');
+            }
+        }else{
+            $('#payment_method').val($(this).data("index"));
+        }
+    });
+
+    //쿠폰 모달 제어
+
+    $("#modal-coupon-close").on("click", function () {
+        $("#coupon_number").val("");
+        $('#payment_method').val('');
+        $("#coupon").removeClass("active");
+        $("#modal-coupon").modal('hide');
+    });
+
+    $("#modal-coupon-verify").on("click", function () {
+
+        var coupon_number = $("#coupon_number").val();
+
+
+        if (coupon_number.length > 9 && coupon_number.length < 21) {
+            $.ajax({
+                url: "/order/coupon-verify",
+                type: "post",
+                dataType: "json",
+                data: {'coupon_number': coupon_number, '_token': '{{ csrf_token() }}'},
+                success: function (jdata, textStatus, jqXHR) {
+                    var verify = jdata.status;
+
+                    if (verify === 'ok') {
+                        //인증서 유효성 확인됨.
+
+                        $("#use_coupon_number").val(jdata.coupon_number);
+                        $("#coupon_id").val(jdata.id);
+
+                        $(".coupon-error").css({'color': '#0b4777'});
+                        //인증버튼을 결제처리 버튼으로 변경한다.
+
+                        $("#modal-coupon-verify").attr("disabled", "disabled");
+                        $("#coupon-process").show(0.5);
+
+                    } else {
+                        $(".coupon-error").css({'color': 'red'});
+                        $("#coupon_number").select();
+
+                    }
+                    $(".coupon-error").text(jdata.msg);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $(".coupon-error").css({'color': 'red'});
+                    $("#coupon_number").focus();
+                    $(".coupon-error").text('쿠폰번호를 확인하지 못하였습니다.');
+                }
+            });
+        } else {
+
+            $(".coupon-error").css({'color': 'red'});
+            $("#coupon_number").focus();
+            $(".coupon-error").text('쿠폰번호를 확인해주세요');
+        }
+
+    });
+
+    //쿠폰 결제 진행
+    $("#coupon-process").on("click", function () {
+
+        var use_coupon_number = $("#use_coupon_number").val();
+        var coupon_id = $("#coupon_id").val();
+        if (use_coupon_number && coupon_id) {
+            $("#orderFrm").removeAttr("target");
+            $("#orderFrm").attr("action", "{{ url("order/coupon-process") }}");
+            $("#orderFrm").submit();
+        }
+    });
+
+
+    $("#payment-process").on("click", function () {
                 var item_id = $('#item_id').val();
                 var payment_method = $('#payment_method').val();
 
                 if(item_id.length == 0){
-                        alert('상품을 선택하세요.');
+                    alert('상품을 선택하세요.');
+                    $('#payment_method').val('');
                 }else if(payment_method.length == 0){
                         alert('결제 방법을 선택하세요.');
                 }else{
