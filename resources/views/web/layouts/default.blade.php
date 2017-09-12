@@ -8,6 +8,8 @@
         {{ Html::style(Helper::assets( 'themes/v1/web/css/sub.css' )) }}
         {{ Html::script(Helper::assets( 'themes/v1/web/js/common.js' )) }}
 
+        <meta name="google-site-verification" content="mTIbOBsbBJcHjCQBPHD-5H6BDQP4xmJHN-TZtkVa8VA" />
+
         @stack('header-script')
     @endsection
 
