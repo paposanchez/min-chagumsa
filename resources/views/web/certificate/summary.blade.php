@@ -61,7 +61,16 @@
 			</tr>
 			<tr>
 				<th class='td_al_vm'>차량 이미지</th>
-				<td colspan='3' class='img_type1'><img src="http://fakeimg.pl/88x50/"><img src="http://fakeimg.pl/88x50/"><img src="http://fakeimg.pl/88x50/"><img src="http://fakeimg.pl/88x50/"></td>
+				<td colspan='3' class='img_type1'>
+                    @foreach($exterior_picture_ids as $picture)
+                        @if($picture->files)
+                            <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $picture->id }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $picture->id }}&format=png&h_pos=10&bg_rgb=ffffff">
+                        @else
+                            <img src="http://fakeimg.pl/88x50/">
+                        @endif
+                    @endforeach
+
+                </td>
 			</tr>
 			</tbody>
 		</table>

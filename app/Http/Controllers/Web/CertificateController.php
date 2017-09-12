@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Helpers\Helper;
 use App\Models\Certificate;
 use App\Models\Code;
+use App\Models\Diagnosis;
 use App\Models\Order;
 use App\Models\OrderFeature;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,15 @@ class CertificateController extends Controller
 
         switch ($page) {
             case 'performance':
+                $exterior_lefts = Diagnosis::where('orders_id', $order_id)->where('group', 2010)->get();
+                $exterior_centers = Diagnosis::where('orders_id', $order_id)->where('group', 2011)->get();
+                $exterior_rights = Diagnosis::where('orders_id', $order_id)->where('group', 2012)->get();
+
+                $interior_lefts = Diagnosis::where('orders_id', $order_id)->where('group', 2018)->get();
+                $interior_centers = Diagnosis::where('orders_id', $order_id)->where('group', 2019)->get();
+                $interior_rights = Diagnosis::where('orders_id', $order_id)->where('group', 2020)->get();
+
+
                 return view('web.certificate.performance', compact('order', 'page'));
             case 'history':
                 return view('web.certificate.history', compact('order', 'page'));
@@ -54,7 +64,7 @@ class CertificateController extends Controller
 
                 //장착품
                 $features = [];
-                $my_features = OrderFeature::where('orders_id', $order->id)->get();
+                $my_features = OrderFeature::where('orders_id', $order_id)->get();
 
                 if($my_features){
                     foreach ($my_features as $my_feature){
@@ -65,7 +75,13 @@ class CertificateController extends Controller
 
                 return view('web.certificate.price', compact('order', 'page', 'specials', 'features'));
             default:
-                return view('web.certificate.summary', compact('order', 'page'));
+                $exterior_picture_ids = Diagnosis::where('orders_id', $order_id)->where('group', 2008)->get();
+//                $picture_ids = [];
+//                foreach ($exterior_picure_ids as $picture_id){
+//                    $picture_ids[] = $picture_id->id;
+//                }
+//                dd($picture_ids);
+                return view('web.certificate.summary', compact('order', 'page', 'exterior_picture_ids'));
         }
     }
 
