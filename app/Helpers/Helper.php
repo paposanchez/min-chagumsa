@@ -236,9 +236,17 @@ class Helper {
     }
 
     public static function getCodeName($code_id){
-        $code = Code::where('id', $code_id)->first();
-        return trans('code.' . $code->group . '.' . $code->name);
+            if($code_id) {
+                    return '코드키누락';
+            }
 
+            $code = Code::where('id', $code_id)->first();
+
+            if(!$code) {
+                    return '코드없음';
+            }
+
+            return trans('code.' . $code->group . '.' . $code->name);
     }
 
     public static function getBoard($board_id){
