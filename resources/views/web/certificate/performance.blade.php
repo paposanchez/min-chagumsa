@@ -119,15 +119,18 @@
 			<span>
 			<!-- 한스모터스 -->
 				{{ $order->garage->name }}
-				<img src="http://fakeimg.pl/275x185/" class='img_place'>
-		</span>
+				{{--<img src="http://fakeimg.pl/275x185/" class='img_place'>--}}
+			</span>
+			<div id="map" style="width:300px;height:200px;margin-left: 90px;"></div>
+
 		</li>
 		<li>
 			<label>진단담당</label>
 			<span>
 			<!-- 홍길동 정비사 1급 -->
 				{{ $order->engineer->name}}
-				<img src="http://fakeimg.pl/170x170/" class='img_person'>
+
+				{{ Helper::imageTag('/avatar/'.$order->engineer->id, 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile', 'style'=>'width : 170px;')) }}
 		</span>
 		</li>
 	</ul>
@@ -285,15 +288,62 @@
 			</tbody>
 		</table>
 	</div>
+
+
+
+
 @endsection
 
 
 
 
 @push( 'header-script' )
+
 @endpush
 
 @push( 'footer-script' )
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=40213ad16ec63811a5a11a733b700b7f&libraries=services,clusterer,drawing"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+
+    // 지도를 생성합니다
+    var map = new daum.maps.Map(mapContainer, mapOption);
+
+    // 주소-좌표 변환 객체를 생성합니다
+
+    var geocoder = new daum.maps.services.Geocoder();
+
+
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch('{{ $order->garage->user_extra->address }}', function(result, status) {
+
+        // 정상적으로 검색이 완료됐으면
+        if (status === daum.maps.services.Status.OK) {
+
+            var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new daum.maps.Marker({
+                map: map,
+                position: coords
+            });
+
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new daum.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">{{ $order->garage->name }}</div>'
+            });
+            infowindow.open(map, marker);
+
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(coords);
+        }
+    });
+</script>
+
 <script type="text/javascript">
 
     $(window).on("load", function(){
