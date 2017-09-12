@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Helper;
 use App\Mixapply\Uploader\Receiver;
-use App\Models\Car;
 use App\Models\Certificate;
 use App\Models\Order;
 use App\Models\OrderCar;
@@ -19,6 +18,17 @@ use Mockery\Exception;
 use Illuminate\Support\Facades\Redirect;
 use GuzzleHttp\Client;
 use App\Repositories\DiagnosisRepository;
+
+
+
+
+use App\Models\Brand;
+use App\Models\Detail;
+use App\Models\Grade;
+use App\Models\Item;
+use App\Models\Models;
+
+
 
 use Carbon\Carbon;
 use App\Models\ScTran;
@@ -115,6 +125,19 @@ class OrderController extends Controller
                 $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
                 $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
                 $car = OrderCar::where('orders_id', $order->id)->first();
+
+
+
+
+
+
+                $brands = Brand::select('id', 'name')->get();
+                $exterior_option = Code::where('group', 'car_option_exterior')->get();
+                $interior_option = Code::where('group', 'car_option_interior')->get();
+                $safety_option = Code::where('group', 'car_option_safety')->get();
+                $facilities_option = Code::where('group', 'car_option_facilities')->get();
+                $multimedia_option = Code::where('group', 'car_option_multimedia')->get();
+
                 //        if($order->car){
                 //            $car = $order->car;
                 //        }else{
@@ -136,7 +159,7 @@ class OrderController extends Controller
                 //            }
                 //        }
 
-                return view('admin.order.detail', compact('order', 'payment', 'payment_cancel', 'car'));
+                return view('admin.order.detail', compact('order', 'payment', 'payment_cancel', 'car', 'brands'));
         }
 
         public function edit($id){

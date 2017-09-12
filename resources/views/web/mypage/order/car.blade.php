@@ -4,7 +4,7 @@
 
 <div id='sub_title_wrap'><h2>마이페이지<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> 마이페이지 <i class="fa fa-angle-right"></i> <span>주문목록</span></div></h2></div>
 
-<div id='sub_wrap'>
+<div id='sub_wrap' class="join_wrap order-container">
 
 
         <div class='order_info_box'>
@@ -25,9 +25,9 @@
                         </div>
 
                         <div class='order_info_desc'>
-                            <span>{{ $order->orderer_name }} <small class="text-muted">{{ $order->orderer_mobile }}</small></span>
-                            <span>{{ $order->getCarFullName() }}</span>
-                            <span>{{ $order->item->name }} <small class="text-muted">({{ number_format($order->item->price) }}원)</small></span>
+                                <span>{{ $order->orderer_name }} <small class="text-muted">{{ $order->orderer_mobile }}</small></span>
+                                <span>{{ $order->getCarFullName() }}</span>
+                                <span>{{ $order->item->name }} <small class="text-muted">({{ number_format($order->item->price) }}원)</small></span>
                         </div>
 
                         <div class='order_info_btn text-center'>
@@ -43,102 +43,108 @@
 
         <fieldset>
 
+                <div class="form-group">
+                        <label for="">차량번호</label>
 
-                <div class="row">
-
-                        <div class="col-xs-6">
-                                <div class="form-group">
-                                        <label for="exampleInputEmail1">차량번호</label>
-                                        <input type="text" class="form-control input-lg" id="car_number" placeholder='차량번호'  value="{{ $order->car_number }}" name="car_number">
+                        <div class="block">
+                                <div class="input-group input-group-lg">
+                                        <span class="input-group-addon"><i class="fa fa-car"></i></span>
+                                        <input type="text" class="form-control input-lg wid50" id="car_number" placeholder='차량번호' value="{{ $order->car_number }}" name="car_number">
                                 </div>
-
+                                <small class='help-block'>※ 12저1234 또는 서울12치1233 와 같이 입력해 주세요.</small>
                         </div>
-
-                        <div class="col-xs-6">
-
-                                <div class="form-group">
-                                        <label for="exampleInputEmail1" class="">모델정보</label>
-                                        <p class="form-control-static">
-                                                {{ $order->getCarFullName() }}
-                                        </p>
-                                </div>
-
-                        </div>
-
                 </div>
 
-
-
-
-                <div class="row">
-
-                        <div class="col-xs-6">
-                                <div class="form-group">
-                                        <label for="exampleInputEmail1">침수여부</label>
-                                        <div class="checkbox checkbox-slider--c checkbox-slider-md">
-                                                <label>
-                                                        <input type="checkbox" name="flooding"
-                                                        value='1'
-                                                        @if($order->flooding_state_cd == 1)
-                                                        checked
-                                                        @endif
-                                                        ><span>침수차량일 경우 선택하세요</span>
-                                                </label>
-                                        </div>
-                                </div>
-                        </div>
-
-                        <div class="col-xs-6">
-                                <div class="form-group">
-                                        <label for="exampleInputEmail1">사고여부</label>
-
-
-                                        <div class="checkbox checkbox-slider--c checkbox-slider-md">
-                                                <label>
-                                                        <input type="checkbox" name="accident"
-                                                        value='1'
-                                                        @if($order->accident_state_cd == 1)
-                                                        checked
-                                                        @endif
-                                                        ><span>사고차량일 경우 선택하세요</span>
-                                                </label>
-                                        </div>
-                                </div>
-                        </div>
-
-                </div>
 
 
                 <div class="form-group">
-                        <label for="">차량옵션
-                                <small class='text-danger pull-right'>추후 가격 산정에 영향을 미치므로 아래 항목 중 장착되어 있는 옵션을 정확히 체크해 주세요.</small>
-                        </label>
+                        <label for="">모델정보</label>
 
-                        <ul class='order_option_wrap'>
+                        <div class="block">
 
-                                @foreach($options_group as $key => $val)
-                                <li><strong>{{ $val }}</strong>
-                                        @foreach($options as $option)
+                                <h4 style="text-align:left !important;">{{ $order->getCarFullName() }}</h4>
+                                <small class='help-block'>※ 차량 모델정보는 변경하실 수 없습니다.</small>
+                        </div>
+                </div>
+
+
+
+                <div class="form-group">
+                        <label for="">침수/사고여부</label>
+
+                        <div class="block">
+                                <div class="row">
+
+                                        <div class="col-xs-6">
+                                                <div class="form-group">
+                                                        <label for="">침수여부</label>
+                                                        <div class="checkbox checkbox-slider--c checkbox-slider-md">
+                                                                <label>
+                                                                        <input type="checkbox" name="flooding"
+                                                                        value='1'
+                                                                        @if($order->flooding_state_cd == 1)
+                                                                        checked
+                                                                        @endif
+                                                                        ><span>침수차량일 경우 선택하세요</span>
+                                                                </label>
+                                                        </div>
+                                                </div>
+                                        </div>
+
+                                        <div class="col-xs-6">
+                                                <div class="form-group">
+                                                        <label for="">사고여부</label>
+                                                        <div class="checkbox checkbox-slider--c checkbox-slider-md">
+                                                                <label>
+                                                                        <input type="checkbox" name="accident"
+                                                                        value='1'
+                                                                        @if($order->accident_state_cd == 1)
+                                                                        checked
+                                                                        @endif
+                                                                        ><span>사고차량일 경우 선택하세요</span>
+                                                                </label>
+                                                        </div>
+                                                </div>
+                                        </div>
+
+                                </div>
+                        </div>
+                </div>
+
+
+
+
+
+                <div class="form-group">
+                        <label for="">차량옵션</label>
+
+                        <div class="block">
+                                <ul class='order_option_wrap'>
+                                        @foreach($options_group as $key => $val)
+                                        <li><strong>{{ $val }}</strong>
+                                                @foreach($options as $option)
                                                 @if($key == $option->group)
                                                 <div class='option_box'>
                                                         <label>
                                                                 <input type='checkbox' class='psk type2' value="{{ $option->id }}"
                                                                 @foreach($order_features as $feature)
-                                                                        @if($feature->features_id == $option->id)
-                                                                        checked
-                                                                        @endif
+                                                                @if($feature->features_id == $option->id)
+                                                                checked
+                                                                @endif
                                                                 @endforeach
                                                                 name="options_ck[]">
                                                                 <span class='lbl' name="exterior_ck"> {{ $option->display() }}</span>
                                                         </label>
                                                 </div>
                                                 @endif
+                                                @endforeach
+                                        </li>
                                         @endforeach
-                                </li>
-                                @endforeach
-                        </ul>
-                </div>
+                                </ul>
 
+                                <small class='help-block'>※ 추후 가격 산정에 영향을 미치므로 아래 항목 중 장착되어 있는 옵션을 정확히 체크해 주세요.</small>
+                        </div>
+                </div>
 
                 <p class="form-control-static text-center">
                         <a href="/mypage/order/{{ $order->id }}" class='btn btn-default btn-lg wid25'>돌아가기</a>

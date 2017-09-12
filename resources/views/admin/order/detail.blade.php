@@ -7,198 +7,248 @@
 @section( 'content' )
 <div class="container-fluid">
 
-        <div class="row">
+        <h3>
+                <span class="text-lg text-light">
+                        <span class="text-danger">{{ $order->status->display() }}</span> |
+                        {{ $order->getOrderNumber() }}
+                </span>
 
-                <div class="col-md-6" >
-
-
-                        <form class="form-horizontal">
-                                <div class="form-group">
-                                        <!-- 유형선택 -->
-                                        <label for="inputName" class="control-label col-md-2 text-left">주문번호</label>
-                                        <div class="col-md-4">
-                                                <div class="input-group">
-                                                        <input type="text" class="form-control" placeholder="" value="{{ $order->getOrderNumber() }}" style="background-color: #fff;" disabled>
-                                                        <span class="input-group-btn"><button class="btn btn-info" type="button" id="order-purchase">결제졍보</button></span>
-                                                </div>
-
-                                        </div>
-                                        <label for="inputName" class="control-label-2 col-md-2 text-left">주문상태</label>
-                                        <div class="col-md-4">
-                                                <div class="input-group">
-                                                        <input type="text" class="form-control" placeholder="" value="{{ $order->status->display() }}" style="background-color: #fff;" disabled>
-                                                        {{-- todo Admin에서만 나오도록 분기문 삽입해야 함. --}}
-                                                        <span class="input-group-btn"><button class="btn btn-primary" type="button" id="order-modify"{{ ($order->status_cd == 100)? " disabled": '' }}>주문상태 변경</button></span>
-                                                </div>
-                                        </div>
-                                </div>
-
-                                <div class="form-group">
-                                        <label for="inputName" class="control-label col-md-2 text-left">
-                                                주문자
-                                        </label>
-                                        <div class="col-md-4">
-                                                <input type="text" class="form-control" placeholder="" value="{{ $order->orderer_name }}" style="background-color: #fff;" disabled>
-                                        </div>
-                                        <label for="inputName" class="control-label-2 col-md-2 text-left">
-                                                차량번호
-                                        </label>
-                                        <div class="col-md-4">
-                                                <input type="text" class="form-control" placeholder="" value="{{ $order->car_number }}" style="background-color: #fff;" disabled>
-                                        </div>
-                                </div>
-
-                                <div class="form-group">
-                                        <label for="inputName" class="control-label col-md-2 text-left">
-                                                모델명
-                                        </label>
-                                        <div class="col-md-4">
-                                                <input type="text" class="form-control" placeholder="" value="{{ \App\Helpers\Helper::getCarModel($car) }}" style="background-color: #fff;" disabled>
-                                        </div>
-                                        <label for="inputName" class="control-label-2 col-md-2 text-left">
-                                                색상
-                                        </label>
-                                        <div class="col-md-4">
-                                                <input type="text" class="form-control" placeholder="" value="외장: {{ $car->getExteriorColor ? $car->getExteriorColor->display() : '' }} / 내장: {{ $car->getInteriorColor ? $car->getInteriorColor->display() : '' }}" style="background-color: #fff;" disabled>
-                                        </div>
-                                </div>
-
-                                <div class="form-group">
-                                        <label for="inputName" class="control-label col-md-2 text-left">
-                                                옵션
-                                        </label>
-                                        <div class="col-md-4">
-                                                <input type="text" class="form-control" placeholder="" value="연로타입: {{ $car->getFuelType ?  $car->getFuelType->display() : '미입력' }} / 엔진타입: {{ $car->getEngine ? $car->getEngine->display() : '미입력' }} / 변속기타입: {{ $car->getTransmission ? $car->getTransmission->display() : '미입력' }} / 용도 {{ $car->getType ? $car->getType->display() : '미입력' }}" style="background-color: #fff;" disabled>
-                                        </div>
-                                        <label for="inputName" class="control-label-2 col-md-2 text-left">
-                                                주문일 / 입고일
-                                        </label>
-                                        <div class="col-md-4">
-                                                <input type="text" class="form-control" placeholder="" value="{{ $order->created_at }} / {{ $order->diagnose_at ? $order->diagnose_at : '입고대기' }}" style="background-color: #fff;" disabled>
-                                        </div>
-                                </div>
-
-                                <div class="form-group">
-                                        <label for="inputName" class="control-label col-md-2 text-left">
-                                                진단일 / 인증서 발급일
-                                        </label>
-                                        <div class="col-md-4">
-                                                <input type="text" class="form-control" placeholder="" value="{{ $order->diagnosed_at ? $order->diagnosed_at : '입고대기' }} / {{ $order->certificates ? $order->certificates->updated_at : '인증대기' }}" style="background-color: #fff;" disabled>
-                                        </div>
-                                        <label for="inputName" class="control-label-2 col-md-2 text-left">
-                                                정비사 / 기술사
-                                        </label>
-                                        <div class="col-md-4">
-                                                <input type="text" class="form-control" placeholder="" value="{{ $order->engineer? $order->engineer->name : '미배정' }} / {{ $order->technicion? $order->technicion->name : '미배정'}}" style="background-color: #fff;" disabled>
-                                        </div>
-                                </div>
-                        </form>
-
-                </div>
-
-
-                <div class="col-md-6" >
-
-                </div>
-
-
-        </div>
-
-
+                <a href="/certificate/{{ $order->id }}" target="_blank" class="btn btn-default pull-right" style="margin-left:10px;"><i class="fa fa-file"></i> 인증서 보기</a>
+                <a href="/diagnosis/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"><i class="fa fa-search"></i> 진단정보 보기</a>
+        </h3>
 
 
         <div class="row">
-                <div class="col-md-12">
 
-                        <ul class="nav nav-tabs">
-                                <li class="active"><a href="#payment-list" data-toggle="tab">결제정보</a></li>
-                                <li><a href="#payment-cencel-list" data-toggle="tab">결제취소 정보</a> </li>
-                        </ul>
+                <div class="col-xs-7">
 
-                        <div class="tab-content">
-                                <div id="payment-list" class="tab-pane fade in active">
-                                        <table class="table table-bordered">
-                                                <thead>
-                                                        <tr class="active">
-                                                                <th class="text-center">결제수단</th>
-                                                                <th class="text-center">결제금액</th>
-                                                                <th class="text-center">승인일자</th>
-                                                                <th class="text-center">승인번호</th>
-                                                                <th class="text-center">카드사/은행명</th>
-                                                                <th class="text-center">결제결과</th>
-                                                                <th class="text-center">결제에러</th>
-                                                        </tr>
-                                                </thead>
-                                                <tbody>
-                                                        @if(count($payment) > 0)
-                                                        @foreach($payment as $key => $row)
-                                                        <tr>
-                                                                <td class="text-center">{{ $row->payMethod }}</td>
-                                                                <td class="text-center">{{ $row->amt }}</td>
-                                                                <td class="text-center">{{ $row->authDate }}</td>
-                                                                <td class="text-center">{{ $row->authCode }}</td>
-                                                                <td class="text-center">{{ $row->fnName }}</td>
-                                                                <td>{{ $row->resultMsg }}</td>
-                                                                <td>{{ $row->errirMsg }}</td>
-                                                        </tr>
-                                                        @endforeach
-                                                        @else
-                                                        <tr><th colspan="7" class="text-center"><h5>PG사 결제 로그가 없습니다.</h5></th></tr>
-                                                        @endif
-                                                </tbody>
-                                        </table>
-                                </div>
-                                <div id="payment-cencel-list" class="tab-pane fade">
-                                        <table class="table table-hover">
-                                                <thead>
-                                                        <tr class="active">
-                                                                <th>결제수단</th>
-                                                                <th>취소상태</th>
-                                                                <th>취소금액</th>
-                                                                <th>취소일시</th>
-                                                        </tr>
-                                                </thead>
-                                                <tbody>
-                                                        @if(count($payment_cancel) > 0)
-                                                        @foreach($payment_cancel as $key => $row)
-                                                        <tr>
-                                                                <td>{{ $row->payMethod }}</td>
-                                                                <td>{{ $row->resultCd }}</td>
-                                                                <td>{{ $row->cancelAmt }}</td>
-                                                                <td>{{ $row->cancelDate }}</td>
-                                                        </tr>
-                                                        @endforeach
-                                                        @else
-                                                        <tr>
-                                                                <th colspan="4" class="text-center"><h5>결제취소 로그가 없습니다.</h5></th>
-                                                        </tr>
-                                                        @endif
-                                                </tbody>
+                        <div class="block bg-white">
 
-                                        </table>
-                                </div>
+                                <h4>주문정보
+                                        <a class='pull-right text-sm text-danger' href="/mypage/order/change-reservation/{{ $order->id }}">주문취소</a>
+                                </h4>
+
+                                <form class="form-horizontal">
+
+                                        <div class="form-group">
+                                                <label for="" class="control-label col-md-3">주문자명</label>
+                                                <div class="col-md-9">
+                                                        <input type="text" class="form-control" placeholder="" name="" value="{{ $order->orderer_name }}">
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                                <label for="" class="control-label col-md-3">주문자연락처</label>
+                                                <div class="col-md-9">
+                                                        <input type="text" class="form-control" placeholder="" name="" value="{{ $order->orderer_mobile }}">
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                                <div class="col-md-9 col-md-offset-3">
+                                                        <button class="btn btn-primary">주문정보 변경</button>
+                                                </div>
+                                        </div>
+
+                                </form>
+                        </div>
+
+
+                        <div class="block bg-white" style="margin-bottom:10px;">
+
+                                <h4>결제정보</h4>
+                                <ul class="list-group">
+                                        <li class="list-group-item no-border"><span>상품명</span> <em class="pull-right">{{ $order->item->name }}</em></li>
+                                        <li class="list-group-item no-border"><span>결제금액</span> <em class="pull-right">{{ number_format($order->purchase->amount) }}원</em></li>
+                                        <li class="list-group-item no-border"><span>결제방법</span> <em class="pull-right">{{ $order->purchase->payment_type->display() }}</em></li>
+                                        <li class="list-group-item no-border"><span>결제일자</span> <em class="pull-right">{{ $order->purchase->updated_at }}</em></li>
+                                        <li class="list-group-item no-border"><span>결제번호</span> <em class="pull-right">{{ $order->purchase->transaction_id or '-' }}</em></li>
+                                </ul>
+
+                        </div>
+
+
+
+                        <div class="block bg-white" style="margin-bottom:10px;">
+
+                                <h4>차량정보</h4>
+                                <form class="form-horizontal">
+                                        <div class="form-group">
+                                                <label for="" class="control-label col-md-3">
+                                                        차량번호
+                                                </label>
+                                                <div class="col-md-9">
+                                                        <input type="text" class="form-control" placeholder="" value="{{ $order->car_number }}">
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                                <label for="" class="control-label col-md-3">브랜드명</label>
+                                                <div class="col-md-9">
+
+                                                        <select class="form-control" id="brands" name="brands">
+                                                                @foreach($brands as $brand)
+                                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                                                @endforeach
+                                                        </select>
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label for="" class="control-label col-md-3">모델명</label>
+                                                <div class="col-md-9">
+                                                        <select class="form-control" id="models" name="models">
+                                                                <option disabled="true">모델을 선택하세요.</option>
+                                                        </select>
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                                <label for="" class="control-label col-md-3">세부모델명</label>
+                                                <div class="col-md-9">
+                                                        <select class="form-control" id="details" name="details" >
+                                                                <option disabled="true">세부모델을 선택하세요.</option>
+                                                        </select>
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                                <label for="" class="control-label col-md-3">등급명</label>
+                                                <div class="col-md-9">
+                                                        <select class="form-control " id="grades" name="grades">
+                                                                <option disabled="true">등급을 선택하세요.</option>
+                                                        </select>
+                                                </div>
+                                        </div>
+
+
+
+                                        <div class="form-group">
+                                                <label for="" class="control-label col-md-3">
+                                                        사고유무
+                                                </label>
+                                                <div class="col-md-9">
+                                                        <div class="btn-group" data-toggle="buttons">
+                                                                <label class="btn btn-default active">
+                                                                        <input type="radio" name="accident" autocomplete="off" checked> 예
+                                                                </label>
+                                                                <label class="btn btn-default ">
+                                                                        <input type="radio" name="accident" autocomplete="off" checked> 아니요
+                                                                </label>
+                                                        </div>
+
+                                                </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                                <label for="" class="control-label col-md-3">
+                                                        침수여부
+                                                </label>
+                                                <div class="col-md-9">
+                                                        <div class="btn-group" data-toggle="buttons">
+                                                                <label class="btn btn-default active">
+                                                                        <input type="radio" name="flooding" autocomplete="off" checked> 예
+                                                                </label>
+                                                                <label class="btn btn-default">
+                                                                        <input type="radio" name="flooding" autocomplete="off" checked> 아니요
+                                                                </label>
+                                                        </div>
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                                <label for="" class="control-label col-md-3">
+                                                        옵션
+                                                </label>
+                                                <div class="col-md-9">
+
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                                <div class="col-md-9 col-md-offset-3">
+                                                        <button class="btn btn-primary">차량정보 변경</button>
+                                                </div>
+                                        </div>
+
+                                </form>
+
                         </div>
 
                 </div>
-        </div>
 
-        <br>
-        <div class="row">
 
-                <div class="col-md-6">
+                <div class="col-xs-5">
 
-                        {{--<a href="{{ route('order.index') }}" class="btn btn-primary" style="margin-left: 15px;">주문목록</a>--}}
-                        <a href="/order" class="btn btn-primary" style="margin-left: 15px;">주문목록</a>
+                        <div class="block bg-white" style="margin-bottom:10px;">
+
+                                <h4 class="">BCS
+
+                                        <a class='pull-right text-sm text-danger' href="/mypage/order/change-reservation/{{ $order->id }}">변경</a>
+                                </h4>
+                                <ul class="list-group">
+                                        <li class="list-group-item no-border"><span>대리점</span> <em class="pull-right">{{ $order->garage->name }}</em></li>
+                                        <li class="list-group-item no-border"><span>대리점 연락처</span> <em class="pull-right">{{ $order->garage->user_extra->phone }}</em></li>
+                                        <li class="list-group-item no-border"><span>엔지니어</span> <em class="pull-right">{{ $order->engineer ? $order->engineer->name : '-' }}</em></li>
+                                        <li class="list-group-item no-border"><span>엔지니어 연락처</span> <em class="pull-right">{{ $order->engineer ? $order->engineer->mobile : '-' }}</em></li>
+                                </ul>
+                        </div>
+
+                        <div class="block bg-white">
+
+                                <h4 class="">기술사
+                                        <a class='pull-right text-sm text-danger' href="/mypage/order/change-reservation/{{ $order->id }}">변경</a>
+                                </h4>
+                                <ul class="list-group">
+                                        <li class="list-group-item no-border"><span>기술사</span> <em class="pull-right">{{ $order->technician ? $order->technician->name : '-' }}</em></li>
+                                        <li class="list-group-item no-border"><span>기술사 연락처</span> <em class="pull-right">{{ $order->technician ? $order->technician->mobile : '-' }}</em></li>
+                                </ul>
+                        </div>
+
+
+                        <div class="block bg-white">
+
+                                <h4>타임라인</h4>
+
+                                <ul class="list-group">
+                                        <li class="list-group-item no-border">
+                                                <span>결제완료</span> <em class="pull-right">{{ $order->created_at }}</em>
+                                        </li>
+                                        <li class="list-group-item no-border">
+                                                <span>예약확정</span> <em class="pull-right">{{ $order->reservation->updated_at ? $order->reservation->updated_at : '-' }}</em>
+                                        </li>
+
+                                        <li class="list-group-item no-border">
+                                                <span>입고예약</span> <em class="pull-right">{{ $order->reservation->reservation_at ? $order->reservation->reservation_at : '-' }}</em>
+                                        </li>
+
+                                        <li class="list-group-item no-border">
+                                                <span>입고시작</span> <em class="pull-right">{{ $order->diagnose_at }}</em>
+                                        </li>
+                                        <li class="list-group-item no-border">
+                                                <span>진단완료</span> <em class="pull-right">{{ $order->diagnosed_at }}</em>
+                                        </li>
+                                        <li class="list-group-item no-border">
+                                                <span>인증시작</span> <em class="pull-right">{{ $order->certificates ? $order->certificates->created_at : '-' }}</em>
+                                        </li>
+                                        <li class="list-group-item no-border">
+                                                <span>인증완료</span> <em class="pull-right">{{ $order->certificates ? $order->certificates->updated_at : '-' }}</em>
+                                        </li>
+                                        <li class="list-group-item no-border">
+                                                <span>인증만료</span> <em class="pull-right">{{ $order->certificates ? $order->certificates->getExpireDate() : '-' }}</em>
+                                        </li>
+                                </ul>
+                        </div>
 
                 </div>
 
-                <div class="col-sm-6 text-right">
-                        {{--@if($order->certificates)--}}
-                        <a href="{{ route('order.edit', $order->id) }}" class="btn btn-default" style="margin-right: 15px;">진단 결과 보기</a>
-                        {{--@endif--}}
-                </div>
-
         </div>
+
+
+        <p class="text-center">
+                <a href="/order" class="btn btn-default">목록으로 돌아가기</a>
+        </p>
+
 
         {{-- 주문상태 변경 modal --}}
         <div class="modal fade bs-example-modal-lg in order-modal" id="order-modal" tabindex="-1" role="dialog" aria-labelledby="order-modal" aria-hidden="true">
@@ -212,7 +262,7 @@
                                         <div class="col-md-12">
                                                 <h3><span class="glyphicon glyphicon-warning-sign"></span> 주문의 취소는 입고대기 이전까지만 가능합니다.</h3>
                                                 <div class="form-group">
-                                                        <label class="control-label col-md-2 text-left" for="inputName">주문변경</label>
+                                                        <label class="control-label col-md-2" for="">주문변경</label>
                                                         <div class="col-md-6">
                                                                 <div class="radio"><label class="radio-inline"><input type="radio" name="status_cd" value="100" id="o_cancel">주문 취소 <span class="label label-info fa" role="alert">주문취소 가능</span></label></div><br>
                                                                 <div class="radio"><label class="radio-inline"><input type="radio" name="status_cd" value="104" id="o_reserved">입고 대기 <span class="label label-info fa" role="alert">주문취소 가능</span></label></div><br>
@@ -222,7 +272,7 @@
                                                                 <div class="radio"><label class="radio-inline"><input type="radio" name="status_cd" value="108" id="o_certificating">검토중(발급 대기) <span class="label label-danger fa" role="alert">주문취소 불가</span></label></div>
                                                                 <div class="radio"><label class="radio-inline"><input type="radio" name="status_cd" value="109" id="o_certificating">인증서발급완료 <span class="label label-danger fa" role="alert">주문취소 불가</span></label></div>
                                                         </div>
-                                                        <label class="control-label col-md-2 text-left" for="inputName">현재 주문상태</label>
+                                                        <label class="control-label col-md-2" for="">현재 주문상태</label>
                                                         <div class="col-md-2"><h1>{{ Helper::getCodeName($order->status_cd) }}</h1></div>
                                                 </div>
                                         </div>

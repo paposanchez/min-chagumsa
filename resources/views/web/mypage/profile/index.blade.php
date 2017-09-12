@@ -13,82 +13,93 @@
 
         <div class='br30'></div>
 
-        {!! Form::open([ 'route' => ['mypage.profile.store'], 'class' =>'form-horizontal', 'method' => 'POST', 'role' => 'form', 'id' => 'user-form']) !!}
+        <div class='order-container' style="width:50%;margin:0 auto;">
 
-                <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
-                        <label for="inputEmail" class="control-label col-xs-3">{{ trans('web/register.email') }}</label>
-                        <div class="col-xs-9">
-                                <p class="form-control-static">{{ $profile->email }}</p>
+                {!! Form::open([ 'route' => ['mypage.profile.store'], 'class' =>'form-horizontal', 'method' => 'POST', 'role' => 'form', 'id' => 'user-form']) !!}
+
+                <div class="form-group ">
+                        <label for="">회원정보</label>
+
+
+                        <div class="block">
+
+                                <div class="form-group">
+                                        <label for="">{{ trans('web/register.email') }}</label>
+
+                                        <p class="text-lg form-control-static">{{ $profile->email }}</p>
+                                </div>
+
+
+                                <div class="form-group  no-margin form-group-lg {{ $errors->has('name') ? 'has-error' : '' }}">
+                                        <label for="" class="control-label">{{ trans('web/register.name') }}</label>
+                                        <div class="input-group input-group-lg">
+                                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                <input type="text" class="form-control " value="{{ $profile->name }}" placeholder="{{ trans('web/register.name') }}" name="name" id="inputName">
+                                        </div>
+
+                                        @if ($errors->has('name'))
+                                        <span class="help-block">
+                                                {{ $errors->first('name') }}
+                                        </span>
+                                        @endif
+
+                                </div>
+
                         </div>
                 </div>
 
-                <div class="form-group  {{ $errors->has('name') ? 'has-error' : '' }}">
-                        <label for="inputName" class="control-label col-xs-3">{{ trans('web/register.name') }}</label>
-                        <div class="col-xs-4">
-                                <input type="text" class="form-control " value="{{ $profile->name }}" placeholder="{{ trans('web/register.name') }}" name="name" id="inputName">
-                        </div>
 
-                        @if ($errors->has('name'))
-                        <span class="help-block">
-                                {{ $errors->first('name') }}
-                        </span>
-                        @endif
+
+                <div class="form-group ">
+                        <label for="">비밀번호 변경</label>
+
+                        <div class="block">
+                                <div class="form-group  form-group-lg {{ $errors->has('old_password') ? 'has-error' : '' }}">
+                                        <label for="inputPasswordConfirmation" class="control-label">현재 비밀번호</label>
+                                        <input type='password' name="old_password" class='form-control ' placeholder='현재 비밀번호'>
+                                        @if ($errors->has('old_password'))
+                                        <span class="help-block">
+                                                {{ $errors->first('old_password') }}
+                                        </span>
+                                        @endif
+                                </div>
+
+
+                                <div class="form-group  form-group-lg {{ $errors->has('password') ? 'has-error' : '' }}">
+                                        <label for="inputPassword" class="control-label">새 비밀번호</label>
+                                        <input type="password" class="form-control " placeholder="새 비밀번호" name="password" id="inputPassword">
+
+                                        @if ($errors->has('password'))
+                                        <span class="help-block">
+                                                {{ $errors->first('password') }}
+                                        </span>
+                                        @endif
+                                </div>
+
+                                <div class="form-group  no-margin form-group-lg {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
+                                        <label for="inputPasswordConfirmation" class="control-label">새 비밀번호 확인</label>
+                                        <input type="password" class="form-control " placeholder="새 비밀번호 확인" name="password_confirmation" id="inputPasswordConfirmation">
+
+                                        @if ($errors->has('password'))
+                                        <span class="help-block">
+                                                {{ $errors->first('password_confirmation') }}
+                                        </span>
+                                        @endif
+                                </div>
+                        </div>
                 </div>
 
 
-                <div class="form-group  {{ $errors->has('old_password') ? 'has-error' : '' }}">
-                        <label for="inputPasswordConfirmation" class="control-label col-xs-3">현재 비밀번호</label>
-                        <div class="col-xs-4">
-                                <input type='password' name="old_password" class='form-control ' placeholder='현재 비밀번호'>
-                        </div>
-                        @if ($errors->has('old_password'))
-                        <span class="help-block">
-                                {{ $errors->first('old_password') }}
-                        </span>
-                        @endif
-                </div>
+                <p class="text-center">
 
+                        <a href="/" class="btn btn-default btn-lg history-back" >취소</a>
+                        <button class="btn btn-lg btn-success" data-loading-text="처리중..." type="submit">회원정보변경</button>
 
-                <div class="form-group  {{ $errors->has('password') ? 'has-error' : '' }}">
-                        <label for="inputPassword" class="control-label col-xs-3">새 비밀번호</label>
-                        <div class="col-xs-4">
-                                <input type="password" class="form-control " placeholder="새 비밀번호" name="password" id="inputPassword">
-                        </div>
-                        @if ($errors->has('password'))
-                        <span class="help-block">
-                                {{ $errors->first('password') }}
-                        </span>
-                        @endif
-                </div>
+                        <button class='btn btn-link btn-lg pull-right' id="leave" type="button"><span class=" text-danger">회원탈퇴</span></button>
+                </p>
+                {!! Form::close() !!}
 
-                <div class="form-group  {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
-                        <label for="inputPasswordConfirmation" class="control-label col-xs-3">새 비밀번호 확인</label>
-                        <div class="col-xs-4">
-                                <input type="password" class="form-control " placeholder="새 비밀번호 확인" name="password_confirmation" id="inputPasswordConfirmation">
-                        </div>
-                        @if ($errors->has('password'))
-                        <span class="help-block">
-                                {{ $errors->first('password_confirmation') }}
-                        </span>
-                        @endif
-                </div>
-
-
-
-
-
-        <div class='br30'></div>
-
-        <p class="text-center">
-
-                <a href="/" class="btn btn-default btn-lg history-back" >취소</a>
-                <button class="btn btn-lg btn-success btns_green" data-loading-text="처리중..." type="submit">회원정보변경</button>
-
-                <button class='btn btn-link btn-lg pull-right' id="leave" type="button"><span class=" text-danger">회원탈퇴</span></button>
-        </p>
-        {!! Form::close() !!}
-
-
+        </div>
 </div>
 
 @endsection
@@ -102,6 +113,9 @@
 $(function(){
         $("#user-form").validate({
                 rules: {
+                        name:{
+                                required: true
+                        },
                         old_password:{
                                 required: true,
                                 minlength: 8,
@@ -120,6 +134,7 @@ $(function(){
                         },
                 },
                 messages:{
+                        name: "이름을 입력하세요.",
                         old_password: {
                                 required: "현재 사용중인 비밀번호를 입력해 주세요.",
                                 old_password: "새 비밀번호는 8~16자리의 영문/숫자/특수문자 입니다.",

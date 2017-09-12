@@ -132,8 +132,8 @@
                         </td>
 
                         <td class="">
-                            @if($data->technicion)
-                                {{ $data->technicion->name }}
+                            @if($data->technician)
+                                {{ $data->technician->name }}
                             @endif
                         </td>
 

@@ -34,7 +34,6 @@ class Purchase extends Model
                 return $this->hasOne(\App\Models\Order::class);
         }
 
-
         public function payment_type() {
                 return $this->hasOne(\App\Models\Code::class, 'id', 'type');
         }

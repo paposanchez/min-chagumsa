@@ -105,7 +105,7 @@
                 </label>
                 <div class="col-md-4">
                     <input type="text" class="form-control" placeholder=""
-                           value="{{ $order->engineer? $order->engineer->name : '미배정' }} / {{ $order->technicion? $order->technicion->name : '미배정'}}"
+                           value="{{ $order->engineer? $order->engineer->name : '미배정' }} / {{ $order->technician? $order->technician->name : '미배정'}}"
                            style="background-color: #fff;" disabled>
                 </div>
             </div>
@@ -153,7 +153,3 @@
         $("#certi_tab a[href='" + hash + "']").tab('show');
     </script>
 @endpush
-
-
-
-

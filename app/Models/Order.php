@@ -115,7 +115,7 @@ class Order Extends Model
     public function engineer(){
         return $this->hasOne(User::class, 'id', 'engineer_id');
     }
-    public function technicion(){
+    public function technician(){
         return $this->hasOne(User::class, 'id', 'technist_id');
     }
 

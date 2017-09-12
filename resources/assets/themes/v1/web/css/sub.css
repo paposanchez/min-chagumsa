@@ -3,7 +3,7 @@
 
 /*
 =============================================
-|  조성민    SungMin Jo                    |
+|  議곗꽦誘�    SungMin Jo                    |
 |  Cell: +82-10-8837-4565, 010-8837-4565    |
 |  Home: http://www.alitaz.com              |
 |  e-mail: miracle_runa@naver.com           |
@@ -26,18 +26,18 @@
 .sub_title_shortCut i {margin:0 5px;}
 .sub_title_shortCut span {color:#5fb4ee;}
 
-#sub_wrap {padding:55px 0;width:1052px;min-height:460px;position:relative;margin:0 auto;}
+#sub_wrap {padding:55px 0;position:relative; width:1025px; margin:0 auto;}
 #sub_wrap.type2 {width:100%;background:#f6f6f6;}
 /*#sub_full_wrap {width:100%;height:1000px;position:relative;}*/
 /*#sub_full_wrap {width:100%;height:100%;position:relative;}*/
 
-/* 탭 */
+/* �� */
 .menu_tab_wrap {width:100%;border-bottom:1px solid #e5e5e5;font-size:0;}
 .menu_tab_wrap li {display:inline-block;height:45px;box-sizing:border-box;}
 .menu_tab_wrap li a {position:relative;bottom:0px;display:block;text-align:center;line-height:45px;font-size:20px;padding:0 45px;color:#444;}
 .menu_tab_wrap li a:hover, .menu_tab_wrap li a.select {color:#a4cd17;border-bottom:1px solid #a4cd17;}
 
-/* 로그인 */
+/* 濡쒓렇�� */
 .login_box_wrap {width:400px;padding:50px 0;background:#fff;border-radius:6px;position:absolute;left:50%;margin-left:-200px;top:50%;-webkit-transform:translateY(-55%);-ms-transform:translateY(-55%);transform:translateY(-55%);}
 
 .login_link {margin:0 auto;overflow:hidden;}
@@ -47,7 +47,7 @@
 .login_box_wrap .ipt_line {}
 .ipt_line a {font-size:14px;text-decoration:none;color:#ffffff;display:inline-block;}
 
-/* 회원가입 */
+/* �뚯썝媛�엯 */
 .join_wrap {width:940px;margin:0 auto;}
 
 .join_term_wrap {}
@@ -100,7 +100,7 @@
 .my_edit_btn_wrap {font-size:14px;}
 .my_edit_btn_wrap button {height:46px;line-height:46px;margin-left:20px;}
 
-/* 약관 */
+/* �쎄� */
 .term_wrap {overflow:hidden;padding:25px;}
 .term_wrap .term_title {color:#0b4777;font-size:14px;font-weight:bold;padding-bottom:10px;}
 .term_wrap .term_cont {border-top:1px solid #7f7f7f;border-bottom:1px solid #7f7f7f;font-size:12px;}
@@ -111,7 +111,7 @@
 .term_cont ol {list-style:decimal inside none !important;display:inline-block;}
 .term_cont ol li {list-style:decimal inside none !important;color:#999;}
 
-/* 게시판 */
+/* 寃뚯떆�� */
 .board_wrap {}
 .board_wrap table {width:100%;border-top:1px solid #7b7b7b;border-top:1px solid #7b7b7b;}
 .board_wrap table thead th, .board_wrap table tbody td, .board_wrap table tbody th {padding:15px 10px;font-size:14px; text-align: center;}
@@ -130,7 +130,7 @@
 .board_view_title ul li span {color:#444;padding-left:15px;}
 
 .board_view_cont {padding:30px 20px 15px 20px;border-bottom:1px solid #7b7b7b;}
-.board_view_cont img {max-width:100%;display:block;}
+.board_view_cont img {max-width:100%;display:block;margin-bottom:15px;}
 .board_view_cont p {font-size:14px;line-height:22px;display:block;margin-bottom:15px;}
 
 .board_btn_wrap {overflow:hidden;padding:15px 0;}
@@ -159,7 +159,7 @@
 .faq_dl dd {display:none;padding:25px 15px 25px 55px;border-bottom:1px solid #ddd;background:#f6f6f6;color:#444;font-size:14px;position:relative;}
 .faq_dl dd:before {position:absolute;left:18px;top:25px;content:'';width:23px;height:20px;background:url('../img/sub/faq_icon.png') no-repeat;background-position:0 -21px;}
 
-/* 인증서 */
+/* �몄쬆�� */
 .ipt_box {padding:25px;background:#f3f3f3;border:1px solid #e5e5e5;margin:0 auto;font-size:14px;overflow:hidden;position:relative;}
 .ipt_box.type2 {padding:35px 25px;}
 .ipt_box.type2 button {height:58px;line-height:58px;width:160px;padding:0;font-size:16px;position:absolute;right:20px;top:15px;letter-spacing:-1px;}
@@ -174,16 +174,17 @@
 .cert_list_title {margin-bottom:10px; color:#555;}
 .cert_list_title strong {color:#0b4777;}
 .cert_list_box {margin:0px 0 20px 0;}
-.cert_box_head {position:relative; background:#fff;}
-.cert_list_box.expire .cert_box_head:after {position:absolute;right:-10px;top:-7px;content:'';width:158px;height:99px;background:url('../img/sub/cert_expire_icon.png') no-repeat;}
-.cert_box_head div {padding-left:25px;height:60px;line-height:60px;font-size:22px;}
-.cert_box_head span {position:absolute;right:25px;top:25px;color:#0b4777;}
-.cert_box_head span strong {padding-right:15px;color:#999; font-weight: 400;}
 
-.cert_box_cont {padding:20px 25px;box-sizing:border-box;overflow:hidden; background:#f6f6f6; border-top:solid 1px #eee; border-bottom:solid 1px #eee;}
+.cert_box_head {position:relative; background:#0b4777; color:#fff; padding:15px 25px;}
+.cert_list_box.expire .cert_box_head:after {position:absolute;right:-10px;top:-7px;content:'';width:158px;height:99px;background:url('../img/sub/cert_expire_icon.png') no-repeat;}
+.cert_box_head div {font-size:22px;}
+.cert_box_head span {position:absolute;right:25px;top:15px;color:#fff;}
+.cert_box_head span strong {padding-right:15px;color:#ccc; font-weight: 400;}
+
+.cert_box_cont {padding:20px 25px;box-sizing:border-box;overflow:hidden; background:#fff;}
 .cert_box_cont_img {float:left;}
 .cert_box_cont_info {float:left;}
-.cert_box_cont_info ul {padding:0 0 0 20px;width:350px;box-sizing:border-box;border-right:1px solid #e5e5e5;}
+.cert_box_cont_info ul {padding:0 0 0 20px;width:350px;box-sizing:border-box;border-right:1px solid #efefef;}
 .cert_box_cont_info ul li {padding:4px 0px; letter-spacing:-1px;}
 .cert_box_cont_info ul li label {display:inline-block;font-weight: 400;color:#999;width:95px;}
 .cert_box_cont_info ul li span {display:inline-block;color:#0b4777;}
@@ -197,7 +198,7 @@
 .cert_box_cont_result ul li label {display:block;color:#0b4777;width:95px;margin-bottom:10px;}
 .cert_box_cont_result ul li span {display:block;color:#444;font-size:20px;}
 .cert_box_cont_result ul li span strong {font-size:36px;}*/
-.cert_box_foot {padding:15px 25px;height:70px;line-height:70px;box-sizing:border-box;background:#fff;position:relative;}
+.cert_box_foot {padding:15px 25px;height:70px;line-height:70px;border-top:solid 1px #efefef;box-sizing:border-box;background:#fff;position:relative;}
 .cert_box_foot .cert_msg {position:absolute;font-size:14px;top:15px;left:230px;height:40px;line-height:40px;display:inline-block;color:#bbb;}
 
 .cert_copy {position:absolute;background:#fff;top:16px;left:180px;height:38px;border:1px solid #bbb;overflow:hidden;border-radius:5px;}
@@ -206,7 +207,7 @@
 .cert_detail {position:absolute;right:15px;top:25px;}
 .cert_detail button {}
 
-/* 주문 */
+/* 二쇰Ц */
 .order_info_box {margin-top:20px;}
 .order_info_title {position:relative;padding-bottom:10px;font-size:16px;color:#444;}
 .order_info_title a:hover,
@@ -231,7 +232,7 @@
 
 
 .order_info_cont {overflow:hidden;position:relative; background:#fff;}
-.order_info_cont div.order_info_desc:first-child {background:#f6f6f6;}
+.order_info_cont div.order_info_desc:first-child {background:#0b4777; color:#fff;}
 .order_info_cont div.order_info_desc {float:left;padding:10px 25px;font-size:14px;}
 .order_info_cont div.order_info_desc span {display:block;margin:10px 0;}
 
@@ -241,12 +242,12 @@
 .order_info_guide {border:1px solid #cecece;}
 .order_info_guide ul {padding:40px;overflow:hidden;}
 .order_info_guide ul li {float:left;margin-right:75px;font-size:14px;min-width:130px;text-align:center;position:relative;}
-.order_info_guide ul li:after {position:absolute;font-size:30px;content:'〉';right:-60px;top:40px;color:#9cc414;}
+.order_info_guide ul li:after {position:absolute;font-size:30px;content:'>';right:-60px;top:40px;color:#9cc414;}
 .order_info_guide ul li:last-child {margin:0;}
 .order_info_guide ul li:last-child:after {display:none;}
 .order_info_guide ul li div {width:108px;height:108px;line-height:108px;margin:0 auto 10px auto;border-radius:100%;background:#9cc414;font-size:18px;color:#fff;}
 .order_info_guide ul li span {color:#444;line-height:18px;display:block;margin-bottom:5px;}
-.order_info_guide ul li strong {color:#82c4f2;line-height:18px;display:block;font-weight:normal;}
+.order_info_guide ul li strong {line-height:18px;display:block;font-weight:normal;}
 
 .order_detail_box_no_line {padding:30px 0;position:relative;}
 .order_detail_box {border-bottom:1px solid #cecece;padding:30px 0;position:relative;}
@@ -277,8 +278,8 @@
 .order_calc_wrap ul {overflow:hidden;border:1px solid #e5e5e5;}
 .order_calc_wrap ul li {float:left;padding:0 30px;width:33.3%;height:82px;line-height:82px;box-sizing:border-box;font-size:14px;border-right:1px solid #e5e5e5;position:relative;}
 .order_calc_wrap ul li:before {position:absolute;z-index:3;content:'';display:block;font-size:22px;font-weight:bold;width:29px;height:29px;border:1px solid #cecece;background:#fff;text-align:center;line-height:27px;right:-15px;top:25px;border-radius:100%;}
-.order_calc_wrap ul li.calc1:before {content:'－';}
-.order_calc_wrap ul li.calc2:before {content:'＝';}
+.order_calc_wrap ul li.calc1:before {content:'竊�';}
+.order_calc_wrap ul li.calc2:before {content:'竊�';}
 .order_calc_wrap ul li:first-child {padding:0 20px;}
 .order_calc_wrap ul li:last-child {border:0;}
 .order_calc_wrap ul li:last-child:before {display:none;}
@@ -287,7 +288,7 @@
 .order_calc_wrap ul li span strong {font-size:26px;}
 
 .order_option_wrap {overflow:hidden;border:1px solid #e5e5e5;border-right:0;font-size:0;}
-.order_option_wrap li {float:left;height:400px;display:inline-block;width:20%;box-sizing:border-box;border-right:1px solid #e5e5e5;}
+.order_option_wrap li {float:left;height:350px;display:inline-block;width:20%;box-sizing:border-box;border-right:1px solid #e5e5e5;}
 .order_option_wrap li strong {height:37px;line-height:37px;margin-bottom:5px;text-align:center;background:#f5f5f5;border-bottom:1px solid #e5e5e5;font-weight:normal;display:block;}
 
 .option_box {padding:1px 10px;}
@@ -302,7 +303,7 @@
 .order_address_wrap ul li button {width:75px;height:46px;padding:0;position:absolute;right:20px;top:10px;font-weight:bold;}
 
 
-/* 컨텐츠 */
+/* 而⑦뀗痢  */
 .cont_title {color:#0c4877;font-size:20px;letter-spacing:-1px;text-align:center;}
 .cont_title strong {padding:10px 0;font-size:40px;display:block;line-height:40px;font-weight:normal;}
 .cont_title strong span {color:#5fb4ef;}
@@ -383,12 +384,12 @@
     /*padding:30px 0px; */
 }
 
-.order-container #purchase-orderinfo {
+.order-container .pt-page {
     margin-top:50px;
 }
 
 .order-container .form-group {
-    margin-bottom:30px;
+    /*margin-bottom:30px;*/
 }
 
 .order-container .form-group > label {
@@ -399,7 +400,7 @@
 
 
 
-/* 결제폼 결제방식 선택부분 */
+/* 寃곗젣�� 寃곗젣諛⑹떇 �좏깮遺�텇 */
 .purchase-item {
     width:100%;
     position: relative;
@@ -454,7 +455,7 @@
 .purchase-item.active,
 .purchase-item:hover {
     border-color:#0b4777;
-    background-color: #fff;
+    background-color: #0b4777;
 }
 .purchase-item.active .point-price,
 .purchase-item.active .point-desc,
@@ -463,10 +464,10 @@
 .purchase-item:hover  .point-desc,
 .purchase-item:hover  .point-icon
 {
-    color:#0b4777;
-    background-color: #fff;
+    color:#fff;
+    background-color: #0b4777;
 }
-/* 결제버튼 */
+/* 寃곗젣踰꾪듉 */
 /*.zfp-payment-point-button{
     cursor: pointer;
 }

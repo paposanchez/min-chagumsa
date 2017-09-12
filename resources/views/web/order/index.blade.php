@@ -9,70 +9,69 @@
 </div>
 
 
-<div id='sub_wrap'>
-
-        <div class='join_wrap order-container'>
-
-                <ul class='join_step type2' id="join_step">
-                        <li class='on'>
-                                <strong>01</strong>
-                                <span>주문</span>
-                        </li>
-                        <li>
-                                <strong>02</strong>
-                                <span>차량</span>
-                        </li>
-                        <li>
-                                <strong>03</strong>
-                                <span>결제</span>
-                        </li>
-                        <li>
-                                <strong>04</strong>
-                                <span>완료</span>
-                        </li>
-                </ul>
+<div id='sub_wrap' class='join_wrap order-container'>
 
 
-                {!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective', 'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
+        <ul class='join_step type2' id="join_step">
+                <li class='on'>
+                        <strong>01</strong>
+                        <span>주문</span>
+                </li>
+                <li>
+                        <strong>02</strong>
+                        <span>차량</span>
+                </li>
+                <li>
+                        <strong>03</strong>
+                        <span>결제</span>
+                </li>
+                <li>
+                        <strong>04</strong>
+                        <span>완료</span>
+                </li>
+        </ul>
 
-                <input type="hidden" name="item_id" id="item_id" value="">
-                <input type="hidden" name="payment_price" id="payment_price" value="">
-                <input type="hidden" name="payment_method" id="payment_method" value="">
-                <input type="hidden" name="sms_id" id="sms_id" autocomplete="off">
-                <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off">
-                <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off">
-                <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off">
-                <input type="hidden" name="mobile" id="mobile" value="">
 
-                <input type="hidden" name="use_coupon_number" id="use_coupon_number" autocomplete="off">
-                <input type="hidden" name="coupon_id" id="coupon_id" autocomplete="off">
+        {!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective', 'method' => 'post', 'role' => 'form', 'id' => 'orderFrm']) !!}
+
+        <input type="hidden" name="item_id" id="item_id" value="">
+        <input type="hidden" name="payment_price" id="payment_price" value="">
+        <input type="hidden" name="payment_method" id="payment_method" value="">
+        <input type="hidden" name="sms_id" id="sms_id" autocomplete="off">
+        <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off">
+        <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off">
+        <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off">
+        <input type="hidden" name="mobile" id="mobile" value="">
+        <input type="hidden" name="use_coupon_number" id="use_coupon_number" autocomplete="off">
+        <input type="hidden" name="coupon_id" id="coupon_id" autocomplete="off">
 
 
+        <div class="pt-page pt-page-1">
 
-                <div class="pt-page pt-page-1">
+                <fieldset id="purchase-orderinfo" >
 
-                        <fieldset id="purchase-orderinfo" style="margin-top:50px;">
+                        <div class="form-group">
+                                <label for="">1. 주문자명</label>
 
-                                <div class="row">
-
-                                        <div class="col-xs-6">
-
-                                                <div class="form-group">
-                                                        <label for="exampleInputEmail1">주문자명</label>
+                                <div class="block">
+                                        <div class="row">
+                                                <div class="col-xs-6">
                                                         <div class="input-group input-group-lg">
                                                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                                                <input type="text" class="form-control input-lg" id="exampleInputEmail1 "
+                                                                <input type="text" class="form-control input-lg" id=" "
                                                                 laceholder='주문자 이름' value="{{ $user->name }}" name="orderer_name">
                                                         </div>
-
-
                                                 </div>
                                         </div>
+                                </div>
+                        </div>
 
-                                        <div class="col-xs-6">
-                                                <div class="form-group">
-                                                        <label for="exampleInputEmail1">휴대전화번호</label>
+                        <div class="form-group">
+                                <label for="">2. 휴대전화번호</label>
 
+                                <div class="block">
+                                        <div class="row">
+                                                <div class="col-xs-6">
                                                         <div class="input-group input-group-lg">
                                                                 <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
                                                                 <input type='text' id="orderer_mobile" class='form-control ' name="orderer_mobile"
@@ -83,16 +82,18 @@
                                                         </div>
                                                 </div>
                                         </div>
-
                                 </div>
+                        </div>
 
-                                <div class="form-group">
-                                        <label for="exampleInputEmail1" class="">입고대리점</label>
+                        <div class="form-group">
+                                <label for="" class="">3. 입고대리점</label>
 
+                                <div class="block">
 
                                         <div class="row no-margin-bottom">
 
                                                 <div class="col-xs-4">
+                                                        <h6 class="text-left">시도</h6>
                                                         <select class="form-control" size="5" id="areas" name="areas" autocomplete="off" style="padding:15px !important;">
                                                                 @foreach($garages as $key => $garage)
                                                                 <option value="{{ $garage->area }}">{{ $garage->area }}</option>
@@ -101,33 +102,34 @@
                                                 </div>
 
                                                 <div class="col-xs-4">
+                                                        <h6 class="text-left">구군</h6>
                                                         <select class="form-control" size="5" id="sections" name="sections" autocomplete="off" style="padding: 15px !important;">
                                                                 <option disabled="true">구/군을 선택하세요.</option>
                                                         </select>
                                                 </div>
 
                                                 <div class="col-xs-4" id="garage_box">
+                                                        <h6 class="text-left">대리점</h6>
                                                         <select class="form-control" size="5" id="garages" name="garages" style="padding:15px !important;">
                                                                 <option disabled="true">대리점을 선택하세요.</option>
                                                         </select>
                                                 </div>
 
                                         </div>
-                                        <div class="br10"></div>
-                                        <span class='help-block' id="select_garage"></span>
 
+                                        <span class='help-block' id="select_garage"></span>
                                 </div>
 
+                        </div>
 
-                                <div class="form-group">
 
-                                        <label for="exampleInputEmail1" style="display:block;">입고희망일
+                        <div class="form-group">
 
-                                                <small class='text-info pull-right'>{{ trans('web/order.reservation_info') }}</small>
-                                        </label>
+                                <label for="" style="display:block;">4. 입고희망일</label>
 
+                                <div class="block">
                                         <div class="row">
-                                                <div class="col-xs-4">
+                                                <div class="col-xs-6">
                                                         <div class="input-group input-group-lg">
                                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                                 <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD"
@@ -144,45 +146,48 @@
 
                                                 </div>
                                         </div>
+
+                                        <small class='help-block'>{{ trans('web/order.reservation_info') }}</small>
                                 </div>
+                        </div>
 
-                                <p class="form-control-static text-center">
-                                        <button type="button" class='btn btn-primary btn-lg wid25  order-page-move' data-index="1">다음
-                                        </button>
-                                </p>
-                        </fieldset>
-                </div>
+                        <p class="form-control-static text-center">
+                                <button type="button" class='btn btn-primary btn-lg wid25  order-page-move' data-index="1">다음</button>
+                        </p>
+                </fieldset>
+        </div>
 
-                <!-- pt-page pt-page-1 -->
-
-
-                <div class="pt-page pt-page-2" style="height:1100px;">
-
-                        <fieldset id="order-info-order" style="margin-top:50px;">
+        <!-- pt-page pt-page-1 -->
 
 
-                                <div class="form-group">
-                                        <label for="exampleInputEmail1">차량번호
+        <div class="pt-page pt-page-2">
 
-                                                <small class="text-muted">※ 12저1234 또는 서울12치1233 와 같이 입력해 주세요.</small>
-                                        </label>
+                <fieldset id="order-info-order">
 
+                        <div class="form-group">
+                                <label for="">5. 차량번호</label>
 
+                                <div class="block">
                                         <div class="input-group input-group-lg">
                                                 <span class="input-group-addon"><i class="fa fa-car"></i></span>
                                                 <input type="text" class="form-control input-lg wid50" id="car_number" placeholder='차량번호' value="{{ old('car_number') }}" name="car_number">
                                         </div>
 
-
+                                        <small class='help-block'>※ 12저1234 또는 서울12치1233 와 같이 입력해 주세요.</small>
                                 </div>
-
-                                <div class="form-group">
-                                        <label for="exampleInputEmail1" class="">모델정보</label>
+                        </div>
 
 
+
+
+                        <div class="form-group">
+                                <label for="">6. 차량모델</label>
+
+                                <div class="block">
                                         <div class="row no-margin-bottom">
 
                                                 <div class="col-xs-3">
+                                                        <h6 class="text-left">브랜드</h6>
                                                         <select class="form-control" id="brands" name="brands" autocomplete="off" size="5" style="padding:15px !important;">
                                                                 @foreach($brands as $brand)
                                                                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
@@ -191,57 +196,71 @@
                                                 </div>
 
                                                 <div class="col-xs-3">
+                                                        <h6 class="text-left">모델</h6>
                                                         <select class="form-control" id="models" name="models" autocomplete="off" size="5" style="padding:15px !important;">
                                                                 <option disabled="true">모델을 선택하세요.</option>
                                                         </select>
                                                 </div>
 
                                                 <div class="col-xs-3">
+                                                        <h6 class="text-left">세부모델</h6>
                                                         <select class="form-control" id="details" name="details" size="5" autocomplete="off" style="padding:15px !important;">
                                                                 <option disabled="true">세부모델을 선택하세요.</option>
                                                         </select>
                                                 </div>
 
                                                 <div class="col-xs-3">
+                                                        <h6 class="text-left">등급</h6>
                                                         <select class="form-control " id="grades" name="grades" size="5" autocomplete="off" style="padding:15px !important;">
                                                                 <option disabled="true">등급을 선택하세요.</option>
                                                         </select>
                                                 </div>
                                         </div>
                                 </div>
+                        </div>
 
-                                <div class="row">
 
-                                        <div class="col-xs-6">
-                                                <div class="form-group">
-                                                        <label for="exampleInputEmail1">침수여부</label>
-                                                        <div class="checkbox checkbox-slider--c checkbox-slider-md">
-                                                                <label>
-                                                                        <input type="checkbox" name="flooding"><span>침수차량일 경우 선택하세요</span>
-                                                                </label>
+                        <div class="form-group">
+                                <label for="">7. 침수/사고여부</label>
+
+                                <div class="block">
+                                        <div class="row">
+
+                                                <div class="col-xs-6">
+                                                        <div class="form-group">
+                                                                <label for="">침수여부</label>
+                                                                <div class="checkbox checkbox-slider--c checkbox-slider-md">
+                                                                        <label>
+                                                                                <input type="checkbox" name="flooding"><span>침수차량일 경우 선택하세요</span>
+                                                                        </label>
+                                                                </div>
                                                         </div>
                                                 </div>
-                                        </div>
 
-                                        <div class="col-xs-6">
-                                                <div class="form-group">
-                                                        <label for="exampleInputEmail1">사고여부</label>
-                                                        <div class="checkbox checkbox-slider--c checkbox-slider-md">
-                                                                <label>
-                                                                        <input type="checkbox" name="accident"><span>사고차량일 경우 선택하세요</span>
-                                                                </label>
+                                                <div class="col-xs-6">
+                                                        <div class="form-group">
+                                                                <label for="">사고여부</label>
+                                                                <div class="checkbox checkbox-slider--c checkbox-slider-md">
+                                                                        <label>
+                                                                                <input type="checkbox" name="accident"><span>사고차량일 경우 선택하세요</span>
+                                                                        </label>
+                                                                </div>
                                                         </div>
                                                 </div>
-                                        </div>
 
+                                        </div>
                                 </div>
+                        </div>
 
 
-                                <div class="form-group">
-                                        <label for="exampleInputEmail1" style="display:block;">차량옵션
-                                                <small class='text-danger pull-right'>추후 가격 산정에 영향을 미치므로 아래 항목 중 장착되어 있는 옵션을 정확히 체크해 주세요.</small>
-                                        </label>
 
+
+
+
+                        <div class="form-group">
+                                <label for="">8. 차량옵션</label>
+
+                                <div class="block">
                                         <ul class='order_option_wrap'>
                                                 <li><strong>외관</strong>
                                                         @foreach($exterior_option as $exterior)
@@ -295,26 +314,28 @@
                                                 </li>
                                         </ul>
 
-
+                                        <small class='help-block'>※ 추후 가격 산정에 영향을 미치므로 아래 항목 중 장착되어 있는 옵션을 정확히 체크해 주세요.</small>
                                 </div>
+                        </div>
+
+                        <p class="form-control-static text-center">
+                                <button type="button" class='btn btn-default btn-lg wid25 order-page-back' data-index="0">이전</button>
+                                <button type="button" class='btn btn-primary btn-lg wid25 order-page-move' data-index="2">다음</button>
+                        </p>
+                </fieldset>
+        </div>
+        <!-- pt-page pt-page-2 -->
 
 
-                                <p class="form-control-static text-center">
-                                        <button type="button" class='btn btn-default btn-lg wid25 order-page-move' data-index="0">이전</button>
-                                        <button type="button" class='btn btn-primary btn-lg wid25 order-page-move' data-index="2">다음</button>
-                                </p>
-                        </fieldset>
-                </div>
-                <!-- pt-page pt-page-2 -->
+        <div class="pt-page pt-page-3">
+
+                <fieldset id="order-info-purchase">
 
 
-                <div class="pt-page pt-page-3" style="height:600px;">
+                        <div class="form-group">
+                                <label for="">9. 상품</label>
 
-                        <fieldset id="order-info-purchase" style="margin-top:50px;">
-
-                                <div class="form-group">
-                                        <label for="exampleInputEmail1" class="">상품</label>
-
+                                <div class="block">
                                         <div class="row">
                                                 @foreach($items as $item)
                                                 <div class="col-xs-3">
@@ -325,13 +346,14 @@
                                                 </div>
                                                 @endforeach
                                         </div>
-
                                 </div>
+                        </div>
 
 
-                                <div class="form-group">
-                                        <label for="exampleInputEmail1" class="">결제방법</label>
+                        <div class="form-group">
+                                <label for="">10. 결제방법</label>
 
+                                <div class="block">
                                         <div class="row">
                                                 <div class="col-xs-4">
                                                         <div class="purchase-item purchase-item-method" data-index="11">
@@ -352,20 +374,20 @@
                                                         </div>
                                                 </div>
                                         </div>
-
                                 </div>
+                        </div>
 
-                                <p class="form-control-static text-center">
-                                        <button type="button" class='btn btn-default btn-lg wid25 order-page-move' data-index="1">이전</button>
-                                        <button type="button" class='btn btn-primary btn-lg wid25 bmd-modalButton' id="payment-process">결제</button>
-                                </p>
-                        </fieldset>
-                </div>
-                <!-- pt-page pt-page-3 -->
 
-                {!! Form::close() !!}
-
+                        <p class="form-control-static text-center">
+                                <button type="button" class='btn btn-default btn-lg wid25 order-page-back' data-index="1">이전</button>
+                                <button type="button" class='btn btn-primary btn-lg wid25 bmd-modalButton' id="payment-process">결제</button>
+                        </p>
+                </fieldset>
         </div>
+        <!-- pt-page pt-page-3 -->
+
+        {!! Form::close() !!}
+
 
 </div>
 
@@ -422,7 +444,7 @@
         <div class="modal-dialog">
                 <div class="modal-content">
                         <div class="modal-header">
-                                <h2 class="modal-title text-center">쿠폰번호 입력</h2>
+                                <h2 class="modal-title text-lg">쿠폰번호 입력</h2>
                         </div>
 
                         <div class="modal-body">
@@ -452,21 +474,31 @@
 
 @push( 'header-script' )
 
-{{ Html::style(Helper::assets( 'vendor/tympanus/css/component.css' )) }}
-{{ Html::style(Helper::assets( 'vendor/tympanus/css/animations.css' )) }}
+<!-- {{ Html::style(Helper::assets( 'vendor/tympanus/css/component.css' )) }}
+{{ Html::style(Helper::assets( 'vendor/tympanus/css/animations.css' )) }} -->
 
 <style>
 .pt-perspective {
-        /*min-height:1000px;*/
-        min-height: 800px;
-
+        /*min-height: 1200px !important;*/
 }
 
 .pt-page {
         /*height:1200px;*/
-        background: transparent !important;
+        /*overflow:hidden; */
+        /*background: transparent !important;*/
 }
-
+.pt-page.pt-page-1 {
+        height:790px;
+}
+.pt-page.pt-page-2 {
+        height:1200px;
+}
+.pt-page.pt-page-3 {
+        height:500px;
+}
+.pt-page .block {
+        margin:0px;
+}
 .bmd-modalContent {
         box-shadow: none;
         background-color: transparent;
@@ -482,171 +514,38 @@
 
 
 @push( 'footer-script' )
-{{ Html::script(Helper::assets( 'vendor/tympanus/js/modernizr.custom.js' )) }}
-
 <script type="text/javascript">
-
-
-var PageTransitions = (function () {
-
-        var $main = $('#orderFrm'),
-        $pages = $main.children('div.pt-page'),
-        $paginator = $("#join_step li"),
-        animcursor = 1,
-        pagesCount = $pages.length,
-        current = 0,
-        isAnimating = false,
-        endCurrPage = false,
-        endNextPage = false,
-        animEndEventNames = {
-                'WebkitAnimation': 'webkitAnimationEnd',
-                'OAnimation': 'oAnimationEnd',
-                'msAnimation': 'MSAnimationEnd',
-                'animation': 'animationend'
-        },
-        // animation end event name
-        animEndEventName = animEndEventNames[Modernizr.prefixed('animation')],
-        // support css animations
-        support = Modernizr.cssanimations;
-
-        function init() {
-
-                $pages.each(function () {
-                        var $page = $(this);
-                        $page.data('originalClassList', $page.attr('class'));
-                });
-
-                $pages.eq(current).addClass('pt-page-current');
-
-        }
-
-        function nextPage(options) {
-                var animation = (options.animation) ? options.animation : options;
-
-                if (isAnimating) {
-                        return false;
-                }
-
-                isAnimating = true;
-
-                var $currPage = $pages.eq(current);
-
-
-                if (options.showPage) {
-                        current = options.showPage;
-                } else {
-                        current = 0;
-                }
-
-                // if(options.showPage){
-                //     if( options.showPage < pagesCount - 1 ) {
-                //         current = options.showPage;
-                //     }
-                //     else {
-                //         current = 0;
-                //     }
-                // }
-                // else{
-                //     if( current < pagesCount - 1 ) {
-                //         ++current;
-                //     }
-                //     else {
-                //         current = 0;
-                //     }
-                // }
-
-                //        console.log(current);
-
-                $.each($paginator, function (i, obj) {
-
-                        if (i <= current) {
-                                $(obj).addClass('on');
-                        } else {
-                                $(obj).removeClass('on');
-                        }
-
-                });
-
-
-                var $nextPage = $pages.eq(current).addClass('pt-page-current'),
-                outClass = '', inClass = '';
-
-                switch (animation) {
-
-                        case 'back':
-                        outClass = 'pt-page-rotateSlideOut';
-                        inClass = 'pt-page-rotateSlideIn';
-                        break;
-
-                        default:
-                        outClass = 'pt-page-rotateSlideOut';
-                        inClass = 'pt-page-rotateSlideIn';
-                        break;
-                }
-
-
-                $currPage.addClass(outClass).on(animEndEventName, function () {
-                        $currPage.off(animEndEventName);
-                        endCurrPage = true;
-                        if (endNextPage) {
-                                onEndAnimation($currPage, $nextPage);
-                        }
-                });
-
-                $nextPage.addClass(inClass).on(animEndEventName, function () {
-                        $nextPage.off(animEndEventName);
-                        endNextPage = true;
-                        if (endCurrPage) {
-                                onEndAnimation($currPage, $nextPage);
-                        }
-                });
-
-                if (!support) {
-                        onEndAnimation($currPage, $nextPage);
-                }
-
-        }
-
-        function onEndAnimation($outpage, $inpage) {
-                endCurrPage = false;
-                endNextPage = false;
-                resetPage($outpage, $inpage);
-                isAnimating = false;
-        }
-
-        function resetPage($outpage, $inpage) {
-                $outpage.attr('class', $outpage.data('originalClassList'));
-                $inpage.attr('class', $inpage.data('originalClassList') + ' pt-page-current');
-        }
-
-        init();
-
-        return {
-                init: init,
-                nextPage: nextPage,
-        };
-
-})();
-
 var countdown;
+var car_num_chk = function (car_num) {
+        var pattern1 = /\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 12저1234
+        var pattern2 = /[가-힣ㄱ-ㅎㅏ-ㅣ\x20]{2}\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 서울12치1233
 
-$(function () {
+        if (!pattern1.test(car_num)) {
+                if (!pattern2.test(car_num)) {
+                        return 1;
+                }
+                else {
+                        return 2;
+                }
+        }
+        else {
+                return 2;
+        }
+}
+
+
+$(document).ready(function () {
+
+        $('.pt-page-1').show();
+        $('.pt-page-2').hide();
+        $('.pt-page-3').hide();
 
         $(document).on("click", ".order-page-move", function () {
                 var n = $(this).data('index');
                 var car_num = $('#car_number').val();
-                var d = {
-                        'showPage': n
-                };
-                // 이전버튼
-                if (n == '0') {
-                        d.animation = 'back';
-                        PageTransitions.nextPage(d);
-                }
-
 
                 // 1 depth 다음버튼
-                else if (n == 1) {
+                if (n == '1') {
                         //휴대폰 인증
                         if (!$('#sms_id').val()) {
                                 alert('sms인증을 확인해주세요.');
@@ -668,54 +567,60 @@ $(function () {
                                 return false;
                         }
 
+                        $('.pt-page-1').fadeOut();
+                        $('.pt-page-2').fadeIn();
+                        $('#join_step li').eq(1).addClass('on');
 
-                        $('.pt-perspective').css('min-height', '1000px');
-                        PageTransitions.nextPage(d);
-
+                        return;
                 }
+
                 // 2 depth 다음버튼
-                else if (n == '2') {
+                if (n == '2') {
                         // 차량번호 검사
                         if (car_num_chk(car_num) == 1) {
                                 alert('차량번호를 정확히 입력해주세요.');
                                 $('#car_number').focus();
                                 return false;
                         }
+
                         // 차량 모델 검사
-                        else if (!$('#grades option:selected').val()) {
+                        if (!$('#grades option:selected').val()) {
                                 alert('차량 모델 정보를 선택하세요.');
                                 $('#brands').focus();
                                 return false;
-                        } else {
-                                $('.pt-perspective').css('min-height', '800px');
-                                PageTransitions.nextPage(d);
                         }
 
+                        $('.pt-page-2').fadeOut();
+                        $('.pt-page-3').fadeIn();
+                        $('#join_step li').eq(2).addClass('on');
+                        return;
                 }
-                // 3, 4 버튼
-                else {
-                        PageTransitions.nextPage(d);
-                }
-                //            PageTransitions.nextPage(d);
-
         });
 
-        var car_num_chk = function (car_num) {
-                var pattern1 = /\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 12저1234
-                var pattern2 = /[가-힣ㄱ-ㅎㅏ-ㅣ\x20]{2}\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 서울12치1233
 
-                if (!pattern1.test(car_num)) {
-                        if (!pattern2.test(car_num)) {
-                                return 1;
-                        }
-                        else {
-                                return 2;
-                        }
+        $(document).on("click", ".order-page-back", function () {
+                var n = $(this).data('index');
+
+                // 1 depth 다음버튼
+                if (n == '0') {
+                        $('.pt-page-1').fadeIn();
+                        $('.pt-page-2').fadeOut();
+                        $('#join_step li').eq(1).removeClass('on');
+                        return;
                 }
-                else {
-                        return 2;
+
+                // 2 depth 다음버튼
+                if (n == '1') {
+                        $('.pt-page-2').fadeIn();
+                        $('.pt-page-3').fadeOut();
+                        $('#join_step li').eq(2).removeClass('on');
+
+                        return;
                 }
-        }
+        });
+});
+
+$(function () {
 
         // 상품선
         $(document).on("click", ".purchase-item-product", function () {
@@ -991,6 +896,7 @@ $(function () {
 
                 try {
                         clearInterval(countdown);
+                        $('#modalSms').modal('hide');
                 } catch (e) {
                 }
 

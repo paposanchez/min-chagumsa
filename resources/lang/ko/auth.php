@@ -21,6 +21,6 @@ return [
                 "unactive" => '해당 계정은 비활성 상태입니다. 인증메일을 확인하세요.',
                 'unauthorized' => '접근권한이 없습니다',
         ],
-        'unauthorized' => '접근권한이 없습니다.'
+        'unauthorized' => '접근권한이 없습니다.',
         'token-mismatch' => '세션이 만료되었습니다. 다시 로그인 하세요.'
 ];
