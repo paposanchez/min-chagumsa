@@ -42,7 +42,8 @@ html, body, #document {height:100%;min-height:100%;}
 .report_frame_title {padding-top:45px;height:150px;position:relative;box-sizing:border-box;}
 .report_frame_title button {position:absolute;top:0;right:0;width:150px;height:36px;font-size:14px;font-weight:bold;}
 .report_title {height:105px;background:url('../img/report/report_title_logo.png') 30px center no-repeat #0b4777;line-height:105px;position:relative;}
-.report_title:before {content:'자동차 인증서';font-size:24px;color:#fff;position:absolute;top:5px;left:250px;font-weight:bold;}
+/*.report_title:before {content:'자동차 인증서';font-size:24px;color:#fff;position:absolute;top:5px;left:250px;font-weight:bold;}*/
+.report_title:before {font-size:24px;color:#fff;position:absolute;top:5px;left:250px;font-weight:bold;}
 .report_title h2 {position:absolute;right:35px;top:45px;color:#5fb4ee;font-size:24px;font-weight:bold;}
 
 .report_frame_cont {border:1px solid #cfcfcf;border-top:0;background:#fff;padding:40px 60px;}

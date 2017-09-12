@@ -118,10 +118,10 @@
 			<label>진단장소</label>
 			<span>
 			<!-- 한스모터스 -->
-				{{ $order->garage->name }}
+				{{ $order->garage->user_extra->address }} / {{ $order->garage->name }}
 				{{--<img src="http://fakeimg.pl/275x185/" class='img_place'>--}}
 			</span>
-			<div id="map" style="width:300px;height:200px;margin-left: 90px;"></div>
+			<div id="map" style="width:400px;height:300px;margin-left: 90px;"></div>
 
 		</li>
 		<li>
@@ -282,7 +282,10 @@
 				<th class='td_al_c' colspan='2'>자동차기술사 종합의견</th>
 			</tr>
 			<tr>
-				<td>H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다. 또 차량 소모품 상태 검검 결과 배터리의 수명이 다 되어 교체를 해야 하니 참고하시길 바랍니다.</td>
+				<td>
+					{{--H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다. 또 차량 소모품 상태 검검 결과 배터리의 수명이 다 되어 교체를 해야 하니 참고하시길 바랍니다.--}}
+					{{ $order->certificates->opinion }}
+				</td>
 				<td class='td_al_c'>인증등급<br><strong class='fsize_50'>{{ $order->certificates->grade }}</strong></td>
 			</tr>
 			</tbody>
