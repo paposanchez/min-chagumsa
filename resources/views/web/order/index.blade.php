@@ -388,7 +388,6 @@
 
         {!! Form::close() !!}
 
-
 </div>
 
 
@@ -478,27 +477,6 @@
 {{ Html::style(Helper::assets( 'vendor/tympanus/css/animations.css' )) }} -->
 
 <style>
-.pt-perspective {
-        /*min-height: 1200px !important;*/
-}
-
-.pt-page {
-        /*height:1200px;*/
-        /*overflow:hidden; */
-        /*background: transparent !important;*/
-}
-.pt-page.pt-page-1 {
-        height:790px;
-}
-.pt-page.pt-page-2 {
-        height:1200px;
-}
-.pt-page.pt-page-3 {
-        height:500px;
-}
-.pt-page .block {
-        margin:0px;
-}
 .bmd-modalContent {
         box-shadow: none;
         background-color: transparent;
@@ -547,25 +525,25 @@ $(document).ready(function () {
                 // 1 depth 다음버튼
                 if (n == '1') {
                         //휴대폰 인증
-                        if (!$('#sms_id').val()) {
-                                alert('sms인증을 확인해주세요.');
-                                $('#orderer_mobile').focus();
-                                return false;
-                        }
-
-                        // 입고대리점 검사
-                        if (!$('#garages option:selected').val()) {
-                                alert('입고대리점을 선택해주세요.');
-                                $("#areas").focus();
-                                return false;
-                        }
-
-                        // 입고희망일 검사
-                        if (!$('#reservation_date').val()) {
-                                alert('예약일을 선택해주세요.');
-                                $("#reservation_date").focus();
-                                return false;
-                        }
+                        // if (!$('#sms_id').val()) {
+                        //         alert('sms인증을 확인해주세요.');
+                        //         $('#orderer_mobile').focus();
+                        //         return false;
+                        // }
+                        //
+                        // // 입고대리점 검사
+                        // if (!$('#garages option:selected').val()) {
+                        //         alert('입고대리점을 선택해주세요.');
+                        //         $("#areas").focus();
+                        //         return false;
+                        // }
+                        //
+                        // // 입고희망일 검사
+                        // if (!$('#reservation_date').val()) {
+                        //         alert('예약일을 선택해주세요.');
+                        //         $("#reservation_date").focus();
+                        //         return false;
+                        // }
 
                         $('.pt-page-1').fadeOut();
                         $('.pt-page-2').fadeIn();
