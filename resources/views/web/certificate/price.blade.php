@@ -95,45 +95,139 @@
             <tr>
                 <th rowspan='3'>기본평가</th>
                 <td>등록일 보정</td>
-                <td>표준</td>
+                <td>
+                    @if($order->certificates->basic_registraion == 1282)
+                        초과
+                    @elseif($order->certificates->basic_registraion == 1283)
+                        표준
+                    @else
+                        미달
+                    @endif
+                </td>
             </tr>
             <tr>
                 <td>장착품(추가옵션)평가</td>
-                <td>썬루프, 네비게이션</td>
+                <td>
+                    @if($features)
+                        {{ $features }}
+                    @else
+                        없음
+                    @endif
+                </td>
             </tr>
             <tr>
                 <td>색상 등 기타</td>
-                <td>무채색</td>
+                <td>{{ $order->car->getExteriorColor->display() }}</td>
             </tr>
             <tr>
                 <th rowspan='2'>사용이력</th>
                 <td>주행거리 평가</td>
-                <td>초과</td>
+                <td>
+                    @if($order->certificates->usage_mileage_cd == 1282)
+                        초과
+                    @elseif($order->certificates->usage_mileage_cd == 1283)
+                        표준
+                    @else
+                        미달
+                    @endif
+                </td>
             </tr>
             <tr>
                 <td>사고/수리이력 평가</td>
-                <td>무사고</td>
+                <td>
+                    @if($order->certificates->usage_history_cd == 1285)
+                        사고이력 없음
+                    @elseif($order->certificates->usage_history_cd == 1286)
+                        단순수리
+                    @elseif($order->certificates->usage_history_cd == 1287)
+                        기본차체판금
+                    @else
+                        기본차체교환/골격수리
+                    @endif
+                </td>
+            </tr>
+
+            <th rowspan='18'>차량성능상태</th>
+            <tr>
+                <td>주요외판</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_exterior_cd) }}</td>
             </tr>
             <tr>
-                <th rowspan='4'>차량성능상태</th>
-                <td>외관(외장)</td>
-                <td>양호</td>
+                <td>침수흔적점검</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_flooded_cd) }}</td>
             </tr>
             <tr>
-                <td>실내, 내장</td>
-                <td>보통</td>
+                <td>소모품상태점검</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_consumption_cd) }}</td>
             </tr>
             <tr>
-                <td>주요장치, 성능상태</td>
-                <td>양호</td>
+                <td>고장진단</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_broken_cd) }}</td>
             </tr>
             <tr>
-                <td>휠, 타이어 상태</td>
-                <td>불량</td>
+                <td>동력전달</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_powor_cd) }}</td>
             </tr>
+            <tr>
+                <td>전기</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_electronic_cd) }}</td>
+            </tr>
+
+            <tr>
+                <td>주요내판</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_interior_cd) }}</td>
+            </tr>
+            <tr>
+                <td>차량외판점검</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_exteriortest_cd) }}</td>
+            </tr>
+            <tr>
+                <td>전장품유리기어/작동상태점검</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_plugin_cd) }}</td>
+            </tr>
+            <tr>
+                <td>엔진(원동기)</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_engine_cd) }}</td>
+            </tr>
+            <tr>
+                <td>조향장치</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_steering_cd) }}</td>
+            </tr>
+            <tr>
+                <td>타이어</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_tire_cd) }}</td>
+            </tr>
+
+            <tr>
+                <td>사고유무점검</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_accident_cd) }}</td>
+            </tr>
+            <tr>
+                <td>차량실내점검</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_interiortest_cd) }}</td>
+            </tr>
+            <tr>
+                <td>주행테스트</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_driving_cd) }}</td>
+            </tr>
+            <tr>
+                <td>변속기</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_transmission_cd) }}</td>
+            </tr>
+            <tr>
+                <td>제동장치</td>
+                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_braking_cd) }}</td>
+            </tr>
+
+
+
+
+
             <tr>
                 <th>특별요인</th>
-                <td colspan='3'>불법개조, 변경이력(대여, 렌트)</td>
+                <td colspan='3'>
+                    {{ $specials }}
+                </td>
             </tr>
             </tbody>
         </table>
@@ -155,7 +249,7 @@
             <tr>
                 <th>기타의견</th>
                 <td>
-                    H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다.
+                    {{ $order->certificates->opinion }}
                 </td>
             </tr>
             </tbody>
@@ -170,8 +264,8 @@
     <div class='br30'></div>
 
     <div class='report_stamp_wrap'>
-        <span><strong>발급일</strong> {{ \Carbon\Carbon::parse($order->certificates->created_at)->format('Y년 m월 d일') }}</span>
-        <span><strong>보증기간</strong> {{ \Carbon\Carbon::parse($order->certificates->created_at)->addMonth(5)->format('Y년 m월 d일') }}</span>
+        <span><strong>발급일</strong> {{ $order->certificates->created_at->format('Y년 m월 d일') }}</span>
+        <span><strong>보증기간</strong> {{ $order->certificates->created_at->addMonth(5)->format('Y년 m월 d일') }}</span>
         <div class='stamp_wrap'>대표 기술사<strong>이해선</strong></div>
     </div>
 

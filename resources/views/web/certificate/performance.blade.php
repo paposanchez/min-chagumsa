@@ -50,7 +50,8 @@
 				</td>
 				<th>사용월수</th>
 				<td>
-					{{ \Carbon\Carbon::parse($order->car->registration_date)->diffInMonths(\Carbon\Carbon::now()) }} 개월
+					{{--{{ \Carbon\Carbon::parse($order->car->registration_date)->diffInMonths(\Carbon\Carbon::now()) }} 개월--}}
+					{{ \App\Helpers\Helper::getMonthNum($order->car->registration_date) }} 개월
 				</td>
 			</tr>
 			<tr>
@@ -90,7 +91,11 @@
 				</td>
 				<th>최종등록차고지</th>
 				<td>
+					@if($order->certificates->history_garage)
 					최근 / {{ json_decode($order->certificates->history_garage, true)[0] }}
+					@else
+						없음
+					@endif
 				</td>
 			</tr>
 			</tbody>
@@ -113,16 +118,19 @@
 			<label>진단장소</label>
 			<span>
 			<!-- 한스모터스 -->
-				{{ $order->garage->name }}
-				<img src="http://fakeimg.pl/275x185/" class='img_place'>
-		</span>
+				{{ $order->garage->user_extra->address }} / {{ $order->garage->name }}
+				{{--<img src="http://fakeimg.pl/275x185/" class='img_place'>--}}
+			</span>
+			<div id="map" style="width:400px;height:300px;margin-left: 90px;"></div>
+
 		</li>
 		<li>
 			<label>진단담당</label>
 			<span>
 			<!-- 홍길동 정비사 1급 -->
 				{{ $order->engineer->name}}
-				<img src="http://fakeimg.pl/170x170/" class='img_person'>
+
+				{{ Helper::imageTag('/avatar/'.$order->engineer->id, 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile', 'style'=>'width : 170px;')) }}
 		</span>
 		</li>
 	</ul>
@@ -274,21 +282,71 @@
 				<th class='td_al_c' colspan='2'>자동차기술사 종합의견</th>
 			</tr>
 			<tr>
-				<td>H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다. 또 차량 소모품 상태 검검 결과 배터리의 수명이 다 되어 교체를 해야 하니 참고하시길 바랍니다.</td>
+				<td>
+					{{--H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다. 또 차량 소모품 상태 검검 결과 배터리의 수명이 다 되어 교체를 해야 하니 참고하시길 바랍니다.--}}
+					{{ $order->certificates->opinion }}
+				</td>
 				<td class='td_al_c'>인증등급<br><strong class='fsize_50'>{{ $order->certificates->grade }}</strong></td>
 			</tr>
 			</tbody>
 		</table>
 	</div>
+
+
+
+
 @endsection
 
 
 
 
 @push( 'header-script' )
+
 @endpush
 
 @push( 'footer-script' )
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=40213ad16ec63811a5a11a733b700b7f&libraries=services,clusterer,drawing"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+
+    // 지도를 생성합니다
+    var map = new daum.maps.Map(mapContainer, mapOption);
+
+    // 주소-좌표 변환 객체를 생성합니다
+
+    var geocoder = new daum.maps.services.Geocoder();
+
+
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch('{{ $order->garage->user_extra->address }}', function(result, status) {
+
+        // 정상적으로 검색이 완료됐으면
+        if (status === daum.maps.services.Status.OK) {
+
+            var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new daum.maps.Marker({
+                map: map,
+                position: coords
+            });
+
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new daum.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">{{ $order->garage->name }}</div>'
+            });
+            infowindow.open(map, marker);
+
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(coords);
+        }
+    });
+</script>
+
 <script type="text/javascript">
 
     $(window).on("load", function(){

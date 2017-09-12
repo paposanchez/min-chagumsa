@@ -55,6 +55,7 @@ class Certificate Extends Model
                'performance_driving_cd',
                'performance_transmission_cd',
                'performance_braking_cd',
+               'performance_depreciation',
                'special_flooded_cd',
                'special_fire_cd',
                'special_fulllose_cd',

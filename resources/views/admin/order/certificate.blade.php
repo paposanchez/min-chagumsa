@@ -399,7 +399,7 @@
                 <td rowspan="2">
                     <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 사고/수리이력
                 </td>
-                <td colspan="2">
+                <td>
                     {{--todo 현재 usage_history_cd 필드가 int로 되어 있다. 이부분을 varchar로 변경하거나 각 옵션값을 필드로 가지고 있어야 한다--}}
                     사고이력
                     없음 {{ Form::radio('certificates_usage_history_cd', 1285, \App\Helpers\Helper::isCheckd(1285, $order->certificates->usage_history_cd), ['required']) }}
@@ -409,8 +409,6 @@
                     기본차체판금 {{ Form::radio('certificates_usage_history_cd', 1287, \App\Helpers\Helper::isCheckd(1287, $order->certificates->usage_history_cd), ['required']) }}
                     &nbsp;&nbsp;&nbsp;
                     기본차체교환/골격수리 {{ Form::radio('certificates_usage_history_cd', 1288, \App\Helpers\Helper::isCheckd(1288, $order->certificates->usage_history_cd), ['required']) }}
-                </td>
-                <td>
                 </td>
             </tr>
             <tr>
@@ -423,56 +421,200 @@
                                                     required="required"><span class="input-group-addon">만원</span></div>
                 </td>
             </tr>
+            <th rowspan="18">차량 성능 상태(C)</th>
+            {{-- 첫번쨰 줄 --}}
             <tr>
-                {{--todo 차량성능/외관/내장/주요장치 코드 처리해야 함.--}}
-                <th rowspan="5">차량 성능 상태(C)</th>
                 <td>
-                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 휠/타이어
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 주요외판
                 </td>
                 <td colspan="2">
-                    양호 {{ Form::radio('certificates_performance_tire_cd', 1198, \App\Helpers\Helper::isCheckd(1198, $order->certificates->performance_tire_cd), ['required']) }}
-                    &nbsp;&nbsp;&nbsp;
-                    보통 {{ Form::radio('certificates_performance_tire_cd', 1199, \App\Helpers\Helper::isCheckd(1199, $order->certificates->performance_tire_cd), ['required']) }}
-                    &nbsp;&nbsp;&nbsp;
-                    불량/정비요 {{ Form::radio('certificates_performance_tire_cd', 1200, \App\Helpers\Helper::isCheckd(1200, $order->certificates->performance_tire_cd), ['required']) }}
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_exterior_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_exterior_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="exterior_comment" >{{ $order->certificates ? $order->certificates->exterior_comment : "" }}</textarea>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 침수흔적 점검
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_flooded_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_flooded_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="flooded_comment" >{{ $order->certificates ? $order->certificates->flooded_comment : "" }}</textarea>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 외관(외장)
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 소모품상태점검
                 </td>
                 <td colspan="2">
-                    양호 {{ Form::radio('certificates_performance_exterior_cd', 1198, \App\Helpers\Helper::isCheckd(1198, $order->certificates->performance_exterior_cd), ['required']) }}
-                    &nbsp;&nbsp;&nbsp;
-                    보통 {{ Form::radio('certificates_performance_exterior_cd', 1199, \App\Helpers\Helper::isCheckd(1199, $order->certificates->performance_exterior_cd), ['required']) }}
-                    &nbsp;&nbsp;&nbsp;
-                    불량/정비요 {{ Form::radio('certificates_performance_exterior_cd', 1200, \App\Helpers\Helper::isCheckd(1200, $order->certificates->performance_exterior_cd), ['required']) }}
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_consumption_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_consumption_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="consumption_comment" >{{ $order->certificates ? $order->certificates->consumption_comment : "" }}</textarea>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 실내/내장
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 고장진단
                 </td>
                 <td colspan="2">
-                    양호 {{ Form::radio('certificates_performance_interior_cd', 1198, \App\Helpers\Helper::isCheckd(1198, $order->certificates->performance_interior_cd), ['required']) }}
-                    &nbsp;&nbsp;&nbsp;
-                    보통 {{ Form::radio('certificates_performance_interior_cd', 1199, \App\Helpers\Helper::isCheckd(1199, $order->certificates->performance_interior_cd), ['required']) }}
-                    &nbsp;&nbsp;&nbsp;
-                    불량/정비요 {{ Form::radio('certificates_performance_interior_cd', 1200, \App\Helpers\Helper::isCheckd(1200, $order->certificates->performance_interior_cd), ['required']) }}
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_broken_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_broken_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="broken_comment" >{{ $order->certificates ? $order->certificates->broken_comment : "" }}</textarea>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 주요장치/성능
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 동력전달
                 </td>
                 <td colspan="2">
-                    양호 {{ Form::radio('certificates_performance_device_cd', 1198, \App\Helpers\Helper::isCheckd(1198, $order->certificates->performance_device_cd), ['required']) }}
-                    &nbsp;&nbsp;&nbsp;
-                    보통 {{ Form::radio('certificates_performance_device_cd', 1199, \App\Helpers\Helper::isCheckd(1199, $order->certificates->performance_device_cd), ['required']) }}
-                    &nbsp;&nbsp;&nbsp;
-                    불량/정비요 {{ Form::radio('certificates_performance_device_cd', 1200, \App\Helpers\Helper::isCheckd(1200, $order->certificates->performance_device_cd), ['required']) }}
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_powor_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_powor_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="power_comment" >{{ $order->certificates ? $order->certificates->power_comment : "" }}</textarea>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 전기
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_electronic_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_electronic_cd), ['required']) }}
+                    @endforeach
+                        <textarea class="form-control" rows="2" name="electronic_comment" >{{ $order->certificates ? $order->certificates->electronic_comment : "" }}</textarea>
+                </td>
+            </tr>
+            {{-- 2번째 줄 --}}
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 주요내판
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_interior_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_interior_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="interior_comment" >{{ $order->certificates ? $order->certificates->interior_comment : "" }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 차량외판점검
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_exteriortest_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_exteriortest_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="exteriortest_comment" >{{ $order->certificates ? $order->certificates->exteriortest_comment : "" }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 전장품유리기어/작동상태점검
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_plugin_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_plugin_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="plugin_comment" >{{ $order->certificates ? $order->certificates->plugin_comment : "" }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 엔진(원동기)
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_engine_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_engine_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="engine_comment" >{{ $order->certificates ? $order->certificates->engine_comment : "" }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 조향장치
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_steering_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_steering_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="steering_comment" >{{ $order->certificates ? $order->certificates->steering_comment : "" }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 타이어
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_tire_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_tire_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="tire_comment" >{{ $order->certificates ? $order->certificates->tire_comment : "" }}</textarea>
+                </td>
+            </tr>
+            {{-- 세번째 줄 --}}
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 사고유무점검
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_accident_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_accident_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="accident_comment" >{{ $order->certificates ? $order->certificates->accident_comment : "" }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 차량실내점검
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_interiortest_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_interiortest_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="interiortest_comment" >{{ $order->certificates ? $order->certificates->interiortest_comment : "" }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 주행테스트
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_driving_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_driving_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="driving_comment" >{{ $order->certificates ? $order->certificates->driving_comment : "" }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 변속기
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_transmission_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_transmission_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="transmission_comment" >{{ $order->certificates ? $order->certificates->transmission_comment : "" }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 제동장치
+                </td>
+                <td colspan="2">
+                    @foreach($certificate_state_cd as $key=>$val )
+                        {{ $val }} {{ Form::radio('performance_braking_cd', $key, \App\Helpers\Helper::isCheckd($key, $order->certificates->performance_braking_cd), ['required']) }}
+                    @endforeach
+                    <textarea class="form-control" rows="2" name="braking_comment" >{{ $order->certificates ? $order->certificates->braking_comment : "" }}</textarea>
+                </td>
+            </tr>
+
+
             <tr>
                 <td><i class="glyphicon glyphicon-ok-sign" style="font-size: 0.8em;" aria-hidden="true"></i> 감가금액</td>
                 <td colspan="2">

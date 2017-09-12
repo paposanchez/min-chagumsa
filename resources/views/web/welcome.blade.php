@@ -16,7 +16,7 @@
             </div>
 
             <div class='mv2_exp_wrap'>
-                <a href='{{ url("/community/notice/46") }}'>체험단 신청하기</a>
+                <a href='https://goo.gl/R7FNPF'>체험단 신청하기</a>
             </div>
 
         </div>
