@@ -98,6 +98,10 @@
             return false;
         });
 
+        $("#top-logo").on("click", function () {
+            location.href = '/';
+        })
+
     });
 </script>
 

@@ -6,7 +6,7 @@
         <div id='mv2_wrap'>
             <div class='mv2_top'>
                 {{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/mv2_top_text.png")) }}
-                {{--<a href=''>인증서 신청하기</a>--}}
+                <a href='{{ url("/sample") }}'>인증서 샘플보기</a>
                 {{--<a href=''>인증서 신청하기</a>--}}
             </div>
             <div class='mv2_btm'>
