@@ -472,10 +472,6 @@
 
 
 @push( 'header-script' )
-
-<!-- {{ Html::style(Helper::assets( 'vendor/tympanus/css/component.css' )) }}
-{{ Html::style(Helper::assets( 'vendor/tympanus/css/animations.css' )) }} -->
-
 <style>
 .bmd-modalContent {
         box-shadow: none;
@@ -924,8 +920,7 @@ $(function () {
                                 url: '/order/is-sms',
                                 data: {
                                         'sms_num': sms_num,
-                                        'sms_id': $("#sms_id").val(),
-                                        "_token": "{{ csrf_token() }}"
+                                        'sms_id': $("#sms_id").val()
                                 },
                                 success: function (jdata) {
                                         if (jdata.result == 'OK') {
@@ -940,27 +935,13 @@ $(function () {
                                 },
                                 error: function (qXHR, textStatus, errorThrown) {
                                         return false;
-                                },
-                                //                    complete: function(){
-                                //                        $('#modalSms').modal('hide');
-                                //                    }
+                                }
                         });
                 } else {
                         alert('전송된 인증번호를 입력해 주세요.');
                         return false;
                 }
 
-        });
-
-
-        $('#modalSms').on('show.bs.modal', function (event) {
-                // var button = $(event.relatedTarget) // Button that triggered the modal
-                // var recipient = button.data('whatever') // Extract info from data-* attributes
-                // // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                // // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-                // var modal = $(this)
-                // modal.find('.modal-title').text('New message to ' + recipient)
-                // modal.find('.modal-body input').val(recipient)
         });
 
 
@@ -972,10 +953,7 @@ $(function () {
                         type: 'get',
                         dataType: 'json',
                         url: '/order/get_models/',
-                        data: {
-                                '_token': '{{ csrf_token() }}',
-                                'brand': brand
-                        },
+                        data: {'brand': brand},
                         success: function (data) {
                                 $('#models').html('');
 
@@ -1004,10 +982,7 @@ $(function () {
                         type: 'get',
                         dataType: 'json',
                         url: '/order/get_details/',
-                        data: {
-                                '_token': '{{ csrf_token() }}',
-                                'model': model
-                        },
+                        data: {'model': model},
                         success: function (data) {
                                 $('#details').html('');
                                 $('#grades').html('<option disabled="true">등급을 선택하세요.</option>');
@@ -1034,10 +1009,7 @@ $(function () {
                         type: 'get',
                         dataType: 'json',
                         url: '/order/get_grades/',
-                        data: {
-                                '_token': '{{ csrf_token() }}',
-                                'detail': detail
-                        },
+                        data: {'detail': detail},
                         success: function (data) {
                                 $('#grades').html('');
 
@@ -1076,7 +1048,6 @@ $(function () {
                 }else if(payment_method.length == 0){
                         alert('결제 방법을 선택하세요.');
                 }else{
-                        {{--var u = "{{ route('order.payment-popup') }}";--}}
                         $('#modalPurchase').modal({
                                 backdrop: 'static',
                                 keyboard: false,
