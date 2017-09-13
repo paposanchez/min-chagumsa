@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Helper;
 use App\Models\Post;
 use App\Models\Code;
 use App\Models\Board;
@@ -77,8 +78,9 @@ class PostController extends Controller {
 
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
 
-        $yn_list = Code::getSelectList('yn');
-        $shown_role_list = Code::getSelectList('post_shown_role');
+        $yn_list = Helper::getCodeSelectArray(Code::getCodesByGroup('yn'), 'yn', '답변여부를 선택해주세요.');
+//        $shown_role_list = Code::getSelectList('post_shown_role');
+        $shown_role_list = Helper::getCodeSelectArray(Code::getCodesByGroup('post_shown_role'), 'post_shown_role', '공개여부를 선택해주세요.');
 
         $categorys = Code::where('group', 'category_id')->get();
 
@@ -121,27 +123,27 @@ class PostController extends Controller {
         ]);
 
         $post = new Post();
-        $post -> subject = $request->get('subject');
-        $post -> board_id = $request->get('board_id');
+        $post->subject = $request->get('subject');
+        $post->board_id = $request->get('board_id');
         if($request->get('board_id') == 4){
-            $post -> content = $request->get('content2');
+            $post->content = $request->get('content2');
         }else{
-            $post -> content = $request->get('content');
+            $post->content = $request->get('content');
         }
 
-        $post -> user_id = $request->get('user_id');
-        $post -> password = $request->get('password');
+        $post->user_id = $request->get('user_id');
+        $post->password = $request->get('password');
         if($request->get('board_id') == 2){
-            $post -> category_id = $request->get('category_id');
+            $post->category_id = $request->get('category_id');
         }
-        $post -> is_shown = $request->get('is_shown');
-        $post -> is_answered = $request->get('is_answerd');
-        $post -> name = $request->get('name');
-        $post -> is_shown = $request->get('is_shown');
-        $post -> ip = $request->ip();
-        $post -> created_at = Carbon::now();
-        $post -> updated_at = Carbon::now();
-        $post -> save();
+        $post->is_shown = $request->get('is_shown');
+        $post->is_answered = $request->get('is_answerd');
+        $post->name = $request->get('name');
+        $post->is_shown = $request->get('is_shown');
+        $post->ip = $request->ip();
+        $post->created_at = Carbon::now();
+        $post->updated_at = Carbon::now();
+        $post->save();
 
 
         $upfiles = $request->get("upfile");
@@ -161,10 +163,9 @@ class PostController extends Controller {
 
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
 
-//        $yn_list = Code::getCodesByGroup('yn');
-        $yn_list = Code::getSelectList('yn');
-        
-        $shown_role_list = Code::getSelectList('post_shown_role');
+        $yn_list = Helper::getCodeSelectArray(Code::getCodesByGroup('yn'), 'yn', '답변여부를 선택해주세요.');
+//        $shown_role_list = Code::getSelectList('post_shown_role');
+        $shown_role_list = Helper::getCodeSelectArray(Code::getCodesByGroup('post_shown_role'), 'post_shown_role', '공개여부를 선택해주세요.');
 
         $categorys = Code::where('group', 'category_id')->get();
 
@@ -216,21 +217,23 @@ class PostController extends Controller {
 
         $post = Post::findOrFail($id);
 //        $post->update($input);
-        $post -> subject = $request->get('subject');
-        $post -> content = $request->get('content');
-        $post -> board_id = $request->get('board_id');
-        $post -> user_id = $request->get('user_id');
-        $post -> password = $request->get('password');
+        $post->subject = $request->get('subject');
+        $post->content = $request->get('content');
+        $post->board_id = $request->get('board_id');
+        $post->user_id = $request->get('user_id');
+        $post->password = $request->get('password');
         if($request->get('board_id') == 2){
-            $post -> category_id = $request->get('category_id');
+            $post->category_id = $request->get('category_id');
+        }else if ($request->get('board_id') == 3){
+            $post->answer = $request->get('answer');
         }
-        $post -> is_shown = $request->get('is_shown');
-        $post -> is_answered = $request->get('is_answerd');
-        $post -> name = $request->get('name');
-        $post -> is_shown = $request->get('is_shown');
-        $post -> ip = $request->ip();
-        $post -> updated_at = Carbon::now();
-        $post -> save();
+        $post->is_shown = $request->get('is_shown');
+        $post->is_answered = $request->get('is_answered');
+        $post->name = $request->get('name');
+        $post->is_shown = $request->get('is_shown');
+        $post->ip = $request->ip();
+        $post->updated_at = Carbon::now();
+        $post->save();
 
         return redirect()
 //                        ->route('post.edit', $post->id)

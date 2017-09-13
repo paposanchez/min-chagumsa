@@ -90,7 +90,7 @@
                 <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                     <label for="inputName" class="control-label col-md-3">{{ trans('admin/post.name') }}</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="{{ trans('admin/post.name') }}" name="name" id="inputName" value="{{ $post->name or \Illuminate\Support\Facades\Auth::user()->name }}">
+                        <input type="text" class="form-control" placeholder="{{ trans('admin/post.name') }}" name="name" id="inputName" value="{{ $post->name }}">
 
                         @if ($errors->has('name'))
                         <span class="help-block">
@@ -103,7 +103,7 @@
                 <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                     <label for="inputEmail" class="control-label col-md-3">{{ trans('admin/post.email') }}</label>
                     <div class="col-md-4">
-                        <input type="email" class="form-control" placeholder="{{ trans('admin/post.email') }}" name="email" id="inputEmail" value="{{ \Illuminate\Support\Facades\Auth::user()->email }}">
+                        <input type="email" class="form-control" placeholder="{{ trans('admin/post.email') }}" name="email" id="inputEmail" value="{{ $post->email }}">
 
                         @if ($errors->has('email'))
                         <span class="help-block">
@@ -113,14 +113,25 @@
                     </div>
                 </div>
 
-                <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
-                    <label for="inputPassword" class="control-label col-md-3">{{ trans('admin/post.password') }}</label>
-                    <div class="col-md-4">
-                        <input type="password" class="form-control" placeholder="{{ trans('admin/post.password') }}" name="password" id="inputPassword">
+                {{--<div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">--}}
+                    {{--<label for="inputPassword" class="control-label col-md-3">{{ trans('admin/post.password') }}</label>--}}
+                    {{--<div class="col-md-4">--}}
+                        {{--<input type="password" class="form-control" placeholder="{{ trans('admin/post.password') }}" name="password" id="inputPassword">--}}
 
-                        @if ($errors->has('password'))
-                        <span class="help-block">
-                            {{ $errors->first('password') }}
+                        {{--@if ($errors->has('password'))--}}
+                        {{--<span class="help-block">--}}
+                            {{--{{ $errors->first('password') }}--}}
+                        {{--</span>--}}
+                        {{--@endif--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
+                    <label for="inputContent" class="control-label col-md-3">답변</label>
+                    <div class="col-md-9">
+                        <textarea  class="form-control wysiwyg" placeholder="{{ trans('admin/post.content') }}" name="answer" id="inputAnswer" style="height: 250px;">{{ $post->answer or old('answer') }}</textarea>
+                        @if ($errors->has('answer'))
+                            <span class="help-block">
+                            {{ $errors->first('answer') }}
                         </span>
                         @endif
                     </div>
@@ -129,7 +140,8 @@
                 <div class="form-group {{ $errors->has('is_answered') ? 'has-error' : '' }}">
                     <label for="" class="control-label col-md-3">{{ trans('admin/post.is_answered') }}</label>
                     <div class="col-md-4">
-                        {!! Form::select('is_answered', $yn_list, $post->is_answered, ['class'=>'form-control', 'id'=>'post-is_shown']) !!}
+
+                        {!! Form::select('is_answered', $yn_list, [$post->is_answered ? $post->is_answered : ''], ['class'=>'form-control', 'id'=>'post-is_shown']) !!}
 
                         @if ($errors->has('is_answered'))
                         <span class="help-block">
