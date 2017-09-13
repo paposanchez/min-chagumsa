@@ -339,6 +339,27 @@
 
 	<div class='br30'></div>
 
+
+    <!-- Modal -->
+    <div id="pictureModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body text-center" id="modal-body">
+                    <img src="http://fakeimg.pl/350x200/" id="img" alt='차량 이미지'>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 @endsection
 
 
@@ -349,8 +370,8 @@
 
 @push( 'footer-script' )
 <script type="text/javascript">
-
-    $(window).on("load", function(){
+    $(function(){
+        // 진단결과 코멘트 관련
         $('.bubble_desc dt').click(function(){
             $('.bubble_desc dd').hide();
             $(this).next().show();
@@ -358,6 +379,18 @@
         $('.bubble_desc dd').click(function(){
             $(this).hide();
         });
+
+        // 차량이미지 관련 modal
+        $(".img_type1").delegate(".img", "click", function () {
+            var url = $(this).data('url');
+            if(url){
+                // todo 추후에 diagnosis_id 에 대한 image를 loop를 통해 추출
+                $("#img").attr("src", url);
+                $("#pictureModal").modal();
+            }
+        });
+
+
     });
 
 

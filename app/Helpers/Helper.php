@@ -236,10 +236,6 @@ class Helper {
     }
 
     public static function getCodeName($code_id){
-            if($code_id) {
-                    return '코드키누락';
-            }
-
             $code = Code::where('id', $code_id)->first();
 
             if(!$code) {
