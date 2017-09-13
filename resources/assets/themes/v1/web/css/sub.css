@@ -127,7 +127,7 @@
 .board_wrap table tbody th span {background:#0b4777;color:#fff;padding:2px 7px;}
 .board_wrap table tbody td {border-bottom:1px solid #e5e5e5;text-align:left;}*/
 
-.board_view_wrap {}
+.board_view_wrap { margin-top:10px;}
 .board_view_title {background:#f1f1f1;overflow:hidden;padding:20px;position:relative;}
 .board_view_title div {font-size:14px;white-space:normal;}
 .board_view_title ul {position:absolute;right:0px;top:20px;}

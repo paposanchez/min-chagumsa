@@ -15,8 +15,6 @@
             <li><a class='' href='{{ route('inquire.index') }}'>1:1 문의</a></li>
         </ul>
 
-        <div class="br30"></div>
-
         <div class="board_view_wrap">
             <div class="board_view_title">
                 <div>{{ $data->subject }}</div>
