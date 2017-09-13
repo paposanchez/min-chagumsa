@@ -40,7 +40,7 @@
             </div>
             <div class='br10'></div>
             <div class='login_link'>
-                <a href=''>회원가입</a><a href=''>비밀번호 찾기</a>
+                <a href='{{ url("/agreement") }}'>회원가입</a><a href='{{ url("/password/reset") }}'>비밀번호 찾기</a>
             </div>
             {!! Form::close() !!}
         </div>
