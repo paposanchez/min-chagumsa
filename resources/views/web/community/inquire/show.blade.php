@@ -1,55 +1,64 @@
 @extends( 'web.layouts.default' )
 
 @section('breadcrumbs')
-    @includeIf('/vendor/breadcrumbs/default', ['breadcrumbs' => Breadcrumbs::generate('web.community.'.$board_namespace)])
+@includeIf('/vendor/breadcrumbs/default', ['breadcrumbs' => Breadcrumbs::generate('web.community.'.$board_namespace)])
 @endsection
 
 @section( 'content' )
-    <div id='sub_title_wrap'><h2>고객센터<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> 고객센터 <i class="fa fa-angle-right"></i> <span>공지사항</span></div></h2></div>
+<div id='sub_title_wrap'><h2>고객센터<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> 고객센터 <i class="fa fa-angle-right"></i> <span>공지사항</span></div></h2></div>
 
-    <div id="sub_wrap">
+<div id="sub_wrap">
 
         <ul class='menu_tab_wrap'>
-            <li><a class='' href='{{ route('notice.index') }}'>공지사항</a></li>
-            <li><a class='' href='{{ route('faq.index') }}'>FAQ</a></li>
-            <li><a class='select' href='{{ route('inquire.index') }}'>1:1 문의</a></li>
+                <li><a class='' href='{{ route('notice.index') }}'>공지사항</a></li>
+                <li><a class='' href='{{ route('faq.index') }}'>FAQ</a></li>
+                <li><a class='select' href='{{ route('inquire.index') }}'>1:1 문의</a></li>
         </ul>
 
-        <div class="br30"></div>
-
         <div class="board_view_wrap">
-            <div class="board_view_title">
-                <div>{{ $data->subject }}</div>
-                <ul>
-                        <li>작성자 <span>{{ $data->email  }}</span></li>
-                        <li>작성일 <span>{{ $data->updated_at ? $data->updated_at->format("Y-m-d") : $data->created_at->format("Y-m-d")  }}</span></li>
-                </ul>
-            </div>
-            <div class="board_view_cont">
-                {!! $data->content !!}
-            </div>
-
-            @if(count($files) != 0)
-                <div style="border-bottom: 1px solid #7b7b7b; margin-top: 10px; padding-bottom: 10px; padding-left: 20px;">
-                @foreach($files as $file)
-                    <a href="/file/download/{{$file->id}}">
-                        <i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{ $file->original }}
-                    </a>
-                    <br>
-                @endforeach
+                <div class="board_view_title">
+                        <div>{{ $data->subject }}</div>
+                        <ul>
+                                <li>작성자 <span>{{ $data->email  }}</span></li>
+                                <li>작성일 <span>{{ $data->updated_at ? $data->updated_at->format("Y-m-d") : $data->created_at->format("Y-m-d")  }}</span></li>
+                        </ul>
                 </div>
-            @endif
+                <div class="board_view_cont">
+
+                        @if(count($files) != 0)
+                        <div style="margin-bottom: 30px;">
+                                <h4 class="text-left">첨부파일</h4>
+                                @foreach($files as $file)
+                                <a href="/file/download/{{$file->id}}">
+                                        <i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{ $file->original }}
+                                </a>
+                                <br>
+                                @endforeach
+                        </div>
+                        @endif
+
+                        <h4>문의내용</h4>
+
+
+                        <div class="block bg-warning">
+                                {!! $data->content !!}
+                        </div>
 
 
 
+                        <div class="" style="margin-top:20px;">
+                                <h4>답변내용</h4>
+                                <div class="block bg-info">
+                                        @if($data->is_answered === 1)
+                                        {!! nl2br($data->answered) !!}
+                                        @else
+                                        답변대기중입니다.
+                                        @endif
+                                </div>
+                        </div>
 
-            <div class="block">
-                    @if($data->is_answered === 1)
-                        {!! nl2br($data->answered) !!}
-                    @else
-                        답변대기중입니다.
-                    @endif
-            </div>
+                </div>
+
 
 
 
@@ -59,16 +68,16 @@
 
         <p class="form-control-static">
 
-            <button class="btn btn-default " id='c-list' data-route="{{ route($board_namespace.'.index') }}">목록</button>
+                <button class="btn btn-default " id='c-list' data-route="{{ route($board_namespace.'.index') }}">목록</button>
 
 
-            <button class="btn btn-default pull-right" id='next' style="margin:0px 0px 0px 5px;" data-route="{{ ($next)? route($board_namespace.'.show', ['id' => $next]): '' }}">다음</button>
+                <button class="btn btn-default pull-right" id='next' style="margin:0px 0px 0px 5px;" data-route="{{ ($next)? route($board_namespace.'.show', ['id' => $next]): '' }}">다음</button>
 
-            <button class="btn btn-default pull-right" id='prev' data-route="{{ ($prev)? route($board_namespace.'.show', ['id' => $prev]): '' }}">이전</button>
+                <button class="btn btn-default pull-right" id='prev' data-route="{{ ($prev)? route($board_namespace.'.show', ['id' => $prev]): '' }}">이전</button>
         </p>
 
 
-    </div>
+</div>
 @endsection
 
 @push( 'header-script' )
@@ -76,38 +85,38 @@
 
 @push( 'footer-script' )
 <script type="text/javascript">
-    $(function(){
+$(function(){
         $("#c-list").on("click", function(){ location.href = $(this).data("route"); });
 
         if(!$("#prev").data("route")){
-            $("#prev").attr("disabled", true);
+                $("#prev").attr("disabled", true);
         }
         $("#prev").on("click", function(){
-            location.href = $("#prev").data("route");
+                location.href = $("#prev").data("route");
         });
 
         if(!$("#next").data("route")){
-            $("#next").attr("disabled", true);
+                $("#next").attr("disabled", true);
         }
         $("#next").on("click", function(){
-            location.href = $("#next").data("route");
+                location.href = $("#next").data("route");
         });
 
 
 
 
 
-//        $(document).on("click", ".plugin-attach-download", function (e) {
-//            e.preventDefault();
-//            var id = $(this).closest(".plugin-attach-file").data('id');
-//            $.fileDownload('/file/download/' + id, {
-//                error: function (e) {
-//                    $.notify(ZFOOP.Languages.can_not_process_retry, "danger");
-//                }
-//            });
-//
-//        });
-    });
+        //        $(document).on("click", ".plugin-attach-download", function (e) {
+        //            e.preventDefault();
+        //            var id = $(this).closest(".plugin-attach-file").data('id');
+        //            $.fileDownload('/file/download/' + id, {
+        //                error: function (e) {
+        //                    $.notify(ZFOOP.Languages.can_not_process_retry, "danger");
+        //                }
+        //            });
+        //
+        //        });
+});
 
 
 </script>

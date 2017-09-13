@@ -38,11 +38,11 @@
 .mv2_cert_wrap ul {padding:30px 0 0 0;overflow:hidden;}
 .mv2_cert_wrap ul li {float:left;margin-right:8px;}
 .mv2_cert_wrap ul li a {display:block;width:140px;height:43px;font-size:18px;line-height:43px;text-align:center;border:1px solid #034c82;color:#034c82;}
-.mv2_cert_wrap ul li a:hover {border-color:#156dae;color:#156dae;}
+.mv2_cert_wrap ul li a:hover {border-color:#034c82; background:#034c82; color:#fff;}
 
 .mv2_exp_wrap {position:absolute;width:388px;height:574px;top:0;right:0;background:url('../img/main/mv2_exp.png') center center no-repeat;}
 .mv2_exp_wrap a {position:relative;top:350px;margin:0 auto;display:block;width:140px;height:43px;font-size:18px;line-height:43px;text-align:center;border:1px solid #fff;color:#fff;}
-.mv2_exp_wrap a:hover {border-color:#d4e8f4;color:#d4e8f4;}
+.mv2_exp_wrap a:hover {border-color:#034c82; background:#034c82; color:#fff;}
 
 #main_standard_wrap {width:100%;background:url('../img/main/main_standard_bg.png') top center no-repeat #205781;}
 .main_standard {width:1200px;text-align:center;margin:0 auto;}

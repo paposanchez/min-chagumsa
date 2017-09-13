@@ -12,8 +12,6 @@
         <li><a class='' href='{{ route('inquire.index') }}'>1:1 문의</a></li>
     </ul>
 
-    <div class='br30'></div>
-
     <ul class="faq_menu">
         <li>
             <strong>회원관련</strong>
@@ -40,7 +38,6 @@
             <dt class="">{{ $row->subject }}</dt>
             <dd style="display: none;">
                 {!! nl2br($row->content) !!}
-                <div class="br20"></div>
 
                 @if(count($row->files) != 0)
                     @foreach($row->files as $file)

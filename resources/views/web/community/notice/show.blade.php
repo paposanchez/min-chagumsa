@@ -26,20 +26,22 @@
                 </ul>
             </div>
             <div class="board_view_cont">
+
+                    @if(count($files) != 0)
+                    <div style="margin-bottom: 30px;">
+                            <h4 class="text-left">첨부파일</h4>
+                            @foreach($files as $file)
+                            <a href="/file/download/{{$file->id}}">
+                                    <i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{ $file->original }}
+                            </a>
+                            <br>
+                            @endforeach
+                    </div>
+                    @endif
+
                 {!! $data->content !!}
+
             </div>
-
-            @if(count($files) != 0)
-                <div style="border-bottom: 1px solid #7b7b7b; margin-top: 10px; padding-bottom: 10px; padding-left: 20px;">
-                @foreach($files as $file)
-                    <a href="/file/download/{{$file->id}}">
-                        <i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{ $file->original }}
-                    </a>
-                    <br>
-                @endforeach
-                </div>
-            @endif
-
         </div>
 
 
@@ -47,12 +49,12 @@
 
             <button class="btn btn-default " id='c-list' data-route="{{ route($board_namespace.'.index') }}">목록</button>
 
-      
-            <button class="btn btn-default pull-right" id='next' style="margin:0px 0px 0px 5px;" data-route="{{ ($next)? route($board_namespace.'.show', ['id' => $next]): '' }}">다음</button> 
 
-            <button class="btn btn-default pull-right" id='prev' data-route="{{ ($prev)? route($board_namespace.'.show', ['id' => $prev]): '' }}">이전</button>      
+            <button class="btn btn-default pull-right" id='next' style="margin:0px 0px 0px 5px;" data-route="{{ ($next)? route($board_namespace.'.show', ['id' => $next]): '' }}">다음</button>
+
+            <button class="btn btn-default pull-right" id='prev' data-route="{{ ($prev)? route($board_namespace.'.show', ['id' => $prev]): '' }}">이전</button>
         </p>
-        
+
 
     </div>
 @endsection

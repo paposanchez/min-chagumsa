@@ -6,80 +6,73 @@
 
 <div id='sub_wrap'>
 
-    <ul class='menu_tab_wrap'>
-        <li><a class='' href='{{ route('notice.index') }}'>공지사항</a></li>
-        <li><a class='' href='{{ route('faq.index') }}'>FAQ</a></li>
-        <li><a class='select' href='{{ route('inquire.index') }}'>1:1 문의</a></li>
-    </ul>
+        <ul class='menu_tab_wrap'>
+                <li><a class='' href='{{ route('notice.index') }}'>공지사항</a></li>
+                <li><a class='' href='{{ route('faq.index') }}'>FAQ</a></li>
+                <li><a class='select' href='{{ route('inquire.index') }}'>1:1 문의</a></li>
+        </ul>
 
-    <div class='br30'></div>
+        <div class='board_wrap'>
 
-    <div class='board_wrap'>
+                <table class="table table-hover ">
+                        <colgroup>
+                                <col width='110px;'>
+                                <col width='*'>
+                                <col width='135px;'>
+                                <col width='130px;'>
+                        </colgroup>
+                        <thead>
+                                <tr class="">
+                                        <th class="text-center">번호</th>
+                                        <th>제목</th>
+                                        <th class="text-center">작성일</th>
+                                        <th class="text-center">답변여부</th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                                @foreach($entrys as $key => $entry)
+                                <tr>
+                                        <td class="text-center">{{ $start_num - $key }}</td>
+                                        <td><a href="{{ route("inquire.show", ["id" => $entry->id]) }}">{{ $entry->subject }}</a></td>
+                                        <td class="text-center">{{ $entry->created_at->format('Y-m-d') }}</th>
+                                                <td class="text-center">
+                                                        @if($entry->is_answered == 0)
+                                                        <span class="label label-primary">미답변</span>
+                                                        @else
+                                                        <span class="label label-success">답변완료</span>
+                                                        @endif
+                                                </td>
+                                        </tr>
+                                        @endforeach
+                                </tbody>
+                        </table>
+                </div>
 
-        <table>
-            <colgroup>
-                <col style='width:110px;'>
-                <col style='width:695px;'>
-                <col style='width:135px;'>
-                <col style='width:130px;'>
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>제목</th>
-                    <th>작성일</th>
-                    <th>답변</th>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach($entrys as $key => $entry)
-                <tr>
-                    <th>{{ $start_num - $key }}</th>
-                    <td><a href="{{ route("inquire.show", ["id" => $entry->id]) }}">{{ $entry->subject }}</a></td>
-                    <th>{{ Carbon\Carbon::parse($entry->created_at)->format('Y-m-d') }}</th>
-                    <th>
-                        @if($entry->is_answered == 0)
-                            미답변
-                        @else
-                            답변 완료
-                        @endif
-                    </th>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    <div class='br30'></div>
+                <div class='br30'></div>
 
 
-    <div class="row">
-
-            <div class="col-xs-9">
-                    <div class='board_pagination_wrap '>
+                <div class='board_pagination_wrap'>
                         @include('vendor.pagination.web-page', ['paginator' => $entrys])
-                    </div>
-            </div>
-            <div class="col-xs-3 text-right">
-                    <button type="button" class='btn btn-primary bmd-modalButton' id="write">글쓰기</button>
-            </div>
-    </div>
 
-</div>
-@endsection
+                        <a href='{{ route('inquire.create') }}' class='btn btn-primary' style="position:absolute; top:0; right:0;">문의하기</a>
+                </div>
 
 
-@push( 'header-script' )
-@endpush
+        </div>
+        @endsection
 
-@push( 'footer-script' )
 
-<script type="text/javascript">
-    $(function(){
-        $('#write').click(function(){
-            location.href='{{ route('inquire.create') }}';
-        })
-    });
-</script>
+        @push( 'header-script' )
+        @endpush
 
-@endpush
+        @push( 'footer-script' )
+
+        <script type="text/javascript">
+        $(function(){
+                $('#write').click(function(){
+                        location.href='{{ route('inquire.create') }}';
+                })
+        });
+        </script>
+
+        @endpush

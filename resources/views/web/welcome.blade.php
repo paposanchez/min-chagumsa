@@ -11,12 +11,12 @@
                 {{ Html::image(Helper::theme_web( '/img/main/mv2_title.png'), '중고차 공인인증 서비스 차검사') }}
                 <ul>
                     <li><a href='{{ url("/sample") }}' target="_blank">인증서 샘플보기</a></li>
-                    {{--<li><a href=''>인증서 신청하기</a></li>--}}
+                    <li><a href='{{ url("/order") }}' target="_blank">인증서 신청하기</a></li>
                 </ul>
             </div>
 
             <div class='mv2_exp_wrap'>
-                <a href='https://goo.gl/R7FNPF'>체험단 신청하기</a>
+                <a href='/community/notice/46'>체험단 신청하기</a>
             </div>
 
         </div>

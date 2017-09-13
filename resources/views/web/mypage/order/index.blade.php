@@ -13,7 +13,7 @@
 
                 <ul class='menu_tab_wrap'>
                         <li><a class='select' href='{{ route('mypage.order.index') }}'>주문목록</a></li>
-                        <li><a class='' href='{{ route('mypage.profile.index') }}'>회원정보 수정</a></li>
+                        <li><a class='' href='{{ route('mypage.profile.index') }}'>회원정보수정</a></li>
 
                         <li class="pull-right" style="font-size:18px;font-weight:200;margin-top:15px;">총
                                 <strong>{{ number_format($my_orders->total()) }}</strong>개
@@ -40,7 +40,7 @@
 
 
                         <div class='order_info_cont'>
-                                
+
                                 <div class='order_info_desc'>
                                         <span>주문자정보</span>
                                         <span>차량정보</span>

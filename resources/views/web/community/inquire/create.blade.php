@@ -21,78 +21,72 @@
         <br class="clearfix" />
 
         {!! Form::open(['route' => ["inquire.store"], 'class' => 'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'form']) !!}
-        <div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
-                <label for="inputEmail" class="control-label col-xs-3">{{ trans('web/register.email') }}</label>
-
-                <div class=" col-xs-4">
-                        <input type="email" class="form-control " placeholder="{{ trans('web/register.email') }}" name="email" id="inputEmail" value="{{ $user->email }}">
+        <div class="form-group form-group-lg {{ $errors->has('email') ? 'has-error' : '' }}">
+                <label for="inputEmail" class="control-label">{{ trans('web/register.email') }}</label>
 
 
-                        @if ($errors->has('email'))
-                        <span class="help-block">
-                                {{ $errors->first('email') }}
-                        </span>
-                        @else
-                        <span class="help-block">
-                                * 답변내용은 이메일로 받아보실 수 있습니다
-                        </span>
-                        @endif
+                <input type="email" class="form-control wid25" placeholder="{{ trans('web/register.email') }}" name="email" id="inputEmail" value="{{ $user->email }}">
 
-                </div>
+
+                @if ($errors->has('email'))
+                <span class="help-block">
+                        {{ $errors->first('email') }}
+                </span>
+                @else
+                <span class="help-block">
+                        * 답변내용은 이메일로 받아보실 수 있습니다
+                </span>
+                @endif
         </div>
 
-        <div class="form-group  {{ $errors->has('subject') ? 'has-error' : '' }}">
-                <label for="inputSubject" class="control-label col-xs-3">제목</label>
+        <div class="form-group form-group-lg {{ $errors->has('subject') ? 'has-error' : '' }}">
+                <label for="inputSubject" class="control-label">제목</label>
 
-                <div class=" col-xs-9">
-                        <input type="text" class="form-control " placeholder="제목을 입력하세요" name="subject" id="inputSubject">
+                <input type="text" class="form-control " placeholder="제목을 입력하세요" name="subject" id="inputSubject">
 
-                        @if ($errors->has('subject'))
-                        <span class="help-block">
-                                {{ $errors->first('subject') }}
-                        </span>
-                        @endif
-                </div>
+                @if ($errors->has('subject'))
+                <span class="help-block">
+                        {{ $errors->first('subject') }}
+                </span>
+                @endif
         </div>
 
 
-        <div class="form-group  {{ $errors->has('content') ? 'has-error' : '' }}">
-                <label for="inputName" class="control-label col-xs-3">내용</label>
+        <div class="form-group form-group-lg {{ $errors->has('content') ? 'has-error' : '' }}">
+                <label for="inputName" class="control-label">내용</label>
 
-                <div class=" col-xs-9">
-                        <textarea class='form-control' name="content" rows="12" placeholder='내용을 입력하세요'></textarea>
-                        @if ($errors->has('content'))
-                        <span class="help-block">
-                                {{ $errors->first('content') }}
-                        </span>
-                        @endif
-                </div>
+                <textarea class='form-control' name="content" rows="12" placeholder='내용을 입력하세요'></textarea>
+                @if ($errors->has('content'))
+                <span class="help-block">
+                        {{ $errors->first('content') }}
+                </span>
+                @endif
         </div>
 
 
         <!-- <div class="form-group  {{ $errors->has('password') ? 'has-error' : '' }}">
-                <label for="inputPassword" class="control-label col-xs-3">{{ trans('web/register.password') }}</label>
+        <label for="inputPassword" class="control-label col-xs-3">{{ trans('web/register.password') }}</label>
 
-                <div class=" col-xs-9">
-                        <input type="password" class="form-control " placeholder="비밀번호" name="password" id="inputPassword" style="width:150px;">
+        <div class=" col-xs-9">
+        <input type="password" class="form-control " placeholder="비밀번호" name="password" id="inputPassword" style="width:150px;">
 
-                        @if ($errors->has('password'))
-                        <span class="help-block">
-                                {{ $errors->first('password') }}
-                        </span>
-                        @endif
-                </div>
-        </div> -->
+        @if ($errors->has('password'))
+        <span class="help-block">
+        {{ $errors->first('password') }}
+</span>
+@endif
+</div>
+</div> -->
 
 
 
-        <p class="text-center">
-                <a href="/community/inquire" class="btn btn-lg btn-default" data-loading-text="처리중...">취소</a>
-                <button class="btn btn-lg btn-success btns_green" data-loading-text="처리중..." type="submit">문의하기</button>
+<p class="text-center">
+        <a href="/community/inquire" class="btn btn-lg btn-default" data-loading-text="처리중...">취소</a>
+        <button class="btn btn-lg btn-success" data-loading-text="처리중..." type="submit">문의하기</button>
 
-        </p>
+</p>
 
-        {!! Form::close() !!}
+{!! Form::close() !!}
 </div>
 
 @endsection
@@ -125,7 +119,7 @@ $(function() {
                 },
                 messages: {
                         email : "이메일을 입력해주세요.",
-                                subject : "문의하실 내용의 제목을 입력해주세요.",
+                        subject : "문의하실 내용의 제목을 입력해주세요.",
                         content : "문의하실 내용을 입력해주세요.",
                         password : "비밀번호를 확인하세요.(4~16 자리의 영문/숫자/특수문자)"
                 },
