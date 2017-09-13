@@ -37,8 +37,8 @@
         <input type="hidden" name="item_id" id="item_id" value="">
         <input type="hidden" name="payment_price" id="payment_price" value="">
         <input type="hidden" name="payment_method" id="payment_method" value="">
-        <input type="hidden" name="sms_id" id="sms_id" autocomplete="off" value="1">
-        <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off" value="1">
+        <input type="hidden" name="sms_id" id="sms_id" autocomplete="off" value="">
+        <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off" value="">
         <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off">
         <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off">
         <input type="hidden" name="mobile" id="mobile" value="">
@@ -58,8 +58,7 @@
                                                 <div class="col-xs-6">
                                                         <div class="input-group input-group-lg">
                                                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                                                <input type="text" class="form-control input-lg" id=" "
-                                                                laceholder='주문자 이름' value="{{ $user->name }}" name="orderer_name">
+                                                                <input type="text" class="form-control input-lg" placeholder='주문자 이름' value="{{ $user->name }}" name="orderer_name" id="orderer_name">
                                                         </div>
                                                 </div>
                                         </div>
@@ -520,10 +519,25 @@ $(document).ready(function () {
 
                 // 1 depth 다음버튼
                 if (n == '1') {
+
+                        //사용자명
+                        if (!$('#orderer_name').val()) {
+                                alert('주문자명을 입력하세요.');
+                                $('#orderer_name').focus();
+
+                                // $('#orderer_name').closest('.form-group').addClass('has-error');
+                                // $('#orderer_name').closest('.block').addClass('bg-danger');
+                                //
+                                return false;
+                        }
+
                         //휴대폰 인증
                         if (!$('#sms_id').val()) {
-                                alert('sms인증을 확인해주세요.');
+                                alert('휴대전화번호를 확인해주세요.');
                                 $('#orderer_mobile').focus();
+
+                                // $('#orderer_mobile').closest('.form-group').addClass('has-error');
+                                // $('#orderer_mobile').closest('.block').addClass('bg-danger');
                                 return false;
                         }
 
@@ -616,15 +630,9 @@ $(function () {
                                 $('#sel_area').val(garage_area);
                                 $.each(data, function (key, value) {
                                         $('#sections').append($('<option/>', {
-                                                //                            value: value.id,
                                                 value: value,
                                                 text: value
                                         }));
-                                        // garage list append
-                                        //                        $('#garages').append($('<option/>', {
-                                        //                            value: value.id,
-                                        //                            text : value.name
-                                        //                        }))
                                 });
                         },
                         error: function () {
@@ -804,7 +812,7 @@ $(function () {
                                 type: 'post',
                                 dataType: 'json',
                                 url: '/order/delete-sms',
-                                data: {'sms_id': sms_id, '_token': "{{ csrf_token() }}"},
+                                data: {'sms_id': sms_id},
                                 success: function (jdata) {
                                         $('#modalSms').modal('hide');
                                 }
@@ -1099,9 +1107,9 @@ $('.datepicker2').each(function (index, element) {
 });
 
 // 달력이미지 클릭
-$('#calendar-opener').click(function () {
-        $("#reservation_date").click();
-});
+// $('#calendar-opener').click(function () {
+//         $("#reservation_date").click();
+// });
 
 
 var paymentSubmit = function (orders_id, is_complete, action) {
