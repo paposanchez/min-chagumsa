@@ -756,14 +756,14 @@ public function orderCancelCallback(Request $request)
 public function getModels(Request $request)
 {
         $brand_id = $request->get('brand');
-        $models = Models::where('brands_id', $brand_id)->get();
+        $models = Models::where('brands_id', $brand_id)->orderBy("name", 'ASC')->get();
         return $models;
 }
 
 public function getDetails(Request $request)
 {
         $model_id = $request->get('model');
-        $details = Detail::where('models_id', $model_id)->get();
+        $details = Detail::where('models_id', $model_id)->orderBy("name", 'ASC')->get();
         return $details;
 }
 
