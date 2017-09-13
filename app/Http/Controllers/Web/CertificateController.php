@@ -28,6 +28,8 @@ class CertificateController extends Controller
             $order->certificates = new Certificate();
         }
 
+        $exterior_picture_ids = Diagnosis::where('orders_id', $order_id)->where('group', 2008)->get();
+
         switch ($page) {
             case 'performance':
                 $exterior_lefts = Diagnosis::where('orders_id', $order_id)->where('group', 2010)->get();
@@ -41,7 +43,7 @@ class CertificateController extends Controller
 
                 return view('web.certificate.performance', compact('order', 'page'));
             case 'history':
-                return view('web.certificate.history', compact('order', 'page'));
+                return view('web.certificate.history', compact('order', 'page', 'exterior_picture_ids'));
             case 'price':
                 //특별요인
                 $specials = [];
@@ -75,7 +77,7 @@ class CertificateController extends Controller
 
                 return view('web.certificate.price', compact('order', 'page', 'specials', 'features'));
             default:
-                $exterior_picture_ids = Diagnosis::where('orders_id', $order_id)->where('group', 2008)->get();
+
 //                $picture_ids = [];
 //                foreach ($exterior_picure_ids as $picture_id){
 //                    $picture_ids[] = $picture_id->id;

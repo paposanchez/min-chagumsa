@@ -147,7 +147,7 @@
                 </td>
             </tr>
 
-            <th rowspan='18'>차량성능상태</th>
+            <th rowspan='19'>차량성능상태</th>
             <tr>
                 <td>주요외판</td>
                 <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_exterior_cd) }}</td>
@@ -219,7 +219,16 @@
                 <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_braking_cd) }}</td>
             </tr>
 
-
+            <tr>
+                <td>감가금액</td>
+                <td>
+                    @if($order->certificates->performance_depreciation)
+                        -{{ number_format($order->certificates->performance_depreciation) }} 원
+                    @else
+                        0 원
+                    @endif
+                </td>
+            </tr>
 
 
 
