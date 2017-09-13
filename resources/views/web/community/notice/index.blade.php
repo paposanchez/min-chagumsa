@@ -12,7 +12,7 @@
                 <li><a class='' href='{{ route('inquire.index') }}'>1:1 문의</a></li>
         </ul>
 
-        <div class='board_wrap'>
+        <div class='board_wrap_new'>
                 <table class="table table-hover ">
                         <colgroup>
                                 <col width='110px;'>

@@ -141,8 +141,8 @@ class PostController extends Controller {
         $post->name = $request->get('name');
         $post->is_shown = $request->get('is_shown');
         $post->ip = $request->ip();
-        $post->created_at = Carbon::now();
-        $post->updated_at = Carbon::now();
+//        $post->created_at = Carbon::now();
+//        $post->updated_at = Carbon::now();
         $post->save();
 
 

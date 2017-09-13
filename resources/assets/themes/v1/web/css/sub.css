@@ -111,32 +111,58 @@
 .term_cont ol {list-style:decimal inside none !important;display:inline-block;}
 .term_cont ol li {list-style:decimal inside none !important;color:#999;}
 
-/* 寃뚯떆�� */
-.board_wrap { margin-top:10px;}
-.board_wrap .table-hover > tbody > tr:hover {
-        background-color: #fff;
-}
 
-.board_wrap table thead th { background:#f1f1f1; font-weight: 700;}
-.board_wrap table th, .board_wrap table td {font-size:14px; padding:15px 0px !important;}
-/*.board_wrap table thead th, .board_wrap table tbody td, .board_wrap table tbody th {padding:15px 10px;font-size:14px; text-align: center;}
+.board_wrap_new { margin-top:10px;}
+.board_wrap_new .table-hover > tbody > tr:hover {
+    background-color: #fff;
+}
+.board_wrap_new table thead th { background:#f1f1f1; font-weight: 700;}
+.board_wrap_new table th, .board_wrap_new table td {font-size:14px; padding:15px 0px !important;}
+.board_wrap_new table thead th, .board_wrap_new table tbody td, .board_wrap_new table tbody th {padding:15px 10px;font-size:14px; text-align: center;}
+.board_wrap_new table thead th {border-bottom:1px solid #ddd;background:#f6f6f6;position:relative;font-weight:bold;}
+.board_wrap_new table thead th:after {content:'|';right:0px;color:#d1d1d1;position:absolute;}
+.board_wrap_new table thead th:last-child:after {display:none;}
+.board_wrap_new table tbody th {border-bottom:1px solid #e5e5e5;text-align:center;}
+.board_wrap_new table tbody th span {background:#0b4777;color:#fff;padding:2px 7px;}
+.board_wrap_new table tbody td {border-bottom:1px solid #e5e5e5;text-align:left;}
+
+.board_view_wrap2 { margin-top:10px;}
+.board_view_title2 {background:#f1f1f1;overflow:hidden;padding:20px;position:relative;}
+.board_view_title2 div {font-size:14px;white-space:normal;}
+.board_view_title2 ul {position:absolute;right:0px;top:20px;}
+.board_view_title2 ul li {display:inline-block; margin:0px 15px; font-size:14px;color:#999;}
+.board_view_title2 ul li span {color:#0b4777;padding:0px 10px;}
+
+.board_view_cont2 {padding:30px; background-color:#fff; }
+.board_view_cont2 img {max-width:100%;display:block;margin-bottom:15px;}
+.board_view_cont2 p {font-size:14px;line-height:22px;display:block;margin-bottom:15px;}
+
+
+
+/* 寃뚯떆�� */
+.board_wrap table {width:100%;border-top:1px solid #7b7b7b;border-top:1px solid #7b7b7b;}
+.board_wrap table thead th, .board_wrap table tbody td, .board_wrap table tbody th {padding:15px 10px;font-size:14px; text-align: center;}
 .board_wrap table thead th {border-bottom:1px solid #ddd;background:#f6f6f6;position:relative;font-weight:bold;}
 .board_wrap table thead th:after {content:'|';right:0px;color:#d1d1d1;position:absolute;}
 .board_wrap table thead th:last-child:after {display:none;}
 .board_wrap table tbody th {border-bottom:1px solid #e5e5e5;text-align:center;}
 .board_wrap table tbody th span {background:#0b4777;color:#fff;padding:2px 7px;}
-.board_wrap table tbody td {border-bottom:1px solid #e5e5e5;text-align:left;}*/
+.board_wrap table tbody td {border-bottom:1px solid #e5e5e5;text-align:left;}
 
-.board_view_wrap { margin-top:10px;}
-.board_view_title {background:#f1f1f1;overflow:hidden;padding:20px;position:relative;}
-.board_view_title div {font-size:14px;white-space:normal;}
-.board_view_title ul {position:absolute;right:0px;top:20px;}
-.board_view_title ul li {display:inline-block; margin:0px 15px; font-size:14px;color:#999;}
-.board_view_title ul li span {color:#0b4777;padding:0px 10px;}
 
-.board_view_cont {padding:30px; background-color:#fff; }
+.board_view_title {background:#f6f6f6;border-top:1px solid #7b7b7b;border-bottom:1px solid #ddd;overflow:hidden;padding-left:20px;position:relative;}
+.board_view_title div {width:740px;padding:15px 0;font-size:14px;line-height:26px;white-space:normal;}
+.board_view_title ul {position:absolute;right:25px;top:50%;margin-top:-34px;overflow:hidden;}
+.board_view_title ul li {float:left;font-size:14px;color:#0b4777;padding-left:25px;height:68px;line-height:68px;}
+.board_view_title ul li span {color:#444;padding-left:15px;}
+
+.board_view_cont {padding:30px 20px 15px 20px;border-bottom:1px solid #7b7b7b;}
 .board_view_cont img {max-width:100%;display:block;margin-bottom:15px;}
 .board_view_cont p {font-size:14px;line-height:22px;display:block;margin-bottom:15px;}
+
+
+
+
 
 
 .board_btn_wrap {overflow:hidden;padding:15px 0;}
