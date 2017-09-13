@@ -521,39 +521,39 @@ $(document).ready(function () {
                 if (n == '1') {
 
                         //사용자명
-                        if (!$('#orderer_name').val()) {
-                                alert('주문자명을 입력하세요.');
-                                $('#orderer_name').focus();
-
-                                // $('#orderer_name').closest('.form-group').addClass('has-error');
-                                // $('#orderer_name').closest('.block').addClass('bg-danger');
-                                //
-                                return false;
-                        }
-
-                        //휴대폰 인증
-                        if (!$('#sms_id').val()) {
-                                alert('휴대전화번호를 확인해주세요.');
-                                $('#orderer_mobile').focus();
-
-                                // $('#orderer_mobile').closest('.form-group').addClass('has-error');
-                                // $('#orderer_mobile').closest('.block').addClass('bg-danger');
-                                return false;
-                        }
-
-                        // 입고대리점 검사
-                        if (!$('#garages option:selected').val()) {
-                                alert('입고대리점을 선택해주세요.');
-                                $("#areas").focus();
-                                return false;
-                        }
-
-                        // 입고희망일 검사
-                        if (!$('#reservation_date').val()) {
-                                alert('예약일을 선택해주세요.');
-                                $("#reservation_date").focus();
-                                return false;
-                        }
+                        // if (!$('#orderer_name').val()) {
+                        //         alert('주문자명을 입력하세요.');
+                        //         $('#orderer_name').focus();
+                        //
+                        //         // $('#orderer_name').closest('.form-group').addClass('has-error');
+                        //         // $('#orderer_name').closest('.block').addClass('bg-danger');
+                        //         //
+                        //         return false;
+                        // }
+                        //
+                        // //휴대폰 인증
+                        // if (!$('#sms_id').val()) {
+                        //         alert('휴대전화번호를 확인해주세요.');
+                        //         $('#orderer_mobile').focus();
+                        //
+                        //         // $('#orderer_mobile').closest('.form-group').addClass('has-error');
+                        //         // $('#orderer_mobile').closest('.block').addClass('bg-danger');
+                        //         return false;
+                        // }
+                        //
+                        // // 입고대리점 검사
+                        // if (!$('#garages option:selected').val()) {
+                        //         alert('입고대리점을 선택해주세요.');
+                        //         $("#areas").focus();
+                        //         return false;
+                        // }
+                        //
+                        // // 입고희망일 검사
+                        // if (!$('#reservation_date').val()) {
+                        //         alert('예약일을 선택해주세요.');
+                        //         $("#reservation_date").focus();
+                        //         return false;
+                        // }
 
                         $('.pt-page-1').fadeOut();
                         $('.pt-page-2').fadeIn();
@@ -921,13 +921,13 @@ $(function () {
                         url: '/order/get_grades/',
                         data: {'detail': detail},
                         success: function (data) {
+
+                                console.log(data);
+
                                 $('#grades').html('');
 
                                 $.each(data, function (key, value) {
-                                        $('#grades').append($('<option/>', {
-                                                value: value.id,
-                                                text: value.name
-                                        }));
+                                        $('#grades').append('<option data-item="'+value.items_id+'" value="'+value.id+'">'+value.name+'</option>');
                                 });
 
                         },
@@ -937,15 +937,33 @@ $(function () {
                 });
         });
 
-        $('#grades').change(function () {
-                var grade = $('#grades option:selected').val();
-                $('#grade_id').val(grade);
-                $('#car_full_name').val(
-                        $('#brands option:selected').text() + " " +
-                        $('#models option:selected').text() + " " +
-                        $('#details option:selected').text() + " " +
-                        $('#grades option:selected').text() + " "
-                );
+        $('#grades').on('change',function (e) {
+
+                var pre_selected_item = $(e.target).find('option:selected').data('item');
+                if(pre_selected_item)
+                {
+
+                        $('.purchase-item-product').each(function(){
+
+                                if($(this).data('index') == pre_selected_item)
+                                {
+                                        $(this).trigger('click');
+                                        return true;
+                                }
+
+                        });
+
+                }
+
+
+                // var grade = $(e.target).find('option:selected').val();
+                // $('#grade_id').val(grade);
+                // $('#car_full_name').val(
+                //         $('#brands option:selected').text() + " " +
+                //         $('#models option:selected').text() + " " +
+                //         $('#details option:selected').text() + " " +
+                //         $('#grades option:selected').text() + " "
+                // );
         });
 
 

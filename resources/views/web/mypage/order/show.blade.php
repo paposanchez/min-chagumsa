@@ -19,7 +19,6 @@
 
         <div class='order_info_box'>
 
-
             <div class='order_info_title clearfix '>
 
                 <span class="text-lg text-light">{{ $order->getOrderNumber() }}</span>

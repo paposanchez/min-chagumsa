@@ -61,7 +61,7 @@ class OrderController extends Controller
 
 
                 $brands = Brand::select('id', 'name')
-                ->orderByRaw('CASE WHEN id = 5 THEN 8 WHEN id = 6 THEN 9 WHEN id = 4 OR id = 74 OR id = 44 THEN 5 ELSE 1 END ASC, name ASC')
+                ->orderByRaw('CASE WHEN id = 5 THEN 8 WHEN id = 6 THEN 9 WHEN id = 4 OR id = 19 OR id = 38 OR id = 74 OR id = 44 THEN 5 WHEN id = 1 OR id = 28 OR id = 45 THEN 1 ELSE 3 END ASC, name ASC')
                 ->get();
                 $exterior_option = Code::where('group', 'car_option_exterior')->get();
                 $interior_option = Code::where('group', 'car_option_interior')->get();
