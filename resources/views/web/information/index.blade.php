@@ -34,13 +34,10 @@
 		</div>
 	</div>
 
-</div>
-
-<div class='br10'></div>
-
-<div id='sub_wrap' class='type2'>
-
-	<div class='br30'></div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
 
 	<div class='cont_title'>
 		{{--중고차의 정확한 성능진단과 가치 산정을--}}

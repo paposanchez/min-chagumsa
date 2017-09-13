@@ -20,7 +20,6 @@
                 <div class="form-group ">
                         <label for="">회원정보</label>
 
-
                         <div class="block">
 
                                 <div class="form-group">
@@ -48,6 +47,17 @@
                         </div>
                 </div>
 
+
+
+                <p class="text-center">
+
+                        <!-- <a href="/" class="btn btn-default btn-lg history-back" >취소</a> -->
+                        <button class="btn btn-lg btn-success" data-loading-text="처리중..." type="submit">회원정보변경</button>
+                </p>
+                {!! Form::close() !!}
+
+
+                {!! Form::open([ 'route' => ['mypage.profile.store'], 'class' =>'form-horizontal', 'method' => 'POST', 'role' => 'form', 'id' => 'user-password-form']) !!}
 
 
                 <div class="form-group ">
@@ -92,9 +102,8 @@
 
                 <p class="text-center">
 
-                        <a href="/" class="btn btn-default btn-lg history-back" >취소</a>
-                        <button class="btn btn-lg btn-success" data-loading-text="처리중..." type="submit">회원정보변경</button>
-
+                        <!-- <a href="/" class="btn btn-default btn-lg history-back" >취소</a> -->
+                        <button class="btn btn-lg btn-success" data-loading-text="처리중..." type="submit">비밀번호 변경</button>
                         <button class='btn btn-link btn-lg pull-right' id="leave" type="button"><span class=" text-danger">회원탈퇴</span></button>
                 </p>
                 {!! Form::close() !!}
@@ -115,21 +124,30 @@ $(function(){
                 rules: {
                         name:{
                                 required: true
+                        }
+                },
+                messages:{
+                        name: "이름을 입력하세요.",
+                        old_password: {
+                                required: "현재 사용중인 비밀번호를 입력해 주세요.",
+                                old_password: "새 비밀번호는 8~16자리의 영문/숫자/특수문자 입니다.",
                         },
+                        password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)",
+                        password_confirmation: "입력된 새 비밀번호 확인값이 틀립니다."
+                }
+        });
+
+        $("#user-password-form").validate({
+                rules: {
+
                         old_password:{
-                                required: true,
-                                minlength: 8,
-                                maxlength: 16,
+                                required: true
                         },
                         password: {
                                 required: true,
-                                minlength: 8,
-                                maxlength: 16
                         },
                         password_confirmation: {
                                 required: true,
-                                minlength: 8,
-                                maxlength: 16,
                                 equalTo: "#inputPasswordConfirmation"
                         },
                 },
@@ -143,6 +161,7 @@ $(function(){
                         password_confirmation: "입력된 새 비밀번호 확인값이 틀립니다."
                 }
         });
+
 
         //인증메일 재전송
         $("#email-resend").on("click", function(){
