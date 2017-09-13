@@ -334,7 +334,12 @@
                         <div class="form-group">
                                 <label for="">9. 상품</label>
 
-                                <div class="block">
+
+
+                                <div class="block" id="purchase-items">
+
+                                        <div id="purchase-items-blind">차량모델에 따라 상품이 자동선택됩니다. 상품을 변경하시려면 차량모델을 변경하세요.</div>
+
                                         <div class="row">
                                                 @foreach($items as $item)
                                                 <div class="col-xs-3">
@@ -856,7 +861,7 @@ $(function () {
 
 
         // brands 선택 시
-        $('#brands').change(function () {
+        $('#brands').on('change', function () {
                 var brand = $('#brands option:selected').val();
                 $('#brand_id').val(brand);
                 $.ajax({
@@ -865,8 +870,7 @@ $(function () {
                         url: '/order/get_models/',
                         data: {'brand': brand},
                         success: function (data) {
-                                $('#models').html('');
-
+                                $('#models').empty();
                                 $('#details').html('<option disabled="true">세부모델을 선택하세요.</option>');
                                 $('#grades').html('<option disabled="true">등급을 선택하세요.</option>');
 
@@ -884,7 +888,7 @@ $(function () {
         });
 
         // models 선택 시
-        $('#models').change(function () {
+        $('#models').on('change', function () {
 
                 var model = $('#models option:selected').val();
                 $('#models_id').val(model);
@@ -894,7 +898,7 @@ $(function () {
                         url: '/order/get_details/',
                         data: {'model': model},
                         success: function (data) {
-                                $('#details').html('');
+                                $('#details').empty();
                                 $('#grades').html('<option disabled="true">등급을 선택하세요.</option>');
 
                                 $.each(data, function (key, value) {
@@ -912,7 +916,7 @@ $(function () {
         });
 
         // detail 선택 시
-        $('#details').change(function () {
+        $('#details').on('change', function () {
                 var detail = $('#details option:selected').val();
                 $('#detail_id').val(detail);
                 $.ajax({
@@ -922,9 +926,7 @@ $(function () {
                         data: {'detail': detail},
                         success: function (data) {
 
-                                console.log(data);
-
-                                $('#grades').html('');
+                                $('#grades').empty();
 
                                 $.each(data, function (key, value) {
                                         $('#grades').append('<option data-item="'+value.items_id+'" value="'+value.id+'">'+value.name+'</option>');
@@ -937,6 +939,10 @@ $(function () {
                 });
         });
 
+
+
+
+
         $('#grades').on('change',function (e) {
 
                 var pre_selected_item = $(e.target).find('option:selected').data('item');
@@ -947,6 +953,8 @@ $(function () {
 
                                 if($(this).data('index') == pre_selected_item)
                                 {
+
+                                        $("#purchase-items-blind").show();
                                         $(this).trigger('click');
                                         return true;
                                 }
@@ -956,14 +964,6 @@ $(function () {
                 }
 
 
-                // var grade = $(e.target).find('option:selected').val();
-                // $('#grade_id').val(grade);
-                // $('#car_full_name').val(
-                //         $('#brands option:selected').text() + " " +
-                //         $('#models option:selected').text() + " " +
-                //         $('#details option:selected').text() + " " +
-                //         $('#grades option:selected').text() + " "
-                // );
         });
 
 
