@@ -26,8 +26,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/order/delete-sms', 'OrderController@deleteSms')->name('order.delete-sms');
 
         // 주문하기
-
-
         Route::match(['get', 'post'],'order/complete', 'OrderController@complete')->name("order.complete");
         Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
         Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");

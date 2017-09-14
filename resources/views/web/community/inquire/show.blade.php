@@ -15,15 +15,15 @@
                 <li><a class='select' href='{{ route('inquire.index') }}'>1:1 문의</a></li>
         </ul>
 
-        <div class="board_view_wrap">
-                <div class="board_view_title">
+        <div class="board_view_wrap_new">
+                <div class="board_view_title_new">
                         <div>{{ $data->subject }}</div>
                         <ul>
                                 <li>작성자 <span>{{ $data->email  }}</span></li>
                                 <li>작성일 <span>{{ $data->updated_at ? $data->updated_at->format("Y-m-d") : $data->created_at->format("Y-m-d")  }}</span></li>
                         </ul>
                 </div>
-                <div class="board_view_cont">
+                <div class="board_view_cont_new">
 
                         @if(count($files) != 0)
                         <div style="margin-bottom: 30px;">
@@ -38,19 +38,19 @@
                         @endif
 
                         <h4>문의내용</h4>
-
-
                         <div class="block bg-warning">
                                 {!! $data->content !!}
                         </div>
 
-
-
                         <div class="" style="margin-top:20px;">
-                                <h4>답변내용</h4>
+                                <h4>답변내용
+                                        @if($data->is_answered)
+                                        <small class="pull-right">답변일 {{ $data->updated_at }}</small>
+                                        @endif
+                                </h4>
                                 <div class="block bg-info">
-                                        @if($data->is_answered === 1)
-                                        {!! nl2br($data->answered) !!}
+                                        @if($data->is_answered)
+                                        {!! $data->answer !!}
                                         @else
                                         답변대기중입니다.
                                         @endif
@@ -58,26 +58,23 @@
                         </div>
 
                 </div>
-
-
-
-
-
         </div>
 
-
         <p class="form-control-static">
-
-                <button class="btn btn-default " id='c-list' data-route="{{ route($board_namespace.'.index') }}">목록</button>
-
-
-                <button class="btn btn-default pull-right" id='next' style="margin:0px 0px 0px 5px;" data-route="{{ ($next)? route($board_namespace.'.show', ['id' => $next]): '' }}">다음</button>
-
-                <button class="btn btn-default pull-right" id='prev' data-route="{{ ($prev)? route($board_namespace.'.show', ['id' => $prev]): '' }}">이전</button>
+                <a href="{{ route($board_namespace.'.index') }}" class="btn btn-default">목록</a>
+                @if(!$data->is_answered)
+                &nbsp;<button id="post-delete" class="btn btn-danger pull-right">삭제하기</button>
+                <a  href="{{ route($board_namespace.'.edit', [$data->id]) }}" class="btn btn-default pull-right">수정하기</a>
+                @endif
         </p>
 
-
 </div>
+
+
+{!! Form::open(['route' => [$board_namespace.".destroy", $data->id],  'method' => 'DELETE', 'role' => 'form', 'id'=>'inquireDeleteFrm']) !!}
+{!! Form::close() !!}
+
+
 @endsection
 
 @push( 'header-script' )
@@ -86,24 +83,20 @@
 @push( 'footer-script' )
 <script type="text/javascript">
 $(function(){
-        $("#c-list").on("click", function(){ location.href = $(this).data("route"); });
 
-        if(!$("#prev").data("route")){
-                $("#prev").attr("disabled", true);
-        }
-        $("#prev").on("click", function(){
-                location.href = $("#prev").data("route");
-        });
 
-        if(!$("#next").data("route")){
-                $("#next").attr("disabled", true);
-        }
-        $("#next").on("click", function(){
-                location.href = $("#next").data("route");
-        });
+       $(document).on("click", "#post-delete", function (e) {
+           e.preventDefault();
+
+           if(confirm("해당 게시물을 삭제하시겠습니까?"))
+           {
+
+                   $("#inquireDeleteFrm").submit();
+           }
 
 
 
+       });
 
 
         //        $(document).on("click", ".plugin-attach-download", function (e) {

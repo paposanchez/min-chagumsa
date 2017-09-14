@@ -12,7 +12,7 @@
                 <li><a class='select' href='{{ route('inquire.index') }}'>1:1 문의</a></li>
         </ul>
 
-        <div class='board_wrap'>
+        <div class='board_wrap_new'>
 
                 <table class="table table-hover ">
                         <colgroup>
@@ -30,6 +30,13 @@
                                 </tr>
                         </thead>
                         <tbody>
+
+                                @unless(count($entrys))
+                                <tr>
+                                        <td colspan="4" class="no-result">등록된 문의가 없습니다.</td>
+                                </tr>
+                                @endunless
+
                                 @foreach($entrys as $key => $entry)
                                 <tr>
                                         <td class="text-center">{{ $start_num - $key }}</td>

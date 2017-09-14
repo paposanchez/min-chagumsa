@@ -97,11 +97,7 @@ class Code extends Model {
         );
     }
 
-
-
-
     //=======================
-
     public static function getCodesByGroup($group) {
         $return = DB::table('codes')
                 ->where("group", $group)
