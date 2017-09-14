@@ -214,13 +214,13 @@ class PostController extends Controller {
         } else {
             $input = array_except($input, array('password'));
         }
-        $user = User::where('email', $request->get('email'))->first();
+
 
         $post = Post::findOrFail($id);
         $post->subject = $request->get('subject');
         $post->content = $request->get('content');
         $post->board_id = $request->get('board_id');
-        $post->user_id = $user->id;
+
         $post->password = $request->get('password');
         if($request->get('board_id') == 2){
             $post->category_id = $request->get('category_id');
