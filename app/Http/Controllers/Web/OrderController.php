@@ -224,21 +224,21 @@ class OrderController extends Controller
                 $reservation->save();
 
 
-                if ($request->get('options_ck') != []) {
-                        $order_features = OrderFeature::where('orders_id', $order->id)->first();
-                        if (!$order_features) {
-                                $order_features = new OrderFeature();
-                        } else {
-                                OrderFeature::where('orders_id', $order->id)->delete();
-                        }
-                        $order_features_list = [];
-                        foreach ($request->get('options_ck') as $key => $options) {
-                                $order_features_list[$key]['orders_id'] = $order->id;
-                                $order_features_list[$key]['features_id'] = $options;
-                        }
-                        $order_features->insert($order_features_list);
-                        $order_features->save();
-                }
+//                if ($request->get('options_ck') != []) {
+//                        $order_features = OrderFeature::where('orders_id', $order->id)->first();
+//                        if (!$order_features) {
+//                                $order_features = new OrderFeature();
+//                        } else {
+//                                OrderFeature::where('orders_id', $order->id)->delete();
+//                        }
+//                        $order_features_list = [];
+//                        foreach ($request->get('options_ck') as $key => $options) {
+//                                $order_features_list[$key]['orders_id'] = $order->id;
+//                                $order_features_list[$key]['features_id'] = $options;
+//                        }
+//                        $order_features->insert($order_features_list);
+//                        $order_features->save();
+//                }
 
                 // payment_method 11 - 신용카드, 12 - 실시간 계좌이체
                 if (!in_array($request->get('payment_method'), [11, 12])) {

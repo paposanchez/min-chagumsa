@@ -147,22 +147,23 @@ class OrderController extends Controller
             return redirect()->back()->with('error', '잘못된 접근입니다. 관리자에게 문의해주세요.');
         }
 
-        $order_features = $order->order_features;
-        $options_group = [
-            'car_option_exterior' => "외관",
-            'car_option_interior' => "내장",
-            'car_option_safety' => "안전",
-            'car_option_facilities' => "편의",
-            'car_option_multimedia' => "멀티미디어",
-        ];
+//        $order_features = $order->order_features;
+//        $options_group = [
+//            'car_option_exterior' => "외관",
+//            'car_option_interior' => "내장",
+//            'car_option_safety' => "안전",
+//            'car_option_facilities' => "편의",
+//            'car_option_multimedia' => "멀티미디어",
+//        ];
 
-        $options = Code::whereIn('group', array_keys($options_group))->get();
+//        $options = Code::whereIn('group', array_keys($options_group))->get();
 
-        return view('web.mypage.order.car', compact('order', 'order_features',
-            'options_group',
-            'options',
-            'order_features'
-        ));
+//        return view('web.mypage.order.car', compact('order', 'order_features',
+//            'options_group',
+//            'options',
+//            'order_features'
+//        ));
+        return view('web.mypage.order.car', compact('order'));
     }
 
 

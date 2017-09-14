@@ -38,7 +38,7 @@
         <input type="hidden" name="payment_price" id="payment_price" value="">
         <input type="hidden" name="payment_method" id="payment_method" value="">
         <input type="hidden" name="sms_id" id="sms_id" autocomplete="off" value="">
-        <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off" value="">
+        <input type="hidden" name="sms_confirmed" id="sms_confirmed" autocomplete="off" value="">
         <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off">
         <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off">
         <input type="hidden" name="mobile" id="mobile" value="">
@@ -256,66 +256,66 @@
 
 
 
-                        <div class="form-group">
-                                <label for="">8. 차량옵션</label>
+                        {{--<div class="form-group">--}}
+                                {{--<label for="">8. 차량옵션</label>--}}
 
-                                <div class="block">
-                                        <ul class='order_option_wrap'>
-                                                <li><strong>외관</strong>
-                                                        @foreach($exterior_option as $exterior)
-                                                        <div class='option_box'>
-                                                                <label>
-                                                                        <input type='checkbox' class='psk type2' value="{{ $exterior->id }}" name="options_ck[]">
-                                                                        <span class='lbl' name="exterior_ck"> {{ $exterior->display() }}</span>
-                                                                </label>
-                                                        </div>
-                                                        @endforeach
-                                                </li>
-                                                <li><strong>내장</strong>
-                                                        @foreach($interior_option as $interior)
-                                                        <div class='option_box'>
-                                                                <label>
-                                                                        <input type='checkbox' class='psk type2' value="{{ $interior->id }}" name="options_ck[]">
-                                                                        <span class='lbl' name="exterior_ck"> {{ $interior->display() }}</span>
-                                                                </label>
-                                                        </div>
-                                                        @endforeach
-                                                </li>
-                                                <li><strong>안전</strong>
-                                                        @foreach($safety_option as $safety)
-                                                        <div class='option_box'>
-                                                                <label>
-                                                                        <input type='checkbox' class='psk type2' value="{{ $safety->id }}" name="options_ck[]">
-                                                                        <span class='lbl' name="exterior_ck"> {{ $safety->display() }}</span>
-                                                                </label>
-                                                        </div>
-                                                        @endforeach
-                                                </li>
-                                                <li><strong>편의</strong>
-                                                        @foreach($facilities_option as $facilites)
-                                                        <div class='option_box'>
-                                                                <label>
-                                                                        <input type='checkbox' class='psk type2' value="{{ $facilites->id }}" name="options_ck[]">
-                                                                        <span class='lbl' name="exterior_ck"> {{ $facilites->display() }}</span>
-                                                                </label>
-                                                        </div>
-                                                        @endforeach
-                                                </li>
-                                                <li><strong>멀티미디어</strong>
-                                                        @foreach($multimedia_option as $multimedia)
-                                                        <div class='option_box'>
-                                                                <label>
-                                                                        <input type='checkbox' class='psk type2' value="{{ $multimedia->id }}" name="options_ck[]">
-                                                                        <span class='lbl' name="exterior_ck"> {{ $multimedia->display() }}</span>
-                                                                </label>
-                                                        </div>
-                                                        @endforeach
-                                                </li>
-                                        </ul>
+                                {{--<div class="block">--}}
+                                        {{--<ul class='order_option_wrap'>--}}
+                                                {{--<li><strong>외관</strong>--}}
+                                                        {{--@foreach($exterior_option as $exterior)--}}
+                                                        {{--<div class='option_box'>--}}
+                                                                {{--<label>--}}
+                                                                        {{--<input type='checkbox' class='psk type2' value="{{ $exterior->id }}" name="options_ck[]">--}}
+                                                                        {{--<span class='lbl' name="exterior_ck"> {{ $exterior->display() }}</span>--}}
+                                                                {{--</label>--}}
+                                                        {{--</div>--}}
+                                                        {{--@endforeach--}}
+                                                {{--</li>--}}
+                                                {{--<li><strong>내장</strong>--}}
+                                                        {{--@foreach($interior_option as $interior)--}}
+                                                        {{--<div class='option_box'>--}}
+                                                                {{--<label>--}}
+                                                                        {{--<input type='checkbox' class='psk type2' value="{{ $interior->id }}" name="options_ck[]">--}}
+                                                                        {{--<span class='lbl' name="exterior_ck"> {{ $interior->display() }}</span>--}}
+                                                                {{--</label>--}}
+                                                        {{--</div>--}}
+                                                        {{--@endforeach--}}
+                                                {{--</li>--}}
+                                                {{--<li><strong>안전</strong>--}}
+                                                        {{--@foreach($safety_option as $safety)--}}
+                                                        {{--<div class='option_box'>--}}
+                                                                {{--<label>--}}
+                                                                        {{--<input type='checkbox' class='psk type2' value="{{ $safety->id }}" name="options_ck[]">--}}
+                                                                        {{--<span class='lbl' name="exterior_ck"> {{ $safety->display() }}</span>--}}
+                                                                {{--</label>--}}
+                                                        {{--</div>--}}
+                                                        {{--@endforeach--}}
+                                                {{--</li>--}}
+                                                {{--<li><strong>편의</strong>--}}
+                                                        {{--@foreach($facilities_option as $facilites)--}}
+                                                        {{--<div class='option_box'>--}}
+                                                                {{--<label>--}}
+                                                                        {{--<input type='checkbox' class='psk type2' value="{{ $facilites->id }}" name="options_ck[]">--}}
+                                                                        {{--<span class='lbl' name="exterior_ck"> {{ $facilites->display() }}</span>--}}
+                                                                {{--</label>--}}
+                                                        {{--</div>--}}
+                                                        {{--@endforeach--}}
+                                                {{--</li>--}}
+                                                {{--<li><strong>멀티미디어</strong>--}}
+                                                        {{--@foreach($multimedia_option as $multimedia)--}}
+                                                        {{--<div class='option_box'>--}}
+                                                                {{--<label>--}}
+                                                                        {{--<input type='checkbox' class='psk type2' value="{{ $multimedia->id }}" name="options_ck[]">--}}
+                                                                        {{--<span class='lbl' name="exterior_ck"> {{ $multimedia->display() }}</span>--}}
+                                                                {{--</label>--}}
+                                                        {{--</div>--}}
+                                                        {{--@endforeach--}}
+                                                {{--</li>--}}
+                                        {{--</ul>--}}
 
-                                        <small class='help-block'>※ 추후 가격 산정에 영향을 미치므로 아래 항목 중 장착되어 있는 옵션을 정확히 체크해 주세요.</small>
-                                </div>
-                        </div>
+                                        {{--<small class='help-block'>※ 추후 가격 산정에 영향을 미치므로 아래 항목 중 장착되어 있는 옵션을 정확히 체크해 주세요.</small>--}}
+                                {{--</div>--}}
+                        {{--</div>--}}
 
                         <p class="form-control-static text-center">
                                 <button type="button" class='btn btn-default btn-lg wid25 order-page-back' data-index="0">이전</button>
@@ -332,7 +332,7 @@
 
 
                         <div class="form-group">
-                                <label for="">9. 상품</label>
+                                <label for="">8. 상품</label>
 
 
 
@@ -355,7 +355,7 @@
 
 
                         <div class="form-group">
-                                <label for="">10. 결제방법</label>
+                                <label for="">9. 결제방법</label>
 
                                 <div class="block">
                                         <div class="row">

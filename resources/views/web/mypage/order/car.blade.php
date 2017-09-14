@@ -124,36 +124,36 @@
             </div>
 
 
-            <div class="form-group">
-                <label for="">차량옵션</label>
+            {{--<div class="form-group">--}}
+                {{--<label for="">차량옵션</label>--}}
 
-                <div class="block">
-                    <ul class='order_option_wrap'>
-                        @foreach($options_group as $key => $val)
-                            <li><strong>{{ $val }}</strong>
-                                @foreach($options as $option)
-                                    @if($key == $option->group)
-                                        <div class='option_box'>
-                                            <label>
-                                                <input type='checkbox' class='psk type2' value="{{ $option->id }}"
-                                                       @foreach($order_features as $feature)
-                                                       @if($feature->features_id == $option->id)
-                                                       checked
-                                                       @endif
-                                                       @endforeach
-                                                       name="options_ck[]">
-                                                <span class='lbl' name="exterior_ck"> {{ $option->display() }}</span>
-                                            </label>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </li>
-                        @endforeach
-                    </ul>
+                {{--<div class="block">--}}
+                    {{--<ul class='order_option_wrap'>--}}
+                        {{--@foreach($options_group as $key => $val)--}}
+                            {{--<li><strong>{{ $val }}</strong>--}}
+                                {{--@foreach($options as $option)--}}
+                                    {{--@if($key == $option->group)--}}
+                                        {{--<div class='option_box'>--}}
+                                            {{--<label>--}}
+                                                {{--<input type='checkbox' class='psk type2' value="{{ $option->id }}"--}}
+                                                       {{--@foreach($order_features as $feature)--}}
+                                                       {{--@if($feature->features_id == $option->id)--}}
+                                                       {{--checked--}}
+                                                       {{--@endif--}}
+                                                       {{--@endforeach--}}
+                                                       {{--name="options_ck[]">--}}
+                                                {{--<span class='lbl' name="exterior_ck"> {{ $option->display() }}</span>--}}
+                                            {{--</label>--}}
+                                        {{--</div>--}}
+                                    {{--@endif--}}
+                                {{--@endforeach--}}
+                            {{--</li>--}}
+                        {{--@endforeach--}}
+                    {{--</ul>--}}
 
-                    <small class='help-block'>※ 추후 가격 산정에 영향을 미치므로 아래 항목 중 장착되어 있는 옵션을 정확히 체크해 주세요.</small>
-                </div>
-            </div>
+                    {{--<small class='help-block'>※ 추후 가격 산정에 영향을 미치므로 아래 항목 중 장착되어 있는 옵션을 정확히 체크해 주세요.</small>--}}
+                {{--</div>--}}
+            {{--</div>--}}
 
             <p class="form-control-static text-center">
                 <a href="/mypage/order/{{ $order->id }}" class='btn btn-default btn-lg wid25'>돌아가기</a>
