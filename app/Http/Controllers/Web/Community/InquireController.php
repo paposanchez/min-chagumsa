@@ -24,7 +24,7 @@ class InquireController extends PostController {
                         return redirect('/login')->with('error', trans('verification.require_login'));
                 }
 
-                $where = Post::orderBy('id', 'DESC')->where('board_id', 3);
+                $where = Post::orderBy('id', 'DESC')->where('board_id', 3)->where('is_shown', 6);
                 $entrys = $where->paginate(25);
                 $start_num = \App\Helpers\Helper::getStartNum($entrys);
 

@@ -8,6 +8,7 @@ use App\Models\Code;
 use App\Models\Board;
 use App\Models\File;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
@@ -164,7 +165,6 @@ class PostController extends Controller {
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
 
         $yn_list = Helper::getCodeSelectArray(Code::getCodesByGroup('yn'), 'yn', '답변여부를 선택해주세요.');
-//        $shown_role_list = Code::getSelectList('post_shown_role');
         $shown_role_list = Helper::getCodeSelectArray(Code::getCodesByGroup('post_shown_role'), 'post_shown_role', '공개여부를 선택해주세요.');
 
         $categorys = Code::where('group', 'category_id')->get();
@@ -178,16 +178,17 @@ class PostController extends Controller {
             'subject' => 'required|min:1',
             'content' => 'required|min:1',
             'board_id' => 'required|exists:boards,id',
-            'user_id' => 'exists:users,id',
+//            'user_id' => 'exists:users,id',
             'category' => 'exists:categorys,id',
             'is_shown' => [
                 'required',
                 Rule::in(Code::getCodeFieldArray('post_shown_role')->toArray()),
             ],
-            'is_answered' => [
-                'required',
-                Rule::in(Code::getCodeFieldArray('yn')->toArray()),
-            ],
+            'is_answered' => 'boolean',
+//            'is_answered' => [
+//                'required',
+//                Rule::in(Code::getCodeFieldArray('yn')->toArray()),
+//            ],
             'thumbnail' => 'exists:files,id',
             'name' => 'min:1',
             'email' => 'email',
@@ -213,14 +214,13 @@ class PostController extends Controller {
         } else {
             $input = array_except($input, array('password'));
         }
-        $input['ip'] = $request->ip();
+        $user = User::where('email', $request->get('email'))->first();
 
         $post = Post::findOrFail($id);
-//        $post->update($input);
         $post->subject = $request->get('subject');
         $post->content = $request->get('content');
         $post->board_id = $request->get('board_id');
-        $post->user_id = $request->get('user_id');
+        $post->user_id = $user->id;
         $post->password = $request->get('password');
         if($request->get('board_id') == 2){
             $post->category_id = $request->get('category_id');
@@ -228,7 +228,8 @@ class PostController extends Controller {
             $post->answer = $request->get('answer');
         }
         $post->is_shown = $request->get('is_shown');
-        $post->is_answered = $request->get('is_answered');
+//        $post->is_answered = $request->get('is_answered');
+        $post->is_answered = $request->get('is_answered') ? $request->get('is_answered') : 0;
         $post->name = $request->get('name');
         $post->is_shown = $request->get('is_shown');
         $post->ip = $request->ip();
