@@ -66,6 +66,16 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         // 주문관리
         Route::post('order/reservation_change', 'OrderController@reservationChange');
         Route::post('order/confirmation/{order_id}', 'OrderController@confirmation');
+        Route::get('/order/get_section', 'OrderController@getSection')->name("order.get_section");
+        Route::get('/order/get_address', 'OrderController@getAddress')->name("order.get_address");
+        Route::get('/order/get_full_address', 'OrderController@getFullAddress')->name("order.get_full_address");
+        Route::post('order/user-update', 'OrderController@userUpdate')->name('order.user-update');
+        Route::post('order/car-update', 'OrderController@carUpdate')->name('order.car-update');
+
+        Route::post('order/bcs-update', 'OrderController@bcsUpdate')->name('order.bcs-update');
+//        Route::post('order/car-update', 'OrderController@carUpdate')->name('order.car-update');
+
+
         Route::resource('order', 'OrderController');
 
         // 진단관리
