@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Crypt;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 use App\Tpay\TpayLib as Encryptor;
@@ -76,8 +77,11 @@ class OrderController extends Controller
                 ];
 
 
-                $garages = UserExtra::orderBy('area', 'ASC')->groupBy('area')->whereNotNull('aliance_id')->get();
+//                $garages = UserExtra::orderBy('area', 'ASC')->groupBy('area')->whereNotNull('aliance_id')->get();
+                $garages = UserExtra::whereNotIn('users_id', [4])->orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
 
+
+                
 
                 return view('web.order.index', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
                 //        return view('web.order.index_2', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
@@ -785,7 +789,7 @@ public function getSection(Request $request)
         $users = \App\Models\Role::find(4)->users;
         $sections = [];
         foreach ($users as $user) {
-                if ($user->user_extra->area == $request->get('garage_area')) {
+                if ($user->user_extra->users_id != 4 && $user->user_extra->area == $request->get('garage_area')) {
                         $sections[$user->user_extra->section] = $user->user_extra->section;
                 }
 
@@ -800,7 +804,7 @@ public function getAddress(Request $request)
         $users = \App\Models\Role::find(4)->users;
         $garages = [];
         foreach ($users as $user) {
-                if ($user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
+                if ($user->user_extra->users_id != 4 && $user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
                         $garages[$user->id] = $user->name;
                 }
 
