@@ -233,42 +233,152 @@
 
 	<div class='report_title_type2'>진단결과</div>
 	<div class='report_table exp'>
-		<table>
-			<colgroup>
-				<col style='width:120px;'>
-				<col style='width:260px;'>
-				<col style='width:145px;'>
-				<col style='width:255px;'>
-			</colgroup>
-			<tbody>
-			<tr>
-				<th class='td_al_c' colspan='2'>항목</th>
-				<th class='td_al_c'>상태</th>
-				<th class='td_al_c'>내용</th>
-			</tr>
-			<tr>
-				<td colspan='2' class='fcol_navy'><dl class='tool_desc'><dt>사고유무점검</dt><dd>전체적으로 깨끗한 편이고, 약간의 긁힘은 있으나 눈에 띄지는 않음</dd></dl></td>
-				<td><span class='status_good'>수리이력 없음</span></td>
-				<td>진단결과 문제없음을 확인함</td>
-			</tr>
-			<tr>
-				<td rowspan='3'>침수흔적점검</td>
-				<td class='fcol_navy'><dl class='tool_desc'><dt>엔진룸(휴즈박스)</dt><dd>전체적으로 깨끗한 편이고, 약간의 긁힘은 있으나 눈에 띄지는 않음</dd></dl></td>
-				<td><span class='status_good'>오염여부(무)</span></td>
-				<td rowspan='3'>실내악취는 전혀 나질 않으며 방향제 냄새만 납니다.</td>
-			</tr>
-			<tr>
-				<td class='fcol_navy'><dl class='tool_desc'><dt>실내(앞바닥 등)</dt><dd>전체적으로 깨끗한 편이고, 약간의 긁힘은 있으나 눈에 띄지는 않음</dd></dl></td>
-				<td><span class='status_warn'>수분 및 오염(무)</span></td>
-			</tr>
-			<tr>
-				<td class='fcol_navy'><dl class='tool_desc'><dt>트렁크(바닥 등)</dt><dd>전체적으로 깨끗한 편이고, 약간의 긁힘은 있으나 눈에 띄지는 않음</dd></dl></td>
-				<td><span class='status_bad'>수분 및 오염(유)</span></td>
-			</tr>
-			</tbody>
-		</table>
+		{{--<table>--}}
+			{{--<colgroup>--}}
+				{{--<col style='width:120px;'>--}}
+				{{--<col style='width:260px;'>--}}
+				{{--<col style='width:145px;'>--}}
+				{{--<col style='width:255px;'>--}}
+			{{--</colgroup>--}}
+			{{--<tbody>--}}
+			{{--<tr>--}}
+				{{--<th class='td_al_c' colspan='2'>항목</th>--}}
+				{{--<th class='td_al_c'>상태</th>--}}
+				{{--<th class='td_al_c'>내용</th>--}}
+			{{--</tr>--}}
+			{{--<tr>--}}
+				{{--<td colspan='2' class='fcol_navy'><dl class='tool_desc'><dt>사고유무점검</dt><dd>전체적으로 깨끗한 편이고, 약간의 긁힘은 있으나 눈에 띄지는 않음</dd></dl></td>--}}
+				{{--<td><span class='status_good'>수리이력 없음</span></td>--}}
+				{{--<td>진단결과 문제없음을 확인함</td>--}}
+			{{--</tr>--}}
+			{{--<tr>--}}
+				{{--<td rowspan='3'>침수흔적점검</td>--}}
+				{{--<td class='fcol_navy'><dl class='tool_desc'><dt>엔진룸(휴즈박스)</dt><dd>전체적으로 깨끗한 편이고, 약간의 긁힘은 있으나 눈에 띄지는 않음</dd></dl></td>--}}
+				{{--<td><span class='status_good'>오염여부(무)</span></td>--}}
+				{{--<td rowspan='3'>실내악취는 전혀 나질 않으며 방향제 냄새만 납니다.</td>--}}
+			{{--</tr>--}}
+			{{--<tr>--}}
+				{{--<td class='fcol_navy'><dl class='tool_desc'><dt>실내(앞바닥 등)</dt><dd>전체적으로 깨끗한 편이고, 약간의 긁힘은 있으나 눈에 띄지는 않음</dd></dl></td>--}}
+				{{--<td><span class='status_warn'>수분 및 오염(무)</span></td>--}}
+			{{--</tr>--}}
+			{{--<tr>--}}
+				{{--<td class='fcol_navy'><dl class='tool_desc'><dt>트렁크(바닥 등)</dt><dd>전체적으로 깨끗한 편이고, 약간의 긁힘은 있으나 눈에 띄지는 않음</dd></dl></td>--}}
+				{{--<td><span class='status_bad'>수분 및 오염(유)</span></td>--}}
+			{{--</tr>--}}
+
+
+
+
+			{{--@foreach($entrys['entrys'] as $key=>$details)--}}
+				{{--<tr>--}}
+					{{--<td>{{ $details['name']['display'] }}</td>--}}
+					{{--<td>detail</td>--}}
+					{{--<td>selected</td>--}}
+					{{--<td>opinion</td>--}}
+				{{--</tr>--}}
+			{{--@endforeach--}}
+
+			{{--</tbody>--}}
+		{{--</table>--}}
 	</div>
 
+	<div class="row">
+	<div class="row drow-box">
+		<div class="col-md-2 text-center"><h3>자동차등록정보</h3></div>
+		<div class="col-md-10 drow-left">
+			<div class="row drow-bottom drow-bmargin">
+				<label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+					점검항목
+				</label>
+				<div class="col-md-2 no-padding">
+					<input type="text" class="form-control" placeholder="" value="자동차 등록정보"
+						   style="background-color: #fff;" disabled>
+				</div>
+
+				<div class="col-md-9 drow-box">
+
+
+				</div>
+			</div>
+
+			<div class="row drow-bottom drow-bmargin">
+				<label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+					점검항목
+				</label>
+				<div class="col-md-2 no-padding">
+					<input type="text" class="form-control" placeholder="" value="주행거리" style="background-color: #fff;"
+						   disabled>
+				</div>
+
+				<div class="col-md-9 drow-box">
+
+
+				</div>
+			</div>
+
+			<div class="row drow-bottom drow-bmargin">
+				<label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+					점검항목
+				</label>
+				<div class="col-md-2 no-padding">
+					<input type="text" class="form-control" placeholder="" value="차대번호" style="background-color: #fff;"
+						   disabled>
+				</div>
+
+				<div class="col-md-9 drow-box">
+
+
+				</div>
+			</div>
+
+			<div class="row drow-bottom drow-bmargin">
+				<label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+					점검항목
+				</label>
+				<div class="col-md-2 no-padding">
+					<input type="text" class="form-control" placeholder="" value="색상" style="background-color: #fff;"
+						   disabled>
+				</div>
+
+				<div class="col-md-9 drow-box">
+
+
+				</div>
+			</div>
+
+			<div class="row drow-bottom drow-bmargin">
+				<label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+					점검항목
+				</label>
+				<div class="col-md-2 no-padding">
+					<input type="text" class="form-control" placeholder="" value="추가옵션" style="background-color: #fff;"
+						   disabled>
+				</div>
+
+				<div class="col-md-9 drow-box">
+
+
+				</div>
+			</div>
+
+			<div class="row drow-bottom drow-bmargin">
+				<label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+					점검항목
+				</label>
+				<div class="col-md-2 no-padding">
+					<input type="text" class="form-control" placeholder="" value="점검의견" style="background-color: #fff;"
+						   disabled>
+				</div>
+
+				<div class="col-md-9 drow-box">
+
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	</div>
 	<div class='br30'></div>
 
 	<div class='report_table exp'>
@@ -349,7 +459,7 @@
 
 <script type="text/javascript">
 
-    $(window).on("load", function(){
+	$(function(){
         $('.bubble_desc dt').click(function(){
             $('.bubble_desc dd').hide();
             $(this).next().show();
@@ -357,7 +467,8 @@
         $('.bubble_desc dd').click(function(){
             $(this).hide();
         });
-    });
+	});
+
 
 
 </script>

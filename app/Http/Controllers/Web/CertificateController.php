@@ -8,6 +8,7 @@ use App\Models\Code;
 use App\Models\Diagnosis;
 use App\Models\Order;
 use App\Models\OrderFeature;
+use App\Repositories\DiagnosisRepository;
 use Illuminate\Support\Facades\Auth;
 use Response;
 use File AS FileHandler;
@@ -40,8 +41,11 @@ class CertificateController extends Controller
                 $interior_centers = Diagnosis::where('orders_id', $order_id)->where('group', 2019)->get();
                 $interior_rights = Diagnosis::where('orders_id', $order_id)->where('group', 2020)->get();
 
+                $diagnosis = new DiagnosisRepository();
+                $entrys = $diagnosis->prepare($order_id)->get();
+//                dd($entrys);
 
-                return view('web.certificate.performance', compact('order', 'page'));
+                return view('web.certificate.performance', compact('order', 'page', 'entrys'));
             case 'history':
                 return view('web.certificate.history', compact('order', 'page', 'exterior_picture_ids'));
             case 'price':
