@@ -129,7 +129,7 @@ class InquireController extends PostController {
                 }
 
 
-                if($data->is_answered == 1)
+                if($data->is_answered)
                 {
                         return redirect()->back()->with('error', '답변된 문의는 수정할 수 없습니다.');
                 }
@@ -160,7 +160,7 @@ class InquireController extends PostController {
                         return redirect()->back()->with('error', '잘못된 접근입니다.');
                 }
 
-                if($data->is_answered == 1)
+                if($data->is_answered)
                 {
                         return redirect()->back()->with('error', '답변된 문의는 삭제할 수 없습니다.');
                 }
