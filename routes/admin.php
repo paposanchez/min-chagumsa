@@ -71,11 +71,9 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('/order/get_full_address', 'OrderController@getFullAddress')->name("order.get_full_address");
         Route::post('order/user-update', 'OrderController@userUpdate')->name('order.user-update');
         Route::post('order/car-update', 'OrderController@carUpdate')->name('order.car-update');
-
         Route::post('order/bcs-update', 'OrderController@bcsUpdate')->name('order.bcs-update');
         Route::post('order/tech-update', 'OrderController@techUpdate')->name('order.tech-update');
-//        Route::post('order/car-update', 'OrderController@carUpdate')->name('order.car-update');
-
+        Route::post('order/cancel', 'OrderController@orderCancel')->name('order.cancel');
 
         Route::resource('order', 'OrderController');
 

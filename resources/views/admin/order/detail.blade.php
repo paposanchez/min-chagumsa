@@ -28,7 +28,7 @@
 
                     <h4>주문정보
                         <a class='pull-right text-sm text-danger'
-                           href="/mypage/order/change-reservation/{{ $order->id }}">주문취소</a>
+                           href="#" id="cancel-click" data-cancel_order_id="{{ $order->id }}">주문취소</a>
                     </h4>
 
 
@@ -533,7 +533,9 @@
 
 
 
-
+        {!! Form::open(['route' => ["order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
+        <input type="hidden" name="order_id" id="cancel-order_id">
+        {!! Form::close() !!}
 @endsection
 
 @push( 'footer-script' )
@@ -606,6 +608,19 @@
                 $('#bcsForm').submit();
             }else{
                 alert('정비소를 선택해주세요.');
+            }
+        });
+
+        $("#cancel-click").on("click", function () {
+            if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
+                var order_id = $(this).data("cancel_order_id");
+                if (order_id) {
+                    $("#cancel-order_id").val(order_id);
+                    $("#cancel-form").submit();
+                } else {
+                    alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
+                }
+
             }
         });
 
