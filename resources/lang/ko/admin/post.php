@@ -14,6 +14,8 @@ return [
     'is_answered' => '답변여부',
     'thumbnail' => '썸네일',
     'tag' => '태그',
+    'created_at' => '등록일',
+    'updated_at' => '수정일',
     'created' => '포스팅이 등록되었습니다.',
     'updated' => '해당 포스팅이 수정되었습니다.',
     'deleted' => '해당 포스팅이 삭제되었습니다.',

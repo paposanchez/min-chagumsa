@@ -1,4 +1,4 @@
-<div id="aside-left" class="aside aside-left " style="height:500px;">
+<div id="aside-left" class="aside aside-left ">
 
    <div class="aside-container perfect-scrollbar">
            <div class="aside-profile">
@@ -22,23 +22,23 @@
 
                        <li class="{{ Request::is('dashboard*') ? ' active':''}}"><a href="/dashboard"><i class="fa fa-gear"></i><span class="nav-label">{{ trans('admin/dashboard.title') }}</span></a></li>
 
-                       <li class="{{ Request::is('order*') ? ' active':''}}"><a href="/order"><i class="fa fa-shopping-basket"></i><span class="nav-label">{{ trans('admin/order.title') }}</span></a></li>
+                       <li class="{{ Request::is('order*') ? ' active':''}}"><a href="/order"><i class="fa fa-shopping-cart"></i><span class="nav-label">{{ trans('admin/order.title') }}</span></a></li>
 
-                       <li class="{{ Request::is('diagnosis*') ? ' active':''}}"><a href="/diagnosis"><i class="fa fa-area-chart"></i><span class="nav-label">{{ trans('admin/diagnosis.title') }}</span></a></li>
+                       <li class="{{ Request::is('diagnosis*') ? ' active':''}}"><a href="/diagnosis"><i class="fa fa-search"></i><span class="nav-label">{{ trans('admin/diagnosis.title') }}</span></a></li>
 
-                       <li class="{{ Request::is('calculation*') ? ' active':''}}"><a href="/calculation"><i class="fa fa-line-chart"></i><span class="nav-label">{{ trans('admin/calculation.title') }}</span></a></li>
+                       <li class="{{ Request::is('certificate*') ? ' active':''}}"><a href="/certificate"><i class="fa fa-certificate"></i><span class="nav-label">{{ trans('admin/certificate.title') }}</span></a></li>
 
-                       <li class="{{ Request::is('item*') ? ' active':''}}"><a href="/item"><i class="fa fa-address-card-o"></i><span class="nav-label">{{ trans('admin/item.title') }}</span></a></li>
+                       <li class="{{ Request::is('calculation*') ? ' active':''}}"><a href="/calculation"><i class="fa fa-money"></i><span class="nav-label">{{ trans('admin/calculation.title') }}</span></a></li>
+
+                       <li class="{{ Request::is('item*') ? ' active':''}}"><a href="/item"><i class="fa fa-archive"></i><span class="nav-label">{{ trans('admin/item.title') }}</span></a></li>
 
                        <li class="{{ Request::is('user*') ? ' active':''}}"><a href="/user"><i class="fa fa-group"></i><span class="nav-label">{{ trans('admin/user.title') }}</span></a></li>
 
                        <li class="{{ Request::is('post*') ? ' active':''}}"><a href="/post"><i class="fa fa-pencil"></i><span class="nav-label">{{ trans('admin/post.title') }}</span></a></li>
 
-                       <li class="{{ Request::is('sms*') ? ' active':''}}"><a href="/sms"><i class="fa fa-comments" aria-hidden="true"></i><span class="nav-label">SMS 전송</span></a></li>
+                       <li class="{{ Request::is('sms*') ? ' active':''}}"><a href="/sms"><i class="fa fa-comments" aria-hidden="true"></i><span class="nav-label">SMS</span></a></li>
 
-                       {{--<li class="{{ Request::is('comment*') ? ' active':''}}"><a href="/comment"><i class="fa fa-comments"></i><span class="nav-label">{{ trans('admin/comment.title') }}</span></a></li>--}}
-
-                       <li class="{{ Request::is('coupon*') ? ' active':''}}"><a href="/coupon"><i class="fa fa-comments"></i><span class="nav-label">쿠폰</span></a></li>
+                       <li class="{{ Request::is('coupon*') ? ' active':''}}"><a href="/coupon"><i class="fa fa-qrcode"></i><span class="nav-label">쿠폰</span></a></li>
 
                        <li class="dropdown {{ Request::is('config*') ? ' active':''}}">
                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-gears"></i><span class="nav-label">{{ trans('admin/config.title') }}</span><b class="caret"></b></a>

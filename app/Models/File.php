@@ -6,19 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class File extends Model {
 
-    protected $primaryKey = 'id';
-    protected $fillable = [
-        'original',
-        'source',
-        'path',
-        'size',
-        'extension',
-        'mime',
-        'hash',
-        'download',
-        'group',
-        'group_id',
-    ];
-    protected $dates = ['created_at', 'updated_at'];
+        protected $primaryKey = 'id';
+        protected $fillable = [
+                'original',
+                'source',
+                'path',
+                'size',
+                'extension',
+                'mime',
+                'hash',
+                'download',
+                'group',
+                'group_id',
+        ];
+        protected $dates = ['created_at', 'updated_at'];
+
+
+        public function getRealPath($prepath = ''){
+
+                return storage_path($prepath . $this->path . '/' . $this->source) ;
+        }
 
 }

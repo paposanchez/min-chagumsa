@@ -144,26 +144,26 @@
                                         <h4 class="modal-title" id="myModalLabel">쿠폰 사용자 정보</h4>
                                 </div>
                                 <div class="modal-body">
-                                        <div class="col-md-12">
-                                                <table class="table table-bordered">
-                                                        <colgruup>
 
-                                                        </colgruup>
-                                                        <tbody>
-                                                                <tr>
-                                                                        <th>성명</th><td id="user_name"></td>
-                                                                        <th>이메일</th><td id="user_email"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                        <th>연락처</th><td id="user_mobile"></td>
-                                                                        <th>가입일</th><td id="user_at"></td>
-                                                                </tr>
-                                                        </tbody>
-                                                </table>
-                                        </div>
+                                        <table class="table table-bordered">
+                                                <colgruup>
+
+                                                </colgruup>
+                                                <tbody>
+                                                        <tr>
+                                                                <th>성명</th><td id="user_name"></td>
+                                                                <th>이메일</th><td id="user_email"></td>
+                                                        </tr>
+                                                        <tr>
+                                                                <th>연락처</th><td id="user_mobile"></td>
+                                                                <th>가입일</th><td id="user_at"></td>
+                                                        </tr>
+                                                </tbody>
+                                        </table>
+
                                 </div>
                                 <div class="modal-footer text-center">
-                                        <button type="button" class="btn btn-primary order-close" data-dismiss="modal" id="order-modal-close">닫기</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
                                 </div>
                         </div>
                 </div>

@@ -12,14 +12,14 @@
 
 @section( 'content-body' )
 
-@hasSection('breadcrumbs')        
-@yield( 'breadcrumbs' )        
+@hasSection('breadcrumbs')
+@yield( 'breadcrumbs' )
 @endif
 
 @include('flash::message')
 
-<div id="body" class="margin-vertical">  
-    @yield( 'content' )    
+<div id="body" class="margin-vertical">
+    @yield( 'content' )
 </div>
 
 {{-- 본문의 사이드 --}}
@@ -31,6 +31,33 @@
 
 @section( 'content-header-script' )
 @stack('header-script')
+
+<style>
+
+#sidebar-menu .main-menu a {
+display: block;
+font-size: 13px;
+font-weight: 500;
+color: #999;
+padding: 4px 20px;
+}
+#sidebar-menu .main-menu a:hover {
+color: #11427D;
+text-decoration: none;
+background-color: transparent;
+border-left: 1px solid #11427D;
+}
+
+#sidebar-menu .sub-menu a {
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 30px;
+font-size: 12px;
+font-weight: 400;
+}
+
+</style>
+
 @endsection
 
 

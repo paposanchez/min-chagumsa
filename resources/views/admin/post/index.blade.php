@@ -90,7 +90,7 @@
                                                                 <col width="*">
                                                                 <col width="10%">
                                                                 <col width="8%">
-                                                                <col width="8%">
+                                                                <col width="10%">
                                                                 <col width="10%">
                                                         </colgroup>
 
@@ -132,19 +132,30 @@
                                                                         <td class="">
                                                                                 @if($data->user_id)
                                                                                 <a href="{{ route("post.index", ['user_id'=> $data->user_id]) }}">
-                                                                                        @endif
-                                                                                        {{ $data->name or '-' }}
-                                                                                        @if($data->user_id)
+                                                                                @endif
+
+                                                                                {{ $data->name or '-' }}
+
+                                                                                @if($data->user_id)
                                                                                 </a>
                                                                                 @endif
                                                                         </td>
 
                                                                         <td class="">
-                                                                                <span class="label label-default">{{ $data->shown? $data->shown->display(): '-' }}</span>
+
+                                                                                @if($data->is_shown == 6)
+                                                                                <span class="label label-primary">{{ $data->shown->display() }}</span>
+                                                                                @elseif($data->is_shown == 7)
+                                                                                <span class="label label-warning">{{ $data->shown->display() }}</span>
+                                                                                @else
+                                                                                <span class="label label-default">{{ $data->shown->display() }}</span>
+                                                                                @endif
+
+
                                                                         </td>
 
                                                                         <td class="">
-                                                                                {{ $data->created_at->format('Y-m-d') }}
+                                                                                {{ $data->created_at->format('m-d H:i') }}
                                                                         </td>
 
                                                                         <td>

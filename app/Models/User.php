@@ -22,9 +22,7 @@ use App\Models\UserExtra;
 class User extends Authenticatable
 {
 
-        use Notifiable,
-        EntrustUserTrait;
-        use SoftDeletes;
+        use Notifiable, EntrustUserTrait, SoftDeletes;
 
         protected $primaryKey = 'id';
         protected $fillable = [
@@ -52,11 +50,6 @@ class User extends Authenticatable
                 return $this->hasOne(UserExtra::class, 'users_id', 'id');
         }
 
-        /**
-        * One to Many relation
-        *
-        * @return \Illuminate\Database\Eloquent\Relations\hasMany
-        */
         public function posts()
         {
                 return $this->hasMany(Post::class);

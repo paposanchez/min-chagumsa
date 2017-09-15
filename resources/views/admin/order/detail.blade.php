@@ -16,7 +16,7 @@
             <a href="/certificate/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"
                style="margin-left:10px;"><i class="fa fa-file"></i> 인증서 보기</a>
             <a href="/diagnosis/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"><i
-                        class="fa fa-search"></i> 진단정보 보기</a>
+                        class="fa fa-certificate"></i> 진단정보 보기</a>
         </h3>
 
 
@@ -433,6 +433,7 @@
 
 
     <!-- Bcs Modal -->
+    @if($order->status_cd > 104)
     <div id="bcsModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
@@ -442,6 +443,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">BCS 정보 변경</h4>
                 </div>
+
                 {!! Form::open(['method' => 'POST','route' => ['order.bcs-update', 'id' => $order->id], 'class'=>'form-horizontal', 'id'=>'bcsForm', 'enctype'=>"multipart/form-data"]) !!}
                 <div class="modal-body">
                     <div class="row" style="margin-bottom: 10px;">
@@ -468,27 +470,30 @@
                             <select class="form-control" id="garages" name="garages" autocomplete="off">
                                 <option value="0">선택해주세요.</option>
                             </select>
+
+                            @if ($errors->has('garages'))
+                                <span class="text-danger">
+                                    {{ $errors->first('garages') }}
+                                </span>
+                            @endif
                         </div>
 
                     </div>
-                    @if ($errors->has('garages'))
-                        <span class="text-danger">
-                            {{ $errors->first('garages') }}
-                        </span>
-                    @endif
+
 
                     <div class="row">
                         <div class="col-xs-6">
                             <h6 class="text-left">엔지니어</h6>
                             {!! Form::select('engineer', $engineers, $order->engineer->id, ['class' =>'form-control', 'id' => 'sel_eng']) !!}
-                        </div>
 
+                            @if ($errors->has('engineer'))
+                                <span class="text-danger">
+                                    {{ $errors->first('engineer') }}
+                                </span>
+                            @endif
+                        </div>
                     </div>
-                    @if ($errors->has('engineer'))
-                        <span class="text-danger">
-                            {{ $errors->first('engineer') }}
-                        </span>
-                    @endif
+
                 </div>
                 <p class="form-control-static text-center">
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">취소</button>
@@ -500,6 +505,7 @@
 
         </div>
     </div>
+    @endif
 
     <!-- Tech Modal -->
     <div id="techModal" class="modal fade" role="dialog">
