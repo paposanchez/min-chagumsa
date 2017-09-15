@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::post('order/car-update', 'OrderController@carUpdate')->name('order.car-update');
 
         Route::post('order/bcs-update', 'OrderController@bcsUpdate')->name('order.bcs-update');
+        Route::post('order/tech-update', 'OrderController@techUpdate')->name('order.tech-update');
 //        Route::post('order/car-update', 'OrderController@carUpdate')->name('order.car-update');
 
 

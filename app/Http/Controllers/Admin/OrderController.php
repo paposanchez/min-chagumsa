@@ -131,7 +131,8 @@ class OrderController extends Controller
 
         $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
         $engineers = Role::find(5)->users->pluck('name', 'id');
-        return view('admin.order.detail', compact('order', 'payment', 'payment_cancel', 'car', 'brands', 'garages', 'engineers'));
+        $technicians = Role::find(6)->users->pluck('name', 'id');
+        return view('admin.order.detail', compact('order', 'payment', 'payment_cancel', 'car', 'brands', 'garages', 'engineers', 'technicians'));
     }
 
     public function edit($id)
@@ -766,6 +767,21 @@ $json_data = json_decode($response->getBody(), true);
         $order->save();
 
         return redirect()->back()->with('success', 'BCS정보가 수정되었습니다.');
+    }
+
+    public function techUpdate(Request $request){
+        $this->validate($request, [
+            'technician' => 'required',
+
+        ], [],
+            [
+                'technician' => '차량번php호',
+            ]);
+        $order = Order::findOrFail($request->get('id'));
+        $order->technist_id = $request->get('technician');
+        $order->save();
+
+        return redirect()->back()->with('success', '기술사정보가 수정되었습니다.');
     }
 
     public function getSection(Request $request)

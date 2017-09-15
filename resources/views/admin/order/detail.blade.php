@@ -109,47 +109,49 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">브랜드명</label>
-                            <div class="col-md-9">
-
-                                <select class="form-control" id="brands" name="brands" disabled="">
-                                    {{--@foreach($brands as $brand)--}}
-                                        {{--<option value="{{ $brand->id }}">{{ $brand->name }}</option>--}}
-                                    {{--@endforeach--}}
-                                    <option>{{ $order->orderCar->brand->name }}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">모델명</label>
-                            <div class="col-md-9">
-                                <select class="form-control" id="models" name="models" disabled="">
-                                    {{--<option disabled="true">모델을 선택하세요.</option>--}}
-                                    <option>{{ $order->orderCar->models->name }}</option>
-                                </select>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">차량 명</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">{{ $order->getCarFullName() }}</p>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">세부모델명</label>
-                            <div class="col-md-9">
-                                <select class="form-control" id="details" name="details" disabled="">
-                                    {{--<option disabled="true">세부모델을 선택하세요.</option>--}}
-                                    <option>{{ $order->orderCar->detail->name }}</option>
-                                </select>
-                            </div>
-                        </div>
+                        {{-- todo 추후에 Grades 만 변경이 가능할 예정 --}}
+                        {{--<div class="form-group">--}}
+                            {{--<label for="" class="control-label col-md-3">브랜드명</label>--}}
+                            {{--<div class="col-md-9">--}}
 
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">등급명</label>
-                            <div class="col-md-9">
-                                <select class="form-control " id="grades" name="grades" disabled="">
-                                    {{--<option disabled="true">등급을 선택하세요.</option>--}}
-                                    <option>{{ $order->orderCar->grade->name }}</option>
-                                </select>
-                            </div>
-                        </div>
+                                {{--<select class="form-control" id="brands" name="brands" disabled="">--}}
+                                    {{--<option>{{ $order->orderCar->brand->name }}</option>--}}
+                                {{--</select>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="form-group">--}}
+                            {{--<label for="" class="control-label col-md-3">모델명</label>--}}
+                            {{--<div class="col-md-9">--}}
+                                {{--<select class="form-control" id="models" name="models" disabled="">--}}
+                                    {{--<option>{{ $order->orderCar->models->name }}</option>--}}
+                                {{--</select>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+
+                        {{--<div class="form-group">--}}
+                            {{--<label for="" class="control-label col-md-3">세부모델명</label>--}}
+                            {{--<div class="col-md-9">--}}
+                                {{--<select class="form-control" id="details" name="details" disabled="">--}}
+                                    {{--<option>{{ $order->orderCar->detail->name }}</option>--}}
+                                {{--</select>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+
+                        {{--<div class="form-group">--}}
+                            {{--<label for="" class="control-label col-md-3">등급명</label>--}}
+                            {{--<div class="col-md-9">--}}
+                                {{--<select class="form-control " id="grades" name="grades" disabled="">--}}
+                                    {{--<option>{{ $order->orderCar->grade->name }}</option>--}}
+                                {{--</select>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
 
                         <div class="form-group">
@@ -196,7 +198,7 @@
 
                         {{--<a class='pull-right text-sm text-danger' href="/mypage/order/change-reservation/{{ $order->id }}">변경</a>--}}
                         <a class='pull-right text-sm text-danger'
-                           href="#" data-toggle="modal" data-target="#myModal" id="ch_garage">변경</a>
+                           href="#" data-toggle="modal" data-target="#bcsModal" id="ch_garage">변경</a>
 
                     </h4>
                     <ul class="list-group">
@@ -214,8 +216,10 @@
                 <div class="block bg-white">
 
                     <h4 class="">기술사
+                        {{--<a class='pull-right text-sm text-danger'--}}
+                           {{--href="/mypage/order/change-reservation/{{ $order->id }}">변경</a>--}}
                         <a class='pull-right text-sm text-danger'
-                           href="/mypage/order/change-reservation/{{ $order->id }}">변경</a>
+                           href="#" data-toggle="modal" data-target="#techModal" id="ch_garage">변경</a>
                     </h4>
                     <ul class="list-group">
                         <li class="list-group-item no-border"><span>기술사</span> <em
@@ -428,8 +432,8 @@
 
 
 
-    <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
+    <!-- Bcs Modal -->
+    <div id="bcsModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -489,6 +493,36 @@
                 <p class="form-control-static text-center">
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">취소</button>
                     <button type="button" id="bcs_submit" class='btn btn-primary btn-lg'>확인</button>
+                </p>
+                {!! Form::close() !!}
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Tech Modal -->
+    <div id="techModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">BCS 정보 변경</h4>
+                </div>
+                {!! Form::open(['method' => 'POST','route' => ['order.tech-update', 'id' => $order->id], 'class'=>'form-horizontal', 'id'=>'techForm', 'enctype'=>"multipart/form-data"]) !!}
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <h6 class="text-left">엔지니어</h6>
+                            {!! Form::select('technician', $technicians, [$order->technician ? $order->technician->id : ''], ['class' =>'form-control', 'id' => 'sel_tech']) !!}
+                        </div>
+
+                    </div>
+                <p class="form-control-static text-center">
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">취소</button>
+                    <button type="submit" class='btn btn-primary btn-lg'>확인</button>
                 </p>
                 {!! Form::close() !!}
 
