@@ -40,6 +40,7 @@
             <input type="hidden" id="models_name">
             <input type="hidden" id="details_name">
             <input type="hidden" id="grades_name">
+            <input type="hidden" id="items_id">
 
             <input type="hidden" name="areas" id="areas">
             <input type="hidden" name="sections" id="sections">
@@ -57,6 +58,25 @@
             <input type="hidden" name="coupon_id" id="coupon_id" autocomplete="off">
 
 
+            <div class='order_info_box2'>
+                <div class='order_info_title2'>
+                    <strong>9. 상품</strong>
+                </div>
+                <div class='order_info_cont2'>
+                    <div class="block">
+                        <div class="row">
+                            @foreach($items as $item)
+                                <div class="col-xs-3">
+                                    <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-price="{{ $item->price }}">
+                                        <div class="point-price">{{ $item->name }}</div>
+                                        <div class="point-desc text-muted">{{ number_format($item->price) }}원</div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {{-- 기본정보 입력 --}}
             <div id="step1">
@@ -194,25 +214,7 @@
             <div id="step3">
                 <div class='br20'></div>
 
-                <div class='order_info_box2'>
-                    <div class='order_info_title2'>
-                        <strong>9. 상품</strong>
-                    </div>
-                    <div class='order_info_cont2'>
-                        <div class="block">
-                            <div class="row">
-                                @foreach($items as $item)
-                                    <div class="col-xs-3">
-                                        <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-price="{{ $item->price }}">
-                                            <div class="point-price">{{ $item->name }}</div>
-                                            <div class="point-desc text-muted">{{ number_format($item->price) }}원</div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
 
                 <div class='br20'></div>
 
@@ -745,7 +747,8 @@ $(function () {
                         "data-value": value.id,
                         text: value.name,
                         class: "grade_chk",
-                        "data-name": value.name
+                        "data-name": value.name,
+                        "data-items_id": value.items_id
                     }));
                 });
 
@@ -772,6 +775,7 @@ $(function () {
         var grade_id = $(this).data("value");
         $("#grades").val(grade_id);
         $("#grades_name").val($(this).data("name"));
+        $("#items_id").val($(this).data("items_id"));
 
         $("#grade-list li").css({'background': '#fff'});
         $(this).css({'background': '#efefef'});
@@ -1033,7 +1037,7 @@ var delete_details = function(){
     delete_grades(); //등급 관면 모두 삭제
 
     $("#collapse4").collapse('hide');
-    $("#grade-list li").remove();
+    $("#detail-list li").remove();
     $("#selected_detail").html('');
 };
 /**
