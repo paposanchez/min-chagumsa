@@ -240,14 +240,16 @@ return [
         'hill_house_rear/left' => '힐하우스 후-좌',
         'hill_house_rear/right' => '힐하우스 후-우',
         'cross_member_front' => '크로스 멤버 전',
-        'cross_member_back' => '크로스 멤버 후',
+//        'cross_member_back' => '크로스 멤버 후',
+        'cross_member_back' => '패키지트레이',
         'side_member_front/left' => '사이드멤버 전-좌',
         'side_member_front/right' => '사이드멤버 전-우',
         'side_member_rear/left' => '사이드멤버 후-좌',
         'side_member_rear/right' => '사이드멤버 후-우',
         'dash_panel' => '대쉬패널',
         'trunk_floor' => '트렁크플로어',
-        'rear_panel' => '리어패널'
+        'rear_panel' => '리어패널',
+        'floor' => '플로어(바닥)'
     ],
     'interior_position_right_cd' => [
         'filler_a-right' => 'A필러 우',
