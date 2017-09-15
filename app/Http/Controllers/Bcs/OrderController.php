@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Bcs;
 
+use App\Models\OrderCar;
+use App\Models\Role;
+use App\Models\UserExtra;
 use App\Repositories\DiagnosisRepository;
 use Doctrine\DBAL\Types\ObjectType;
 use DateTime;
@@ -21,6 +24,7 @@ use App\Models\PaymentCancel;
 use App\Models\Purchase;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
 
 class OrderController extends Controller
@@ -256,15 +260,14 @@ class OrderController extends Controller
     {
         //
         $order = Order::findOrFail($id);
-        $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
-        $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
+//        $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
+//        $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
+//        $car = OrderCar::where('orders_id', $order->id)->first();
 
-        if ($order->car) {
-            $car = $order->car;
-        } else {
-            $car = $order->orderCar;
-        }
-        return view('bcs.order.edit', compact('order', 'payment', 'payment_cancel', 'car'));
+        $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
+        $engineers = Role::find(5)->users->pluck('name', 'id');
+        $technicians = Role::find(6)->users->pluck('name', 'id');
+        return view('bcs.order.detail', compact('order', 'payment', 'payment_cancel', 'car'));
     }
 
     /**
@@ -345,6 +348,168 @@ class OrderController extends Controller
         } catch (Exception $ex) {
             return response()->json(false);
         }
+    }
+
+    public function userUpdate(Request $request){
+        $this->validate($request, [
+            'mobile' => 'required'
+        ], [],
+            [
+                'mobile' => '주문자연락처'
+            ]);
+        $order = Order::findOrFail($request->get('id'));
+        $order->orderer_mobile = $request->get('mobile');
+        $order->save();
+
+        return redirect()->back()->with('success', '주문정보가 수정되었습니다.');
+    }
+
+    public function carUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'car_number' => 'required',
+        ], [],
+            [
+                'car_number' => '차량번호',
+            ]);
+
+        $order = Order::findOrFail($request->get('id'));
+        $order->car_number = $request->get('car_number');
+        $order->flooding_state_cd = $request->get('flooding_state_cd');
+        $order->accident_state_cd = $request->get('accident_state_cd');
+        $order->save();
+        return redirect()->back()->with('success', '차정보가 수정되었습니다.');
+    }
+
+    public function orderCancel(Request $request){
+        $validate = Validator::make($request->all(), [
+            'order_id' => 'required'
+        ]);
+
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', '주문번호가 누락되었습니다.');
+        }
+
+        $order_id = $request->get('order_id');
+
+
+        $order = Order::find($order_id);
+        $event = '';
+        if ($order) {
+
+            $purchase = Purchase::find($order->purchase_id);
+
+            if (in_array($order->status_cd, [101, 102, 103, 104])) {
+                $cancelAmt = $order->item->price;
+//                $cancelAmt = 1000; //todo 가격부문을 위에 것으로 변경해야 함.
+
+
+                $payment = Payment::OrderBy('id', 'DESC')->whereIn('resultCd', [3001, 4000, 4100])
+                    ->where('orders_id', $order_id)->first();
+
+                if ($payment) {
+                    $tid = $payment->tid;//거래아이디
+                    //        $moid = $payment->moid;//상품주문번호
+                    $cancelMsg = "고객요청";
+                    $partialCancelCode = 0; //전체취소
+                    $dataType = "json";
+
+
+                    $payment_cancel = PaymentCancel::OrderBy('id', 'DESC')->whereIn('resultCd', [2001, 2002])
+                        ->where('orders_id', $order_id)->first();
+                    if ($payment_cancel) {
+                        if (in_array($payment_cancel->resultCd, [2001, 2002])) {
+                            if ($order->status_cd != 100) {
+                                //결제취소 PG연동은 완료 되었으나, order 상태가 변경 안됨.
+                                $order->status_cd = 100;
+                                $order->refund_status = 1;
+                                $order->save();
+                            }
+                            $message = "결제취소를 완료 하였습니다.";
+                        }
+                    } else {
+                        $payment_cancel = new PaymentCancel();
+                        $cancel_process = $payment_cancel->paymentCancelProcess($order_id, $cancelAmt, $tid);
+
+                        if (in_array($cancel_process->result_cd, [2001, 2002])) {
+
+                            //                            dd($cancel_process);
+
+                            if (isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
+                            if (isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
+                            if (isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
+                            if (isset($cancel_process->result_cd)) $payment_cancel->resultCd = $cancel_process->result_cd;
+                            $payment_cancel->cancelAmt = $cancelAmt;
+                            $payment_cancel->orders_id = $order_id;
+                            $payment_cancel->save();
+
+                            //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
+                            $order->status_cd = 100;
+                            $order->refund_status = 1;
+                            $order->save();
+
+                            //purchases 업데이트
+                            if ($purchase) {
+                                $purchase->status_cd = 100;
+                                $purchase->save();
+                            }
+
+                            $message = trans('web/mypage.cancel_complete');
+                            $event = 'success';
+                        } else {
+                            //                            dd($cancel_process);
+                            $message = "해당 결제내역에 대한 결제취소를 진행할 수 없습니다.<br>";
+                            if (isset($cancel_process->result_msg)) $message .= "결제취소 거부 사유: " . $cancel_process->result_msg;
+                            $event = 'error';
+                        }
+
+
+                    }
+
+
+                } else {
+                    if (in_array($order->status_cd, [101, 102, 103, 104])) {
+                        //주문상태가 결제 완료가 아니며, 주문신청/예약확인/입고대기/입고 상태까지만 주문 취소를 함.
+                        $order->status_cd = 100;
+                        $order->refund_status = 1;
+                        $order->save();
+
+
+                        //purchases 업데이트
+                        if ($purchase) {
+                            $purchase->status_cd = 100;
+                            $purchase->save();
+                        }
+
+                        $message = trans('web/mypage.cancel_complete');
+                        $event = 'success';
+
+                    } else {
+
+                        $code = Code::find($order->status_cd);
+
+                        $message = "차량 입고 완료 및 차량 상태 점검의 경우 주문을 취소할수 없습니다.<br>입고 이전 주문이 취소 불가일경우 관리자에게 문의해 주세요.";
+                        if ($code) {
+                            $message .= "<br>현재 상태: " . trans('code.order_state.' . $code->name);
+                        }
+                        $event = 'error';
+                    }
+
+                }
+            }//주문취소가 가능한 상태코드값
+            else {
+                $message = "주문취소는 차량 입고 이후에는 취소 불가입니다.<br>자세한 사항은 관리자에게 문의해 주세요.";
+                $event = 'error';
+            }//주문 상태가 입고완료로 진행되어 처리못함을 표시함.
+
+        } else {
+            $message = "해당 주문을 확인할 수 없습니다.<br>관리자에게 문의해 주세요.";
+            $event = 'error';
+        }
+
+        return redirect()->route('order.show', $order_id)
+            ->with($event, $message);
     }
 
 }

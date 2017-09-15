@@ -1,23 +1,21 @@
-@extends( 'technician.layouts.default' )
+@extends( 'bcs.layouts.default' )
 
 @section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('technician.order')])
+    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.order')])
 @endsection
 
 @section( 'content' )
     <div class="container-fluid">
 
         <h3>
-            <span class="text-lg text-light">
-                <span class="text-danger">{{ $order->status->display() }}</span> |
+                <span class="text-lg text-light">
+                        <span class="text-danger">{{ $order->status->display() }}</span> |
                     {{ $order->getOrderNumber() }}
                 </span>
-            @if($order->status_cd >= 108)
-                <a href="/certificate/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"
-                   style="margin-left:10px;"><i class="fa fa-file"></i> 인증서 보기</a>
-            @endif
-            <a href="{{ route("technician.order.edit", ['id'=>$order->id]) }}" target="_blank" class="btn btn-default pull-right"><i
-                        class="fa fa-search"></i> 인증서 작성하기</a>
+
+
+            <a href="/diagnosis/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"><i
+                        class="fa fa-search"></i> 진단정보 보기</a>
         </h3>
 
 
@@ -28,33 +26,47 @@
                 <div class="block bg-white">
 
                     <h4>주문정보
-                        {{--<a class='pull-right text-sm text-danger'--}}
-                           {{--href="#" id="cancel-click" data-cancel_order_id="{{ $order->id }}">주문취소</a>--}}
+                        <a class='pull-right text-sm text-danger'
+                           href="#" id="cancel-click" data-cancel_order_id="{{ $order->id }}">주문취소</a>
                     </h4>
 
 
 
                     {!! Form::open(['method' => 'POST','route' => ['bcs.order.user-update', 'id' => $order->id], 'class'=>'form-horizontal', 'id'=>'userForm', 'enctype'=>"multipart/form-data"]) !!}
 
-                    <div class="form-group row">
-                        <label class="control-label col-md-3">주문자 명</label>
-                        <div class="col-sm-9">
-                            <p class="form-control-static">{{ $order->orderer_name }}</p>
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-3">주문자명</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="" name="name"
+                                   value="{{ $order->orderer_name }}" disabled>
+                            @if ($errors->has('name'))
+                                <span class="text-danger">
+                                        {{ $errors->first('name') }}
+                                    </span>
+                            @endif
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-3">주문자연락처</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="" name="mobile"
+                                   value="{{ $order->orderer_mobile }}">
+                            @if ($errors->has('mobile'))
+                                <span class="text-danger">
+                                        {{ $errors->first('mobile') }}
+                                    </span>
+                            @endif
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label class="control-label col-md-3">주문자 연착처</label>
-                        <div class="col-sm-9">
-                            <p class="form-control-static">{{ $order->orderer_mobile }}</p>
+                    <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button class="btn btn-primary">주문정보 변경</button>
                         </div>
                     </div>
-
-                    {{--<div class="form-group">--}}
-                        {{--<div class="col-md-9 col-md-offset-3">--}}
-                            {{--<button class="btn btn-primary">주문정보 변경</button>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
 
                     {!! Form::close() !!}
                 </div>
@@ -83,16 +95,24 @@
 
                     <h4>차량정보</h4>
                     {!! Form::open(['method' => 'POST','route' => ['bcs.order.car-update', 'id' => $order->id], 'class'=>'form-horizontal', 'id'=>'carForm', 'enctype'=>"multipart/form-data"]) !!}
-                    <div class="form-group row">
-                        <label class="control-label col-md-3">차량번호</label>
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-3">
+                            차량번호
+                        </label>
                         <div class="col-md-9">
-                            <p class="form-control-static">{{ $order->car_number }}</p>
+                            <input type="text" class="form-control" name="car_number" placeholder=""
+                                   value="{{ $order->car_number }}">
+                            @if ($errors->has('car_number'))
+                                <span class="text-danger">
+                                        {{ $errors->first('car_number') }}
+                                    </span>
+                            @endif
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="control-label col-md-3">차량 명</label>
-                        <div class="col-md-9">
+                        <div class="col-sm-9">
                             <p class="form-control-static">{{ $order->getCarFullName() }}</p>
                         </div>
                     </div>
@@ -162,7 +182,7 @@
 
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">
-                            {{--<button class="btn btn-primary">차량정보 변경</button>--}}
+                            <button class="btn btn-primary">차량정보 변경</button>
                         </div>
                     </div>
 
@@ -180,7 +200,7 @@
                     <h4 class="">BCS
 
                         {{--<a class='pull-right text-sm text-danger'--}}
-                        {{--href="#" data-toggle="modal" data-target="#bcsModal" id="ch_garage">변경</a>--}}
+                           {{--href="#" data-toggle="modal" data-target="#bcsModal" id="ch_garage">변경</a>--}}
 
                     </h4>
                     <ul class="list-group">
@@ -199,7 +219,7 @@
 
                     <h4 class="">기술사
                         {{--<a class='pull-right text-sm text-danger'--}}
-                        {{--href="#" data-toggle="modal" data-target="#techModal" id="ch_garage">변경</a>--}}
+                           {{--href="#" data-toggle="modal" data-target="#techModal" id="ch_garage">변경</a>--}}
                     </h4>
                     <ul class="list-group">
                         <li class="list-group-item no-border"><span>기술사</span> <em
@@ -415,20 +435,72 @@
 
 
 
-    {!! Form::open(['route' => ["bcs.order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
-    <input type="hidden" name="order_id" id="cancel-order_id">
-    {!! Form::close() !!}
-
+        {!! Form::open(['route' => ["bcs.order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
+        <input type="hidden" name="order_id" id="cancel-order_id">
+        {!! Form::close() !!}
 
 @endsection
 
-@push( 'footer-script' )
+@push ( 'footer-script' )
     <script type="text/javascript">
         $(function () {
-            $('#preview').click(function(){
-                var order_id = $(this).data('id');
-                window.open('/certificate/'+order_id+'/summary',"", "width=1400, height=1400");
+            $("#order-modify").on("click", function () {
+                $("#order-modal").modal();
             });
+
+            $("#order-purchase").on("click", function(){
+
+                $("#purchase-modal").modal();
+            });
+            //주문상태 form 초기화
+            $("#order-modal").on("hide.bs.modal", function () {
+                $("#order_status").val('');
+            });
+
+            $("#order-modal-submit").on("click", function (e) {
+                if(confirm("주문정보를 변경하시겠습니까?")){
+
+                    var current_status = parseInt('{{ $order->status_cd }}');
+                    var choice_status = parseInt($("input[name='status_cd']:checked").val());
+
+
+                    if(current_status <= 105 && choice_status <= 105){
+                        if(current_status == 100){
+                            alert('주문취소된 주문은 상태를 변경할 수 없습니다.');
+                            e.preventDefault();
+                            return false;
+                        }else{
+                            $("#order_status").val(choice_status);
+                            $("#frmPost").submit();
+                        }
+
+                    }else if(current_status > 105 && choice_status > 105){
+                        $("#order_status").val(choice_status);
+                        $("#frmPost").submit();
+                    }else{
+                        alert('현재 주문상태와 수정하려는 수정상태를 확인해 주세요.\n1. 입고대기이전: 주문취소 가능\n2.점검진행 이후: 주문취소 불가');
+                        e.preventDefault();
+                        return false;
+
+                    }
+
+
+                }
+            });
+
+            $("#cancel-click").on("click", function () {
+                if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
+                    var order_id = $(this).data("cancel_order_id");
+                    if (order_id) {
+                        $("#cancel-order_id").val(order_id);
+                        $("#cancel-form").submit();
+                    } else {
+                        alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
+                    }
+
+                }
+            });
+
 
         });
     </script>

@@ -530,9 +530,7 @@
 
         </div>
     </div>
-
-
-
+</div>
         {!! Form::open(['route' => ["order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
         <input type="hidden" name="order_id" id="cancel-order_id">
         {!! Form::close() !!}

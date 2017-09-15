@@ -87,68 +87,87 @@
 
             <table class="table text-middle text-center">
                 <colgroup>
-                    <col width="10%">
-                    <col width="10%">
-                    <col width="10%">
-                    <col width="10%">
-                    <col width="10%">
-                    <col width="25%">
+                    <col width="8%">
+                    <col width="20%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="12%">
+                    <col width="12%">
+                    <col width="*">
                 </colgroup>
 
                 <thead>
                 <tr class="active">
-                    <th class="text-center">주문번호</th>
-                    <th class="text-center">주문자</th>
-                    <th class="text-center">연락처</th>
                     <th class="text-center">상태</th>
-                    <th class="text-center">주문일</th>
-                    <th class="text-center">입고일</th>
-                    <th class="text-center">수정</th>
+                    <th class="text-center">주문번호</th>
+                    <th class="text-center">주문정보</th>
+                    <th class="text-center">결제정보</th>
+                    <th class="text-center">예약정보</th>
+                    <th class="text-center">진단시작일</th>
+                    <th class="text-center">진단완료일</th>
+                    <th class="text-center">Remarks</th>
                 </tr>
                 </thead>
 
                 <tbody>
-
                 @unless(count($entrys) >0)
-                    <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
+                    <tr>
+                        <td colspan="6" class="no-result">{{ trans('common.no-result') }}</td>
+                    </tr>
                 @endunless
 
                 @foreach($entrys as $data)
-
                     <tr>
-                        <td class="text-center">
-                            <a href="{{ url("order", [$data->id]) }}">{{ $data->getOrderNumber() }}</a>
+                        <td>
+                            <span class="label
+                            @if($data->status_cd == 100)
+                                label-default
+                            @elseif($data->status_cd == 106)
+                                label-primary
+                            @else
+                                label-info
+                            @endif
+                            ">
+                                {{ $data->status->display() }}
+                            </span>
                         </td>
+
+                        <td class="text-center">
+                            <a href="{{ route('order.show', $data->id) }}">{{ $data->getOrderNumber() }}</a>
+                        </td>
+
                         <td class="">
                             {{ $data->orderer_name }}
-                        </td>
-                        <td class="">
-                            {{ $data->orderer_mobile }}
-                        </td>
-
-                        <td class="">
-                            <span class="label
-                                @if($data->status_cd == 100)
-                                    label-default
-                                @elseif($data->status_cd == 106)
-                                    label-primary
-                                @else
-                                    label-info
-                                @endif
-                                    ">
-                                    {{ $data->status->display() }}
-                                </span>
+                            <br/>
+                            <small class="text-warning">{{ $data->orderer_mobile }}</small>
                         </td>
 
                         <td class="">
-                            {{ $data->created_at->format('Y-m-d H시 i분') }}
+                            <a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span
+                                        class="text-muted">{{ number_format($data->item->price) }}원</span></a>
+                            <br/>
+                            <small class="text-warning">{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
+                        </td>
+
+                        <td class="">
+                            <a href="/user/{{ $data->garage->id }}/edit">{{ $data->garage->name }}</a>
+                            <br/>
+                            <small class="text-danger">{{  $data->reservation ? $data->reservation->reservation_at->format("m월 d일 H시") : '-' }}</small>
                         </td>
 
                         <td>
-                            {{ $data->reservation->reservation_at->format('Y-m-d H시 i분') }}
+                            {{ $data->diagnose_at->format('m-d H:i') }}
                         </td>
+
                         <td>
-                            <a href="{{ url("order", [$data->id]) }}" class="btn btn-default">상세보기</a>
+                            {{ $data->diagnosed_at ? $data->diagnosed_at->format('m-d H:i') : '-' }}
+                        </td>
+
+                        <td>
+                            @if($data->status_cd > 106)
+                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default">상세보기</a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -157,20 +176,13 @@
         </div>
     </div>
 
+        <div class="row">
 
-    <div class="row">
-
-        <div class="col-sm-6">
-
-            {{--<a href="{{ route('order.edit', $data->id) }}" class="btn btn-primary">등록</a>--}}
+            <div class="col-sm-6 text-right">
+                {!! $entrys->render() !!}
+            </div>
 
         </div>
-
-        <div class="col-sm-6 text-right">
-            {!! $entrys->render() !!}
-        </div>
-
-    </div>
 
     </div>
 

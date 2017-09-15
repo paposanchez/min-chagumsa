@@ -28,7 +28,9 @@
                             <button class="btn btn-default" name="status_cd" value="100">주문취소</button>
                             <button class="btn btn-default" name="status_cd" value="101">주문신청</button>
                             <button class="btn btn-default" name="status_cd" value="102">주문완료</button>
+                            <button class="btn btn-default" name="status_cd" value="103">예약확인</button>
                             <button class="btn btn-default" name="status_cd" value="104">입고대기</button>
+                            <button class="btn btn-default" name="status_cd" value="105">입고</button>
                             <button class="btn btn-default" name="status_cd" value="106">진단중</button>
                             <button class="btn btn-default" name="status_cd" value="107">진단완료</button>
                             <button class="btn btn-default" name="status_cd" value="108">검토중</button>
@@ -89,89 +91,81 @@
 
                 <table class="table text-middle text-center">
                     <colgroup>
+                        <col width="8%">
+                        <col width="20%">
+                        <col width="15%">
+                        <col width="15%">
                         <col width="10%">
                         <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="25%">
+                        <col width="*">
                     </colgroup>
 
                     <thead>
                     <tr class="active">
-                        <th class="text-center">주문번호</th>
-                        <th class="text-center">주문자</th>
-                        <th class="text-center">연락처</th>
                         <th class="text-center">상태</th>
+                        <th class="text-center">주문번호</th>
+                        <th class="text-center">주문정보</th>
+                        <th class="text-center">결제정보</th>
+                        <th class="text-center">예약정보</th>
                         <th class="text-center">주문일</th>
-                        <th class="text-center">입고일</th>
-                        <th class="text-center">수정</th>
+                        <th class="text-center">Remarks</th>
                     </tr>
                     </thead>
 
                     <tbody>
-
-                    @unless(count($entrys) > 0)
-                        <tr>
-                            <td colspan="6" class="no-result">{{ trans('common.no-result') }}</td>
-                        </tr>
+                    @unless(count($entrys) >0)
+                        <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
                     @endunless
 
                     @foreach($entrys as $data)
 
                         <tr>
-                            <td class="text-center">
-                                <a href="{{ url("order", [$data->id]) }}">{{ $data->getOrderNumber() }}</a>
-                            </td>
-                            <td class="">
-                                {{ $data->orderer_name }}
-                            </td>
-                            <td class="">
-                                {{ $data->orderer_mobile }}
-                            </td>
-
                             <td>
                                 <span class="label
-                                @if($data->status_cd == 100)
-                                    label-default
-                                @elseif($data->status_cd == 106)
-                                    label-primary
-                                @else
-                                    label-info
-                                @endif
-                                ">
+                                    @if($data->status_cd == 100)
+                                            label-default
+                                    @elseif($data->status_cd == 106)
+                                            label-primary
+                                    @else
+                                            label-info
+                                    @endif
+                                            ">
                                     {{ $data->status->display() }}
                                 </span>
                             </td>
-                            <td>
-                                {{ $data->created_at->format('Y-m-d H시 i분') }}
-                            </td>
-                            <td>
-                                {{ $data->reservation->reservation_at->format('Y-m-d H시 i분') }}
-                                @if($data->status_cd == 104)
-                                    <span class="label label-warning">예약확정</span>
-                                @endif
 
+                            <td class="text-center">
+                                <a href="{{ route('order.show', $data->id) }}">{{ $data->getOrderNumber() }}</a>
                             </td>
 
+                            <td class="">
+                                {{ $data->orderer_name }}
+                                <br/><small class="text-warning">{{ $data->orderer_mobile }}</small>
+                            </td>
+
+                            <td class="">
+                                <a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span class="text-muted">{{ number_format($data->item->price) }}원</span></a>
+                                <br/><small class="text-warning">{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
+                            </td>
+
+
+                            <td class="">
+                                <a href="/user/{{ $data->garage->id }}/edit">{{ $data->garage->name }}</a>
+                                <br/><small class="text-danger">{{  $data->reservation ? $data->reservation->reservation_at->format("m월 d일 H시") : '-' }}</small>
+                            </td>
+
                             <td>
-                                @if($data->status_cd >= 102 && $data->status_cd <= 104 )
-                                    @if($data->reservation)
-                                        <button type="button" title="예약변경"
-                                                data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}"
-                                                data-time="{{  $data->reservation->reservation_at->format('H') }}"
-                                                data-order_id="{{ $data->id }}"
-                                                data-order_number="{{ $data->getOrderNumber() }}"
-                                                class="btn btn-info changeReservationModalOpen">예약변경
-                                        </button>
-                                        <button type="button" title="예약확정" data-order_id="{{ $data->id }}"
-                                                class="btn btn-danger confirmReservation">예약확정
-                                        </button>
-                                    @endif($data->reservation)
+                                {{ $data->created_at->format('m-d H:i') }}
+                            </td>
+
+                            <td>
+                                @if($data->status_cd < 105 )
+                                    <button type="button" title="변경" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" data-order_number="{{ $data->getOrderNumber() }}" class="btn btn-info changeReservationModalOpen">변경</button>
+                                    @if($data->status_cd < 104 )
+                                        <button type="button" title="확정" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation">확정</button>
+                                    @endif
                                 @endif
-                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default">상세보기</a>
-
-
+                                <a href="{{ route("bcs.order.show", [$data->id]) }}" class="btn btn-default">상세보기</a>
                             </td>
                         </tr>
                     @endforeach
@@ -183,13 +177,7 @@
 
         <div class="row">
 
-            <div class="col-md-6">
-
-                {{--<a href="{{ route('order.edit', $data->id) }}" class="btn btn-primary">등록</a>--}}
-
-            </div>
-
-            <div class="col-md-6 text-right">
+            <div class="col-sm-6 text-right">
                 {!! $entrys->render() !!}
             </div>
 
