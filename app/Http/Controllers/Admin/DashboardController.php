@@ -22,7 +22,7 @@ class DashboardController extends Controller {
         $total_diagnosis = Order::where('status_cd', ">",  101)->count();
         $certificates = Order::where('status_cd', 109)->take(10)->get();
 
-        $return = view('admin.dashboard.index', compact('total_diagnosis', 'lated_inquire', 'certificates', 'lated_diagnosis'))->render();
+        return view('admin.dashboard.index', compact('total_diagnosis', 'lated_inquire', 'certificates', 'lated_diagnosis'));
     }
 
 }
