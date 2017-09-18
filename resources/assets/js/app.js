@@ -341,28 +341,6 @@ $(function () {
                 }
         });
 
-        // lightbox
-        $(document).on('click', '[data-toggle="lightbox"]', function (e) {
-                e.preventDefault();
-                $(this).ekkoLightbox({
-                        alwaysShowClose: true,
-                        showArrows: true,
-                        loadingMessage : 'loding...',
-                        onShown: function() {
-                                console.log('Checking our the events huh?');
-                        },
-                        onNavigate: function(direction, itemIndex) {
-                                console.log('Navigating '+direction+'. Current item: '+itemIndex);
-                        }
-                });
-        });
-
-        // audio.js
-        audiojs.events.ready(function() {
-                var as = audiojs.createAll();
-        });
-
-
         //############# form validator
         $.validator.setDefaults({
                 ignore: [],

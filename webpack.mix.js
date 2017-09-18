@@ -34,9 +34,6 @@ mix
 //page transition
 .copy(assetsDir + 'vendor/tympanus', distDir + 'vendor/tympanus', false)
 
-//audio
-// .copy(assetsDir + 'vendor/audio', distDir + 'vendor/audio', false)
-
 // charts
 .copy(nodeDir + 'highcharts/', distDir + 'vendor/highcharts', false)
 //        .copy(nodeDir + 'd3/', distDir + 'vendor/d3', false)
@@ -50,6 +47,8 @@ mix
 
 // js plugins
 .copy(assetsDir + 'js/plugin/', distDir + 'js/plugin')
+
+
 
 .combine([
         nodeDir + 'animate.css/animate.css',

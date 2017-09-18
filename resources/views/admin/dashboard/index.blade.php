@@ -58,7 +58,7 @@
                                         @foreach($certificates as $n => $data)
                                         <a href="{{ url('/order/'.$data->id.'/edit') }}" class="list-group-item">
 
-                                                <span class="label label-primary" style="width:60px;display:inline-block;">{{ $data->certificates->grade }}</span>
+                                                <span class="label label-success" style="width:60px;display:inline-block;">{{ $data->certificates->grade }}</span>
 
                                                 {{ $data->getOrderNumber() }}
 

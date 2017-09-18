@@ -117,7 +117,7 @@
     <div class="row" id="diagnosis-info"><div class="col-md-12 text-center alert alert-info"><h1><span class="fa fa-arrow-circle-down"></span> 인증서 상세 내역</h1></div></div>
 
     <div class="row">
-        @include("partials.certificate", ["order" => $order])
+        @include("admin.order.certificate", ["order" => $order])
     </div>
 
 

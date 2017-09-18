@@ -118,11 +118,10 @@
                                         @endunless
 
                                         @foreach($entrys as $data)
+
                                         <tr>
                                                 <td>
-                                                        <span
-                                                        style="width:60px;display:inline-block;"
-                                                        class="label
+                                                        <span class="label
                                                         @if($data->status_cd == 100)
                                                         label-default
                                                         @elseif($data->status_cd == 106)
@@ -136,7 +135,7 @@
                                         </td>
 
                                         <td class="text-center">
-                                                {{ $data->getOrderNumber() }}
+                                                <a href="{{ route('order.show', $data->id) }}">{{ $data->getOrderNumber() }}</a>
                                         </td>
 
                                         <td class="">
@@ -149,10 +148,13 @@
                                                 <br/><small class="text-warning">{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
                                         </td>
 
+
                                         <td class="">
                                                 <a href="/user/{{ $data->garage->id }}/edit">{{ $data->garage->name }}</a>
                                                 <br/><small class="text-danger">{{  $data->reservation ? $data->reservation->reservation_at->format("m월 d일 H시") : '-' }}</small>
                                         </td>
+
+
 
                                         <td>
                                                 {{ $data->created_at->format('m-d H:i') }}
@@ -161,16 +163,14 @@
                                         <td>
 
                                                 @if($data->status_cd < 105 )
-                                                        <button type="button" title="변경" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" data-order_number="{{ $data->getOrderNumber() }}" class="btn btn-info changeReservationModalOpen">변경</button>
 
-                                                        @if($data->status_cd < 104 )
-                                                        <button type="button" title="확정" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation">확정</button>
-                                                        @endif
+                                                <button type="button" title="변경" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" data-order_number="{{ $data->getOrderNumber() }}" class="btn btn-info changeReservationModalOpen">변경</button>
+
+                                                @if($data->status_cd < 104 )
+                                                <button type="button" title="확정" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation">확정</button>
                                                 @endif
 
 
-                                                @if($data->status_cd == 109 )
-                                                <a href="{{ route('certificate', $data->id) }}" class="btn btn-primary">미리보기</a>
                                                 @endif
 
                                                 <a href="{{ url("order", [$data->id]) }}" class="btn btn-default">상세보기</a>

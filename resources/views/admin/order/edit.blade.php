@@ -53,7 +53,7 @@
 
                 {{--차량 인증--}}
                 <div role="tabpanel" class="tab-pane active" id="certification">
-                    @include("partials.certificate", ["order" => $order])
+                    @include("admin.order.certificate", ["order" => $order])
                 </div>
             </div>
         </div>
@@ -97,3 +97,7 @@
         $("#certi_tab a[href='" + hash + "']").tab('show');
     </script>
 @endpush
+
+
+
+

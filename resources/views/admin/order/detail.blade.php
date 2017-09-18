@@ -13,19 +13,10 @@
                     {{ $order->getOrderNumber() }}
                 </span>
 
-
-                 @if($order->status_cd > 107)
             <a href="/certificate/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"
-               style="margin-left:10px;"><i class="fa fa-certificate"></i> 인증서</a>
-
-               <a href="/certificate/{{ $order->id }}/edit" target="_blank" class="btn btn-default pull-right"
-                  style="margin-left:10px;"><i class="fa fa-file"></i> 인증정보 보기</a>
-               @endif
-
-                @if($order->status_cd > 106)
+               style="margin-left:10px;"><i class="fa fa-file"></i> 인증서 보기</a>
             <a href="/diagnosis/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"><i
-                        class="fa fa-file"></i> 진단정보 보기</a>
-                        @endif
+                        class="fa fa-certificate"></i> 진단정보 보기</a>
         </h3>
 
 
@@ -36,12 +27,8 @@
                 <div class="block bg-white">
 
                     <h4>주문정보
-
-                            @if($order->status_cd < 106)
-                            <a class='pull-right text-sm text-danger'
-                               href="#" id="cancel-click" data-cancel_order_id="{{ $order->id }}">주문취소</a>
-                            @endif
-
+                        <a class='pull-right text-sm text-danger'
+                           href="#" id="cancel-click" data-cancel_order_id="{{ $order->id }}">주문취소</a>
                     </h4>
 
 
@@ -123,7 +110,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="control-label col-md-3">차량명</label>
+                            <label class="control-label col-md-3">차량 명</label>
                             <div class="col-sm-9">
                                 <p class="form-control-static">{{ $order->getCarFullName() }}</p>
                             </div>
@@ -209,9 +196,9 @@
 
                     <h4 class="">BCS
 
-                            @if($order->status_cd < 108)
-                            <a class='pull-right text-sm text-danger' href="#" data-toggle="modal" data-target="#bcsModal" id="ch_garage">변경</a>
-                            @endif
+                        {{--<a class='pull-right text-sm text-danger' href="/mypage/order/change-reservation/{{ $order->id }}">변경</a>--}}
+                        <a class='pull-right text-sm text-danger'
+                           href="#" data-toggle="modal" data-target="#bcsModal" id="ch_garage">변경</a>
 
                     </h4>
                     <ul class="list-group">
@@ -229,10 +216,10 @@
                 <div class="block bg-white">
 
                     <h4 class="">기술사
-
-                                @if($order->status_cd > 107)
-                                <a class='pull-right text-sm text-danger' href="#" data-toggle="modal" data-target="#techModal" id="ch_garage">변경</a>
-                                @endif
+                        {{--<a class='pull-right text-sm text-danger'--}}
+                           {{--href="/mypage/order/change-reservation/{{ $order->id }}">변경</a>--}}
+                        <a class='pull-right text-sm text-danger'
+                           href="#" data-toggle="modal" data-target="#techModal" id="ch_garage">변경</a>
                     </h4>
                     <ul class="list-group">
                         <li class="list-group-item no-border"><span>기술사</span> <em
@@ -349,9 +336,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="">변경</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-success order-submit" id="order-modal-submit">주문상태 변경
+                        </button>
+                        <button type="button" class="btn btn-primary order-close" data-dismiss="modal"
+                                id="order-modal-close">취소
+                        </button>
                     </div>
                 </div>
             </div>
@@ -409,13 +399,11 @@
                             </tbody>
                         </table>
                     </div>
-
-
-                    <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="">변경</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-primary order-close" data-dismiss="modal"
+                                id="purchase-modal-close">닫기
+                        </button>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -432,9 +420,8 @@
                     <div class="modal-body">
 
                     </div>
-                    <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="">변경</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                    <div class="modal-footer text-center">
+                        <button class="btn btn-primary" type="button" id="payment-close">닫기</button>
                     </div>
                 </div>
             </div>
@@ -508,11 +495,10 @@
                     </div>
 
                 </div>
-
-                <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="">변경</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-                </div>
+                <p class="form-control-static text-center">
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">취소</button>
+                    <button type="button" id="bcs_submit" class='btn btn-primary btn-lg'>확인</button>
+                </p>
                 {!! Form::close() !!}
 
             </div>
@@ -527,43 +513,33 @@
 
             <!-- Modal content-->
             <div class="modal-content">
-
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">기술사 정보변경</h4>
+                    <h4 class="modal-title">BCS 정보 변경</h4>
                 </div>
-
+                {!! Form::open(['method' => 'POST','route' => ['order.tech-update', 'id' => $order->id], 'class'=>'form-horizontal', 'id'=>'techForm', 'enctype'=>"multipart/form-data"]) !!}
                 <div class="modal-body">
-
-                        {!! Form::open(['method' => 'POST','route' => ['order.tech-update', 'id' => $order->id], 'class'=>'form-horizontal', 'id'=>'techForm', 'enctype'=>"multipart/form-data"]) !!}
-
-                        <div class="form-group  form-group-lg ">
-                            <label  class="control-label">엔지니어</label>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <h6 class="text-left">엔지니어</h6>
                             {!! Form::select('technician', $technicians, [$order->technician ? $order->technician->id : ''], ['class' =>'form-control', 'id' => 'sel_tech']) !!}
                         </div>
 
+                    </div>
+                <p class="form-control-static text-center">
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">취소</button>
+                    <button type="submit" class='btn btn-primary btn-lg'>확인</button>
+                </p>
+                {!! Form::close() !!}
 
-
-                        {!! Form::close() !!}
-
-                </div>
-
-                <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="">변경</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-                </div>
+            </div>
 
         </div>
     </div>
 </div>
-
-
         {!! Form::open(['route' => ["order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
         <input type="hidden" name="order_id" id="cancel-order_id">
         {!! Form::close() !!}
-
-
-
 @endsection
 
 @push( 'footer-script' )
