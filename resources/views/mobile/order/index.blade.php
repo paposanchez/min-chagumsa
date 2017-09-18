@@ -57,25 +57,7 @@
             <input type="hidden" name="use_coupon_number" id="use_coupon_number" autocomplete="off">
             <input type="hidden" name="coupon_id" id="coupon_id" autocomplete="off">
 
-            <div class='order_info_box2'>
-                <div class='order_info_title2'>
-                    <strong>9. 상품</strong>
-                </div>
-                <div class='order_info_cont2'>
-                    <div class="block">
-                        <div class="row">
-                            @foreach($items as $item)
-                                <div class="col-xs-3">
-                                    <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-price="{{ $item->price }}" disabled>
-                                        <div class="point-price">{{ $item->name }}</div>
-                                        <div class="point-desc text-muted">{{ number_format($item->price) }}원</div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             {{-- 기본정보 입력 --}}
             <div id="step1">
                 <div class='join_term_wrap'>
