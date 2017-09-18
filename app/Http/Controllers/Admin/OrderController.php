@@ -55,13 +55,12 @@ class OrderController extends Controller
                         "order_num" => "주문번호", "car_number" => "차량번호", 'orderer_name' => '주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
                 ];
 
-                //        $where = Order::where('status_cd', ">", 101)->orderBy('created_at', 'DESC');
-                $where = Order::where('status_cd', ">=", 100)->orderBy('created_at', 'DESC');
+                $where = Order::where('status_cd', ">=", 102)->orderBy('created_at', 'DESC');
 
                 //주문상태
                 $status_cd = $request->get('status_cd');
                 if ($status_cd) {
-                        $where = $where->where('status_cd', $status_cd);
+                        $where->where('status_cd', $status_cd);
                 }
 
                 //기간 검색
@@ -930,6 +929,8 @@ class OrderController extends Controller
 
         public function getSection(Request $request)
         {
+
+
                 $users = \App\Models\Role::find(4)->users;
                 $sections = [];
                 foreach ($users as $user) {

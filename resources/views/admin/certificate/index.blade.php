@@ -73,11 +73,11 @@
                                 <table class="table text-middle text-center">
                                         <colgroup>
                                                 <col width="8%">
-                                                <col width="20%">
                                                 <col width="15%">
                                                 <col width="15%">
-                                                <col width="12%">
-                                                <col width="12%">
+                                                <col width="15%">
+                                                <col width="8%">
+                                                <col width="8%">
                                                 <col width="*">
                                         </colgroup>
 
@@ -112,18 +112,15 @@
                                                                 style="width:60px;display:inline-block;"
                                                                 class="label
 
-                                                                @if($data->certificates->isExpired())
-                                                                label-danger
-                                                                @else
+                                                                @if($data->status_cd == 109)
                                                                 label-success
+                                                                @else
+                                                                label-info
                                                                 @endif
+
                                                                 ">
 
-                                                                @if($data->certificates->isExpired())
-                                                                만료됨
-                                                                @else
                                                                 {{ $data->status->display() }}
-                                                                @endif
 
                                                         </span>
                                                 </td>
@@ -141,28 +138,50 @@
 
 
                                                 <td class="">
-                                                        <a href="/user/{{ $data->engineer->id }}/edit">{{ $data->engineer->name }}</a>
+                                                        @if($data->certificates)
+                                                        <a href="/user/{{ $data->technician->id }}/edit">{{ $data->technician->name }}</a>
                                                         <br/>
-                                                        <small class="text-warning">{{ $data->engineer->mobile }}</small>
+                                                        <small class="text-warning">{{ $data->technician->mobile }}</small>
+                                                        @else
+                                                        -
+                                                        @endif
                                                 </td>
 
                                                 <td>
-                                                        {{ $data->certificates->updated_at ? $data->certificates->updated_at->format('m-d H:i') : '-' }}
+                                                        {{ $data->certificates && $data->certificates->updated_at ? $data->certificates->updated_at->format('m-d H:i') : '-' }}
                                                 </td>
 
                                                 <td>
-                                                        {{ $data->certificates->updated_at ? $data->certificates->getExpireDate()->format('Y-m-d H:i') : '-'  }}
+                                                        {{ $data->certificates && $data->certificates->updated_at ? $data->certificates->getExpireDate()->format('Y-m-d H:i') : '-'  }}
 
+                                                        @if($data->certificates)
                                                         <br/>
-                                                        <small class="text-warning">{{ number_format($data->certificates->getCountdown()) }}일 남음</small>
+
+                                                        @if($data->certificates->isExpired())
+                                                        <small class="text-muted">만료됨</small>
+                                                        @else
+                                                        <small class="text-warning">
+                                                                {{ number_format($data->certificates->getCountdown()) }}일 남음
+                                                        </small>
+                                                        @endif
+
+                                                        @endif
 
                                                 </td>
 
 
                                                 <td>
 
+                                                        @if($data->status_cd == 107)
+                                                        <button data-id="{{ $data->id }}" class="btn btn-danger certificate-assign">인증시작</button>
+                                                        @endif
+
+                                                        @if($data->status_cd > 107)
                                                         <a href="{{ route('certificate', $data->id) }}" class="btn btn-primary">미리보기</a>
+                                                        @endif
+
                                                         <a href="/order/{{ $data->id }}" class="btn btn-default">상세보기</a>
+
 
 
                                                 </td>
@@ -189,8 +208,35 @@
 
 
 
-@section( 'footer-script' )
-<script type="text/javascript">
 
+@push( 'footer-script' )
+<script type="text/javascript">
+$(function () {
+
+        $(document).on('click', 'certificate-assign', function () {
+
+                e.preventDefault();
+
+                var id = $(this).data('id');
+
+                $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        url: '/certificate/'+id+'/assign',
+                        success: function (data) {
+
+
+                                location.href = "/certificate/"+id+'/edit';
+                        },
+                        error: function (data) {
+
+                        },
+
+                })
+        });
+
+
+
+});
 </script>
-@endsection
+@endpush

@@ -52,6 +52,10 @@ Breadcrumbs::register('admin.order', function($breadcrumbs) {
     $breadcrumbs->parent('admin');
     $breadcrumbs->push(trans("admin/order.title"), route('order.index'));
 });
+Breadcrumbs::register('admin.certificate', function($breadcrumbs) {
+    $breadcrumbs->parent('admin');
+    $breadcrumbs->push(trans("admin/certificate.title"), '/certificate');
+});
 Breadcrumbs::register('admin.calculation', function($breadcrumbs) {
     $breadcrumbs->parent('admin');
     $breadcrumbs->push(trans("admin/calculation.title"), route('calculation.index'));

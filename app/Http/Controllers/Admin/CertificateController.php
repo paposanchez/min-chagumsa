@@ -17,7 +17,7 @@ class CertificateController extends Controller
 {
 
         public function index(Request $request){
-                $where = Order::orderBy('orders.id', 'DESC')->whereIn('orders.status_cd',  [109]);
+                $where = Order::orderBy('orders.id', 'DESC')->whereIn('orders.status_cd',  [107, 108, 109]);
 
                 $search_fields = [
                         "order_num" => "주문번호", "car_number" => "차량번호", 'orderer_name'=>'주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
@@ -121,8 +121,7 @@ class CertificateController extends Controller
                 $kinds = Code::getSelectList('kind_cd');
                 $certificate_states = Code::getSelectList('certificate_state_cd');
 
-
-                return view('admin.order.edit', compact('order', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car'));
+                return view('admin.certificate.edit', compact('order', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car'));
         }
 
 

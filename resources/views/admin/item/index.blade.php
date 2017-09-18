@@ -78,14 +78,12 @@
 
                                         <col width="8%">
                                         <col width="*">
-                                        <!-- <col width="8%"> -->
                                         <col width="8%">
                                         <col width="8%">
                                         <col width="8%">
                                         <col width="8%">
                                         <col width="8%">
                                         <col width="8%">
-
                                         <col width="10%">
 
                                 </colgroup>
@@ -95,7 +93,6 @@
                                                 <th class="text-center">#</th>
                                                 <th class="text-left">상품명</th>
                                                 <th class="text-center">가격</th>
-                                                <!-- <th class="text-center">차량 분류</th> -->
                                                 <th class="text-center">PG 수수료율</th>
                                                 <th class="text-center">보증료</th>
                                                 <th class="text-center">공임비용</th>

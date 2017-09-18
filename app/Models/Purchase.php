@@ -1,15 +1,8 @@
 <?php
-/**
-* Created by IntelliJ IDEA.
-* User: dev
-* Date: 2017. 4. 12.
-* Time: PM 3:00
-*/
-
 namespace App\Models;
+
 use DB;
 use Illuminate\Database\Eloquent\Model;
-
 use App\Models\Order;
 
 class Purchase extends Model
@@ -37,4 +30,5 @@ class Purchase extends Model
         public function payment_type() {
                 return $this->hasOne(\App\Models\Code::class, 'id', 'type');
         }
+
 }

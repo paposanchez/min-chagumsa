@@ -73,12 +73,12 @@
                                 <table class="table text-middle text-center">
                                         <colgroup>
                                                 <col width="8%">
-                                                <col width="20%">
                                                 <col width="15%">
                                                 <col width="15%">
                                                 <col width="15%">
-                                                <col width="12%">
-                                                <col width="12%">
+                                                <col width="15%">
+                                                <col width="8%">
+                                                <col width="8%">
                                                 <col width="*">
                                         </colgroup>
 
@@ -160,7 +160,11 @@
 
 
                                                         <td>
-                                                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default">상세보기</a>
+                                                                @if($data->status_cd > 106)
+                                                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-primary" data-toggle="tooltip" title="진단 상세보기"><small>진단</small></a>
+                                                                @endif
+
+                                                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default" data-toggle="tooltip" title="주문 상세보기"><small>주문</small></a>
                                                         </td>
 
 

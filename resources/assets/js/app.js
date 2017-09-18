@@ -358,9 +358,9 @@ $(function () {
         });
 
         // audio.js
-        audiojs.events.ready(function() {
-                var as = audiojs.createAll();
-        });
+        // audiojs.events.ready(function() {
+        //         var as = audiojs.createAll();
+        // });
 
 
         //############# form validator

@@ -1,12 +1,26 @@
-
+<?php
+/**
+* Created by PhpStorm.
+* User: muti
+* Date: 2017. 6. 15.
+* Time: PM 5:51
+*/
+?>
+{{--기본 정보--}}
 <div class='col-md-12'>
 
+        @if(preg_match("/technician/", Route::currentRouteName()))
+        <div class="row">
+                <div class="col-md-3"><h2>기본 정보</h2></div>
+                <div class="col-md-9 text-right">
+                        <button type="button" class="btn btn-warning" id="diag-win">진단데이터 보기</button>
+                </div>
+        </div>
+        {!! Form::model($order, ['method' => 'PATCH','route' => ['technician.order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
+        @else
+        <h2>기본 정보</h2>
         {!! Form::model($order, ['method' => 'PATCH','route' => ['order.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
-
-
-
-        
-
+        @endif
         <input type="hidden" name="brands_id" value="{{ $car ? $car->brands_id : '' }}">
         <input type="hidden" name="models_id" value="{{ $car ? $car->models_id : '' }}">
         <input type="hidden" name="details_id" value="{{ $car ? $car->details_id : '' }}">

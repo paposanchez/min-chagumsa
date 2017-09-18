@@ -16,7 +16,7 @@
 
 
                 @if($order->status_cd > 107)
-                <a href="/certificate/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"
+                <a href="{{ route('cert', [$order->id]) }}" target="_blank" class="btn btn-default pull-right"
                         style="margin-left:10px;"><i class="fa fa-certificate"></i> 인증서</a>
 
                         <a href="/certificate/{{ $order->id }}/edit" target="_blank" class="btn btn-default pull-right"

@@ -1,102 +1,98 @@
 @extends( 'admin.layouts.default' )
 
 @section('breadcrumbs')
-@include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.order')])
+@include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.certificate')])
 @endsection
 
 @section( 'content' )
 <div class="container-fluid">
-    <div class="row">
-        <div role="tabpanel" id="certi_tab">
-            <ul class="nav nav-pills" role="tablist">
-                {{--<li class="active"><a href="#diagnosis" aria-controls="diagnosis" role="tab" data-toggle="tab">진단 정보</a></li>--}}
-                <li role="presentation" class=""><a href="#certification" aria-controls="certification" role="tab" data-toggle="tab">차량 인증</a></li>
-            </ul>
 
-            <div class="tab-content">
-                {{--진단 정보--}}
-                <div role="tabpanel" class="tab-pane" id="diagnosis">
+        <h3>
+                <span class="text-lg">
+                        <span class="text-danger text-lighter">{{ $order->status->display() }}</span>
+                        <span class="text-lighter">| </span>
+                        {{ $order->getOrderNumber() }}
+                </span>
 
-
+                <a href="/order/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"><i class="fa fa-shopping-cart"></i> 주문보기</a>
+        </h3>
 
 
 
-                    {{--@foreach($return as $key => $val)--}}
-                        {{--{{  dd($key, $val) }}--}}
-                    {{--@endforeach--}}
-                    {{--@foreach($return as $key => $val)--}}
-                        {{--{{  dd($return['entrys'][0]['id']) }}--}}
-                    {{--@endforeach--}}
+                <div class="row">
 
-                    {{-- 기본정보 --}}
-{{--                    @include("admin.order.diagnosis-basic", [$entrys])--}}
-
-                    {{--주요외판--}}
-                    {{--@include("admin.order.diagnosis-outer")--}}
-
-                    {{--주요내판--}}
-                    {{--@include("admin.order.diagnosis-inner")--}}
-
-                    {{--침수--}}
-                    {{--@include("admin.order.diagnosis-water")--}}
+                        <div class="col-xs-6">
 
 
-                    {{--내외부점검--}}
-                    {{--@include("admin.order.diagnosis-check")--}}
+                                <div class="block bg-white" style="margin-bottom:10px;">
 
-                    {{--주행테스트--}}
-                    {{--@include("admin.order.diagnosis-drive-test")--}}
+                                        <h4>주문정보</h4>
+                                        <ul class="list-group">
 
-                    {{--작동상태: 엔진/변속기/브레이크/조향장치/누유--}}
-                    {{--@include("admin.order.diagnosis-status")--}}
+                                                <li class="list-group-item no-border"><span>주문자명</span> <em class="pull-right">{{ $order->orderer_name }}</em></li>
+                                                <li class="list-group-item no-border"><span>주문자연락처</span> <em class="pull-right">{{ $order->orderer_mobile }}</em></li>
+                                                <li class="list-group-item no-border"><span>상품명</span> <em class="pull-right">{{ $order->item->name }}</em></li>
 
-                    {{--작동상태: 타이어/엔진오일/냉각수/브레이크패드/배터리--}}
-                    {{--@include("admin.order.diagnosis-status-inner")--}}
+                                        </ul>
+
+                                </div>
+
+                        </div>
+
+                        <div class="col-xs-6">
+
+                                <div class="block bg-white" style="margin-bottom:10px;">
+
+                                        <h4>차량정보</h4>
+                                        <ul class="list-group">
+
+                                                <li class="list-group-item no-border"><span>차량명</span> <em class="pull-right">{{ $order->getCarFullName()  }}</em></li>
+                                                <li class="list-group-item no-border"><span>사고유무</span> <em class="pull-right">{{ $order->accident_state_cd == 1 ? '예' : '아니요' }}</em></li>
+                                                <li class="list-group-item no-border"><span>침수여부</span> <em class="pull-right">{{ $order->flooding_state_cd == 1 ? '예' : '아니요' }}</em></li>
+
+                                        </ul>
+                                </div>
+                        </div>
 
                 </div>
 
-                {{--차량 인증--}}
-                <div role="tabpanel" class="tab-pane active" id="certification">
-                    @include("partials.certificate", ["order" => $order])
-                </div>
-            </div>
-        </div>
+                @include("partials.certificate", ["order" => $order])
 
-        {!! Form::close() !!}
-    </div>
 
-    <br>
 
-    <div class="row">
 
-        <div class="col-md-6">
 
-            <a href="{{ route('order.index') }}" class="btn btn-primary" style="margin-left: 15px;">주문목록</a>
 
-        </div>
 
-        <div class="col-sm-6 text-right">
-            <a href="{{ route('order.edit', $order->id) }}" class="btn btn-default" style="margin-right: 15px;">진단 결과 보기</a>
-        </div>
 
-    </div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 </div><!-- container -->
 @endsection
 
 @push( 'footer-script' )
-    <script type="text/javascript">
-        /**
-         * 최종 tab panel 클릭 history 처리
-         */
+<script type="text/javascript">
+/**
+* 최종 tab panel 클릭 history 처리
+*/
 
-        $("ul.nav-pills > li >a").on("shown.bs.tab", function (e) {
-            var id = $(e.target).attr("href").substr(1);
-            window.location.hash = id;
-        });
+$("ul.nav-pills > li >a").on("shown.bs.tab", function (e) {
+        var id = $(e.target).attr("href").substr(1);
+        window.location.hash = id;
+});
 
-        var hash = window.location.hash;
-        $("#certi_tab a[href='" + hash + "']").tab('show');
-    </script>
+var hash = window.location.hash;
+$("#certi_tab a[href='" + hash + "']").tab('show');
+</script>
 @endpush
