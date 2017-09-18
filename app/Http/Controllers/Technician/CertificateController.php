@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Technician;
 
 use App\Models\Car;
 use App\Models\Certificate;

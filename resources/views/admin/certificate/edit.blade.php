@@ -17,6 +17,10 @@
                 {{--진단 정보--}}
                 <div role="tabpanel" class="tab-pane" id="diagnosis">
 
+
+
+
+
                     {{--@foreach($return as $key => $val)--}}
                         {{--{{  dd($key, $val) }}--}}
                     {{--@endforeach--}}
@@ -61,9 +65,8 @@
         {!! Form::close() !!}
     </div>
 
-
-
     <br>
+
     <div class="row">
 
         <div class="col-md-6">
