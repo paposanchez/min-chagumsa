@@ -42,6 +42,8 @@
             <input type="hidden" name="userIp"	value="{{ $request->server('REMOTE_ADDR') }}"><!-- User IP Address -->
             <input type="hidden" name="browserType" id="browserType" value="">
             <input type="hidden" name="mallReserved" value="MallReserved">
+
+            <input type="submit">
         </form>
     </div>
 
@@ -59,7 +61,7 @@
         function submitForm(){
 
             frm = document.transMgr;
-            frm.submit();
+//            frm.submit();
 
             {{--if(frm.transType[1].checked){--}}
 
