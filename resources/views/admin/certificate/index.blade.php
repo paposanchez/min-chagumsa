@@ -76,7 +76,6 @@
                                                 <col width="20%">
                                                 <col width="15%">
                                                 <col width="15%">
-                                                <col width="15%">
                                                 <col width="12%">
                                                 <col width="12%">
                                                 <col width="*">
@@ -87,10 +86,9 @@
                                                         <th class="text-center">상태</th>
                                                         <th class="text-center">주문번호</th>
                                                         <th class="text-center">주문정보</th>
-                                                        <th class="text-center">결제정보</th>
-                                                        <th class="text-center">예약정보</th>
-                                                        <th class="text-center">진단시작일</th>
-                                                        <th class="text-center">진단완료일</th>
+                                                        <th class="text-center">기술사</th>
+                                                        <th class="text-center">인증서발급일</th>
+                                                        <th class="text-center">인증서만료일</th>
                                                         <th class="text-center">Remarks</th>
 
                                                 </tr>
@@ -113,15 +111,20 @@
                                                                 <span
                                                                 style="width:60px;display:inline-block;"
                                                                 class="label
-                                                                @if($data->status_cd == 100)
-                                                                label-default
-                                                                @elseif($data->status_cd == 106)
-                                                                label-primary
+
+                                                                @if($data->certificates->isExpired())
+                                                                label-danger
                                                                 @else
                                                                 label-info
                                                                 @endif
                                                                 ">
+
+                                                                @if($data->certificates->isExpired())
+                                                                만료됨
+                                                                @else
                                                                 {{ $data->status->display() }}
+                                                                @endif
+
                                                         </span>
                                                 </td>
 
@@ -130,66 +133,60 @@
                                                 </td>
 
                                                 <td class="">
-                                                        {{ $data->orderer_name }}
+                                                        <a href="/user/{{ $data->user_id }}/edit">{{ $data->orderer_name }}</a>
                                                         <br/>
                                                         <small class="text-warning">{{ $data->orderer_mobile }}</small>
                                                 </td>
 
+
+
                                                 <td class="">
-                                                        <a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span
-                                                                class="text-muted">{{ number_format($data->item->price) }}원</span></a>
-                                                                <br/>
-                                                                <small class="text-warning">{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
-                                                        </td>
+                                                        <a href="/user/{{ $data->engineer->id }}/edit">{{ $data->engineer->name }}</a>
+                                                        <br/>
+                                                        <small class="text-warning">{{ $data->engineer->mobile }}</small>
+                                                </td>
+
+                                                <td>
+                                                        {{ $data->certificates->updated_at ? $data->certificates->updated_at->format('m-d H:i') : '-' }}
+                                                </td>
+
+                                                <td>
+                                                        {{ $data->certificates->updated_at ? $data->certificates->getExpireDate()->format('Y-m-d H:i') : '-'  }}
+                                                </td>
 
 
-                                                        <td class="">
-                                                                <a href="/user/{{ $data->garage->id }}/edit">{{ $data->garage->name }}</a>
-                                                                <br/>
-                                                                <small class="text-danger">{{  $data->reservation ? $data->reservation->reservation_at->format("m월 d일 H시") : '-' }}</small>
-                                                        </td>
+                                                <td>
+
+                                                        <a href="{{ route('certificate', $data->id) }}" class="btn btn-primary">미리보기</a>
+                                                        <a href="/order/{{ $data->id }}" class="btn btn-default">상세보기</a>
 
 
-                                                        <td>
-                                                                {{ $data->diagnose_at->format('m-d H:i') }}
-                                                        </td>
-
-                                                        <td>
-                                                                {{ $data->diagnosed_at ? $data->diagnosed_at->format('m-d H:i') : '-' }}
-                                                        </td>
+                                                </td>
 
 
-                                                        <td>
-
-                                                                @if($data->status_cd > 106)
-                                                                <a href="{{ route('diagnosis.show', $data->id) }}" class="btn btn-default">상세보기</a>
-                                                                @endif
-                                                        </td>
-
-
-                                                </tr>
-                                                @endforeach
-                                        </tbody>
-                                </table>
-                        </div>
+                                        </tr>
+                                        @endforeach
+                                </tbody>
+                        </table>
                 </div>
+        </div>
 
 
-                <div class="row">
+        <div class="row">
 
-                        <div class="col-sm-6 text-right">
-                                {!! $entrys->render() !!}
-                        </div>
-
+                <div class="col-sm-6 text-right">
+                        {!! $entrys->render() !!}
                 </div>
 
         </div>
-        @endsection
+
+</div>
+@endsection
 
 
 
-        @section( 'footer-script' )
-        <script type="text/javascript">
+@section( 'footer-script' )
+<script type="text/javascript">
 
-        </script>
-        @endsection
+</script>
+@endsection

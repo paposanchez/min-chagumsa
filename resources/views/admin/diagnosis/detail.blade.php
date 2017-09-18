@@ -13,74 +13,84 @@
                 </span>
         </h3>
 
-        <div class="row">
-                <div class="col-md-3">
-                        <nav class="nav nav-sidebar"
-                        id="sidebar-menu">
-                        <ul class="list-unstyled main-menu">
-                                @foreach($diagnosis['entrys'] as $entrys)
-                                <li class="">
-                                        <a href="#dia-{{ $entrys['name']['id'] }}">{{ $entrys['name']['display'] }}</a>
-                                        <ul class="list-unstyled sub-menu">
-                                                @foreach($entrys['entrys'] as $entry)
-                                                <li class=""><a href="#dia-{{ $entry['name']['id'] }}">{{ $entry['name']['display'] }}</a></li>
-                                                @endforeach
-                                        </ul>
-                                </li>
-                                @endforeach
-                        </ul>
-                </nav>
-        </div>
+        <div class="bg-white">
 
-        <div class="col-md-9">
+                <div class="row">
+                        <div class="col-md-3">
 
-                <form class="form-horizontal">
-
-                        @foreach($diagnosis['entrys'] as $entrys)
-                        <fieldset>
-
-
-                                <div class="panel panel-default">
-                                        <div class="panel-heading" id="dia-{{ $entrys['name']['id'] }}">
-                                                <h4>{{ $entrys['name']['display'] }}
-                                                        <a href="#dia-top" class="pull-right"><small>상단으로</small></a>
-                                                </h4>
-                                        </div>
-
-
-                                        <table class="table">
-                                                <col width="25%">
-                                                <col width="*">
-
-                                                <tbody>
-                                                        @foreach($entrys['entrys'] as $entry)
-                                                        <tr>
-                                                                <th>{{ $entry['name']['display'] }}</th>
-                                                                <td>
-                                                                        @foreach($entry['entrys'] as $entry)
-                                                                        @include('admin.partials.diagnosis',['entry' =>  $entry])
+                                <div class="block">
+                                        <nav class="nav nav-sidebar" id="sidebar-menu">
+                                                <ul class="list-unstyled main-menu">
+                                                        @foreach($diagnosis['entrys'] as $entrys)
+                                                        <li class="">
+                                                                <a href="#dia-{{ $entrys['name_cd'] }}">{{ $entrys['name']['display'] }}</a>
+                                                                <ul class="list-unstyled sub-menu">
+                                                                        @foreach($entrys['entrys'] as $entry)
+                                                                        <li class=""><a href="#dia-{{ $entry['name_cd'] }}">{{ $entry['name']['display'] }}</a></li>
                                                                         @endforeach
+                                                                </ul>
+                                                        </li>
+                                                        @endforeach
+                                                </ul>
+                                        </nav>
+                                </div>
+
+                        </div>
+
+                        <div class="col-md-9">
+
+                                <form class="form-horizontal">
+
+                                        <fieldset>
+                                                <table class="table-diagnosis">
+
+                                                        <colgroup>
+                                                                <col width="25%">
+                                                                <col width="*">
+                                                        </colgroup>
+
+                                                        @foreach($diagnosis['entrys'] as $entrys)
+                                                        <thead>
+                                                                <tr class="active">
+                                                                        <th colspan="2" class="text-middle">
+                                                                                <h4 class="clearfix" id="dia-{{ $entrys['name_cd'] }}" style="line-height:30px;">
+                                                                                        {{ $entrys['name']['display'] }}
+                                                                                        <a href="#dia-top" class="pull-right" data-toggle="tooltip" title="위로"><i class="fa fa-arrow-up"></i></a>
+                                                                                </h4>
+                                                                        </th>
+                                                                </tr>
+                                                        </thead>
 
 
-                                                                        <small>{{ var_dump($entry['children']) }}</small>
+                                                        @foreach($entrys['entrys'] as $entry)
+                                                        <tbody>
+                                                                <tr id="dia-{{ $entry['name_cd'] }}" >
+                                                                        <th>{{ $entry['name']['display'] }}</th>
+                                                                        <td
+
+                                                                        @if(count($entry['children']))
+                                                                        class="no-padding"
+                                                                        @endif
+                                                                        >
+
+                                                                        @each("partials.diagnosis", $entry['entrys'], 'entry')
 
                                                                         @if(isset($entry['children']))
-                                                                        <table class="table table-bordered">
+                                                                        <table class="">
                                                                                 <col width="25%">
                                                                                 <col width="*">
-                                                                                <tbody>
+                                                                                <tbody class="no-border">
                                                                                         @foreach($entry['children'] as $children)
                                                                                         <tr>
-                                                                                                <th>{{ $children['name']['display'] }}</th>
+                                                                                                <th class="">{{ $children['name']['display'] }}</th>
                                                                                                 <td>
-                                                                                                        <ul class="list-unstyled">
-                                                                                                        @foreach($children['entrys'] as $child)
-                                                                                                                <li>
-                                                                                                                <small>{{ $child['name']['display'] }}</small>
-                                                                                                                @include('admin.partials.diagnosis',['entry' =>  $child])
-                                                                                                        </li>
-                                                                                                        @endforeach
-                                                                                                </ul>
+                                                                                                        <ul class="list-unstyled no-margin">
+                                                                                                                @foreach($children['entrys'] as $child)
+                                                                                                                <li class="">
+                                                                                                                        @include('partials.diagnosis',['entry' =>  $child])
+                                                                                                                </li>
+                                                                                                                @endforeach
+                                                                                                        </ul>
                                                                                                 </td>
                                                                                         </tr>
                                                                                         @endforeach
@@ -90,30 +100,76 @@
 
                                                                 </td>
                                                         </tr>
-
-                                                        @endforeach
-
                                                 </tbody>
+                                                @endforeach
+
+                                                @endforeach
+
+
                                         </table>
 
+                                </fieldset>
 
+                        </form>
 
-                                </div>
-
-                        </fieldset>
-                        @endforeach
-
-                </form>
+                </div>
 
         </div>
+
+
+
+
 </div>
 
 
 </div>
 @endsection
 
-@push( 'footer-script' )
-<script type="text/javascript">
+@push( 'header-script' )
+{{ Html::script(Helper::assets( 'vendor/audio/audio.min.js' )) }}
 
+@endpush
+
+
+@push( 'footer-script' )
+
+<script>
+var diagnosis_audio;
+$('.diagnosis-soundplay').on('click',  function(e){
+
+        e.preventDefault();
+        var $obj = $( this ).find('.fa');
+
+        if ( $obj.hasClass( "fa-play" ) ) {
+                // remove all started instance
+                $('.diagnosis-soundplay .fa-pause').each(function(){
+                        $(this).removeClass('fa-pause').addClass('fa-play');
+                        if(diagnosis_audio instanceof Audio) {
+                                diagnosis_audio.pause();
+                        }
+                        diagnosis_audio = null;
+                });
+
+                // var s = "/assets/crowd-cheering.mp3";
+                var s = $obj.data('source');
+                diagnosis_audio = new Audio(s);
+                diagnosis_audio.play();
+                $obj.removeClass('fa-play').addClass('fa-pause');
+        } else {
+                diagnosis_audio.pause();
+                $obj.removeClass('fa-pause').addClass('fa-play');
+        }
+
+
+
+        // .toggleClass('fa-play fa-pause');
+        // if ( $obj.is( ".fa-play" ) ) {
+        //         $obj.removeClass('fa-play').addClass('fa-pause');
+        // } else {
+        //         $obj.removeClass('fa-pause').addClass('fa-play');
+        // }
+
+});
 </script>
+
 @endpush
