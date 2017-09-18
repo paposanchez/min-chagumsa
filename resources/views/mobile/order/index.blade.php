@@ -67,7 +67,7 @@
                         <div class="row">
                             @foreach($items as $item)
                                 <div class="col-xs-3">
-                                    <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-price="{{ $item->price }}">
+                                    <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-price="{{ $item->price }}" disabled>
                                         <div class="point-price">{{ $item->name }}</div>
                                         <div class="point-desc text-muted">{{ number_format($item->price) }}원</div>
                                     </div>
