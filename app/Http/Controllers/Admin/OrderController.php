@@ -149,7 +149,7 @@ class OrderController extends Controller
         if (isset($order->certificates) === false) {
             $order->certificates = new Certificate();
         }
-
+        $kinds = Helper::getCodeSelectArray(Code::getCodesByGroup('kind_cd'), 'kind_cd', '차종을 선택해 주세요.');
         /*
         //todo 정검 및 기본 정보 데이터 조회 및 연동 필요함 ( diagnosis part )
         // url: http://api.cargumsa.com/diagnosis?order_id=4&user_id=5
@@ -189,7 +189,7 @@ $json_data = json_decode($response->getBody(), true);
         }
 
 
-        return view('admin.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car'));
+        return view('admin.order.edit', compact('order', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car', 'kinds'));
     }
 
     public function store(Request $request)

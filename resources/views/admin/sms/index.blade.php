@@ -22,6 +22,14 @@
                     </div>
                 </div>
 
+                <div class="form-group {{ $errors->has('subejct') ? 'has-error' : '' }}">
+                    <label for="inputSubject" class="control-label col-md-3">제목</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" placeholder="ex) 010-0000-0000,010-0000-0001" name="subject" id="subject" value="">
+                        <span class="text-danger">* 제목은 MMS에서만 첨부됩니다.</span>
+                    </div>
+                </div>
+
                 <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
                     <label for="inputContent" class="control-label col-md-3">내용</label>
                     <div class="col-md-9">
@@ -64,7 +72,7 @@ $(document).ready(function () {
     $('#send_email').click(function(){
         var mobiles = $('#mobiles').val();
         var content = $('#content').val();
-
+        var subject = $('#subject').val();
         if(mobiles.length != 0 || content.length != 0){
             $.ajax({
                 url : '/send-sms',
@@ -74,7 +82,7 @@ $(document).ready(function () {
                     'content' : content
                 },
                 success : function (data){
-//                    alert(data);
+                    alert(JSON.stringify(data));
                     alert('문자가 정상적으로 발송되었습니다.');
                 },
                 error : function () {
