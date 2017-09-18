@@ -1,0 +1,69 @@
+
+.table-diagnosis {
+
+        width: 100%;
+
+        th, td {
+                border:solid 1px $border-color;
+                padding:5px 10px;
+        }
+
+        th {
+                background:$bg-default;
+        }
+
+        td {
+                background:#fff;
+        }
+
+        table {
+                width: 100%;
+                th, td {
+                        border-top:0 none;
+                        border-right:solid 1px $border-color;
+                        border-left:0 none;
+                        border-bottom:solid 1px $border-color;
+                }
+
+                td {
+                        padding:0px;
+
+
+                        ul {
+
+                                li {
+                                        padding:5px 10px;
+                                        border-bottom:solid 1px $border-color;
+                                        &:last-child {
+
+                                                border-bottom:0 none !important;
+
+                                        }
+
+                                        strong {
+
+                                                font-size:13px;
+                                                display:inline-block;
+                                                width:150px;
+                                        }
+
+                                }
+                        }
+                }
+
+                tr {
+                        &:last-child {
+                                th, td {
+                                        border-bottom:0 none !important;
+                                }
+                        }
+                }
+
+        }
+
+
+
+                > .active {
+
+                }
+}
