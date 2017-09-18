@@ -273,7 +273,7 @@ class OrderController extends Controller
         $mid = $this->mid;
         $merchantKey = $this->merchantKey;
 
-        return view('mobile.order.payment-Process', compact('request', 'mid', 'merchantKey', 'amt', 'moid', 'encryptData',
+        return view('mobile.order.payment-process', compact('request', 'mid', 'merchantKey', 'amt', 'moid', 'encryptData',
                 'ediDate', 'vbankExpDate', 'payActionUrl', 'payLocalUrl', 'payMethod', 'amt', 'buyerName', 'buyerEmail',
                 'buyerTel', 'product_name', 'error')
         );
