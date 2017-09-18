@@ -14,7 +14,8 @@
 </head>
 <body style="background-color: #fafbfc; color: #444444;" onload="submitForm()">
     {{--<div style="visibility: hidden;">--}}
-        <div class="selectList" style="visibility: hidden;">
+        {{--<div class="selectList" style="visibility: hidden;">--}}
+        <div class="selectList" >
         <form id="transMgr" name="transMgr" method="post" action="{{ $payActionUrl }}/webTxInit">
 
             <input type="hidden" name="payMethod" id="payMethod" value="{{ $payMethod }}">
