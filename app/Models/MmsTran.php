@@ -55,6 +55,8 @@ class MmsTran extends Model
         "BAR_CODE_MERGE_TXT"
     ];
 
+    public $timestamps = false;
+
     public function setUpdatedAt($value)
     {
         return NULL;

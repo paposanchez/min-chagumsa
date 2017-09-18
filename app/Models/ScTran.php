@@ -37,6 +37,8 @@ class ScTran extends Model
         'TR_RSLTDATE', 'TR_MODIFIED', 'TR_REALSENDDATE'
     ];
 
+    public $timestamps = false;
+
     public function setUpdatedAt($value)
     {
         return NULL;
