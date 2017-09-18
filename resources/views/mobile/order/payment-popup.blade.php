@@ -9,8 +9,6 @@
     <link rel="apple-touch-startup-image" href="" />
 
     {{ Html::script(Helper::assets( 'js/app.js' )) }}
-    {{--<link rel="stylesheet" href="//webtx.tpay.co.kr/css/nyroModal.tpay.custom.css" type="text/css" media="screen" />--}}
-    {{--<script type="text/javascript" src="//webtx.tpay.co.kr/js/jquery-1.7.2.js"></script>--}}
 
 
 </head>

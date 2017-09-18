@@ -263,7 +263,7 @@ class OrderController extends Controller
         $ediDate = $encryptor->getEdiDate();
 
         $vbankExpDate = $encryptor->getVBankExpDate();
-        $payActionUrl = "https://webtx.tpay.co.kr";
+        $payActionUrl = "https://mtx.tpay.co.kr";
         $payLocalUrl = url('/');   //각 상점 도메인을 설정 하세요.  ex)http://shop.tpay.co.kr
         $buyerName = $request->get('orderer_name');
         $buyerEmail = $orderer->email;
