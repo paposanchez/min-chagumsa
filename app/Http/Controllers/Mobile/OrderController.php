@@ -99,7 +99,7 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function paymentPopup(Request $request)
+    public function paymentProcess(Request $request)
     {
 
 
@@ -273,7 +273,7 @@ class OrderController extends Controller
         $mid = $this->mid;
         $merchantKey = $this->merchantKey;
 
-        return view('mobile.order.payment-popup', compact('request', 'mid', 'merchantKey', 'amt', 'moid', 'encryptData',
+        return view('mobile.order.payment-Process', compact('request', 'mid', 'merchantKey', 'amt', 'moid', 'encryptData',
                 'ediDate', 'vbankExpDate', 'payActionUrl', 'payLocalUrl', 'payMethod', 'amt', 'buyerName', 'buyerEmail',
                 'buyerTel', 'product_name', 'error')
         );

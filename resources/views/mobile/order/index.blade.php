@@ -31,7 +31,7 @@
 
             <div class='br30'></div>
 
-            {!! Form::open(['route' => ["order.payment-popup"], 'target'=>'purchase-frame', 'class' =>'form-horizontal pt-perspective', 'method' => 'post', 'role' => 'form', 'id' => 'orderFrm', 'autocomplete' => 'off']) !!}
+            {!! Form::open(['route' => ["order.payment-process"], 'class' =>'form-horizontal pt-perspective', 'method' => 'post', 'role' => 'form', 'id' => 'orderFrm', 'autocomplete' => 'off']) !!}
             <input type="hidden" name="brands" id="brands">
             <input type="hidden" name="models" id="models">
             <input type="hidden" name="details" id="details">
@@ -57,7 +57,6 @@
             <input type="hidden" name="use_coupon_number" id="use_coupon_number" autocomplete="off">
             <input type="hidden" name="coupon_id" id="coupon_id" autocomplete="off">
 
-
             <div class='order_info_box2'>
                 <div class='order_info_title2'>
                     <strong>9. 상품</strong>
@@ -77,7 +76,6 @@
                     </div>
                 </div>
             </div>
-
             {{-- 기본정보 입력 --}}
             <div id="step1">
                 <div class='join_term_wrap'>
@@ -214,7 +212,25 @@
             <div id="step3">
                 <div class='br20'></div>
 
-
+                <div class='order_info_box2'>
+                    <div class='order_info_title2'>
+                        <strong>9. 상품</strong>
+                    </div>
+                    <div class='order_info_cont2'>
+                        <div class="block">
+                            <div class="row">
+                                @foreach($items as $item)
+                                    <div class="col-xs-3">
+                                        <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-price="{{ $item->price }}" disabled>
+                                            <div class="point-price">{{ $item->name }}</div>
+                                            <div class="point-desc text-muted">{{ number_format($item->price) }}원</div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class='br20'></div>
 
@@ -1133,19 +1149,20 @@ var step_validate = function(current_step){
             alert('결제방법을 선택해 주세요.');
             return;
         }
-        //결제모달을 띄움
-        $('#modalPurchase').modal({
-            backdrop: 'static',
-            keyboard: false,
-            show: true,
-            width: 1000,
-            height: 1000
-        });
-
-        $('#orderFrm').attr('target', 'purchase-frame').submit();
-        $('#modalPurchase').on('show.bs.modal', function (event) {
-
-        });
+//        //결제모달을 띄움
+//        $('#modalPurchase').modal({
+//            backdrop: 'static',
+//            keyboard: false,
+//            show: true,
+//            width: 1000,
+//            height: 1000
+//        });
+//
+//        $('#orderFrm').attr('target', 'purchase-frame').submit();
+//        $('#modalPurchase').on('show.bs.modal', function (event) {
+//
+//        });
+        $('#orderFrm').submit();
 
     }else{
         if(confirm('잘못된 접근입니다.\n새로고침 하시겠습니까?')){
