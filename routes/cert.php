@@ -12,13 +12,18 @@ use File AS FileHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-Route::any('/{order_id}/{:page}', function ($order_id, $page == 'summary') {
 
+Route::any('/{order_id}/{page?}', function ($order_id, $page = 'summary') {
 
         // html 조회
-        $cached_html =  storage_path('cert/' . $order_id . '.' . $page . '.html');
+        $cached_html =  storage_path('cert/' . md5($order_id) . '.' . $page . '.html');
+
         try
         {
+
+
+                dd(File::exists($cached_html));
+
 
                 if (!File::exists($cached_html))
                 {
@@ -35,23 +40,19 @@ Route::any('/{order_id}/{:page}', function ($order_id, $page == 'summary') {
         {
 
                 generate_cache($order_id, $page);
-
                 return redirect('/'. $order_id.'/'. $page);
 
         }
 
 
 
-});
-
-
+})->where('name', '[A-Za-z가-힣0-9]+')->name('cert');
 
 
 function generate_cache($order_id, $page) {
 
-
         // $certificate = Certificate::findOrFail($order_id);
-        $order = Order::find($order_id);
+        $order = Order::findOrFail($order_id);
 
         $exterior_picture_ids = Diagnosis::where('orders_id', $order->id)->where('group', 2008)->get();
 
@@ -64,10 +65,10 @@ function generate_cache($order_id, $page) {
                         $interior_centers = Diagnosis::where('orders_id', $order_id)->where('group', 2019)->get();
                         $interior_rights = Diagnosis::where('orders_id', $order_id)->where('group', 2020)->get();
                         $html = view('web.certificate.performance', compact('order', 'page'))->render();
-
+                        break;
                 case 'history':
                         $html = view('web.certificate.history', compact('order', 'page', 'exterior_picture_ids'))->render();
-
+                        break;
                 case 'price':
                         //특별요인
                         $specials = [];
@@ -100,10 +101,15 @@ function generate_cache($order_id, $page) {
                         $features = implode(", ", $features);
 
                         $html = view('web.certificate.price', compact('order', 'page', 'specials', 'features'))->render();
+                        break;
 
                 default:
                         $html = view('web.certificate.summary', compact('order', 'page', 'exterior_picture_ids'))->render();
+                        break;
         }
 
-        File::put(storage_path('cert/' . $order_id . '.' . $page . '.html');, $html);
+
+        var_dump($html);
+
+        File::put(storage_path('cert/' . md5($order_id)  . '.' . $page . '.html'), $html);
 }
