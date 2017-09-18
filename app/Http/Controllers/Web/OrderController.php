@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Tpay\TpayLib as Encryptor;
 use GuzzleHttp\Client;
+use App\Events\SendSms;
 
 class OrderController extends Controller
 {
@@ -652,7 +653,8 @@ public function payResult(Request $request)
                         ]);
                 }
         }
-
+        //todo 맞는건지 확인 필요
+        event(new SendSms());
         return \GuzzleHttp\json_encode(['result' => 'ok']);
 }
 

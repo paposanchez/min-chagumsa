@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\SendSms;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Post;
@@ -21,6 +22,7 @@ class DashboardController extends Controller {
         $lated_diagnosis = Order::where('status_cd', ">",  101)->orderBy('created_at', 'desc')->take(15)->get();
         $total_diagnosis = Order::where('status_cd', ">",  101)->count();
         $certificates = Order::where('status_cd', 109)->take(10)->get();
+
 
         return view('admin.dashboard.index', compact('total_diagnosis', 'lated_inquire', 'certificates', 'lated_diagnosis'));
     }
