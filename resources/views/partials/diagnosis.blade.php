@@ -5,10 +5,11 @@
 
 @if($entry['use_image'] == 1)
 @foreach($entry['files'] as $file)
-<a href="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text" data-gallery="example-gallery"
+<a href="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
 class="diagnosis-thumbnail"
+data-toggle="lightbox"
 data-title="{{ $file['original'] }}"
-data-footer="등록일 {{ $file['created_at'] }}"
+data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }}"
 data-type="image"
 data-gallery="diagnosis-gallery"
 >

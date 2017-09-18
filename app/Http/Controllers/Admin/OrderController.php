@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
+// use Illuminate\Support\Facades\Redirect;
 
 
 
@@ -131,7 +131,9 @@ class OrderController extends Controller
 
         public function show($id)
         {
+
                 $order = Order::findOrFail($id);
+
                 $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
                 $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
                 $car = OrderCar::where('orders_id', $order->id)->first();

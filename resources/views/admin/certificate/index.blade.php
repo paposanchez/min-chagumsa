@@ -115,7 +115,7 @@
                                                                 @if($data->certificates->isExpired())
                                                                 label-danger
                                                                 @else
-                                                                label-info
+                                                                label-success
                                                                 @endif
                                                                 ">
 
@@ -152,6 +152,10 @@
 
                                                 <td>
                                                         {{ $data->certificates->updated_at ? $data->certificates->getExpireDate()->format('Y-m-d H:i') : '-'  }}
+
+                                                        <br/>
+                                                        <small class="text-warning">{{ number_format($data->certificates->getCountdown()) }}일 남음</small>
+
                                                 </td>
 
 

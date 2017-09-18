@@ -5,6 +5,7 @@
 @endsection
 
 @section( 'content' )
+
 <div class="container-fluid">
 
         <div class="panel panel-default">
@@ -21,7 +22,6 @@
                                         <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/order.status') }}</label>
                                         <div class="col-sm-9">
                                                 <div class="btn-group">
-
                                                         <button class="btn btn-default" name="status_cd" value="">전체</button>
                                                         <button class="btn btn-default" name="status_cd" value="100">주문취소</button>
                                                         <button class="btn btn-default" name="status_cd" value="101">주문신청</button>
@@ -127,6 +127,8 @@
                                                         label-default
                                                         @elseif($data->status_cd == 106)
                                                         label-primary
+                                                        @elseif($data->status_cd == 109)
+                                                        label-success
                                                         @else
                                                         label-info
                                                         @endif
@@ -161,11 +163,11 @@
                                         <td>
 
                                                 @if($data->status_cd < 105 )
-                                                        <button type="button" title="변경" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" data-order_number="{{ $data->getOrderNumber() }}" class="btn btn-info changeReservationModalOpen">변경</button>
+                                                <button type="button" title="변경" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" data-order_number="{{ $data->getOrderNumber() }}" class="btn btn-info changeReservationModalOpen">변경</button>
 
-                                                        @if($data->status_cd < 104 )
-                                                        <button type="button" title="확정" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation">확정</button>
-                                                        @endif
+                                                @if($data->status_cd < 104 )
+                                                <button type="button" title="확정" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation">확정</button>
+                                                @endif
                                                 @endif
 
 
@@ -209,47 +211,44 @@
                 <div class="modal-content">
                         <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">예약변경 <span  id="order_number"></span></h4>
+                                <h4 class="modal-title">예약변경</h4>
                         </div>
 
                         <form class="form-horizontal">
+                                <input type="hidden" id="order_id" value="">
                                 <div class="modal-body">
 
-                                        <div class="form-group">
-                                                <div class="col-md-3">
-                                                        <label for="datepickerReservation" class="control-label">날짜</label>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                        <input type="text" class="form-control datepicker" placeholder="날짜" id="datepickerReservation">
-                                                </div>
+                                        <div class="form-group form-group-lg" style="margin:0px;">
+                                                <label  class="control-label">주문번호</label>
+                                                <p class="form-control-static">
+                                                        <span  id="order_number"></span>
+                                                </p>
                                         </div>
 
-                                        <div class="form-group">
-                                                <div class="col-md-3">
-                                                        <label for="" class="control-label">시간</label>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                        <select class="form-control" id="datepickerReservationTime">
-                                                                <option value="09">9시</option><option value="10">10시</option><option value="11">11시</option><option value="12">12시</option><option value="13">13시</option><option value="14">14시</option><option value="15">15시</option><option value="16">16시</option><option value="17">17시</option>
-                                                        </select>
-                                                </div>
+                                        <div class="form-group form-group-lg" style="margin:0px;">
+                                                <label for="datepickerReservation" class="control-label">날짜</label>
+                                                <input type="text" class="form-control datepicker" placeholder="날짜" id="datepickerReservation">
                                         </div>
-                                        <input type="hidden" id="order_id" value="">
 
+                                        <div class="form-group form-group-lg" style="margin:0px;">
+                                                <label for="" class="control-label">시간</label>
+
+                                                <select class="form-control" id="datepickerReservationTime">
+                                                        <option value="09">9시</option><option value="10">10시</option><option value="11">11시</option><option value="12">12시</option><option value="13">13시</option><option value="14">14시</option><option value="15">15시</option><option value="16">16시</option><option value="17">17시</option>
+                                                </select>
+
+                                        </div>
                                 </div>
+
                                 <div class="modal-footer">
-                                        <button class="btn btn-success" data-loading-text="처리중..." type="button"
-                                        id="reservation_change">예약변경
-                                </button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-                        </div>
+                                        <button class="btn btn-primary" data-loading-text="처리중..." type="button" id="reservation_change">예약변경</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                                </div>
 
-                </form>
+                        </form>
+                </div>
+
         </div>
-
-</div>
 </div>
 @endsection
 

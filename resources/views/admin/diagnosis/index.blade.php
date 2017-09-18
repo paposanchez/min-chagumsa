@@ -160,10 +160,7 @@
 
 
                                                         <td>
-
-                                                                @if($data->status_cd > 106)
-                                                                <a href="{{ route('diagnosis.show', $data->id) }}" class="btn btn-default">상세보기</a>
-                                                                @endif
+                                                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default">상세보기</a>
                                                         </td>
 
 

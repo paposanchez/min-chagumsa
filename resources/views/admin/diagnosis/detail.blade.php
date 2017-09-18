@@ -18,7 +18,8 @@
                 <div class="row">
                         <div class="col-md-3">
 
-                                <div class="block">
+                                <div class="block" style="padding-top:10px;">
+                                        <h4>진단레이아웃</h4>
                                         <nav class="nav nav-sidebar" id="sidebar-menu">
                                                 <ul class="list-unstyled main-menu">
                                                         @foreach($diagnosis['entrys'] as $entrys)
