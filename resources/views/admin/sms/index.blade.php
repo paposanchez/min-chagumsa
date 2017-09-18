@@ -78,14 +78,16 @@ $(document).ready(function () {
                 url : '/send-sms',
                 type : 'post',
                 data : {
+                    'subject' : subject,
                     'mobiles' : mobiles,
                     'content' : content
                 },
                 success : function (data){
-                    alert(JSON.stringify(data));
+//                    alert(JSON.stringify(data));
                     alert('문자가 정상적으로 발송되었습니다.');
                 },
-                error : function () {
+                error : function (data) {
+                    alert(JSON.stringify(data));
                     alert('전송도중 문제가 발생하였습니다.');
                 }
             })
