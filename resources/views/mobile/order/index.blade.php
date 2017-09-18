@@ -31,7 +31,7 @@
 
             <div class='br30'></div>
 
-            {!! Form::open(['route' => ["order.payment-process"], 'class' =>'form-horizontal pt-perspective', 'method' => 'post', 'role' => 'form', 'id' => 'orderFrm', 'autocomplete' => 'off']) !!}
+            {!! Form::open(['route' => ["mobile.order.payment-process"], 'class' =>'form-horizontal pt-perspective', 'method' => 'post', 'role' => 'form', 'id' => 'orderFrm', 'autocomplete' => 'off']) !!}
             <input type="hidden" name="brands" id="brands">
             <input type="hidden" name="models" id="models">
             <input type="hidden" name="details" id="details">
