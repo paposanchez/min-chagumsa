@@ -28,9 +28,9 @@
             <input type="hidden" name="buyerEmail" value="{{ $buyerEmail }}" readonly>
             <input type="hidden" name="prdtExpDate" value="">
             <input type="hidden" name="mid" value="{{ $mid }}" readonly="readonly">
-            <input type="hidden" name="returnUrl" class="largeInput" value="{{ $payLocalUrl }}/order/payment-result" readonly="readonly">
+            <input type="hidden" name="returnUrl" class="largeInput" value="{{ $payActionUrl }}/order/payment-process" readonly="readonly">
             {{-- todo 결제 취소 확인 해야 함 --}}
-            <input type="hidden" name="cancelUrl" class="largeInput" value="{{ $payActionUrl }}/order/payment-cancel-callback" readonly="readonly">
+            <input type="hidden" name="cancelUrl" class="largeInput" value="{{ $payLocalUrl }}/order/payment-cancel-callback" readonly="readonly">
             <input type="hidden" name="vbankExpDate" value="{{ $vbankExpDate }}">
             <input type="hidden" name="connType" value="0">
             <input type="hidden" name="appPrefix" value="ibWebTest">
