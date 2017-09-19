@@ -15,6 +15,7 @@ use App\Models\Reservation;
 use App\Models\PaymentCancel;
 use App\Models\Code;
 use App\Models\User;
+use App\Models\UserExtra;
 use App\Models\Role;
 
 use Carbon\Carbon;
@@ -73,34 +74,28 @@ class OrderController extends Controller
 
     public function changeReservation($order_id)
     {
-            $order = Order::findOrFail($order_id);
-            $my_garage = $order->garage;
+
+        $order = Order::findOrFail($order_id);
+
+        if($order->status_cd > 104){
+            return redirect()->back()->with('error', '잘못된 접근입니다. 관리자에게 문의해주세요.');
+        }
+
+        $my_garage = $order->garage;
+
+        $garage_list = UserExtra::orderBy('area', 'DESC')->groupBy('area')->whereNotNull('aliance_id')->get();
+
+        $chk_garage = UserExtra::find($order->garage_id);
 
 
         //     $reservation = $order->getReservation($order->id);
 
-            //@TODO  Role을 통한 BCS 조회
-            $users          = Role::find(4)->users;
-            $areas          = [];
-            $sections       = [];
-            $garages        = [];
-            foreach($users as $user) {
 
-                    $areas[$user->user_extra->area] = $user->user_extra->area;
 
-                    if($user->user_extra->area == $order->garage->user_extra->area) {
-                            $sections[$user->user_extra->section] = $user->user_extra->section;
-                    }
-
-                    if($user->user_extra->area == $order->garage->user_extra->area &&  $user->user_extra->section == $order->garage->user_extra->section) {
-                            $garages[$user->id] = $user->name;
-                    }
-            }
-
-            $search_fields = [
-                    '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
-            ];
-            return view('mobile.mypage.order.reservation', compact('order', 'search_fields', 'areas', 'sections', 'garages', 'my_garage'));
+        $search_fields = [
+            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
+        ];
+        return view('mobile.mypage.order.reservation', compact('order', 'search_fields', 'my_garage', 'garage_list', 'chk_garage'));
     }
 
 
