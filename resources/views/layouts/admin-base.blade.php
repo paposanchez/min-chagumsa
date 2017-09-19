@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko">
-    <head>
+<head>
 
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -20,30 +20,30 @@
 
         <!-- Scripts -->
         <script>
-            window.Laravel = {!! json_encode([
-                    'csrfToken' => csrf_token(),
-            ]) !!};
+        window.Laravel = {!! json_encode([
+                'csrfToken' => csrf_token(),
+        ]) !!};
         </script>
 
         {{ Html::script(Helper::assets( 'js/app.js' )) }}
 
         @yield('content-header-script')
 
-    </head>
+</head>
 
-    <body class="@yield( 'body-class' )" @yield( 'body-attr' )>
+<body class="@yield( 'body-class' )" @yield( 'body-attr' )>
 
         <div id='document'>
 
-            @yield('content-header')
+                @yield('content-header')
 
-            @yield('content-body')
+                @yield('content-body')
 
-            @yield('content-footer')
+                @yield('content-footer')
 
         </div>
 
         @yield('content-footer-script')
-    </body>
+</body>
 
 </html>

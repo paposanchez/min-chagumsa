@@ -7,7 +7,7 @@
 
 @section( 'content-body' )
 <div id="content">
-    @yield( 'content' )
+        @yield( 'content' )
 </div>
 
 {{-- 본문의 사이드 --}}

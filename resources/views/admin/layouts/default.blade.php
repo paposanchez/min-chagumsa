@@ -17,72 +17,49 @@
 @endif
 
 @include('flash::message')
-
 <div id="body" class="margin-vertical">
-    @yield( 'content' )
+        @yield( 'content' )
 </div>
 
 {{-- 본문의 사이드 --}}
 @includeIf( 'admin.partials.left' )
 @includeIf( 'admin.partials.right' )
 
+
+<div id="loading">Loading&#8230;</div>
+
 @endsection
 
 
 @section( 'content-header-script' )
-@stack('header-script')
-
-<style>
-
-#sidebar-menu .main-menu a {
-display: block;
-font-size: 13px;
-font-weight: 500;
-color: #999;
-padding: 4px 20px;
-}
-#sidebar-menu .main-menu a:hover {
-color: #11427D;
-text-decoration: none;
-background-color: transparent;
-border-left: 1px solid #11427D;
-}
-
-#sidebar-menu .sub-menu a {
-padding-top: 1px;
-padding-bottom: 1px;
-padding-left: 30px;
-font-size: 12px;
-font-weight: 400;
-}
-
-</style>
-
+        @stack('header-script')
 @endsection
 
 
 @section( 'content-footer' )
-@stack( 'footer-script' )
-{{-- 푸터 카피라이트 --}}
-@includeIf( 'admin.partials.footer' )
+        @stack( 'footer-script' )
+        {{-- 푸터 카피라이트 --}}
+        @includeIf( 'admin.partials.footer' )
 @endsection
 
 @section( 'content-footer-script' )
+{{ Html::script(Helper::assets( 'js/plugin/chagumsa.js' )) }}
+
 {{-- tracking script --}}
 @if( config('app.analytics'))
 <script type="text/javascript" >
-    (function (i, s, o, g, r, a, m) {
+(function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
+                (i[r].q = i[r].q || []).push(arguments)
         }, i[r].l = 1 * new Date();
         a = s.createElement(o), m = s.getElementsByTagName(o)[0];
         a.async = 1;
         a.src = g;
         m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-    ga('create', "{{ config('app.analytics') }}", 'auto');
-    ga('send', 'pageview');
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', "{{ config('app.analytics') }}", 'auto');
+ga('send', 'pageview');
 </script>
 @endif
 @endsection
