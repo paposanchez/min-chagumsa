@@ -21,7 +21,7 @@
                                         <label for="" class="control-label col-sm-2">기준가격(Pst)</label>
                                         <div class="col-sm-3 col-sm-offset-7 has-error">
                                                 <div class="input-group input-group-lg">
-                                                        <input type="text" class="form-control zfp-proc-subtotal" data-proc="plus" readonly="readonly" placeholder="" title="" name="cost" value="">
+                                                        <input type="text" class="form-control zfp-proc-subtotal" data-proc="plus" placeholder="" title="" name="cost" value="">
                                                         <span class="input-group-addon">만원</span>
                                                 </div>
                                         </div>

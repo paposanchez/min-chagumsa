@@ -88,7 +88,29 @@
 
 
 
+/* 진단상세 페이지 좌측 메뉴 */
 
+.inside_navigation .main-menu a {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: #999;
+        padding: 5px 5px;
+}
+.inside_navigation .main-menu a:hover {
+        color: #11427D;
+        text-decoration: none;
+        background-color: transparent;
+        border-left: 1px solid #11427D;
+}
+
+.inside_navigation .sub-menu a {
+        padding-top: 1px;
+        padding-bottom: 1px;
+        padding-left: 20px;
+        font-size: 12px;
+        font-weight: 400;
+}
 
 
 

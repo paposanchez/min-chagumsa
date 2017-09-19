@@ -59,8 +59,8 @@
                         <div class="col-md-3">
 
                                 <div class="block" style="padding-top:10px;">
-                                        <h4>진단레이아웃</h4>
-                                        <nav class="nav nav-sidebar" id="sidebar-menu">
+                                        <h4 id="dia-top">진단레이아웃</h4>
+                                        <nav class="nav nav-sidebar inside_navigation" >
                                                 <ul class="list-unstyled main-menu">
                                                         @foreach($diagnosis['entrys'] as $entrys)
                                                         <li class="">
@@ -90,7 +90,7 @@
                                                         <div class="panel-heading" id="dia-{{ $entrys['name_cd'] }}">
                                                                 <div class="row" >
                                                                         <label for="" class="control-label col-sm-3">{{ $entrys['name']['display'] }}</label>
-                                                                        <div class="col-sm-9 text-right has-error">
+                                                                        <div class="col-sm-9 text-right has-error dark">
                                                                                 <a href="#dia-top" class="btn btn-link" data-toggle="tooltip" title="위로"><i class="fa fa-arrow-up"></i></a>
                                                                         </div>
                                                                 </div>
@@ -150,52 +150,26 @@
                                                                         </tr>
                                                                 </tbody>
                                                                 @endforeach
-
-
-                                                                </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                        </div>
-                                                        @endforeach
-
+                                                        </table>
 
                                                 </div>
+                                                @endforeach
+                                        </div>
 
+                                </fieldset>
 
-
-
-                                        </fieldset>
-
-                                </form>
-
-                        </div>
+                        </form>
 
                 </div>
 
-
-
-
         </div>
 
+</div>
 
 </div>
 @endsection
 
 @push( 'header-script' )
-{{ Html::script(Helper::assets( 'vendor/audio/audio.min.js' )) }}
-
 @endpush
 
 
