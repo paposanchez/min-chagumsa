@@ -109,6 +109,21 @@ class DiagnosesController extends Controller
 
         }
 
+        public function updateComment(Request $request){
+            try{
+                $diagnosis_id = $request->get('diagnosis_id');
+                $comment = $request->get('comment');
+
+                $diagnosis = Diagnosis::findOrFail($diagnosis_id);
+                $diagnosis->comment = $comment;
+                $diagnosis->save();
+
+                return response()->json();
+            }catch (\Exception $ex){
+                return response()->json($ex->getMessage());
+            }
+        }
+
         public function edit($id){
 
         }

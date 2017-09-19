@@ -55,8 +55,10 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::resource('order', 'OrderController');
 
         // 진단관리
-        Route::resource('diagnosis', 'DiagnosesController');
+//
+        Route::post('/diagnosis/update-comment', 'DiagnosesController@updateComment');
         Route::post('diagnosis/update-code', 'DiagnosesController@updateCode');
+        Route::resource('diagnosis', 'DiagnosesController');
 
         // 인증서
         Route::resource('certificate', 'CertificateController', ['only' => ['index', 'edit', 'update']]);
