@@ -524,8 +524,13 @@ return [
         'substitute' => '교체'
     ],
 
-
-
+    'grade_state_cd' => [
+        'AA' => 'AA',
+        'A' => 'A',
+        'B' => 'B',
+        'C' => 'C',
+        'D' => 'D',
+    ],
 
     //진단 항목 코드
 

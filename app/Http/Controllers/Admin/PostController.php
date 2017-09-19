@@ -178,19 +178,14 @@ class PostController extends Controller {
             'subject' => 'required|min:1',
             'content' => 'required|min:1',
             'board_id' => 'required|exists:boards,id',
-//            'user_id' => 'exists:users,id',
             'category' => 'exists:categorys,id',
             'is_shown' => [
                 'required',
                 Rule::in(Code::getCodeFieldArray('post_shown_role')->toArray()),
             ],
             'is_answered' => 'boolean',
-//            'is_answered' => [
-//                'required',
-//                Rule::in(Code::getCodeFieldArray('yn')->toArray()),
-//            ],
             'thumbnail' => 'exists:files,id',
-            'name' => 'min:1',
+//            'name' => 'min:1',
             'email' => 'email',
             'password' => 'nullable|min:4',
                 ], [], [

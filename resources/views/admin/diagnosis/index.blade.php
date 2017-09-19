@@ -130,13 +130,15 @@
                                                 </td>
 
                                                 <td class="">
-                                                        {{ $data->orderer_name }}
+                                                        <a href="/user/{{ $data->orderer_id }}/edit">{{ $data->orderer_name }}</a>
                                                         <br/>
                                                         <small class="text-warning">{{ $data->orderer_mobile }}</small>
                                                 </td>
 
                                                 <td class="">
-                                                        <a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span
+                                                        {{--<a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span--}}
+                                                        {{--class="text-muted">{{ number_format($data->item->price) }}원</span></a>--}}
+                                                        <a href="/item">{{ $data->item->name }} <span
                                                                 class="text-muted">{{ number_format($data->item->price) }}원</span></a>
                                                                 <br/>
                                                                 <small class="text-warning">{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>

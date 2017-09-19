@@ -31,9 +31,6 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 
 
-        // 주문관리
-        Route::resource('order', 'OrderController');
-
         //인증서 데이터 갱신
         Route::patch('order/update/{id}', 'OrderController@update')->name('order/update');
 
@@ -44,15 +41,18 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::post('order/history', 'OrderController@history')->name('order/history');
         Route::post('order/reservation_change', 'OrderController@reservationChange');
         Route::post('order/confirmation/{order_id}', 'OrderController@confirmation');
-        Route::get('order/get_section', 'OrderController@getSection')->name("order.get_section");
-        Route::get('order/get_address', 'OrderController@getAddress')->name("order.get_address");
+        Route::get('order/get-section', 'OrderController@getSection');
+        Route::get('order/get-address', 'OrderController@getAddress');
+        Route::get('order/get-engineer', 'OrderController@getEngineer');
+
         Route::get('order/get_full_address', 'OrderController@getFullAddress')->name("order.get_full_address");
         Route::post('order/user-update', 'OrderController@userUpdate')->name('order.user-update');
         Route::post('order/car-update', 'OrderController@carUpdate')->name('order.car-update');
         Route::post('order/bcs-update', 'OrderController@bcsUpdate')->name('order.bcs-update');
         Route::post('order/tech-update', 'OrderController@techUpdate')->name('order.tech-update');
         Route::post('order/cancel', 'OrderController@orderCancel')->name('order.cancel');
-
+        // 주문관리
+        Route::resource('order', 'OrderController');
 
         // 진단관리
         Route::resource('diagnosis', 'DiagnosesController');

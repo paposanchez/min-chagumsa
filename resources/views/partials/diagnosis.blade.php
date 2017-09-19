@@ -23,11 +23,13 @@ class="img-responsive" style="width:30px;height:30px;display:inline-block;">
 
 
 @if($entry['options'])
-<select class="" data-id="{{ $entry['id'] }}">
-        @foreach($entry['options'] as $option)
-        <option value="{{ $option['id'] }}">{{ $option['display'] }}</option>
-        @endforeach
-</select>
+{{--<select class="" data-id="{{ $entry['id'] }}">--}}
+        {{--@foreach($entry['options'] as $option)--}}
+        {{--<option value="{{ $option['id'] }}">{{ $option['display'] }}</option>--}}
+        {{--@endforeach--}}
+{{--</select>--}}
+
+{!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($entry['options_cd']), \App\Helpers\Helper::getCodePluck($entry['selected']), ['class'=>'selected_cd', 'id'=>'', 'data-id'=>$entry['id']]) !!}
 @endif
 
 
