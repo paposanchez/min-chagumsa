@@ -90,9 +90,10 @@
                         <table class="table text-middle text-center">
 
                                 <colgroup>
-                                        <col width="8%">
-                                        <col width="15%">
-                                        <col width="15%">
+
+                                                <col width="8%">
+                                                <col width="13%">
+                                                <col width="13%">
                                         <col width="15%">
                                         <col width="15%">
                                         <col width="8%">
@@ -163,19 +164,27 @@
                                         <td>
 
                                                 @if($data->status_cd < 105 )
-                                                <button type="button" title="변경" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" data-order_number="{{ $data->getOrderNumber() }}" class="btn btn-info changeReservationModalOpen">변경</button>
+                                                        <button type="button" title="변경" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" data-order_number="{{ $data->getOrderNumber() }}" class="btn btn-info changeReservationModalOpen" data-toggle="tooltip" title="예약변경">예약변경</button>
 
-                                                @if($data->status_cd < 104 )
-                                                <button type="button" title="확정" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation">확정</button>
-                                                @endif
-                                                @endif
-
-
-                                                @if($data->status_cd == 109 )
-                                                <a href="{{ route('certificate', $data->id) }}" class="btn btn-primary">미리보기</a>
+                                                        @if($data->status_cd < 104 )
+                                                        <button type="button" title="확정" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation" data-toggle="tooltip" title="예약확정">예약확정</button>
+                                                        @endif
                                                 @endif
 
-                                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default">상세보기</a>
+                                                @if($data->status_cd > 107)
+                                                <a href="{{ route('certificate', $data->id) }}" target="_blank" class="btn btn-primary" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
+                                                @endif
+
+                                                @if($data->status_cd == 107)
+                                                <button data-id="{{ $data->id }}" class="btn btn-danger certificate-assign" data-toggle="tooltip" title="인증서 발급시작">인증시작</button>
+                                                @endif
+
+
+                                                @if($data->status_cd == 108)
+                                                <a href="/certificate/{{ $data->id }}/edit" class="btn btn-danger" data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>
+                                                @endif
+
+                                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default" data-toggle="tooltip" title="주문상세보기">상세보기</a>
 
 
                                         </td>
@@ -191,7 +200,7 @@
 
 
         <div class="col-sm-6">
-                <a href="/test" class="btn btn-info">테스트 주문</a>
+                <a href="/test" class="btn btn-info">테스트 주문생성</a>
         </div>
 
 

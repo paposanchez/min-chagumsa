@@ -72,9 +72,10 @@
 
                                 <table class="table text-middle text-center">
                                         <colgroup>
+
                                                 <col width="8%">
-                                                <col width="15%">
-                                                <col width="15%">
+                                                <col width="13%">
+                                                <col width="13%">
                                                 <col width="15%">
                                                 <col width="15%">
                                                 <col width="8%">
@@ -117,6 +118,8 @@
                                                                 label-default
                                                                 @elseif($data->status_cd == 106)
                                                                 label-primary
+                                                                @elseif($data->status_cd == 109)
+                                                                label-success
                                                                 @else
                                                                 label-info
                                                                 @endif
@@ -161,10 +164,10 @@
 
                                                         <td>
                                                                 @if($data->status_cd > 106)
-                                                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-primary" data-toggle="tooltip" title="진단 상세보기"><small>진단</small></a>
+                                                                <a href="{{ url("diagnosis", [$data->id]) }}" class="btn btn-danger" data-toggle="tooltip" title="인증서 진단정보 수정">진단정보 수정</a>
                                                                 @endif
 
-                                                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default" data-toggle="tooltip" title="주문 상세보기"><small>주문</small></a>
+                                                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default" data-toggle="tooltip" title="주문상세보기">상세보기</a>
                                                         </td>
 
 
