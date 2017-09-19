@@ -10,8 +10,11 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Code;
 use App\Repositories\DiagnosisRepository;
+
+
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CertificateController extends Controller
 {
@@ -30,7 +33,7 @@ class CertificateController extends Controller
 
                 if($trs && $tre){
                         //시작일, 종료일이 모두 있을때
-                        $where = $where->where(function($qry) use($trs, $tre){
+                        $where->where(function($qry) use($trs, $tre){
                                 $qry->where("diagnose_at", ">=", $trs)
                                 ->where("diagnose_at", "<=", $tre);
                         })->orWhere(function($qry) use($trs, $tre){
@@ -40,13 +43,13 @@ class CertificateController extends Controller
 
                 }elseif ($trs && !$tre){
                         //시작일만 있을때
-                        $where = $where->where(function($qry) use($trs){
+                        $where->where(function($qry) use($trs){
                                 $qry->where("diagnose_at", ">=", $trs);
                         })->orWhere(function($qry) use($trs){
                                 $qry->where("diagnosed_at", ">=", $trs);
                         });
                 }else if(!$trs && $tre){
-                        $where = $where->where(function($qry) use($tre){
+                        $where->where(function($qry) use($tre){
                                 $qry->where("diagnosed_at", "<=", $tre);
                         })->orWhere(function($qry) use($tre){
                                 $qry->where("diagnosed_at", "<=", $tre);
@@ -60,18 +63,17 @@ class CertificateController extends Controller
                 if($sf && $s){
                         if($sf != "order_num"){
                                 if(in_array($sf, ["car_number", "orderer_name", "orderer_mobile"])){
-                                        $where = $where->where($sf, 'like', '%'.$s.'%');
+                                        $where->where($sf, 'like', '%'.$s.'%');
                                 }
                         }else{
                                 $order_split = explode("-", $s);
                                 if(count($order_split) == 2){
                                         $datekey = $order_split[0];
                                         $car_number = $order_split[1];
-
-                                        $where = $where->where("datekey", $datekey)->where("car_number", $car_number);
+                                        $where->where("datekey", $datekey)->where("car_number", $car_number);
                                 }
                                 else{
-                                        $where = $where->where("datekey", $s)->orWhere("car_number", $s);
+                                        $where->where("datekey", $s)->orWhere("car_number", $s);
                                 }
                         }
                 }
@@ -81,11 +83,39 @@ class CertificateController extends Controller
                 return view('admin.certificate.index', compact('search_fields', 'entrys', 'search_fields'));
         }
 
+        public function assign(Request $request, $id) {
+
+                try {
+                        DB::beginTransaction();
+
+                        $order = Order::where("status_cd",107)->findOrFail($id);
+                        $order->engineer_id = Auth::id();
+                        $order->status_cd = 108;
+                        $order->save();
+
+                        $certificate = new Certificate();
+                        $certificate->orders_id = $order->id;
+                        $certificate->save();
+
+                        DB::commit();
+
+                        return response()->json(true);
 
 
-        public function edit($id)
+                } catch (Exception $e) {
+                        DB::rollBack();
+
+                        return response()->json(false);
+
+                }
+        }
+
+
+        public function edit(Request $reqeust, $order_id)
         {
-                $order = Order::where("status_cd", '>',107)->findOrFail($id);
+
+
+                $order = Order::where("status_cd",108)->findOrFail($order_id);
 
 
                 /**
@@ -101,8 +131,8 @@ class CertificateController extends Controller
                 */
 
 
-                $diagnosis = new DiagnosisRepository();
-                $entrys = $diagnosis->prepare($order->id)->get();
+                // $diagnosis = new DiagnosisRepository();
+                // $entrys = $diagnosis->prepare($order->id)->get();
 
                 if ($order->car) {
                         $car = $order->car;
@@ -110,10 +140,9 @@ class CertificateController extends Controller
                         $car = $order->orderCar;
                 }
 
-                $grades = [
-                        '' => '등급을 선택해주세요.', 'AA' => 'AA', 'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D'
-                ];
 
+
+                $grades =  Code::getByGroup('grade_state_cd');
                 $select_color = Code::getSelectList('color_cd');
                 $select_vin_yn = Code::getSelectList('yn');
                 $select_transmission = Code::getSelectList("transmission");
@@ -121,7 +150,7 @@ class CertificateController extends Controller
                 $kinds = Code::getSelectList('kind_cd');
                 $certificate_states = Code::getSelectList('certificate_state_cd');
 
-                return view('admin.certificate.edit', compact('order', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car'));
+                return view('admin.certificate.edit', compact('order', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'car'));
         }
 
 

@@ -160,7 +160,7 @@
                                                 <th class="text-center">공임비용</th>
                                                 <th class="text-center">얼라이언스 Com</th>
                                                 <th class="text-center">기술사 Com</th>
-                                                <th class="text-center"></th>
+                                                <th class="text-center">수익</th>
                                                 <th class="text-center"></th>
                                         </tr>
                                 </tfoot>
