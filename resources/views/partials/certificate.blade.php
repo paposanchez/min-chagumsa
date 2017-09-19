@@ -1,7 +1,21 @@
 <form class="form-horizontal">
 
         <fieldset>
+
                 <div class="panel panel-primary">
+
+                        <div class="panel-heading">
+                                <div class="row">
+                                        <label for="" class="control-label col-sm-2">신차출고가격</label>
+                                        <div class="col-sm-3 col-sm-offset-7 has-error">
+                                                <div class="input-group input-group-lg">
+                                                        <input type="text" class="form-control zfp-proc-subtotal" data-proc="plus" readonly="readonly" placeholder="" title="" name="cost" value="">
+                                                        <span class="input-group-addon">만원</span>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+
                         <div class="panel-heading">
                                 <div class="row">
                                         <label for="" class="control-label col-sm-2">기준가격(Pst)</label>
@@ -14,29 +28,21 @@
                                 </div>
                         </div>
 
-                        <div class="panel-body">
-                                <div class="form-group zfp-calculate">
-                                        <label class="control-label col-sm-2">신차출고가격</label>
-                                        <div class="col-sm-7">
-
-                                                <div class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-default {{ $order->certificates->vat == 3 ? 'active' : '' }}">
-                                                                <input type="radio" name="certificates_vat" value="3" autocomplete="off" {{ $order->certificates->vat == 3 ? 'checked' : '' }}> 부가세 포함
-                                                        </label>
-                                                        <label class="btn btn-default {{ $order->certificates->vat == 4 ? 'active' : '' }}">
-                                                                <input type="radio" name="certificates_vat" value="4" autocomplete="off" {{ $order->certificates->vat == 4 ? 'checked' : '' }}> 부가세 제외
-                                                        </label>
-                                                </div>
-
-                                        </div>
-
-                                        <div class="col-sm-3">
+                        <div class="panel-heading">
+                                <div class="row">
+                                        <label for="" class="control-label col-sm-2">기본가격(A)</label>
+                                        <div class="col-sm-3 col-sm-offset-7 has-error">
                                                 <div class="input-group input-group-lg">
-                                                        <input type="text" class="form-control zfp-proc-cost" placeholder="1" title="" name="box_cost" value="1">
+                                                        <input type="text" class="form-control zfp-proc-subtotal" data-proc="plus" readonly="readonly" placeholder="" title="" name="cost" value="">
                                                         <span class="input-group-addon">만원</span>
                                                 </div>
                                         </div>
                                 </div>
+                        </div>
+
+                        <div class="panel-body">
+
+
                                 <div class="form-group zfp-calculate">
                                         <label class="control-label col-sm-2">등록일 보정</label>
                                         <div class="col-sm-7">
@@ -60,15 +66,7 @@
                                                 </div>
                                         </div>
                                 </div>
-                                <div class="form-group zfp-calculate">
-                                        <label class="control-label col-sm-2">장착품(추가옵션)</label>
-                                        <div class="col-sm-3 col-sm-offset-7">
-                                                <div class="input-group input-group-lg">
-                                                        <input type="text" class="form-control zfp-proc-cost" placeholder="1" title="" name="box_cost" value="1">
-                                                        <span class="input-group-addon">만원</span>
-                                                </div>
-                                        </div>
-                                </div>
+
                                 <div class="form-group no-margin zfp-calculate">
                                         <label class="control-label col-sm-2">색상등 기타</label>
                                         <div class="col-sm-3 col-sm-offset-7">
