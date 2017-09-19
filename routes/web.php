@@ -47,14 +47,14 @@ Route::group(['middleware' => ['auth']], function () {
         //쿠폰 주문 등록
         Route::post('/order/coupon-process', 'OrderController@couponProcess')->name("order.coupon-process");
 
-        Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd')->name('certificate.change-open-cd');
+        Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd');
+
 });
 
 /////////////////////////////////////////////////////////////
-Route::get('order', 'OrderController@index')->name("order.index");
-Route::get('/certificate', 'CertificateController@index')->name("certificate.index");
-// 인증서 조회
-Route::get('certificate/{id}/{page?}', 'CertificateController')->name("certificate");
+Route::get('order', 'OrderController@index');
+Route::get('certificate', 'CertificateController@index');
+
 
 // 공통
 Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
