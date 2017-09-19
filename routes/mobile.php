@@ -42,6 +42,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/order/get_address', 'OrderController@getAddress')->name("mobile.order.get_address");
 
     Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd')->name('mobile.certificate.change-open-cd');
+
+    Route::post('/order/coupon-process', 'OrderController@couponProcess')->name("mobile.order.coupon-process");
 //    Route::resource('/certificate', 'CertificateController',['only' => ['index']]);
 
 

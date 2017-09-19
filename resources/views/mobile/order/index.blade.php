@@ -203,7 +203,7 @@
                             <div class="row">
                                 @foreach($items as $item)
                                     <div class="col-xs-3">
-                                        <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-price="{{ $item->price }}" disabled>
+                                        <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-price="{{ $item->price }}">
                                             <div class="point-price">{{ $item->name }}</div>
                                             <div class="point-desc text-muted">{{ number_format($item->price) }}원</div>
                                         </div>
@@ -281,8 +281,8 @@
                     <div class="panel-group" id="accordion-car">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion-car" href="#collapse1">브랜드 선택 <span id="selected_brand" class="selected_item"></span></a>
+                                <h4 class="panel-title" data-toggle="collapse" data-target="#collapse1">
+                                    브랜드 선택 <span id="selected_brand" class="selected_item"></span>
                                 </h4>
                             </div>
                             <div id="collapse1" class="panel-collapse collapse in">
@@ -300,8 +300,8 @@
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion-car" href="#collapse2">모델 선택 <span id="selected_model" class="selected_item"></span></a>
+                                <h4 class="panel-title" data-toggle="collapse" data-target="#collapse2">
+                                    모델 선택 <span id="selected_model" class="selected_item"></span>
                                 </h4>
                             </div>
                             <div id="collapse2" class="panel-collapse collapse">
@@ -312,7 +312,7 @@
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title">
+                                <h4 class="panel-title" data-toggle="collapse" data-target="#collapse3">
                                     <a data-toggle="collapse" data-parent="#accordion-car" href="#collapse3">세부모델 선택 <span id="selected_detail" class="selected_item"></span></a>
                                 </h4>
                             </div>
@@ -324,8 +324,8 @@
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion-car" href="#collapse3">등급 선택 <span id="selected_grade" class="selected_item"></span></a>
+                                <h4 class="panel-title" data-toggle="collapse" data-target="#collapse4">
+                                    등급 선택 <span id="selected_grade" class="selected_item"></span>
                                 </h4>
                             </div>
                             <div id="collapse4" class="panel-collapse collapse">
@@ -338,7 +338,7 @@
 
                 </div>
 
-                <div class="modal-footer"><p class="text-center"><button class="btns btns_skyblue" id="selected-car" type="button">차량선택 완료</button> <button class="btns btn-primary" data-dismiss="modal">닫기</button></p></div>
+                <div class="modal-footer"><p class="text-center"><button class="btns btn-primary" data-dismiss="modal">닫기</button></p></div>
             </div>
         </div>
     </div>
@@ -397,8 +397,8 @@
                     <div class="panel-group" id="accordion-bcs">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion-bcs" href="#collapse1-bcs">시도 선택 <span id="selected_area" class="selected_item"></span></a>
+                                <h4 class="panel-title" data-toggle="collapse" data-target="#collapse1-bcs">
+                                    시도 선택 <span id="selected_area" class="selected_item"></span>
                                 </h4>
                             </div>
                             <div id="collapse1-bcs" class="panel-collapse collapse in">
@@ -415,8 +415,8 @@
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion-bcs" href="#collapse2-bcs">지역 선택 <span id="selected_section" class="selected_item"></span></a>
+                                <h4 class="panel-title" data-toggle="collapse" data-target="#collapse2-bcs">
+                                    지역 선택 <span id="selected_section" class="selected_item"></span>
                                 </h4>
                             </div>
                             <div id="collapse2-bcs" class="panel-collapse collapse">
@@ -427,8 +427,8 @@
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion-bcs" href="#collapse3-bcs">대리점 선택 <span id="selected_bcs" class="selected_item"></span></a>
+                                <h4 class="panel-title" data-toggle="collapse" data-target="#collapse3-bcs">
+                                    대리점 선택 <span id="selected_bcs" class="selected_item"></span>
                                 </h4>
                             </div>
                             <div id="collapse3-bcs" class="panel-collapse collapse">
@@ -441,21 +441,11 @@
 
                 </div>
 
-                <div class="modal-footer"><p class="text-center"><button class="btns btns_skyblue" id="selected-bcs" type="button">입고대리점 선택</button> <button class="btns btn-primary" data-dismiss="modal">닫기</button></p></div>
+                <div class="modal-footer"><p class="text-center"><button class="btns btn-primary" data-dismiss="modal">닫기</button></p></div>
             </div>
         </div>
     </div>
 
-    {{-- 결제 모달 --}}
-    <div class="modal modal-lg fade" id="modalPurchase" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content bmd-modalContent">
-                <div class="modal-body" style="width: 0px; height: 0px; padding: 0px;">
-                    <iframe class="embed-responsive-item" src="javascript:false;" name="purchase-frame" frameborder="0" width="648" height="590"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {{-- 쿠폰 모달 --}}
     <div class="modal fade" id="modal-coupon" tabindex="-1" role="dialog" aria-hidden="true">
@@ -485,6 +475,8 @@
             </div>
         </div>
     </div>
+
+
 @endsection
 
 
@@ -537,12 +529,22 @@ $(function () {
                 alert('error');
             },
             beforeSend: function () {
+
+
+
+                $("#bcs-l1").show();
+
                 $("#areas").val(garage_area);
                 $("#selected_area").html("<li class='glyphicon glyphicon-ok'></li> " + garage_area);
+
+
             },
             complete: function () {
                 $("#collapse1-bcs").collapse('hide');
                 $("#collapse3-bcs").collapse('hide');
+
+                $("#bcs-l1").hide(200);
+
                 $("#collapse2-bcs").collapse('show');
             }
         });
@@ -775,8 +777,16 @@ $(function () {
         $("#grades_name").val($(this).data("name"));
         $("#items_id").val($(this).data("items_id"));
 
-        $("#grade-list li").css({'background': '#fff'});
-        $(this).css({'background': '#efefef'});
+        check_product($(this).data("items_id"));
+
+//        $("#grade-list li").css({'background': '#fff'});
+//        $(this).css({'background': '#efefef'});
+        if($("#brands").val() && $("#models").val() && $("#details").val() && $("#grades").val()){
+            $("#car-summary").val(
+                $("#brands_name").val() + ' > ' + $("#models_name").val()  + ' > ' +  $("#details_name").val()  + ' > ' +  $("#grades_name").val()
+            );
+            $("#modal-brand").modal("hide");
+        }
     });
 
     //모델선택 완료
@@ -899,14 +909,14 @@ $(function () {
     /////////////////////// 결제 관련
 
     // 상품선택
-    $(document).on("click", ".purchase-item-product", function () {
-
-        $('.purchase-item-product').removeClass("active");
-        $(this).toggleClass("active");
-
-        $('#item_id').val($(this).data("index"));
-        $('#payment_price').val($(this).data("price"));
-    });
+//    $(document).on("click", ".purchase-item-product", function () {
+//
+//        $('.purchase-item-product').removeClass("active");
+//        $(this).toggleClass("active");
+//
+//        $('#item_id').val($(this).data("index"));
+//        $('#payment_price').val($(this).data("price"));
+//    });
 
 
     $(document).on("click", ".purchase-item-method", function () {
@@ -1023,7 +1033,7 @@ var delete_models = function(){
     delete_details(); //세부모델 이하 모두 삭제
 
     $("#collapse3").collapse('hide');
-    $("#detail-list li").remove();
+    $("#model-list li").remove();
     $("#selected_model").html('');
 };
 /**
@@ -1121,7 +1131,7 @@ var step_validate = function(current_step){
         }
         is_valid = true;
 
-    }else if(current_step == 3){
+    }else if(current_step == 3){ //결제
 
         if(!$("#payment_price").val()){
             alert('상품을 선택해 주세요.');
@@ -1131,21 +1141,9 @@ var step_validate = function(current_step){
             alert('결제방법을 선택해 주세요.');
             return;
         }
-//        //결제모달을 띄움
-//        $('#modalPurchase').modal({
-//            backdrop: 'static',
-//            keyboard: false,
-//            show: true,
-//            width: 1000,
-//            height: 1000
-//        });
-//
-//        $('#orderFrm').attr('target', 'purchase-frame').submit();
-//        $('#modalPurchase').on('show.bs.modal', function (event) {
-//
-//        });
-        $('#orderFrm').submit();
 
+        //결제 submit
+        $("#orderFrm").submit();
     }else{
         if(confirm('잘못된 접근입니다.\n새로고침 하시겠습니까?')){
             location.reload();
@@ -1254,34 +1252,30 @@ var timeCountdown = function () {
         new Pikaday(opt);
     });
 
-    // 달력이미지 클릭
-    // $('#calendar-opener').click(function () {
-    //         $("#reservation_date").click();
-    // });
+    //상품 선택
+    var check_product = function(num){
 
+        var click_num = parseInt(num) -1;
 
-    var paymentSubmit = function (orders_id, is_complete, action) {
-        if (is_complete == undefined) {
-            is_complete = 0;
-        } else {
-            is_complete = 1;
+        if(click_num > -1){
+            disable_product(click_num);
+            $('.purchase-item-product').toggleClass("active");
+            $("#payment_price").val($('.purchase-item-product').data("price"));
+            $('#item_id').val($('.purchase-item-product').data("index"));
         }
 
-        $("#orders_id").val(orders_id);
+    }
 
-        $("#is_complete").val(is_complete);
-        $("#modalPurchase").modal('hide');
+    var disable_product = function(num){
 
-        if (action == 1) {
-            $("#orderFrm").attr("action", "/order/complete");
-            $("#orderFrm").removeAttr("target");
-            $('#orderFrm').submit();
-        }
-    };
+        $.each($(".purchase-item-product"), function (key, data) {
+            if(key != num){
+                $(this).removeClass("purchase-item", function () {
+                    $(this).addClass("purchase-item2");
+                })
 
-
-    var paymentClose = function () {
-        $("#modalPurchase").modal('hide');
+            }
+        })
     }
 </script>
 

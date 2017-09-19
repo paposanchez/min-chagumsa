@@ -416,7 +416,7 @@
     overflow-x: hidden;
 }
 
-.row-tab{margin-left: 10px; margin-right: 10px;}
+.row-tab{margin-left: 10px !important; margin-right: 10px !important;}
 
 #step2{display: none;}
 #step3{display: none;}
@@ -437,18 +437,18 @@
 .purchase-item .point-price {
     color: #dadada;
     font-family: sans-serif;
-    font-size: 28px;
+    font-size: 16px;
     font-weight: 300;
     line-height: 30px;
 }
 .purchase-item .point-desc {
     color: #dadada;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 300;
 }
 .purchase-item .point-icon {
     color: #dadada;
-    font-size: 36px;
+    font-size: 16px;
     line-height: 30px;
 }
 .purchase-item.active, .purchase-item:hover {
@@ -458,4 +458,57 @@
 .purchase-item.active .point-price, .purchase-item.active .point-desc, .purchase-item.active .point-icon, .purchase-item:hover .point-price, .purchase-item:hover .point-desc, .purchase-item:hover .point-icon {
     background-color: #0b4777;
     color: #fff;
+}
+
+.loader {
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    width: 20px;
+    height: 20px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+.purchase-item2 {
+    background-color: transparent;
+    border: 2px solid #dadada;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 0;
+    overflow: hidden;
+    padding: 30px 15px;
+    position: relative;
+    text-align: center;
+    transition: all 0.2s linear 0s;
+    width: 100%;
+}
+.purchase-item2 .point-price {
+    color: #dadada;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 30px;
+}
+.purchase-item2 .point-desc {
+    color: #dadada;
+    font-size: 14px;
+    font-weight: 300;
+}
+.purchase-item2 .point-icon {
+    color: #dadada;
+    font-size: 16px;
+    line-height: 30px;
 }
