@@ -25,15 +25,12 @@ use App\Models\Purchase;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
         $search_fields = [
@@ -41,12 +38,11 @@ class OrderController extends Controller
         ];
         $user = Auth::user();
 
-        $where = Order::orderBy('status_cd', 'DESC')->orderBy('created_at', 'DESC')->where('garage_id', $user->id);
-
+        $where = Order::where('status_cd', ">=", 102)->orderBy('created_at', 'DESC')->where('garage_id', $user->id);;
         //주문상태
         $status_cd = $request->get('status_cd');
         if ($status_cd) {
-            $where = $where->where('status_cd', $status_cd);
+            $where->where('status_cd', $status_cd);
         }
 
         //기간 검색
@@ -54,7 +50,7 @@ class OrderController extends Controller
         $tre = $request->get('tre');
         if ($trs && $tre) {
             //시작일, 종료일이 모두 있을때
-            $where = $where->where(function ($qry) use ($trs, $tre) {
+            $where->where(function ($qry) use ($trs, $tre) {
                 $qry->where("created_at", ">=", $trs)
                     ->where("created_at", "<=", $tre);
             })->orWhere(function ($qry) use ($trs, $tre) {
@@ -63,7 +59,7 @@ class OrderController extends Controller
             });
         } elseif ($trs && !$tre) {
             //시작일만 있을때
-            $where = $where->where(function ($qry) use ($trs) {
+            $where->where(function ($qry) use ($trs) {
                 $qry->where("created_at", ">=", $trs);
             })->orWhere(function ($qry) use ($trs) {
                 $qry->where("updated_at", ">=", $trs);
@@ -77,7 +73,7 @@ class OrderController extends Controller
         if ($sf && $s) {
             if ($sf != "order_num") {
                 if (in_array($sf, ["car_number", "orderer_name", "orderer_mobile"])) {
-                    $where = $where->where($sf, 'like', '%' . $s . '%');
+                    $where->where($sf, 'like', '%' . $s . '%');
                 }
             } else {
                 $order_split = explode("-", $s);
@@ -89,7 +85,7 @@ class OrderController extends Controller
                     $date = Carbon::create('20' . '' . $date_array[0], $date_array[1], $date_array[2], '0', '0', '0');
                     $next_day = Carbon::create('20' . '' . $date_array[0], $date_array[1], $date_array[2], '0', '0', '0')->addDay(1);
 
-                    $where = $where->where('car_number', $car_number)
+                    $where->where('car_number', $car_number)
                         ->where('created_at', '>=', $date)
                         ->where('created_at', '<=', $next_day);
                 } else {
@@ -100,12 +96,13 @@ class OrderController extends Controller
                         $date = Carbon::create('20' . '' . $date_array[0], $date_array[1], $date_array[2], '0', '0', '0');
                         $next_day = Carbon::create('20' . '' . $date_array[0], $date_array[1], $date_array[2], '0', '0', '0')->addDay(1);
 
-                        $where = $where->where('created_at', '>=', $date)->where('created_at', '<=', $next_day);
+                        $where->where('created_at', '>=', $date)->where('created_at', '<=', $next_day);
                     }
 
                 }
             }
         }
+
 
         $entrys = $where->paginate(25);
 
@@ -260,14 +257,17 @@ class OrderController extends Controller
     {
         //
         $order = Order::findOrFail($id);
-//        $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
-//        $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
-//        $car = OrderCar::where('orders_id', $order->id)->first();
+
+        $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
+        $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
+        $car = OrderCar::where('orders_id', $order->id)->first();
+
 
         $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
         $engineers = Role::find(5)->users->pluck('name', 'id');
         $technicians = Role::find(6)->users->pluck('name', 'id');
-        return view('bcs.order.detail', compact('order', 'payment', 'payment_cancel', 'car'));
+
+        return view('bcs.order.detail', compact('order', 'payment', 'payment_cancel', 'car', 'brands', 'garages', 'engineers', 'technicians'));
     }
 
     /**
@@ -508,7 +508,7 @@ class OrderController extends Controller
             $event = 'error';
         }
 
-        return redirect()->route('order.show', $order_id)
+        return redirect()->route('bcs.order.show', $order_id)
             ->with($event, $message);
     }
 

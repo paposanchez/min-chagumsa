@@ -120,7 +120,7 @@ Breadcrumbs::register('web.mypage.history', function($breadcrumbs) {
 //############################## BCS
 Breadcrumbs::register('bcs.order', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push(trans("bcs/order.title"), route("bcs.order.index"));
+    $breadcrumbs->push(trans("bcs/order.title"), url("order/index"));
 });
 Breadcrumbs::register('bcs', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
@@ -128,39 +128,44 @@ Breadcrumbs::register('bcs', function($breadcrumbs){
 });
 Breadcrumbs::register('bcs.calculation', function($breadcrumbs) {
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push(trans("bcs/calculation.title"), route('bcs.calculation.index'));
+    $breadcrumbs->push(trans("bcs/calculation.title"), url('calculation/index'));
 });
 Breadcrumbs::register('bcs.user', function($breadcrumbs) {
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push(trans("bcs/user.title"), route('bcs.user.index'));
+    $breadcrumbs->push(trans("bcs/user.title"), url('user/index'));
 });
 Breadcrumbs::register('bcs.notice', function($breadcrumbs) {
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push(trans("bcs/notice.title"), route('bcs.notice.index'));
+    $breadcrumbs->push(trans("bcs/notice.title"), url('notice/index'));
 });
 Breadcrumbs::register('bcs.info', function($breadcrumbs) {
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push(trans("bcs/bcs-info.title"), route('bcs.info.index'));
+    $breadcrumbs->push(trans("bcs/bcs-info.title"), url('info/index'));
 });
 Breadcrumbs::register('bcs.diagnosis', function($breadcrumbs) {
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push(trans("bcs/diagnosis.title"), route('bcs.diagnosis.index'));
+    $breadcrumbs->push(trans("bcs/diagnosis.title"), url('diagnosis/index'));
 });
 
 //############################## Technician
 
+Breadcrumbs::register('technician.certificate', function($breadcrumbs){
+//    $breadcrumbs->parent('bcs');
+    $breadcrumbs->push("인증서관리", url("/certificate"));
+});
+
 Breadcrumbs::register('technician.order', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push("인증서관리", route("order.index"));
+    $breadcrumbs->push("주문관리", url("/order"));
 });
 
 Breadcrumbs::register('technician.notice', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push("공지사항", route("notice.index"));
+    $breadcrumbs->push("공지사항", url("notice/index"));
 });
 Breadcrumbs::register('technician.user.edit', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');
-    $breadcrumbs->push("정보수정", route("technician.user.edit"));
+    $breadcrumbs->push("정보수정", url("user/edit"));
 });
 Breadcrumbs::register('technician.dashboard', function($breadcrumbs){
 //    $breadcrumbs->parent('bcs');

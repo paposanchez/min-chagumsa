@@ -5,9 +5,16 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
 
     Route::get('dashboard', 'DashboardController');
 
+    //인증서 관련
+    Route::resource('certificate', 'CertificateController');
+
+    //주문 관련
+    Route::resource('order', 'OrderController');
+
     //주문
     Route::post('order/issue', 'TechOrderController@issue')->name('order.issue');
     Route::resource('order', 'TechOrderController', ['as' => 'technician']);
+
 
     //보험이력파일처리
     Route::post('order/insurance-file', 'TechOrderController@insuranceFile')->name('order/insurance-file');

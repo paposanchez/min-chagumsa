@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Bcs;
 
-use App\Events\SendSms;
+
 use App\Models\Post;
 use App\Models\Code;
 use App\Models\Board;
@@ -23,7 +23,7 @@ class NoticeController extends Controller
      */
     public function index(Request $request)
     {
-        event(new SendSms());
+
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
         $yn_list = Code::getSelectList('yn');
         $shown_role_list = Code::getSelectList('post_shown_role');

@@ -13,8 +13,7 @@
                         <span class="text-lighter">| </span>
                     {{ $order->getOrderNumber() }}
                 </span>
-            <a href="/order/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"><i
-                        class="fa fa-shopping-cart"></i> 주문보기</a>
+            <a href="/order/{{ $order->id }}" target="_blank" class="btn btn-default pull-right">주문보기</a>
         </h3>
 
         <div class="row">
