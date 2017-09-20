@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\GarageInfo;
 use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\User;
@@ -55,7 +54,7 @@ class UserController extends Controller {
             $join->on('users.id', '=', 'role_user.user_id')->where('role_id', 3);
         })->orderBy('name')->pluck('name', 'id');
 
-        $garages = GarageInfo::select()->get();
+        $garages = Role::find(4)->users;
 
 
 
