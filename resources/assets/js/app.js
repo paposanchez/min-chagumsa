@@ -393,8 +393,8 @@ $(function () {
                                 previousMonth: '이전달',
                                 nextMonth: '다음달',
                                 months: '1월.2월.3월.4월.5월.6월.7월.8월.9월.10월.11월.12월.'.split('.'),
-                                weekdays: '월요일.화요일.수요일.목요일.금요일.토요일.일요일'.split('.'),
-                                weekdaysShort: '월.화.수.목.금.토.일.'.split('.')
+                                weekdays: '일요일.월요일.화요일.수요일.목요일.금요일.토요일'.split('.'),
+                                weekdaysShort: '일.월.화.수.목.금.토.'.split('.')
                         },
                 };
 

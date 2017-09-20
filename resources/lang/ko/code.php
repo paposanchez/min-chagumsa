@@ -520,8 +520,9 @@ return [
 
     'certificate_state_cd' => [
         'good' => '양호',
-        'maintenance' => '정비요망',
-        'substitute' => '교체'
+        'normal' => '보통',
+        'under' => '미흡',
+        'bad' => '불량'
     ],
 
     'grade_state_cd' => [

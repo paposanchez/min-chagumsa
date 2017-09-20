@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::resource('diagnosis', 'DiagnosesController');
 
         // 인증서
+        Route::post('certificate/{id?}/assign', 'CertificateController@assign');
         Route::resource('certificate', 'CertificateController', ['only' => ['index', 'edit', 'update']]);
 
         // 아이템 관리
