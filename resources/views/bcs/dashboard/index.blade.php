@@ -42,6 +42,7 @@
                             @endforeach
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
@@ -131,6 +132,7 @@
                 location.href = link;
             }
         });
+
     });
 </script>
 @endpush

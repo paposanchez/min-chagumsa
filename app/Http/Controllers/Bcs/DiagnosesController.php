@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Mixapply\Uploader\Receiver;
 use App\Models\Car;
 use App\Models\Certificate;
+use App\Models\Diagnosis;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,8 +23,9 @@ class DiagnosesController extends Controller
 
     public function index(Request $request)
     {
-//        $where = Order::orderBy('orders.id', 'DESC')->whereIn('orders.status_cd', [107, 108, 109])->where('garage_id', Auth::user()->id);
-        $where = Order::orderBy('orders.id', 'DESC')->where('orders.status_cd', 107)->where('garage_id', Auth::user()->id);
+        $where = Order::orderBy('orders.id', 'DESC')->whereIn('orders.status_cd',  [107, 108, 109])->where('garage_id', Auth::user()->id)
+        ;
+//        $where = Order::orderBy('orders.id', 'DESC')->where('status_cd',  107)->where('garage_id', Auth::user()->id);
         $search_fields = [
             "order_num" => "주문번호", "car_number" => "차량번호", 'orderer_name' => '주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
         ];
@@ -102,15 +104,37 @@ class DiagnosesController extends Controller
 
     public function show($id)
     {
-
         $order = Order::findOrFail($id);
-        $diagnosis = new DiagnosisRepository();
 
-        $entrys = $diagnosis->prepare($id)->get();
+        $handler = new DiagnosisRepository();
+        $diagnosis = $handler->prepare($id)->get();
 
-        //        $entrys = response()->json($diagnosis->prepare($id)->get());
-        //        dd($entrys);
-        return view('bcs.diagnosis.detail', compact('entrys', 'order'));
+        return view('admin.diagnosis.detail', compact('diagnosis', 'order'));
+    }
+
+    public function updateCode(Request $request){
+        $id = $request->get('id');
+        $selected = $request->get('selected');
+        $diagnosis = Diagnosis::where('id', $id)->first();
+        $diagnosis->selected = $selected;
+        $diagnosis->save();
+        return $diagnosis;
+
+    }
+
+    public function updateComment(Request $request){
+        try{
+            $diagnosis_id = $request->get('diagnosis_id');
+            $comment = $request->get('comment');
+
+            $diagnosis = Diagnosis::findOrFail($diagnosis_id);
+            $diagnosis->comment = $comment;
+            $diagnosis->save();
+
+            return response()->json();
+        }catch (\Exception $ex){
+            return response()->json($ex->getMessage());
+        }
     }
 
     public function edit($id)

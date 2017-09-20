@@ -1,7 +1,7 @@
-@extends( 'bcs.layouts.default' )
+@extends( 'technician.layouts.default' )
 
 @section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('bcs.diagnosis')])
+    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('technician.certificate')])
 @endsection
 
 @section( 'content' )
@@ -71,15 +71,13 @@
 
 
                 <table class="table text-middle text-center">
-                    <colgrou`p>
-
+                    <colgroup>
                         <col width="8%">
                         <col width="13%">
                         <col width="13%">
                         <col width="15%">
-                        <col width="15%">
-                        <col width="8%">
-                        <col width="8%">
+                        <col width="12%">
+                        <col width="12%">
                         <col width="*">
                     </colgroup>
 
@@ -88,10 +86,9 @@
                         <th class="text-center">상태</th>
                         <th class="text-center">주문번호</th>
                         <th class="text-center">주문정보</th>
-                        <th class="text-center">결제정보</th>
-                        <th class="text-center">예약정보</th>
-                        <th class="text-center">진단시작일</th>
-                        <th class="text-center">진단완료일</th>
+                        <th class="text-center">기술사</th>
+                        <th class="text-center">인증서발급일</th>
+                        <th class="text-center">인증서만료일</th>
                         <th class="text-center">Remarks</th>
 
                     </tr>
@@ -114,17 +111,17 @@
                                                                 <span
                                                                         style="width:60px;display:inline-block;"
                                                                         class="label
-                                                                @if($data->status_cd == 100)
-                                                                                label-default
-@elseif($data->status_cd == 106)
-                                                                                label-primary
-@elseif($data->status_cd == 109)
+
+                                                                @if($data->status_cd == 109)
                                                                                 label-success
 @else
                                                                                 label-info
 @endif
+
                                                                                 ">
+
                                                                 {{ $data->status->display() }}
+
                                                         </span>
                             </td>
 
@@ -133,45 +130,61 @@
                             </td>
 
                             <td class="">
-                                <a href="/user/{{ $data->orderer_id }}/edit">{{ $data->orderer_name }}</a>
+                                <a href="/user/{{ $data->user_id }}/edit">{{ $data->orderer_name }}</a>
                                 <br/>
                                 <small class="text-warning">{{ $data->orderer_mobile }}</small>
                             </td>
 
-                            <td class="">
-                                {{--<a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span--}}
-                                {{--class="text-muted">{{ number_format($data->item->price) }}원</span></a>--}}
-                                <a href="/item">{{ $data->item->name }} <span
-                                            class="text-muted">{{ number_format($data->item->price) }}원</span></a>
-                                <br/>
-                                <small class="text-warning">{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
-                            </td>
 
 
                             <td class="">
-                                <a href="/user/{{ $data->garage->id }}/edit">{{ $data->garage->name }}</a>
-                                <br/>
-                                <small class="text-danger">{{  $data->reservation ? $data->reservation->reservation_at->format("m월 d일 H시") : '-' }}</small>
+                                @if($data->certificates)
+                                    <a href="/user/{{ $data->technician->id }}/edit">{{ $data->technician->name }}</a>
+                                    <br/>
+                                    <small class="text-warning">{{ $data->technician->mobile }}</small>
+                                @else
+                                    -
+                                @endif
                             </td>
 
+                            <td>{{ $data->status_cd == 109 ? $data->certificates->updated_at->format('m-d H:i') : '-' }}</td>
 
                             <td>
-                                {{ $data->diagnose_at->format('m-d H:i') }}
-                            </td>
+                                {{ $data->status_cd == 109 ? $data->certificates->getExpireDate()->format('Y-m-d H:i') : '-'  }}
 
-                            <td>
-                                {{ $data->diagnosed_at ? $data->diagnosed_at->format('m-d H:i') : '-' }}
-                            </td>
-
-
-                            <td>
-                                @if($data->status_cd == 107)
-                                    <a href="/diagnosis/{{ $data->id }}" class="btn btn-danger"
-                                       data-toggle="tooltip" title="인증서 진단정보 수정">진단정보 수정</a>
+                                @if($data->status_cd == 109)
+                                    <br/>
+                                    @if($data->certificates->isExpired())
+                                        <small class="text-muted">만료됨</small>
+                                    @else
+                                        <small class="text-warning">
+                                            {{ number_format($data->certificates->getCountdown()) }}일 남음
+                                        </small>
+                                    @endif
                                 @endif
 
-                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default" data-toggle="tooltip"
-                                   title="주문상세보기">상세보기</a>
+                            </td>
+
+
+                            <td>
+
+                                @if($data->status_cd > 107)
+                                    <a href="{{ route('certificate', $data->id) }}" target="_blank" class="btn btn-primary" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
+                                @endif
+
+                                @if($data->status_cd == 107)
+                                    <button data-id="{{ $data->id }}" class="btn btn-danger certificate-assign" data-toggle="tooltip" title="인증서 발급시작">인증시작</button>
+                                @endif
+
+
+                                @if($data->status_cd == 108)
+                                    <a href="/certificate/{{ $data->id }}/edit" class="btn btn-danger" data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>
+                                @endif
+
+                                <a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip" title="주문상세보기">상세보기</a>
+
+
+
                             </td>
 
 
@@ -196,8 +209,13 @@
 
 
 
-@section( 'footer-script' )
-    <script type="text/javascript">
 
-    </script>
-@endsection
+@push( 'footer-script' )
+<script type="text/javascript">
+    $(function () {
+
+
+
+    });
+</script>
+@endpush
