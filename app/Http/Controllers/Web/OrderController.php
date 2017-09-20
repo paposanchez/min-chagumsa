@@ -478,6 +478,35 @@ public function paymentResult(Request $request)
                 // result: 처리 결과 메세지(결제가 완료되었습니다. 또는 결제가 정상적으로 처리되지 못하였습니다.)
                 // event: 팝업닫기 또는 뒤로가기 ( 'close', 'history.back()')
 
+            //문자, 메일 송부하기
+            $enter_date = $order_where->created_at;
+            $garage_info = User::find($order_where->garage_id);
+            $garage = $garage_info->name;
+            $price = $decAmt;
+            try{
+                    //메일전송
+
+                $mail_message = [
+                    'enter_date'=>$enter_date, 'garage' => $garage, 'price' => $price
+                ];
+                Mail::send(new \App\Mail\Ordering(Auth::user()->email, "차검사 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
+            }catch (\Exception $e){}
+
+            try{
+                // SMS전송
+                //사용자
+                $user_message = view('message.sms.ordering-user', compact('enter_date', 'garage', 'price'))->render();
+                event(new SendSms(Auth::user()->mobile, '', $user_message));
+
+                //BCS
+                $orderer_name = Auth::user()->name;
+                $order_num = $order_where->getOrderNumber();
+                $bcs_message = view('message.sms.ordering-bcs', compact('orderer_name', 'order_num'));
+
+            }catch (\Exception $e){}
+            //발송 끝
+
+
                 $result = "결제가 완료 되었습니다";
                 $event = true; //결제완료
         }
