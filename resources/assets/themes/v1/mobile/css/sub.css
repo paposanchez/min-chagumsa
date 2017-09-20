@@ -305,11 +305,11 @@
 .car_manu_wrap li.car_manu_dis:before {}
 
 /* 패널*/
-#manu_pannel {display:none;}
-#option_pannel {display:none;padding-bottom:80px;}
-#mech_pannel {display:none;}
+/*#manu_pannel {display:none;}*/
+/*#option_pannel {display:none;padding-bottom:80px;}*/
+/*#mech_pannel {display:none;}*/
 
-.pannel_wrap {width:100%;height:100%;position:fixed;background:#fff;z-index:999;left:0;top:0;overflow:auto;}
+.pannel_wrap {width:100%;height:100%;background:#fff;z-index:999;left:0;top:0;overflow:auto;}
 .pannel_title {background:#0c4877;height:60px;line-height:60px;text-align:center;color:#fff;font-size:22px;position:relative;}
 .pannel_title:before {content:'〈';position:absolute;left:10px;top:0;}
 
@@ -321,7 +321,8 @@
 .pannel_wrap dd ul li strong {display:block;line-height:16px;font-size:16px;color:#444;padding-bottom:8px;font-weight:normal;}
 .pannel_wrap dd ul li span {display:block;color:#999;font-size:14px;line-height:17px;}
 
-.pannel_confirm {z-index:999999;width:100%;box-sizing:border-box;position:fixed;bottom:0;padding:14px;background:#fff;-webkit-box-shadow: 0px -3px 10px 0px rgba(0,0,0,0.25);-moz-box-shadow: 0px -3px 10px 0px rgba(0,0,0,0.25);box-shadow: 0px -3px 10px 0px rgba(0,0,0,0.25);}
+/*.pannel_confirm {z-index:999999;width:100%;box-sizing:border-box;position:fixed;bottom:0;padding:14px;background:#fff;-webkit-box-shadow: 0px -3px 10px 0px rgba(0,0,0,0.25);-moz-box-shadow: 0px -3px 10px 0px rgba(0,0,0,0.25);box-shadow: 0px -3px 10px 0px rgba(0,0,0,0.25);}*/
+.pannel_confirm {z-index:999999;width:100%;box-sizing:border-box;bottom:0;padding:14px;background:#fff;-webkit-box-shadow: 0px -3px 10px 0px rgba(0,0,0,0.25);-moz-box-shadow: 0px -3px 10px 0px rgba(0,0,0,0.25);}
 
 /* 모달 */
 .modal_wrap {display:none;width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.3);z-index:99;}
@@ -400,3 +401,114 @@
 .intro3_step_box p {color:#999;font-size:14px;line-height:18px;}
 .intro3_step_box p span {display:block;color:#444;padding-bottom:8px;}
 
+
+/* 인증서 추가 css */
+.selected_item{float: right;color: #0b4777;font-size: 14px;font-weight: bold;}
+
+.item_nav {
+    width: 100%;
+    height: 20em;
+    /*line-height: 2em;*/
+    /*border: 1px solid #ccc;*/
+    padding: 0;
+    margin: 0;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.row-tab{margin-left: 10px !important; margin-right: 10px !important;}
+
+#step2{display: none;}
+#step3{display: none;}
+
+.purchase-item {
+    background-color: transparent;
+    border: 2px solid #dadada;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 0;
+    overflow: hidden;
+    padding: 30px 15px;
+    position: relative;
+    text-align: center;
+    transition: all 0.2s linear 0s;
+    width: 100%;
+}
+.purchase-item .point-price {
+    color: #dadada;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 30px;
+}
+.purchase-item .point-desc {
+    color: #dadada;
+    font-size: 14px;
+    font-weight: 300;
+}
+.purchase-item .point-icon {
+    color: #dadada;
+    font-size: 16px;
+    line-height: 30px;
+}
+.purchase-item.active, .purchase-item:hover {
+    background-color: #0b4777;
+    border-color: #0b4777;
+}
+.purchase-item.active .point-price, .purchase-item.active .point-desc, .purchase-item.active .point-icon, .purchase-item:hover .point-price, .purchase-item:hover .point-desc, .purchase-item:hover .point-icon {
+    background-color: #0b4777;
+    color: #fff;
+}
+
+.loader {
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    width: 20px;
+    height: 20px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+.purchase-item2 {
+    background-color: transparent;
+    border: 2px solid #dadada;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 0;
+    overflow: hidden;
+    padding: 30px 15px;
+    position: relative;
+    text-align: center;
+    transition: all 0.2s linear 0s;
+    width: 100%;
+}
+.purchase-item2 .point-price {
+    color: #dadada;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 30px;
+}
+.purchase-item2 .point-desc {
+    color: #dadada;
+    font-size: 14px;
+    font-weight: 300;
+}
+.purchase-item2 .point-icon {
+    color: #dadada;
+    font-size: 16px;
+    line-height: 30px;
+}

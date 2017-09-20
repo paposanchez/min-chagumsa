@@ -3,26 +3,26 @@
 
     {{-- 헤더 스크립트 --}}
     @section( 'content-header-script' )
-        
+
         {{ Html::style(Helper::assets( 'themes/v1/mobile/css/common.css' )) }}
-        {{ Html::style(Helper::assets( 'themes/v1/web/mobile/sub.css' )) }}
+        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub.css' )) }}
         {{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' )) }}
-        
+
         @stack('header-script')
     @endsection
 
     {{-- 헤더 섹션 --}}
-    @section( 'content-header' )    
+    @section( 'content-header' )
         <div class='document_login'>
     @endsection
 
     {{-- 본문 섹션 --}}
     @section( 'content-body' )
-        
+
         @includeIf('flash::message')
-        
-        @yield( 'content' )    
-        
+
+        @yield( 'content' )
+
     @endsection
 
     {{-- 푸터 섹션 --}}
@@ -34,8 +34,8 @@
                         (주)짐브러스의 사전 서명동의없이 차검사사이트의 일체의 정보,콘텐츠를 상업적인 목적으로 전재, 전송, 스크래핑 등 무단 사용할 수 없습니다.</p>
                 </div>
             </div>
-    
-        </div>    
+
+        </div>
     @endsection
 
     {{-- 푸터 스크립트 --}}

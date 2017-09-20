@@ -99,7 +99,7 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function paymentPopup(Request $request)
+    public function paymentProcess(Request $request)
     {
 
 
@@ -146,6 +146,7 @@ class OrderController extends Controller
         if (!$garage_info) {
             $garage_info = new UserExtra();
         }
+
 
 
         $order_car = OrderCar::where('car_number', $request->get('car_number'))->first();
@@ -263,7 +264,7 @@ class OrderController extends Controller
         $ediDate = $encryptor->getEdiDate();
 
         $vbankExpDate = $encryptor->getVBankExpDate();
-        $payActionUrl = "https://webtx.tpay.co.kr";
+        $payActionUrl = "https://mtx.tpay.co.kr";
         $payLocalUrl = url('/');   //각 상점 도메인을 설정 하세요.  ex)http://shop.tpay.co.kr
         $buyerName = $request->get('orderer_name');
         $buyerEmail = $orderer->email;
@@ -273,7 +274,7 @@ class OrderController extends Controller
         $mid = $this->mid;
         $merchantKey = $this->merchantKey;
 
-        return view('mobile.order.payment-popup', compact('request', 'mid', 'merchantKey', 'amt', 'moid', 'encryptData',
+        return view('mobile.order.payment-process', compact('request', 'mid', 'merchantKey', 'amt', 'moid', 'encryptData',
                 'ediDate', 'vbankExpDate', 'payActionUrl', 'payLocalUrl', 'payMethod', 'amt', 'buyerName', 'buyerEmail',
                 'buyerTel', 'product_name', 'error')
         );
@@ -1009,6 +1010,13 @@ class OrderController extends Controller
             $result['msg'] = "입력하신 쿠폰번호를 찾을 수 없습니다.";
         }
         return $result;
+    }
+
+    /**
+     * 스마트폰 결제 취소 콜밸 처리 메소드
+     */
+    public function paymentCancelCallback(){
+
     }
 
     public function couponProcess(Request $request)
