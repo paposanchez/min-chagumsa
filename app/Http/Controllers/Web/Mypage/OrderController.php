@@ -98,6 +98,37 @@ class OrderController extends Controller
             }
         }
 
+
+        //문자, 이메일 전송
+        //문자, 메일 송부하기
+        $enter_date = $order->created_at;
+        $garage_info = User::find($order->garage_id);
+        $garage = $garage_info->name;
+        $price = $order->item->price;
+        try{
+            //메일전송
+
+            $mail_message = [
+                'enter_date'=>$enter_date, 'garage' => $garage, 'price' => $price
+            ];
+            Mail::send(new \App\Mail\Ordering(Auth::user()->email, "차검사 차량입고 예약시간이 변경되었습니다.", $mail_message, 'message.email.ordering-user'));
+        }catch (\Exception $e){}
+
+        try{
+            // SMS전송
+            //사용자
+            $user_message = view('message.sms.ordering-user', compact('enter_date', 'garage', 'price'))->render();
+            event(new SendSms(Auth::user()->mobile, '', $user_message));
+
+            //BCS
+            $orderer_name = Auth::user()->name;
+            $order_num = $order_where->getOrderNumber();
+            $bcs_message = view('message.sms.ordering-bcs', compact('orderer_name', 'order_num'));
+
+        }catch (\Exception $e){}
+        //발송 끝
+
+
         $search_fields = [
             '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
         ];
@@ -267,6 +298,7 @@ class OrderController extends Controller
 
                             $message = trans('web/mypage.cancel_complete');
                             $event = 'success';
+
                         } else {
                             //                            dd($cancel_process);
                             $message = "해당 결제내역에 대한 결제취소를 진행할 수 없습니다.<br>";
@@ -307,6 +339,40 @@ class OrderController extends Controller
                     }
 
                 }
+
+                //문자, 메일 송부하기
+                if($event == 'success'){
+                    $enter_date = $order->created_at;
+                    $garage_info = User::find($order->garage_id);
+                    $garage = $garage_info->name;
+                    $price = $order->item->price;
+                    try{
+                        //메일전송
+
+                        $mail_message = [
+                            'enter_date'=>$enter_date, 'garage' => $garage, 'price' => $price
+                        ];
+                        Mail::send(new \App\Mail\Ordering(Auth::user()->email, "차검사 주문[".$order->getOrderNumber()."]이 취소되었습니다.",
+                            $mail_message, 'message.email.cancel-ordering-user'));
+                    }catch (\Exception $e){}
+
+                    try{
+                        // SMS전송
+                        //사용자
+                        $user_message = view('message.sms.cancel-ordering-user')->render();
+                        event(new SendSms(Auth::user()->mobile, '', $user_message));
+
+                        //BCS
+                        $orderer_name = Auth::user()->name;
+                        $order_num = $order->getOrderNumber();
+                        $bcs_message = view('message.sms.cancel-ordering-bcs', compact('orderer_name', 'order_num'));
+                        event(new SendSms($garage_info->mobile, '', $bcs_message));
+
+                    }catch (\Exception $e){}
+                    //발송 끝
+                }
+
+
             }//주문취소가 가능한 상태코드값
             else {
                 $message = "주문취소는 차량 입고 이후에는 취소 불가입니다.<br>자세한 사항은 관리자에게 문의해 주세요.";

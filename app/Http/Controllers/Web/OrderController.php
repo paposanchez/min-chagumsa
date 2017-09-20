@@ -502,6 +502,7 @@ public function paymentResult(Request $request)
                 $orderer_name = Auth::user()->name;
                 $order_num = $order_where->getOrderNumber();
                 $bcs_message = view('message.sms.ordering-bcs', compact('orderer_name', 'order_num'));
+                event(new SendSms($garage_info->mobile, '', $bcs_message));
 
             }catch (\Exception $e){}
             //발송 끝
