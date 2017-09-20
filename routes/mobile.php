@@ -26,12 +26,12 @@ Route::group(['middleware' => ['auth']], function () {
 
 //    Route::resource('order', 'OrderController');
 //    Route::post('order/order-store', 'OrderController@orderStore')->name("order.order-store");
-//    Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase");
-    Route::post('order/complete', 'OrderController@complete')->name("mobile.order.complete");
+//    Route::post('order/purchase', 'OrderController@purchase')->name("order.purchase")
+    Route::match(['get', 'post'],'order/complete', 'OrderController@complete')->name("mobile.order.complete");
     Route::post('order/reservation', 'OrderController@reservation')->name("mobile.order.reservation");
     Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("mobile.order.verificate");
     Route::get('order/factory/{page?}', 'OrderController@factory')->name("mobile.order.factory");
-    Route::post('order/payment-popup', 'OrderController@paymentPopup')->name("mobile.order.payment-popup");
+    Route::post('order/payment-process', 'OrderController@paymentProcess')->name("mobile.order.payment-process");
 
 
     Route::get('/order/get_models', 'OrderController@getModels')->name("mobile.order.get_models");
@@ -42,6 +42,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/order/get_address', 'OrderController@getAddress')->name("mobile.order.get_address");
 
     Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd')->name('mobile.certificate.change-open-cd');
+
+    Route::post('/order/coupon-process', 'OrderController@couponProcess')->name("mobile.order.coupon-process");
 //    Route::resource('/certificate', 'CertificateController',['only' => ['index']]);
 
 
