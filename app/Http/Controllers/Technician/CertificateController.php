@@ -292,6 +292,34 @@ class CertificateController extends Controller
 
                                 DB::commit();
 
+                            if($order_data = ['status_cd'] == 109){
+                                //문자, 메일 송부하기
+                                $certificate_num = $certificates_where->id;
+                                $certificate_url = 'http://www.chagumsa.com/certificate/'.$certificates_where->id."/summary";
+
+                                //사용자 정보를 가져옮
+                                $user_info = User::find($certificates_where->users_id);
+
+                                try{
+                                    //메일전송
+
+                                    $mail_message = [
+                                        'certificate_num'=>$certificate_num, 'certificate_url' => $certificate_url
+                                    ];
+                                    Mail::send(new \App\Mail\Ordering($user_info->email, "고객님 차량의 인증서가 발급 완료 되었습니다.", $mail_message, 'message.email.fin-certification-user'));
+                                }catch (\Exception $e){}
+
+                                try{
+                                    // SMS전송
+
+                                    //BCS
+                                    $bcs_message = view('message.sms.fin-certification-user', compact('certificate_num', 'certificate_url'));
+                                    event(new SendSms($user_info->mobile, '', $bcs_message));
+
+                                }catch (\Exception $e){}
+                                //발송 끝
+                            }
+
                                 return redirect()->back()->with('success', '인증서 정보가 갱신되었습니다');
 
                         } catch (\Exception $e) {

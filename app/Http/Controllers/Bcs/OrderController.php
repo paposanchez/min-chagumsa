@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Bcs;
 
+use App\Events\SendSms;
 use App\Models\OrderCar;
 use App\Models\Role;
 use App\Models\UserExtra;
@@ -343,6 +344,41 @@ class OrderController extends Controller
 
             $diagnosis = new DiagnosisRepository();
             $diagnosis->prepare($order->id)->create($order->id);
+
+
+            //문자, 메일 송부하기
+            $user_info = User::find($order->orderer_id);
+
+            $enter_date = $reservation->updated_at;
+            $daily = array('일','월','화','수','목','금','토');
+            $week_day = $daily[date('w', strtotime($enter_date))];
+
+            $garage_info = User::find($order->garage_id);
+            $garage = $garage_info->name;
+            $garage_extra = UserExtra::find($garage_info->id);
+
+            $address = $garage_extra->address;
+            $tel = $garage_extra->phone;
+
+            try{
+                //메일전송
+
+                $mail_message = [
+                    'enter_date'=>$enter_date, 'week_day' => $week_day, 'garage' => $garage, 'address' => $address, 'tel' => $tel
+                ];
+                Mail::send(new \App\Mail\Ordering($user_info->email, "고객님의 차량입고 예약시간이 확정되었습니다.", $mail_message, 'message.email.confirmation-ordering-user'));
+            }catch (\Exception $e){}
+
+            try{
+                // SMS전송
+
+                //BCS
+                $bcs_message = view('message.sms.confirmation-ordering-user', compact('enter_date', 'week_day', 'garage', 'address', 'tel'));
+                event(new SendSms($user_info->mobile, '', $bcs_message));
+
+            }catch (\Exception $e){}
+            //발송 끝
+
 
             return response()->json(true);
         } catch (Exception $ex) {

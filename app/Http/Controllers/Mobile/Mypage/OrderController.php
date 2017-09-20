@@ -15,6 +15,7 @@ use App\Models\Reservation;
 use App\Models\PaymentCancel;
 use App\Models\Code;
 use App\Models\User;
+use App\Models\UserExtra;
 use App\Models\Role;
 
 use Carbon\Carbon;
@@ -73,34 +74,28 @@ class OrderController extends Controller
 
     public function changeReservation($order_id)
     {
-            $order = Order::findOrFail($order_id);
-            $my_garage = $order->garage;
+
+        $order = Order::findOrFail($order_id);
+
+        if($order->status_cd > 104){
+            return redirect()->back()->with('error', '잘못된 접근입니다. 관리자에게 문의해주세요.');
+        }
+
+        $my_garage = $order->garage;
+
+        $garage_list = UserExtra::orderBy('area', 'DESC')->groupBy('area')->whereNotNull('aliance_id')->get();
+
+        $chk_garage = UserExtra::find($order->garage_id);
 
 
         //     $reservation = $order->getReservation($order->id);
 
-            //@TODO  Role을 통한 BCS 조회
-            $users          = Role::find(4)->users;
-            $areas          = [];
-            $sections       = [];
-            $garages        = [];
-            foreach($users as $user) {
 
-                    $areas[$user->user_extra->area] = $user->user_extra->area;
 
-                    if($user->user_extra->area == $order->garage->user_extra->area) {
-                            $sections[$user->user_extra->section] = $user->user_extra->section;
-                    }
-
-                    if($user->user_extra->area == $order->garage->user_extra->area &&  $user->user_extra->section == $order->garage->user_extra->section) {
-                            $garages[$user->id] = $user->name;
-                    }
-            }
-
-            $search_fields = [
-                    '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
-            ];
-            return view('mobile.mypage.order.reservation', compact('order', 'search_fields', 'areas', 'sections', 'garages', 'my_garage'));
+        $search_fields = [
+            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
+        ];
+        return view('mobile.mypage.order.reservation', compact('order', 'search_fields', 'my_garage', 'garage_list', 'chk_garage'));
     }
 
 
@@ -129,6 +124,35 @@ class OrderController extends Controller
         //     $reservation = $order->reservation;
         //     $reservation->reservation_at = Carbon::now();
         //     $reservation->save();
+
+            //문자, 메일 송부하기
+            $enter_date = $order->reservation->reservation_at;
+            $garage_info = User::find($order->garage_id);
+            $garage_extra = UserExtra::find($garage_info->id);
+
+            $ceo_mobile = $garage_extra->ceo_mobile;
+            $garage = $garage_info->name;
+            $price = $order->item->price;
+            try{
+                //메일전송
+
+                $mail_message = [
+                    'enter_date'=>$enter_date, 'garage' => $garage, 'price' => $price
+                ];
+                Mail::send(new \App\Mail\Ordering($garage_info->email, "차검사 차량입고 예약시간이 변경되었습니다.", $mail_message, 'message.email.change-reservation-user'));
+            }catch (\Exception $e){}
+
+            try{
+                // SMS전송
+
+                //BCS
+                $orderer_name = Auth::user()->name;
+                $order_num = $order->getOrderNumber();
+                $bcs_message = view('message.sms.change-reservation-bcs', compact('orderer_name', 'order_num', 'enter_date'));
+                event(new SendSms($ceo_mobile, '', $bcs_message));
+
+            }catch (\Exception $e){}
+            //발송 끝
 
             return redirect()
             ->route('mypage.order.show', $order->id)
@@ -297,6 +321,39 @@ class OrderController extends Controller
                                     }
 
                             }
+
+                        //문자, 메일 송부하기
+                        if($event == 'success'){
+                            $enter_date = $order->created_at;
+                            $garage_info = User::find($order->garage_id);
+                            $garage = $garage_info->name;
+                            $price = $order->item->price;
+                            try{
+                                //메일전송
+
+                                $mail_message = [
+                                    'enter_date'=>$enter_date, 'garage' => $garage, 'price' => $price
+                                ];
+                                Mail::send(new \App\Mail\Ordering(Auth::user()->email, "차검사 주문[".$order->getOrderNumber()."]이 취소되었습니다.",
+                                    $mail_message, 'message.email.cancel-ordering-user'));
+                            }catch (\Exception $e){}
+
+                            try{
+                                // SMS전송
+                                //사용자
+                                $user_message = view('message.sms.cancel-ordering-user')->render();
+                                event(new SendSms(Auth::user()->mobile, '', $user_message));
+
+                                //BCS
+                                $orderer_name = Auth::user()->name;
+                                $order_num = $order->getOrderNumber();
+                                $bcs_message = view('message.sms.cancel-ordering-bcs', compact('orderer_name', 'order_num'));
+                                event(new SendSms($garage_info->mobile, '', $bcs_message));
+
+                            }catch (\Exception $e){}
+                            //발송 끝
+                        }
+
                     }//주문취소가 가능한 상태코드값
                     else {
                             $message = "주문취소는 차량 입고 이후에는 취소 불가입니다.<br>자세한 사항은 관리자에게 문의해 주세요.";

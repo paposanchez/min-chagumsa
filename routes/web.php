@@ -139,3 +139,17 @@ Route::get('sample', 'CertificateController@sample')->name('certificate.sample')
 //Route::get('pay-test/index', 'PayTestController@index');
 //Route::post('pay-test/pay-result', 'PayTestController@payResult');
 //Route::post('pay-test/callback', 'PayTestController@payCallback');
+use App\Events\SendSms;
+Route::get('mail1', function (){
+//    $subject = "주문 테스트";
+//    $to = "antshin72@gmail.com";
+//    $message = ['enter_date'=>'2017-09-20 23:12:00', 'garage' => '짐브로스', 'price' => 100000];
+//    Mail::send(new \App\Mail\Ordering($to, $subject, $message, 'message.email.ordering-user'));
+    $enter_date = '2017-09-20 23:12:00';
+    $garage = '짐브로스';
+    $price = 11110;
+    $message = view('message.sms.ordering-user', compact('enter_date', 'garage', 'price'))->render();
+
+    event(new SendSms('01030255305', '', $message));
+    return $message;
+});

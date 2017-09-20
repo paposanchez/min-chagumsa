@@ -12,6 +12,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/order/edit_garage/{order_id}', 'OrderController@editGarage')->name('mobile.order.edit_garage');
         Route::post('/order/cancel', 'OrderController@cancel')->name('mobile.order.cancel');
 
+        Route::match(['get', 'post'], '/order/change-car/{order_id}', 'OrderController@changeCar')->name('mobile.order.change-car');
+        Route::get('/order/change-reservation/{order_id}', 'OrderController@changeReservation')->name('mobile.order.change-reservation');
+        Route::post('/order/change-reservation/{order_id}', 'OrderController@updateReservation')->name('mobile.order.change-reservation');
 
         Route::get('/leave', 'ProfileController@leaveForm')->name('mobile.leave');
         Route::post('/leave', 'ProfileController@leave')->name('mobile.profile.leave');
