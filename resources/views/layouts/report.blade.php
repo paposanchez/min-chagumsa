@@ -6,20 +6,18 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-        <!-- CSRF Token -->
-        <!-- <meta name="csrf-token" content="{{ csrf_token() }}"> -->
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
+        <title>차검사 인증서</title>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-        <!-- Styles -->
-        <!-- {{ Html::style(Helper::assets('css/app.css')) }}
-        {{ Html::style(Helper::assets('css/vendor.css')) }} -->
+        {{ Html::style(Helper::assets('css/app.css')) }}
+        {{ Html::style(Helper::assets('css/vendor.css')) }}
+        {{ Html::script(Helper::assets( 'js/app.js' )) }}
 
         {{ Html::style(Helper::assets( 'themes/v1/web/css/common.css' )) }}
         {{ Html::style(Helper::assets( 'themes/v1/web/css/report.css' )) }}
         {{ Html::script(Helper::assets( 'themes/v1/web/js/common.js' )) }}
+
+
 
 
 </head>
@@ -34,10 +32,10 @@
 
                                 <h1>{{ Html::image(Helper::theme_web( '/img/report/report_logo.png')) }}</h1>
                                 <ul>
-                                        <li><a class='' href="/{{ $order_id }}/summary">자동차 요약 보고서</a></li>
-                                        <li><a class='' href="/{{ $order_id }}/performance">자동차 품질 보고서</a></li>
-                                        <li><a class='' href="/{{ $order_id }}/price">자동차 가격 산정 보고서</a></li>
-                                        <li><a class='' href="/{{ $order_id }}/history">자동차 이력 보고서</a></li>
+                                        <li><a class='{{ $page == "summary" ? "select" : '' }}' href="/{{ $order_id }}/summary">자동차 요약 보고서</a></li>
+                                        <li><a class='{{ $page == "performance" ? "select" : '' }}' href="/{{ $order_id }}/performance">자동차 품질 보고서</a></li>
+                                        <li><a class='{{ $page == "price" ? "select" : '' }}' href="/{{ $order_id }}/price">자동차 가격 산정 보고서</a></li>
+                                        <li><a class='{{ $page == "history" ? "select" : '' }}' href="/{{ $order_id }}/history">자동차 이력 보고서</a></li>
                                 </ul>
                                 <p>
                                         <span>Copyright © JIMBROS INC. All rights reserved.</span>

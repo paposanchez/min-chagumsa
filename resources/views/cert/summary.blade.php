@@ -2,8 +2,8 @@
 
 @section( 'content' )
 <div class='report_title_type1' style="margin-bottom: 20px;">
-        HONDA ACCORD EX
-        <span><strong>보증기간</strong> 2017년 3월 31일까지</span>
+        {{ $order_id }}
+        <span style="font-size:12px;"><strong>보증기간</strong> {{ $order->certificates->updated_at->format('Y년 m월 d일 H:i') }} ~ {{ $order->certificates->getExpireDate()->format('Y년 m월 d일 H:i') }}</span>
 </div>
 
 <div class='report_table exp'>
@@ -21,7 +21,9 @@
                                         {{ $order->car->year }}
                                 </td>
                                 <th class='td_al_vt' rowspan='3'>산정가격</th>
-                                <td class='td_al_vb td_al_r' rowspan='3'><strong class='fsize_50'>{{ number_format($order->certificates->valuation) }}</strong><strong class='fsize_20'>만원</strong></td>
+                                <td class='td_al_vb td_al_c' rowspan='3'>
+                                        <strong class='fsize_50' >{{ number_format($order->certificates->valuation) }}</strong><strong class='fsize_20'>만원</strong>
+                                </td>
                         </tr>
                         <tr>
                                 <th>차대번호</th>
@@ -41,7 +43,7 @@
                                         {{ $order->car->getFuelType->display() }}
                                 </td>
                                 <th class='td_al_vt' rowspan='3'>차량 성능 등급</th>
-                                <td class='td_al_vb td_al_r' rowspan='3'>
+                                <td class='td_al_vb td_al_c' rowspan='3' style="text-align:center;">
                                         <strong class='fsize_50'>
                                                 {{ $order->certificates->grade }}
                                         </strong>
@@ -56,7 +58,7 @@
                         <tr>
                                 <th><strong class='fcol_navy'>인증서 발급일</strong></th>
                                 <td><strong class='fcol_navy'>
-                                        {{ \Carbon\Carbon::parse($order->certificates->created_at)->format('Y년 m월 d일') }}
+                                        {{ $order->certificates->updated_at->format('Y년 m월 d일 H:i') }}
                                 </strong></td>
                         </tr>
                         <tr>

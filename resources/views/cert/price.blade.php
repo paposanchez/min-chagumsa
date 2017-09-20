@@ -93,7 +93,7 @@
                                 <td colspan='3'><strong>{{ $order->certificates->price }} 만원</strong></td>
                         </tr>
                         <tr>
-                                <th rowspan='3'>기본평가</th>
+                                <th rowspan='2'>기본평가</th>
                                 <td>등록일 보정</td>
                                 <td>
                                         @if($order->certificates->basic_registraion == 1282)
@@ -105,11 +105,13 @@
                                         @endif
                                 </td>
                         </tr>
-                        
+
                         <tr>
                                 <td>색상 등 기타</td>
                                 <td>{{ $order->car->getExteriorColor->display() }}</td>
                         </tr>
+
+
                         <tr>
                                 <th rowspan='2'>사용이력</th>
                                 <td>주행거리 평가</td>
