@@ -623,6 +623,20 @@ class DiagnosisController extends ApiController {
                         $order->save();
 
                         //            return response()->json($order);
+
+                    try{
+                        //메일전송
+                        $garage_info = User::find($order->garage_id);
+                        $garage = $garage_info->name;
+                        $mail_message = [
+                            'orderer_name'=>$order->orderer_name, 'order_num' => $order->getOrderNumber(), 'garage' => $garage
+                        ];
+                        //todo
+//                        Mail::send(new \App\Mail\Ordering(env('TECH_PUBLIC_MAIL'), "고객님[".$order->getOrderNumber()."]의 차량진단이 완료되었습니다.", $mail_message, 'message.email.fin-diagnosis-tech'));
+                        Mail::send(new \App\Mail\Ordering("carhnt@naver.com", "고객님[".$order->getOrderNumber()."]의 차량진단이 완료되었습니다.", $mail_message, 'message.email.fin-diagnosis-tech'));
+                    }catch (\Exception $e){}
+
+
                         return response()->json(true);
 
                         // 앱에서는 간단하게

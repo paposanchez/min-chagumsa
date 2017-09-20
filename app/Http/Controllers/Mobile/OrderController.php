@@ -475,6 +475,9 @@ class OrderController extends Controller
             //문자, 메일 송부하기
             $enter_date = $order_where->created_at;
             $garage_info = User::find($order_where->garage_id);
+            $garage_extra = UserExtra::find($garage_info->id);
+
+            $ceo_mobile = $garage_extra->ceo_mobile;
             $garage = $garage_info->name;
             $price = $decAmt;
             try{
@@ -496,7 +499,7 @@ class OrderController extends Controller
                 $orderer_name = Auth::user()->name;
                 $order_num = $order_where->getOrderNumber();
                 $bcs_message = view('message.sms.ordering-bcs', compact('orderer_name', 'order_num'));
-                event(new SendSms($garage_info->mobile, '', $bcs_message));
+                event(new SendSms($ceo_mobile, '', $bcs_message));
 
             }catch (\Exception $e){}
             //발송 끝

@@ -4,7 +4,7 @@
 
 차검사 예약이 확정되었습니다.
 
-▶이용일시 : {{ date('Y년 m월 d일', strtotime($enter_date)) }}({{ $week_day }}) / {{ $ampm }} {{ date('H시', strtotime($enter_date)) }}
+▶이용일시 : {{ date('Y년 m월 d일', strtotime($enter_date)) }}({{ $week_day }}) / {{ date('A', strtotime($enter_date)) }} {{ date('H시', strtotime($enter_date)) }}
 ▶입고대리점 : {{ $garage }}
 ▶주소 : {{ $address }}
 ▶문의전화 : {{ $tel }}
