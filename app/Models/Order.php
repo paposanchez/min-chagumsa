@@ -46,7 +46,6 @@ class Order Extends Model
                 'created_at', 'updated_at','diagnose_at', 'diagnosed_at'
         ];
 
-
         public function details(){
                 return $this->hasMany(DiagnosisDetails::class,'orders_id', 'id');
         }
@@ -59,25 +58,19 @@ class Order Extends Model
         // 해당 주문의 차량 풀네임을 조회
         public function getCarFullName() {
 
-                $fullname = array();
-
-                if(isset($this->orderCar)){
-                        if($this->orderCar->brand) {
-                                $fullname[] = $this->orderCar->brand->name;
-                        }
-                        if($this->orderCar->models) {
-                                $fullname[] = $this->orderCar->models->name;
-                        }
-                        if($this->orderCar->detail) {
-                                $fullname[] = $this->orderCar->detail->name;
-                        }
-                        if($this->orderCar->grade) {
-                                $fullname[] = $this->orderCar->grade->name;
-                        }
+                if($this->status_cd == 109)
+                {
+                        $car = $this->car;
+                }else{
+                        $car = $this->orderCar;
                 }
 
-
-                return implode(" ", $fullname);
+                return implode(" ", [
+                        $car->brand->name,
+                        $car->models->name,
+                        $car->detail->name,
+                        $car->grade->name
+                ]);
         }
 
         public function getOrderNumber() {
@@ -87,7 +80,6 @@ class Order Extends Model
         public function status() {
                 return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd');
         }
-
 
         public function certificates(){
                 return $this->hasOne(Certificate::class, 'orders_id', 'id');
@@ -123,7 +115,6 @@ class Order Extends Model
         public function orderCar(){
                 return $this->hasOne(OrderCar::class, 'orders_id','id');
         }
-
 
 
         //========================== 진단 수정중
@@ -163,11 +154,6 @@ class Order Extends Model
         public function getSettlementIncome() {
                 return $this->getSettlementDefaultIncome() * $this->item->commission;
         }
-
-
-
-
-
 
 
         //========================== 아래는 검증안된 메쏘드
