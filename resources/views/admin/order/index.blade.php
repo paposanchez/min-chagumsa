@@ -173,7 +173,7 @@
                                                 @endif
 
                                                 @if($data->status_cd > 107)
-                                                <a href="{{ route('certificate', $data->id) }}" target="_blank" class="btn btn-primary" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
+                                                <a href="/certificate/{{ $data->id }}" target="_blank" class="btn btn-primary" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
                                                 @endif
 
                                                 @if($data->status_cd == 107)
