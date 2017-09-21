@@ -1076,7 +1076,7 @@
                 flooded_comment: "침수흔적 점검의견을 입력해주세요.",
                 consumption_comment: "소모품상태 점검의견을 입력해주세요.",
                 broken_comment: "고장진단 점검의견을 입력해주세요.",
-                performance_power_cd: "동력전달 점검의견을 입력해주세요.",
+                power_comment: "동력전달 점검의견을 입력해주세요.",
                 electronic_comment: "전기 점검의견을 입력해주세요.",
                 interior_comment: "주요내판 점검의견을 입력해주세요.",
                 exteriortest_comment: "차량외판 점검의견을 입력해주세요.",

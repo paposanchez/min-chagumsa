@@ -165,54 +165,7 @@ class CertificateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'certificates_basic_registraion' => 'required',
-            'certificates_usage_mileage_cd' => 'required',
-            'certificates_usage_history_cd' => 'required',
-            'performance_exterior_cd' => 'required',
-            'performance_flooded_cd' => 'required',
-            'performance_consumption_cd' => 'required',
-            'performance_broken_cd' => 'required',
-            'performance_power_cd' => 'required',
-            'performance_electronic_cd' => 'required',
-            'performance_interior_cd' => 'required',
-            'performance_exteriortest_cd' => 'required',
-            'performance_plugin_cd' => 'required',
-            'performance_engine_cd' => 'required',
-            'performance_steering_cd' => 'required',
-            'performance_tire_cd' => 'required',
-            'performance_accident_cd' => 'required',
-            'performance_interiortest_cd' => 'required',
-            'performance_driving_cd' => 'required',
-            'performance_transmission_cd' => 'required',
-            'performance_braking_cd' => 'required',
-            'grade_state_cd' => 'required',
-        ], [],
-            [
-                'certificates_basic_registraion' => '등록일보정',
-                'certificates_usage_mileage_cd' => '주행거리',
-                'certificates_usage_history_cd' => '사고/수리이력',
-                'performance_exterior_cd' => '주요외판',
-                'performance_flooded_cd' => '침수흔적점검',
-                'performance_consumption_cd' => '소모품상태점검',
-                'performance_broken_cd' => '고장진단',
-                'performance_power_cd' => '동력전달',
-                'performance_electronic_cd' => '전기',
-                'performance_interior_cd' => '주요내판',
-                'performance_exteriortest_cd' => '차량외판점검',
-                'performance_plugin_cd' => '전장품유리기어/작동상태점검',
-                'performance_engine_cd' => '엔진(원동기)',
-                'performance_steering_cd' => '조향장치',
-                'performance_tire_cd' => '타이어',
-                'performance_accident_cd' => '사고유무점검',
-                'performance_interiortest_cd' => '차량실내점검',
-                'performance_driving_cd' => '주행테스트',
-                'performance_transmission_cd' => '변속기',
-                'performance_braking_cd' => '제동장치',
-                'grade_state_cd' => '등급평가',
-            ]);
-
-        $section = $request->get('section');
+        
 
         $order_where = Order::find($id);
 
