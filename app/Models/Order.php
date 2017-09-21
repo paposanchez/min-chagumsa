@@ -116,14 +116,10 @@ class Order Extends Model
                 return $this->hasOne(OrderCar::class, 'orders_id','id');
         }
 
-
         //========================== 진단 수정중
-
         public function diagnoses(){
                 return $this->hasMany(\App\Models\Diagnosis::class, 'orders_id', 'id');
         }
-
-
 
         //========================== 정산관련
         public function settlement_features(){

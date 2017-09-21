@@ -5,6 +5,34 @@ use Illuminate\Support\Facades\Auth;
 use App\Repositories\CertificateRepository;
 use Illuminate\Support\Facades\Storage;
 
+
+use App\Helpers\Helper;
+use File AS FileHandler;
+use App\Models\File;
+use Intervention\Image\ImageManagerStatic AS Image;
+
+Route::get('/thumbnail/{id?}', function($id){
+
+
+        $image = public_path('assets/img/noimage.png');
+        if ($id) {
+
+                $file = File::findOrFail($id);
+
+                if ($file) {
+                        $allowedMimeTypes = ['image/jpeg', 'image/gif', 'image/png', 'image/bmp', 'image/svg+xml'];
+                        if (in_array($file->mime, $allowedMimeTypes)) {
+                                // 실제파일 위치
+                                $image = storage_path('app/upload' . $file->path) . '/' . $file->source;
+                        } else {
+                                return $this->makeImageWithText($file->extension);
+                        }
+                }
+        }
+
+        return response()->file($image);
+
+});
 Route::any('/{order_id}/{page?}/{flush?}', function ($order_id, $page = 'summary', $flush = '') {
 
         try
@@ -30,7 +58,7 @@ Route::any('/{order_id}/{page?}/{flush?}', function ($order_id, $page = 'summary
                                 // 강제로 클리어 한다
                                 if($flush == 'cacheclear' )
                                 {
-                                         Storage::disk('local')->deleteDirectory($handler->cached_file($page));
+                                        Storage::disk('local')->deleteDirectory($handler->cached_file($page));
                                 }
 
                                 throw new Exception('인증서 캐쉬를 생성합니다.');

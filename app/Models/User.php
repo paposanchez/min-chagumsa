@@ -79,17 +79,6 @@ class User extends Authenticatable
         }
 
 
-
-        public function bcsimg_files()
-        {
-                return $this->hasMany(File::class, 'group_id', 'id')->where("group", 'bcsimg');
-        }
-
-        public function bcs_files()
-        {
-                return $this->hasMany(File::class, 'group_id', 'id')->where("group", 'bcs');
-        }
-
         /**
         * Send the password reset notification.
         *
