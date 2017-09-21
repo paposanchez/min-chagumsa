@@ -126,7 +126,7 @@ class RegisterController extends Controller {
 //            return redirect('/')->with("success", "가입성공");
 //            return redirect('/register/registered')->with("success", "가입성공");
 
-            return redirect()->route('register.registered', ['user_id' => $user->id]);
+            return redirect()->route('mobile.register.registered', ['user_id' => $user->id]);
 
         }catch(Exception $e) {
             return redirect('/')->with("error", "가입실패");

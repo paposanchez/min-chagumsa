@@ -8,7 +8,7 @@
 
                 <div class='br20'></div>
 
-                {!! Form::open(['route' => ['register'], 'id' => 'register-form', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+                {!! Form::open(['route' => ['mobile.register'], 'id' => 'register-form', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
 
                 <div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
                         <label for="inputEmail" class="control-label col-xs-3">{{ trans('web/register.email') }}</label>

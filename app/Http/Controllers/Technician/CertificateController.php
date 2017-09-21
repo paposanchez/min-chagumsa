@@ -13,6 +13,9 @@ use App\Repositories\DiagnosisRepository;
 use DB;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Mail;
+use App\Events\SendSms;
+
 class CertificateController extends Controller
 {
 

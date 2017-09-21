@@ -29,6 +29,8 @@ use DB;
 
 use App\Tpay\TpayLib as Encryptor;
 
+use Illuminate\Support\Facades\Mail;
+
 
 class OrderController extends Controller
 {

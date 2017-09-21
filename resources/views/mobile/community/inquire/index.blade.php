@@ -5,7 +5,7 @@
 
     <ul class='board_list_wrap'>
         @foreach($entrys as $key => $entry)
-            <li><a href='{{ route("inquire.show", ["id" => $entry->id]) }}' class='faq_wait'>
+            <li><a href='{{ route("mobile.inquire.show", ["id" => $entry->id]) }}' class='faq_wait'>
                     <div>{{ $entry->subject }}</div>
                     <span>{{ Carbon\Carbon::parse($entry->created_at)->format('Y-m-d') }}</span>
                 </a>
