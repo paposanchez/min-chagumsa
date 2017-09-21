@@ -420,8 +420,8 @@
 
         <script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
         <script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
-        <script type="text/template" id="garage_imgs-template">@include("partials/files", ['files'=> $user->bcsimg_files])</script>
-        <script type="text/template" id="qq-template">@include("partials/files", ['files'=> $user->bcs_files])</script>
+        <script type="text/template" id="garage_imgs-template">@include("partials/files", ['files'=> $user->user_extra->bcsimg_files])</script>
+        <script type="text/template" id="qq-template">@include("partials/files", ['files'=> $user->user_extra->bcs_files])</script>
         <script type="text/javascript">
         $(function () {
 
