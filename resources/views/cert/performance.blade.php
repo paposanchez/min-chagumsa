@@ -3,7 +3,6 @@
 @section( 'content' )
 
 <div class='report_title_type2'>차량정보</div>
-
 <div class='report_table exp'>
         <table>
                 <colgroup>
@@ -46,12 +45,12 @@
                         <tr>
                                 <th>최초등록일</th>
                                 <td>
-                                        {{ Carbon\Carbon::parse($order->car->registration_date)->format('Y년 m월 d일') }}
+                                        {{ $order->car->registration_date->format('Y년 m월 d일') }}
                                 </td>
                                 <th>사용월수</th>
                                 <td>
-                                        {{--{{ \Carbon\Carbon::parse($order->car->registration_date)->diffInMonths(\Carbon\Carbon::now()) }} 개월--}}
-                                        {{ \App\Helpers\Helper::getMonthNum($order->car->registration_date) }} 개월
+
+                                        {{ $order->car->registration_date }} 개월
                                 </td>
                         </tr>
                         <tr>
@@ -234,6 +233,7 @@
 
 
 <div class='report_title_type2'>진단결과</div>
+
 <div class='report_table exp'>
         {{--<table>--}}
                 {{--<colgroup>--}}
@@ -284,182 +284,133 @@
                                                                                 {{--</table>--}}
                                                                         </div>
 
-                                                                        <div class="row">
-                                                                                <div class="row drow-box">
-                                                                                        <div class="col-md-2 text-center"><h3>자동차등록정보</h3></div>
-                                                                                        <div class="col-md-10 drow-left">
-                                                                                                <div class="row drow-bottom drow-bmargin">
-                                                                                                        <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
-                                                                                                                점검항목
-                                                                                                        </label>
-                                                                                                        <div class="col-md-2 no-padding">
-                                                                                                                <input type="text" class="form-control" placeholder="" value="자동차 등록정보"
-                                                                                                                style="background-color: #fff;" disabled>
-                                                                                                        </div>
-
-                                                                                                        <div class="col-md-9 drow-box">
-
-
-                                                                                                        </div>
-                                                                                                </div>
-
-                                                                                                <div class="row drow-bottom drow-bmargin">
-                                                                                                        <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
-                                                                                                                점검항목
-                                                                                                        </label>
-                                                                                                        <div class="col-md-2 no-padding">
-                                                                                                                <input type="text" class="form-control" placeholder="" value="주행거리" style="background-color: #fff;"
-                                                                                                                disabled>
-                                                                                                        </div>
-
-                                                                                                        <div class="col-md-9 drow-box">
-
-
-                                                                                                        </div>
-                                                                                                </div>
-
-                                                                                                <div class="row drow-bottom drow-bmargin">
-                                                                                                        <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
-                                                                                                                점검항목
-                                                                                                        </label>
-                                                                                                        <div class="col-md-2 no-padding">
-                                                                                                                <input type="text" class="form-control" placeholder="" value="차대번호" style="background-color: #fff;"
-                                                                                                                disabled>
-                                                                                                        </div>
-
-                                                                                                        <div class="col-md-9 drow-box">
-
-
-                                                                                                        </div>
-                                                                                                </div>
-
-                                                                                                <div class="row drow-bottom drow-bmargin">
-                                                                                                        <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
-                                                                                                                점검항목
-                                                                                                        </label>
-                                                                                                        <div class="col-md-2 no-padding">
-                                                                                                                <input type="text" class="form-control" placeholder="" value="색상" style="background-color: #fff;"
-                                                                                                                disabled>
-                                                                                                        </div>
-
-                                                                                                        <div class="col-md-9 drow-box">
-
-
-                                                                                                        </div>
-                                                                                                </div>
-
-                                                                                                <div class="row drow-bottom drow-bmargin">
-                                                                                                        <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
-                                                                                                                점검항목
-                                                                                                        </label>
-                                                                                                        <div class="col-md-2 no-padding">
-                                                                                                                <input type="text" class="form-control" placeholder="" value="추가옵션" style="background-color: #fff;"
-                                                                                                                disabled>
-                                                                                                        </div>
-
-                                                                                                        <div class="col-md-9 drow-box">
-
-
-                                                                                                        </div>
-                                                                                                </div>
-
-                                                                                                <div class="row drow-bottom drow-bmargin">
-                                                                                                        <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
-                                                                                                                점검항목
-                                                                                                        </label>
-                                                                                                        <div class="col-md-2 no-padding">
-                                                                                                                <input type="text" class="form-control" placeholder="" value="점검의견" style="background-color: #fff;"
-                                                                                                                disabled>
-                                                                                                        </div>
-
-                                                                                                        <div class="col-md-9 drow-box">
-
-
-                                                                                                        </div>
-                                                                                                </div>
-
-                                                                                        </div>
-                                                                                </div>
-                                                                        </div>
-                                                                        <div class='br30'></div>
-
-                                                                        <div class='report_table exp'>
-                                                                                <table>
-                                                                                        <colgroup>
-                                                                                                <col style='width:650px;'>
-                                                                                                <col style='width:125px;'>
-                                                                                        </colgroup>
-                                                                                        <tbody>
-                                                                                                <tr>
-                                                                                                        <th class='td_al_c' colspan='2'>자동차기술사 종합의견</th>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                        <td>
-                                                                                                                {{--H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다. 또 차량 소모품 상태 검검 결과 배터리의 수명이 다 되어 교체를 해야 하니 참고하시길 바랍니다.--}}
-                                                                                                                {{ $order->certificates->opinion }}
-                                                                                                        </td>
-                                                                                                        <td class='td_al_c'>인증등급<br><strong class='fsize_50'>{{ $order->certificates->grade }}</strong></td>
-                                                                                                </tr>
-                                                                                        </tbody>
-                                                                                </table>
-                                                                        </div>
-
-                                                                        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=40213ad16ec63811a5a11a733b700b7f&libraries=services,clusterer,drawing"></script>
-                                                                        <script>
-                                                                        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                                                                        mapOption = {
-                                                                                center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-                                                                                level: 3 // 지도의 확대 레벨
-                                                                        };
-
-                                                                        // 지도를 생성합니다
-                                                                        var map = new daum.maps.Map(mapContainer, mapOption);
-
-                                                                        // 주소-좌표 변환 객체를 생성합니다
-
-                                                                        var geocoder = new daum.maps.services.Geocoder();
-
-
-                                                                        // 주소로 좌표를 검색합니다
-                                                                        geocoder.addressSearch('{{ $order->garage->user_extra->address }}', function(result, status) {
-
-                                                                                // 정상적으로 검색이 완료됐으면
-                                                                                if (status === daum.maps.services.Status.OK) {
-
-                                                                                        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-
-                                                                                        // 결과값으로 받은 위치를 마커로 표시합니다
-                                                                                        var marker = new daum.maps.Marker({
-                                                                                                map: map,
-                                                                                                position: coords
-                                                                                        });
-
-                                                                                        // 인포윈도우로 장소에 대한 설명을 표시합니다
-                                                                                        var infowindow = new daum.maps.InfoWindow({
-                                                                                                content: '<div style="width:150px;text-align:center;padding:6px 0;">{{ $order->garage->name }}</div>'
-                                                                                        });
-                                                                                        infowindow.open(map, marker);
-
-                                                                                        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                                                                                        map.setCenter(coords);
-                                                                                }
-                                                                        });
-                                                                        </script>
-
-                                                                        <script type="text/javascript">
-
-                                                                        $(function(){
-                                                                                $('.bubble_desc dt').click(function(){
-                                                                                        $('.bubble_desc dd').hide();
-                                                                                        $(this).next().show();
-                                                                                });
-                                                                                $('.bubble_desc dd').click(function(){
-                                                                                        $(this).hide();
-                                                                                });
-                                                                        });
 
 
 
-                                                                        </script>
 
-                                                                        @endsection
+
+
+
+
+<div class="row">
+        <div class="row drow-box">
+                <div class="col-md-2 text-center"><h3>자동차등록정보</h3></div>
+                <div class="col-md-10 drow-left">
+                        <div class="row drow-bottom drow-bmargin">
+                                <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+                                        점검항목
+                                </label>
+                                <div class="col-md-2 no-padding">
+                                        <input type="text" class="form-control" placeholder="" value="자동차 등록정보"
+                                        style="background-color: #fff;" disabled>
+                                </div>
+
+                                <div class="col-md-9 drow-box">
+
+
+                                </div>
+                        </div>
+
+                        <div class="row drow-bottom drow-bmargin">
+                                <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+                                        점검항목
+                                </label>
+                                <div class="col-md-2 no-padding">
+                                        <input type="text" class="form-control" placeholder="" value="주행거리" style="background-color: #fff;"
+                                        disabled>
+                                </div>
+
+                                <div class="col-md-9 drow-box">
+
+
+                                </div>
+                        </div>
+
+                        <div class="row drow-bottom drow-bmargin">
+                                <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+                                        점검항목
+                                </label>
+                                <div class="col-md-2 no-padding">
+                                        <input type="text" class="form-control" placeholder="" value="차대번호" style="background-color: #fff;"
+                                        disabled>
+                                </div>
+
+                                <div class="col-md-9 drow-box">
+
+
+                                </div>
+                        </div>
+
+                        <div class="row drow-bottom drow-bmargin">
+                                <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+                                        점검항목
+                                </label>
+                                <div class="col-md-2 no-padding">
+                                        <input type="text" class="form-control" placeholder="" value="색상" style="background-color: #fff;"
+                                        disabled>
+                                </div>
+
+                                <div class="col-md-9 drow-box">
+
+
+                                </div>
+                        </div>
+
+                        <div class="row drow-bottom drow-bmargin">
+                                <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+                                        점검항목
+                                </label>
+                                <div class="col-md-2 no-padding">
+                                        <input type="text" class="form-control" placeholder="" value="추가옵션" style="background-color: #fff;"
+                                        disabled>
+                                </div>
+
+                                <div class="col-md-9 drow-box">
+
+
+                                </div>
+                        </div>
+
+                        <div class="row drow-bottom drow-bmargin">
+                                <label for="inputName" class="control-label col-md-1 no-padding text-center col-centered">
+                                        점검항목
+                                </label>
+                                <div class="col-md-2 no-padding">
+                                        <input type="text" class="form-control" placeholder="" value="점검의견" style="background-color: #fff;"
+                                        disabled>
+                                </div>
+
+                                <div class="col-md-9 drow-box">
+
+
+                                </div>
+                        </div>
+
+                </div>
+        </div>
+</div>
+<div class='br30'></div>
+
+<div class='report_table exp'>
+        <table>
+                <colgroup>
+                        <col style='width:650px;'>
+                        <col style='width:125px;'>
+                </colgroup>
+                <tbody>
+                        <tr>
+                                <th class='td_al_c' colspan='2'>자동차 기술사 종합의견</th>
+                        </tr>
+                        <tr>
+                                <td>
+                                        {{--H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다. 또 차량 소모품 상태 검검 결과 배터리의 수명이 다 되어 교체를 해야 하니 참고하시길 바랍니다.--}}
+                                        {{ $order->certificates->opinion }}
+                                </td>
+                                <td class='td_al_c'>인증등급<br><strong class='fsize_50'>{{ $order->certificates->getGrade->display() }}</strong></td>
+                        </tr>
+                </tbody>
+        </table>
+</div>
+
+
+@endsection

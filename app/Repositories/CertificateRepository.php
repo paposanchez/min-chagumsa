@@ -62,8 +62,6 @@ class CertificateRepository {
         public function cache($page)
         {
 
-                $exterior_picture_ids = Diagnosis::where('orders_id', $this->order->id)->where('group', 2008)->get();
-
                 $order = $this->order;
                 $order_id = $this->order->getOrderNumber();
 
@@ -79,7 +77,7 @@ class CertificateRepository {
                                 $html = view('cert.performance', compact('order', 'order_id', 'page'))->render();
                                 break;
                                 case 'history':
-                                $html = view('cert.history', compact('order', 'order_id', 'page', 'exterior_picture_ids'))->render();
+                                $html = view('cert.history', compact('order', 'order_id', 'page'))->render();
                                 break;
                                 case 'price':
                                 //특별요인
@@ -105,7 +103,7 @@ class CertificateRepository {
                                 break;
 
                                 default:
-                                $html = view('cert.summary', compact('order', 'order_id', 'page', 'exterior_picture_ids'))->render();
+                                $html = view('cert.summary', compact('order', 'order_id', 'page'))->render();
                                 break;
                         }
 

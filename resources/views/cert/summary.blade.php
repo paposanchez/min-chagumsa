@@ -45,7 +45,7 @@
                                 <th class='td_al_vt' rowspan='3'>차량 성능 등급</th>
                                 <td class='td_al_vb td_al_c' rowspan='3' style="text-align:center;">
                                         <strong class='fsize_50'>
-                                                {{ $order->certificates->grade }}
+                                                {{ $order->certificates->getGrade->display() }}
                                         </strong>
                                 </td>
                         </tr>
@@ -64,14 +64,10 @@
                         <tr>
                                 <th class='td_al_vm'>차량 이미지</th>
                                 <td colspan='3' class='img_type1'>
-                                        @foreach($exterior_picture_ids as $picture)
-                                        @if($picture->files)
-                                        <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $picture->id }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $picture->id }}&format=png&h_pos=10&bg_rgb=ffffff">
-                                        @else
-                                        <img src="http://fakeimg.pl/88x50/">
-                                        @endif
-                                        @endforeach
 
+                                        @foreach($order->certificates->getPictures() as $file)
+                                        <img src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url={{ $file->getPreviewPath() }}&format=png&h_pos=10&bg_rgb=ffffff" class='img_place'>
+                                        @endforeach
                                 </td>
                         </tr>
                 </tbody>
@@ -102,7 +98,7 @@
                                         status_warn
                                         @else
                                         status_bad
-                                        @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_exterior_cd) }}
+                                        @endif'>{{ $order->certificates->performance_exterior->display() }}
                                 </span>
                         </td>
                         <th><dl class='bubble_desc'><dt>주요내판</dt><dd>{{ $order->certificates->interior_comment }}<span>×</span></dd></dl></th>
@@ -114,7 +110,7 @@
                                 status_warn
                                 @else
                                 status_bad
-                                @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_interior_cd) }}
+                                @endif'>{{ $order->certificates->performance_interior->display() }}
                         </span>
                 </td>
                 <th><dl class='bubble_desc'><dt>사고유무점검</dt><dd>{{ $order->certificates->accident_comment }}<span>×</span></dd></dl></th>
@@ -126,7 +122,7 @@
                         status_warn
                         @else
                         status_bad
-                        @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_accident_cd) }}
+                        @endif'>{{ $order->certificates->performance_accident->display() }}
                 </span>
         </td>
 </tr>
@@ -141,7 +137,7 @@
                 status_warn
                 @else
                 status_bad
-                @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_flooded_cd) }}
+                @endif'>{{ $order->certificates->performance_flooded->display() }}
         </span>
 </td>
 <th><dl class='bubble_desc'><dt>차량외판점검</dt><dd>{{ $order->certificates->exteriortest_comment }}<span>×</span></dd></dl></th>
@@ -153,7 +149,7 @@
         status_warn
         @else
         status_bad
-        @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_exteriortest_cd) }}
+        @endif'>{{ $order->certificates->performance_exteriortest->display() }}
 </span>
 </td>
 <th><dl class='bubble_desc'><dt>차량실내점검</dt><dd>{{ $order->certificates->interiortest_comment }}<span>×</span></dd></dl></th>
@@ -165,7 +161,7 @@
         status_warn
         @else
         status_bad
-        @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_interiortest_cd) }}
+        @endif'>{{ $order->certificates->performance_interiortest->display() }}
 </span>
 </td>
 </tr>
@@ -180,7 +176,7 @@
                 status_warn
                 @else
                 status_bad
-                @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_consumption_cd) }}
+                @endif'>{{ $order->certificates->performance_consumption->display() }}
         </span>
 </td>
 <th><dl class='bubble_desc'><dt>전장품유리기어/작동상태점검</dt><dd>{{ $order->certificates->plugin_comment }}<span>×</span></dd></dl></th>
@@ -192,7 +188,7 @@
         status_warn
         @else
         status_bad
-        @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_plugin_cd) }}
+        @endif'>{{ $order->certificates->performance_plugin->display() }}
 </span>
 </td>
 <th><dl class='bubble_desc'><dt>주행테스트</dt><dd>{{ $order->certificates->driving_comment }}<span>×</span></dd></dl></th>
@@ -204,7 +200,7 @@
         status_warn
         @else
         status_bad
-        @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_driving_cd) }}
+        @endif'>{{ $order->certificates->performance_driving->display() }}
 </span>
 </td>
 </tr>
@@ -218,7 +214,7 @@
                 status_warn
                 @else
                 status_bad
-                @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_broken_cd) }}
+                @endif'>{{ $order->certificates->performance_broken->display() }}
         </span>
 </td>
 <th><dl class='bubble_desc'><dt>엔진(원동기)</dt><dd>{{ $order->certificates->engine_comment }}<span>×</span></dd></dl></th>
@@ -230,7 +226,7 @@
         status_warn
         @else
         status_bad
-        @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_engine_cd) }}
+        @endif'>{{ $order->certificates->performance_engine->display() }}
 </span>
 </td>
 <th><dl class='bubble_desc'><dt>변속기</dt><dd>{{ $order->certificates->transmission_comment }}<span>×</span></dd></dl></th>
@@ -242,7 +238,7 @@
         status_warn
         @else
         status_bad
-        @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_transmission_cd) }}
+        @endif'>{{ $order->certificates->performance_transmission->display() }}
 </span>
 </td>
 </tr>
@@ -250,13 +246,13 @@
         <th><dl class='bubble_desc'><dt>동력전달</dt><dd>{{ $order->certificates->power_comment }}<span>×</span></dd></dl></th>
         <td>
                 <span class='
-                @if($order->certificates->performance_powor_cd == 1329)
+                @if($order->certificates->performance_power_cd == 1329)
                 status_good
-                @elseif($order->certificates->performance_powor_cd == 1330)
+                @elseif($order->certificates->performance_power_cd == 1330)
                 status_warn
                 @else
                 status_bad
-                @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_powor_cd) }}
+                @endif'>{{ $order->certificates->performance_power->display() }}
         </span>
 </td>
 <th><dl class='bubble_desc'><dt>조향장치</dt><dd>{{ $order->certificates->steering_comment }}<span>×</span></dd></dl></th>
@@ -268,7 +264,7 @@
         status_warn
         @else
         status_bad
-        @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_steering_cd) }}
+        @endif'>{{ $order->certificates->performance_steering->display() }}
 </span>
 </td>
 <th><dl class='bubble_desc'><dt>제동장치</dt><dd>{{ $order->certificates->braking_comment }}<span>×</span></dd></dl></th>
@@ -280,7 +276,7 @@
         status_warn
         @else
         status_bad
-        @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_braking_cd) }}
+        @endif'>{{ $order->certificates->performance_braking->display() }}
 </span>
 </td>
 </tr>
@@ -294,7 +290,7 @@
                 status_warn
                 @else
                 status_bad
-                @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_electronic_cd) }}
+                @endif'>{{ $order->certificates->performance_electronic->display() }}
         </span>
 </td>
 <th><dl class='bubble_desc'><dt>타이어</dt><dd>{{ $order->certificates->tire_comment }}<span>×</span></dd></dl></th>
@@ -306,7 +302,7 @@
         status_warn
         @else
         status_bad
-        @endif'>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_tire_cd) }}
+        @endif'>{{ $order->certificates->performance_tire->display() }}
 </span>
 </td>
 <th></th>
