@@ -88,77 +88,17 @@ class UserController extends Controller {
 
                         // 비밀번호 생성
                         $input['password'] = bcrypt($input['password']);
+
                         $user = User::create($input);
-                        //        $user = User::find(14)->first();
-
-
-                        // 사용자 역활 추가, role_user 테이블
                         foreach ($input['roles'] as $key => $value) {
                                 $user->attachRole($value);
                         }
-
-                        //        in_array(4,$input['roles'])
-                        //todo 현재 user_extras에 데이터를 저장하는 것이 없기 떄문에, 만약 roles이 엔지니어(5)라면 정비소의 아이디를 가지고 user_extra에 같이 저장한다.
-
-                        if (in_array(4, $request->get('roles')) || in_array(5, $request->get('roles'))) {
-
-                                if (in_array(4, $request->get('roles'))) {
-                                        //                $this->validate($request, [
-                                        //                    'garage_name' => 'required|min:2',
-                                        //                    'garage_tel' => 'required',
-                                        //                    'garage_zipcode' => 'required',
-                                        //                    'garage_area' => 'required',
-                                        //                    'garage_section' => 'required',
-                                        //                    'garage_address' => 'required'
-                                        //                ]);
-
-                                        if ($request->get('with_eng')) {
-                                                $user->attachRole($request->get('with_eng'));
-                                        }
-
-                                        // user_extra 데이터 저장 / BCS 저장
-                                        $user_extra = UserExtra::where('users_id', $user->id)->first();
-                                        if (!$user_extra) {
-                                                $user_extra = new UserExtra();
-                                        }
-                                        $user_extra->users_id = $user->id;
-                                        $user_extra->phone = $request->get('garage_tel');
-                                        $user_extra->zipcode = $request->get('garage_zipcode');
-                                        $user_extra->area = $request->get('garage_area');
-                                        $user_extra->section = $request->get('garage_section');
-                                        $user_extra->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_address');
-                                        $user_extra->address_extra = $request->get('garage_address');
-                                        $user_extra->aliance_id = $request->get('aliance_id');
-                                        $user_extra->registration_number = $request->get('registration_number');
-                                        $user_extra->fax = $request->get('fax');
-                                        $user_extra->bcs_bank = $request->get('bank');
-                                        $user_extra->bcs_account = $request->get('account');
-                                        $user_extra->bcs_account_name = $request->get('owner');
-                                        $user_extra->ceo_name = $request->get('name');
-                                        $user_extra->ceo_mobile = $request->get('mobile');
-                                        $user_extra->save();
-                                } else {
-                                        //                $this->validate($request, [
-                                        //                    'garage' => 'required'
-                                        //                ]);
-
-                                        // user_extra 데이터 저장
-                                        $user_extra = UserExtra::where('users_id', $user->id)->first();
-                                        $garage_info = GarageInfo::where('name', $request->get('garage'))->first();
-                                        if (!$user_extra) {
-                                                $user_extra = new UserExtra();
-                                        }
-                                        $user_extra->users_id = $user->id;
-                                        $user_extra->phone = $request->get('mobile');
-                                        $user_extra->zipcode = $garage_info->tel;
-                                        $user_extra->address = $garage_info->address;
-                                        $user_extra->address_extra = $garage_info->name;
-                                        $user_extra->garage_id = $garage_info->garage_id;
-                                        $user_extra->save();
-
-                                }
+                        if ($request->get('with_eng')) {
+                                $user->attachRole(5);
                         }
 
+                        $input['users_id'] = $user->id;
+                        $user_extra = $user->user_extra()->create($input);
 
                         if ($request->file('avatar')) {
                                 Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
@@ -184,19 +124,6 @@ class UserController extends Controller {
                         $garages = Role::find(4)->users;
 
                         $userRole = $user->roles->pluck('id', 'name')->toArray();
-
-                        // engineer의 정비소 출력
-                        $user_extras = UserExtra::where('users_id', $user->id)->first();
-                        if(!$user_extras){
-                                $user_extras = new UserExtra();
-                        }
-
-                        // garage의 정보 및 network 정보
-                        // $garage_info = UserExtra::where('users_id', $user->id)->first();
-                        // if(!$garage_info){
-                        //         $garage_info = new UserExtra();
-                        // }
-
 
                         return view('admin.user.edit', compact('user', 'roles', 'userRole', 'status_cd_list', 'garages', 'aliances'));
                 }
@@ -236,84 +163,19 @@ class UserController extends Controller {
                                         $input = array_except($input, array('password'));
                                 }
 
-
                                 $user = User::findOrFail($id);
                                 $user->update($input);
 
+
+                                // 롤갱신
                                 if ($user->id != 1) {
-                                        // roles
                                         DB::table('role_user')->where('user_id', $id)->delete();
                                         foreach ($input['roles'] as $key => $value) {
                                                 $user->attachRole($value);
                                         }
                                 }
-
-                                //        if($request->get('roles')[0] == 5 || $request->get('roles')[0] == 4){
-                                if (in_array(4, $request->get('roles')) || in_array(5, $request->get('roles'))) {
-                                        if (in_array(4, $request->get('roles'))) {
-
-                                                //                $this->validate($request, [
-                                                //                    'aliance_id' => 'required',
-                                                //                    'garage_name' => 'required|min:2',
-                                                //                    'garage_tel' => 'required',
-                                                //                    'garage_zipcode' => 'required',
-                                                //                    'garage_area' => 'required',
-                                                //                    'garage_section' => 'required',
-                                                //                    'garage_address' => 'required',
-                                                //                ]);
-
-                                                if ($request->get('with_eng')) {
-                                                        $eng_role = RoleUser::where('user_id', $id)->where('role_id', 5)->delete();
-                                                        $user->attachRole($request->get('with_eng'));
-                                                }
-
-                                                // user_extra 데이터 저장 / BCS 저장
-                                                $user_extra = UserExtra::where('users_id', $user->id)->first();
-                                                if (!$user_extra) {
-                                                        $user_extra = new UserExtra();
-                                                }
-                                                $user_extra->users_id = $user->id;
-                                                $user_extra->phone = $request->get('garage_tel');
-                                                $user_extra->zipcode = $request->get('garage_zipcode');
-                                                $user_extra->area = $request->get('garage_area');
-                                                $user_extra->section = $request->get('garage_section');
-                                                $user_extra->address_extra = $request->get('garage_address');
-                                                $user_extra->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_address'); // 정비소 나머지 주소
-                                                $user_extra->aliance_id = $request->get('aliance_id');
-                                                $user_extra->registration_number = $request->get('registration_number');
-                                                $user_extra->fax = $request->get('fax');
-                                                $user_extra->bcs_bank = $request->get('bank');
-                                                $user_extra->bcs_account = $request->get('account');
-                                                $user_extra->bcs_account_name = $request->get('owner');
-                                                $user_extra->ceo_name = $request->get('garage_name');
-                                                $user_extra->ceo_mobile = $request->get('mobile');
-                                                $user_extra->save();
-
-                                        }else{
-                                                //                $this->validate($request, [
-                                                //                    'garage' => 'required',
-                                                //                ]);
-
-
-                                                $my_extra = UserExtra::where('users_id', $user->id)->first();
-
-                                                if($my_extra->garage->name != $request->get('garage')){
-                                                        // user_extra 데이터 저장
-                                                        $user_extra = UserExtra::where('users_id', $user->id)->first();
-                                                        $garage_info = UserExtra::where('users_id', $request->get('garage'))->first();
-                                                        if(!$user_extra){
-                                                                $user_extra = new UserExtra();
-                                                        }
-                                                        $user_extra->users_id = $user->id;
-                                                        $user_extra->phone = $request->get('mobile');
-                                                        $user_extra->zipcode = $garage_info->tel;
-                                                        $user_extra->address = $garage_info->address;
-                                                        $user_extra->address_extra = $garage_info->address_extra;
-                                                        $user_extra->garage_id = $garage_info->users_id;
-                                                        $user_extra->save();
-                                                }
-                                        }
-                                }
+                                unset($input['users_id']);
+                                $user->user_extra()->update($input);
 
 
                                 // 아바타 변경

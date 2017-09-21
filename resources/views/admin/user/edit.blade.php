@@ -144,6 +144,7 @@
                                                         <span class="help-block">{{ trans('bcs/bcs-info.help-zipcode') }}</span>
                                                 </div>
                                         </div>
+
                                         <div class="form-group {{ $errors->has('garage_area') ? 'has-error' : '' }} garage_area">
                                                 <label for="inputGarage" class="control-label col-md-3">시/도</label>
                                                 <div class="col-md-6 ">
