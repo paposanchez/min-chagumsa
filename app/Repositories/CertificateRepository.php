@@ -25,9 +25,12 @@ class CertificateRepository {
 
         protected $cache_extension = 'html';
         protected $order;
+        protected $order_id;
+        protected $url_prefix;
 
         public function prepare($order_id)
         {
+                $this->order_id = $order_id;
                 list($car_number, $order_date) = explode('-',$order_id);
 
                 $order_date = Carbon::createFromFormat('ymd', $order_date);
@@ -41,6 +44,15 @@ class CertificateRepository {
 
                 return $this;
         }
+
+        public function prepareWithId($order_id)
+        {
+                $this->url_prefix = '/certificate';
+                $this->order_id = $order_id;
+                $this->order =  Order::whereIn("status_cd",[108, 109])->findOrFail($order_id);
+                return $this;
+        }
+
 
         public function cached_path()
         {
@@ -61,9 +73,29 @@ class CertificateRepository {
 
         public function cache($page)
         {
+                try
+                {
+
+                        $html = $this->generate($page);
+                        Storage::disk('local')->makeDirectory($this->cached_path(), 0775, true);
+                        return Storage::disk('local')->put($this->cached_file($page, true), $html);
+                }
+                catch (Exception $e)
+                {
+                        return false;
+                }
+
+
+                return false;
+        }
+
+
+        public function generate($page)
+        {
 
                 $order = $this->order;
-                $order_id = $this->order->getOrderNumber();
+                $order_id = $this->order_id;
+                $url_prefix = $this->url_prefix;
 
                 switch ($page) {
 
@@ -74,11 +106,11 @@ class CertificateRepository {
                                 $interior_lefts = Diagnosis::where('orders_id', $this->order->id)->where('group', 2018)->get();
                                 $interior_centers = Diagnosis::where('orders_id', $this->order->id)->where('group', 2019)->get();
                                 $interior_rights = Diagnosis::where('orders_id', $this->order->id)->where('group', 2020)->get();
-                                $html = view('cert.performance', compact('order', 'order_id', 'page'))->render();
-                                break;
+                                return view('cert.performance', compact('order', 'order_id', 'url_prefix', 'page'))->render();
+
                                 case 'history':
-                                $html = view('cert.history', compact('order', 'order_id', 'page'))->render();
-                                break;
+                                return view('cert.history', compact('order', 'order_id', 'url_prefix', 'page'))->render();
+
                                 case 'price':
                                 //특별요인
                                 $specials = [];
@@ -99,29 +131,28 @@ class CertificateRepository {
                                 }
                                 $specials = implode(", ", $specials);
 
-                                $html = view('cert.price', compact('order', 'order_id', 'page', 'specials'))->render();
-                                break;
+                                return view('cert.price', compact('order', 'order_id', 'page', 'url_prefix', 'specials'))->render();
 
                                 default:
-                                $html = view('cert.summary', compact('order', 'order_id', 'page'))->render();
-                                break;
+                                return view('cert.summary', compact('order', 'order_id','url_prefix',  'page'))->render();
                         }
 
 
-                        try
-                        {
-
-                                Storage::disk('local')->makeDirectory($this->cached_path(), 0775, true);
-                                return Storage::disk('local')->put($this->cached_file($page, true), $html);
-                        }
-                        catch (Exception $e)
-                        {
-                                return false;
-                        }
-
-
-                        return false;
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 // 인증정보 업데이트
                 public function update()

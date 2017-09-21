@@ -39,18 +39,18 @@
                                 </td>
                                 <th>연식</th>
                                 <td>
-                                        {{ $order->car->year }}
+                                        {{ $order->isIssued() ? $order->car->year : '-' }}
                                 </td>
                         </tr>
                         <tr>
                                 <th>최초등록일</th>
                                 <td>
-                                        {{ $order->car->registration_date->format('Y년 m월 d일') }}
+                                        {{ $order->isIssued() ? $order->car->registration_date : '' }}
                                 </td>
                                 <th>사용월수</th>
                                 <td>
 
-                                        {{ $order->car->registration_date }} 개월
+                                        {{ $order->isIssued() ? $order->car->registration_date : '' }} 개월
                                 </td>
                         </tr>
                         <tr>
@@ -111,7 +111,7 @@
 <ul class='report_info_wrap'>
         <li>
                 <label>진단일자</label>
-                <span>{{ Carbon\Carbon::parse($order->diagnoses_at)->format('Y년 m월 d일')}}</span>
+                <span>{{ $order->diagnose_at->format('Y년 m월 d일')}}</span>
         </li>
         <li>
                 <label>진단장소</label>

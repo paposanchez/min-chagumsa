@@ -2,7 +2,7 @@
 
 @section( 'content' )
 <div class='report_title_type1' style="margin-bottom: 20px;">
-        {{ $order_id }}
+        {{ $order->getOrderNumber() }}
         <span style="font-size:12px;"><strong>보증기간</strong> {{ $order->certificates->updated_at->format('Y년 m월 d일 H:i') }} ~ {{ $order->certificates->getExpireDate()->format('Y년 m월 d일 H:i') }}</span>
 </div>
 

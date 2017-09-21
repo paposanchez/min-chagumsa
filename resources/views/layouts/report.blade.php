@@ -32,10 +32,10 @@
 
                                 <h1>{{ Html::image(Helper::theme_web( '/img/report/report_logo.png')) }}</h1>
                                 <ul>
-                                        <li><a class='{{ $page == "summary" ? "select" : '' }}' href="/{{ $order_id }}/summary">자동차 요약 보고서</a></li>
-                                        <li><a class='{{ $page == "performance" ? "select" : '' }}' href="/{{ $order_id }}/performance">자동차 품질 보고서</a></li>
-                                        <li><a class='{{ $page == "price" ? "select" : '' }}' href="/{{ $order_id }}/price">자동차 가격 산정 보고서</a></li>
-                                        <li><a class='{{ $page == "history" ? "select" : '' }}' href="/{{ $order_id }}/history">자동차 이력 보고서</a></li>
+                                        <li><a class='{{ $page == "summary" ? "select" : '' }}' href="{{ $url_prefix }}/{{ $order_id }}/summary">자동차 요약 보고서</a></li>
+                                        <li><a class='{{ $page == "performance" ? "select" : '' }}' href="{{ $url_prefix }}/{{ $order_id }}/performance">자동차 품질 보고서</a></li>
+                                        <li><a class='{{ $page == "price" ? "select" : '' }}' href="{{ $url_prefix }}/{{ $order_id }}/price">자동차 가격 산정 보고서</a></li>
+                                        <li><a class='{{ $page == "history" ? "select" : '' }}' href="{{ $url_prefix }}/{{ $order_id }}/history">자동차 이력 보고서</a></li>
                                 </ul>
                                 <p>
                                         <span>Copyright © JIMBROS INC. All rights reserved.</span>

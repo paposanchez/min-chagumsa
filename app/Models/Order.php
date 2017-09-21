@@ -57,19 +57,11 @@ class Order Extends Model
 
         // 해당 주문의 차량 풀네임을 조회
         public function getCarFullName() {
-
-                if($this->status_cd == 109)
-                {
-                        $car = $this->car;
-                }else{
-                        $car = $this->orderCar;
-                }
-
                 return implode(" ", [
-                        $car->brand->name,
-                        $car->models->name,
-                        $car->detail->name,
-                        $car->grade->name
+                        $this->car->brand->name,
+                        $this->car->models->name,
+                        $this->car->detail->name,
+                        $this->car->grade->name
                 ]);
         }
 
@@ -101,8 +93,15 @@ class Order Extends Model
         }
 
         public function car(){
-                return $this->hasOne(\App\Models\Car::class, 'id','cars_id');
+                if($this->status_cd == 109) {
+                        return $this->hasOne(\App\Models\Car::class, 'id','cars_id');
+                }else{
+                        return $this->hasOne(OrderCar::class, 'orders_id','id');
+                }
         }
+
+
+
 
         public function reservation(){
                 return $this->hasOne(\App\Models\Reservation::class, 'orders_id','id');
@@ -112,13 +111,14 @@ class Order Extends Model
                 return $this->hasOne(\App\Models\User::class, 'id','garage_id');
         }
 
-        public function orderCar(){
-                return $this->hasOne(OrderCar::class, 'orders_id','id');
-        }
-
         //========================== 진단 수정중
         public function diagnoses(){
                 return $this->hasMany(\App\Models\Diagnosis::class, 'orders_id', 'id');
+        }
+
+        // 인증서 발급여부
+        public function isIssued() {
+                return $this->status_cd == 109;
         }
 
         //========================== 정산관련
