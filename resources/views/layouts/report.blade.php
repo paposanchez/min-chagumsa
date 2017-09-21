@@ -47,19 +47,17 @@
                         <div class='report_cont'>
 
                                 <div class='report_frame_wrap'>
-
+                                        <p class="text-primary" style="font-size: 40px;margin-top: 10px;">미리보기</p>
                                         <div class='report_frame_title'>
-                                                {{--<button class='btns btns_green'><i class="fa fa-download"></i> PDF 다운로드</button>--}}
-
                                                 <div class='report_title'><h2>
                                                         @if($page == 'summary')
-                                                        자동차 인증서 요약 보고서
+                                                                자동차 요약 보고서
                                                         @elseif($page == 'performance')
-                                                        자동차 성능진단 보고서
+                                                                자동차 품질 보고서
                                                         @elseif($page == 'history')
-                                                        자동차 이력 보고서
+                                                                자동차 이력 보고서
                                                         @else
-                                                        자동차 가격조사산정서
+                                                                자동차 가격 산정 보고서
                                                         @endif
 
                                                 </h2></div></div>

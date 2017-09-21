@@ -95,7 +95,7 @@ class Order Extends Model
         }
 
         public function car(){
-                if($this->status_cd == 109) {
+                if($this->cars_id) {
                         return $this->hasOne(\App\Models\Car::class, 'id','cars_id');
                 }else{
                         return $this->hasOne(OrderCar::class, 'orders_id','id');

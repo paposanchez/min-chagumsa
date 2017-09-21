@@ -173,10 +173,10 @@ class CertificateController extends Controller
 
 
                 $car_data = [
-                        "brands_id" => $order_where->orderCar->brands_id,
-                        "models_id" => $order_where->orderCar->models_id,
-                        "details_id" => $order_where->orderCar->details_id,
-                        "grades_id" => $order_where->orderCar->grades_id,
+                        "brands_id" => $order_where->car->brands_id,
+                        "models_id" => $order_where->car->models_id,
+                        "details_id" => $order_where->car->details_id,
+                        "grades_id" => $order_where->car->grades_id,
                         "vin_number" => $request->get('cars_vin_number'),
                         "imported_vin_number" => $request->get('car_imported_vin_number'),
                         "registration_date" => $request->get('cars_registration_date'),

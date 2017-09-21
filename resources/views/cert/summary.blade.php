@@ -18,7 +18,11 @@
                         <tr>
                                 <th>연식</th>
                                 <td>
-                                        {{ $order->car->year }}
+                                        @if($order->isIssued())
+                                                {{ $order->car->year }} 년식
+                                        @else
+                                                미입력 (검토중)
+                                        @endif
                                 </td>
                                 <th class='td_al_vt' rowspan='3'>산정가격</th>
                                 <td class='td_al_vb td_al_c' rowspan='3'>
@@ -28,19 +32,23 @@
                         <tr>
                                 <th>차대번호</th>
                                 <td>
-                                        {{ $order->car_number }}
+                                        {{ $order->isIssued() ? $order->car_number : '미입력 (검토중)' }}
                                 </td>
                         </tr>
                         <tr>
                                 <th>차종구분</th>
                                 <td>
-                                        {{ $order->car->getKind->display() }} {{ $order->car->passenger }}인승
+                                        @if($order->isIssued())
+                                                {{ $order->car->getKind->display() }} {{ $order->car->passenger }}인승
+                                        @else
+                                                미입력 (검토중)
+                                        @endif
                                 </td>
                         </tr>
                         <tr>
                                 <th>사용연료</th>
                                 <td>
-                                        {{ $order->car->getFuelType->display() }}
+                                        {{ $order->isIssued() ? $order->car->getFuelType->display() : '미입력 (검토중)' }}
                                 </td>
                                 <th class='td_al_vt' rowspan='3'>차량 성능 등급</th>
                                 <td class='td_al_vb td_al_c' rowspan='3' style="text-align:center;">
@@ -318,8 +326,7 @@
 
 <div class='report_title_type2'>차량정보</div>
 <div class='report_desc fsize_14'>
-        {{--H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다. 또 차량 소모품 상태 검검 결과 배터리의 수명이 다 되어 교체를 해야 하니 참고하시길 바랍니다.--}}
-        문구 협의
+        {{ $order->certificates->opinion }}
 </div>
 
 <div class='line_break'></div>
