@@ -152,5 +152,9 @@ class Certificate Extends Model
                 }
         }
 
+    public function certificate_grade(){
+        return $this->hasOne(Code::class, 'id', 'grade');
+    }
+
 
 }

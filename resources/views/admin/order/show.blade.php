@@ -16,7 +16,7 @@
 
 
                 @if($order->status_cd > 107)
-                <a href="{{ route('certificate', $order->id) }}" target="_blank" class="btn btn-primary pull-right" style="margin-left:10px;" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
+                <a href="{{ url('certificate', $order->id) }}" target="_blank" class="btn btn-primary pull-right" style="margin-left:10px;" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
                 @endif
 
                 @if($order->status_cd == 107)

@@ -165,7 +165,7 @@
 
 
                                                         <td>
-                                                                @if($data->status_cd > 106)
+                                                                @if($data->status_cd == 107)
                                                                 <a href="{{ url("diagnosis", [$data->id]) }}" class="btn btn-danger" data-toggle="tooltip" title="인증서 진단정보 수정">진단정보 수정</a>
                                                                 @endif
 
