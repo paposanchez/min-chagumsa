@@ -22,7 +22,9 @@ use App\Models\UserExtra;
 class User extends Authenticatable
 {
 
-        use Notifiable, EntrustUserTrait, SoftDeletes;
+        use Notifiable;
+        use EntrustUserTrait { restore as private restoreEntrust; }
+        use SoftDeletes { restore as private restoreEloquent; }
 
         protected $primaryKey = 'id';
         protected $fillable = [
@@ -39,6 +41,12 @@ class User extends Authenticatable
                 'remember_token',
         ];
         protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+
+        public function restore() {
+                $this->restoreEntrust();
+                $this->restoreEloquent();
+        }
 
         public function status()
         {
@@ -60,11 +68,6 @@ class User extends Authenticatable
                 return $this->hasMany(RoleUser::class, 'user_id', 'id');
         }
 
-        /**
-        * One to Many relation
-        *
-        * @return \Illuminate\Database\Eloquent\Relations\hasMany
-        */
         public function comments()
         {
                 return $this->hasMany(Comment::class);
@@ -76,21 +79,15 @@ class User extends Authenticatable
         }
 
 
-        public function files()
+
+        public function bcsimg_files()
         {
-                return $this->hasMany(File::class, 'group_id', 'id')->where("group", 'bcs');
+                return $this->hasMany(File::class, 'group_id', 'id')->where("group", 'bcsimg');
         }
 
-
-        // public function roles()
-        // {
-        //         return $this->belongsToMany(Config::get('entrust.role'), Config::get('entrust.role_user_table'), Config::get('entrust.user_foreign_key'), Config::get('entrust.role_foreign_key'));
-        // }
-
-
-        public function restore()
+        public function bcs_files()
         {
-                return false;
+                return $this->hasMany(File::class, 'group_id', 'id')->where("group", 'bcs');
         }
 
         /**
@@ -139,11 +136,4 @@ class User extends Authenticatable
                 return $return->toArray();
         }
 
-        //    public function getFilesDirectory() {
-        //        $folderPath = 'user/' . $this->id;
-        //        if (!in_array($folderPath, Storage::disk('files')->directories())) {
-        //            Storage::disk('files')->makeDirectory($folderPath);
-        //        }
-        //        return $folderPath;
-        //    }
 }

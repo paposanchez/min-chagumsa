@@ -98,7 +98,7 @@ class UserController extends Controller {
                         }
 
                         $input['users_id'] = $user->id;
-                        $user_extra = $user->user_extra()->create($input);
+                        $user->user_extra()->create($input);
 
                         if ($request->file('avatar')) {
                                 Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
@@ -163,6 +163,7 @@ class UserController extends Controller {
                                         $input = array_except($input, array('password'));
                                 }
 
+
                                 $user = User::findOrFail($id);
                                 $user->update($input);
 
@@ -174,8 +175,9 @@ class UserController extends Controller {
                                                 $user->attachRole($value);
                                         }
                                 }
-                                unset($input['users_id']);
-                                $user->user_extra()->update($input);
+
+
+                                $user->user_extra->update($input);
 
 
                                 // 아바타 변경

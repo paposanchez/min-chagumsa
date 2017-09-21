@@ -234,15 +234,7 @@
 
 
                                 <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
-                                        <label for="inputAvatar" class="control-label col-md-3">
-
-                                                @if($user->role_user->role_id != 4)
-                                                {{ trans('admin/user.avatar') }}
-                                                @else
-                                                대표자 사진
-                                                @endif
-
-                                        </label>
+                                        <label for="inputAvatar" class="control-label col-md-3">아바타</label>
                                         <div class="col-md-6">
                                                 <div class="fileinput fileinput-new" data-provides="fileinput">
 
@@ -269,7 +261,25 @@
                                 </div>
 
                                 @if($user->hasRole('garage'))
-                                        <!-- 파일 업로드 -->
+
+                                        <div class="form-group attachment">
+                                                <label for="" class="control-label col-md-3">정비소 이미지</label>
+
+                                                <div class="col-md-9">
+
+                                                        <div class="plugin-attach" id="plugin-garage_imgs"></div>
+
+                                                        @if ($errors->has('garage_imgs'))
+                                                        <span class="help-block">
+                                                                {{ $errors->first('garage_imgs') }}
+                                                        </span>
+                                                        @endif
+
+                                                </div>
+
+                                        </div>
+
+
                                         <div class="form-group attachment">
                                                 <label for="" class="control-label col-md-3">정비소 관련자료</label>
 
@@ -286,6 +296,9 @@
                                                 </div>
 
                                         </div>
+
+
+
                                 @endif
 
 
@@ -399,21 +412,24 @@
 
         @endsection
 
-
-
-
+        @push( 'header-script' )
+        <link rel="stylesheet" href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}" />
+        @endpush
 
         @push( 'footer-script' )
 
-        <link rel="stylesheet" href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}" />
         <script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
         <script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
-        <script type="text/template" id="qq-template">@include("partials/files", ['files'=> $user->files])</script>
+        <script type="text/template" id="garage_imgs-template">@include("partials/files", ['files'=> $user->bcsimg_files])</script>
+        <script type="text/template" id="qq-template">@include("partials/files", ['files'=> $user->bcs_files])</script>
         <script type="text/javascript">
         $(function () {
-                $('#plugin-attachment').fineUploader({
+
+
+
+                $('#plugin-garage_imgs').fineUploader({
                         debug: true,
-                        //        template: 'qq-template',
+                        template: "garage_imgs-template",
                         request: {
                                 inputName: "upfile",
                                 endpoint: '/file/upload',
@@ -435,7 +451,47 @@
                                 }
                         },
                         validation: {
-                                //            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'hwp'],
+                                allowedExtensions: ['jpg', 'jpeg', 'png'],
+                                itemLimit: 3,
+                                sizeLimit: 5120000, // 50 kB = 50 * 1024 bytes
+                                stopOnFirstInvalidFile: true
+                        },
+                        callbacks: {
+                                onSubmit: function (id, fileName) {
+                                        this.setParams({'upfile_group': "bcsimg", 'upfile_group_id': "{{ $user->id }}"});
+                                },
+                                onComplete: function (id, fileName, responseJSON) {
+                                        if (responseJSON.success == true) {
+                                                $.notify(responseJSON.msg, "success");
+                                        } else {
+                                                $.notify(responseJSON.msg, "error");
+                                        }
+                                }
+                        }
+                });
+
+                $('#plugin-attachment').fineUploader({
+                        request: {
+                                inputName: "upfile",
+                                endpoint: '/file/upload',
+                                customHeaders: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                        },
+                        deleteFile: {
+                                enabled: true,
+                                endpoint: '/file/delete',
+                                customHeaders: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                        },
+                        thumbnails: {
+                                placeholders: {
+                                        waitingPath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/waiting-generic.png' ) }}",
+                                        notAvailablePath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/not_available-generic.png' ) }}",
+                                }
+                        },
+                        validation: {
                                 itemLimit: 3,
                                 sizeLimit: 5120000, // 50 kB = 50 * 1024 bytes
                                 stopOnFirstInvalidFile: true
@@ -453,6 +509,12 @@
                                 }
                         }
                 });
+
+
+
+
+
+
 
 
 
