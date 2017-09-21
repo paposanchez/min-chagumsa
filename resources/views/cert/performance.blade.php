@@ -119,9 +119,11 @@
                 <span>
                         <!-- 한스모터스 -->
                         {{ $order->garage->user_extra->address }} / {{ $order->garage->name }}
-                        {{--<img src="http://fakeimg.pl/275x185/" class='img_place'>--}}
+
+                        @foreach($order->garage->user_extra->bcsimg_files as $file)
+                        <img src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url={{ $file->getPreviewPath() }}&format=png&h_pos=10&bg_rgb=ffffff" class='img_place'>
+                        @endforeach
                 </span>
-                <div id="map" style="width:400px;height:300px;margin-left: 90px;"></div>
 
         </li>
         <li>
