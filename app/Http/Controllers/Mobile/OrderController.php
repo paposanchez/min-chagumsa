@@ -7,7 +7,6 @@ use App\Models\Brand;
 use App\Models\Car;
 use App\Models\Code;
 use App\Models\Detail;
-use App\Models\GarageInfo;
 use App\Models\Grade;
 use App\Models\Item;
 use App\Models\Models;

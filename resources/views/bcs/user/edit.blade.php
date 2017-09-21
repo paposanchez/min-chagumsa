@@ -66,20 +66,6 @@
                         </div>
                     </div>
 
-                    {{--<div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">--}}
-                        {{--<label for="bcs_number" class="control-label col-md-3">{{ trans('bcs/user.bcs_number') }}</label>--}}
-                        {{--<div class="col-md-4">--}}
-                            {{--<p class='form-control-static'>{{ $garage->garage_id }} / {{ $garage->name }}</p>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="form-group {{ $errors->has('engineer_number') ? 'has-error' : '' }}">--}}
-                        {{--<label for="engineer_number" class="control-label col-md-3">{{ trans('bcs/user.engineer_number') }}</label>--}}
-                        {{--<div class="col-md-4">--}}
-                            {{--<p class='form-control-static'>{{ $user->id }}</p>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
                     <div class="form-group {{ $errors->has('mobile') ? 'has-error' : '' }}">
                         <label for="inputMobile" class="control-label col-md-3">{{ trans('bcs/user.mobile') }}</label>
                         <div class="col-md-4">

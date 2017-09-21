@@ -182,7 +182,7 @@ class UserController extends Controller
 //            $join->on('users.id', '=', 'role_user.user_id')->where('role_id', 3);
 //        })->orderBy('name')->pluck('name', 'id');
 
-        $garage = GarageInfo::where('garage_id', $user->user_extra->garage_id)->first();
+        // $garage = $user->garage;
 
 //        $userRole = $user->roles->pluck('id', 'name')->toArray();
 
@@ -199,7 +199,7 @@ class UserController extends Controller
 //        }
 
 
-        return view('bcs.user.edit', compact('user', 'garage'));
+        return view('bcs.user.edit', compact('user'));
     }
 
     /**

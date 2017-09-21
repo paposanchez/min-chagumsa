@@ -8,12 +8,6 @@ use App\Models\Item;
 
 class InformationController extends Controller {
 
-    public function findGarage() {
-        $garages = GarageInfo::orderBy('area', 'DESC')->groupBy('area')->get();
-        $all_garages = GarageInfo::orderBy('area', 'DESC')->get();
-        return view('web.information.find-garage', compact('garages', 'all_garages'));
-    }
-
     public function price(){
 
         $item = Item::OrderBy('car_sort', 'ASC')->orderBy('price', 'ASC')->get();

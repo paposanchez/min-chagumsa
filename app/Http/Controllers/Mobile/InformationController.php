@@ -3,16 +3,9 @@
 namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
-use App\Models\GarageInfo;
 use App\Models\Item;
 
 class InformationController extends Controller {
-
-    public function findGarage() {
-        $garages = GarageInfo::orderBy('area', 'DESC')->groupBy('area')->get();
-        $all_garages = GarageInfo::orderBy('area', 'DESC')->get();
-        return view('mobile.information.find-garage', compact('garages', 'all_garages'));
-    }
 
     public function price(){
 
