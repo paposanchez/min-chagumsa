@@ -14,7 +14,7 @@
                     <div class='od_line'>
                         <label>주문일</label>
                         <span>{{ $orders->created_at->format('Y년 m월 d일 H:i') }}</span>
-                            <a href='{{ route('mypage.order.show', ['id'=>$orders->id]) }}'>〉</a>
+                            <a href='{{ url('mypage/order', ['id'=>$orders->id]) }}'>〉</a>
                     </div>
                 </div>
                 <div class='order_info_cont'>

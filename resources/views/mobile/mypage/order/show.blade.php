@@ -78,19 +78,19 @@
             </div>
             <div class='od_line'>
                 <label>제조사</label>
-                <span>{{ $order->orderCar->brand->name }}</span>
+                <span>{{ ($order->orderCar()->first())? $order->orderCar()->first()->brand->name : '-' }}</span>
             </div>
             <div class='od_line'>
                 <label>모델</label>
-                <span>{{ $order->orderCar->models->name }}</span>
+                <span>{{ ($order->orderCar()->first())?$order->orderCar()->first()->models->name : '-'  }}</span>
             </div>
             <div class='od_line'>
                 <label>세무보델</label>
-                <span>{{ $order->orderCar->detail->name }}</span>
+                <span>{{ ($order->orderCar()->first())?$order->orderCar()->first()->detail->name : '-'  }}</span>
             </div>
             <div class='od_line'>
                 <label>등급</label>
-                <span>{{ $order->orderCar->grade->name }}</span>
+                <span>{{ ($order->orderCar()->first())?$order->orderCar()->first()->grade->name : '-'  }}</span>
             </div>
             <div class='od_line'>
                 <label>침수여부</label>
@@ -102,7 +102,7 @@
             </div>
             <div class='od_line'>
                 <label>옵션</label>
-                <span>{!! $features ? implode(', ',  $features) : '없음' !!}</span>
+                <span>{!! $features ? $features : '없음' !!}</span>
             </div>
         </div>
 

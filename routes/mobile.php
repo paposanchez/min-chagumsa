@@ -43,9 +43,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/order/sel_item', 'OrderController@selItem')->name("mobile.order.sel_item");
     Route::get('/order/get_section', 'OrderController@getSection')->name("mobile.order.get_section");
     Route::get('/order/get_address', 'OrderController@getAddress')->name("mobile.order.get_address");
+    Route::get('/order/get_full_address', 'OrderController@getFullAddress')->name("order.get_full_address");
 
     Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd')->name('mobile.certificate.change-open-cd');
 
+    //쿠폰인증
+    Route::post('/order/coupon-verify', 'OrderController@couponVerify')->name("mobile.order.coupon-verify");
+    //쿠폰 주문 등록
     Route::post('/order/coupon-process', 'OrderController@couponProcess')->name("mobile.order.coupon-process");
 //    Route::resource('/certificate', 'CertificateController',['only' => ['index']]);
 

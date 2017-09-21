@@ -58,19 +58,33 @@ class Order Extends Model
         // 해당 주문의 차량 풀네임을 조회
         public function getCarFullName() {
 
+            $full_string = "";
+
+            $car = null;
+
                 if($this->status_cd == 109)
                 {
+                    if(isset($this->car)){
                         $car = $this->car;
+                    }
+
                 }else{
+                    if(isset($this->orderCar)) {
                         $car = $this->orderCar;
+                    }
                 }
 
-                return implode(" ", [
+                if($car){
+                    return implode(" ", [
                         $car->brand->name,
                         $car->models->name,
                         $car->detail->name,
                         $car->grade->name
-                ]);
+                    ]);
+                }else{
+                    return "차량 정보가 없습니다.";
+                }
+
         }
 
         public function getOrderNumber() {

@@ -618,7 +618,8 @@ $(function () {
 
             },
             error : function (data){
-                alert(data);
+                console.log(data);
+                alert('대리점 선택을 실패하였습니다.');
             },
             complete: function(){
                 $("#modal-bcs").modal("hide");
