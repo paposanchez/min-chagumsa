@@ -47,7 +47,14 @@
                         <div class='report_cont'>
 
                                 <div class='report_frame_wrap'>
-                                        <p class="text-primary" style="font-size: 40px;margin-top: 10px;">미리보기</p>
+                                        @if(!$order->isIssued())
+                                                <div class="breadcrumb">
+                                                        <div class="panel-body">
+                                                                <p class="text-primary " style="font-size: 30px;font-style: italic;font-weight: bold"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i> 미리보기</p>
+                                                        </div>
+                                                </div>
+                                        @endif
+
                                         <div class='report_frame_title'>
                                                 <div class='report_title'><h2>
                                                         @if($page == 'summary')

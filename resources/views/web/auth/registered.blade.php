@@ -9,7 +9,7 @@
 
                 </div>
 
-                <h4 class="text-danger" style="margin:30px 0px; font-size:18px;color:#ff6600;">
+                <h4 class="text-danger text-center" style="margin:30px 0px; font-size:18px;color:#ff6600;">
                         {{ $user->email }}
                 </h4>
 

@@ -122,10 +122,10 @@
 
                         <li><strong class="text-light text-muted">모델</strong>
 
-                            <span>{{ $order->orderCar->brand->name }}</span>
-                            <span>{{ $order->orderCar->models->name }}</span>
-                            <span>{{ $order->orderCar->detail->name }}</span>
-                            <span>{{ $order->orderCar->grade->name }}</span>
+                            <span>{{ $order->car->brand->name }}</span>
+                            <span>{{ $order->car->models->name }}</span>
+                            <span>{{ $order->car->detail->name }}</span>
+                            <span>{{ $order->car->grade->name }}</span>
                         </li>
                         <li><strong class="text-light text-muted">침수여부</strong>
                             <span>{{ $order->flooding_state_cd == 1 ? "예" : "아니요" }}</span></li>
