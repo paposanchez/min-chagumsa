@@ -109,7 +109,8 @@ class CertificateRepository {
                                 return view('cert.performance', compact('order', 'order_id', 'url_prefix', 'page'))->render();
 
                                 case 'history':
-                                return view('cert.history', compact('order', 'order_id', 'url_prefix', 'page'))->render();
+                                    $exterior_picture_ids = Diagnosis::where('orders_id', $order_id)->where('group', 2008)->get();
+                                return view('cert.history', compact('order', 'order_id', 'url_prefix', 'page', 'exterior_picture_ids'))->render();
 
                                 case 'price':
                                 //특별요인

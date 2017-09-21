@@ -19,7 +19,7 @@
                                 </td>
                                 <th>차대번호</th>
                                 <td>
-                                        {{ $order->car_number }}
+                                        {{ $order->isIssued() ? $order->car->vin_number : '미입력 (검토중)'}}
                                 </td>
                         </tr>
                         <tr>
@@ -29,27 +29,36 @@
                                 </td>
                                 <th>연식</th>
                                 <td>
-                                        {{ $order->car->year }}
+                                        {{ $order->isIssued() ? $order->car->year : '미입력 (검토중)' }}
                                 </td>
                         </tr>
                         <tr>
                                 <th>최초등록일</th>
                                 <td>
-                                        {{ \Carbon\Carbon::parse($order->car->registration_date)->format('Y년 m월 d일') }}
+                                        {{ $order->isIssued() ? \Carbon\Carbon::parse($order->car->registration_date)->format('Y년 m월 d일') : '미입력 (검토중)' }}
                                 </td>
                                 <th>사용월수</th>
                                 <td>
-                                        {{ \Carbon\Carbon::parse($order->car->registration_date)->diffInMonths(\Carbon\Carbon::now()) }} 개월
+                                        @if($order->isIssued())
+                                                {{ \Carbon\Carbon::parse($order->car->registration_date)->diffInMonths(\Carbon\Carbon::now()) }} 개월
+                                        @else
+                                                미입력 (검토중)
+                                        @endif
+
                                 </td>
                         </tr>
                         <tr>
                                 <th>변속기</th>
                                 <td>
-                                        {{ $order->car->getTransmission->display() }}
+                                        {{ $order->isIssued() ? $order->car->getTransmission->display() : '미입력 (검토중)' }}
                                 </td>
                                 <th>색상</th>
                                 <td>
-                                        {{ $order->car->getExteriorColor->display() }}(외부) / {{ $order->car->getInteriorColor->display() }}(내부)
+                                        @if($order->isIssued())
+                                                {{ $order->car->getExteriorColor->display() }}(외부) / {{ $order->car->getInteriorColor->display() }}(내부)
+                                        @else
+                                                미입력 (검토중)
+                                        @endif
                                 </td>
                         </tr>
                         <tr>
@@ -59,17 +68,26 @@
                                 </td>
                                 <th>주행거리(km)</th>
                                 <td>
-                                        {{ number_format($order->mileage) }} km
+                                        @if($order->isIssued())
+                                                {{ number_format($order->mileage) }} km
+                                        @else
+                                                미입력 (검토중)
+                                        @endif
+
                                 </td>
                         </tr>
                         <tr>
                                 <th>배기량(cc)</th>
                                 <td>
-                                        {{ number_format($order->car->displacement) }} cc
+                                        @if($order->isIssued())
+                                                {{ number_format($order->car->displacement) }} cc
+                                        @else
+                                                미입력 (검토중)
+                                        @endif
                                 </td>
                                 <th>사용연료</th>
                                 <td>
-                                        {{ $order->car->getFuelType->display() }}
+                                        {{ $order->isIssued() ? $order->car->getFuelType->display() : '미입력 (검토중)' }}
                                 </td>
                         </tr>
                 </tbody>
@@ -93,7 +111,7 @@
                                 <td colspan='3'><strong>{{ $order->certificates->price }} 만원</strong></td>
                         </tr>
                         <tr>
-                                <th rowspan='2'>기본평가</th>
+                                <th rowspan='3'>기본평가</th>
                                 <td>등록일 보정</td>
                                 <td>
                                         @if($order->certificates->basic_registraion == 1282)
@@ -108,12 +126,16 @@
 
                         <tr>
                                 <td>색상 등 기타</td>
-                                <td>{{ $order->car->getExteriorColor->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->car->getExteriorColor->display() : '미입력 (검토중)' }}</td>
+                        </tr>
+                        <tr>
+                                <td>기본평가 감가금액</td>
+                                <td>{{ number_format($order->certificates->basic_depreciation) }} 만원</td>
                         </tr>
 
 
                         <tr>
-                                <th rowspan='2'>사용이력</th>
+                                <th rowspan='3'>사용이력</th>
                                 <td>주행거리 평가</td>
                                 <td>
                                         @if($order->certificates->usage_mileage_cd == 1282)
@@ -139,97 +161,99 @@
                                         @endif
                                 </td>
                         </tr>
+                        <tr>
+                                <td>사용이력 감가금액</td>
+                                <td>{{ number_format($order->certificates->history_depreciation) }} 만원</td>
+                        </tr>
 
                         <th rowspan='19'>차량성능상태</th>
                         <tr>
                                 <td>주요외판</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_exterior_cd) }}</td>
+                                <td>{{ $order->certificates->performance_exterior->display() }}</td>
                         </tr>
                         <tr>
                                 <td>침수흔적점검</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_flooded_cd) }}</td>
+                                <td>{{ $order->certificates->performance_flooded->display() }}</td>
                         </tr>
                         <tr>
                                 <td>소모품상태점검</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_consumption_cd) }}</td>
+                                <td>{{ $order->certificates->performance_consumption->display() }}</td>
                         </tr>
                         <tr>
                                 <td>고장진단</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_broken_cd) }}</td>
+                                <td>{{ $order->certificates->performance_broken->display() }}</td>
                         </tr>
                         <tr>
                                 <td>동력전달</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_powor_cd) }}</td>
+                                <td>{{ $order->certificates->performance_power->display() }}</td>
                         </tr>
                         <tr>
                                 <td>전기</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_electronic_cd) }}</td>
+                                <td>{{ $order->certificates->performance_electronic->display() }}</td>
                         </tr>
 
                         <tr>
                                 <td>주요내판</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_interior_cd) }}</td>
+                                <td>{{ $order->certificates->performance_interior->display() }}</td>
                         </tr>
                         <tr>
                                 <td>차량외판점검</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_exteriortest_cd) }}</td>
+                                <td>{{ $order->certificates->performance_exteriortest->display() }}</td>
                         </tr>
                         <tr>
                                 <td>전장품유리기어/작동상태점검</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_plugin_cd) }}</td>
+                                <td>{{ $order->certificates->performance_plugin->display() }}</td>
                         </tr>
                         <tr>
                                 <td>엔진(원동기)</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_engine_cd) }}</td>
+                                <td>{{ $order->certificates->performance_engine->display() }}</td>
                         </tr>
                         <tr>
                                 <td>조향장치</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_steering_cd) }}</td>
+                                <td>{{ $order->certificates->performance_steering->display() }}</td>
                         </tr>
                         <tr>
                                 <td>타이어</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_tire_cd) }}</td>
+                                <td>{{ $order->certificates->performance_tire->display() }}</td>
                         </tr>
 
                         <tr>
                                 <td>사고유무점검</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_accident_cd) }}</td>
+                                <td>{{ $order->certificates->performance_accident->display() }}</td>
                         </tr>
                         <tr>
                                 <td>차량실내점검</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_interiortest_cd) }}</td>
+                                <td>{{ $order->certificates->performance_interiortest->display() }}</td>
                         </tr>
                         <tr>
                                 <td>주행테스트</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_driving_cd) }}</td>
+                                <td>{{ $order->certificates->performance_driving->display() }}</td>
                         </tr>
                         <tr>
                                 <td>변속기</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_transmission_cd) }}</td>
+                                <td>{{ $order->certificates->performance_transmission->display() }}</td>
                         </tr>
                         <tr>
                                 <td>제동장치</td>
-                                <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_braking_cd) }}</td>
+                                <td>{{ $order->certificates->performance_braking->display() }}</td>
                         </tr>
 
                         <tr>
                                 <td>감가금액</td>
                                 <td>
-                                        @if($order->certificates->performance_depreciation)
-                                        -{{ number_format($order->certificates->performance_depreciation) }} 원
-                                        @else
-                                        0 원
-                                        @endif
+                                        {{ number_format($order->certificates->performance_depreciation) }} 만원
                                 </td>
                         </tr>
 
-
-
                         <tr>
-                                <th>특별요인</th>
+                                <th rowspan="2">특별요인</th>
                                 <td colspan='3'>
                                         {{ $specials }}
                                 </td>
+                        </tr>
+                        <tr>
+                                <td>특별요인 감가금액</td>
+                                <td>{{ $order->certificates->special_depreciation }} 만원</td>
                         </tr>
                 </tbody>
         </table>

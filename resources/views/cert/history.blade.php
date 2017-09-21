@@ -19,7 +19,7 @@
                         <tr>
                                 <th>연식</th>
                                 <td>
-                                        {{ $order->car->year }}
+                                        {{ $order->isIssued() ? $order->car->year : '미입력 (검토중)' }}
                                 </td>
 
                                 <td rowspan='6' class='img_type2'>
@@ -37,19 +37,25 @@
                         <tr>
                                 <th>차대번호</th>
                                 <td>
-                                        {{ $order->car_number }}
+                                        {{ $order->isIssued() ? $order->car->vin_number : '미입력 (검토중)' }}
                                 </td>
                         </tr>
                         <tr>
                                 <th>차종구분</th>
                                 <td>
-                                        {{ $order->car->getKind->display() }} {{ $order->car->passenger }}인승
+                                        @if($order->isIssued())
+                                                {{ $order->car->getKind->display() }} {{ $order->car->passenger }}인승
+                                        @else
+                                                미입력 (검토중)
+                                        @endif
+
+
                                 </td>
                         </tr>
                         <tr>
                                 <th>사용연료</th>
                                 <td>
-                                        {{ $order->car->getFuelType->display() }}
+                                        {{ $order->isIssued() ? $order->car->getFuelType->display() : '미입력 (검토중)' }}
                                 </td>
                         </tr>
                         <tr>
@@ -62,7 +68,7 @@
                                 <th><strong class='fcol_navy'>인증서 발급일</strong></th>
                                 <td>
                                         <strong class='fcol_navy'>
-                                                {{ \Carbon\Carbon::parse($order->certificates->created_at)->format('Y년 m월 d일') }}
+                                                {{ $order->certificates->updated_at->format('Y년 m월 d일') }}
                                         </strong>
                                 </td>
                         </tr>
@@ -129,38 +135,25 @@
                                 <th class='fcol_navy'>용도변경 이력</th>
                                 <td>
                                         @if($order->certificates->history_purpose)
-                                        있음
+                                        {{ count(explode(',', $order->certificates->history_purpose)) }}건
                                         @else
                                         없음
                                         @endif
                                 </td>
                                 <td>
-                                        @if($order->certificates->history_purpose)
-                                        @foreach(json_decode($order->certificates->history_purpose, true) as $key => $purpose)
-                                        {{ $purpose }}
-                                        @endforeach
-                                        @else
-                                        용도변경이력이 없음
-                                        @endif
+                                        {{ $order->certificates->history_purpose ? $order->certificates->history_purpose : '용도변경 이력' }}
                                 </td>
                         </tr>
                         <tr>
                                 <th class='fcol_navy'>차고지 이력</th>
                                 <td>
                                         @if($order->certificates->history_garage)
-                                        최근 / {{ json_decode($order->certificates->history_garage, true)[0] }}</td>
+                                        {{ count(explode(',', $order->certificates->history_garage)) }}건</td>
                                         @else
                                         없음
                                         @endif
-                                        {{--<td>강원도/강릉, 경기도/파주</td>--}}
                                         <td>
-                                                @if($order->certificates->history_garage)
-                                                @foreach(json_decode($order->certificates->history_garage, true) as $key => $garage_row)
-                                                • {{ $garage_row }}
-                                                @endforeach
-                                                @else
-                                                차고지이력이 없음
-                                                @endif
+                                                {{ $order->certificates->history_garage ? $order->certificates->history_garage : '차고지 이력 없음' }}
                                         </td>
                                 </tr>
                         </tbody>

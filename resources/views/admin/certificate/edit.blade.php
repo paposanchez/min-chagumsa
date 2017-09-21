@@ -134,17 +134,6 @@
 
 
                             <li class="list-group-item">
-                                <small>사용월수</small>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="cars_history"
-                                           value="{{ $car->registration_date ? $car->registration_date : '' }}"
-                                           required>
-                                    <span class="input-group-addon">월</span>
-                                </div>
-                            </li>
-
-
-                            <li class="list-group-item">
                                 <small>연식(형식)</small>
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="cars_year"
@@ -1060,7 +1049,6 @@
                 cars_vin_number: "차대번호를 입력해 주세요.",
                 certificates_vin_yn_cd: "차대번호 동일성확인을 선택해 주세요.",
                 cars_registration_date: "차량의 최초등록일을 입력해 주세요.",
-                cars_history: "사용월수를 입력하세요.",
                 cars_year: "연식을 입력해 주세요.",
                 orders_mileage: "주행거리를 km단위로 입력해 주세요. (정수값)",
                 cars_displacement: "배기량을 입력해 주세요.",
