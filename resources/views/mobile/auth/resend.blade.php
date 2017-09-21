@@ -1,99 +1,66 @@
-{{-- LAYOUT --}}
-@extends( 'layouts.mobile' )
+@extends( 'mobile.layouts.login-base' )
 
-{{-- 헤더 스크립트 --}}
-@section( 'content-header-script' )
-	<script src="https://use.fontawesome.com/23c54b84b1.js"></script>
+@section( 'content' )
 
-	{{ Html::style(Helper::assets( 'themes/v1/mobile/css/common.css' )) }}
-	{{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub.css' )) }}
-	{{ Html::style(Helper::assets( 'themes/v1/mobile/css/main.css' )) }}
-	{{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' )) }}
+@section('content')
 
-	{{-- margin이 bootstrap과 충돌이 있어 일단 배제함 --}}
-	{{ Html::style(Helper::assets('css/app.css')) }}
-	{{ Html::style(Helper::assets('css/vendor.css')) }}
-	{{ Html::style(Helper::assets('themes/v1/mobile/css/mobile.css')) }}
+	<div id='sub_title_wrap'>회원인증</div>
 
-	@stack('header-script')
-@endsection
+	<div id='sub_wrap'>
 
-{{-- 헤더 섹션 --}}
-@section( 'content-header' )
+		<div class='br20'></div>
 
-	{{-- 헤더 메뉴 --}}
-	@include("mobile.partials.menu")
 
-	<div class='head_wrap'>
-		<span><a href="/" style="margin-left: 50px; margin-right: 50px;">{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/comm/head_logo.png"), "차검사", ['id' => 'top-logo']) }}</a></span>
-		<div id='menu_btn'><i class="fa fa-bars" id="slide-menu" style="cursor: pointer; margin-right: 15px;"></i></div>
-	</div>
+		<h3>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/sub/logo_big.png")) }}</h3>
 
-@endsection
+			{!! Form::open(['route' => ["mobile.register.resent"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'resendFrm']) !!}
+			<input type="hidden" name="email" value="{{ $email }}" />
+			<table cellspacing="0">
+				<tbody>
+				<tr>
+					<td style="padding : 30px 30px 0px 30px">
+						<span style="display:block;font-size:28px;color:#0b4777;letter-spacing:-1px;">회원님의 이메일 인증이 완료되지 않았습니다.</span>
+						<div class="br20"></div>
+						<p style='font-size:14px;color:#444;letter-spacing:-1px;'>
+							차검사를 선택해주신 회원님 감사합니다!<br>
+							항상 신뢰할 수 있는 서비스를 제공하기 위해 노력하겠습니다.<br>
+							회원님의 계정은 활성화가 되어있지 않습니다.
+						<div class="br10"></div>
+						아래 [인증메일 재발송 하기] 버튼을 눌러주세요.
+						<div class="br40"></div>
+						<div class="ipt_line wid40">
+							<button class="btns btns_green" style="display:inline-block;" type="submit">
+								인증메일 재발송 하기
+							</button>
+						</div>
+						</p>
+					</td>
+				</tr>
+				</tbody>
+			</table>
 
-{{-- 본문 섹션 --}}
-@section( 'content-body' )
 
-	@includeIf('flash::message')
 
-	@yield( 'content' )
+			{!! Form::close() !!}
 
-@endsection
-
-{{-- 푸터 섹션 --}}
-@section( 'content-footer' )
-	{{-- 푸터 카피라이트 --}}
-	<div class='foot_wrap'>
-		<ul>
-			<li><a href='{{ url("agreement/usage") }}'>이용약관</a></li>
-			<li><a href='{{ url("agreement/term") }}'>전자금융거래약관</a></li>
-			<li><a href='{{ url("agreement/privacy") }}'>개인정보 취급방침</a></li>
-		</ul>
-		<p>Copyright &copy; JIMBROS Co., Ltd. All rights reserved.</p>
+		</div>
 	</div>
 
 
 @endsection
 
-{{-- 푸터 스크립트 --}}
-@section( 'content-footer-script' )
-	@stack( 'footer-script' )
 
-	<script type="text/javascript">
-        $(function () {
-            $("#menu_btn").on("click", function () {
-                $("#navi_wrap").animate({width:'toggle'},350);
-            });
-            $("#navi_close").on("click", function () {
-                $("#navi_wrap").animate({width:'toggle'},350);
-            });
+@push( 'header-script' )
 
-            $("#menu-login").on("click", function () {
-                location.href = $(this).data('url');
-            });
+@endpush
 
-            $("#order-list").on("click", function () {
-                location.href = $(this).data("url");
-            })
+@push( 'footer-script' )
 
-        });
+<script type="text/javascript">
+    $(function(){
 
-		{{-- tracking script --}}
-				@if( config('app.analytics'))
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-        ga('create', "{{ config('app.analytics') }}", 'auto');
-        ga('send', 'pageview');
+    });
 
+</script>
 
-		@endif
-	</script>
-@endsection
+@endpush

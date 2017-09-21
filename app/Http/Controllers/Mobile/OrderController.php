@@ -35,6 +35,9 @@ use Illuminate\Support\Facades\Validator;
 use App\Tpay\TpayLib as Encryptor;
 use GuzzleHttp\Client;
 
+use Illuminate\Support\Facades\Mail;
+use App\Events\SendSms;
+
 class OrderController extends Controller
 {
 
@@ -1189,7 +1192,7 @@ class OrderController extends Controller
         }
 
 
-        return redirect()->route('order.complete', [
+        return redirect()->route('mobile.order.complete', [
             'orders_id' => $order->id, 'is_complete' => 1,
             'is_coupon' => 1, 'coupon_id' => $coupon_where->id
         ])->with('success', '주문이 완료되었습니다');

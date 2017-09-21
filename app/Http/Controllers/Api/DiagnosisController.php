@@ -27,6 +27,8 @@ use Illuminate\Http\Request;
 use App\Traits\Uploader;
 use Validator;
 
+use Illuminate\Support\Facades\Mail;
+
 class DiagnosisController extends ApiController {
 
         use Uploader;

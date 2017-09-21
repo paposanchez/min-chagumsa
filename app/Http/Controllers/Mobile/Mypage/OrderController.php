@@ -26,7 +26,11 @@ use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
 use DB;
 
+use Illuminate\Support\Facades\Mail;
+use App\Events\SendSms;
+
 use App\Tpay\TpayLib as Encryptor;
+
 
 
 class OrderController extends Controller
@@ -155,7 +159,7 @@ class OrderController extends Controller
             //발송 끝
 
             return redirect()
-            ->route('mypage.order.show', $order->id)
+            ->route('mobile.mypage.order.show', $order->id)
             ->with('success', trans('web/mypage.modify_complete'));
     }
 
@@ -175,10 +179,13 @@ class OrderController extends Controller
 
             $options = Code::whereIn('group', array_keys($options_group))->get();
 
+            $brands = Brand::select('id', 'name')->get();
+
             return view('mobile.mypage.order.car', compact('order', 'order_features',
             'options_group',
             'options',
-            'order_features'
+            'order_features',
+            'brands'
             ));
     }
 
@@ -198,7 +205,7 @@ class OrderController extends Controller
             OrderFeature::replaceAll($order_id, $request->get('options_ck'));
 
             return redirect()
-            ->route('mypage.order.show', $order->id)
+            ->route('mobile.mypage.order.show', $order->id)
             ->with('success', trans('web/mypage.modify_complete'));
     }
 
@@ -365,7 +372,7 @@ class OrderController extends Controller
                     $event = 'error';
             }
 
-            return redirect()->route('mypage.order.index')
+            return redirect()->route('mobile.mypage.order.index')
             ->with($event, $message);
     }
 

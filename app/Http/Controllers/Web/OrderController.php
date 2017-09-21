@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Tpay\TpayLib as Encryptor;
 use GuzzleHttp\Client;
 use App\Events\SendSms;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {

@@ -23,7 +23,7 @@
                     {{ $orders->getCarFullName() }}
                     <div class='order_info_btn'>
                         {{ $orders->status->display() }}
-                        @if($orders->status_cd < 105)
+                        @if($orders->status_cd < 105 && $orders->status_cd > 100)
                         <button class='btns btns_navy cancel-click' data-cancel_order_id="{{ $orders->id }}">취소신청</button>
                         @endif
                     </div>
@@ -48,7 +48,7 @@
 
     </div>
 
-    {!! Form::open(['route' => ["mypage.order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
+    {!! Form::open(['route' => ["mobile.mypage.order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
     <input type="hidden" name="order_id" id="cancel-order_id">
     {!! Form::close() !!}
 

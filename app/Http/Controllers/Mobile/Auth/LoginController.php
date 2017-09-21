@@ -44,7 +44,7 @@ class LoginController extends Controller {
 //		    return redirect('/login')->with('error', trans('auth.status.unactive'));
 //            return redirect('/resend')->with('error', trans('auth.status.unactive'));
 
-            return redirect()->route('register.resend', ['email' => $user->email]);
+            return redirect()->route('mobile.register.resend', ['email' => $user->email]);
 		}
 	
 	}

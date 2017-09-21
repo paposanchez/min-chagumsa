@@ -5,19 +5,20 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('mypage', 'MypageController@index')->name("mobile.mypage");
     Route::group(['namespace' => 'Mypage', 'prefix' => 'mypage', 'as' => 'mobile.mypage.'], function () {
         Route::post('profile/chk-pwd', ['as' => 'movile.profile.chk-pwd', 'uses' => 'ProfileController@chkPwd']);
-        Route::resource('profile', 'ProfileController', ['as' => 'mobile.profile']);
-        Route::resource('history', 'HistoryController', ['as' => 'mobile.histrory']);
-        Route::resource('order', 'OrderController', ['as' => 'mobile.order']);
-        Route::get('/order/edit_car/{order_id}', 'OrderController@editCar')->name('mobile.order.edit_car');
-        Route::get('/order/edit_garage/{order_id}', 'OrderController@editGarage')->name('mobile.order.edit_garage');
-        Route::post('/order/cancel', 'OrderController@cancel')->name('mobile.order.cancel');
+        Route::resource('profile', 'ProfileController');
+        Route::resource('history', 'HistoryController');
+        Route::resource('order', 'OrderController');
+        Route::get('/order/edit_car/{order_id}', 'OrderController@editCar')->name('order.edit_car');
+        Route::get('/order/edit_garage/{order_id}', 'OrderController@editGarage')->name('order.edit_garage');
+        Route::post('/order/cancel', 'OrderController@cancel')->name('order.cancel');
 
-        Route::match(['get', 'post'], '/order/change-car/{order_id}', 'OrderController@changeCar')->name('mobile.order.change-car');
-        Route::get('/order/change-reservation/{order_id}', 'OrderController@changeReservation')->name('mobile.order.change-reservation');
-        Route::post('/order/change-reservation/{order_id}', 'OrderController@updateReservation')->name('mobile.order.change-reservation');
+        Route::get('/order/change-car/{order_id}', 'OrderController@changeCar')->name('order.change-car');
+        Route::post('/order/change-car/{order_id}', 'OrderController@updateCar')->name('order.change-car');
+        Route::get('/order/change-reservation/{order_id}', 'OrderController@changeReservation')->name('order.change-reservation');
+        Route::post('/order/change-reservation/{order_id}', 'OrderController@updateReservation')->name('order.change-reservation');
 
-        Route::get('/leave', 'ProfileController@leaveForm')->name('mobile.leave');
-        Route::post('/leave', 'ProfileController@leave')->name('mobile.profile.leave');
+        Route::get('/leave', 'ProfileController@leaveForm')->name('leave');
+        Route::post('/leave', 'ProfileController@leave')->name('profile.leave');
     });
 
     //SMS관련
@@ -127,9 +128,9 @@ Route::group(['namespace' => 'Community', 'prefix' => 'community'], function () 
     Route::any('notice/next', 'NoticeController@getNextRows')->name('mobile.notice.next');
     Route::any('faq/next', 'FaqController@getNextRows')->name('mobile.faq.next');
 
-    Route::resource('notice', 'NoticeController', ['as' => 'mobile.notice']);
-    Route::resource('faq', 'FaqController', ['as' => 'mobile.faq']);
-    Route::resource('inquire', 'InquireController', ['as' => 'mobile.inquire']);
+    Route::resource('notice', 'NoticeController', ['as' => 'mobile']);
+    Route::resource('faq', 'FaqController', ['as' => 'mobile']);
+    Route::resource('inquire', 'InquireController', ['as' => 'mobile']);
 //    Route::resource('free', 'FreeController');
 });
 
@@ -140,7 +141,7 @@ Route::get('search{q?}', 'SearchController@index')->name('mobile.search.index');
 Route::get('logout', 'Auth\LoginController@logout');
 // 회원가입폼
 Route::get('agreement', 'Auth\RegisterController@agreement')->name('mobile.register.agreement');
-// Route::post('register/join', 'Auth\RegisterController@join')->name('register.join');
+// Route::post('register/join', 'Auth\RegisterController@join')->name('mobile.register.join');
 // 회원가입완료
 Route::get('register/registered', 'Auth\RegisterController@registered')->name('mobile.register.registered');
  // 이메일 인증
@@ -163,13 +164,13 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 // 회원가입시 이메일 인증 재발송폼
 Route::get('resend', 'Auth\RegisterController@resend')->name('mobile.register.resend');
 // 회원강비시 이메일 인증 재발송 처리
-Route::post('resent', 'Auth\RegisterController@resent')->name('rmobile.egister.resent');
+Route::post('resent', 'Auth\RegisterController@resent')->name('mobile.register.resent');
 // 회원가입시 이메일 인증 처리
 Route::get('verify/{token}', 'Auth\RegisterController@verify')->name('mobile.verify');
 Auth::routes();
 
 // Route::get('register', 'Auth\RegisterController@getRegister');
-Route::post('register', 'Auth\RegisterController@postRegister');
+Route::post('register', 'Auth\RegisterController@postRegister')->name('mobile.register');
 Route::any('/', 'WelcomeController');
 
 

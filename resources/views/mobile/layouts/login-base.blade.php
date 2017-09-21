@@ -10,6 +10,10 @@
 {{ Html::style(Helper::assets( 'themes/v1/mobile/css/main.css' )) }}
 {{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' )) }}
 
+{{ Html::style(Helper::assets('css/app.css')) }}
+{{ Html::style(Helper::assets('css/vendor.css')) }}
+{{ Html::style(Helper::assets('themes/v1/mobile/css/mobile.css')) }}
+
 @stack('header-script')
 @endsection
 
