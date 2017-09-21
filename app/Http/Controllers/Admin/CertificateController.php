@@ -165,7 +165,52 @@ class CertificateController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $this->validate($request, [
+            'certificates_basic_registraion' => 'required',
+            'certificates_usage_mileage_cd' => 'required',
+            'certificates_usage_history_cd' => 'required',
+            'performance_exterior_cd' => 'required',
+            'performance_flooded_cd' => 'required',
+            'performance_consumption_cd' => 'required',
+            'performance_broken_cd' => 'required',
+            'performance_power_cd' => 'required',
+            'performance_electronic_cd' => 'required',
+            'performance_interior_cd' => 'required',
+            'performance_exteriortest_cd' => 'required',
+            'performance_plugin_cd' => 'required',
+            'performance_engine_cd' => 'required',
+            'performance_steering_cd' => 'required',
+            'performance_tire_cd' => 'required',
+            'performance_accident_cd' => 'required',
+            'performance_interiortest_cd' => 'required',
+            'performance_driving_cd' => 'required',
+            'performance_transmission_cd' => 'required',
+            'performance_braking_cd' => 'required',
+            'grade_state_cd' => 'required',
+        ], [],
+            [
+                'certificates_basic_registraion' => '등록일보정',
+                'certificates_usage_mileage_cd' => '주행거리',
+                'certificates_usage_history_cd' => '사고/수리이력',
+                'performance_exterior_cd' => '주요외판',
+                'performance_flooded_cd' => '침수흔적점검',
+                'performance_consumption_cd' => '소모품상태점검',
+                'performance_broken_cd' => '고장진단',
+                'performance_power_cd' => '동력전달',
+                'performance_electronic_cd' => '전기',
+                'performance_interior_cd' => '주요내판',
+                'performance_exteriortest_cd' => '차량외판점검',
+                'performance_plugin_cd' => '전장품유리기어/작동상태점검',
+                'performance_engine_cd' => '엔진(원동기)',
+                'performance_steering_cd' => '조향장치',
+                'performance_tire_cd' => '타이어',
+                'performance_accident_cd' => '사고유무점검',
+                'performance_interiortest_cd' => '차량실내점검',
+                'performance_driving_cd' => '주행테스트',
+                'performance_transmission_cd' => '변속기',
+                'performance_braking_cd' => '제동장치',
+                'grade_state_cd' => '등급평가',
+            ]);
 
         $section = $request->get('section');
 
@@ -219,12 +264,12 @@ class CertificateController extends Controller
 //            "vat" => $request->get("certificates_vat"),
             "new_car_price" => $request->get("certificates_new_car_price"),
             "basic_registraion" => $request->get("certificates_basic_registraion"),
-            "basic_registraion_depreciation" => $request->get("certificates_basic_registraion_depreciation"),
             "basic_etc" => $request->get("certificates_basic_etc"),
             "usage_mileage_cd" => $request->get("certificates_usage_mileage_cd"),
             "usage_mileage_depreciation" => $request->get("certificates_usage_mileage_depreciation"),
             "usage_history_cd" => $request->get("certificates_usage_history_cd"),
             "usage_history_depreciation" => $request->get("certificates_usage_history_depreciation"),
+            "basic_registraion_depreciation" => $request->get("basic_depreciation"),
 
             "performance_exterior_cd" => $request->get("performance_exterior_cd"),
             "performance_flooded_cd" => $request->get("performance_flooded_cd"),
@@ -262,16 +307,15 @@ class CertificateController extends Controller
             "transmission_comment" => $request->get('transmission_comment'),
             "braking_comment" => $request->get('braking_comment'),
 
-            "performance_depreciation" => $request->get("certificates_performance_depreciation"), // 차량성능상태 감가금액
-//            "history_depreciation" => $request->get('history_depreciation'), // 사용이력 감가금액 ( 현재 없음 )
-//            "basic_depreciation" => $request->get("basic_depreciation"), // 기본가격 감가금액 ( 현재없음 )
-//            "special_depreciation" => $request->get("special_depreciation"), // 특별요인 감가금액 ( 현재없음 )
+            "performance_depreciation" => $request->get("performance_depreciation"), // 차량성능상태 감가금액
+            "history_depreciation" => $request->get('history_depreciation'), // 사용이력 감가금액 ( 현재 없음 )
+            "basic_depreciation" => $request->get("basic_depreciation"),// 기본가격 감가금액
+            "special_depreciation" => $request->get("special_depreciation"), // 특별요인 감가금액 ( 현재없음 )
             "special_flooded_cd" => $request->get("certificates_special_flooded_cd"),
             "special_fire_cd" => $request->get("certificates_special_fire_cd"),
             "special_fulllose_cd" => $request->get("certificates_special_fulllose_cd"),
             "special_remodel_cd" => $request->get("certificates_special_remodel_cd"),
             "special_etc_cd" => $request->get("certificates_special_etc_cd"),
-            "special_depreciation" => $request->get("special_depreciation"),
             "valuation" => $request->get("certificates_valuation"),
             "opinion" => $request->get("certificates_opinion"),
             "grade" => $request->get('grade_state_cd')
@@ -348,6 +392,20 @@ class CertificateController extends Controller
         }
 
 
+    }
+
+    public function issue(Request $request){
+
+//        try{
+            $order_id = $request->get('order_id');
+            $order = Order::findOrFail($order_id);
+            $order->status_cd = 109;
+            $order->save();
+
+            return response()->json('success');
+//        }catch (\Exception $ex){
+//            return response()->json($ex->getMessage());
+//        }
     }
 
 
