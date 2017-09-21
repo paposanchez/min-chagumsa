@@ -106,7 +106,10 @@ class CertificateRepository {
                                 $interior_lefts = Diagnosis::where('orders_id', $this->order->id)->where('group', 2018)->get();
                                 $interior_centers = Diagnosis::where('orders_id', $this->order->id)->where('group', 2019)->get();
                                 $interior_rights = Diagnosis::where('orders_id', $this->order->id)->where('group', 2020)->get();
-                                return view('cert.performance', compact('order', 'order_id', 'url_prefix', 'page'))->render();
+
+
+                                $diagnosis = $this->order->getDiagnosis();
+                                return view('cert.performance', compact('order', 'order_id', 'url_prefix', 'page' , 'diagnosis'))->render();
 
                                 case 'history':
                                 return view('cert.history', compact('order', 'order_id', 'url_prefix', 'page'))->render();

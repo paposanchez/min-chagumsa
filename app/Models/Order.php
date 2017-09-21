@@ -21,6 +21,8 @@ use App\Models\Item;
 use App\Models\Reservation;
 use App\Models\Payment;
 
+use App\Repositories\DiagnosisRepository;
+
 class Order Extends Model
 {
         protected $fillable = [
@@ -115,6 +117,13 @@ class Order Extends Model
         public function diagnoses(){
                 return $this->hasMany(\App\Models\Diagnosis::class, 'orders_id', 'id');
         }
+
+
+        public function getDiagnosis() {
+                $handler = new DiagnosisRepository();
+                return $handler->prepare($this->id)->get();
+        }
+
 
         // 인증서 발급여부
         public function isIssued() {
