@@ -76,7 +76,8 @@ class Certificate Extends Model
                 'interiortest_comment',
                 'driving_comment',
                 'transmission_comment',
-                'braking_comment'
+                'braking_comment',
+                'basic_depreciation'
         ];
 
 
