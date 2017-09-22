@@ -138,7 +138,7 @@
 
 
                                                 <td class="">
-                                                        @if($data->certificates)
+                                                        @if($data->technician)
                                                         <a href="/user/{{ $data->technician->id }}/edit">{{ $data->technician->name }}</a>
                                                         <br/>
                                                         <small class="text-warning">{{ $data->technician->mobile }}</small>

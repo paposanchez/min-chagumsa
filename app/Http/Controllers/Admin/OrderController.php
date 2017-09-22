@@ -684,7 +684,10 @@ class OrderController extends Controller
                         $order->save();
 
 
-                        Diagnosis::whereIn('orders_id', $order->id)->delete();
+                        $last_diagnoses = Diagnosis::where('orders_id', $order->id)->get();
+                        foreach ($last_diagnoses as $last_diagnosis){
+                            $last_diagnosis->delete();
+                        }
                         $diagnosis = new DiagnosisRepository();
                         $diagnosis->prepare($order->id)->create($order->id);
 
@@ -708,7 +711,10 @@ class OrderController extends Controller
                         $order->status_cd = 104;
                         $order->save();
 
-                        Diagnosis::whereIn('orders_id', $order->id)->delete();
+                        $last_diagnoses = Diagnosis::where('orders_id', $order->id)->get();
+                        foreach ($last_diagnoses as $last_diagnosis){
+                            $last_diagnosis->delete();
+                        }
                         $diagnosis = new DiagnosisRepository();
                         $diagnosis->prepare($order->id)->create($order->id);
 
