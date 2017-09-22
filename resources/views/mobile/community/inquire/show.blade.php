@@ -15,8 +15,8 @@
     </dl>
     <dl class='inquery_view_wrap faq_answer'>
         <dt>
-            @if($data->is_answered === 1)
-                {!! nl2br($data->answered) !!}
+            @if($data->is_answered)
+                {!! $data->answer !!}
             @else
                 답변대기중입니다.
             @endif
@@ -39,7 +39,7 @@
     <div id='sub_wrap'>
 
         <div class='ipt_line'>
-            <button class='btns btns_navy' style='display:inline-block;' id="list" data-url="{{ route($board_namespace.'.index') }}">목록</button>
+            <button class='btns btns_navy' style='display:inline-block;' id="list" data-url="{{ route('mobile.'.$board_namespace.'.index') }}">목록</button>
         </div>
 
     </div>
