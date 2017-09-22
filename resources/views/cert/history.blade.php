@@ -19,7 +19,11 @@
                         <tr>
                                 <th>연식</th>
                                 <td>
-                                        {{ $order->isIssued() ? $order->car->year : '미입력 (검토중)' }}
+                                        @if($order->isIssued())
+                                                {{ $order->car->year }} 년식
+                                        @else
+                                                미입력 (검토중)
+                                        @endif
                                 </td>
 
                                 <td rowspan='6' class='img_type2'>

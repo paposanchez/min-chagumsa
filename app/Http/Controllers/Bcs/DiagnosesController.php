@@ -109,7 +109,7 @@ class DiagnosesController extends Controller
         $handler = new DiagnosisRepository();
         $diagnosis = $handler->prepare($id)->get();
 
-        return view('admin.diagnosis.detail', compact('diagnosis', 'order'));
+        return view('bcs.diagnosis.detail', compact('diagnosis', 'order'));
     }
 
     public function updateCode(Request $request){

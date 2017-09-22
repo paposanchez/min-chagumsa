@@ -191,7 +191,7 @@
                                     @endif
                                 @endif
 
-                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default" data-toggle="tooltip"
+                                <a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip"
                                    title="주문상세보기">상세보기</a>
 
 

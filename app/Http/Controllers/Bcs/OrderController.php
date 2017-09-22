@@ -262,13 +262,12 @@ class OrderController extends Controller
 
         $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
         $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
-        $car = $this->car;
 
         $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
         $engineers = Role::find(5)->users->pluck('name', 'id');
         $technicians = Role::find(6)->users->pluck('name', 'id');
 
-        return view('bcs.order.detail', compact('order', 'payment', 'payment_cancel', 'car', 'brands', 'garages', 'engineers', 'technicians'));
+        return view('bcs.order.detail', compact('order', 'payment', 'payment_cancel', 'brands', 'garages', 'engineers', 'technicians'));
     }
 
     /**

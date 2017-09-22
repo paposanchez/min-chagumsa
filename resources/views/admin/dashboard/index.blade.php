@@ -115,6 +115,12 @@
                 </div>
 
 
+                {!! Form::open(['url' => 'diagnosis/upload', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}
+                        <input type="text" id="user_id" name="user_id" value="" placeholder="정비사번호">
+                        <input type="text" id="order_id" name="order_id" value="" placeholder="주문번호">
+                        <input type="text" id="diagnosis_id" name="diagnosis_id" value="" placeholder="진단번호">
+                        <button type="submit">update</button>
+                {!! Form::close() !!}
 
         </div>
 

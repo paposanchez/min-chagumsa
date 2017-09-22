@@ -6,6 +6,7 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     Route::get('dashboard', 'DashboardController');
 
     //인증서 관련
+    Route::get('certificate/{order_id}/{page?}/{flush?}', 'CertificateController@show');
     Route::resource('certificate', 'CertificateController');
 
     //주문 관련

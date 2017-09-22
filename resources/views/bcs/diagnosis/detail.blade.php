@@ -130,7 +130,47 @@
                                                                     "
                                                     >
 
-                                                        @each("partials.diagnosis", $entry['entrys'], 'entry')
+{{--                                                        @each("partials.diagnosis", $entry['entrys'], 'entry')--}}
+                                                        @foreach($entry['entrys'] as $entry)
+                                                            @if($entry['name'])
+                                                                <strong style="display:inline-block; width:100px;">{{ $entry['name']['display'] }}</strong>
+                                                            @endif
+
+                                                            @if($entry['use_image'] == 1)
+                                                                @foreach($entry['files'] as $file)
+                                                                    <a href="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
+                                                                       class="diagnosis-thumbnail pull-right"
+                                                                       data-toggle="lightbox"
+                                                                       data-title="{{ $file['original'] }}"
+                                                                       data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }}"
+                                                                       data-type="image"
+                                                                       data-gallery="diagnosis-gallery"
+                                                                    >
+                                                                        <img
+                                                                                src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
+                                                                                data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
+                                                                                class="img-responsive" style="width:30px;height:30px;display:inline-block;">
+                                                                    </a>
+                                                                @endforeach
+                                                            @endif
+
+
+                                                            @if($entry['options'])
+                                                                {{--{!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($entry['options_cd']), \App\Helpers\Helper::getCodePluck($entry['selected']), ['class'=>'selected_cd', 'id'=>'', 'data-id'=>$entry['id']]) !!}--}}
+                                                                <p class="form-control-static">{{ \App\Helpers\Helper::getCodeName($entry['selected']) }}</p>
+                                                            @endif
+
+
+                                                            @if($entry['use_voice'] == 1)
+                                                                @foreach($entry['files'] as $file)
+                                                                    <button type="button" class="btn btn-circle btn-primary diagnosis-soundplay" data-toggle="tooltip" data-source="{{ $file['fullpath'] }}" data-mime="{{ $file['mime'] }}"  title="{{ $file['original'] }}"><i class="fa fa-play"></i></button>
+                                                                @endforeach
+
+                                                                <textarea name="comment" class="form-control" data-id="{{ $entry['id'] }}" style="height:60px; margin-top:10px;" id="{{ $entry['id'] }}" placeholder="음성파일 내용을 입력해주세요.">{{ $entry['comment'] }}</textarea>
+                                                                <button type="button" class="form-control btn-primary save" data-id="{{ $entry['id'] }}">저장</button>
+
+                                                            @endif
+                                                        @endforeach
 
                                                         @if(isset($entry['children']))
                                                             <table class="">
@@ -144,7 +184,45 @@
                                                                             <ul class="list-unstyled no-margin">
                                                                                 @foreach($children['entrys'] as $child)
                                                                                     <li class="clearfix">
-                                                                                        @include('partials.diagnosis',['entry' =>  $child])
+                                                                                        {{--@include('partials.diagnosis',['entry' =>  $child])--}}
+                                                                                        @if($child['name'])
+                                                                                            <strong style="display:inline-block; width:100px;">{{ $child['name']['display'] }}</strong>
+                                                                                        @endif
+
+                                                                                        @if($child['use_image'] == 1)
+                                                                                            @foreach($child['files'] as $file)
+                                                                                                <a href="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
+                                                                                                   class="diagnosis-thumbnail pull-right"
+                                                                                                   data-toggle="lightbox"
+                                                                                                   data-title="{{ $file['original'] }}"
+                                                                                                   data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }}"
+                                                                                                   data-type="image"
+                                                                                                   data-gallery="diagnosis-gallery"
+                                                                                                >
+                                                                                                    <img
+                                                                                                            src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
+                                                                                                            data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
+                                                                                                            class="img-responsive" style="width:30px;height:30px;display:inline-block;">
+                                                                                                </a>
+                                                                                            @endforeach
+                                                                                        @endif
+
+
+                                                                                        @if($child['options'])
+                                                                                            {{--{!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child['options_cd']), \App\Helpers\Helper::getCodePluck($child['selected']), ['class'=>'selected_cd', 'id'=>'', 'data-id'=>$child['id']]) !!}--}}
+                                                                                            <p class="form-control-static">{{ \App\Helpers\Helper::getCodeName($child['selected']) }}</p>
+                                                                                        @endif
+
+
+                                                                                        @if($child['use_voice'] == 1)
+                                                                                            @foreach($child['files'] as $file)
+                                                                                                <button type="button" class="btn btn-circle btn-primary diagnosis-soundplay" data-toggle="tooltip" data-source="{{ $file['fullpath'] }}" data-mime="{{ $file['mime'] }}"  title="{{ $file['original'] }}"><i class="fa fa-play"></i></button>
+                                                                                            @endforeach
+
+                                                                                            <textarea name="comment" class="form-control" data-id="{{ $child['id'] }}" style="height:60px; margin-top:10px;" id="{{ $child['id'] }}" placeholder="음성파일 내용을 입력해주세요.">{{ $child['comment'] }}</textarea>
+                                                                                            <button type="button" class="form-control btn-primary save" data-id="{{ $child['id'] }}">저장</button>
+
+                                                                                        @endif
                                                                                     </li>
                                                                                 @endforeach
                                                                             </ul>

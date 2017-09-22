@@ -22,7 +22,8 @@ Route::group(['middleware' => ['auth', 'role:garage']], function () {
         Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
         Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 
-        Route::resource('diagnosis', 'DiagnosesController', ['as' => 'bcs']);
+        Route::post('/diagnosis/update-comment', 'DiagnosesController@updateComment');
+        Route::resource('diagnosis', 'DiagnosesController');
 });
 
 Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");

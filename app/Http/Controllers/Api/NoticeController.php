@@ -36,7 +36,7 @@ class NoticeController extends ApiController {
      * )
      */
     public function index(Request $request) {
-        $where = Post::orderBy('id', 'desc')->where('board_id', $this->board_id);
+        $where = Post::orderBy('id', 'desc')->where('is_shown', 6)->where('board_id', $this->board_id);
 //        $entrys = $where->paginate($request->get('limit'));
         $entrys = $where->select('id', 'subject', 'content', 'created_at')->paginate($request->get('limit'));
         return response()->json($entrys);

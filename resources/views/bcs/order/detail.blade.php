@@ -14,22 +14,8 @@
                     {{ $order->getOrderNumber() }}
                 </span>
 
-
-            @if($order->status_cd > 107)
-                <a href="{{ route('certificate', $order->id) }}" target="_blank" class="btn btn-primary pull-right" style="margin-left:10px;" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
-            @endif
-
-            @if($order->status_cd == 107)
-                <button data-id="{{ $order->id }}" class="btn btn-danger pull-right certificate-assign" style="margin-left:10px;" data-toggle="tooltip" title="인증서 발급시작">인증시작</button>
-            @endif
-
-
-            @if($order->status_cd == 108)
-                <a href="/certificate/{{ $order->id }}/edit" class="btn btn-warning  pull-right" style="margin-left:10px;" data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>
-            @endif
-
             @if($order->status_cd > 106)
-                <a href="{{ url("diagnosis", [$order->id]) }}" class="btn btn-danger pull-right" style="margin-left:10px;" data-toggle="tooltip" title="인증서 진단정보 수정">진단정보 수정</a>
+                <a href="/diagnosis/{{ $order->id }}" class="btn btn-danger pull-right" style="margin-left:10px;" data-toggle="tooltip" title="인증서 진단정보 보기">진단정보 보기</a>
             @endif
 
         </h3>
