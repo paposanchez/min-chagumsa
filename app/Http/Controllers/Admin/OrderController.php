@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\Helper;
 use App\Mixapply\Uploader\Receiver;
 use App\Models\Certificate;
+use App\Models\Diagnosis;
 use App\Models\Order;
 use App\Models\OrderCar;
 use App\Models\Payment;
@@ -670,6 +671,11 @@ class OrderController extends Controller
                         $order->status_cd = 104;
                         $order->save();
 
+
+                        Diagnosis::whereIn('orders_id', $order->id)->delete();
+                        $diagnosis = new DiagnosisRepository();
+                        $diagnosis->prepare($order->id)->create($order->id);
+
                         return response()->json('success');
                 } catch (Exception $ex) {
                         return response()->json($ex->getMessage());
@@ -690,6 +696,7 @@ class OrderController extends Controller
                         $order->status_cd = 104;
                         $order->save();
 
+                        Diagnosis::whereIn('orders_id', $order->id)->delete();
                         $diagnosis = new DiagnosisRepository();
                         $diagnosis->prepare($order->id)->create($order->id);
 
