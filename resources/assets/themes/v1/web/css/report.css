@@ -60,6 +60,11 @@ html, body, #document {height:100%;min-height:100%;}
 .report_table table tbody th {background:#f6f6f6;color:#444;font-size:12px;line-height:15px;vertical-align:middle;text-align:left;}
 .report_table table tbody td {color:#444;}
 
+.report_table table tbody td table th,
+.report_table table tbody td table td {
+        border-left:0 none;
+}
+
 .img_type1 img {width:88px;height:50px;margin-right:10px;}
 .img_type2 img {width:272px;height:205px;}
 

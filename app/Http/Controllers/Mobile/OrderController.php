@@ -151,17 +151,7 @@ class OrderController extends Controller
 
 
 
-        $order_car = OrderCar::where('car_number', $request->get('car_number'))->first();
-        if (!$order_car) {
-            $order_car = new OrderCar();
-            //            $order_car->vin_number = $request->get('car_number');
-            $order_car->car_number = $request->get('car_number');
-            $order_car->brands_id = $request->get('brands');
-            $order_car->models_id = $request->get('models');
-            $order_car->details_id = $request->get('details');
-            $order_car->grades_id = $request->get('grades');
-            $order_car->save();
-        }
+
 
 
 //                if(!$order){
@@ -199,6 +189,17 @@ class OrderController extends Controller
 
         $order->purchase_id = $purchase->id;
         $order->save();
+
+        //order_car 등록
+
+        $order_car = new OrderCar();
+        //            $order_car->vin_number = $request->get('car_number');
+        $order_car->orders_id = $order->id;
+        $order_car->brands_id = $request->get('brands');
+        $order_car->models_id = $request->get('models');
+        $order_car->details_id = $request->get('details');
+        $order_car->grades_id = $request->get('grades');
+        $order_car->save();
 
 
         // order_car 의 orders_id 입력

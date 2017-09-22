@@ -29,7 +29,7 @@
                                 </td>
                                 <th>동일성확인</th>
                                 <td>
-                                        {{ $order->certificates->vin_yn_cd ? $order->certificates->getVinCd->display() : '' }}
+                                        {{ $order->certificates ? $order->certificates->getVinCd->display() : '' }}
                                 </td>
                         </tr>
                         <tr>
@@ -80,7 +80,7 @@
                                 </td>
                                 <th>차량소유자이력</th>
                                 <td>
-                                        {{ $order->isIssued() ? $order->certificates->history_owner : '' }}명
+                                        {{ $order->certificates ? $order->certificates->history_owner : '' }}명
                                 </td>
                         </tr>
                         <tr>
@@ -90,7 +90,7 @@
                                 </td>
                                 <th>최종등록차고지</th>
                                 <td>
-                                        @if($order->certificates->history_garage)
+                                        @if($order->certificates)
                                         최근 / {{ json_decode($order->certificates->history_garage, true)[0] }}
                                         @else
                                         없음
@@ -136,9 +136,6 @@
         </li>
 </ul>
 
-
-{{ dd($diagnosis) }}
-
 <div class='br10'></div>
 
 <div class='report_title_type2'>주요상태</div>
@@ -158,76 +155,119 @@
                         <tr>
                                 <td colspan='2'>
                                         <div class='car_check_wrap'>
-                                                <span class='status_char char_x loc1'></span>
-                                                <span class='status_char char_x loc2'></span>
-                                                <span class='status_char char_x loc3'></span>
-                                                <span class='status_char char_x loc4'></span>
-                                                <span class='status_char char_x loc5'></span>
-                                                <span class='status_char char_x loc6'></span>
-                                                <span class='status_char char_x loc7'></span>
-                                                <span class='status_char char_x loc8'></span>
-                                                <span class='status_char char_x loc9'></span>
-                                                <span class='status_char char_x loc10'></span>
-                                                <span class='status_char char_x loc11'></span>
-                                                <span class='status_char char_x loc12'></span>
-                                                <span class='status_char char_x loc13'></span>
+
+                                                <?php $n = 1; ?>
+                                                @foreach($diagnosis_extra_a as $entrys)
+                                                @foreach($entrys as $val)
+                                                @includeIf("partials.carstatus", ['entry' => $val, 'n' => $n])
+                                                <?php $n++; ?>
+                                                @endforeach
+                                                @endforeach
                                         </div>
                                 </td>
                                 <td colspan='2'>
                                         <div class='car_check_wrap type2'>
-                                                <span class='status_char char_x loc1'></span>
-                                                <span class='status_char char_x loc2'></span>
-                                                <span class='status_char char_x loc3'></span>
-
-                                                <span class='status_char char_x loc4'></span>
-                                                <span class='status_char char_x loc5'></span>
-                                                <span class='status_char char_x loc6'></span>
-                                                <span class='status_char char_x loc7'></span>
-                                                <span class='status_char char_x loc8'></span>
-                                                <span class='status_char char_x loc9'></span>
-                                                <span class='status_char char_x loc10'></span>
-                                                <span class='status_char char_x loc11'></span>
-                                                <span class='status_char char_x loc12'></span>
-                                                <span class='status_char char_x loc13'></span>
-                                                <span class='status_char char_x loc14'></span>
-                                                <span class='status_char char_x loc15'></span>
-                                                <span class='status_char char_x loc16'></span>
-                                                <span class='status_char char_x loc17'></span>
-                                                <span class='status_char char_x loc18'></span>
-                                                <span class='status_char char_x loc19'></span>
+                                                <?php $m = 1; ?>
+                                                @foreach($diagnosis_extra_b as $n => $entrys)
+                                                @foreach($entrys as $val)
+                                                @includeIf("partials.carstatus", ['entry' => $val, 'n' => $m])
+                                                <?php $m++; ?>
+                                                @endforeach
+                                                @endforeach
                                         </div>
                                 </td>
                         </tr>
                         <tr>
                                 <td><span class='status_char char_x'>교환이력</span></td>
-                                <td>후드, 트렁크 리드(백도어)</td>
+                                <td>
+                                        @if(count($diagnosis_extra_a[1172]))
+                                        {!! \App\Helpers\Helper::implodeByKey($diagnosis_extra_a[1172], 'name') !!}
+                                        @else
+                                        -
+                                        @endif
+                                </td>
                                 <td><span class='status_char char_x'>교환이력</span></td>
-                                <td>-</td>
+                                <td>
+                                        @if(count($diagnosis_extra_b[1172]))
+                                        {!! \App\Helpers\Helper::implodeByKey($diagnosis_extra_b[1172], 'name') !!}
+                                        @else
+                                        -
+                                        @endif
+                                </td>
                         </tr>
                         <tr>
                                 <td><span class='status_char char_w'>용접, 판급수리이력</span></td>
-                                <td>-</td>
+                                <td>
+                                        @if(count($diagnosis_extra_a[1173]))
+                                        {!! \App\Helpers\Helper::implodeByKey($diagnosis_extra_a[1173], 'name') !!}
+                                        @else
+                                        -
+                                        @endif
+                                </td>
                                 <td><span class='status_char char_w'>용접, 판급수리이력</span></td>
-                                <td>-</td>
-                        </tr>
-                        <tr>
-                                <td><span class='status_char char_s'>긁힘(상처)</span></td>
-                                <td>-</td>
-                                <td><span class='status_char char_s'>긁힘(상처)</span></td>
-                                <td>-</td>
-                        </tr>
-                        <tr>
-                                <td><span class='status_char char_c'>부식</span></td>
-                                <td>-</td>
-                                <td><span class='status_char char_c'>부식</span></td>
-                                <td>필러</td>
+                                <td>
+                                        @if(count($diagnosis_extra_b[1173]))
+                                        {!! \App\Helpers\Helper::implodeByKey($diagnosis_extra_b[1173], 'name') !!}
+                                        @else
+                                        -
+                                        @endif
+                                </td>
                         </tr>
                         <tr>
                                 <td><span class='status_char char_r'>수리필요(교환,판금)</span></td>
-                                <td>-</td>
+                                <td>
+                                        @if(count($diagnosis_extra_a[1174]))
+                                        {!! \App\Helpers\Helper::implodeByKey($diagnosis_extra_a[1174], 'name') !!}
+                                        @else
+                                        -
+                                        @endif
+                                </td>
                                 <td><span class='status_char char_r'>수리필요(교환,판금)</span></td>
-                                <td>-</td>
+                                <td>
+                                        @if(count($diagnosis_extra_b[1174]))
+                                        {!! \App\Helpers\Helper::implodeByKey($diagnosis_extra_b[1174], 'name') !!}
+                                        @else
+                                        -
+                                        @endif
+                                </td>
                         </tr>
+                        <tr>
+                                <td><span class='status_char char_s'>긁힘(상처)</span></td>
+                                <td>
+                                        @if(count($diagnosis_extra_a[1175]))
+                                        {!! \App\Helpers\Helper::implodeByKey($diagnosis_extra_a[1175], 'name') !!}
+                                        @else
+                                        -
+                                        @endif
+                                </td>
+                                <td><span class='status_char char_s'>긁힘(상처)</span></td>
+                                <td>
+                                        @if(count($diagnosis_extra_b[1175]))
+                                        {!! \App\Helpers\Helper::implodeByKey($diagnosis_extra_b[1175], 'name') !!}
+                                        @else
+                                        -
+                                        @endif
+                                </td>
+                        </tr>
+                        <tr>
+                                <td><span class='status_char char_c'>부식</span></td>
+                                <td>
+                                        @if(count($diagnosis_extra_a[1176]))
+                                        {!! \App\Helpers\Helper::implodeByKey($diagnosis_extra_a[1176], 'name') !!}
+                                        @else
+                                        -
+                                        @endif
+                                </td>
+                                <td><span class='status_char char_c'>부식</span></td>
+                                <td>
+                                        @if(count($diagnosis_extra_b[1176]))
+                                        {!! \App\Helpers\Helper::implodeByKey($diagnosis_extra_b[1172], 'name') !!}
+                                        @else
+                                        -
+                                        @endif
+                                </td>
+                        </tr>
+
                 </tbody>
         </table>
 </div>
@@ -239,8 +279,8 @@
 <div class='report_table exp'>
         <table class="">
                 <colgroup>
-                        <col width="200px">
-                        <col width="200px">
+                        <col width="180px">
+                        <col width="180px">
                         <col width="*">
                         <!-- <col width="200px"> -->
                 </colgroup>
@@ -248,11 +288,85 @@
 
                         @foreach($diagnosis['entrys'] as $entrys)
 
-                                @foreach($entrys['entrys'] as $k => $entry)
+                        @foreach($entrys['entrys'] as $k => $entry)
 
-                                        {{ var_dump($entry) }}
+                        @if($loop->first)
+                        <tr>
+                                <th
 
-                                @endforeach
+                                @if(count($entrys['entrys']) > 1)
+                                rowspan="{{ count($entrys['entrys']) }}"
+                                @endif
+
+                                >{{ $entrys['name']['display'] }}</th>
+                                <th>{{ $entry['name']['display'] }}</th>
+
+
+
+                                @if(isset($entry['children']))
+                                <td class="no-padding">
+                                        <table class="">
+                                                <col width="25%">
+                                                <col width="*">
+                                                <tbody class="no-border">
+                                                        @foreach($entry['children'] as $children)
+                                                        <tr>
+                                                                <th class="">{{ $children['name']['display'] }}</th>
+                                                                <td>
+                                                                        <ul class="list-unstyled no-margin">
+                                                                                @foreach($children['entrys'] as $child)
+                                                                                <li class="clearfix">
+                                                                                        @include('partials.diagnosis-view',['entry' =>  $child])
+                                                                                </li>
+                                                                                @endforeach
+                                                                        </ul>
+                                                                </td>
+                                                        </tr>
+                                                        @endforeach
+                                                </tbody>
+                                        </table>
+                                </td>
+                                @else
+                                <td>@each("partials.diagnosis-view", $entry['entrys'], 'entry')</td>
+                                @endif
+
+                        </tr>
+                        @else
+                        <tr>
+                                <th>{{ $entry['name']['display'] }}</th>
+
+                                @if(isset($entry['children']))
+                                <td class="no-padding">
+                                        <table class="">
+                                                <col width="25%">
+                                                <col width="*">
+                                                <tbody class="no-border">
+                                                        @foreach($entry['children'] as $children)
+                                                        <tr>
+                                                                <th class="">{{ $children['name']['display'] }}</th>
+                                                                <td>
+                                                                        <ul class="list-unstyled no-margin">
+                                                                                @foreach($children['entrys'] as $child)
+                                                                                <li class="clearfix">
+                                                                                        @include('partials.diagnosis-view',['entry' =>  $child])
+                                                                                </li>
+                                                                                @endforeach
+                                                                        </ul>
+                                                                </td>
+                                                        </tr>
+                                                        @endforeach
+                                                </tbody>
+                                        </table>
+                                </td>
+                                @else
+                                <td>@each("partials.diagnosis-view", $entry['entrys'], 'entry')</td>
+                                @endif
+
+                        </tr>
+                        @endif
+
+                        @endforeach
+
                         @endforeach
 
 
@@ -277,9 +391,9 @@
                         <tr>
                                 <td>
                                         {{--H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다. 또 차량 소모품 상태 검검 결과 배터리의 수명이 다 되어 교체를 해야 하니 참고하시길 바랍니다.--}}
-                                        {{ $order->certificates->opinion }}
+                                        {{ $order->certificates ? $order->certificates->opinion : '' }}
                                 </td>
-                                <td class='td_al_c'>인증등급<br><strong class='fsize_50'>{{ $order->certificates->certificate_grade ? $order->certificates->certificate_grade->display() : '' }}</strong></td>
+                                <td class='td_al_c'>인증등급<br><strong class='fsize_50'>{{ $order->certificates ? $order->certificates->certificate_grade->display() : '' }}</strong></td>
                         </tr>
                 </tbody>
         </table>

@@ -21,11 +21,11 @@
 @endif
 
 
-@if($entry['selected'])
-{{ $entry['selected'] }}
+@if($entry['options'])
+{!! \App\Helpers\Helper::getCodeName($entry['selected']) !!}
 @endif
 
 
 @if($entry['use_voice'] == 1)
-        {{ $entry['comment'] }}
+        {!! nl2br($entry['comment']) !!}
 @endif

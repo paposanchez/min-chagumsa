@@ -107,9 +107,85 @@ class CertificateRepository {
                                 $interior_centers = Diagnosis::where('orders_id', $this->order->id)->where('group', 2019)->get();
                                 $interior_rights = Diagnosis::where('orders_id', $this->order->id)->where('group', 2020)->get();
 
-
                                 $diagnosis = $this->order->getDiagnosis();
-                                return view('cert.performance', compact('order', 'order_id', 'url_prefix', 'page' , 'diagnosis'))->render();
+
+
+                                // 주요상태 처리
+                                // 상태코드 : 1020
+                                // 주요외판 : 2007
+                                        // 주요외판상태 : 2009
+                                $diagnosis_extra_a = [
+                                        1172 => [],
+                                        1173 => [],
+                                        1174 => [],
+                                        1175 => [],
+                                        1176 => [],
+                                        1328 => []
+                                ];
+                                // 주요내판 및 골격 : 2014
+                                        // 주요내판 및 골격 : 2017
+                                $diagnosis_extra_b = [
+                                        1172 => [],
+                                        1173 => [],
+                                        1174 => [],
+                                        1175 => [],
+                                        1176 => [],
+                                        1328 => []
+                                ];
+
+                                foreach($diagnosis['entrys'] as $entrys)
+                                {
+
+                                        if($entrys['name_cd'] == 2007 || $entrys['name_cd'] == 2014)
+                                        {
+
+                                                foreach($entrys['entrys'] as $entry)
+                                                {
+
+                                                        if($entry['name_cd'] == 2009 )
+                                                        {
+
+                                                                foreach($entry['children'] as $childrens)
+                                                                {
+                                                                        foreach($childrens['entrys'] as $children)
+                                                                        {
+                                                                                // $diagnosis_extra_a[$children['selected']][] = $children['name']['display'];
+                                                                                $diagnosis_extra_a[$children['selected']][] = [
+                                                                                        "id" => $children['name']['id'],
+                                                                                        "name"  => $children['name']['display'],
+                                                                                        "selected" => $children['selected']
+                                                                                ];
+                                                                        }
+                                                                }
+
+                                                        }
+
+                                                        if($entry['name_cd'] == 2017)
+                                                        {
+
+                                                                foreach($entry['children'] as $childrens)
+                                                                {
+                                                                        foreach($childrens['entrys'] as $children)
+                                                                        {
+                                                                                $diagnosis_extra_b[$children['selected']][] = [
+                                                                                        "id" => $children['name']['id'],
+                                                                                        "name"  => $children['name']['display'],
+                                                                                        "selected" => $children['selected']
+                                                                                ];
+                                                                        }
+
+                                                                }
+
+                                                        }
+
+
+                                                }
+
+                                        }
+                                }
+
+                                // dd($diagnosis_extra_a, $diagnosis_extra_b);
+                                return view('cert.performance', compact('order', 'order_id', 'url_prefix', 'page' , 'diagnosis', 'diagnosis_extra_a', 'diagnosis_extra_b'))->render();
 
                                 case 'history':
                                     $exterior_picture_ids = Diagnosis::where('orders_id', $order_id)->where('group', 2008)->get();
