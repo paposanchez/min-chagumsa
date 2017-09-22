@@ -79,6 +79,9 @@ class Order Extends Model
                 return $this->hasOne(Certificate::class, 'orders_id', 'id');
         }
 
+        public function orderer(){
+                return $this->hasOne(User::class, 'id', 'orderer_id');
+        }
         public function engineer(){
                 return $this->hasOne(User::class, 'id', 'engineer_id');
         }
@@ -108,6 +111,8 @@ class Order Extends Model
         public function reservation(){
                 return $this->hasOne(\App\Models\Reservation::class, 'orders_id','id');
         }
+
+
 
         public function garage(){
                 return $this->hasOne(\App\Models\User::class, 'id','garage_id');

@@ -94,7 +94,7 @@
                                 <tbody>
 
                                         @unless(count($entrys)>0)
-                                        <tr><td colspan="9" class="no-result">{{ trans('common.no-result') }}</td></tr>
+                                        <tr><td colspan="10" class="no-result">{{ trans('common.no-result') }}</td></tr>
                                         @endunless
 
 

@@ -37,7 +37,9 @@ class CertificateRepository {
 
                 $this->order =  Order::whereIn("status_cd",[108, 109])
                 ->where('car_number', $car_number)
-                ->whereDate('created_at', '=', Carbon::parse($order_date)->format('Y-m-d'))
+                ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
+                ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
+                ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'))
                 ->where('open_cd', 1327)
                 ->orderBy('id', 'DESC')
                 ->first();

@@ -44,13 +44,13 @@
                                         <div class="col-sm-3">
                                                 <div class="input-group">
                                                         <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
-                                                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('common.search.period_start') }}" name='trs' value=''>
+                                                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('common.search.period_start') }}" name='trs' value='{{ $trs }}'>
                                                 </div>
                                         </div>
                                         <div class="col-sm-3">
                                                 <div class="input-group">
                                                         <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
-                                                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('common.search.period_end') }}" name='tre' value=''>
+                                                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('common.search.period_end') }}" name='tre' value='{{ $tre }}'>
                                                 </div>
                                         </div>
                                 </div>
@@ -58,11 +58,11 @@
                                 <div class="form-group">
                                         <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
                                         <div class="col-sm-3">
-                                                {!! Form::select('sf', $search_fields, [], ['class'=>'form-control']) !!}
+                                                {!! Form::select('sf', $search_fields, $sf, ['class'=>'form-control']) !!}
 
                                         </div>
                                         <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}" name='s' value=''>
+                                                <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}" name='s' value='{{ $s }}'>
                                         </div>
                                 </div>
 
@@ -91,12 +91,12 @@
 
                                 <colgroup>
 
-                                                <col width="8%">
-                                                <col width="13%">
-                                                <col width="13%">
-                                        <col width="15%">
-                                        <col width="15%">
                                         <col width="8%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="15%">
+                                        <col width="15%">
+                                        <col width="9%">
                                         <col width="*">
                                 </colgroup>
 
@@ -140,6 +140,7 @@
 
                                         <td class="text-center">
                                                 {{ $data->getOrderNumber() }}
+                                                <br/><small class="text-muted">{{ $data->id }}</small>
                                         </td>
 
                                         <td class="">
@@ -164,11 +165,10 @@
 
                                         <td>
 
-                                                @if($data->status_cd < 105 )
-                                                        <button type="button" title="변경" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" data-order_number="{{ $data->getOrderNumber() }}" class="btn btn-info changeReservationModalOpen" data-toggle="tooltip" title="예약변경">예약변경</button>
-
-                                                        @if($data->status_cd < 104 )
-                                                        <button type="button" title="확정" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation" data-toggle="tooltip" title="예약확정">예약확정</button>
+                                                @if(in_array($data->status_cd, [101,102,103,104]))
+                                                <button type="button" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" data-order_number="{{ $data->getOrderNumber() }}" class="btn btn-info changeReservationModalOpen" data-toggle="tooltip" title="예약 변경">예약변경</button>
+                                                        @if(in_array($data->status_cd, [101,102]))
+                                                        <button type="button" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation" data-toggle="tooltip" title="예약확정">예약확정</button>
                                                         @endif
                                                 @endif
 
@@ -179,7 +179,6 @@
                                                 @if($data->status_cd == 107)
                                                 <button data-id="{{ $data->id }}" class="btn btn-danger certificate-assign" data-toggle="tooltip" title="인증서 발급시작">인증시작</button>
                                                 @endif
-
 
                                                 @if($data->status_cd == 108)
                                                 <a href="/certificate/{{ $data->id }}/edit" class="btn btn-danger" data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>
@@ -196,14 +195,10 @@
         </div>
 </div>
 
-
 <div class="row">
-
-
         <div class="col-sm-6">
                 <a href="/test" class="btn btn-info">테스트 주문생성</a>
         </div>
-
 
         <div class="col-sm-6 text-right">
                 {!! $entrys->render() !!}

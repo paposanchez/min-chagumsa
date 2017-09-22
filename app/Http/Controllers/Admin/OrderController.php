@@ -6,7 +6,6 @@ use App\Helpers\Helper;
 use App\Mixapply\Uploader\Receiver;
 use App\Models\Certificate;
 use App\Models\Order;
-use App\Models\OrderCar;
 use App\Models\Payment;
 use App\Models\Reservation;
 use App\Models\Role;
@@ -22,10 +21,8 @@ use App\Models\ScTran;
 use App\Models\PaymentCancel;
 use App\Models\Purchase;
 
-
 use App\Repositories\DiagnosisRepository;
 use App\Http\Controllers\Controller;
-
 
 use Carbon\Carbon;
 use DateTime;
@@ -45,14 +42,15 @@ class OrderController extends Controller
 
         public function index(Request $request)
         {
-
-                $search_fields = [
-                        "order_num" => "주문번호",
-                        "order_id" => "주문id",
-                        "car_number" => "차량번호", 'orderer_name' => '주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
-                ];
-
-                $where = Order::where('status_cd', ">=", 102)->orderBy('created_at', 'DESC');
+                $where = Order::where('status_cd', ">=", 100);
+                // 정렬옵션
+                if($request->get('sort') == 'order_num'){
+                        $where
+                        ->orderBy('car_number', 'ASC')
+                        ->orderBy('created_at', 'ASC');
+                }else{
+                        $where->orderBy('id', 'DESC');
+                }
 
                 //주문상태
                 $status_cd = $request->get('status_cd');
@@ -63,60 +61,91 @@ class OrderController extends Controller
                 //기간 검색
                 $trs = $request->get('trs');
                 $tre = $request->get('tre');
-                if ($trs && $tre) {
-                        //시작일, 종료일이 모두 있을때
+                if ($trs) {
                         $where->where(function ($qry) use ($trs, $tre) {
-                                $qry->where("created_at", ">=", $trs)
-                                ->where("created_at", "<=", $tre);
-                        })->orWhere(function ($qry) use ($trs, $tre) {
-                                $qry->where("updated_at", ">=", $trs)
-                                ->where("updated_at", "<=", $tre);
-                        });
-                } elseif ($trs && !$tre) {
-                        //시작일만 있을때
-                        $where->where(function ($qry) use ($trs) {
                                 $qry->where("created_at", ">=", $trs);
-                        })->orWhere(function ($qry) use ($trs) {
-                                $qry->where("updated_at", ">=", $trs);
                         });
                 }
+
+                if ($tre) {
+                        $where->where(function ($qry) use ($tre) {
+                                $qry->where("created_at", "<=", $tre);
+                        });
+                }
+
+                $search_fields = [
+                        "order_id" => "주문아이디",
+                        "order_num" => "주문번호",
+                        "car_number" => "차량번호",
+                        'orderer_name' => '주문자 이름',
+                        "orderer_mobile" => "주문자 휴대전화번호",
+                        "engineer_name" => "엔지니어명",
+                        "bcs_name" => "BCS명",
+                        "tech_name" => "기술사명"
+                ];
+
 
                 //검색어 검색
                 $sf = $request->get('sf'); //검색필드
                 $s = $request->get('s'); //검색어
-
-                if ($sf && $s)
+                if ($s)
                 {
-                        if ($sf != "order_num") {
-
-
-                                if($sf == 'order_id')
-                                {
-                                        $where->where('id', $s );
-                                }else{
-                                        $where->where($sf, 'like', '%' . $s . '%');
-                                }
-
-
-
-
-                        } else {
+                        switch($sf)
+                        {
+                                case 'order_id':
+                                $where->where('id', 'like',  '%' .$s . '%');
+                                break;
+                                case 'car_number':
+                                $where->where($sf, 'like', '%' . $s . '%');
+                                break;
+                                case 'order_num':
                                 list($car_number, $datekey) = explode("-", $s);
+
                                 if($car_number && $datekey)
                                 {
-                                        $where->where('car_number', $car_number)
-                                        ->whereDate('created_at', '=', Carbon::parse($datekey)->format('Y-m-d'))
-                                        ->whereNotIn('status_cd', [100]);
+                                        $order_date = Carbon::createFromFormat('ymd', $datekey);
+                                        $where
+                                        ->where('car_number', $car_number)
+                                        ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
+                                        ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
+                                        ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'))
+                                        ;
                                 }
-
+                                break;
+                                case 'orderer_name':
+                                $where->where('orderer_name', 'like', '%' . $s . '%');
+                                break;
+                                case 'orderer_mobile':
+                                $where->where('orderer_mobile', 'like', '%' . $s . '%');
+                                break;
+                                case 'engineer_name':
+                                $where->whereHas('engineer', function ($query) use ($s){
+                                        $query
+                                        ->where('name', 'like', '%' . $s.'%');
+                                });
+                                break;
+                                case 'bcs_name':
+                                $where->whereHas('garage', function ($query) use ($s){
+                                        $query
+                                        ->where('name', 'like', '%' . $s.'%');
+                                });
+                                break;
+                                case 'tech_name':
+                                $where->whereHas('technician', function ($query) use ($s){
+                                        $query->where('name', 'like', $s.'%');
+                                });
+                                break;
+                                case 'tech_name':
+                                $where->whereHas('technician', function ($query) use ($s){
+                                        $query->where('name', 'like', $s.'%');
+                                });
+                                break;
                         }
                 }
-
-
                 $entrys = $where->paginate(25);
 
 
-                return view('admin.order.index', compact('search_fields', 'entrys'));
+                return view('admin.order.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys'));
         }
 
         public function show($id)
@@ -126,7 +155,7 @@ class OrderController extends Controller
 
                 $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
                 $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
-                $car = OrderCar::where('orders_id', $order->id)->first();
+                $car = $order->car;
 
                 $brands = Brand::select('id', 'name')->get();
 
@@ -166,14 +195,7 @@ class OrderController extends Controller
                 * 차량 작동상태 점검2: 타이어 상태 / 엔진오일 상태 / 냉각수 상태 / 브레이크패드 상태 / 배터리 상태
                 *
                 */
-
-
-                if ($order->car) {
-                        $car = $order->car;
-                } else {
-                        $car = $order->orderCar;
-                }
-
+                $car = $order->car;
                 $grades = [
                         '' => '등급을 선택해주세요.', 'AA' => 'AA', 'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D'
                 ];
@@ -595,7 +617,6 @@ class OrderController extends Controller
                         try {
                                 DB::beginTransaction();
 
-                                $order_car = $order_where->orderCar;
                                 if (count($car_data) > 0) {
                                         $cars_id = $order_where->cars_id;
 

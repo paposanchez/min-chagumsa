@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Bcs;
 
 use App\Events\SendSms;
-use App\Models\OrderCar;
 use App\Models\Role;
 use App\Models\UserExtra;
 use App\Repositories\DiagnosisRepository;
@@ -263,8 +262,7 @@ class OrderController extends Controller
 
         $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
         $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
-        $car = OrderCar::where('orders_id', $order->id)->first();
-
+        $car = $this->car;
 
         $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
         $engineers = Role::find(5)->users->pluck('name', 'id');

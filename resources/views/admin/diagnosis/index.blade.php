@@ -11,27 +11,40 @@
 
                 <div class="panel-heading">
                         <span class="panel-title">검색조건</span>
-
                 </div>
 
                 <div class="panel-body">
 
-                        <form method="GET" class="form-horizontal no-margin-bottom" role="form">
+                        <form  method="GET" class="form-horizontal no-margin-bottom" role="form">
+
+                                <div class="form-group">
+                                        <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/order.status') }}</label>
+                                        <div class="col-sm-9">
+                                                <div class="btn-group">
+                                                        <button class="btn btn-default" name="status_cd" value="">전체</button>
+                                                        <button class="btn btn-default" name="status_cd" value="101">주문신청</button>
+                                                        <button class="btn btn-default" name="status_cd" value="102">주문완료</button>
+                                                        <button class="btn btn-default" name="status_cd" value="103">예약확인</button>
+                                                        <button class="btn btn-default" name="status_cd" value="104">입고대기</button>
+                                                        <button class="btn btn-default" name="status_cd" value="105">입고</button>
+                                                        <button class="btn btn-default" name="status_cd" value="106">진단중</button>
+                                                </div>
+                                        </div>
+                                </div>
+
                                 <div class="form-group">
                                         <label class="control-label col-sm-3">{{ trans('admin/order.period') }}</label>
 
                                         <div class="col-sm-3">
                                                 <div class="input-group">
                                                         <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
-                                                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                                        placeholder="{{ trans('common.search.period_start') }}" name='trs' value=''>
+                                                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('common.search.period_start') }}" name='trs' value='{{ $trs }}'>
                                                 </div>
                                         </div>
                                         <div class="col-sm-3">
                                                 <div class="input-group">
                                                         <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
-                                                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                                        placeholder="{{ trans('common.search.period_end') }}" name='tre' value=''>
+                                                        <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('common.search.period_end') }}" name='tre' value='{{ $tre }}'>
                                                 </div>
                                         </div>
                                 </div>
@@ -39,107 +52,106 @@
                                 <div class="form-group">
                                         <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
                                         <div class="col-sm-3">
-                                                {!! Form::select('sf', $search_fields, [], ['class'=>'form-control']) !!}
+                                                {!! Form::select('sf', $search_fields, $sf, ['class'=>'form-control']) !!}
 
                                         </div>
                                         <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}"
-                                                name='s' value=''>
+                                                <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}" name='s' value='{{ $s }}'>
                                         </div>
                                 </div>
 
                                 <div class="form-group no-margin-bottom">
                                         <label class="control-label col-sm-3 sr-only">{{ trans('common.search.button') }}</label>
                                         <div class="col-sm-4 col-sm-offset-3">
-                                                <button type="submit" class="btn btn-block btn-primary"><i
-                                                        class="fa fa-search"></i> {{ trans('common.search.button') }}</button>
-                                                </div>
+                                                <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i> {{ trans('common.search.button') }}</button>
                                         </div>
-                                </form>
-                        </div>
+                                </div>
+                        </form>
                 </div>
+        </div>
 
 
-                <div class="row margin-bottom">
+        <div class="row margin-bottom">
 
-                        <div class="col-md-12">
-
-
-                                <p class="form-control-static">
-                                        {!! trans('common.search-result', ['count' => '<span class="text-danger">'.number_format($entrys->total()).'</span>']) !!}
-                                </p>
+                <div class="col-md-12">
 
 
-                                <table class="table text-middle text-center">
-                                        <colgroup>
-
-                                                <col width="8%">
-                                                <col width="13%">
-                                                <col width="13%">
-                                                <col width="15%">
-                                                <col width="15%">
-                                                <col width="8%">
-                                                <col width="8%">
-                                                <col width="*">
-                                        </colgroup>
-
-                                        <thead>
-                                                <tr class="active">
-                                                        <th class="text-center">상태</th>
-                                                        <th class="text-center">주문번호</th>
-                                                        <th class="text-center">주문정보</th>
-                                                        <th class="text-center">결제정보</th>
-                                                        <th class="text-center">예약정보</th>
-                                                        <th class="text-center">진단시작일</th>
-                                                        <th class="text-center">진단완료일</th>
-                                                        <th class="text-center">Remarks</th>
-
-                                                </tr>
-                                        </thead>
-
-                                        <tbody>
+                        <p class="form-control-static">
+                                {!! trans('common.search-result', ['count' => '<span class="text-danger">'.number_format($entrys->total()).'</span>']) !!}
+                        </p>
 
 
-                                                @unless(count($entrys) >0)
-                                                <tr>
-                                                        <td colspan="6" class="no-result">{{ trans('common.no-result') }}</td>
-                                                </tr>
-                                                @endunless
+                        <table class="table text-middle text-center">
+                                <colgroup>
 
-                                                @foreach($entrys as $data)
+                                        <col width="8%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="15%">
+                                        <col width="15%">
+                                        <col width="8%">
+                                        <col width="8%">
+                                        <col width="*">
+                                </colgroup>
 
-                                                <tr>
+                                <thead>
+                                        <tr class="active">
+                                                <th class="text-center">상태</th>
+                                                <th class="text-center">주문번호</th>
+                                                <th class="text-center">주문정보</th>
+                                                <th class="text-center">결제정보</th>
+                                                <th class="text-center">예약정보</th>
+                                                <th class="text-center">진단시작일</th>
+                                                <th class="text-center">진단완료일</th>
+                                                <th class="text-center">Remarks</th>
 
-                                                        <td>
-                                                                <span
-                                                                style="width:60px;display:inline-block;"
-                                                                class="label
-                                                                @if($data->status_cd == 100)
-                                                                label-default
-                                                                @elseif($data->status_cd == 106)
-                                                                label-primary
-                                                                @elseif($data->status_cd == 109)
-                                                                label-success
-                                                                @else
-                                                                label-info
-                                                                @endif
-                                                                ">
-                                                                {{ $data->status->display() }}
-                                                        </span>
-                                                </td>
+                                        </tr>
+                                </thead>
 
-                                                <td class="text-center">
-                                                        {{ $data->getOrderNumber() }}
-                                                </td>
+                                <tbody>
 
-                                                <td class="">
-                                                        <a href="/user/{{ $data->orderer_id }}/edit">{{ $data->orderer_name }}</a>
-                                                        <br/>
-                                                        <small class="text-warning">{{ $data->orderer_mobile }}</small>
-                                                </td>
 
-                                                <td class="">
-                                                        {{--<a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span--}}
+                                        @unless(count($entrys) >0)
+                                        <tr>
+                                                <td colspan="6" class="no-result">{{ trans('common.no-result') }}</td>
+                                        </tr>
+                                        @endunless
+
+                                        @foreach($entrys as $data)
+
+                                        <tr>
+
+                                                <td>
+                                                        <span
+                                                        style="width:60px;display:inline-block;"
+                                                        class="label
+                                                        @if($data->status_cd == 100)
+                                                        label-default
+                                                        @elseif($data->status_cd == 106)
+                                                        label-primary
+                                                        @elseif($data->status_cd == 109)
+                                                        label-success
+                                                        @else
+                                                        label-info
+                                                        @endif
+                                                        ">
+                                                        {{ $data->status->display() }}
+                                                </span>
+                                        </td>
+
+                                        <td class="text-center">
+                                                {{ $data->getOrderNumber() }}
+                                                <br/><small class="text-muted">{{ $data->id }}</small>
+                                        </td>
+
+                                        <td class="">
+                                                <a href="/user/{{ $data->orderer_id }}/edit">{{ $data->orderer_name }}</a>
+                                                <br/>
+                                                <small class="text-warning">{{ $data->orderer_mobile }}</small>
+                                        </td>
+
+                                        <td class="">
+                                                {{--<a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span--}}
                                                         {{--class="text-muted">{{ number_format($data->item->price) }}원</span></a>--}}
                                                         <a href="/item">{{ $data->item->name }} <span
                                                                 class="text-muted">{{ number_format($data->item->price) }}원</span></a>
