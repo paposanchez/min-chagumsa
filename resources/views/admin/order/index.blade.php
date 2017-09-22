@@ -16,8 +16,8 @@
 
                 <div class="panel-body">
 
-                        <form  method="GET" class="form-horizontal no-margin-bottom" role="form">
-
+                        <form  method="GET" class="form-horizontal no-margin-bottom" role="form" id="frm">
+                                <input type="hidden" name="sort" id="sort_val" value="">
                                 <div class="form-group">
                                         <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/order.status') }}</label>
                                         <div class="col-sm-9">
@@ -102,7 +102,7 @@
 
                                 <thead>
                                         <tr class="active">
-                                                <th class="text-center">상태</th>
+                                                <th class="text-center"><i class="fa fa-sort" aria-hidden="true"></i> <a href="#" id="sort">상태</a></th>
                                                 <th class="text-center">주문번호</th>
                                                 <th class="text-center">주문정보</th>
                                                 <th class="text-center">결제정보</th>
@@ -262,6 +262,10 @@
 @push( 'footer-script' )
 <script type="text/javascript">
 $(function () {
+        $('#sort').click(function(){
+                $('#sort_val').val('order_num');
+                $('#frm').submit();
+        });
 
         $(document).on('click', '.changeReservationModalOpen', function (e) {
                 e.preventDefault();

@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
         // 인증서
         Route::post('certificate/{id?}/assign', 'CertificateController@assign');
+        Route::post('certificate/issue', 'CertificateController@issue');
         Route::get('certificate/{order_id}/edit', 'CertificateController@edit');
         Route::get('certificate/{order_id}/{page?}/{flush?}', 'CertificateController@show');
         Route::resource('certificate', 'CertificateController', ['only' => ['index', 'update']]);

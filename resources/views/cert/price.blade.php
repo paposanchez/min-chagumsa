@@ -245,11 +245,14 @@
                                 </td>
                         </tr>
 
+
                         <tr>
                                 <th rowspan="2">특별요인</th>
+                                @if($specials)
                                 <td colspan='3'>
                                         {{ $specials }}
                                 </td>
+                                @endif
                         </tr>
                         <tr>
                                 <td>특별요인 감가금액</td>

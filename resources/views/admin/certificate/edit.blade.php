@@ -24,9 +24,12 @@
                     data-id="{{ $order->id }}" style="margin-left:10px;">인증서 발급하기
             </button>
 
-            <button id="certificate-submit" class="btn btn-info pull-right" data-toggle="tooltip" title="인증서 저장하기">인증서
+            <button id="certificate-submit" class="btn btn-info pull-right" data-toggle="tooltip" title="인증서 저장하기" style="margin-left:10px;">인증서
                 저장하기
             </button>
+
+            <a href="/certificate/{{ $order->id }}" target="_blank" class="btn btn-primary pull-right" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
+
 
 
         </h3>
@@ -853,7 +856,7 @@
                                             <input type="text" id="certificates_history_purpose" class="form-control"
                                                    name="certificates_history_purpose" data-role="tagsinput"
                                                    value="{{ $order->certificates->history_purpose }}"
-                                                   style="width:100%;" required="required">
+                                                   style="width:100%;">
                                         </div>
                                     </div>
 
@@ -864,7 +867,7 @@
                                                    name="certificates_history_garage" class="form-control"
                                                    data-role="tagsinput"
                                                    value="{{ $order->certificates->history_garage }}"
-                                                   style="width:100%;" required="required">
+                                                   style="width:100%;">
                                         </div>
                                     </div>
 

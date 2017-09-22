@@ -29,7 +29,7 @@
                 @endif
 
                 @if($order->status_cd > 106)
-                <a href="{{ url("diagnosis", [$order->id]) }}" class="btn btn-danger pull-right" style="margin-left:10px;" data-toggle="tooltip" title="인증서 진단정보 수정">진단정보 수정</a>
+                <a href="{{ url("diagnosis", [$order->id]) }}" class="btn btn-danger pull-right" style="margin-left:10px;" data-toggle="tooltip" title="인증서 진단정보 보기">진단정보 보기</a>
                 @endif
 
         </h3>

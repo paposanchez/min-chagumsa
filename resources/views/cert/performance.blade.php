@@ -90,8 +90,8 @@
                                 </td>
                                 <th>최종등록차고지</th>
                                 <td>
-                                        @if($order->certificates)
-                                        최근 / {{ json_decode($order->certificates->history_garage, true)[0] }}
+                                        @if($order->certificates->history_garage)
+                                        {{ $order->certificates->history_garage }}
                                         @else
                                         없음
                                         @endif
