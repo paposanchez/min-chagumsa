@@ -39,7 +39,7 @@
     <div id='sub_wrap'>
 
         <div class='ipt_line'>
-            <button class='btns btns_navy' style='display:inline-block;' id="list" data-url="{{ route($board_namespace.'.index') }}">목록</button>
+            <button class='btns btns_navy' style='display:inline-block;' id="list" data-url="{{ route('mobile.'.$board_namespace.'.index') }}">목록</button>
         </div>
 
     </div>
