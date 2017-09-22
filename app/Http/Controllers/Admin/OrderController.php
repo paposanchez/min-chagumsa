@@ -47,7 +47,9 @@ class OrderController extends Controller
         {
 
                 $search_fields = [
-                        "order_num" => "주문번호", "car_number" => "차량번호", 'orderer_name' => '주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
+                        "order_num" => "주문번호",
+                        "order_id" => "주문id",
+                        "car_number" => "차량번호", 'orderer_name' => '주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
                 ];
 
                 $where = Order::where('status_cd', ">=", 102)->orderBy('created_at', 'DESC');
@@ -87,13 +89,19 @@ class OrderController extends Controller
                 {
                         if ($sf != "order_num") {
 
-                                if (in_array($sf, ["car_number", "orderer_name", "orderer_mobile"])) {
+
+                                if($sf == 'order_id')
+                                {
+                                        $where->where('id', $s );
+                                }else{
                                         $where->where($sf, 'like', '%' . $s . '%');
                                 }
 
+
+
+
                         } else {
                                 list($car_number, $datekey) = explode("-", $s);
-
                                 if($car_number && $datekey)
                                 {
                                         $where->where('car_number', $car_number)
@@ -656,6 +664,8 @@ class OrderController extends Controller
         public function reservationChange(Request $request)
         {
                 try {
+
+
                         $order_id = $request->get('order_id');
                         $date = $request->get('date');
                         $time = $request->get('time');
@@ -663,8 +673,10 @@ class OrderController extends Controller
                         $reservation_date = new DateTime($date . ' ' . $time . ':00:00');
 
                         $reservation = Reservation::where('orders_id', $order_id)->first();
-                        $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');;
+                        $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
                         $reservation->save();
+
+
 
                         $order = Order::find($order_id);
                         $order->status_cd = 104;
