@@ -15,8 +15,8 @@
     </dl>
     <dl class='inquery_view_wrap faq_answer'>
         <dt>
-            @if($data->is_answered === 1)
-                {!! nl2br($data->answered) !!}
+            @if($data->is_answered)
+                {!! $data->answer !!}
             @else
                 답변대기중입니다.
             @endif
