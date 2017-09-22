@@ -155,8 +155,6 @@ class OrderController extends Controller
 
 
         $order_car = new OrderCar();
-        //            $order_car->vin_number = $request->get('car_number');
-        $order_car->car_number = $request->get('car_number');
         $order_car->brands_id = $request->get('brands');
         $order_car->models_id = $request->get('models');
         $order_car->details_id = $request->get('details');
@@ -202,9 +200,8 @@ class OrderController extends Controller
 
 
         // order_car 의 orders_id 입력
-        $my_order_car = OrderCar::where('car_number', $order_car->car_number)->first();
-        $my_order_car->orders_id = $order->id;
-        $my_order_car->save();
+        $order_car->orders_id = $order->id;
+        $order_car->save();
 
 
         // 예약 관련
@@ -1084,8 +1081,6 @@ class OrderController extends Controller
 
 
         $order_car = new OrderCar();
-        //            $order_car->vin_number = $request->get('car_number');
-        $order_car->car_number = $request->get('car_number');
         $order_car->brands_id = $request->get('brands');
         $order_car->models_id = $request->get('models');
         $order_car->details_id = $request->get('details');
@@ -1130,9 +1125,8 @@ class OrderController extends Controller
 
 
         // order_car 의 orders_id 입력
-        $my_order_car = OrderCar::where('car_number', $order_car->car_number)->first();
-        $my_order_car->orders_id = $order->id;
-        $my_order_car->save();
+        $order_car->orders_id = $order->id;
+        $order_car->save();
 
 
         // 예약 관련

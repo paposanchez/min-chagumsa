@@ -218,8 +218,7 @@
 
                 <div class="col-md-8">
                     <h4 style="margin-top:36px !important;">인증서 발급내역</h4>
-                    {{--@include("partials.certificate", ["order" => $order])--}}
-
+                    
                     <div class="panel panel-default">
 
                         <div class="panel-heading">

@@ -30,10 +30,6 @@
                                         </div>
                                 </div>
 
-
-
-
-
                                 <div class="form-group">
                                         <label class="control-label col-sm-3">{{ trans('admin/order.period') }}</label>
 
@@ -101,6 +97,21 @@
                                         <tr><td colspan="9" class="no-result">{{ trans('common.no-result') }}</td></tr>
                                         @endunless
 
+
+                                        <?php
+
+                                                $subtotals = [
+                                                        'total_price' => 0,
+                                                        'total_pg' => 0,
+                                                        'total_guarantee' => 0,
+                                                        'total_wage' => 0,
+                                                        'total_alliance_income' => 0,
+                                                        'total_tech_income' => 0,
+                                                        'total_income' => 0,
+
+                                                ];
+                                        ?>
+
                                         @foreach($entrys as $data)
                                         <tr>
                                                 <td class=""><input type="checkbox" name="settlement_orders[]" value="{{ $data->id }}"></td>
@@ -154,16 +165,17 @@
                                 </tbody>
 
                                 <tfoot>
-                                        <tr class="active">
+
+                                        <tr class="bg-danger">
                                                 <th class="text-center"></th>
-                                                <th class="text-center">주문번호</th>
                                                 <th class="text-center"></th>
-                                                <th class="text-center">PG 수수료율</th>
-                                                <th class="text-center">보증료</th>
-                                                <th class="text-center">공임비용</th>
-                                                <th class="text-center">얼라이언스 Com</th>
-                                                <th class="text-center">기술사 Com</th>
-                                                <th class="text-center">수익</th>
+                                                <th class="text-center"><span><i class="fa fa-won"></i>{{ $subtotals['total_price'] }}</span></th>
+                                                <th class="text-center"><span><i class="fa fa-won"></i>{{ $subtotals['total_pg'] }}</span></th>
+                                                <th class="text-center"><span><i class="fa fa-won"></i>{{ $subtotals['total_guarantee'] }}</span></th>
+                                                <th class="text-center"><span><i class="fa fa-won"></i>{{ $subtotals['total_wage'] }}</span></th>
+                                                <th class="text-center"><span><i class="fa fa-won"></i>{{ $subtotals['total_alliance_income'] }}</span></th>
+                                                <th class="text-center"><span><i class="fa fa-won"></i>{{ $subtotals['total_tech_income'] }}</span></th>
+                                                <th class="text-center"><span><i class="fa fa-won"></i>{{ $subtotals['total_income'] }}</span></th>
                                                 <th class="text-center"></th>
                                         </tr>
                                 </tfoot>
