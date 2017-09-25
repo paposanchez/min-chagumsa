@@ -3,8 +3,6 @@
 @endif
 
 @if($entry['use_image'] == 1)
-
-        
     @foreach($entry['files'] as $file)
         <a href="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url={{ $file['preview'] }}"
            class="diagnosis-thumbnail pull-right"
