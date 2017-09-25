@@ -29,7 +29,7 @@ class File extends Model {
         }
 
 
-        public function getThumbnailPath(){
+        public function getPreviewPath(){
                 return 'http://cdn.chagumsa.com/thumbnail/'. $this->id;
                 // return "/assets".$prepath . $this->path . '/' . $this->source;
         }
