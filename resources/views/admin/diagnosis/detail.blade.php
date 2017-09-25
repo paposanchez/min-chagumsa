@@ -91,6 +91,7 @@
 
                         <fieldset>
 
+                                {{ dd($diagnosis['entrys'][0]['entrys'][0]['entrys']) }}
 
                             <div class="panel panel-primary">
                                 @foreach($diagnosis['entrys'] as $entrys)
