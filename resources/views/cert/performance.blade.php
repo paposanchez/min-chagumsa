@@ -303,7 +303,7 @@
 
 
 
-                                @if(isset($entry['children']))
+                                @if(isset($entry['children']) && count($entry['children']) > 0)
                                 <td class="no-padding">
                                         <table class="">
                                                 <col width="25%">
@@ -335,7 +335,7 @@
                         <tr>
                                 <th>{{ $entry['name']['display'] }}</th>
 
-                                @if(isset($entry['children']))
+                                @if(isset($entry['children']) && count($entry['children']) > 0)
                                 <td class="no-padding">
                                         <table class="">
                                                 <col width="25%">
