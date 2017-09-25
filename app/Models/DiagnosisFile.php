@@ -37,6 +37,5 @@ class DiagnosisFile extends Model
 
         public function getPreviewPath(){
                 return 'http://cdn.chagumsa.com/diagnosis/'. $this->id;
-                // return "/assets".$prepath . $this->path . '/' . $this->source;
         }
 }

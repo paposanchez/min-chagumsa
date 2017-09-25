@@ -7,6 +7,7 @@ use App\Mixapply\Uploader\Receiver;
 use App\Models\Car;
 use App\Models\Certificate;
 use App\Models\Diagnosis;
+use App\Models\DiagnosisFile;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -153,19 +154,51 @@ class DiagnosesController extends Controller
         }
 
         public function updateComment(Request $request){
-            try{
-                $diagnosis_id = $request->get('diagnosis_id');
-                $comment = $request->get('comment');
+                try{
+                        $diagnosis_id = $request->get('diagnosis_id');
+                        $comment = $request->get('comment');
 
-                $diagnosis = Diagnosis::findOrFail($diagnosis_id);
-                $diagnosis->comment = $comment;
-                $diagnosis->save();
+                        $diagnosis = Diagnosis::findOrFail($diagnosis_id);
+                        $diagnosis->comment = $comment;
+                        $diagnosis->save();
 
-                return response()->json();
-            }catch (\Exception $ex){
-                return response()->json($ex->getMessage());
-            }
+                        return response()->json();
+                }catch (\Exception $ex){
+                        return response()->json($ex->getMessage());
+                }
         }
+
+
+        public function fileUpload(){
+
+        }
+        public function fileDelete(Request $request, $id){
+
+
+                try{
+                        $file = DiagnosisFile::findOrFail($id);
+                        // 실제파일 삭제하지않음
+                        // $file->delete();
+                        return response()->json([
+                                'status' => 'success'
+                        ]);
+
+                }catch(Exception $e){
+
+                        return response()->json([
+                                'status' => 'error'
+                        ]);
+                }
+
+
+
+        }
+
+
+
+
+
+
 
         public function edit($id){
 
