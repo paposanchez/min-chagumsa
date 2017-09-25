@@ -405,7 +405,7 @@ class DiagnosisController extends ApiController {
                         $diagnosis = new DiagnosisRepository();
 
                         foreach($reservations as $reservation) {
-                                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
+                                $returns[] = $diagnosis->prepare($reservation->orders_id)->getOrder();
                         }
                         return response()->json(array(
                                 'date' => $date,
@@ -477,7 +477,7 @@ class DiagnosisController extends ApiController {
                         $returns = [];
                         $diagnosis = new DiagnosisRepository();
                         foreach($orders as $order) {
-                                $returns[] = $diagnosis->prepare($order->id)->order();
+                                $returns[] = $diagnosis->prepare($order->id)->getOrder();
                         }
 
                         return response()->json($returns);
@@ -559,7 +559,7 @@ class DiagnosisController extends ApiController {
                         $diagnosis = new DiagnosisRepository();
 
                         foreach($reservations as $reservation) {
-                                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
+                                $returns[] = $diagnosis->prepare($reservation->orders_id)->getOrder();
                         }
 
 

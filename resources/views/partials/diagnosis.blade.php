@@ -13,7 +13,7 @@
            data-gallery="diagnosis-gallery"
         >
             <img
-                    src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url={{ $file['id'] }}"
+                    src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url={{ $file['preview'] }}"
                     data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url={{ $file['preview'] }}"
                     class="img-responsive" style="width:30px;height:30px;display:inline-block;">
         </a>
