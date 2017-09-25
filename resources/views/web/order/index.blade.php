@@ -636,7 +636,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get_section/',
+                url: '/order/get-section/',
                 data: {
                     'garage_area': garage_area
                 },
@@ -667,7 +667,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get_address/',
+                url: '/order/get-address/',
                 data: {
                     'sel_area': garage_area,
                     'sel_section': garage_section
@@ -696,7 +696,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get_full_address',
+                url: '/order/get-full-address',
                 data: {
                     'garage_id': garage_id
                 },
@@ -881,7 +881,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get_models/',
+                url: '/order/get-models/',
                 data: {'brand': brand},
                 success: function (data) {
                     $('#models').empty();
@@ -909,7 +909,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get_details/',
+                url: '/order/get-details/',
                 data: {'model': model},
                 success: function (data) {
                     $('#details').empty();
@@ -936,7 +936,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get_grades/',
+                url: '/order/get-grades/',
                 data: {'detail': detail},
                 success: function (data) {
 

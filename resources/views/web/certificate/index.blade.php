@@ -105,8 +105,7 @@
         $('.detail').click(function () {
             var car_number = $(this).data('car_number');
             var datekey = $(this).data('datekey');
-//                window.open('/certificate/'+order_id+'/summary',"", "width=1400, height=1400");
-            window.open('/certificate/'+ car_number + '-' + datekey + '/summary', "", "width=1400, height=1400");
+            window.open('http://cert.chagumsa.com/'+car_number+'-'+datekey, "", "width=1400, height=1400");
         });
 
         $('.open_cd').on('click', function () {

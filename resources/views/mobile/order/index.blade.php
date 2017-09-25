@@ -562,7 +562,7 @@ $(function () {
         $.ajax({
             type: 'get',
             dataType: 'json',
-            url: '/order/get_address/',
+            url: '/order/get-address/',
             data: {
                 'sel_area': garage_area,
                 'sel_section': garage_section
@@ -605,7 +605,7 @@ $(function () {
         $.ajax({
             type : 'get',
             dataType : 'json',
-            url : '/order/get_full_address',
+            url : '/order/get-full_address',
             data : {
                 'garage_id' : garage_id
             },

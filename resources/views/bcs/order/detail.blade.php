@@ -42,6 +42,12 @@
 
 
                     @if($order->status_cd < 106)
+                        <div class="form-group">
+                            <label for="" class="control-label col-md-3">주문자 ID</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">{{ $order->orderer_id }}</p>
+                            </div>
+                        </div>
                         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                             <label for="" class="control-label col-md-3">주문자명</label>
                             <div class="col-md-9">
@@ -77,6 +83,12 @@
                         </div>
 
                     @else
+                        <div class="form-group">
+                            <label for="" class="control-label col-md-3">주문자 ID</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">{{ $order->orderer_id }}</p>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label for="" class="control-label col-md-3">주문자명</label>
@@ -427,7 +439,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get_address/',
+                url: '/order/get-address/',
                 data: {
                     'sel_area': garage_area,
                     'sel_section': garage_section

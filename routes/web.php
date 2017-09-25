@@ -33,13 +33,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('order/payment-popup', 'OrderController@paymentPopup')->name("order.payment-popup");
 
 
-        Route::get('/order/get_models', 'OrderController@getModels')->name("order.get_models");
-        Route::get('/order/get_details', 'OrderController@getDetails')->name("order.get_details");
-        Route::get('/order/get_grades', 'OrderController@getGrades')->name("order.get_grades");
-        Route::get('/order/sel_item', 'OrderController@selItem')->name("order.sel_item");
-        Route::get('/order/get_section', 'OrderController@getSection')->name("order.get_section");
-        Route::get('/order/get_address', 'OrderController@getAddress')->name("order.get_address");
-        Route::get('/order/get_full_address', 'OrderController@getFullAddress')->name("order.get_full_address");
+        Route::get('/order/get-models', 'OrderController@getModels')->name("order.get_models");
+        Route::get('/order/get-details', 'OrderController@getDetails')->name("order.get_details");
+        Route::get('/order/get-grades', 'OrderController@getGrades')->name("order.get_grades");
+        Route::get('/order/sel-item', 'OrderController@selItem')->name("order.sel_item");
+        Route::get('/order/get-section', 'OrderController@getSection')->name("order.get_section");
+        Route::get('/order/get-address', 'OrderController@getAddress')->name("order.get_address");
+        Route::get('/order/get-full-address', 'OrderController@getFullAddress')->name("order.get_full_address");
 
 
         //쿠폰인증

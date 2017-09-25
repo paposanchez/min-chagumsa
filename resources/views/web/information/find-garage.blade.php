@@ -95,7 +95,7 @@
                                 $.ajax({
                                         type : 'get',
                                         dataType : 'json',
-                                        url : '/order/get_address/',
+                                        url : '/order/get-address/',
                                         data : {
                                                 'sel_area' : sel_area,
                                                 'sel_section' : sel_section,
@@ -122,7 +122,7 @@
                                 $.ajax({
                                         type : 'get',
                                         dataType : 'json',
-                                        url : '/order/get_address/',
+                                        url : '/order/get-address/',
                                         data : {
                                                 'sel_area' : sel_area,
                                                 '_token': '{{ csrf_token() }}'

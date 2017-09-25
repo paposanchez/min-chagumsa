@@ -156,8 +156,8 @@
 
 
                                                             @if($entry['options'])
-                                                                {{--{!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($entry['options_cd']), \App\Helpers\Helper::getCodePluck($entry['selected']), ['class'=>'selected_cd', 'id'=>'', 'data-id'=>$entry['id']]) !!}--}}
-                                                                <p class="form-control-static">{{ \App\Helpers\Helper::getCodeName($entry['selected']) }}</p>
+                                                                {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($entry['options_cd']), \App\Helpers\Helper::getCodePluck($entry['selected']), ['class'=>'selected_cd', 'id'=>'', 'data-id'=>$entry['id']]) !!}
+                                                                {{--<p class="form-control-static">{{ \App\Helpers\Helper::getCodeName($entry['selected']) }}</p>--}}
                                                             @endif
 
 
@@ -209,8 +209,8 @@
 
 
                                                                                         @if($child['options'])
-                                                                                            {{--{!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child['options_cd']), \App\Helpers\Helper::getCodePluck($child['selected']), ['class'=>'selected_cd', 'id'=>'', 'data-id'=>$child['id']]) !!}--}}
-                                                                                            <p class="form-control-static">{{ \App\Helpers\Helper::getCodeName($child['selected']) }}</p>
+                                                                                            {!! Form::select('selected[]', \App\Helpers\Helper::getCodeArray($child['options_cd']), \App\Helpers\Helper::getCodePluck($child['selected']), ['class'=>'selected_cd', 'id'=>'', 'data-id'=>$child['id']]) !!}
+                                                                                            {{--<p class="form-control-static">{{ \App\Helpers\Helper::getCodeName($child['selected']) }}</p>--}}
                                                                                         @endif
 
 
