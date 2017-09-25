@@ -28,9 +28,19 @@ class File extends Model {
                 return storage_path($prepath . $this->path . '/' . $this->source) ;
         }
 
-        public function getPreviewPath(){
-                return URL::to('/thumbnail/'. $this->id);
+
+        public function getThumbnailPath(){
+                return 'http://cdn.chagumsa.com/thumbnail/'. $this->id;
                 // return "/assets".$prepath . $this->path . '/' . $this->source;
         }
+        public function getImagePath(){
+                return 'http://cdn.chagumsa.com/image/'. $this->id;
+                // return "/assets".$prepath . $this->path . '/' . $this->source;
+        }
+
+        // public function getPreviewPath(){
+        //         return URL::to('/thumbnail/'. $this->id);
+        //         // return "/assets".$prepath . $this->path . '/' . $this->source;
+        // }
 
 }
