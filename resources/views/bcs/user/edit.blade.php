@@ -129,9 +129,9 @@
                         <a href="{{ route('bcs.user.index') }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ trans('common.button.back') }}</a>
                         <button class="btn btn-primary" data-loading-text="{{ trans('common.button.loading') }}" type="submit">{{ trans('common.button.save') }}</button>
 
-                        @if ($user->id != 1)
-                            <button class="btn btn-danger pull-right" id="btn-user-destory" data-loading-text="{{ trans('common.button.loading') }}">{{ trans('common.button.destroy') }}</button>
-                        @endif
+                        {{--@if ($user->id != 1)--}}
+                            {{--<button class="btn btn-danger pull-right" id="btn-user-destory" data-loading-text="{{ trans('common.button.loading') }}">{{ trans('common.button.destroy') }}</button>--}}
+                        {{--@endif--}}
 
                     </div>
                 </div>
@@ -143,8 +143,8 @@
 
     </div><!-- container -->
 
-    {!! Form::open(['method' => 'DELETE', 'route' => ['user.destroy', $user->id], 'id'=>'frm-user-destroy']) !!}
-    {!! Form::close() !!}
+    {{--{!! Form::open(['method' => 'DELETE', 'route' => ['user.destroy', $user->id], 'id'=>'frm-user-destroy']) !!}--}}
+    {{--{!! Form::close() !!}--}}
 
 
 @endsection

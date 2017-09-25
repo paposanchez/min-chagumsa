@@ -80,7 +80,7 @@ class ProfileController extends Controller
         {
                 $profile = Auth::user();
                 //@TODO 현재 주문완료상태 입고대기등의 진행중인 주문이 잇는 경우 탈퇴불가
-                $order = Order::whereIn('status_cd', [105,106,107])->get();
+                $order = Order::where('orderer_id', Auth::user()->id)->whereIn('status_cd', [105,106,107])->get();
                 if($order){
                         return redirect("/mypage/profile")->with('error', '진행중인 주문이 있어 탈퇴가 불가능합니다. 관리자에게 문의하세요.');
                 }

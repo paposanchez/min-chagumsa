@@ -125,7 +125,7 @@
 
 
                                                 <td>
-                                                        <a href="{{ route('item.show', $data->id) }}" class="btn btn-default">상세보기</a>
+                                                        <a href="{{ route('item.show', ['id' => $data->id]) }}" class="btn btn-default">상세보기</a>
                                                 </td>
 
                                         </tr>
