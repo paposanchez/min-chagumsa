@@ -3,12 +3,13 @@
 @endif
 
 @if($entry['use_image'] == 1)
+
     @foreach($entry['files'] as $file)
         <a href="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
            class="diagnosis-thumbnail pull-right"
            data-toggle="lightbox"
            data-title="{{ $file['original'] }}"
-           data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }}"
+           data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }} | <a href=''> 삭제</a>"
            data-type="image"
            data-gallery="diagnosis-gallery"
         >
@@ -18,6 +19,11 @@
                     class="img-responsive" style="width:30px;height:30px;display:inline-block;">
         </a>
     @endforeach
+
+    <button
+    data-id="{{ $entry['id'] }}"
+    class='btn btn-circle btn-info pull-right diagnosis-gallery'><i  class="fa fa-upload"></i></button>
+
 @endif
 
 
