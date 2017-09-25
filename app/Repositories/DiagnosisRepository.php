@@ -146,7 +146,8 @@ class DiagnosisRepository {
                                         'path'          => $entry->path,
                                         'mime'          => $entry->mime,
                                         'size'          => $entry->size,
-                                        'fullpath'      => $entry->getRealPath('app/storage'),
+                                        'fullpath'      => $entry->getRealPath('app/diagnosis'),
+                                        'preview'       => $entry->getPreviewPath(),
                                         'created_at'    => $entry->created_at->format("Y-m-d H:i:s"),
                                         'updated_at'    => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
                                 );

@@ -184,21 +184,12 @@ class DiagnosisController extends ApiController {
                                 throw new Exception('접근권한이 없습니다.');
                         }
 
-
                         // validator
                         $uploader_name = 'upfile';
-                        //            $validator = Validator::make($request->all(), [
-                        ////                $uploader_name => 'required|mimes:jpeg,png,jpg,gif,svg, mp3, m4a',
-                        //                $uploader_name => 'required',
-                        //            ]);
 
+                        $diagnosis_upload_prifix = storage_path('app/diagnosis');
 
-                        //            if ($validator->fails()) {
-                        //                $errors = $validator->errors()->all();
-                        //                throw new Exception($errors[0]);
-                        //            }
-
-                        $uploader = new Receiver($request);
+                        $uploader = new Receiver($request, $diagnosis_upload_prifix);
                         $response = $uploader->receive($uploader_name, function ($file, $path_prefix, $path, $file_new_name) {
                                 // 파일이동
                                 $file->move($path_prefix . $path, $file_new_name);
@@ -414,7 +405,7 @@ class DiagnosisController extends ApiController {
                         $diagnosis = new DiagnosisRepository();
 
                         foreach($reservations as $reservation) {
-                                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
+                                $returns[] = $diagnosis->prepare($reservation->orders_id)->getOrder();
                         }
                         return response()->json(array(
                                 'date' => $date,
@@ -486,7 +477,7 @@ class DiagnosisController extends ApiController {
                         $returns = [];
                         $diagnosis = new DiagnosisRepository();
                         foreach($orders as $order) {
-                                $returns[] = $diagnosis->prepare($order->id)->order();
+                                $returns[] = $diagnosis->prepare($order->id)->getOrder();
                         }
 
                         return response()->json($returns);
@@ -568,7 +559,7 @@ class DiagnosisController extends ApiController {
                         $diagnosis = new DiagnosisRepository();
 
                         foreach($reservations as $reservation) {
-                                $returns[] = $diagnosis->prepare($reservation->orders_id)->order();
+                                $returns[] = $diagnosis->prepare($reservation->orders_id)->getOrder();
                         }
 
 

@@ -15,6 +15,7 @@ class RouteServiceProvider extends ServiceProvider {
 
         public function map() {
 
+                $this->mapCdnRoutes();
                 $this->mapCertRoutes();
                 $this->mapTechnicianRoutes();
                 $this->mapBcsRoutes();
@@ -25,7 +26,16 @@ class RouteServiceProvider extends ServiceProvider {
                 $this->mapWebRoutes();
         }
 
-
+        protected function mapCdnRoutes() {
+                $namespace = $this->namespace . '\Cdn';
+                Route::group([
+                        'middleware' => 'web',
+                        'namespace' => $namespace,
+                        'domain' => 'cdn.' . config('app.domain'),
+                ], function ($router) {
+                        require base_path('routes/cdn.php');
+                });
+        }
         protected function mapCertRoutes() {
                 $namespace = $this->namespace . '\Cert';
                 Route::group([

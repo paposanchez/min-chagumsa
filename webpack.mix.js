@@ -55,7 +55,8 @@ mix
         nodeDir + 'animate.css/animate.css',
         nodeDir + 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css',
         // nodeDir + 'perfect-scrollbar/dist/css/perfect-scrollbar.scss',
-        nodeDir + 'titatoggle/dist/titatoggle-dist.css'
+        nodeDir + 'titatoggle/dist/titatoggle-dist.css',
+        nodeDir + 'ekko-lightbox/dist/ekko-lightbox.css'
 ], distDir + 'css/vendor.css')
 
 .sass(assetsDir + 'scss/app.scss', distDir + 'css')

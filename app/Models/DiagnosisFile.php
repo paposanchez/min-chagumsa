@@ -32,7 +32,11 @@ class DiagnosisFile extends Model
         }
 
         public function getRealPath($prepath = ''){
-
                 return storage_path($prepath . $this->path . '/' . $this->source) ;
+        }
+
+        public function getPreviewPath(){
+                return 'http://cdn.chagumsa.com/diagnosis/'. $this->id;
+                // return "/assets".$prepath . $this->path . '/' . $this->source;
         }
 }

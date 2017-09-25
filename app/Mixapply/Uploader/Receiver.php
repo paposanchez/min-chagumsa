@@ -15,17 +15,22 @@ class Receiver {
     protected $path_prefix;
     protected $path;
 
-    public function __construct(Request $request) {
+    public function __construct(Request $request, $path_prefix = '') {
         $this->request = $request;
 
-        $this->path_prefix = storage_path('app/upload');
+        if($path_prefix)
+        {
+                $this->path_prefix = $path_prefix;
+        }else{
+                $this->path_prefix = storage_path('app/upload');
+        }
 
         $this->uptime = Carbon::now();
         $this->path = '/' . $this->uptime->format('Y') . '/' . $this->uptime->format('m') . '/' . $this->uptime->format('d') . '/' . $this->uptime->format('H');
     }
 
     public function insert() {
-        
+
     }
 
     public function receiveSingle($name, Closure $handler) {
@@ -93,7 +98,7 @@ class Receiver {
     }
 
     /**
-     * 
+     *
      * @param type $name
      * @return string 50byte(real 45byte)
      */
