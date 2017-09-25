@@ -5,11 +5,11 @@
 @if($entry['use_image'] == 1)
 
     @foreach($entry['files'] as $file)
-    <a href="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=400&qty=80&url={{ $file['preview'] }}""
+    <a href="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=400&qty=80&url={{ $file['preview'] }}"
        class="diagnosis-thumbnail pull-right"
        data-toggle="lightbox"
        data-title="{{ $file['original'] }}"
-       data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }} | <a href='{{ $file['preview'] }}' target="_blank">원본보기</a>"
+       data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }} | <a href='{{ $file['preview'] }}' target='_blank'>원본보기</a>"
        data-type="image"
        data-gallery="diagnosis-gallery"
     >
