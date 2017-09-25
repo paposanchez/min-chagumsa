@@ -54,4 +54,15 @@ class Diagnosis extends Model
                         return null;
                 }
         }
+
+        public function getFrontPicture(){
+            $picture_id = $this->where('group', 2008)->first()->id;
+
+            if($picture_id){
+                return $picture_id->id;
+
+            }else{
+                return [];
+            }
+        }
 }

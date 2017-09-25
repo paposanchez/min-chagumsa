@@ -178,7 +178,8 @@
 
 
                                 @if($data->status_cd == 108)
-                                    <a href="/certificate/{{ $data->id }}/edit" class="btn btn-danger" data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>
+                                    {{--<a href="/certificate/{{ $data->id }}/edit" class="btn btn-danger" data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>--}}
+                                    <a href="{{ url('certificate/'.$data->id.'/edit') }}" class="btn btn-danger" data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>
                                 @endif
 
                                 <a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip" title="주문상세보기">상세보기</a>

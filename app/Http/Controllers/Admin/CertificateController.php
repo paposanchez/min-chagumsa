@@ -137,8 +137,6 @@ class CertificateController extends Controller
 
     public function edit(Request $reqeust, $order_id)
     {
-
-
         $order = Order::where("status_cd", 108)->findOrFail($order_id);
 
 
@@ -187,7 +185,6 @@ class CertificateController extends Controller
      */
     public function update(Request $request, $id)
     {
-
 
         $section = $request->get('section');
 

@@ -133,7 +133,7 @@ class DiagnosesController extends Controller
                 return view('admin.diagnosis.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys'));
         }
 
-        public function show(Request$request, $id){
+        public function show(Request $request, $id){
                 $order = Order::findOrFail($id);
 
                 $handler = new DiagnosisRepository();

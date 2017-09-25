@@ -5,31 +5,16 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
 
     Route::get('dashboard', 'DashboardController');
 
+    //진단데이터
+    Route::get('certificate/diagnosis/{id}', 'DiagnosesController@diagnoses');
     //인증서 관련
+    Route::post('certificate/{id?}/assign', 'CertificateController@assign');
+    Route::post('certificate/issue', 'CertificateController@issue');
     Route::get('certificate/{order_id}/{page?}/{flush?}', 'CertificateController@show');
-    Route::resource('certificate', 'CertificateController');
+    Route::resource('certificate', 'CertificateController', ['only' => ['index', 'update', 'edit']]);
 
     //주문 관련
     Route::resource('order', 'OrderController');
-
-    //주문
-    Route::post('order/issue', 'TechOrderController@issue')->name('order.issue');
-    Route::resource('order', 'TechOrderController', ['as' => 'technician']);
-
-
-    //보험이력파일처리
-    Route::post('order/insurance-file', 'TechOrderController@insuranceFile')->name('order/insurance-file');
-
-    //용도변경, 차고지 이력 추가
-    Route::post('order/history', 'TechOrderController@history')->name('order/history');
-
-    //인증서 데이터 갱신
-    Route::patch('order/update/{id}', 'TechOrderController@update')->name('order/update');
-
-    //진단데이터
-    Route::get('order/diagnoses/{id}', 'TechOrderController@diagnoses')->name('technician.diagnoses');
-    //진단 선택값 변경
-    Route::post('order/update-code', 'TechOrderController@updateCode')->name('order.update-code');
 
     Route::resource('notice', 'NoticeController', ['as' => 'technician']);
     Route::get('user/edit', 'UserController@edit')->name('technician.user.edit');
@@ -41,7 +26,7 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     Route::get('avatar/{user_id?}', '\App\Http\Controllers\Admin\ImageController@avatar')->name("avatar");
 });
 
-Route::get('order/insurance-file-view/{id}', 'TechOrderController@insuranceFileView')->name('order/insurance-file-view');
+//Route::get('order/insurance-file-view/{id}', 'TechOrderController@insuranceFileView')->name('order/insurance-file-view');
 
 Route::any('logout', 'Auth\LoginController@logout');
 Route::group(['middleware' => ['guest.admin']], function () {

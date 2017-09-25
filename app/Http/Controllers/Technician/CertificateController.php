@@ -96,9 +96,9 @@ class CertificateController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(Request $request, $order_id)
     {
-        $order = Order::where("status_cd", '>', 107)->findOrFail($id);
+        $order = Order::where("status_cd", '>', 107)->findOrFail($order_id);
 
 
         /**
@@ -114,28 +114,23 @@ class CertificateController extends Controller
          */
 
 
-        $diagnosis = new DiagnosisRepository();
-        $entrys = $diagnosis->prepare($order->id)->get();
-
         if ($order->car) {
             $car = $order->car;
         } else {
             $car = $order->orderCar;
         }
 
-        $grades = [
-            '' => '등급을 선택해주세요.', 'AA' => 'AA', 'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D'
-        ];
 
+        $grades = Code::getSelectList('grade_state_cd');
         $select_color = Code::getSelectList('color_cd');
         $select_vin_yn = Code::getSelectList('yn');
         $select_transmission = Code::getSelectList("transmission");
         $select_fueltype = Code::getSelectList('fuel_type');
         $kinds = Code::getSelectList('kind_cd');
         $certificate_states = Code::getSelectList('certificate_state_cd');
+        $standard_states = Code::getSelectList('standard_cd');
 
-
-        return view('admin.order.edit', compact('order', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'entrys', 'car'));
+        return view('technician.certificate.edit', compact('order', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'car', 'standard_states'));
     }
 
 
@@ -146,11 +141,9 @@ class CertificateController extends Controller
      * section==price: 가격정보. 기존 인증서 내용이 없다면 insert, 있다면 수정이다. 향후 해당 처리에 대한 정책검토 필요함. 대상 테이블: certificates
      * @param Request $request
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-
-
-        $section = $request->get('section');
+        $id = $request->get('order_id');
 
         $order_where = Order::find($id);
 
@@ -158,195 +151,225 @@ class CertificateController extends Controller
             return redirect()->back()->with('error', '발급완료된 인증서입니다.');
         }
 
-        $certificates_where = Certificate::find($id);
+        $certificates_where = Certificate::where('orders_id', $order_where->id)->first();
+        if (!$certificates_where) {
+            return redirect()->back()->with('error', '잘못된 인증서입니다. 관리자에게 문의하세요.');
+        }
 
-        if (in_array($section, ['basic', 'history', 'price'])) {
-            if ($section == 'basic') {
-
-                $order_data = [
-                    "car_number" => $request->get('orders_car_number'),
-                    "mileage" => $request->get('orders_mileage'),
-                    "status_cd" => 108
-                ];
-
-
-                $car_data = [
-                    "brands_id" => $request->get("brands_id"),
-                    "models_id" => $request->get("models_id"),
-                    "details_id" => $request->get("details_id"),
-                    "grades_id" => $request->get("grades_id"),
-                    "vin_number" => $request->get('cars_vin_number'),
-                    "imported_vin_number" => $request->get('car_imported_vin_number'),
-                    "registration_date" => $request->get('cars_registration_date'),
-                    "exterior_color_cd" => $request->get('cars_exterior_color'),
-                    "interior_color_cd" => $request->get('cars_interior_color'),
-                    "year" => $request->get('cars_year'),
-                    "transmission_cd" => $request->get('cars_transmission_cd'),
-                    "displacement" => $request->get('cars_displacement'),
-                    "fuel_consumption" => $request->get('cars_fuel_consumption'),
-                    "engine_type" => $request->get("cars_engine_type"),
-                    "fueltype_cd" => $request->get("cars_fueltype_cd")
-                ];
-
-                $certificate_data = [
-                    'orders_id' => $order_where->id,
-                    'vin_yn_cd' => $request->get("certificates_vin_yn_cd"),
-                    'price' => $request->get('pst'),
-                    'history_owner' => $request->get('certificates_history_owner'),
-                    'history_maintance' => $request->get('certificates_history_maintance')
-                ];
-
-            } elseif ($section == 'history') {
-                $order_data = ["status_cd" => 108];
+        $order_data = [
+            "car_number" => $request->get('orders_car_number'),
+            "mileage" => $request->get('orders_mileage'),
+            "status_cd" => 108
+        ];
 
 
-                $car_data = [];
+        $car_data = [
+            "brands_id" => $order_where->car->brands_id,
+            "models_id" => $order_where->car->models_id,
+            "details_id" => $order_where->car->details_id,
+            "grades_id" => $order_where->car->grades_id,
+            "vin_number" => $request->get('cars_vin_number'),
+            "imported_vin_number" => $request->get('car_imported_vin_number'),
+            "registration_date" => $request->get('cars_registration_date'),
+            "exterior_color_cd" => $request->get('cars_exterior_color'),
+            "interior_color_cd" => $request->get('cars_interior_color'),
+            "year" => $request->get('cars_year'),
+            "transmission_cd" => $request->get('cars_transmission_cd'),
+            "displacement" => $request->get('cars_displacement'),
+            "fuel_consumption" => $request->get('cars_fuel_consumption'),
+            "engine_type" => $request->get("cars_engine_type"),
+            "fueltype_cd" => $request->get("cars_fueltype_cd"),
+            "passenger" => $request->get("passenger"),
+            "kind_cd" => $request->get("kind_cd")
+        ];
 
-                if ($certificates_where) {
-                    $certificate_data = [
-                        "history_insurance" => $request->get("certificates_history_insurance"),
-                        "history_purpose" => $request->get("certificates_history_purpose"),
-                        "history_garage" => $request->get("certificates_history_garage"),
-                    ];
+        $certificate_data = [
+            "orders_id" => $order_where->id,
+            "vin_yn_cd" => $request->get("certificates_vin_yn_cd"),
+            "history_owner" => $request->get('certificates_history_owner'),
+            "history_maintance" => $request->get('certificates_history_maintance'),
+            "history_insurance" => $request->get("certificates_history_insurance"),
+            "history_purpose" => $request->get("certificates_history_purpose"),
+            "history_garage" => $request->get("certificates_history_garage"),
+            "price" => $request->get("pst"),
+            //            "vat" => $request->get("certificates_vat"),
+            "new_car_price" => $request->get("certificates_new_car_price"),
+            "basic_registraion" => $request->get("certificates_basic_registraion"),
+            "basic_registraion_depreciation" => $request->get("basic_registraion_depreciation"),
+            "basic_etc" => $request->get("certificates_basic_etc"),
+            "usage_mileage_cd" => $request->get("certificates_usage_mileage_cd"),
+            "usage_mileage_depreciation" => $request->get("certificates_usage_mileage_depreciation"),
+            "usage_history_cd" => $request->get("certificates_usage_history_cd"),
+            "usage_history_depreciation" => $request->get("certificates_usage_history_depreciation"),
+
+            "performance_exterior_cd" => $request->get("performance_exterior_cd"),
+            "performance_flooded_cd" => $request->get("performance_flooded_cd"),
+            "performance_consumption_cd" => $request->get("performance_consumption_cd"),
+            "performance_broken_cd" => $request->get("performance_broken_cd"),
+            "performance_power_cd" => $request->get('performance_power_cd'),
+            "performance_electronic_cd" => $request->get('performance_electronic_cd'),
+            "performance_interior_cd" => $request->get('performance_interior_cd'),
+            "performance_exteriortest_cd" => $request->get('performance_exteriortest_cd'),
+            "performance_plugin_cd" => $request->get('performance_plugin_cd'),
+            "performance_engine_cd" => $request->get('performance_engine_cd'),
+            "performance_steering_cd" => $request->get('performance_steering_cd'),
+            "performance_tire_cd" => $request->get('performance_tire_cd'),
+            "performance_accident_cd" => $request->get('performance_accident_cd'),
+            "performance_interiortest_cd" => $request->get('performance_interiortest_cd'),
+            "performance_driving_cd" => $request->get('performance_driving_cd'),
+            "performance_transmission_cd" => $request->get('performance_transmission_cd'),
+            "performance_braking_cd" => $request->get('performance_braking_cd'),
+
+            "exterior_comment" => $request->get('exterior_comment'),
+            "flooded_comment" => $request->get('flooded_comment'),
+            "consumption_comment" => $request->get('consumption_comment'),
+            "broken_comment" => $request->get('broken_comment'),
+            "power_comment" => $request->get('power_comment'),
+            "electronic_comment" => $request->get('electronic_comment'),
+            "interior_comment" => $request->get('interior_comment'),
+            "exteriortest_comment" => $request->get('exteriortest_comment'),
+            "plugin_comment" => $request->get('plugin_comment'),
+            "engine_comment" => $request->get('engine_comment'),
+            "steering_comment" => $request->get('steering_comment'),
+            "tire_comment" => $request->get('tire_comment'),
+            "accident_comment" => $request->get('accident_comment'),
+            "interiortest_comment" => $request->get('interiortest_comment'),
+            "driving_comment" => $request->get('driving_comment'),
+            "transmission_comment" => $request->get('transmission_comment'),
+            "braking_comment" => $request->get('braking_comment'),
+
+            "performance_depreciation" => $request->get("performance_depreciation"), // 차량성능상태 감가금액
+            "history_depreciation" => $request->get('history_depreciation'), // 사용이력 감가금액 ( 현재 없음 )
+            "basic_depreciation" => $request->get("basic_depreciation"), // 기본가격 감가금액 ( 현재없음 )
+            //            "special_depreciation" => $request->get("special_depreciation"), // 특별요인 감가금액 ( 현재없음 )
+            "special_flooded_cd" => $request->get("certificates_special_flooded_cd"),
+            "special_fire_cd" => $request->get("certificates_special_fire_cd"),
+            "special_fulllose_cd" => $request->get("certificates_special_fulllose_cd"),
+            "special_remodel_cd" => $request->get("certificates_special_remodel_cd"),
+            "special_etc_cd" => $request->get("certificates_special_etc_cd"),
+            "special_depreciation" => $request->get("special_depreciation"),
+            "valuation" => $request->get("certificates_valuation"),
+            "opinion" => $request->get("certificates_opinion"),
+            "grade" => $request->get('grade_state_cd')
+        ];
+
+
+        //DB처리
+        /**
+         * child table부터 처리 해야 하므로 car 또는 certificates 테이블 처리후 order를 처리해야 한다.
+         */
+
+
+        try {
+            DB::beginTransaction();
+
+            $order_car = $order_where->orderCar;
+            if (count($car_data) > 0) {
+                $cars_id = $order_where->cars_id;
+
+                $car_filter = array_filter(array_map('trim', $car_data));
+
+
+                if ($cars_id) {
+                    $car_where = Car::find($cars_id);
                 } else {
-                    $certificate_data = null;
+                    $car_where = new Car();
                 }
 
+                foreach ($car_filter as $property => $value) {
+                    try {
+                        $car_where->$property = $value;
+                    } catch (\Exception $e) {
+                        return response()->json($e->getMessage());
+                    }
+                }
 
-            } else {
-                $order_data = ['status_cd' => 109]; //최종 발행함
-                $car_data = [];
-                $certificate_data = [
-                    "price" => $request->get("pst"),
-                    "vat" => $request->get("certificates_vat"),
-                    "new_car_price" => $request->get("certificates_new_car_price"),
-                    "basic_registraion" => $request->get("certificates_basic_registraion"),
-                    "basic_registraion_depreciation" => $request->get("certificates_basic_registraion_depreciation"),
-                    "basic_mounting_cd" => $request->get("certificates_basic_mounting_cd"),
-                    "basic_etc" => $request->get("certificates_basic_etc"),
-                    "usage_mileage_cd" => $request->get("certificates_usage_mileage_cd"),
-                    "usage_mileage_depreciation" => $request->get("certificates_usage_mileage_depreciation"),
-                    "usage_history_cd" => $request->get("certificates_usage_history_cd"),
-                    "usage_history_depreciation" => $request->get("certificates_usage_history_depreciation"),
-                    "performance_tire_cd" => $request->get("certificates_performance_tire_cd"),
-                    "performance_exterior_cd" => $request->get("certificates_performance_exterior_cd"),
-                    "performance_interior_cd" => $request->get("certificates_performance_interior_cd"),
-                    "performance_device_cd" => $request->get("certificates_performance_device_cd"),
-                    "performance_depreciation" => $request->get("certificates_performance_depreciation"),
-                    "special_flooded_cd" => $request->get("certificates_special_flooded_cd"),
-                    "special_fire_cd" => $request->get("certificates_special_fire_cd"),
-                    "special_fulllose_cd" => $request->get("certificates_special_fulllose_cd"),
-                    "special_remodel_cd" => $request->get("certificates_special_remodel_cd"),
-                    "special_etc_cd" => $request->get("certificates_special_etc_cd"),
-                    "special_depreciation" => $request->get("certificates_special_depreciation"),
-                    "valuation" => $request->get("certificates_valuation"),
-                    "opinion" => $request->get("certificates_opinion"),
-                ];
+                //                $car_where->update($car_filter);
+                $car_where->save();
+
+                $order_data['cars_id'] = $car_where->id;
             }
 
-            //DB처리
-            /**
-             * child table부터 처리 해야 하므로 car 또는 certificates 테이블 처리후 order를 처리해야 한다.
-             */
+            if (count($certificate_data) > 0) {
+
+                $certificates_filter = array_filter(array_map('trim', $certificate_data));
 
 
-            try {
-                DB::beginTransaction();
-
-                $order_car = $order_where->orderCar;
-                if (count($car_data) > 0) {
-                    $cars_id = $order_where->cars_id;
-
-                    $car_filter = array_filter(array_map('trim', $car_data));
-
-
-                    if ($cars_id) {
-                        $car_where = Car::find($cars_id);
-                    } else {
-                        $car_where = new Car();
-                    }
-
-                    foreach ($car_filter as $property => $value) {
-                        try {
-                            $car_where->$property = $value;
-                        } catch (\Exception $e) {
-                            //                            dd($property, $e->getMessage(), $car_where);
-                        }
-                    }
-
-                    //                $car_where->update($car_filter);
-                    $car_where->save();
-
-                    $order_data['cars_id'] = $car_where->id;
+                if (!$certificates_where) {
+                    $certificates_where = new Certificate();
                 }
 
-                if (count($certificate_data) > 0) {
-
-                    $certificates_filter = array_filter(array_map('trim', $certificate_data));
-
-
-                    if (!$certificates_where) {
-                        $certificates_where = new Certificate();
-                    }
-
-                    foreach ($certificates_filter as $property => $value) {
-                        $certificates_where->$property = $value;
-                    }
-
-                    $certificates_where->save();
-
-                }
-                if (count($order_data) > 0) {
-
-                    $order_filter = array_filter(array_map('trim', $order_data));
-                    $order_where->update($order_filter);
-                    $order_where->save();
+                foreach ($certificates_filter as $property => $value) {
+                    $certificates_where->$property = $value;
                 }
 
-                DB::commit();
+                $certificates_where->save();
 
-                if ($order_data = ['status_cd'] == 109) {
-                    //문자, 메일 송부하기
-                    $certificate_num = $certificates_where->id;
-                    $certificate_url = 'http://www.chagumsa.com/certificate/' . $certificates_where->id . "/summary";
+            }
+            if (count($order_data) > 0) {
 
-                    //사용자 정보를 가져옮
-                    $user_info = User::find($certificates_where->users_id);
-
-                    try {
-                        //메일전송
-
-                        $mail_message = [
-                            'certificate_num' => $certificate_num, 'certificate_url' => $certificate_url
-                        ];
-                        Mail::send(new \App\Mail\Ordering($user_info->email, "고객님 차량의 인증서가 발급 완료 되었습니다.", $mail_message, 'message.email.fin-certification-user'));
-                    } catch (\Exception $e) {
-                    }
-
-                    try {
-                        // SMS전송
-
-                        //BCS
-                        $bcs_message = view('message.sms.fin-certification-user', compact('certificate_num', 'certificate_url'));
-                        event(new SendSms($user_info->mobile, '', $bcs_message));
-
-                    } catch (\Exception $e) {
-                    }
-                    //발송 끝
-                }
-
-                return redirect()->back()->with('success', '인증서 정보가 갱신되었습니다');
-
-            } catch (\Exception $e) {
-                DB::rollBack();
-
-                return redirect()->back()->with('error', '인증서 정보가 갱신이 실패하였습니다.<br>' . $e->getMessage());
+                $order_filter = array_filter(array_map('trim', $order_data));
+                $order_where->update($order_filter);
+                $order_where->save();
             }
 
+            DB::commit();
 
+            return redirect()->back()->with('success', '인증서 정보가 갱신되었습니다');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->back()->with('error', '인증서 정보가 갱신이 실패하였습니다.<br>' . $e->getMessage());
         }
 
 
     }
+
+
+    public function assign(Request $request, $id)
+    {
+
+        try {
+            DB::beginTransaction();
+
+            $order = Order::where("status_cd", 107)->findOrFail($id);
+            //                        $order->engineer_id = Auth::id();
+            $order->technist_id = Auth::id();
+            $order->status_cd = 108;
+            $order->save();
+
+            $certificate = new Certificate();
+            $certificate->orders_id = $order->id;
+            $certificate->save();
+
+            DB::commit();
+
+            return response()->json(true);
+
+
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->json($e->getMessage());
+
+        }
+    }
+
+    public function issue(Request $request)
+    {
+
+        try {
+            $order_id = $request->get('order_id');
+            $order = Order::findOrFail($order_id);
+            $order->status_cd = 109;
+            $order->save();
+
+            return response()->json('success');
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage());
+        }
+    }
+
 
 }
