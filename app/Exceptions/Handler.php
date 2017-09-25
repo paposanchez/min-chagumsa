@@ -9,6 +9,27 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+
+
+use Psr\Log\LoggerInterface;
+use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
+// use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\Debug\Exception\FlattenException;
+// use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+// use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
+use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
+
+
 class Handler extends ExceptionHandler {
 
         /**
@@ -60,10 +81,21 @@ class Handler extends ExceptionHandler {
                                 $this->getJsonMessage($e), $this->getExceptionHTTPStatusCode($e)
                         );
                 }else{
-                        return view('errors.common', compact('request', 'e'));
+                        return parent::render($request, $e);
                 }
 
         }
+
+        /**
+         *      
+         */
+        protected function convertExceptionToResponse(Exception $e)
+        {
+                $e = FlattenException::create($e);
+                $handler = new SymfonyExceptionHandler(config('app.debug', false));
+                return SymfonyResponse::create(view('errors.common', compact('e'))->render(), $e->getStatusCode(), $e->getHeaders());
+        }
+
 
         /**
         * Convert an authentication exception into an unauthenticated response.

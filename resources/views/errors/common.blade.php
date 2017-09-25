@@ -14,7 +14,7 @@
                 @if(config('app.debug'))
                 <!-- detail error messge -->
                 <code>
-                {!! $e !!}
+                
                 </code>
                 @endif
 
