@@ -78,7 +78,7 @@
                     </div>
                     <div class='cert_detail'>
                         <button class='btn btn-default fa fa-search detail' data-car_number="{{ $order->car_number }}"
-                                data-datekey="{{ $order->created_at->format('ymd') }}">
+                                data-datekey="{{ \App\Models\Order::find($order->id)->created_at->format('ymd')}}">
                             상세보기
                         </button>
                     </div>
