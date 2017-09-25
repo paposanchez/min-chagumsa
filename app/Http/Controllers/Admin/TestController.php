@@ -59,7 +59,6 @@ class TestController extends Controller {
 
             $order_car = new OrderCar();
             $order_car->orders_id = $order->id;
-            $order_car->car_number = $car_number;
             $order_car->brands_id = 1;
             $order_car->models_id = 329;
             $order_car->details_id = 211;
