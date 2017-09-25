@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Helpers\Helper;
 use File AS FileHandler;
-use App\Models\File;
+use App\Models\DiagnosisFile;
 use Intervention\Image\ImageManagerStatic AS Image;
 
 Route::get('/thumbnail/{id?}', function($id){
@@ -17,13 +17,13 @@ Route::get('/thumbnail/{id?}', function($id){
         $image = public_path('assets/img/noimage.png');
         if ($id) {
 
-                $file = File::findOrFail($id);
+                $file = DiagnosisFile::findOrFail($id);
 
                 if ($file) {
                         $allowedMimeTypes = ['image/jpeg', 'image/gif', 'image/png', 'image/bmp', 'image/svg+xml'];
                         if (in_array($file->mime, $allowedMimeTypes)) {
                                 // 실제파일 위치
-                                $image = storage_path('app/upload' . $file->path) . '/' . $file->source;
+                                $image = storage_path('app/diagnosis' . $file->path) . '/' . $file->source;
                         } else {
                                 return $this->makeImageWithText($file->extension);
                         }
