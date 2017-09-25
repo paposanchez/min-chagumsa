@@ -9,7 +9,7 @@ use App\Models\Order;
 
 class Certificate Extends Model
 {
-        protected $table = 'certificate_new';
+        protected $table = 'certificates';
 
         protected $fillable = [
                 'orders_id',
@@ -80,43 +80,6 @@ class Certificate Extends Model
                 'basic_depreciation'
         ];
 
-
-        // protected $fillable = [
-        //         'orders_id',
-        //         'price',
-        //         'grade',
-        //         'expire_period',
-        //         'opinion',
-        //         'history_insurance',
-        //         'history_insurance_file',
-        //         'history_owner',
-        //         'history_maintance',
-        //         'history_purpose',
-        //         'history_garage',
-        //         'valuation',
-        //         'basic_registraion',
-        //         'basic_registraion_depreciation',
-        //         'basic_mounting_cd',
-        //         'basic_etc',
-        //         'usage_mileage_cd',
-        //         'usage_mileage_depreciation',
-        //         'usage_history_cd',
-        //         'usage_history_depreciation',
-        //         'performance_exterior_cd',
-        //         'performance_interior_cd',
-        //         'performance_device_cd',
-        //         'performance_tire_cd',
-        //         'performance_depreciation',
-        //         'special_flooded_cd',
-        //         'special_fire_cd',
-        //         'special_fulllose_cd',
-        //         'special_remodel_cd',
-        //         'special_etc_cd',
-        //         'special_depreciation',
-        //         'new_car_price',
-        //         'vat',
-        //         'vin_yn_cd'
-        // ];
 
         protected $primaryKey = 'orders_id';
         protected $dates = [
