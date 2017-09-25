@@ -14,7 +14,9 @@
                 @if(config('app.debug'))
                 <!-- detail error messge -->
                 <code>
-                {{ dd($e) }}
+                <h6>{{ $e->getMessage() }}</h6>
+                file : {{ $e->getFile() }}<br/>
+                line : {{ $e->getLine() }}
                 </code>
                 @endif
 

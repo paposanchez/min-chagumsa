@@ -20,10 +20,6 @@ class WelcomeController extends Controller
      */
     public function __invoke()
     {
-
-
-            App::abort(404, 'message');
-
         return view('web.welcome');
     }
 
