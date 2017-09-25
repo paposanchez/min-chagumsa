@@ -87,7 +87,7 @@ class Handler extends ExceptionHandler {
         }
 
         /**
-         *      
+         *      사용자 exception 디자인 변경
          */
         protected function convertExceptionToResponse(Exception $e)
         {
