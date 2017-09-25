@@ -59,8 +59,10 @@ class Handler extends ExceptionHandler {
                         return response()->json(
                                 $this->getJsonMessage($e), $this->getExceptionHTTPStatusCode($e)
                         );
+                }else{
+                        return view('errors.common', compact('request', 'e'));
                 }
-                return parent::render($request, $e);
+
         }
 
         /**
