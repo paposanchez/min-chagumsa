@@ -22,7 +22,12 @@ Route::group(['middleware' => ['auth', 'role:garage']], function () {
         Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
         Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 
+
+        Route::post('/diagnosis/delete-file/{id}', 'DiagnosesController@fileDelete');
+        Route::post('/diagnosis/upload-file', 'DiagnosesController@fileUpload');
         Route::post('/diagnosis/update-comment', 'DiagnosesController@updateComment');
+        Route::post('diagnosis/update-code', 'DiagnosesController@updateCode');
+        Route::post('/diagnosis/complete', 'DiagnosesController@complete');
         Route::resource('diagnosis', 'DiagnosesController');
 });
 

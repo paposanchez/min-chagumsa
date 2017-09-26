@@ -165,7 +165,7 @@
 
 
                             <td>
-                                @if($data->status_cd == 107)
+                                @if($data->status_cd > 105 && $data->status_cd < 108 )
                                     <a href="/diagnosis/{{ $data->id }}" class="btn btn-danger"
                                        data-toggle="tooltip" title="인증서 진단정보 수정">진단정보 수정</a>
                                 @endif
