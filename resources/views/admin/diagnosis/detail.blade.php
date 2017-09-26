@@ -183,28 +183,25 @@
                                         <script type="text/javascript">
                                         $(document).ready(function () {
 
-                                                var $clicked_form;
+                                                //######### added for image upload
+                                                var $clicked_container;
                                                 $(document).on('click', '.diagnosis-uploader', function (e) {
                                                         e.preventDefault();
-                                                        $clicked_form = $(this).closest('.diagnosis-uploader-form');
+                                                        $clicked_container = $(this).closest('.diagnosis-uploader-form').prev('.diagnosis-uploader-container');
                                                         $(this).prev('.diagnosis-uploader-input').trigger('click');
                                                 });
 
 
                                                 $('.diagnosis-uploader-form').ajaxForm({
                                                         beforeSubmit: function (data,form,option) {
-                                                                //validation체크
-                                                                //막기위해서는 return false를 잡아주면됨
+                                                                //validation
                                                                 return true;
                                                         },
                                                         success: function(response,status){
                                                                 //성공후 서버에서 받은 데이터 처리
                                                                 if (response.status == 'success')
                                                                 {
-
-                                                                        $clicked_form.find('.diagnosis-uploader-container').append(response.thumbnail);
-
-
+                                                                        $clicked_container.append(response.thumbnail);
                                                                         $.notify("파일업로드가 성공했습니다.", "success");
                                                                 }else{
                                                                         $.notify("파일업로드가 실패했습니다.", "warning");
@@ -219,11 +216,12 @@
 
 
 
+                                                var $clicked_thumbnail;
+                                                $(document).on('click', '.diagnosis-thumbnail', function (e) {
+                                                        $clicked_thumbnail = $(this);
+                                                });
 
                                                 $(document).on('click', '.diagnosis-file-delete', function (e) {
-
-                                                        var $obj = $(this);
-
                                                         e.preventDefault();
                                                         if(confirm('해당 파일을 삭제하시겠습니까?'))
                                                         {
@@ -233,11 +231,11 @@
                                                                         url : '/diagnosis/delete-file/'+id,
                                                                         type : 'post',
                                                                         dataType : 'json',
-                                                                        success : function (data) {
+                                                                        success : function (response) {
 
-                                                                                if(data == 'success')
+                                                                                if(response == 'success')
                                                                                 {
-                                                                                        $obj.remove();
+                                                                                        $clicked_thumbnail.remove();
                                                                                         $.notify("파일이 정상적으로 삭제되었습니다.", "success");
 
                                                                                 }else{
@@ -260,7 +258,7 @@
 
                                                 });
 
-
+                                                //######### added for image upload
 
 
 
