@@ -165,8 +165,8 @@
                                                                     <button type="button" class="btn btn-circle btn-primary diagnosis-soundplay" data-toggle="tooltip" data-source="{{ $file['fullpath'] }}" data-mime="{{ $file['mime'] }}"  title="{{ $file['original'] }}"><i class="fa fa-play"></i></button>
                                                                 @endforeach
 
-                                                                <textarea name="comment" class="form-control" data-id="{{ $entry['id'] }}" style="height:60px; margin-top:10px;" id="{{ $entry['id'] }}" placeholder="음성파일 내용을 입력해주세요.">{{ $entry['comment'] }}</textarea>
-                                                                <button type="button" class="form-control btn-primary save" data-id="{{ $entry['id'] }}">저장</button>
+                                                                <textarea name="comment" class="form-control" data-id="{{ $entry['id'] }}" style="height:60px; margin-top:10px;" id="{{ $entry['id'] }}" placeholder="음성파일 내용을 입력해주세요." readonly>{{ $entry['comment'] }}</textarea>
+                                                                {{--<button type="button" class="form-control btn-primary save" data-id="{{ $entry['id'] }}">저장</button>--}}
 
                                                             @endif
                                                         @endforeach
@@ -218,7 +218,7 @@
                                                                                             @endforeach
 
                                                                                             <textarea name="comment" class="form-control" data-id="{{ $child['id'] }}" style="height:60px; margin-top:10px;" id="{{ $child['id'] }}" placeholder="음성파일 내용을 입력해주세요.">{{ $child['comment'] }}</textarea>
-                                                                                            <button type="button" class="form-control btn-primary save" data-id="{{ $child['id'] }}">저장</button>
+                                                                                            {{--<button type="button" class="form-control btn-primary save" data-id="{{ $child['id'] }}">저장</button>--}}
 
                                                                                         @endif
                                                                                     </li>

@@ -16,7 +16,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <span class="fa fa-file-text-o" style="padding-right: 5px;"></span> 인증서 대기 목록
-                        <span class="pull-right more-click" data-url="{{ url('order')}}">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                        <a href="{{ url('certificate')}}" class="pull-right">더보기</a>
                     </div>
                     <div class="panel-body">
                         <table class="table">

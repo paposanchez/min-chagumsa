@@ -14,7 +14,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="panel panel-primary">
                                 <div class="panel-heading dark">
-                                        <i class="fa fa-file-text-o"></i> 최근 1:1문의
+                                        <i class="fa fa-file-text-o" style="padding-right: 5px;"></i> 최근 1:1문의
                                         <a href="{{ url('post')}}" class="pull-right">더보기</a>
                                 </div>
 
@@ -46,7 +46,7 @@
                         <div class="panel panel-primary ">
 
                                 <div class="panel-heading dark">
-                                        <i class="fa fa-file-text-o"></i> 최근 인증서
+                                        <i class="fa fa-file-text-o" style="padding-right: 5px;"></i> 최근 인증서
                                         <a href="{{ url('order?status_cd=109')}}" class="pull-right">더보기</a>
                                 </div>
 
@@ -78,7 +78,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="panel panel-primary">
                                 <div class="panel-heading dark">
-                                        <i class="fa fa-file-text-o"></i> 최근 주문
+                                        <i class="fa fa-file-text-o" style="padding-right: 5px;"></i> 최근 주문
                                         <a href="{{ url('order')}}" class="pull-right">총 {{ number_format($total_diagnosis) }} 개</a>
                                 </div>
 
