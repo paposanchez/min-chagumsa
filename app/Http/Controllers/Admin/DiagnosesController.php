@@ -138,7 +138,7 @@ class DiagnosesController extends Controller
                 $order = Order::findOrFail($id);
 
                 $handler = new DiagnosisRepository();
-                $diagnosis = $handler->prepare($id)->get();
+                $diagnosis = $handler->prepare($id)->get(true);
 
                 return view('admin.diagnosis.detail', compact('diagnosis', 'order'));
         }
@@ -169,25 +169,115 @@ class DiagnosesController extends Controller
         }
 
 
-        public function fileUpload(){
+        public function fileUpload(Request $request){
+                try {
 
+                        // $order_id = $request->get('order_id');
+                        // $user_id = $request->get('user_id');
+                        $diagnoses_id = $request->get('diagnosis_id');
+
+                        // if(!$diagnoses_id || !$order_id || !$user_id) {
+                        //         throw new Exception('필수 파라미터가 없습니다.');
+                        // }
+                        if(!$diagnoses_id ) {
+                                throw new Exception('필수 파라미터가 없습니다.');
+                        }
+
+                        // $engineer_check = Order::where('id', $order_id)->where('engineer_id', $request->get('user_id'))->count();
+                        // if($engineer_check != 1){
+                        //         throw new Exception('접근권한이 없습니다.');
+                        // }
+
+                        // validator
+                        $uploader_name = 'upfile';
+
+                        $diagnosis_upload_prifix = storage_path('app/diagnosis');
+
+                        $uploader = new Receiver($request, $diagnosis_upload_prifix);
+                        $response = $uploader->receive($uploader_name, function ($file, $path_prefix, $path, $file_new_name) {
+                                // 파일이동
+                                $file->move($path_prefix . $path, $file_new_name);
+
+                                try {
+                                        $file_size = $file->getClientSize();
+                                } catch (RuntimeException $ex) {
+                                        $file_size = 0;
+                                }
+
+                                return [
+                                        'original' => $file->getClientOriginalName(),
+                                        'source' => $file_new_name,
+                                        'path' => $path,
+                                        'size' => $file_size,
+                                        'extension' => $file->getClientOriginalExtension(),
+                                        'mime' => $file->getClientMimeType(),
+                                        //@TODO 실제파일이 아닌 파일
+                                        'hash' => md5($file)
+                                ];
+                        });
+
+                        // 업로드 성공시
+                        if ($response['result']) {
+
+                                // Save the record to the db
+                                $data = DiagnosisFile::create([
+                                        //                    'diagnoses_id' => $diagnoses_id,
+                                        'diagnoses_id' => $diagnoses_id,
+                                        'original' => $response['result']['original'],
+                                        'source' => $response['result']['source'],
+                                        'path' => $response['result']['path'],
+                                        'size' => $response['result']['size'],
+                                        'mime' => $response['result']['mime'],
+                                ]);
+
+                                $data->save();
+
+
+                                // make thumbnail html
+                                $file = array(
+                                        'id'            => $data->id,
+                                        'diagnoses_id'  => $data->diagnoses_id,
+                                        'original'      => $data->original,
+                                        'source'        => $data->source,
+                                        'path'          => $data->path,
+                                        'mime'          => $data->mime,
+                                        'size'          => $data->size,
+                                        'fullpath'      => $data->getRealPath('app/diagnosis'),
+                                        'preview'       => $data->getPreviewPath(),
+                                        'created_at'    => $data->created_at->format("Y-m-d H:i:s"),
+                                        'updated_at'    => ($data->updated_at ? $data->updated_at->format("Y-m-d H:i:s") : ''),
+                                );
+                                $html = view('partials.diagnosis-image')->with(compact('file'))->render();
+
+                                $return = [
+                                        'thumbnail'=> $html,
+                                        'status'=>'success'
+                                ];
+                        }else{
+                                $return = [
+                                        'status'=>'fail'
+                                ];
+                        }
+
+                        return response()->json($return);
+                } catch (Exception $ex) {
+                        return response()->json($ex->getMessage());
+                }
         }
+
+
         public function fileDelete(Request $request, $id){
 
 
                 try{
                         $file = DiagnosisFile::findOrFail($id);
                         // 실제파일 삭제하지않음
-                        // $file->delete();
-                        return response()->json([
-                                'status' => 'success'
-                        ]);
+                        $file->delete();
+                        return response()->json('success');
 
                 }catch(Exception $e){
 
-                        return response()->json([
-                                'status' => 'error'
-                        ]);
+                        return response()->json('error');
                 }
 
 

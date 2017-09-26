@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 //
 
         Route::post('/diagnosis/delete-file/{id}', 'DiagnosesController@fileDelete');
-        Route::post('/diagnosis/upload-file/{id}', 'DiagnosesController@fileUpload');
+        Route::post('/diagnosis/upload-file', 'DiagnosesController@fileUpload');
 
         Route::post('/diagnosis/update-comment', 'DiagnosesController@updateComment');
         Route::post('diagnosis/update-code', 'DiagnosesController@updateCode');

@@ -10,6 +10,8 @@ return [
 
         'cache' => [
                 'use' => true,
+                'lifetime' => 60, // minutes
+
                 'tables' => [
                         'codes'
                 ]

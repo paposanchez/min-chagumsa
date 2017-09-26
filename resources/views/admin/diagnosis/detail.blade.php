@@ -87,9 +87,9 @@
 
                                                                         <div class="col-md-9">
 
-                                                                                <form class="form-horizontal">
+                                                                                <!-- <form class="form-horizontal">
 
-                                                                                        <fieldset>
+                                                                                        <fieldset> -->
 
                                                                                                 <div class="panel panel-primary">
                                                                                                         @foreach($diagnosis['entrys'] as $entrys)
@@ -160,10 +160,10 @@
                                                                                                 </div>
                                                                                                 @endforeach
                                                                                         </div>
-
+<!--
                                                                                 </fieldset>
 
-                                                                        </form>
+                                                                        </form> -->
 
                                                                 </div>
 
@@ -175,178 +175,209 @@
                                         @endsection
 
                                         @push( 'header-script' )
+                                        <script src="{{ Helper::assets( 'js/plugin/chagumsa.js' ) }}"></script>
                                         @endpush
 
 
                                         @push( 'footer-script' )
+                                        <script type="text/javascript">
+                                        $(document).ready(function () {
 
-                                        <script>
-                                        $(document).on('click', '.diagnosis-file-delete', function (e) {
+                                                var $clicked_form;
+                                                $(document).on('click', '.diagnosis-uploader', function (e) {
+                                                        e.preventDefault();
+                                                        $clicked_form = $(this).closest('.diagnosis-uploader-form');
+                                                        $(this).prev('.diagnosis-uploader-input').trigger('click');
+                                                });
 
-                                                e.preventDefault();
-                                                if(confirm('해당 파일을 삭제하시겠습니까?'))
-                                                {
-                                                        $('#loading').show();
-                                                        var id = $(this).data('id');
-                                                        $.ajax({
-                                                                url : '/diagnosis/delete-file/'+id,
-                                                                type : 'post',
-                                                                dataType : 'json',
-                                                                success : function (data) {
 
-                                                                        if(data == 'success')
-                                                                        {
-                                                                                $.notify("파일이 정상적으로 삭제되었습니다.", "success");
-                                                                        }else{
+                                                $('.diagnosis-uploader-form').ajaxForm({
+                                                        beforeSubmit: function (data,form,option) {
+                                                                //validation체크
+                                                                //막기위해서는 return false를 잡아주면됨
+                                                                return true;
+                                                        },
+                                                        success: function(response,status){
+                                                                //성공후 서버에서 받은 데이터 처리
+                                                                if (response.status == 'success')
+                                                                {
+
+                                                                        $clicked_form.find('.diagnosis-uploader-container').append(response.thumbnail);
+
+
+                                                                        $.notify("파일업로드가 성공했습니다.", "success");
+                                                                }else{
+                                                                        $.notify("파일업로드가 실패했습니다.", "warning");
+                                                                }
+
+                                                        },
+                                                        error: function(){
+                                                                //에러발생을 위한 code페이지
+                                                                $.notify("파일업로드가 실패했습니다.", "warning");
+                                                        }
+                                                });
+
+
+
+
+                                                $(document).on('click', '.diagnosis-file-delete', function (e) {
+
+                                                        var $obj = $(this);
+
+                                                        e.preventDefault();
+                                                        if(confirm('해당 파일을 삭제하시겠습니까?'))
+                                                        {
+                                                                $('#loading').show();
+                                                                var id = $(this).data('id');
+                                                                $.ajax({
+                                                                        url : '/diagnosis/delete-file/'+id,
+                                                                        type : 'post',
+                                                                        dataType : 'json',
+                                                                        success : function (data) {
+
+                                                                                if(data == 'success')
+                                                                                {
+                                                                                        $obj.remove();
+                                                                                        $.notify("파일이 정상적으로 삭제되었습니다.", "success");
+
+                                                                                }else{
+                                                                                        $.notify("파일을 삭제할 수 없습니다.", "warning");
+                                                                                }
+
+                                                                        },
+                                                                        error : function (data) {
                                                                                 $.notify("파일을 삭제할 수 없습니다.", "warning");
+                                                                        },
+                                                                        complete : function(){
+                                                                                $('.ekko-lightbox').trigger('click');
+
+                                                                                $('#loading').hide();
+
                                                                         }
+                                                                })
 
+                                                        }
+
+                                                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                var diagnosis_audio;
+                                                $('.diagnosis-soundplay').on('click', function (e) {
+
+                                                        e.preventDefault();
+                                                        var $obj = $(this).find('.fa');
+
+                                                        if ($obj.hasClass("fa-play")) {
+                                                                // remove all started instance
+                                                                $('.diagnosis-soundplay .fa-pause').each(function () {
+                                                                        $(this).removeClass('fa-pause').addClass('fa-play');
+                                                                        if (diagnosis_audio instanceof Audio) {
+                                                                                diagnosis_audio.pause();
+                                                                        }
+                                                                        diagnosis_audio = null;
+                                                                });
+
+                                                                // var s = "/assets/crowd-cheering.mp3";
+                                                                var s = $obj.data('source');
+                                                                diagnosis_audio = new Audio(s);
+                                                                diagnosis_audio.play();
+                                                                $obj.removeClass('fa-play').addClass('fa-pause');
+                                                        } else {
+                                                                diagnosis_audio.pause();
+                                                                $obj.removeClass('fa-pause').addClass('fa-play');
+                                                        }
+
+                                                });
+                                                $(".selected_cd").change(function () {
+                                                        var change_value = $(this).val();
+                                                        var diagnosis_id = $(this).data('id');
+                                                        var notify = $.notify({}, {
+                                                                type: 'success',
+                                                                element: 'body',
+                                                                position: null,
+                                                                allow_dismiss: true,
+                                                                showProgressbar: false,
+                                                                animate: {
+                                                                        enter: 'animated fadeInDown',
+                                                                        exit: 'animated fadeOutUp'
                                                                 },
-                                                                error : function (data) {
-                                                                        $.notify("파일을 삭제할 수 없습니다.", "warning");
-                                                                },
-                                                                complete : function(){
-                                                                        $('.ekko-lightbox').trigger('click');
-                                                                        
-                                                                        $('#loading').hide();
-
-                                                                }
-                                                        })
-
-                                                }
-
-                                        });
-
-                                        $(document).on('click', '.diagnosis-uploader', function (e) {
-
-                                                e.preventDefault();
-                                                alert($(this).data('id'));
-                                        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                        var diagnosis_audio;
-                                        $('.diagnosis-soundplay').on('click', function (e) {
-
-                                                e.preventDefault();
-                                                var $obj = $(this).find('.fa');
-
-                                                if ($obj.hasClass("fa-play")) {
-                                                        // remove all started instance
-                                                        $('.diagnosis-soundplay .fa-pause').each(function () {
-                                                                $(this).removeClass('fa-pause').addClass('fa-play');
-                                                                if (diagnosis_audio instanceof Audio) {
-                                                                        diagnosis_audio.pause();
-                                                                }
-                                                                diagnosis_audio = null;
                                                         });
 
-                                                        // var s = "/assets/crowd-cheering.mp3";
-                                                        var s = $obj.data('source');
-                                                        diagnosis_audio = new Audio(s);
-                                                        diagnosis_audio.play();
-                                                        $obj.removeClass('fa-play').addClass('fa-pause');
-                                                } else {
-                                                        diagnosis_audio.pause();
-                                                        $obj.removeClass('fa-pause').addClass('fa-play');
-                                                }
-
-                                                // .toggleClass('fa-play fa-pause');
-                                                // if ( $obj.is( ".fa-play" ) ) {
-                                                //         $obj.removeClass('fa-play').addClass('fa-pause');
-                                                // } else {
-                                                //         $obj.removeClass('fa-pause').addClass('fa-play');
-                                                // }
-
-                                        });
-                                        $(".selected_cd").change(function () {
-                                                var change_value = $(this).val();
-                                                var diagnosis_id = $(this).data('id');
-                                                var notify = $.notify({}, {
-                                                        type: 'success',
-                                                        element: 'body',
-                                                        position: null,
-                                                        allow_dismiss: true,
-                                                        showProgressbar: false,
-                                                        animate: {
-                                                                enter: 'animated fadeInDown',
-                                                                exit: 'animated fadeOutUp'
-                                                        },
+                                                        $.ajax({
+                                                                type: 'post',
+                                                                dataType: 'json',
+                                                                url: '/diagnosis/update-code',
+                                                                data: {
+                                                                        'id': diagnosis_id,
+                                                                        'selected': change_value
+                                                                },
+                                                                success: function (data) {
+                                                                        notify.update('type', 'success');
+                                                                        notify.update('title', '<strong>선택값이</strong>');
+                                                                        notify.update('message', '정상적으로 변경되었습니다.');
+                                                                },
+                                                                error: function (data) {
+                                                                        notify.update('type', 'warning');
+                                                                        notify.update('message', '오류가 발생했습니다.');
+                                                                }
+                                                        })
                                                 });
 
-                                                $.ajax({
-                                                        type: 'post',
-                                                        dataType: 'json',
-                                                        url: '/diagnosis/update-code',
-                                                        data: {
-                                                                'id': diagnosis_id,
-                                                                'selected': change_value
-                                                        },
-                                                        success: function (data) {
-                                                                notify.update('type', 'success');
-                                                                notify.update('title', '<strong>선택값이</strong>');
-                                                                notify.update('message', '정상적으로 변경되었습니다.');
-                                                        },
-                                                        error: function (data) {
-                                                                notify.update('type', 'warning');
-                                                                notify.update('message', '오류가 발생했습니다.');
-                                                        }
-                                                })
-                                        });
-
-                                        $('.save').on('click', function(){
-                                                var diagnosis_id = $(this).data('id');
-                                                var comment = $('#'+diagnosis_id).val();
-                                                var notify = $.notify({}, {
-                                                        type: 'success',
-                                                        element: 'body',
-                                                        position: null,
-                                                        allow_dismiss: true,
-                                                        showProgressbar: false,
-                                                        animate: {
-                                                                enter: 'animated fadeInDown',
-                                                                exit: 'animated fadeOutUp'
-                                                        },
+                                                $('.save').on('click', function(){
+                                                        var diagnosis_id = $(this).data('id');
+                                                        var comment = $('#'+diagnosis_id).val();
+                                                        var notify = $.notify({}, {
+                                                                type: 'success',
+                                                                element: 'body',
+                                                                position: null,
+                                                                allow_dismiss: true,
+                                                                showProgressbar: false,
+                                                                animate: {
+                                                                        enter: 'animated fadeInDown',
+                                                                        exit: 'animated fadeOutUp'
+                                                                },
+                                                        });
+                                                        $.ajax({
+                                                                url : '/diagnosis/update-comment',
+                                                                type : 'post',
+                                                                dataType : 'json',
+                                                                data : {
+                                                                        'diagnosis_id' : diagnosis_id,
+                                                                        'comment' : comment
+                                                                },
+                                                                success : function (data) {
+                                                                        notify.update('type', 'success');
+                                                                        notify.update('title', '<strong>점검의견</strong>이 ');
+                                                                        notify.update('message', '정상적으로 변경되었습니다.');
+                                                                },
+                                                                error : function (data) {
+                                                                        notify.update('type', 'warning');
+                                                                        notify.update('message', '오류가 발생했습니다.');
+                                                                }
+                                                        })
                                                 });
-                                                $.ajax({
-                                                        url : '/diagnosis/update-comment',
-                                                        type : 'post',
-                                                        dataType : 'json',
-                                                        data : {
-                                                                'diagnosis_id' : diagnosis_id,
-                                                                'comment' : comment
-                                                        },
-                                                        success : function (data) {
-                                                                notify.update('type', 'success');
-                                                                notify.update('title', '<strong>점검의견</strong>이 ');
-                                                                notify.update('message', '정상적으로 변경되었습니다.');
-                                                        },
-                                                        error : function (data) {
-                                                                notify.update('type', 'warning');
-                                                                notify.update('message', '오류가 발생했습니다.');
-                                                        }
-                                                })
                                         });
                                         </script>
-
                                         @endpush

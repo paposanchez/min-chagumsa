@@ -47,6 +47,7 @@
         "perfect-scrollbar": "^0.6.16",
         "select2": "^4.0.3",
         "titatoggle": "^1.2.14",
-        "particles.js": "^2.0.0"
+        "particles.js": "^2.0.0",
+        "jquery-simple-upload" : "1.0.0"
     }
 }

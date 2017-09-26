@@ -19,8 +19,8 @@ mix
 
 //##### vendor
 .copy(nodeDir + 'summernote/dist/', distDir + 'vendor/summernote', false)
-.copy(nodeDir + 'summernote/dist/lang', distDir + 'vendor/summernote/lang', false)
-.copy(nodeDir + 'summernote/dist/plugin', distDir + 'vendor/summernote/plugin', false)
+.copy(nodeDir + 'summernote/lang', distDir + 'vendor/summernote/lang', false)
+.copy(nodeDir + 'summernote/plugin', distDir + 'vendor/summernote/plugin', false)
 
 .copy(nodeDir + 'select2/dist/', distDir + 'vendor/select2', false)
 .copy(nodeDir + 'select2/src/scss', distDir + 'vendor/select2/scss', false)
@@ -78,6 +78,8 @@ mix
         nodeDir + 'bootstrap-touchspin/src/jquery.bootstrap-touchspin.js',
         nodeDir + 'jquery-file-download/src/Scripts/jquery.fileDownload.js',
         nodeDir + 'ekko-lightbox/dist/ekko-lightbox.js',
+        // file uploader simple
+        // nodeDir + 'jquery-simple-upload/simpleUpload.js',
 
         assetsDir + 'vendor/jasny/js/fileinput.js',
         assetsDir + 'vendor/jasny/js/inputmask.js',

@@ -35,42 +35,68 @@ class DiagnosisRepository {
         }
 
         // 주문데이터의 진단정보를 조회
-        public function get() {
+        public function get($cachclear = false) {
 
-                return Cache::remember('diagnosis.order.' . md5($this->order->id), 60, function () {
 
-                        $return = $this->getOrder();
-                        // 레이아웃 적용
-                        $return['entrys'] = json_decode($this->order->item->layout, true);
+                $cache_name = md5($this->order->id);
 
-                        foreach($return['entrys'] as &$details) {
+                if($cachclear)
+                {
+                        Cache::forget($cache_name);
+                }
+
+                return $this->_get();
+
+
+
+                // 특별히 클리어 하는 경우가 아니면 108번 이상은 rememberForever로 처리
+                // if($this->order->status_cd > 107)
+                // {
+                //         return Cache::rememberForever('diagnosis.order.' . $cache_name ,function () {
+                //                 $this->_get();
+                //         });
+                //
+                // }else{
+                //
+                //         // default cach time
+                //         return Cache::remember('diagnosis.order.' . $cache_name, config('zlara.cache.lifetime'), function () {
+                //
+                //                 $this->_get();
+                //
+                //         });
+                //
+                // }
+        }
+
+        private function _get()
+        {
+                $return = $this->getOrder();
+                // 레이아웃 적용
+                $return['entrys'] = json_decode($this->order->item->layout, true);
+
+                foreach($return['entrys'] as &$details) {
+
+                        // 이름코드 데이터
+                        $details['name'] = $this->getName($details['name_cd']);
+
+                        foreach($details['entrys'] as &$detail) {
 
                                 // 이름코드 데이터
-                                $details['name'] = $this->getName($details['name_cd']);
+                                $detail['name'] = $this->getName($detail['name_cd']);
 
-                                foreach($details['entrys'] as &$detail) {
+                                // 레이아웃에 덮을 데이터가 있을지 말지 판단
+                                $detail['entrys'] = $this->getDiagnoses($detail['name_cd']);
 
-                                        // 이름코드 데이터
-                                        $detail['name'] = $this->getName($detail['name_cd']);
-
-                                        // 레이아웃에 덮을 데이터가 있을지 말지 판단
-                                        $detail['entrys'] = $this->getDiagnoses($detail['name_cd']);
-
-                                        foreach($detail['children'] as &$children) {
-
-                                                $children['name'] = $this->getName($children['name_cd']);
-                                                $children['entrys'] = $this->getDiagnoses($children['name_cd']);
-
-                                        }
-
+                                foreach($detail['children'] as &$children) {
+                                        $children['name'] = $this->getName($children['name_cd']);
+                                        $children['entrys'] = $this->getDiagnoses($children['name_cd']);
                                 }
 
                         }
 
-                        return $return;
+                }
 
-                });
-
+                return $return;
         }
 
         // 주문데이터 완성
