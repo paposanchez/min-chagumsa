@@ -240,7 +240,7 @@ class UserController extends Controller
 
                                 $user = User::findOrFail($id);
                                 $user->update($input);
-
+                                $garage_id = Auth::user()->id;
                                 // user_extra 데이터 저장
                                 $user_extra = UserExtra::where('users_id', $user->id)->first();
                                 $garage_info = UserExtra::where('users_id', $garage_id)->first();

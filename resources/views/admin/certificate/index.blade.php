@@ -158,7 +158,7 @@
                             <td class="">
                                 <a href="/user/{{ $data->engineer_id }}/edit">{{ $data->engineer->name }}</a>
                                 <br/>
-                                <small class="text-warning">{{ $data->orderer_mobile }}</small>
+                                <small class="text-warning">{{ $data->engineer->mobile }}</small>
                             </td>
 
 

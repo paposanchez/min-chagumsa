@@ -10,8 +10,8 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     //인증서 관련
     Route::post('certificate/{id?}/assign', 'CertificateController@assign');
     Route::post('certificate/issue', 'CertificateController@issue');
-    Route::get('certificate/{order_id}/{page?}/{flush?}', 'CertificateController@show');
     Route::resource('certificate', 'CertificateController', ['only' => ['index', 'update', 'edit']]);
+    Route::get('certificate/{order_id}/{page?}/{flush?}', 'CertificateController@show');
 
     //주문 관련
     Route::resource('order', 'OrderController');

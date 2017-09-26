@@ -78,6 +78,7 @@
                         <col width="15%">
                         <col width="12%">
                         <col width="12%">
+                        <col width="12%">
                         <col width="*">
                     </colgroup>
 
@@ -86,6 +87,7 @@
                         <th class="text-center">상태</th>
                         <th class="text-center">주문번호</th>
                         <th class="text-center">주문정보</th>
+                        <th class="text-center">엔지니어</th>
                         <th class="text-center">기술사</th>
                         <th class="text-center">인증서발급일</th>
                         <th class="text-center">인증서만료일</th>
@@ -135,7 +137,11 @@
                                 <small class="text-warning">{{ $data->orderer_mobile }}</small>
                             </td>
 
-
+                            <td class="">
+                                <a href="/user/{{ $data->engineer_id }}/edit">{{ $data->engineer->name }}</a>
+                                <br/>
+                                <small class="text-warning">{{ $data->engineer->mobile }}</small>
+                            </td>
 
                             <td class="">
                                 @if($data->certificates)
