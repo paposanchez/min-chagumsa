@@ -10,6 +10,7 @@ use App\Models\Diagnosis;
 use App\Models\DiagnosisFile;
 use App\Models\Order;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Code;
@@ -260,6 +261,7 @@ class DiagnosesController extends Controller
             $order_id = $request->get('order_id');
             $order = Order::findOrFail($order_id);
             $order->status_cd = 107;
+            $order->diagnosed_at = Carbon::now();
             $order->save();
             return response()->json('success');
         }catch(\Exception $ex){

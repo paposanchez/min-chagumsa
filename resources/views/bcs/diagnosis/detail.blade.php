@@ -361,7 +361,7 @@
 
         $('#order_complete').click(function(){
             var order_id = $(this).data('id');
-            if(confirm('진단을 완료하시겠습니까?')){
+            if(confirm('진단을 완료하시겠습니까? 이후 수정이 불가합니다.')){
                 $.ajax({
                     url : '/diagnosis/complete',
                     type : 'post',
@@ -371,7 +371,7 @@
                     },
                     success : function (data){
                         alert('진단이 완료되었습니다.');
-                        location.href='/diagnosis/'+order_id;
+                        location.href='/diagnosis';
                     },
                     error : function (data){
                         alert('처리중 오류가 발생하였습니다.');
