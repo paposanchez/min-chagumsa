@@ -18,6 +18,18 @@
 
                 <form method="GET" class="form-horizontal no-margin-bottom" role="form">
                     <div class="form-group">
+                        <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/order.status') }}</label>
+                        <div class="col-sm-9">
+                            <div class="btn-group">
+                                <button class="btn btn-default" name="status_cd" value="">전체</button>
+                                <button class="btn btn-default" name="status_cd" value="106">진단중</button>
+                                <button class="btn btn-default" name="status_cd" value="107">진단완료</button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="control-label col-sm-3">{{ trans('admin/order.period') }}</label>
 
                         <div class="col-sm-3">
@@ -71,7 +83,7 @@
 
 
                 <table class="table text-middle text-center">
-                    <colgrou`p>
+                    <colgroup>
 
                         <col width="8%">
                         <col width="13%">
@@ -130,10 +142,12 @@
 
                             <td class="text-center">
                                 {{ $data->getOrderNumber() }}
+                                <br/>
+                                <small class="text-muted">{{ $data->id }}</small>
                             </td>
 
                             <td class="">
-                                <a href="/user/{{ $data->orderer_id }}/edit">{{ $data->orderer_name }}</a>
+                                {{ $data->orderer_name }}
                                 <br/>
                                 <small class="text-warning">{{ $data->orderer_mobile }}</small>
                             </td>
@@ -141,15 +155,15 @@
                             <td class="">
                                 {{--<a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span--}}
                                 {{--class="text-muted">{{ number_format($data->item->price) }}원</span></a>--}}
-                                <a href="/item">{{ $data->item->name }} <span
-                                            class="text-muted">{{ number_format($data->item->price) }}원</span></a>
+                                {{ $data->item->name }} <span
+                                            class="text-muted">{{ number_format($data->item->price) }}원</span>
                                 <br/>
                                 <small class="text-warning">{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
                             </td>
 
 
                             <td class="">
-                                <a href="/user/{{ $data->garage->id }}/edit">{{ $data->garage->name }}</a>
+                                {{ $data->garage->name }}
                                 <br/>
                                 <small class="text-danger">{{  $data->reservation ? $data->reservation->reservation_at->format("m월 d일 H시") : '-' }}</small>
                             </td>

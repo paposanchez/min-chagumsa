@@ -1,4 +1,3 @@
-
 @extends( 'bcs.layouts.default' )
 
 @section('breadcrumbs')
@@ -13,35 +12,28 @@
             {{-- 최근 게시물 --}}
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
+                    <div class="panel-heading dark">
                         <span class="fa fa-file-text-o" style="padding-right: 5px;"></span> BCS 공지사항
-                        <span class="pull-right more-click" data-url="{{ url('notice')}}">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                        <a href="{{ url('notice')}}" class="pull-right">더보기</a>
                     </div>
-                    <div class="panel-body">
-                        <table class="table">
-                            <colgroup>
-                                <col width="*">
-                                <col width="100px">
-                            </colgroup>
-                            <tbody>
-                            @unless(count($lated_post) > 0)
-                                <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
-                            @endunless
 
-                            @foreach($lated_post as $n => $data)
-                                <tr>
-                                    <td class="">
-                                        <a href="{{ url('/notice/'.$data->id) }}">{{ $data->subject }}</a>
-                                    </td>
+                    <div class="list-group">
+                        @unless(count($lated_post) > 0)
+                            <div class="list-group-item no-result">{{ trans('common.no-result') }}</div>
+                        @endunless
 
-                                    <td class="">
-                                        {{--{{ $data->created_at }}--}}
-                                        {{ $data->created_at->format('Y-m-d') }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                        @foreach($lated_post as $n => $data)
+                            <a href="{{ url('/notice/'.$data->id) }}" class="list-group-item">
+                                            <span class="label label-success"
+                                                  style="width:70px;display:inline-block;">{{ $data->board->name }}</span>
+                                {{ $data->subject }}
+
+
+                                <small class="pull-right">
+                                    {{ $data->created_at->format('Y-m-d') }}
+                                </small>
+                            </a>
+                        @endforeach
 
                     </div>
                 </div>
@@ -50,34 +42,37 @@
             {{-- 최근 정산현황 --}}
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
+                    <div class="panel-heading dark">
                         <span class="fa fa-file-text-o" style="padding-right: 5px;"></span> 최근 진단현황
-                        <span class="pull-right more-click" data-url="{{ url('diagnosis')}}">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                        <a href="{{ url('diagnosis')}}" class="pull-right">더보기</a>
                     </div>
-                    <div class="panel-body">
-                        <table class="table">
-                            <colgroup>
-                                <col width="*">
-                                <col width="100px">
-                            </colgroup>
-                            <tbody>
-                            @unless(count($lated_order) > 0)
-                                <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
-                            @endunless
+                    <div class="list-group">
+                        @unless(count($lated_order) > 0)
+                            <div class="list-group-item no-result">{{ trans('common.no-result') }}</div>
+                        @endunless
 
-                            @foreach($lated_order as $n => $data)
-                                <tr>
-                                    <td class="">
-                                        <a href="{{ url('/order/'.$data->id) }}">{{ $data->getOrderNumber() }}</a>
-                                    </td>
+                        @foreach($lated_order as $n => $data)
 
-                                    <td class="">
-                                        {{ $data->created_at->format('Y-m-d') }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                            <a href="{{ url('/order/'.$data->id) }}" class="list-group-item">
+                                            <span class="label
+                                                @if($data->status_cd == 100)
+                                                    label-default
+                                                @elseif($data->status_cd == 106)
+                                                    label-primary
+                                                @else
+                                                    label-info
+                                                @endif
+                                                    "
+                                                  style="width:60px;display:inline-block;">{{ $data->status->display() }}</span>
+                                {{ $data->getOrderNumber() }}
+
+
+                                <small class="pull-right">
+                                    {{ $data->created_at->format('Y-m-d') }}
+                                </small>
+                            </a>
+                        @endforeach
+
                     </div>
                 </div>
             </div>
@@ -88,32 +83,28 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
+                    <div class="panel-heading dark">
                         <span class="fa fa-file-text-o" style="padding-right: 5px;"></span> 엔지니어 리스트
-                        <span class="pull-right more-click" data-url="{{ url('user')}}">more <i class="fa fa-fw fa-caret-right text-success"></i></span>
+                        <a href="{{ url('user')}}" class="pull-right">더보기</a>
                     </div>
-                    <div class="panel-body">
-                        <table class="table">
-                            <colgroup>
-                                <col width="*">
-                                <col width="100px">
-                            </colgroup>
-                            <tbody>
+                    <div class="list-group">
+                        @unless(count($lated_engineer) > 0)
+                            <div class="list-group-item no-result">{{ trans('common.no-result') }}</div>
+                        @endunless
+
+                        @foreach($lated_engineer as $n => $data)
+                            <a href="{{ url('/user/'.$data->id.'/edit') }}" class="list-group-item">
+                                <span class="label label-info"
+                                      style="width:70px;display:inline-block;">{{ $data->id }}</span>
+                                {{ $data->name }}
 
 
-                            @foreach($lated_engineer as $n => $data)
-                                <tr>
-                                    <td class="">
-                                        <a href="{{ url('/user/'.$data->id.'/edit') }}">{{ $data->name }}</a>
-                                    </td>
+                                <small class="pull-right">
+                                    {{ $data->created_at->format('Y-m-d') }}
+                                </small>
+                            </a>
+                        @endforeach
 
-                                    <td class="">
-                                        {{ $data->created_at->format('Y-m-d') }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
@@ -125,10 +116,10 @@
 
 @push( 'footer-script' )
 <script type="text/javascript">
-    $(function(){
-        $(".more-click").on("click", function(){
+    $(function () {
+        $(".more-click").on("click", function () {
             var link = $(this).data("url");
-            if(link){
+            if (link) {
                 location.href = link;
             }
         });

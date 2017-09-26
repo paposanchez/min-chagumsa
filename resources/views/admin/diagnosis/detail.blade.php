@@ -13,7 +13,13 @@
                         <span class="text-lighter">| </span>
                     {{ $order->getOrderNumber() }}
                 </span>
-            <a href="/order/{{ $order->id }}" target="_blank" class="btn btn-default pull-right">주문보기</a>
+            <a href="/order/{{ $order->id }}" target="_blank" class="btn btn-default pull-right" style="margin-left:10px;">주문보기</a>
+
+            @if($order->status_cd == 106)
+                <button id="order_complete" class="btn btn-primary pull-right" data-toggle="tooltip" title="진단완료"
+                        data-id="{{ $order->id }}" style="margin-left:10px;">진단완료
+                </button>
+            @endif
         </h3>
 
         <div class="row">
@@ -351,6 +357,29 @@
                     notify.update('message', '오류가 발생했습니다.');
                 }
             })
+        });
+
+        $('#order_complete').click(function(){
+            var order_id = $(this).data('id');
+            if(confirm('진단을 완료하시겠습니까? 이후 수정이 불가합니다.')){
+                $.ajax({
+                    url : '/diagnosis/complete',
+                    type : 'post',
+                    dataType : 'json',
+                    data : {
+                        'order_id' : order_id
+                    },
+                    success : function (data){
+                        alert('진단이 완료되었습니다.');
+                        location.href='/diagnosis';
+                    },
+                    error : function (data){
+                        alert('처리중 오류가 발생하였습니다.');
+//                        alert(JSON.stringify(data));
+                    }
+                })
+            }
+
         });
     });
 </script>

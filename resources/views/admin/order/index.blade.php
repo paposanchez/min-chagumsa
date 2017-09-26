@@ -167,7 +167,7 @@
 
                                                 @if(in_array($data->status_cd, [101,102,103,104]))
                                                 <button type="button" data-date="{{  $data->reservation->reservation_at->format('Y-m-d') }}" data-time="{{  $data->reservation->reservation_at->format('H') }}" data-order_id="{{ $data->id }}" data-order_number="{{ $data->getOrderNumber() }}" class="btn btn-info changeReservationModalOpen" data-toggle="tooltip" title="예약 변경">예약변경</button>
-                                                        @if(in_array($data->status_cd, [101,102]))
+                                                        @if(in_array($data->status_cd, [101,102,103]))
                                                         <button type="button" data-order_id="{{ $data->id }}" class="btn btn-danger confirmReservation" data-toggle="tooltip" title="예약확정">예약확정</button>
                                                         @endif
                                                 @endif
