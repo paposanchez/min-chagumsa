@@ -13,8 +13,14 @@
                         <span class="text-lighter">| </span>
                     {{ $order->getOrderNumber() }}
                 </span>
-            <a href="/order/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"><i
-                        class="fa fa-shopping-cart"></i> 주문보기</a>
+            <a href="/order/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"
+               style="margin-left:10px;">주문보기</a>
+
+            @if($order->status_cd == 106)
+                <button id="order_complete" class="btn btn-primary pull-right" data-toggle="tooltip" title="진단완료"
+                        data-id="{{ $order->id }}" style="margin-left:10px;">진단완료
+                </button>
+            @endif
         </h3>
 
         <div class="row">
@@ -88,162 +94,146 @@
 
                 <div class="col-md-9">
 
-                    <form class="form-horizontal">
+                    <!-- <form class="form-horizontal">
 
-                        <fieldset>
+                            <fieldset> -->
 
-
-                            <div class="panel panel-primary">
-                                @foreach($diagnosis['entrys'] as $entrys)
-                                    <div class="panel-heading" id="dia-{{ $entrys['name_cd'] }}">
-                                        <div class="row">
-                                            <label for=""
-                                                   class="control-label col-sm-3">{{ $entrys['name']['display'] }}</label>
-                                            <div class="col-sm-9 text-right has-error dark">
-                                                <a href="#dia-top" class="btn btn-link" data-toggle="tooltip"
-                                                   title="위로"><i class="fa fa-arrow-up"></i></a>
-                                            </div>
-                                        </div>
+                    <div class="panel panel-primary">
+                        @foreach($diagnosis['entrys'] as $entrys)
+                            <div class="panel-heading" id="dia-{{ $entrys['name_cd'] }}">
+                                <div class="row">
+                                    <label for=""
+                                           class="control-label col-sm-3">{{ $entrys['name']['display'] }}</label>
+                                    <div class="col-sm-9 text-right has-error dark">
+                                        <a href="#dia-top" class="btn btn-link" data-toggle="tooltip"
+                                           title="위로"><i class="fa fa-arrow-up"></i></a>
                                     </div>
-
-
-                                    <div class="panel-body no-padding">
-
-                                        <table class="table-diagnosis">
-
-                                            <colgroup>
-                                                <col width="25%">
-                                                <col width="*">
-                                            </colgroup>
-
-
-                                            @foreach($entrys['entrys'] as $entry)
-                                                <tbody>
-                                                <tr id="dia-{{ $entry['name_cd'] }}">
-                                                    <th class="text-right">{{ $entry['name']['display'] }}</th>
-                                                    <td
-                                                            class="
-                                                                                        clearfix
-                                                                                        @if(count($entry['children']))
-                                                                    no-padding
-@endif
-                                                                    "
-                                                    >
-
-                                                        {{--@each("partials.diagnosis", $entry['entrys'], 'entry')--}}
-                                                        @foreach($entry['entrys'] as $entry)
-                                                            @if($entry['name'])
-                                                                <strong style="display:inline-block; width:100px;">{{ $entry['name']['display'] }}</strong>
-                                                            @endif
-
-                                                            @if($entry['use_image'] == 1)
-                                                                @foreach($entry['files'] as $file)
-                                                                    <a href="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
-                                                                       class="diagnosis-thumbnail pull-right"
-                                                                       data-toggle="lightbox"
-                                                                       data-title="{{ $file['original'] }}"
-                                                                       data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }}"
-                                                                       data-type="image"
-                                                                       data-gallery="diagnosis-gallery"
-                                                                    >
-                                                                        <img
-                                                                                src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
-                                                                                data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
-                                                                                class="img-responsive" style="width:30px;height:30px;display:inline-block;">
-                                                                    </a>
-                                                                @endforeach
-                                                            @endif
-
-
-                                                            @if($entry['options'])
-                                                                <p class="form-control-static">{{ \App\Helpers\Helper::getCodeName($entry['selected']) }}</p>
-                                                            @endif
-
-
-                                                            @if($entry['use_voice'] == 1)
-                                                                @foreach($entry['files'] as $file)
-                                                                    <button type="button" class="btn btn-circle btn-primary diagnosis-soundplay" data-toggle="tooltip" data-source="{{ $file['fullpath'] }}" data-mime="{{ $file['mime'] }}"  title="{{ $file['original'] }}"><i class="fa fa-play"></i></button>
-                                                                @endforeach
-
-                                                                <textarea name="comment" class="form-control" data-id="{{ $entry['id'] }}" style="height:60px; margin-top:10px;" id="{{ $entry['id'] }}" placeholder="음성파일 내용을 입력해주세요." readonly>{{ $entry['comment'] }}</textarea>
-                                                                {{--<button type="button" class="form-control btn-primary save" data-id="{{ $entry['id'] }}">저장</button>--}}
-
-                                                            @endif
-                                                        @endforeach
-
-                                                        @if(isset($entry['children']))
-                                                            <table class="">
-                                                                <col width="25%">
-                                                                <col width="*">
-                                                                <tbody class="no-border">
-                                                                @foreach($entry['children'] as $children)
-                                                                    <tr>
-                                                                        <th class="">{{ $children['name']['display'] }}</th>
-                                                                        <td>
-                                                                            <ul class="list-unstyled no-margin">
-                                                                                @foreach($children['entrys'] as $child)
-                                                                                    <li class="clearfix">
-                                                                                        {{--@include('partials.diagnosis',['entry' =>  $child])--}}
-                                                                                        @if($child['name'])
-                                                                                            <strong style="display:inline-block; width:100px;">{{ $child['name']['display'] }}</strong>
-                                                                                        @endif
-
-                                                                                        @if($child['use_image'] == 1)
-                                                                                            @foreach($child['files'] as $file)
-                                                                                                <a href="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
-                                                                                                   class="diagnosis-thumbnail pull-right"
-                                                                                                   data-toggle="lightbox"
-                                                                                                   data-title="{{ $file['original'] }}"
-                                                                                                   data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }}"
-                                                                                                   data-type="image"
-                                                                                                   data-gallery="diagnosis-gallery"
-                                                                                                >
-                                                                                                    <img
-                                                                                                            src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
-                                                                                                            data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $file['id'] }}&format=png&h_pos=10&bg_rgb=ffffff"
-                                                                                                            class="img-responsive" style="width:30px;height:30px;display:inline-block;">
-                                                                                                </a>
-                                                                                            @endforeach
-                                                                                        @endif
-
-
-                                                                                        @if($child['options'])
-                                                                                            <p class="form-control-static">{{ \App\Helpers\Helper::getCodeName($child['selected']) }}</p>
-                                                                                        @endif
-
-
-                                                                                        @if($child['use_voice'] == 1)
-                                                                                            @foreach($child['files'] as $file)
-                                                                                                <button type="button" class="btn btn-circle btn-primary diagnosis-soundplay" data-toggle="tooltip" data-source="{{ $file['fullpath'] }}" data-mime="{{ $file['mime'] }}"  title="{{ $file['original'] }}"><i class="fa fa-play"></i></button>
-                                                                                            @endforeach
-
-                                                                                            <textarea name="comment" class="form-control" data-id="{{ $child['id'] }}" style="height:60px; margin-top:10px;" id="{{ $child['id'] }}" placeholder="음성파일 내용을 입력해주세요.">{{ $child['comment'] }}</textarea>
-                                                                                            {{--<button type="button" class="form-control btn-primary save" data-id="{{ $child['id'] }}">저장</button>--}}
-
-                                                                                        @endif
-                                                                                    </li>
-                                                                                @endforeach
-                                                                            </ul>
-                                                                        </td>
-                                                                    </tr>
-                                                                @endforeach
-                                                                </tbody>
-                                                            </table>
-                                                        @endif
-
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            @endforeach
-                                        </table>
-
-                                    </div>
-                                @endforeach
+                                </div>
                             </div>
 
-                        </fieldset>
+                            <div class="panel-body no-padding">
 
-                    </form>
+                                <table class="table-diagnosis">
+
+                                    <colgroup>
+                                        <col width="20%">
+                                        <col width="*">
+                                    </colgroup>
+
+
+                                    @foreach($entrys['entrys'] as $entry)
+                                        <tbody>
+                                        <tr id="dia-{{ $entry['name_cd'] }}">
+                                            <th class="text-right">{{ $entry['name']['display'] }}</th>
+                                            <td
+                                                    class="
+                                                                                                                                        clearfix
+                                                                                                                                        @if(count($entry['children']))
+                                                            no-padding
+@endif
+                                                            ">
+                                                {{--@each("partials.diagnosis", $entry['entrys'], 'entry')--}}
+                                                @foreach($entry['entrys'] as $entry)
+                                                    @if($entry['name'])
+                                                        <strong style="display:inline-block; width:100px;">{{ $entry['name']['display'] }}</strong>
+                                                    @endif
+
+                                                    @if($entry['use_image'] == 1)
+                                                        <div class="diagnosis-uploader-container">
+                                                            @each("partials.diagnosis-image", $entry['files'], 'file')
+                                                        </div>
+                                                    @endif
+
+
+                                                    @if($entry['options'])
+                                                        <p class="form-control-static">{{ \App\Helpers\Helper::getCodeName($entry['selected']) }}</p>
+                                                    @endif
+
+
+                                                    @if($entry['use_voice'] == 1)
+                                                        @foreach($entry['files'] as $file)
+                                                            <button type="button" class="btn btn-circle btn-primary diagnosis-soundplay" data-toggle="tooltip"
+                                                                    data-source="{{ $file['fullpath'] }}" data-mime="{{ $file['mime'] }}" title="{{ $file['original'] }}"><i
+                                                                        class="fa fa-play"></i></button>
+                                                        @endforeach
+
+                                                        <textarea name="comment" class="form-control" data-id="{{ $entry['id'] }}" style="height:60px; margin-top:10px;"
+                                                                  id="{{ $entry['id'] }}" placeholder="음성파일 내용을 입력해주세요." readonly>{{ $entry['comment'] }}</textarea>
+
+
+                                                    @endif
+                                                @endforeach
+
+
+                                                @if(isset($entry['children']))
+                                                    <table class="">
+                                                        <col width="20%">
+                                                        <col width="*">
+                                                        <tbody class="no-border">
+                                                        @foreach($entry['children'] as $children)
+                                                            <tr>
+                                                                <th class="">{{ $children['name']['display'] }}</th>
+                                                                <td>
+                                                                    <ul class="list-unstyled no-margin">
+                                                                        @foreach($children['entrys'] as $child)
+                                                                            <li class="clearfix">
+                                                                                @if($child['name'])
+                                                                                    <strong style="display:inline-block; width:100px;">{{ $child['name']['display'] }}</strong>
+                                                                                @endif
+
+                                                                                @if($child['use_image'] == 1)
+                                                                                    <div class="diagnosis-uploader-container">
+                                                                                        @each("partials.diagnosis-image", $child['files'], 'file')
+                                                                                    </div>
+                                                                                @endif
+
+
+                                                                                @if($child['options'])
+
+                                                                                        {{--@foreach(\App\Helpers\Helper::getCodeArray($child['options_cd']) as $key=>$val )--}}
+                                                                                            {{--<label class="btn btn-default {{ $child['selected'] == $key ? 'active' : '' }}">--}}
+                                                                                                {{--{{ Form::radio('selected[]', $key, \App\Helpers\Helper::isCheckd($key, $child['selected'])) }} {{ $val }}--}}
+                                                                                            {{--</label>--}}
+                                                                                        {{--@endforeach--}}
+                                                                                        <p class="form-control-static">{{ \App\Helpers\Helper::getCodeName($child['selected']) }}</p>
+
+                                                                                @endif
+
+
+                                                                                @if($child['use_voice'] == 1)
+                                                                                    @foreach($child['files'] as $file)
+                                                                                        <button type="button" class="btn btn-circle btn-primary diagnosis-soundplay" data-toggle="tooltip"
+                                                                                                data-source="{{ $file['fullpath'] }}" data-mime="{{ $file['mime'] }}" title="{{ $file['original'] }}"><i
+                                                                                                    class="fa fa-play"></i></button>
+                                                                                    @endforeach
+
+                                                                                    <textarea name="comment" class="form-control" data-id="{{ $child['id'] }}" style="height:60px; margin-top:10px;"
+                                                                                              id="{{ $entry['id'] }}" placeholder="음성파일 내용을 입력해주세요." readonly>{{ $child['comment'] }}</textarea>
+                                                                                @endif
+
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                @endif
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    @endforeach
+                                </table>
+
+                            </div>
+                        @endforeach
+                    </div>
+                    <!--
+                                                                                                    </fieldset>
+
+                                                                                            </form> -->
 
                 </div>
 
@@ -331,9 +321,9 @@
         })
     });
 
-    $('.save').on('click', function(){
+    $('.save').on('click', function () {
         var diagnosis_id = $(this).data('id');
-        var comment = $('#'+diagnosis_id).val();
+        var comment = $('#' + diagnosis_id).val();
         var notify = $.notify({}, {
             type: 'success',
             element: 'body',
@@ -346,19 +336,19 @@
             },
         });
         $.ajax({
-            url : '/diagnosis/update-comment',
-            type : 'post',
-            dataType : 'json',
-            data : {
-                'diagnosis_id' : diagnosis_id,
-                'comment' : comment
+            url: '/diagnosis/update-comment',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'diagnosis_id': diagnosis_id,
+                'comment': comment
             },
-            success : function (data) {
+            success: function (data) {
                 notify.update('type', 'success');
                 notify.update('title', '<strong>점검의견</strong>이 ');
                 notify.update('message', '정상적으로 변경되었습니다.');
             },
-            error : function (data) {
+            error: function (data) {
                 notify.update('type', 'warning');
                 notify.update('message', '오류가 발생했습니다.');
             }

@@ -179,7 +179,9 @@
                                 @endif
 
                                 @if($data->status_cd == 107)
-                                    <button data-id="{{ $data->id }}" class="btn btn-danger certificate-assign" data-toggle="tooltip" title="인증서 발급시작">인증시작</button>
+                                        <button data-id="{{ $data->id }}" class="btn btn-danger certificate-assign"
+                                                data-toggle="tooltip" title="인증서 발급시작">인증시작
+                                        </button>
                                 @endif
 
 

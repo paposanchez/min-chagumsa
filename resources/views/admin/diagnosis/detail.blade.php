@@ -115,7 +115,7 @@
                                 <table class="table-diagnosis">
 
                                     <colgroup>
-                                        <col width="25%">
+                                        <col width="20%">
                                         <col width="*">
                                     </colgroup>
 
@@ -136,7 +136,7 @@
 
                                                 @if(isset($entry['children']))
                                                     <table class="">
-                                                        <col width="25%">
+                                                        <col width="20%">
                                                         <col width="*">
                                                         <tbody class="no-border">
                                                         @foreach($entry['children'] as $children)

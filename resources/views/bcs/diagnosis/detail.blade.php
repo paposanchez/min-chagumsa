@@ -114,7 +114,7 @@
                                 <table class="table-diagnosis">
 
                                     <colgroup>
-                                        <col width="25%">
+                                        <col width="20%">
                                         <col width="*">
                                     </colgroup>
 

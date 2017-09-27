@@ -22,7 +22,14 @@
 
 
 @if($entry['options'])
-    {!! Form::select('selected[]', array('default' => '선택해주세요.') +\App\Helpers\Helper::getCodeArray($entry['options_cd']), \App\Helpers\Helper::getCodePluck($entry['selected']), [ 'class' => 'selected_cd', 'data-id' => $entry['id']]) !!}
+{{--    {!! Form::select('selected[]', array('default' => '선택해주세요.') +\App\Helpers\Helper::getCodeArray($entry['options_cd']), \App\Helpers\Helper::getCodePluck($entry['selected']), [ 'class' => 'selected_cd', 'data-id' => $entry['id']]) !!}--}}
+<div class="btn-group" data-toggle="buttons">
+    @foreach(\App\Helpers\Helper::getCodeArray($entry['options_cd']) as $key=>$val )
+        <label class="btn btn-default {{ $entry['selected'] == $key ? 'active' : '' }}">
+            {{ Form::radio('selected[]', $key, \App\Helpers\Helper::isCheckd($key, $entry['selected'])) }} {{ $val }}
+        </label>
+    @endforeach
+</div>
 @endif
 
 

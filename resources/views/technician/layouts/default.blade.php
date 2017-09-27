@@ -41,6 +41,7 @@
 @endsection
 
 @section( 'content-footer-script' )
+    {{ Html::script(Helper::assets( 'js/plugin/chagumsa.js' )) }}
 {{-- tracking script --}}
 @if( config('app.analytics'))
 <script type="text/javascript" >
