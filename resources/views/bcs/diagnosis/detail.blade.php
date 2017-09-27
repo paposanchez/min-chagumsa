@@ -289,9 +289,11 @@
             }
 
         });
-        $(".selected_cd").change(function () {
-            var change_value = $(this).val();
+//        $(".selected_cd").change(function () {
+        $(".selected_cd").click(function () {
+            var change_value = $(this).children('input').val();
             var diagnosis_id = $(this).data('id');
+
             var notify = $.notify({}, {
                 type: 'success',
                 element: 'body',
