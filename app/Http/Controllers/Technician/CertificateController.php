@@ -14,6 +14,7 @@ use App\Repositories\DiagnosisRepository;
 use DB;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Events\SendSms;
 
@@ -335,7 +336,7 @@ class CertificateController extends Controller
 
             $order = Order::where("status_cd", 107)->findOrFail($id);
             //                        $order->engineer_id = Auth::id();
-            $order->technist_id = Auth::id();
+            $order->technist_id = Auth::user()->id;
             $order->status_cd = 108;
             $order->save();
 

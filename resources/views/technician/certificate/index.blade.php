@@ -129,6 +129,8 @@
 
                             <td class="text-center">
                                 {{ $data->getOrderNumber() }}
+                                <br/>
+                                <small class="text-muted">{{ $data->id }}</small>
                             </td>
 
                             <td class="">

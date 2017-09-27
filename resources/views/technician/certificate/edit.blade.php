@@ -986,7 +986,7 @@
 
         var V = Pst + (A + B + C + S);
         return V;
-    }
+    };
 
     $(function () {
 
@@ -997,7 +997,7 @@
         });
 
 
-        $("#frm-basic").validate({
+        $("#frm").validate({
             messages: {
                 orders_car_number: "자동차 등록번호를 입력해 주세요.",
                 cars_vin_number: "차대번호를 입력해 주세요.",
@@ -1043,7 +1043,7 @@
                 history_depreciation: "사용이력 감가금액을 입력해주세요.",
                 basic_depreciation: "기본가격 감가금액을 입력해주세요.",
                 special_depreciation: "특별요인 감가금액을 입력해주세요.",
-                performance_depreciation: "차량성능삼태 감가금액을 입력해주세요."
+                performance_depreciation: "차량성능삼태 감가금액을 입력해주세요.",
             },
 //        errorPlacement: function(error, element) {
 //            var chk_name = element.attr("name");
