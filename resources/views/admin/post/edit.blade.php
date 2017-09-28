@@ -38,7 +38,7 @@
 @endif
                                                         " placeholder="{{ trans('admin/post.content') }}" name="content"
                                                           id="inputContent"
-                                                          style="height: 250px;">{{ $post->content or old('content') }}</textarea>
+                                                          style="height: 250px;">{{ nl2br($post->content) }}</textarea>
 
                             @if ($errors->has('content'))
                                 <span class="help-block">
