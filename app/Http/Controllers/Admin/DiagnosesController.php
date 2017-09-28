@@ -284,6 +284,19 @@ class DiagnosesController extends Controller
 
         }
 
+    public function complete(Request $request){
+        try{
+            $order_id = $request->get('order_id');
+            $order = Order::findOrFail($order_id);
+            $order->status_cd = 107;
+            $order->diagnosed_at = Carbon::now();
+            $order->save();
+            return response()->json('success');
+        }catch(\Exception $ex){
+            return response()->json($ex->getMessage());
+        }
+    }
+
 
 
 
