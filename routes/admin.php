@@ -62,7 +62,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
         Route::post('/diagnosis/update-comment', 'DiagnosesController@updateComment');
         Route::post('diagnosis/update-code', 'DiagnosesController@updateCode');
-        Route::post('/diagnosis/complete', 'DiagnosesController@complete');
+        Route::post('diagnosis/complete', 'DiagnosesController@complete');
         Route::resource('diagnosis', 'DiagnosesController');
 
         // 인증서
