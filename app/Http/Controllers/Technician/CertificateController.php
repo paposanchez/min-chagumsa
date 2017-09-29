@@ -366,6 +366,30 @@ class CertificateController extends Controller
             $order->status_cd = 109;
             $order->save();
 
+            //문자, 메일 송부하기
+            $order_number = $order->getOrderNumber();
+            $certificate_url = 'http://certi.chagumsa.com/'.$order_number;
+            $user = User::find($order->orderer_id);
+
+            try {
+                //메일전송
+
+                $mail_message = [
+                    'order_number' => $order_number, 'certificate_url' => $certificate_url
+                ];
+                Mail::send(new \App\Mail\Ordering($user->email, "차검사 인증서 발급이 완료되었습니다.", $mail_message, 'message.email.fin-diagnosis-tech'));
+            } catch (\Exception $e) {
+            }
+
+            try {
+                // SMS전송
+                $user_message = view('message.sms.fin-certification-user', compact('order_number', 'certificate_url'))->render();
+                event(new SendSms(Auth::user()->mobile, '', $user_message));
+            } catch (\Exception $e) {
+            }
+            //발송 끝
+
+
             return response()->json('success');
         } catch (\Exception $ex) {
             return response()->json($ex->getMessage());

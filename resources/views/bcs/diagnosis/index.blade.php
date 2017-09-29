@@ -170,7 +170,7 @@
 
 
                             <td>
-                                {{ $data->diagnose_at->format('m-d H:i') }}
+                                {{ $data->diagnose_at ? $data->diagnose_at->format('m-d H:i') : '-' }}
                             </td>
 
                             <td>
