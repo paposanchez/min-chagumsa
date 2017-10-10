@@ -106,6 +106,7 @@ Route::any('/{order_id}/{page?}/{flush?}', function ($order_id, $page = 'summary
 
         $handler = new CertiRedisRepository($hash, $expire);
 
+
         if($expireat){
             // 일자별 캐시 만료(expireat)가 설정되었음
             // 초단위 기간만료보다 일자 단위가 우선이어야 한다.
@@ -113,8 +114,11 @@ Route::any('/{order_id}/{page?}/{flush?}', function ($order_id, $page = 'summary
             $handler->setExpireTime($expireat);
         }
 
+
+
         $handler->prepare($order_id);
         $cache = $handler->getCacheHtml($page);
+
         return $cache;
 
     }catch (Exception $exception)

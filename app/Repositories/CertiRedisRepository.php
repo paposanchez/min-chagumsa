@@ -12,7 +12,7 @@ use Predis\Client;
 
 class CertiRedisRepository extends CertificateRepository
 {
-    protected $redis, $expire, $cache_id, $expire_at;
+    protected $redis, $expire, $cache_id, $expire_at=false;
 
     /**
      * CertiRedisRepository constructor.
@@ -26,8 +26,6 @@ class CertiRedisRepository extends CertificateRepository
 
         $this->redis = new Client();
         $this->expire = $expire;
-
-        $this->expire_at = false;
     }
 
     /**
@@ -63,18 +61,27 @@ class CertiRedisRepository extends CertificateRepository
 
             $this->redis->set($this->cache_id, $generate);
 
-            if($this->expire_at !== false){ // 일자 기준 만료기간이 설정되지 않았다면,
+            try{
+                if(!$this->expire_at){ // 일자 기준 만료기간이 설정되지 않았다면,
+                    if($this->expire !== false){
+                        $this->redis->expire($this->cache_id, $this->expire);
+                        $this->redis->ttl($this->cache_id);
+                    }
+                    // expire 값이 없거나 0일경우에는 만료되지 않음.
+
+                }else{ //캐시 만료가 일자 기준으로 설정되었다면
+
+                    $this->redis->expireat($this->cache_id, $this->expire_at);
+                    $this->redis->ttl($this->cache_id);
+                }
+            }catch (\Exception $e){
+                // expire_at 이 에러 발생시 expire을 기준으로 만료함
                 if($this->expire !== false){
                     $this->redis->expire($this->cache_id, $this->expire);
                     $this->redis->ttl($this->cache_id);
                 }
-                // expire 값이 없거나 0일경우에는 만료되지 않음.
-
-            }else{ //캐시 만료가 일자 기준으로 설정되었다면
-
-                $this->redis->expireat($this->cache_id, $this->expire_at);
-                $this->redis->ttl($this->cache_id);
             }
+
 
 
 
