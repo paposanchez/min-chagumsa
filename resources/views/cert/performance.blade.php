@@ -60,7 +60,8 @@
                                 </td>
                                 <th>색상</th>
                                 <td>
-                                        {{ $order->isIssued() ? $order->car->getExteriorColor->display() : '' }}(외부) / {{ $order->isIssued() ? $order->car->getInteriorColor->display() : '' }}(내부)
+                                        {{ $order->isIssued() ? $order->car->getExteriorColor->display() : '' }}(외부)
+                                        {{--/ {{ $order->isIssued() ? $order->car->getInteriorColor->display() : '' }}(내부)--}}
                                 </td>
                         </tr>
                         <tr>

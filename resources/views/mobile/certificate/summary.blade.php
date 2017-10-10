@@ -138,7 +138,7 @@
     </div>
 
     <div class='stamp_line_wrap'><div class='stamp_line_cont'>
-            <div class='stamp_wrap'><span>대표 기술사</span><strong>이해선</strong></div>
+            <div class='stamp_wrap'><span>대표 기술사</span><strong>이해택</strong></div>
         </div></div>
 
 @endsection

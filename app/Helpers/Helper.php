@@ -240,7 +240,7 @@ class Helper {
         public static function getCodeArray($code_group){
                 $select_list = [];
                 $grouo_name = Code::where('id', $code_group)->first();
-                $codes = Code::where('group', $grouo_name->name)->get();
+                $codes = Code::where('group', $grouo_name->name)->orderBy('sort', 'ASC')->get();
 
                 foreach ($codes as $code) {
                         $select_list[$code->id] = self::getCodeName($code->id);

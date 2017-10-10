@@ -55,7 +55,8 @@
                                 <th>색상</th>
                                 <td>
                                         @if($order->isIssued())
-                                                {{ $order->car->getExteriorColor->display() }}(외부) / {{ $order->car->getInteriorColor->display() }}(내부)
+                                                {{ $order->car->getExteriorColor->display() }}(외부)
+                                                {{--/ {{ $order->car->getInteriorColor->display() }}(내부)--}}
                                         @else
                                                 미입력 (검토중)
                                         @endif
@@ -166,7 +167,7 @@
                                 <td>{{ number_format($order->certificates->history_depreciation) }} 만원</td>
                         </tr>
 
-                        <th rowspan='19'>차량성능상태</th>
+                        <th rowspan='19'>종합진단결과</th>
                         <tr>
                                 <td>주요외판</td>
                                 <td>{{ $order->certificates->performance_exterior->display() }}</td>
@@ -295,7 +296,7 @@
 <div class='report_stamp_wrap'>
         <span><strong>발급일</strong> {{ $order->certificates->created_at->format('Y년 m월 d일') }}</span>
         <span><strong>보증기간</strong> {{ $order->certificates->created_at->addMonth(5)->format('Y년 m월 d일') }}</span>
-        <div class='stamp_wrap'>대표 기술사<strong>이해선</strong></div>
+        <div class='stamp_wrap'>대표 기술사<strong>이해택</strong></div>
 </div>
 
 <div class='br30'></div>

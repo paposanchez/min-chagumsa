@@ -334,7 +334,7 @@
 
 	<div class='report_stamp_wrap'>
 		<div class='stamp_logo'></div>
-		<div class='stamp_wrap'>대표 기술사<strong>이해선</strong></div>
+		<div class='stamp_wrap'>대표 기술사<strong>이해택</strong></div>
 	</div>
 
 	<div class='br30'></div>

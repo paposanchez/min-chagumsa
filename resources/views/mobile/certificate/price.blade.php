@@ -54,7 +54,9 @@
                 <td>{{ \Carbon\Carbon::parse($order->car->registration_date)->diffInMonths(\Carbon\Carbon::now()) }} 개월</td>
             </tr>
             <th>색상</th>
-            <td>{{ $order->car->getExteriorColor->display() }}(외부) / {{ $order->car->getInteriorColor->display() }}(내부)</td>
+            <td>{{ $order->car->getExteriorColor->display() }}(외부)
+                {{--/ {{ $order->car->getInteriorColor->display() }}(내부)--}}
+            </td>
             </tr>
             <th>주행거리(km)</th>
             <td>{{ number_format($order->mileage) }} km</td>
@@ -105,7 +107,7 @@
                 <td>무사고</td>
             </tr>
             <tr>
-                <th rowspan='4'>차량성능상태</th>
+                <th rowspan='4'>종합진단결과</th>
                 <td>외관(외장)</td>
                 <td>양호</td>
             </tr>
@@ -162,7 +164,7 @@
                     <span><strong>발급일</strong> {{ \Carbon\Carbon::parse($order->certificates->created_at)->format('Y년 m월 d일') }}</span>
                     <span><strong>보증기간</strong> {{ \Carbon\Carbon::parse($order->certificates->created_at)->addMonth(5)->format('Y년 m월 d일') }}</span>
                 </div>
-                <div class='stamp_wrap'><span>대표 기술사</span><strong>이해선</strong></div>
+                <div class='stamp_wrap'><span>대표 기술사</span><strong>이해택</strong></div>
             </div>
         </div></div>
 

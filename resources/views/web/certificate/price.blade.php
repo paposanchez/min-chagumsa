@@ -49,7 +49,8 @@
                 </td>
                 <th>색상</th>
                 <td>
-                    {{ $order->car->getExteriorColor->display() }}(외부) / {{ $order->car->getInteriorColor->display() }}(내부)
+                    {{ $order->car->getExteriorColor->display() }}(외부)
+                    {{--/ {{ $order->car->getInteriorColor->display() }}(내부)--}}
                 </td>
             </tr>
             <tr>
@@ -147,7 +148,7 @@
                 </td>
             </tr>
 
-            <th rowspan='19'>차량성능상태</th>
+            <th rowspan='19'>종합진단결과</th>
             <tr>
                 <td>주요외판</td>
                 <td>{{ \App\Helpers\Helper::getCodeName($order->certificates->performance_exterior_cd) }}</td>
@@ -275,7 +276,7 @@
     <div class='report_stamp_wrap'>
         <span><strong>발급일</strong> {{ $order->certificates->created_at->format('Y년 m월 d일') }}</span>
         <span><strong>보증기간</strong> {{ $order->certificates->created_at->addMonth(5)->format('Y년 m월 d일') }}</span>
-        <div class='stamp_wrap'>대표 기술사<strong>이해선</strong></div>
+        <div class='stamp_wrap'>대표 기술사<strong>이해택</strong></div>
     </div>
 
     <div class='br30'></div>

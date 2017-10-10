@@ -258,12 +258,16 @@ return [
     ],
     'part_state_cd' => [
         'good' => '양호',
-        'replacement' => '교환수리이력',
-        'welding' => '용접∙판금 수리이력',
-        'need_repair' => '수리필요(교환/판금)',
-        'scratch' => '긁힘(상처)',
+//        'replacement' => '교환수리이력',
+//        'welding' => '용접∙판금 수리이력',
+//        'need_repair' => '수리필요(교환/판금)',
+//        'scratch' => '긁힘(상처)',
+//        'corrosion' => '부식',
+        'replacement' => '교환수리',
+        'welding' => '용접∙판금 수리',
+        'need_repair' => '수리필요',
+        'scratch' => '긁힘',
         'corrosion' => '부식',
-        'good' => '양호'
     ],
     'accident_repair_state_cd' => [
         'none' => '수리이력없음',
@@ -461,14 +465,14 @@ return [
         'tire_wear' => '타이어 마모',
         'maintenance' => '교환요'
     ],
-    'car_part_state_cd' => [
-        'good' => '양호',
-        'replacement' => '교환수리이력',
-        'welding' => '용접∙판금 수리이력',
-        'need_repair' => '수리필요(교환/판금)',
-        'scratch' => '긁힘(상처)',
-        'corrosion' => '부식'
-    ],
+//    'car_part_state_cd' => [
+//        'good' => '양호',
+//        'replacement' => '교환수리이력',
+//        'welding' => '용접∙판금 수리이력',
+//        'need_repair' => '수리필요(교환/판금)',
+//        'scratch' => '긁힘(상처)',
+//        'corrosion' => '부식'
+//    ],
 
     'payment_cd' => [
         'card' => '신용/체크카드', //11
@@ -568,7 +572,7 @@ return [
         'diagnosis_info_opinion' => '점검의견'
     ],
     'diagnosis_exterior' => [
-        'diagnosis_exterior_picture' => '주요외판사진',
+        'diagnosis_exterior_picture' => '주요외판사진 [앞,뒤,좌,우]',
         'diagnosis_exterior_state' => '주요외판상태',
         'diagnosis_exterior_opinion' => '점검의견'
     ],

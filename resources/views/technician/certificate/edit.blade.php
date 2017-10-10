@@ -166,10 +166,10 @@
                                 {!! Form::select('cars_exterior_color', $select_color, [$car->exterior_color_cd ? $car->exterior_color_cd : ''], ['class'=>'form-control', 'required']) !!}
                             </li>
 
-                            <li class="list-group-item">
-                                <small>내부색상</small>
-                                {!! Form::select('cars_interior_color', $select_color, [$car->interior_color_cd ? $car->interior_color_cd : ''], ['class'=>'form-control', 'required']) !!}
-                            </li>
+                            {{--<li class="list-group-item">--}}
+                                {{--<small>내부색상</small>--}}
+                                {{--{!! Form::select('cars_interior_color', $select_color, [$car->interior_color_cd ? $car->interior_color_cd : ''], ['class'=>'form-control', 'required']) !!}--}}
+                            {{--</li>--}}
 
                             <li class="list-group-item">
                                 <small>연비</small>
@@ -246,7 +246,7 @@
 
                         <div class="panel-heading">
                             <div class="row">
-                                <label for="" class="control-label col-sm-2">기본가격(A)</label>
+                                <label for="" class="control-label col-sm-2">기본평가(A)</label>
                                 <div class="col-sm-3 col-sm-offset-7 has-error">
                                     <div class="input-group">
                                         <input type="text" class="form-control cert-calculate-subtotal" placeholder="" title="" name="basic_depreciation" id="basic_depreciation" value="{{ $order->certificates->basic_depreciation }}">
@@ -396,7 +396,7 @@
 
                         <div class="panel-heading">
                             <div class="row">
-                                <label for="" class="control-label col-sm-2">차량성능상태(C)</label>
+                                <label for="" class="control-label col-sm-2">종합진단결과(C)</label>
                                 <div class="col-sm-3 col-sm-offset-7 has-error">
                                     <div class="input-group">
                                         <input type="text" class="form-control cert-calculate-subtotal" placeholder="" title="" name="performance_depreciation" id="performance_depreciation" value="{{ $order->certificates->performance_depreciation }}">
@@ -1041,7 +1041,7 @@
                 certificates_history_insurance: "보험사고이력을 입력해주세요.",
 
                 history_depreciation: "사용이력 감가금액을 입력해주세요.",
-                basic_depreciation: "기본가격 감가금액을 입력해주세요.",
+                basic_depreciation: "기본평가 감가금액을 입력해주세요.",
                 special_depreciation: "특별요인 감가금액을 입력해주세요.",
                 performance_depreciation: "차량성능삼태 감가금액을 입력해주세요.",
             },
