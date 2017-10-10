@@ -32,9 +32,10 @@ class InquireController extends PostController
     {
         $user = Auth::user();
 
-        $entrys = Post::whereBoardId($this->board_id)->where('user_id', $user->id)->where('is_shown', 6)->orderBy('id', 'desc');
+        $where = Post::whereBoardId($this->board_id)->where('user_id', $user->id)->where('is_shown', 6)
+            ->orderBy('id', 'desc');
 
-        $entrys->paginate($this->num_of_page);
+        $entrys = $where->paginate($this->num_of_page);
 
         $board_namespace = $this->board_namespace;
 
