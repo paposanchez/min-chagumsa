@@ -15,9 +15,9 @@
                 </ul>
             </div>
 
-            <div class='mv2_exp_wrap'>
-                <a href='/community/notice/46'>체험단 신청하기</a>
-            </div>
+            {{--<div class='mv2_exp_wrap' >--}}
+                {{--<a href='/community/notice/46'>체험단 신청하기</a>--}}
+            {{--</div>--}}
 
         </div>
     </div>

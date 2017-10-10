@@ -9,10 +9,10 @@
                 <a href='{{ url("/sample") }}'>인증서 샘플보기</a>
                 {{--<a href=''>인증서 신청하기</a>--}}
             </div>
-            <div class='mv2_btm'>
-                {{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/mv2_btm_text.png")) }}
-                <a href='{{ url("/community/notice/46") }}'>체험단 신청하기</a>
-            </div>
+            {{--<div class='mv2_btm'>--}}
+                {{--{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/mv2_btm_text.png")) }}--}}
+                {{--<a href='{{ url("/community/notice/46") }}'>체험단 신청하기</a>--}}
+            {{--</div>--}}
         </div>
 
         <div id='main_service_wrap'>

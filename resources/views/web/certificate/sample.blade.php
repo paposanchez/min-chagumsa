@@ -2,7 +2,7 @@
 
 @section( 'content' )
 
-    <div id="loading">
+    <div id="loading_sample">
         <img src="" id="sample" usemap="#Map">
     </div>
     <map name="Map" id="Map">
