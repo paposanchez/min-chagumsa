@@ -439,7 +439,7 @@
                                         </label>
                                         <label class="btn btn-default {{ $order->certificates->usage_history_cd == 1341 ? 'active' : '' }}">
                                             {{ Form::radio('certificates_usage_flood_cd', 1341, \App\Helpers\Helper::isCheckd(1341, $order->certificates->usage_flood_cd)) }}
-                                            침
+                                            침수
                                         </label>
                                     </div>
                                     @if ($errors->has('certificates_usage_flood_cd'))
@@ -490,7 +490,7 @@
                                         </span>
                                     @endif
 
-                                    <textarea name="exterior_comment" class="form-control" required="required"
+                                    <textarea name="exterior_comment" class="form-control"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->exterior_comment : '' }}</textarea>
                                 </div>
                             </div>
@@ -510,7 +510,7 @@
                                         </span>
                                     @endif
 
-                                    <textarea name="interior_comment" class="form-control" required="required"
+                                    <textarea name="interior_comment" class="form-control"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->interior_comment : '' }}</textarea>
                                 </div>
                             </div>
@@ -530,7 +530,7 @@
                                         </span>
                                     @endif
 
-                                    <textarea name="plugin_comment" class="form-control" required="required"
+                                    <textarea name="plugin_comment" class="form-control"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->plugin_comment : '' }}</textarea>
                                 </div>
                             </div>
@@ -549,7 +549,7 @@
                                             {{ $errors->first('performance_broken_cd') }}
                                         </span>
                                     @endif
-                                    <textarea name="broken_comment" class="form-control" required="required"
+                                    <textarea name="broken_comment" class="form-control"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->broken_comment : '' }}</textarea>
                                 </div>
                             </div>
@@ -569,7 +569,7 @@
                                         </span>
                                     @endif
 
-                                    <textarea name="engine_comment" class="form-control" required="required"
+                                    <textarea name="engine_comment" class="form-control"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->engine_comment : '' }}</textarea>
                                 </div>
                             </div>
@@ -589,7 +589,7 @@
                                         </span>
                                     @endif
 
-                                    <textarea name="transmission_comment" class="form-control" required="required"
+                                    <textarea name="transmission_comment" class="form-control"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->transmission_comment : '' }}</textarea>
                                 </div>
                             </div>
@@ -609,7 +609,7 @@
                                         </span>
                                     @endif
 
-                                    <textarea name="power_comment" class="form-control" required="required"
+                                    <textarea name="power_comment" class="form-control"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->power_comment : '' }}</textarea>
                                 </div>
                             </div>
@@ -629,7 +629,7 @@
                                         </span>
                                     @endif
 
-                                    <textarea name="steering_comment" class="form-control" required="required"
+                                    <textarea name="steering_comment" class="form-control"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->steering_comment : '' }}</textarea>
                                 </div>
                             </div>
@@ -649,7 +649,7 @@
                                         </span>
                                     @endif
 
-                                    <textarea name="braking_comment" class="form-control" required="required"
+                                    <textarea name="braking_comment" class="form-control"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->braking_comment : '' }}</textarea>
                                 </div>
                             </div>
@@ -669,7 +669,7 @@
                                         </span>
                                     @endif
 
-                                    <textarea name="electronic_comment" class="form-control" required="required"
+                                    <textarea name="electronic_comment" class="form-control"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->electronic_comment : '' }}</textarea>
                                 </div>
                             </div>
@@ -689,7 +689,7 @@
                                         </span>
                                     @endif
 
-                                    <textarea name="tire_comment" class="form-control" required="required"
+                                    <textarea name="tire_comment" class="form-control"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->tire_comment : '' }}</textarea>
                                 </div>
                             </div>
@@ -709,7 +709,7 @@
                                         </span>
                                     @endif
 
-                                    <textarea name="driving_comment" class="form-control" required="required"
+                                    <textarea name="driving_comment" class="form-control"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->driving_comment : '' }}</textarea>
                                 </div>
                             </div>
@@ -891,7 +891,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2">종합의견</label>
                                 <div class="col-sm-10  has-error">
-                                    <textarea name="certificates_opinion" class="form-control" required="required"
+                                    <textarea name="certificates_opinion" class="form-control"
                                               style="height: 100px;">{{ $order->certificates ? $order->certificates->opinion : '' }}</textarea>
                                 </div>
                             </div>

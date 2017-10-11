@@ -819,7 +819,7 @@ class OrderController extends Controller
         $users = \App\Models\Role::find(4)->users;
         $sections = [];
         foreach ($users as $user) {
-            if ($user->user_extra->users_id != 4 && $user->user_extra->area == $request->get('garage_area')) {
+            if ($user->user_extra->users_id != 4 && $user->status_cd !=2 && $user->user_extra->area == $request->get('garage_area')) {
                 $sections[$user->user_extra->section] = $user->user_extra->section;
             }
 

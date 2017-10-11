@@ -58,8 +58,11 @@
 
                                         @foreach($certificates as $n => $data)
                                         <a href="{{ url('/order/'.$data->id) }}" class="list-group-item">
-
-                                                <span class="label label-success" style="width:60px;display:inline-block;">{{ $data->certificates->certificate_grade->display() }}</span>
+                                                @if($data->certificates->certificate_grade)
+                                                        <span class="label label-success" style="width:60px;display:inline-block;">{{ $data->certificates->certificate_grade->display() }}</span>
+                                                @else
+                                                        <span class="label label-warning" style="width:60px;display:inline-block;">미정</span>
+                                                @endif
 
                                                 {{ $data->getOrderNumber() }}
 
