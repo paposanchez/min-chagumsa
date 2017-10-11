@@ -8,13 +8,13 @@
     </div>
 
     @if($entry['use_image'] == 1)
-        <form class="diagnosis-uploader-form pull-right " action="/diagnosis/upload-file" method="post"
+        <form class="diagnosis-uploader-form pull-right dropzone" action="/diagnosis/upload-file" method="post"
               enctype="multipart/form-data" style="width:38px;height:38px;display:inline-block;margin-right:5px;">
             <input type="hidden" name='diagnosis_id' value='{{ $entry['id'] }}'>
             <input type="file" name="upfile" style="display:none" class='diagnosis-uploader-input'
                    onChange="$(this).closest('form').submit()"/>
             <div data-id="{{ $entry['id'] }}" class='btn btn-circle btn-icon btn-info diagnosis-uploader'><i
-                        class="fa fa-upload"></i></div>
+                        class="fa fa-upload"draggable='true'></i></div>
         </form>
     @endif
 
@@ -22,14 +22,14 @@
 
 
 @if($entry['options'])
-{{--    {!! Form::select('selected[]', array('default' => '선택해주세요.') +\App\Helpers\Helper::getCodeArray($entry['options_cd']), \App\Helpers\Helper::getCodePluck($entry['selected']), [ 'class' => 'selected_cd', 'data-id' => $entry['id']]) !!}--}}
-<div class="btn-group" data-toggle="buttons">
-    @foreach(\App\Helpers\Helper::getCodeArray($entry['options_cd']) as $key=>$val )
-        <label class="btn btn-default {{ $entry['selected'] == $key ? 'active' : '' }} selected_cd" data-id="{{ $entry['id'] }}">
-            {{ Form::radio('selected[]', $key, \App\Helpers\Helper::isCheckd($key, $entry['selected']), ['name' => 'cd']) }} {{ $val }}
-        </label>
-    @endforeach
-</div>
+    {{--    {!! Form::select('selected[]', array('default' => '선택해주세요.') +\App\Helpers\Helper::getCodeArray($entry['options_cd']), \App\Helpers\Helper::getCodePluck($entry['selected']), [ 'class' => 'selected_cd', 'data-id' => $entry['id']]) !!}--}}
+    <div class="btn-group" data-toggle="buttons">
+        @foreach(\App\Helpers\Helper::getCodeArray($entry['options_cd']) as $key=>$val )
+            <label class="btn btn-default {{ $entry['selected'] == $key ? 'active' : '' }} selected_cd" data-id="{{ $entry['id'] }}">
+                {{ Form::radio('selected[]', $key, \App\Helpers\Helper::isCheckd($key, $entry['selected']), ['name' => 'cd']) }} {{ $val }}
+            </label>
+        @endforeach
+    </div>
 @endif
 
 
