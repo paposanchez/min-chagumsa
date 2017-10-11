@@ -3,7 +3,7 @@
 @section( 'content' )
     <div id='main_wrap'>
 
-        <div id='mv2_wrap'>
+        <div id='mv2_wrap' style="height: 330px;">
             <div class='mv2_top'>
                 {{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/mv2_top_text.png")) }}
                 <a href='{{ url("/sample") }}'>인증서 샘플보기</a>
