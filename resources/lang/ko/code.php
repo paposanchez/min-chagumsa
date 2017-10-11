@@ -537,6 +537,12 @@ return [
         'D' => 'D',
         'AAA' => 'AAA'
     ],
+    //1339
+    'flood_state_cd' => [
+        'none' => '없음',
+        'suspicion' => '침수의심',
+        'flooded' => '침수'
+    ],
 
     //진단 항목 코드
 

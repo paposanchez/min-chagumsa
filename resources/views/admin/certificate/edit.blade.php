@@ -425,19 +425,40 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">침수점검</label>
+                                <div class="col-sm-7">
+                                    <div class="btn-group btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default {{ $order->certificates->usage_flood_cd == 1339 ? 'active' : '' }}">
+                                            {{ Form::radio('certificates_usage_flood_cd', 1339, \App\Helpers\Helper::isCheckd(1339, $order->certificates->usage_flood_cd)) }}
+                                            없음
+                                        </label>
+                                        <label class="btn btn-default {{ $order->certificates->usage_history_cd == 1340 ? 'active' : '' }}">
+                                            {{ Form::radio('certificates_usage_flood_cd', 1340, \App\Helpers\Helper::isCheckd(1340, $order->certificates->usage_flood_cd)) }}
+                                            침수의심
+                                        </label>
+                                        <label class="btn btn-default {{ $order->certificates->usage_history_cd == 1341 ? 'active' : '' }}">
+                                            {{ Form::radio('certificates_usage_flood_cd', 1341, \App\Helpers\Helper::isCheckd(1341, $order->certificates->usage_flood_cd)) }}
+                                            침
+                                        </label>
+                                    </div>
+                                    @if ($errors->has('certificates_usage_flood_cd'))
+                                        <span class="text-danger">
+                                            {{ $errors->first('certificates_usage_flood_cd') }}
+                                        </span>
+                                    @endif
+                                </div>
 
-                            {{--<div class="form-group no-margin">--}}
-                                {{--<label for="" class="control-label col-md-offset-5 col-md-3">사용이력(B) 감가금액</label>--}}
-                                {{--<div class="col-sm-4">--}}
+                                {{--<div class="col-sm-3">--}}
                                     {{--<div class="input-group">--}}
-                                        {{--<input type="text" class="form-control" name="history_depreciation"--}}
-                                               {{--id="history_depreciation"--}}
-                                               {{--value="{{ $order->certificates->history_depreciation ? $order->certificates->history_depreciation : '' }}"--}}
-                                               {{--required>--}}
-                                        {{--<span class="input-group-addon">원</span>--}}
+                                        {{--<input type="text" class="form-control cert-calculate-cost" placeholder=""--}}
+                                               {{--title="" name="certificates_usage_mileage_depreciation"--}}
+                                               {{--id="certificates_usage_mileage_depreciation"--}}
+                                               {{--value="" required>--}}
+                                        {{--<span class="input-group-addon">만원</span>--}}
                                     {{--</div>--}}
                                 {{--</div>--}}
-                            {{--</div>--}}
+                            </div>
                         </div>
 
                         <div class="panel-heading">
@@ -454,7 +475,7 @@
 
                         <div class="panel-body">
                             <div class="form-group">
-                                <label class="control-label col-sm-2">주요외판</label>
+                                <label class="control-label col-sm-2">차량외부점검</label>
                                 <div class="col-sm-10">
                                     <div class="btn-group" data-toggle="buttons">
                                         @foreach($certificate_states as $key=>$val )
@@ -468,46 +489,49 @@
                                             {{ $errors->first('performance_exterior_cd') }}
                                         </span>
                                     @endif
+
                                     <textarea name="exterior_comment" class="form-control" required="required"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->exterior_comment : '' }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2">침수흔적 점검</label>
+                                <label class="control-label col-sm-2">차량내부점검</label>
                                 <div class="col-sm-10">
                                     <div class="btn-group" data-toggle="buttons">
                                         @foreach($certificate_states as $key=>$val )
-                                            <label class="btn btn-default {{ $order->certificates->performance_flooded_cd == $key ? 'active' : '' }}">
-                                                {{ Form::radio('performance_flooded_cd', $key, $order->certificates->performance_flooded_cd == $key) }} {{ $val }}
+                                            <label class="btn btn-default {{ $order->certificates->performance_interior_cd == $key ? 'active' : '' }}">
+                                                {{ Form::radio('performance_interior_cd', $key, $order->certificates->performance_interior_cd == $key) }} {{ $val }}
                                             </label>
                                         @endforeach
                                     </div>
-                                    @if ($errors->has('performance_flooded_cd'))
+                                    @if ($errors->has('performance_interior_cd'))
                                         <span class="text-danger">
-                                            {{ $errors->first('performance_flooded_cd') }}
+                                            {{ $errors->first('performance_interior_cd') }}
                                         </span>
                                     @endif
-                                    <textarea name="flooded_comment" class="form-control" required="required"
-                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->flooded_comment : '' }}</textarea>
+
+                                    <textarea name="interior_comment" class="form-control" required="required"
+                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->interior_comment : '' }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2">소모품상태점검</label>
+                                <label class="control-label col-sm-2">전장장착품작동상태</label>
                                 <div class="col-sm-10">
                                     <div class="btn-group" data-toggle="buttons">
-                                        @foreach($certificate_states as $key=>$val )
-                                            <label class="btn btn-default {{ $order->certificates->performance_consumption_cd == $key ? 'active' : '' }}">
-                                                {{ Form::radio('performance_consumption_cd', $key, $order->certificates->performance_consumption_cd == $key) }} {{ $val }}
+                                        @foreach($operation_state_cd as $key=>$val )
+                                            <label class="btn btn-default {{ $order->certificates->performance_plugin_cd == $key ? 'active' : '' }}">
+                                                {{ Form::radio('performance_plugin_cd', $key, $order->certificates->performance_plugin_cd == $key) }} {{ $val }}
                                             </label>
                                         @endforeach
                                     </div>
-                                    @if ($errors->has('performance_consumption_cd'))
+                                    @if ($errors->has('performance_plugin_cd'))
                                         <span class="text-danger">
-                                            {{ $errors->first('performance_consumption_cd') }}
+                                            {{ $errors->first('performance_plugin_cd') }}
                                         </span>
                                     @endif
-                                    <textarea name="consumption_comment" class="form-control" required="required"
-                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->consumption_comment : '' }}</textarea>
+
+                                    <textarea name="plugin_comment" class="form-control" required="required"
+                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->plugin_comment : '' }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -527,6 +551,46 @@
                                     @endif
                                     <textarea name="broken_comment" class="form-control" required="required"
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->broken_comment : '' }}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">원동기</label>
+                                <div class="col-sm-10">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        @foreach($certificate_states as $key=>$val )
+                                            <label class="btn btn-default {{ $order->certificates->performance_engine_cd == $key ? 'active' : '' }}">
+                                                {{ Form::radio('performance_engine_cd', $key, $order->certificates->performance_engine_cd == $key) }} {{ $val }}
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                    @if ($errors->has('performance_engine_cd'))
+                                        <span class="text-danger">
+                                            {{ $errors->first('performance_engine_cd') }}
+                                        </span>
+                                    @endif
+
+                                    <textarea name="engine_comment" class="form-control" required="required"
+                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->engine_comment : '' }}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">변속기</label>
+                                <div class="col-sm-10">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        @foreach($certificate_states as $key=>$val )
+                                            <label class="btn btn-default {{ $order->certificates->performance_transmission_cd == $key ? 'active' : '' }}">
+                                                {{ Form::radio('performance_transmission_cd', $key, $order->certificates->performance_transmission_cd == $key) }} {{ $val }}
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                    @if ($errors->has('performance_transmission_cd'))
+                                        <span class="text-danger">
+                                            {{ $errors->first('performance_transmission_cd') }}
+                                        </span>
+                                    @endif
+
+                                    <textarea name="transmission_comment" class="form-control" required="required"
+                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->transmission_comment : '' }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -550,107 +614,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2">전기</label>
-                                <div class="col-sm-10">
-                                    <div class="btn-group" data-toggle="buttons">
-                                        @foreach($certificate_states as $key=>$val )
-                                            <label class="btn btn-default {{ $order->certificates->performance_electronic_cd == $key ? 'active' : '' }}">
-                                                {{ Form::radio('performance_electronic_cd', $key, $order->certificates->performance_electronic_cd == $key) }} {{ $val }}
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                    @if ($errors->has('performance_electronic_cd'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('performance_electronic_cd') }}
-                                        </span>
-                                    @endif
-
-                                    <textarea name="electronic_comment" class="form-control" required="required"
-                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->electronic_comment : '' }}</textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">주요내판</label>
-                                <div class="col-sm-10">
-                                    <div class="btn-group" data-toggle="buttons">
-                                        @foreach($certificate_states as $key=>$val )
-                                            <label class="btn btn-default {{ $order->certificates->performance_interior_cd == $key ? 'active' : '' }}">
-                                                {{ Form::radio('performance_interior_cd', $key, $order->certificates->performance_interior_cd == $key) }} {{ $val }}
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                    @if ($errors->has('performance_interior_cd'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('performance_interior_cd') }}
-                                        </span>
-                                    @endif
-
-                                    <textarea name="interior_comment" class="form-control" required="required"
-                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->interior_comment : '' }}</textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">차량외판점검</label>
-                                <div class="col-sm-10">
-                                    <div class="btn-group" data-toggle="buttons">
-                                        @foreach($certificate_states as $key=>$val )
-                                            <label class="btn btn-default {{ $order->certificates->performance_exteriortest_cd == $key ? 'active' : '' }}">
-                                                {{ Form::radio('performance_exteriortest_cd', $key, $order->certificates->performance_exteriortest_cd == $key) }} {{ $val }}
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                    @if ($errors->has('performance_exteriortest_cd'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('performance_exteriortest_cd') }}
-                                        </span>
-                                    @endif
-
-                                    <textarea name="exteriortest_comment" class="form-control" required="required"
-                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->exteriortest_comment : '' }}</textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">전장품유리기어/작동상태점검</label>
-                                <div class="col-sm-10">
-                                    <div class="btn-group" data-toggle="buttons">
-                                        @foreach($certificate_states as $key=>$val )
-                                            <label class="btn btn-default {{ $order->certificates->performance_plugin_cd == $key ? 'active' : '' }}">
-                                                {{ Form::radio('performance_plugin_cd', $key, $order->certificates->performance_plugin_cd == $key) }} {{ $val }}
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                    @if ($errors->has('performance_plugin_cd'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('performance_plugin_cd') }}
-                                        </span>
-                                    @endif
-
-                                    <textarea name="plugin_comment" class="form-control" required="required"
-                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->plugin_comment : '' }}</textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">엔진(원동기)</label>
-                                <div class="col-sm-10">
-                                    <div class="btn-group" data-toggle="buttons">
-                                        @foreach($certificate_states as $key=>$val )
-                                            <label class="btn btn-default {{ $order->certificates->performance_engine_cd == $key ? 'active' : '' }}">
-                                                {{ Form::radio('performance_engine_cd', $key, $order->certificates->performance_engine_cd == $key) }} {{ $val }}
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                    @if ($errors->has('performance_engine_cd'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('performance_engine_cd') }}
-                                        </span>
-                                    @endif
-
-                                    <textarea name="engine_comment" class="form-control" required="required"
-                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->engine_comment : '' }}</textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">조향장치</label>
+                                <label class="control-label col-sm-2">조향장치 및 현가장치</label>
                                 <div class="col-sm-10">
                                     <div class="btn-group" data-toggle="buttons">
                                         @foreach($certificate_states as $key=>$val )
@@ -669,111 +633,6 @@
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->steering_comment : '' }}</textarea>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">타이어</label>
-                                <div class="col-sm-10">
-                                    <div class="btn-group" data-toggle="buttons">
-                                        @foreach($certificate_states as $key=>$val )
-                                            <label class="btn btn-default {{ $order->certificates->performance_tire_cd == $key ? 'active' : '' }}">
-                                                {{ Form::radio('performance_tire_cd', $key, $order->certificates->performance_tire_cd == $key) }} {{ $val }}
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                    @if ($errors->has('performance_tire_cd'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('performance_tire_cd') }}
-                                        </span>
-                                    @endif
-
-                                    <textarea name="tire_comment" class="form-control" required="required"
-                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->tire_comment : '' }}</textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">사고유무점검</label>
-                                <div class="col-sm-10">
-                                    <div class="btn-group" data-toggle="buttons">
-                                        @foreach($certificate_states as $key=>$val )
-                                            <label class="btn btn-default {{ $order->certificates->performance_accident_cd == $key ? 'active' : '' }}">
-                                                {{ Form::radio('performance_accident_cd', $key, $order->certificates->performance_accident_cd == $key) }} {{ $val }}
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                    @if ($errors->has('performance_accident_cd'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('performance_accident_cd') }}
-                                        </span>
-                                    @endif
-
-                                    <textarea name="accident_comment" class="form-control" required="required"
-                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->accident_comment : '' }}</textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">차량실내점검</label>
-                                <div class="col-sm-10">
-                                    <div class="btn-group" data-toggle="buttons">
-                                        @foreach($certificate_states as $key=>$val )
-                                            <label class="btn btn-default {{ $order->certificates->performance_interiortest_cd == $key ? 'active' : '' }}">
-                                                {{ Form::radio('performance_interiortest_cd', $key, $order->certificates->performance_interiortest_cd == $key) }} {{ $val }}
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                    @if ($errors->has('performance_interiortest_cd'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('performance_interiortest_cd') }}
-                                        </span>
-                                    @endif
-
-                                    <textarea name="interiortest_comment" class="form-control" required="required"
-                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->interiortest_comment : '' }}</textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">주행테스트</label>
-                                <div class="col-sm-10">
-                                    <div class="btn-group" data-toggle="buttons">
-                                        @foreach($certificate_states as $key=>$val )
-                                            <label class="btn btn-default {{ $order->certificates->performance_driving_cd == $key ? 'active' : '' }}">
-                                                {{ Form::radio('performance_driving_cd', $key, $order->certificates->performance_driving_cd == $key) }} {{ $val }}
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                    @if ($errors->has('performance_driving_cd'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('performance_driving_cd') }}
-                                        </span>
-                                    @endif
-
-                                    <textarea name="driving_comment" class="form-control" required="required"
-                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->driving_comment : '' }}</textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">변속기</label>
-                                <div class="col-sm-10">
-                                    <div class="btn-group" data-toggle="buttons">
-                                        @foreach($certificate_states as $key=>$val )
-                                            <label class="btn btn-default {{ $order->certificates->performance_transmission_cd == $key ? 'active' : '' }}">
-                                                {{ Form::radio('performance_transmission_cd', $key, $order->certificates->performance_transmission_cd == $key) }} {{ $val }}
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                    @if ($errors->has('performance_transmission_cd'))
-                                        <span class="text-danger">
-                                            {{ $errors->first('performance_transmission_cd') }}
-                                        </span>
-                                    @endif
-
-                                    <textarea name="transmission_comment" class="form-control" required="required"
-                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->transmission_comment : '' }}</textarea>
-                                </div>
-                            </div>
-
                             <div class="form-group">
                                 <label class="control-label col-sm-2">제동장치</label>
                                 <div class="col-sm-10">
@@ -794,21 +653,66 @@
                                               style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->braking_comment : '' }}</textarea>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">전기장치</label>
+                                <div class="col-sm-10">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        @foreach($certificate_states as $key=>$val )
+                                            <label class="btn btn-default {{ $order->certificates->performance_electronic_cd == $key ? 'active' : '' }}">
+                                                {{ Form::radio('performance_electronic_cd', $key, $order->certificates->performance_electronic_cd == $key) }} {{ $val }}
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                    @if ($errors->has('performance_electronic_cd'))
+                                        <span class="text-danger">
+                                            {{ $errors->first('performance_electronic_cd') }}
+                                        </span>
+                                    @endif
 
+                                    <textarea name="electronic_comment" class="form-control" required="required"
+                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->electronic_comment : '' }}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">휠&타이어</label>
+                                <div class="col-sm-10">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        @foreach($certificate_states as $key=>$val )
+                                            <label class="btn btn-default {{ $order->certificates->performance_tire_cd == $key ? 'active' : '' }}">
+                                                {{ Form::radio('performance_tire_cd', $key, $order->certificates->performance_tire_cd == $key) }} {{ $val }}
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                    @if ($errors->has('performance_tire_cd'))
+                                        <span class="text-danger">
+                                            {{ $errors->first('performance_tire_cd') }}
+                                        </span>
+                                    @endif
 
-                            {{--<div class="form-group no-margin">--}}
-                                {{--<label for="" class="control-label col-md-offset-5 col-md-3">차량성능상태(C) 감가금액</label>--}}
-                                {{--<div class="col-sm-4">--}}
-                                    {{--<div class="input-group">--}}
-                                        {{--<input type="text" class="form-control" name="performance_depreciation"--}}
-                                               {{--id="performance_depreciation"--}}
-                                               {{--value="{{ $order->certificates->performance_depreciation }}" required>--}}
-                                        {{--<span class="input-group-addon">원</span>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+                                    <textarea name="tire_comment" class="form-control" required="required"
+                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->tire_comment : '' }}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">주행테스트</label>
+                                <div class="col-sm-10">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        @foreach($certificate_states as $key=>$val )
+                                            <label class="btn btn-default {{ $order->certificates->performance_driving_cd == $key ? 'active' : '' }}">
+                                                {{ Form::radio('performance_driving_cd', $key, $order->certificates->performance_driving_cd == $key) }} {{ $val }}
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                    @if ($errors->has('performance_driving_cd'))
+                                        <span class="text-danger">
+                                            {{ $errors->first('performance_driving_cd') }}
+                                        </span>
+                                    @endif
 
-
+                                    <textarea name="driving_comment" class="form-control" required="required"
+                                              style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->driving_comment : '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="panel-heading">
@@ -828,10 +732,10 @@
                                 <label class="control-label col-sm-2">요인</label>
                                 <div class="col-sm-7">
                                     <div class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-default {{ $order->certificates->special_flooded_cd == 3 ? 'active' : '' }}">
-                                            {{ Form::checkbox('certificates_special_flooded_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_flooded_cd)) }}
-                                            침수차량
-                                        </label>
+                                        {{--<label class="btn btn-default {{ $order->certificates->special_flooded_cd == 3 ? 'active' : '' }}">--}}
+                                            {{--{{ Form::checkbox('certificates_special_flooded_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_flooded_cd)) }}--}}
+                                            {{--침수차량--}}
+                                        {{--</label>--}}
                                         <label class="btn btn-default {{ $order->certificates->special_fire_cd == 3 ? 'active' : '' }}">
                                             {{ Form::checkbox('certificates_special_fire_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_fire_cd)) }}
                                             화재차량
@@ -942,20 +846,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                {{--<div class="form-group no-margin">--}}
-                                    {{--<label for="" class="control-label col-md-offset-5 col-md-3">특별요인(S) 감가금액</label>--}}
-                                    {{--<div class="col-sm-4">--}}
-                                        {{--<div class="input-group">--}}
-                                            {{--<input type="text" class="form-control" name="special_depreciation"--}}
-                                                   {{--id="special_depreciation"--}}
-                                                   {{--value="{{ $order->certificates->special_depreciation ? $order->certificates->special_depreciation : '' }}"--}}
-                                                   {{--required>--}}
-                                            {{--<span class="input-group-addon">원</span>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-
                             </div>
                         </div>
 
@@ -1070,40 +960,40 @@
                 cars_fuel_consumption: "연비를 선택해 주세요.",
                 passenger: "승차인원을 입력해 주세요.",
 
-                certificates_usage_history_depreciation: "사고/수리이력 감가금액을 입력해주세요.",
-                certificates_basic_etc: "색상 등 기타 감가금액을 입력해주세요.",
-                basic_registraion_depreciation : "등록일 보정 평가액을 선택해주세요.",
-                certificates_usage_mileage_depreciation: "주행거리 감가금액을 입력해주세요.",
-                exterior_comment: "주요외판 점검의견을 입력해주세요.",
-                flooded_comment: "침수흔적 점검의견을 입력해주세요.",
-                consumption_comment: "소모품상태 점검의견을 입력해주세요.",
-                broken_comment: "고장진단 점검의견을 입력해주세요.",
-                power_comment: "동력전달 점검의견을 입력해주세요.",
-                electronic_comment: "전기 점검의견을 입력해주세요.",
-                interior_comment: "주요내판 점검의견을 입력해주세요.",
-                exteriortest_comment: "차량외판 점검의견을 입력해주세요.",
-                plugin_comment: "전장품 유리기어/작동상태 점검의견을 입력해주세요.",
-                engine_comment: "엔진(원동기) 점검의견을 입력해주세요.",
-                steering_comment: "조향장치 점검의견을 입력해주세요.",
-                tire_comment: "타이어 점검의견을 입력해주세요.",
-                accident_comment: "사고유무 점검의견을 입력해주세요.",
-                interiortest_comment: "차량실내 점검의견을 입력해주세요.",
-                driving_comment: "주행테스트 점검의견을 입력해주세요.",
-                transmission_comment: "변속기 점검의견을 입력해주세요.",
-                braking_comment: "제동장치 점검의견을 입력해주세요.",
-//                certificates_history_owner: "소유자 변경이력을 입력해주세요.",
-                certificates_history_garage: "차고지 변경이력을 입력해주세요.",
-                certificates_history_maintance: "정비 변경이력을 입력해주세요.",
-                certificates_history_purpose: "용도 변경이력을 입력해주세요.",
-                certificates_opinion: "종합의견을 입력해 주세요.",
-                grade_state_cd: "차량등급을 선택해주세요.",
-                certificates_valuation: "평가금액을 입력하세요.",
-                certificates_history_insurance: "보험사고이력을 입력해주세요.",
-
-                history_depreciation: "주요이력평가 감가금액을 입력해주세요.",
-                basic_depreciation: "기본평가 감가금액을 입력해주세요.",
-                special_depreciation: "특별요인 감가금액을 입력해주세요.",
-                performance_depreciation: "차량성능삼태 감가금액을 입력해주세요."
+//                certificates_usage_history_depreciation: "사고/수리이력 감가금액을 입력해주세요.",
+//                certificates_basic_etc: "색상 등 기타 감가금액을 입력해주세요.",
+//                basic_registraion_depreciation : "등록일 보정 평가액을 선택해주세요.",
+//                certificates_usage_mileage_depreciation: "주행거리 감가금액을 입력해주세요.",
+//                exterior_comment: "주요외판 점검의견을 입력해주세요.",
+//                flooded_comment: "침수흔적 점검의견을 입력해주세요.",
+//                consumption_comment: "소모품상태 점검의견을 입력해주세요.",
+//                broken_comment: "고장진단 점검의견을 입력해주세요.",
+//                power_comment: "동력전달 점검의견을 입력해주세요.",
+//                electronic_comment: "전기 점검의견을 입력해주세요.",
+//                interior_comment: "주요내판 점검의견을 입력해주세요.",
+//                exteriortest_comment: "차량외판 점검의견을 입력해주세요.",
+//                plugin_comment: "전장품 유리기어/작동상태 점검의견을 입력해주세요.",
+//                engine_comment: "엔진(원동기) 점검의견을 입력해주세요.",
+//                steering_comment: "조향장치 점검의견을 입력해주세요.",
+//                tire_comment: "타이어 점검의견을 입력해주세요.",
+//                accident_comment: "사고유무 점검의견을 입력해주세요.",
+//                interiortest_comment: "차량실내 점검의견을 입력해주세요.",
+//                driving_comment: "주행테스트 점검의견을 입력해주세요.",
+//                transmission_comment: "변속기 점검의견을 입력해주세요.",
+//                braking_comment: "제동장치 점검의견을 입력해주세요.",
+////                certificates_history_owner: "소유자 변경이력을 입력해주세요.",
+//                certificates_history_garage: "차고지 변경이력을 입력해주세요.",
+//                certificates_history_maintance: "정비 변경이력을 입력해주세요.",
+//                certificates_history_purpose: "용도 변경이력을 입력해주세요.",
+//                certificates_opinion: "종합의견을 입력해 주세요.",
+//                grade_state_cd: "차량등급을 선택해주세요.",
+//                certificates_valuation: "평가금액을 입력하세요.",
+//                certificates_history_insurance: "보험사고이력을 입력해주세요.",
+//
+//                history_depreciation: "주요이력평가 감가금액을 입력해주세요.",
+//                basic_depreciation: "기본평가 감가금액을 입력해주세요.",
+//                special_depreciation: "특별요인 감가금액을 입력해주세요.",
+//                performance_depreciation: "차량성능삼태 감가금액을 입력해주세요."
             },
 //        errorPlacement: function(error, element) {
 //            var chk_name = element.attr("name");

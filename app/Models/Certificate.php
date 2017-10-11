@@ -77,7 +77,8 @@ class Certificate Extends Model
                 'driving_comment',
                 'transmission_comment',
                 'braking_comment',
-                'basic_depreciation'
+                'basic_depreciation',
+                'usage_flood_cd'
         ];
 
 
@@ -144,6 +145,9 @@ class Certificate Extends Model
         }
         public function usage_history(){
                 return $this->hasOne(Code::class, 'id', 'usage_history_cd');
+        }
+        public function usage_flood(){
+                return $this->hasOne(Code::class, 'id', 'usage_flood_cd');
         }
         public function performance_exterior(){
                 return $this->hasOne(Code::class, 'id', 'performance_exterior_cd');
