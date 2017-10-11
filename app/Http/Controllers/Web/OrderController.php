@@ -834,7 +834,7 @@ class OrderController extends Controller
         $users = \App\Models\Role::find(4)->users;
         $garages = [];
         foreach ($users as $user) {
-            if ($user->user_extra->users_id != 4 && $user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
+            if ($user->user_extra->users_id != 4 && $user->status_cd !=2 && $user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
                 $garages[$user->id] = $user->name;
             }
 

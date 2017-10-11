@@ -173,7 +173,13 @@
 
                             <li class="list-group-item">
                                 <small>외부색상</small>
-                                {!! Form::select('cars_exterior_color', $select_color, [$car->exterior_color_cd ? $car->exterior_color_cd : ''], ['class'=>'form-control', 'required']) !!}
+                                {!! Form::select('cars_exterior_color', $select_color, [$car->exterior_color_cd ? $car->exterior_color_cd : ''], ['class'=>'form-control', 'id'=>'cars_exterior_color', 'required']) !!}
+                            </li>
+
+                            <li class="list-group-item" id="exterior_color_etc" style="display: none;">
+                                <small>외부 기타 색상</small>
+                                <input type="text" class="form-control" name="car_exterior_color_etc"
+                                       value="{{ $car->exterior_color_etc ? $car->exterior_color_etc : '' }}">
                             </li>
 
                             {{--<li class="list-group-item">--}}
@@ -202,7 +208,13 @@
 
                             <li class="list-group-item">
                                 <small>사용연료</small>
-                                {!! Form::select('cars_fueltype_cd', $select_fueltype, [$car->fueltype_cd ? $car->fueltype_cd : '' ], ['class' => 'form-control', 'required']) !!}
+                                {!! Form::select('cars_fueltype_cd', $select_fueltype, [$car->fueltype_cd ? $car->fueltype_cd : '' ], ['class' => 'form-control', 'id' => 'cars_fueltype_cd', 'required']) !!}
+                            </li>
+
+                            <li class="list-group-item" id="fueltype_etc" style="display: none;">
+                                <small>기타 연료</small>
+                                <input type="text" class="form-control" name="car_fueltype_etc"
+                                       value="{{ $car->fueltype_etc ? $car->fueltype_etc : '' }}">
                             </li>
 
                             <li class="list-group-item">
@@ -328,7 +340,7 @@
 
                         <div class="panel-heading">
                             <div class="row">
-                                <label for="" class="control-label col-sm-2">사용이력(B)</label>
+                                <label for="" class="control-label col-sm-2">주요이력평가(B)</label>
                                 <div class="col-sm-3 col-sm-offset-7 has-error">
                                     <div class="input-group">
                                         <input type="text" class="form-control cert-calculate-subtotal" placeholder="" title="" name="history_depreciation" id="history_depreciation" value="{{ $order->certificates->history_depreciation }}">
@@ -847,7 +859,7 @@
 
 
                             <div class="form-group">
-                                <label class="control-label col-sm-2">변경이력</label>
+                                <label class="control-label col-sm-2"></label>
                                 <div class="col-sm-10">
 
                                     <div class="form-group">
@@ -861,7 +873,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-sm-3">차고지변경이력</label>
+                                        <label class="control-label col-sm-3">최종차고지이력</label>
                                         <div class="col-sm-9">
                                             <input type="text" id="certificates_history_garage"
                                                    name="certificates_history_garage" class="form-control"
@@ -882,7 +894,7 @@
                                                 <span class="input-group-addon">건</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-offset-3 col-md-9">
+                                        <div class="col-md-offset-3 col-md-9" style="margin-top: 5px;">
                                             <div class="plugin-attach" id="plugin-attachment">
 
                                                 @if ($errors->has('attachment'))
@@ -905,17 +917,17 @@
                                     </div>
 
 
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3">소유자변경이력</label>
-                                        <div class="col-sm-4">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control"
-                                                       name="certificates_history_owner" id="certificates_history_owner"
-                                                       value="{{ $order->certificates->history_owner }}" required>
-                                                <span class="input-group-addon">건</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {{--<div class="form-group">--}}
+                                        {{--<label class="control-label col-sm-3">소유자변경이력</label>--}}
+                                        {{--<div class="col-sm-4">--}}
+                                            {{--<div class="input-group">--}}
+                                                {{--<input type="text" class="form-control"--}}
+                                                       {{--name="certificates_history_owner" id="certificates_history_owner"--}}
+                                                       {{--value="{{ $order->certificates->history_owner }}" required>--}}
+                                                {{--<span class="input-group-addon">건</span>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
 
                                     <div class="form-group no-margin">
                                         <label class="control-label col-sm-3">정비이력</label>
@@ -1079,7 +1091,7 @@
                 driving_comment: "주행테스트 점검의견을 입력해주세요.",
                 transmission_comment: "변속기 점검의견을 입력해주세요.",
                 braking_comment: "제동장치 점검의견을 입력해주세요.",
-                certificates_history_owner: "소유자 변경이력을 입력해주세요.",
+//                certificates_history_owner: "소유자 변경이력을 입력해주세요.",
                 certificates_history_garage: "차고지 변경이력을 입력해주세요.",
                 certificates_history_maintance: "정비 변경이력을 입력해주세요.",
                 certificates_history_purpose: "용도 변경이력을 입력해주세요.",
@@ -1088,7 +1100,7 @@
                 certificates_valuation: "평가금액을 입력하세요.",
                 certificates_history_insurance: "보험사고이력을 입력해주세요.",
 
-                history_depreciation: "사용이력 감가금액을 입력해주세요.",
+                history_depreciation: "주요이력평가 감가금액을 입력해주세요.",
                 basic_depreciation: "기본평가 감가금액을 입력해주세요.",
                 special_depreciation: "특별요인 감가금액을 입력해주세요.",
                 performance_depreciation: "차량성능삼태 감가금액을 입력해주세요."
@@ -1142,6 +1154,21 @@
 
         });
 
+        $('#cars_exterior_color').change(function (){
+            if($('#cars_exterior_color').val() == 1132){
+                $('#exterior_color_etc').css('display', '')
+            }else{
+                $('#exterior_color_etc').css('display', 'none')
+            }
+        });
+
+        $('#cars_fueltype_cd').change(function(){
+           if($('#cars_fueltype_cd').val() == 1106){
+               $('#fueltype_etc').css('display', '')
+           }else{
+               $('#fueltype_etc').css('display', 'none')
+           }
+        });
     });
 
 
@@ -1204,10 +1231,24 @@
                         $.notify(responseJSON.msg, "error");
                     }
                 }
-
-
             }
         });
+
+
+            if($('#cars_exterior_color').val() == 1132){
+                $('#exterior_color_etc').css('display', '')
+            }else{
+                $('#exterior_color_etc').css('display', 'none')
+            }
+
+
+
+            if($('#cars_fueltype_cd').val() == 1106){
+                $('#fueltype_etc').css('display', '')
+            }else{
+                $('#fueltype_etc').css('display', 'none')
+            }
+
 
     });
 </script>

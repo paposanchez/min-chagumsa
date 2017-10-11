@@ -159,7 +159,7 @@ return [
         'diesel' => '디젤',
         'electric' => '전기',
         'compressed_natural_gas' => 'Compressed Natural Gas',
-        'none' => '알수없음'
+        'none' => '기타'
     ],
     'drivetrain' => [
         '4x2/2_wheel' => '4x2/2-wheel drive',
@@ -535,6 +535,7 @@ return [
         'B' => 'B',
         'C' => 'C',
         'D' => 'D',
+        'AAA' => 'AAA'
     ],
 
     //진단 항목 코드

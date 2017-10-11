@@ -51,7 +51,8 @@ class Code extends Model {
 
         public static function getSelectList($group = '') {
 
-                $where = DB::table('codes')->orderBy('id');
+//                $where = DB::table('codes')->orderBy('id');
+                $where = DB::table('codes')->orderBy('sort');
                 if ($group) {
                         $where->where("group", $group);
                 }

@@ -29,7 +29,9 @@ class Car Extends Model
         'brands_id',
         'models_id', //
         'details_id',
-        'grades_id'
+        'grades_id',
+        'exterior_color_etc',
+        'fueltype_etc'
     ];
 
     protected $dates = [

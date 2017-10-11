@@ -223,13 +223,15 @@ class CertificateController extends Controller
             "engine_type" => $request->get("cars_engine_type"),
             "fueltype_cd" => $request->get("cars_fueltype_cd"),
             "passenger" => $request->get("passenger"),
-            "kind_cd" => $request->get("kind_cd")
+            "kind_cd" => $request->get("kind_cd"),
+            "exterior_color_etc" => $request->get('car_exterior_color_etc') ? $request->get('car_exterior_color_etc') : '',
+            "fueltype_etc" => $request->get('car_fueltype_etc') ? $request->get('car_fueltype_etc') : ''
         ];
 
         $certificate_data = [
             "orders_id" => $order_where->id,
             "vin_yn_cd" => $request->get("certificates_vin_yn_cd"),
-            "history_owner" => $request->get('certificates_history_owner'),
+//            "history_owner" => $request->get('certificates_history_owner'),
             "history_maintance" => $request->get('certificates_history_maintance'),
             "history_insurance" => $request->get("certificates_history_insurance"),
             "history_purpose" => $request->get("certificates_history_purpose"),
