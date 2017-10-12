@@ -61,7 +61,7 @@ class Order Extends Model
         public function getCarFullName() {
                 return implode(" ", [
                         $this->car->brand->name,
-                        $this->car->models->name,
+//                        $this->car->models->name,
                         $this->car->detail->name,
                         $this->car->grade->name
                 ]);

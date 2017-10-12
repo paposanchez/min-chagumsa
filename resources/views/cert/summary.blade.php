@@ -1,8 +1,12 @@
 @extends( 'layouts.report' )
 
 @section( 'content' )
+    <div class="text-right" style="font-size: 20px;">
+        인증서 번호 {{ $order->getOrderNumber() }}
+    </div>
     <div class='report_title_type1' style="margin-bottom: 20px;">
-        {{ $order->getOrderNumber() }}
+        {{--{{ $order->getOrderNumber() }}--}}
+        {{ $order->getCarFullName() }}
         <span style="font-size:12px;"><strong>보증기간</strong>
             {{--{{ $order->certificates->updated_at->format('Y년 m월 d일 H:i') }}--}}
             {{--~ {{ $order->certificates->getExpireDate()->format('Y년 m월 d일 H:i') }}--}}
@@ -37,7 +41,7 @@
             <tr>
                 <th>차대번호</th>
                 <td>
-                    {{ $order->isIssued() ? $order->car_number : '미입력 (검토중)' }}
+                    {{ $order->isIssued() ? $order->car->vin_number : '미입력 (검토중)' }}
                 </td>
             </tr>
             <tr>
