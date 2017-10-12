@@ -90,6 +90,14 @@ html, body, #document {height:100%;min-height:100%;}
 .status_char.char_c:before {content:'C';}
 .status_char.char_r:before {content:'R';}
 
+.status_char_ok {position:relative;padding-left:25px;}
+.status_char_ok:before {
+  position:absolute;top:0;left:0;display:inline-block;color:#9999;content:'';background:#fff;width:20px;height:20px;line-height:20px;border-radius:100%;text-align:center;
+  content: '✓';
+  border: 2px #ccd1d1 solid;
+}
+
+
 .car_check_wrap {margin:0 auto;position:relative;background:url('../img/report/car_icon.png') center center no-repeat;width:334px;height:216px;}
 .car_check_wrap.type2 {background:url('../img/report/car_icon2.png') center center no-repeat;}
 .car_check_wrap .status_char {position:absolute;}
