@@ -310,11 +310,13 @@ class CertificateController extends Controller
         try {
             DB::beginTransaction();
 
-            $order_car = $order_where->orderCar;
             if (count($car_data) > 0) {
                 $cars_id = $order_where->cars_id;
 
-                $car_filter = array_filter(array_map('trim', $car_data));
+                $car_filter = array_filter($car_data, function($value){
+                    return ($value !== null && $value !== false && $value !== '');
+                });
+
 
 
                 if ($cars_id) {
@@ -339,7 +341,9 @@ class CertificateController extends Controller
 
             if (count($certificate_data) > 0) {
 
-                $certificates_filter = array_filter(array_map('trim', $certificate_data));
+                $certificates_filter = array_filter($certificate_data, function($value){
+                    return ($value !== null && $value !== false && $value !== '');
+                });
 
 
                 if (!$certificates_where) {
@@ -355,7 +359,9 @@ class CertificateController extends Controller
             }
             if (count($order_data) > 0) {
 
-                $order_filter = array_filter(array_map('trim', $order_data));
+                $order_filter = array_filter($order_data, function($value){
+                    return ($value !== null && $value !== false && $value !== '');
+                });
                 $order_where->update($order_filter);
                 $order_where->save();
             }
