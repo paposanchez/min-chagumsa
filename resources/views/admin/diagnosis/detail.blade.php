@@ -204,17 +204,18 @@
         var onDragEnter = function(event) {
                 event.preventDefault();
                 $(".dropzone").addClass("dragover");
+                $(this).closest("form").children("div").toggleClass("btn-info").toggleClass("btn-warning");
             },
 
             onDragOver = function(event) {
                 event.preventDefault();
                 if(!$(".dropzone").hasClass("dragover"))
-                    $(".dropzone").addClass("dragover");
+                    $(this).closest("form").children("div").toggleClass("btn-info").toggleClass("btn-warning");
             },
 
             onDragLeave = function(event) {
                 event.preventDefault();
-                $(".dropzone").removeClass("dragover");
+                $(this).closest("form").children("div").toggleClass("btn-warning").toggleClass("btn-info");
             },
 
             onDrop = function(event) {
@@ -225,7 +226,9 @@
                     $(".dropzone").removeClass("dragover");
                     $clicked_container = $(this).closest('.diagnosis-uploader-form').prev('.diagnosis-uploader-container');
                     $(this).closest("form").children("input").prop("files", event.originalEvent.dataTransfer.files);
+                    $(this).closest("form").children("div").toggleClass("btn-warning").toggleClass("btn-info");
                 }else{
+                    $(this).closest("form").children("div").toggleClass("btn-warning").toggleClass("btn-info");
                     $.notify("진단데이터 이미지는 1개의 이미지만 선택 가능합니다.", "error");
                 }
 
