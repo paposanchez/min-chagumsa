@@ -25,6 +25,13 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     // Avatar
     Route::get('thumbnail/{id?}', '\App\Http\Controllers\Admin\ImageController@thumbnail')->name("thumbnail");
     Route::get('avatar/{user_id?}', '\App\Http\Controllers\Admin\ImageController@avatar')->name("avatar");
+
+    // 파일
+    Route::post('file/thumbnail', '\App\Http\Controllers\FileController@thumbnail')->name("file/thumbnail");
+    Route::post('file/upload', '\App\Http\Controllers\FileController@upload')->name("file/upload");
+    Route::post('file/image', '\App\Http\Controllers\FileController@image')->name("file/image");
+    Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");
+    Route::delete('file/delete/{id}', '\App\Http\Controllers\FileController@delete')->name("file/delete");
 });
 
 //Route::get('order/insurance-file-view/{id}', 'TechOrderController@insuranceFileView')->name('order/insurance-file-view');

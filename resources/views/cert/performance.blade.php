@@ -25,7 +25,7 @@
                         <tr>
                                 <th>차종구분</th>
                                 <td>
-                                        {{ $order->isIssued() ? $order->car->getKind->display() : '' }} / {{ $order->car->passenger }}인
+                                        {{ $order->car->getKind->display() }} / {{ $order->car->passenger }}인
                                 </td>
                                 <th>동일성확인</th>
                                 <td>
@@ -39,28 +39,28 @@
                                 </td>
                                 <th>연식</th>
                                 <td>
-                                        {{ $order->isIssued() ? $order->car->year : '-' }}
+                                        {{ $order->car->year }}
                                 </td>
                         </tr>
                         <tr>
                                 <th>최초등록일</th>
                                 <td>
-                                        {{ $order->isIssued() ? $order->car->registration_date : '' }}
+                                        {{ $order->car->registration_date }}
                                 </td>
                                 <th>사용월수</th>
                                 <td>
 
-                                        {{ $order->isIssued() ? $order->car->registration_date : '' }} 개월
+                                        {{ $order->car->registration_date }} 개월
                                 </td>
                         </tr>
                         <tr>
                                 <th>변속기</th>
                                 <td>
-                                        {{ $order->isIssued() ? $order->car->getTransmission->display() : '' }}
+                                        {{ $order->car->getTransmission->display() }}
                                 </td>
                                 <th>색상</th>
                                 <td>
-                                        {{ $order->isIssued() ? $order->car->getExteriorColor->display() : '' }}(외부)
+                                        {{ $order->car->getExteriorColor->display() }}(외부)
                                         {{--/ {{ $order->isIssued() ? $order->car->getInteriorColor->display() : '' }}(내부)--}}
                                 </td>
                         </tr>
@@ -77,7 +77,7 @@
                         <tr>
                                 <th>배기량(cc)</th>
                                 <td>
-                                        {{ $order->isIssued() ? $order->car->displacement : '' }} cc
+                                        {{ $order->car->displacement }} cc
                                 </td>
                                 <th>차량소유자이력</th>
                                 <td>
@@ -87,7 +87,7 @@
                         <tr>
                                 <th>사용연료</th>
                                 <td>
-                                        {{ $order->isIssued() ? $order->car->getFuelType->display() : '' }}
+                                        {{ $order->car->getFuelType->display() }}
                                 </td>
                                 <th>최종등록차고지</th>
                                 <td>

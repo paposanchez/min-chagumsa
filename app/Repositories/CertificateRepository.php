@@ -13,6 +13,7 @@ namespace App\Repositories;
 */
 namespace App\Repositories;
 
+use App\Models\DiagnosisFile;
 use App\Models\Order;
 use App\Models\Code;
 use App\Models\Diagnosis;
@@ -190,8 +191,9 @@ class CertificateRepository {
                                 return view('cert.performance', compact('order', 'order_id', 'url_prefix', 'page' , 'diagnosis', 'diagnosis_extra_a', 'diagnosis_extra_b'))->render();
 
                                 case 'history':
-                                    $exterior_picture_ids = Diagnosis::where('orders_id', $order_id)->where('group', 2008)->get();
-                                return view('cert.history', compact('order', 'order_id', 'url_prefix', 'page', 'exterior_picture_ids'))->render();
+                                    $diagnosis_exterior = Diagnosis::where('orders_id', $order_id)->where('group', 2008)->first();
+                                    $exterior_picture_id = DiagnosisFile::where('diagnoses_id', $diagnosis_exterior->id)->first()->id;
+                                return view('cert.history', compact('order', 'order_id', 'url_prefix', 'page', 'exterior_picture_id'))->render();
 
                                 case 'price':
                                 //특별요인

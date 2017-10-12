@@ -167,78 +167,55 @@
                                 <td>{{ number_format($order->certificates->history_depreciation) }} 만원</td>
                         </tr>
 
-                        <th rowspan='19'>종합진단결과</th>
+                        <th rowspan='14'>종합진단결과</th>
                         <tr>
-                                <td>주요외판</td>
+                                <td>차량외부점검</td>
                                 <td>{{ $order->certificates->performance_exterior->display() }}</td>
                         </tr>
                         <tr>
-                                <td>침수흔적점검</td>
-                                <td>{{ $order->certificates->performance_flooded->display() }}</td>
+                                <td>차량내부점검</td>
+                                <td>{{ $order->certificates->performance_interior->display() }}</td>
                         </tr>
                         <tr>
-                                <td>소모품상태점검</td>
-                                <td>{{ $order->certificates->performance_consumption->display() }}</td>
+                                <td>전장장착품작동상태</td>
+                                <td>{{ $order->certificates->performance_plugin->display() }}</td>
                         </tr>
                         <tr>
                                 <td>고장진단</td>
                                 <td>{{ $order->certificates->performance_broken->display() }}</td>
                         </tr>
                         <tr>
-                                <td>동력전달</td>
-                                <td>{{ $order->certificates->performance_power->display() }}</td>
-                        </tr>
-                        <tr>
-                                <td>전기</td>
-                                <td>{{ $order->certificates->performance_electronic->display() }}</td>
-                        </tr>
-
-                        <tr>
-                                <td>주요내판</td>
-                                <td>{{ $order->certificates->performance_interior->display() }}</td>
-                        </tr>
-                        <tr>
-                                <td>차량외판점검</td>
-                                <td>{{ $order->certificates->performance_exteriortest->display() }}</td>
-                        </tr>
-                        <tr>
-                                <td>전장품유리기어/작동상태점검</td>
-                                <td>{{ $order->certificates->performance_plugin->display() }}</td>
-                        </tr>
-                        <tr>
-                                <td>엔진(원동기)</td>
+                                <td>원동기</td>
                                 <td>{{ $order->certificates->performance_engine->display() }}</td>
-                        </tr>
-                        <tr>
-                                <td>조향장치</td>
-                                <td>{{ $order->certificates->performance_steering->display() }}</td>
-                        </tr>
-                        <tr>
-                                <td>타이어</td>
-                                <td>{{ $order->certificates->performance_tire->display() }}</td>
-                        </tr>
-
-                        <tr>
-                                <td>사고유무점검</td>
-                                <td>{{ $order->certificates->performance_accident->display() }}</td>
-                        </tr>
-                        <tr>
-                                <td>차량실내점검</td>
-                                <td>{{ $order->certificates->performance_interiortest->display() }}</td>
-                        </tr>
-                        <tr>
-                                <td>주행테스트</td>
-                                <td>{{ $order->certificates->performance_driving->display() }}</td>
                         </tr>
                         <tr>
                                 <td>변속기</td>
                                 <td>{{ $order->certificates->performance_transmission->display() }}</td>
                         </tr>
                         <tr>
+                                <td>동력전달</td>
+                                <td>{{ $order->certificates->performance_power->display() }}</td>
+                        </tr>
+                        <tr>
+                                <td>조향 및 현가장치</td>
+                                <td>{{ $order->certificates->performance_steering->display() }}</td>
+                        </tr>
+                        <tr>
                                 <td>제동장치</td>
                                 <td>{{ $order->certificates->performance_braking->display() }}</td>
                         </tr>
-
+                        <tr>
+                                <td>전기장치</td>
+                                <td>{{ $order->certificates->performance_electronic->display() }}</td>
+                        </tr>
+                        <tr>
+                                <td>휠&타이터</td>
+                                <td>{{ $order->certificates->performance_tire->display() }}</td>
+                        </tr>
+                        <tr>
+                                <td>주행테스트</td>
+                                <td>{{ $order->certificates->performance_driving->display() }}</td>
+                        </tr>
                         <tr>
                                 <td>감가금액</td>
                                 <td>

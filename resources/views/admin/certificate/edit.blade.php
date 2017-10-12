@@ -433,11 +433,11 @@
                                             {{ Form::radio('certificates_usage_flood_cd', 1339, \App\Helpers\Helper::isCheckd(1339, $order->certificates->usage_flood_cd)) }}
                                             없음
                                         </label>
-                                        <label class="btn btn-default {{ $order->certificates->usage_history_cd == 1340 ? 'active' : '' }}">
+                                        <label class="btn btn-default {{ $order->certificates->usage_flood_cd == 1340 ? 'active' : '' }}">
                                             {{ Form::radio('certificates_usage_flood_cd', 1340, \App\Helpers\Helper::isCheckd(1340, $order->certificates->usage_flood_cd)) }}
                                             침수의심
                                         </label>
-                                        <label class="btn btn-default {{ $order->certificates->usage_history_cd == 1341 ? 'active' : '' }}">
+                                        <label class="btn btn-default {{ $order->certificates->usage_flood_cd == 1341 ? 'active' : '' }}">
                                             {{ Form::radio('certificates_usage_flood_cd', 1341, \App\Helpers\Helper::isCheckd(1341, $order->certificates->usage_flood_cd)) }}
                                             침수
                                         </label>
@@ -761,64 +761,144 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">용도변경이력</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="certificates_history_purpose" class="form-control"
+                                           name="certificates_history_purpose" data-role="tagsinput"
+                                           value="{{ $order->certificates->history_purpose }}"
+                                           style="width:100%;">
+                                </div>
+
+                                <div class="col-sm-3">
+
+                                </div>
+                            </div>
 
                             <div class="form-group">
-                                <label class="control-label col-sm-2"></label>
-                                <div class="col-sm-10">
+                                <label class="control-label col-sm-2">최종차고지이력</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="certificates_history_garage"
+                                           name="certificates_history_garage" class="form-control"
+                                           data-role="tagsinput"
+                                           value="{{ $order->certificates->history_garage }}"
+                                           style="width:100%;">
+                                </div>
 
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3">용도변경이력</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" id="certificates_history_purpose" class="form-control"
-                                                   name="certificates_history_purpose" data-role="tagsinput"
-                                                   value="{{ $order->certificates->history_purpose }}"
-                                                   style="width:100%;">
-                                        </div>
+                                <div class="col-sm-3">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">보험사고이력</label>
+                                <div class="col-sm-5">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control"
+                                               name="certificates_history_insurance"
+                                               id="certificates_history_insurance"
+                                               value="{{ $order->certificates->history_insurance }}" required>
+                                        <span class="input-group-addon">건</span>
                                     </div>
+                                </div>
+                                <div class="col-md-offset-2 col-md-5 col-md-offset-2" style="margin-top: 5px;">
+                                    <div class="plugin-attach" id="plugin-attachment">
 
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3">최종차고지이력</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" id="certificates_history_garage"
-                                                   name="certificates_history_garage" class="form-control"
-                                                   data-role="tagsinput"
-                                                   value="{{ $order->certificates->history_garage }}"
-                                                   style="width:100%;">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group {{ $errors->has('attachment') ? 'has-error' : '' }}">
-                                        <label for="" class="control-label col-md-3">보험사고이력</label>
-                                        <div class="col-sm-4">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control"
-                                                       name="certificates_history_insurance"
-                                                       id="certificates_history_insurance"
-                                                       value="{{ $order->certificates->history_insurance }}" required>
-                                                <span class="input-group-addon">건</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-offset-3 col-md-9" style="margin-top: 5px;">
-                                            <div class="plugin-attach" id="plugin-attachment">
-
-                                                @if ($errors->has('attachment'))
-                                                    <span class="help-block">
+                                        @if ($errors->has('attachment'))
+                                            <span class="help-block">
                                                 {{ $errors->first('attachment') }}
                                             </span>
-                                                @endif
-
-                                            </div>
-
-
-                                            @if ($errors->has('attachment'))
-                                                <span class="help-block">
-                                            {{ $errors->first('attachment') }}
-                                        </span>
-                                            @endif
-
-                                        </div>
+                                        @endif
 
                                     </div>
+
+
+                                    @if ($errors->has('attachment'))
+                                        <span class="help-block">
+                                            {{ $errors->first('attachment') }}
+                                        </span>
+                                    @endif
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">정비이력</label>
+                                <div class="col-sm-5">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control"
+                                               name="certificates_history_maintance"
+                                               id="certificates_history_maintance"
+                                               value="{{ $order->certificates->history_maintance }}" required>
+                                        <span class="input-group-addon">건</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            {{--<div class="form-group">--}}
+                                {{--<label class="control-label col-sm-2"></label>--}}
+                                {{--<div class="col-sm-10">--}}
+
+                                    {{--<div class="form-group">--}}
+                                        {{--<label class="control-label col-sm-3">용도변경이력</label>--}}
+                                        {{--<div class="col-sm-9">--}}
+                                            {{--<input type="text" id="certificates_history_purpose" class="form-control"--}}
+                                                   {{--name="certificates_history_purpose" data-role="tagsinput"--}}
+                                                   {{--value="{{ $order->certificates->history_purpose }}"--}}
+                                                   {{--style="width:100%;">--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="form-group">--}}
+                                        {{--<label class="control-label col-sm-3">최종차고지이력</label>--}}
+                                        {{--<div class="col-sm-9">--}}
+                                            {{--<input type="text" id="certificates_history_garage"--}}
+                                                   {{--name="certificates_history_garage" class="form-control"--}}
+                                                   {{--data-role="tagsinput"--}}
+                                                   {{--value="{{ $order->certificates->history_garage }}"--}}
+                                                   {{--style="width:100%;">--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="form-group {{ $errors->has('attachment') ? 'has-error' : '' }}">--}}
+                                        {{--<label for="" class="control-label col-md-3">보험사고이력</label>--}}
+                                        {{--<div class="col-sm-4">--}}
+                                            {{--<div class="input-group">--}}
+                                                {{--<input type="text" class="form-control"--}}
+                                                       {{--name="certificates_history_insurance"--}}
+                                                       {{--id="certificates_history_insurance"--}}
+                                                       {{--value="{{ $order->certificates->history_insurance }}" required>--}}
+                                                {{--<span class="input-group-addon">건</span>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                        {{--<div class="col-md-offset-3 col-md-9" style="margin-top: 5px;">--}}
+                                            {{--<div class="plugin-attach" id="plugin-attachment">--}}
+
+                                                {{--@if ($errors->has('attachment'))--}}
+                                                    {{--<span class="help-block">--}}
+                                                {{--{{ $errors->first('attachment') }}--}}
+                                            {{--</span>--}}
+                                                {{--@endif--}}
+
+                                            {{--</div>--}}
+
+
+                                            {{--@if ($errors->has('attachment'))--}}
+                                                {{--<span class="help-block">--}}
+                                            {{--{{ $errors->first('attachment') }}--}}
+                                        {{--</span>--}}
+                                            {{--@endif--}}
+
+                                        {{--</div>--}}
+
+                                    {{--</div>--}}
 
 
                                     {{--<div class="form-group">--}}
@@ -833,20 +913,20 @@
                                         {{--</div>--}}
                                     {{--</div>--}}
 
-                                    <div class="form-group no-margin">
-                                        <label class="control-label col-sm-3">정비이력</label>
-                                        <div class="col-sm-4">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control"
-                                                       name="certificates_history_maintance"
-                                                       id="certificates_history_maintance"
-                                                       value="{{ $order->certificates->history_maintance }}" required>
-                                                <span class="input-group-addon">건</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                    {{--<div class="form-group no-margin">--}}
+                                        {{--<label class="control-label col-sm-3">정비이력</label>--}}
+                                        {{--<div class="col-sm-4">--}}
+                                            {{--<div class="input-group">--}}
+                                                {{--<input type="text" class="form-control"--}}
+                                                       {{--name="certificates_history_maintance"--}}
+                                                       {{--id="certificates_history_maintance"--}}
+                                                       {{--value="{{ $order->certificates->history_maintance }}" required>--}}
+                                                {{--<span class="input-group-addon">건</span>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                         </div>
 
 
@@ -921,6 +1001,7 @@
       href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}"/>
 <script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
 <script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
+<script type="text/template" id="insurance-template">@include("partials/files", ['files'=> $order->certificates->insurance_files])</script>
 
 <script type="text/javascript">
     var sum_certificate_price = function () {
@@ -1065,7 +1146,7 @@
     $(document).ready(function () {
         $('#plugin-attachment').fineUploader({
             debug: true,
-//        template: 'qq-template',
+            template: 'insurance-template',
             request: {
                 inputName: "upfile",
                 endpoint: '/file/upload',
@@ -1110,12 +1191,15 @@
                 onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
             },
             callbacks: {
+                onSubmit: function (id, fileName) {
+                    this.setParams({'upfile_group': "insurance", 'upfile_group_id': "{{ $order->id }}"});
+                },
                 onComplete: function (id, fileName, responseJSON) {
                     if (responseJSON.success == true) {
                         $.notify(responseJSON.msg, "success");
 
-                        var $listItem = $(this).fineUploader('getItemByFileId', id);
-                        $listItem.find('.plugin-attach-file-input').val(responseJSON.data.id);
+//                        var $listItem = $(this).fineUploader('getItemByFileId', id);
+//                        $listItem.find('.plugin-attach-file-input').val(responseJSON.data.id);
 
                     } else {
                         $.notify(responseJSON.msg, "error");

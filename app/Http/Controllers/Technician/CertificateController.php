@@ -129,9 +129,10 @@ class CertificateController extends Controller
         $select_fueltype = Code::getSelectList('fuel_type');
         $kinds = Code::getSelectList('kind_cd');
         $certificate_states = Code::getSelectList('certificate_state_cd');
+        $operation_state_cd = Code::getSelectList('operation_state_cd');
         $standard_states = Code::getSelectList('standard_cd');
 
-        return view('technician.certificate.edit', compact('order', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'car', 'standard_states'));
+        return view('technician.certificate.edit', compact('order', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'car', 'standard_states', 'operation_state_cd'));
     }
 
 

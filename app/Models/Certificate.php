@@ -216,9 +216,7 @@ class Certificate Extends Model
         public function special_etc(){
                 return $this->hasOne(Code::class, 'id', 'special_etc_cd');
         }
-
-
-
-
-
+        public function insurance_files(){
+            return $this->hasMany(File::class, 'group_id', 'orders_id')->where('group', 'insurance');
+        }
 }

@@ -88,7 +88,7 @@
                                         <label for="inputGarage" class="control-label col-md-3">{{ trans('admin/user.garage') }}</label>
                                         <div class="col-md-6 selected_garage">
                                                 @if($user->user_extra)
-                                                <input type="text" class="form-control" name="garage" id="selected_garage" value="{{ $user->user_extra->garage->name }}" readonly>
+                                                <input type="text" class="form-control" name="garage" id="selected_garage" value="{{ $user->user_extra->garage ? $user->user_extra->garage->name : '' }}" readonly>
                                                 @endif
 
                                                 @if ($errors->has('garage'))

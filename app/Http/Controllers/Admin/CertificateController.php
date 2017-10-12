@@ -296,7 +296,8 @@ class CertificateController extends Controller
             "special_depreciation" => $request->get("special_depreciation"),
             "valuation" => $request->get("certificates_valuation"),
             "opinion" => $request->get("certificates_opinion"),
-            "grade" => $request->get('grade_state_cd')
+            "grade" => $request->get('grade_state_cd'),
+            "usage_flood_cd" => $request->get('certificates_usage_flood_cd')
         ];
 
 
