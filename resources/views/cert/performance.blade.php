@@ -129,9 +129,12 @@
         <li>
                 <label>진단담당</label>
                 <span>
-                        <!-- 홍길동 정비사 1급 -->
-                        {{ $order->engineer->name}}
-
+                        {{-- todo 임시로 구형 --}}
+                        @if(strlen($order->engineer->name) < 10)
+                                {{ $order->engineer->name }}
+                        @else
+                                {{ $order->engineer->user_extra->ceo_name }}
+                        @endif
                         {{ Helper::imageTag('/avatar/'.$order->engineer->id, 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile', 'style'=>'width : 170px;')) }}
                 </span>
         </li>

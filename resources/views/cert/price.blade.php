@@ -130,8 +130,8 @@
                                 <td>{{ $order->isIssued() ? $order->car->getExteriorColor->display() : '미입력 (검토중)' }}</td>
                         </tr>
                         <tr>
-                                <td>기본평가 감가금액</td>
-                                <td>{{ number_format($order->certificates->basic_depreciation) }} 만원</td>
+                                <td><strong>감가금액</strong></td>
+                                <td><strong>{{ number_format($order->certificates->basic_depreciation) }} 만원</strong></td>
                         </tr>
 
 
@@ -163,8 +163,8 @@
                                 </td>
                         </tr>
                         <tr>
-                                <td>사용이력 감가금액</td>
-                                <td>{{ number_format($order->certificates->history_depreciation) }} 만원</td>
+                                <td><strong>감가금액</strong></td>
+                                <td><strong>{{ number_format($order->certificates->history_depreciation) }} 만원</strong></td>
                         </tr>
 
                         <th rowspan='14'>종합진단결과</th>
@@ -217,9 +217,9 @@
                                 <td>{{ $order->certificates->performance_driving->display() }}</td>
                         </tr>
                         <tr>
-                                <td>감가금액</td>
+                                <td><strong>감가금액</strong></td>
                                 <td>
-                                        {{ number_format($order->certificates->performance_depreciation) }} 만원
+                                        <strong>{{ number_format($order->certificates->performance_depreciation) }} 만원</strong>
                                 </td>
                         </tr>
 
@@ -233,8 +233,8 @@
                                 @endif
                         </tr>
                         <tr>
-                                <td>특별요인 감가금액</td>
-                                <td>{{ $order->certificates->special_depreciation }} 만원</td>
+                                <td><strong>감가금액</strong></td>
+                                <td><strong>{{ $order->certificates->special_depreciation }} 만원</strong></td>
                         </tr>
                 </tbody>
         </table>
@@ -271,8 +271,8 @@
 <div class='br30'></div>
 
 <div class='report_stamp_wrap'>
-        <span><strong>발급일</strong> {{ $order->certificates->created_at->format('Y년 m월 d일') }}</span>
-        <span><strong>보증기간</strong> {{ $order->certificates->created_at->addMonth(5)->format('Y년 m월 d일') }}</span>
+        <span><strong>발급일</strong> {{ $order->certificates->updated_at->format('Y년 m월 d일') }}</span>
+        <span><strong>보증기간</strong> {{ $order->certificates->getExpireDate()->format('Y년 m월 d일') }}</span>
         <div class='stamp_wrap'>대표 기술사<strong>이해택</strong></div>
 </div>
 
