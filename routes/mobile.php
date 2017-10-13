@@ -38,13 +38,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('order/payment-process', 'OrderController@paymentProcess')->name("mobile.order.payment-process");
 
 
-    Route::get('/order/get_models', 'OrderController@getModels')->name("mobile.order.get_models");
-    Route::get('/order/get_details', 'OrderController@getDetails')->name("mobile.order.get_details");
-    Route::get('/order/get_grades', 'OrderController@getGrades')->name("mobile.order.get_grades");
-    Route::get('/order/sel_item', 'OrderController@selItem')->name("mobile.order.sel_item");
-    Route::get('/order/get_section', 'OrderController@getSection')->name("mobile.order.get_section");
-    Route::get('/order/get_address', 'OrderController@getAddress')->name("mobile.order.get_address");
-    Route::get('/order/get_full_address', 'OrderController@getFullAddress')->name("order.get_full_address");
+    Route::get('/order/get-models', 'OrderController@getModels')->name("mobile.order.get_models");
+    Route::get('/order/get-details', 'OrderController@getDetails')->name("mobile.order.get_details");
+    Route::get('/order/get-grades', 'OrderController@getGrades')->name("mobile.order.get_grades");
+    Route::get('/order/sel-item', 'OrderController@selItem')->name("mobile.order.sel_item");
+    Route::get('/order/get-section', 'OrderController@getSection')->name("mobile.order.get_section");
+    Route::get('/order/get-address', 'OrderController@getAddress')->name("mobile.order.get_address");
+    Route::get('/order/get-full-address', 'OrderController@getFullAddress')->name("order.get_full_address");
 
     Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd')->name('mobile.certificate.change-open-cd');
 

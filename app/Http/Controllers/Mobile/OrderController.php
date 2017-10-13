@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Crypt;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 use App\Tpay\TpayLib as Encryptor;
@@ -77,7 +78,7 @@ class OrderController extends Controller
         ];
 
 
-        $garages = UserExtra::orderBy('area', 'DESC')->groupBy('area')->whereNotNull('aliance_id')->get();
+        $garages = UserExtra::whereNotIn('users_id', [4])->orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
 
 
         return view('mobile.order.index', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
@@ -149,11 +150,6 @@ class OrderController extends Controller
             $garage_info = new UserExtra();
         }
 
-
-
-
-
-
 //                if(!$order){
         $order = new Order();
 //                }
@@ -193,19 +189,12 @@ class OrderController extends Controller
         //order_car 등록
 
         $order_car = new OrderCar();
-        //            $order_car->vin_number = $request->get('car_number');
         $order_car->orders_id = $order->id;
         $order_car->brands_id = $request->get('brands');
         $order_car->models_id = $request->get('models');
         $order_car->details_id = $request->get('details');
         $order_car->grades_id = $request->get('grades');
         $order_car->save();
-
-
-        // order_car 의 orders_id 입력
-        $my_order_car = OrderCar::where('car_number', $order_car->car_number)->first();
-        $my_order_car->orders_id = $order->id;
-        $my_order_car->save();
 
 
         // 예약 관련
@@ -820,7 +809,7 @@ class OrderController extends Controller
         $users = \App\Models\Role::find(4)->users;
         $sections = [];
         foreach ($users as $user) {
-            if ($user->user_extra->area == $request->get('garage_area')) {
+            if ($user->user_extra->users_id != 4 && $user->status_cd !=2 && $user->user_extra->area == $request->get('garage_area')) {
                 $sections[$user->user_extra->section] = $user->user_extra->section;
             }
 
@@ -836,7 +825,7 @@ class OrderController extends Controller
         $users = \App\Models\Role::find(4)->users;
         $garages = [];
         foreach ($users as $user) {
-            if ($user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
+            if ($user->user_extra->users_id != 4 && $user->status_cd !=2 && $user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
                 $garages[$user->id] = $user->name;
             }
 
@@ -1105,17 +1094,12 @@ class OrderController extends Controller
             $garage_info = new UserExtra();
         }
 
-        $order_car = OrderCar::where('car_number', $request->get('car_number'))->first();
-        if (!$order_car) {
-            $order_car = new OrderCar();
-            //            $order_car->vin_number = $request->get('car_number');
-            $order_car->car_number = $request->get('car_number');
-            $order_car->brands_id = $request->get('brands');
-            $order_car->models_id = $request->get('models');
-            $order_car->details_id = $request->get('details');
-            $order_car->grades_id = $request->get('grades');
-            $order_car->save();
-        }
+        $order_car = new OrderCar();
+        $order_car->brands_id = $request->get('brands');
+        $order_car->models_id = $request->get('models');
+        $order_car->details_id = $request->get('details');
+        $order_car->grades_id = $request->get('grades');
+        $order_car->save();
 
 
 
@@ -1156,9 +1140,8 @@ class OrderController extends Controller
 
 
         // order_car 의 orders_id 입력
-        $my_order_car = OrderCar::where('car_number', $order_car->car_number)->first();
-        $my_order_car->orders_id = $order->id;
-        $my_order_car->save();
+        $order_car->orders_id = $order->id;
+        $order_car->save();
 
 
         // 예약 관련

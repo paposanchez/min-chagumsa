@@ -153,10 +153,6 @@ class OrderController extends Controller
             $garage_info = new UserExtra();
         }
 
-
-
-
-
         //                if(!$order){
         $order = new Order();
         //                }
@@ -1080,14 +1076,6 @@ class OrderController extends Controller
         }
 
 
-        $order_car = new OrderCar();
-        $order_car->brands_id = $request->get('brands');
-        $order_car->models_id = $request->get('models');
-        $order_car->details_id = $request->get('details');
-        $order_car->grades_id = $request->get('grades');
-        $order_car->save();
-
-
         $order = new Order();
 
         $order->car_number = $request->get('car_number');
@@ -1125,7 +1113,12 @@ class OrderController extends Controller
 
 
         // order_car 의 orders_id 입력
+        $order_car = new OrderCar();
         $order_car->orders_id = $order->id;
+        $order_car->brands_id = $request->get('brands');
+        $order_car->models_id = $request->get('models');
+        $order_car->details_id = $request->get('details');
+        $order_car->grades_id = $request->get('grades');
         $order_car->save();
 
 

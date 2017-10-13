@@ -510,7 +510,7 @@ $(function () {
         $.ajax({
             type: 'get',
             dataType: 'json',
-            url: '/order/get_section/',
+            url: '/order/get-section/',
             data: {
                 'garage_area': garage_area
             },
@@ -577,6 +577,7 @@ $(function () {
                 });
             },
             error: function (data) {
+
                 alert('error');
             },
             beforeSend: function(){
@@ -605,7 +606,7 @@ $(function () {
         $.ajax({
             type : 'get',
             dataType : 'json',
-            url : '/order/get-full_address',
+            url : '/order/get-full-address',
             data : {
                 'garage_id' : garage_id
             },
@@ -650,7 +651,7 @@ $(function () {
         $.ajax({
             type: 'get',
             dataType: 'json',
-            url: '/order/get_models/',
+            url: '/order/get-models/',
             data: {'brand': brand_val},
             success: function (data) {
 
@@ -693,7 +694,7 @@ $(function () {
         $.ajax({
             type: 'get',
             dataType: 'json',
-            url: '/order/get_details/',
+            url: '/order/get-details/',
             data: {'model': model_id},
             success: function (data) {
 
@@ -738,7 +739,7 @@ $(function () {
         $.ajax({
             type: 'get',
             dataType: 'json',
-            url: '/order/get_grades/',
+            url: '/order/get-grades/',
             data: {'detail': detail_id},
             success: function (data) {
 
@@ -1236,7 +1237,9 @@ var timeCountdown = function () {
             field: element,
             format: 'YYYY-MM-DD',
             minDate: moment().add(1, 'days').toDate(),
-            disableWeekends: true,
+            disableDayFn: function (date) {
+                return date.getDay() === 0;
+            },
             i18n: {
                 previousMonth: '이전달',
                 nextMonth: '다음달',
