@@ -177,12 +177,13 @@ class Order Extends Model
                 return ($reservation ? $reservation->reservation_at : null);
         }
 
-
-
-
         public function payment(){
                 return $this->hasOne(\App\Models\Payment::class, 'moid', 'id');
         }
 
+        public function getExteriorPicture(){
+            $pictures = Diagnosis::where('orders_id', $this->id)->where('group', 2008)->get();
+            return $pictures;
+        }
 
 }

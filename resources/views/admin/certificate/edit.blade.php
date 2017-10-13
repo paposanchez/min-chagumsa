@@ -30,15 +30,12 @@
 
             <a href="/certificate/{{ $order->id }}" target="_blank" class="btn btn-primary pull-right" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
 
-
-
         </h3>
 
 
         <div class="row">
 
             <div class="col-xs-6">
-
 
                 <div class="block bg-white" style="margin-bottom:10px;">
 
@@ -219,6 +216,25 @@
                         </ul>
                     </div>
 
+                </div>
+                <div class="col-md-8">
+                    <h4 style="margin-top:36px !important; ">대표이미지 선택</h4>
+                    <div style="border: #000000 solid 1px; margin-top: 10px; padding: 10px;">
+                    @foreach($order->getExteriorPicture() as $picture)
+                        @foreach($picture->files as $file)
+                            <img
+                                    name="picture"
+                                    src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $file->id }}"
+                                    class="img-responsive picture"
+                                    style="width:100px;height:100px;display:inline-block;
+                                    @if($order->certificates->pictures == $file->id)
+                                            opacity:0.2;
+                                    @endif
+                                    " data-id="{{$file->id}}">
+                        @endforeach
+                    @endforeach
+                    </div>
+                    <input type="hidden" name="selecte_picture_id" id="selecte_picture_id" value="">
                 </div>
 
                 <div class="col-md-8">
@@ -414,6 +430,8 @@
                                         <span class="input-group-addon">만원</span>
                                     </div>
                                 </div>
+                                <textarea name="exterior_comment" class="form-control"
+                                          style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->exterior_comment : '' }}</textarea>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2">침수점검</label>
@@ -1008,6 +1026,15 @@
     }
 
     $(function () {
+
+        $(document).on('click', '.picture', function(){
+            $(this).parent().find('img').css('opacity', '1');
+            $(this).css('opacity', '0.2');
+
+            $('#selecte_picture_id').val($(this).data('id'));
+        });
+
+
 
         $(document).on('click', '#certificate-submit', function () {
             if (confirm("인증서를 저장하시겠습니까?")) {

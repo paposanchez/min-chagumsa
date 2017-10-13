@@ -173,6 +173,8 @@ class CertificateController extends Controller
         $operation_state_cd = Code::getSelectList('operation_state_cd');
         $standard_states = Code::getSelectList('standard_cd');
 
+
+
         return view('admin.certificate.edit', compact('order', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'car', 'standard_states', 'operation_state_cd'));
     }
 
@@ -297,7 +299,11 @@ class CertificateController extends Controller
             "valuation" => $request->get("certificates_valuation"),
             "opinion" => $request->get("certificates_opinion"),
             "grade" => $request->get('grade_state_cd'),
-            "usage_flood_cd" => $request->get('certificates_usage_flood_cd')
+            "usage_flood_cd" => $request->get('certificates_usage_flood_cd'),
+
+
+
+            "pictures" => $request->get('selecte_picture_id')
         ];
 
 

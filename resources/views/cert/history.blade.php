@@ -5,9 +5,81 @@
 
 <div class='report_title_type1' style="margin-bottom: 20px;">
         {{ $order->getCarFullName() }}
-
 </div>
 
+{{--<div class='report_table exp'>--}}
+        {{--<table>--}}
+                {{--<colgroup>--}}
+                        {{--<col style='width:120px;'>--}}
+                        {{--<col style='width:270px;'>--}}
+                        {{--<col style='width:120px;'>--}}
+                        {{--<col style='width:270px;'>--}}
+                {{--</colgroup>--}}
+                {{--<tbody>--}}
+                        {{--<tr>--}}
+                                {{--<th>연식</th>--}}
+                                {{--<td>--}}
+                                        {{--@if($order->isIssued())--}}
+                                                {{--{{ $order->car->year }} 년식--}}
+                                        {{--@else--}}
+                                                {{--미입력 (검토중)--}}
+                                        {{--@endif--}}
+                                {{--</td>--}}
+
+                                {{--<td rowspan='6' class='img_type2'>--}}
+
+                                        {{--@if($exterior_picture_id)--}}
+                                        {{--<img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://cdn.chagumsa.com/diagnosis/{{ $exterior_picture_id }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://cdn.chagumsa.com/diagnosis/{{ $exterior_picture_id }}&format=png&h_pos=10&bg_rgb=ffffff">--}}
+                                        {{--@else--}}
+                                        {{--<img src="http://fakeimg.pl/272x205/">--}}
+                                        {{--@endif--}}
+
+
+
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                                {{--<th>차대번호</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->isIssued() ? $order->car->vin_number : '미입력 (검토중)' }}--}}
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                                {{--<th>차종구분</th>--}}
+                                {{--<td>--}}
+                                        {{--@if($order->isIssued())--}}
+                                                {{--{{ $order->car->getKind->display() }} {{ $order->car->passenger }}인승--}}
+                                        {{--@else--}}
+                                                {{--미입력 (검토중)--}}
+                                        {{--@endif--}}
+
+
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                                {{--<th>사용연료</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->isIssued() ? $order->car->getFuelType->display() : '미입력 (검토중)' }}--}}
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                                {{--<th>주행거리</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ number_format($order->mileage) }} km--}}
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                                {{--<th><strong class='fcol_navy'>인증서 발급일</strong></th>--}}
+                                {{--<td>--}}
+                                        {{--<strong class='fcol_navy'>--}}
+                                                {{--{{ $order->certificates->updated_at->format('Y년 m월 d일') }}--}}
+                                        {{--</strong>--}}
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                {{--</tbody>--}}
+        {{--</table>--}}
+{{--</div>--}}
+<div class='report_title_type2'>기본정보</div>
 <div class='report_table exp'>
         <table>
                 <colgroup>
@@ -17,66 +89,80 @@
                         <col style='width:270px;'>
                 </colgroup>
                 <tbody>
-                        <tr>
-                                <th>연식</th>
-                                <td>
-                                        @if($order->isIssued())
-                                                {{ $order->car->year }} 년식
-                                        @else
-                                                미입력 (검토중)
-                                        @endif
-                                </td>
-
-                                <td rowspan='6' class='img_type2'>
-
-                                        @if($exterior_picture_id)
-                                        <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://cdn.chagumsa.com/diagnosis/{{ $exterior_picture_id }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://cdn.chagumsa.com/diagnosis/{{ $exterior_picture_id }}&format=png&h_pos=10&bg_rgb=ffffff">
-                                        @else
-                                        <img src="http://fakeimg.pl/272x205/">
-                                        @endif
-
-
-
-                                </td>
-                        </tr>
-                        <tr>
-                                <th>차대번호</th>
-                                <td>
-                                        {{ $order->isIssued() ? $order->car->vin_number : '미입력 (검토중)' }}
-                                </td>
-                        </tr>
-                        <tr>
-                                <th>차종구분</th>
-                                <td>
-                                        @if($order->isIssued())
-                                                {{ $order->car->getKind->display() }} {{ $order->car->passenger }}인승
-                                        @else
-                                                미입력 (검토중)
-                                        @endif
-
-
-                                </td>
-                        </tr>
-                        <tr>
-                                <th>사용연료</th>
-                                <td>
-                                        {{ $order->isIssued() ? $order->car->getFuelType->display() : '미입력 (검토중)' }}
-                                </td>
-                        </tr>
-                        <tr>
-                                <th>주행거리</th>
-                                <td>
+                <tr>
+                        <th>차명</th>
+                        <td>
+                                {{ $order->getCarFullName() }}
+                        </td>
+                        <th>차대번호</th>
+                        <td>
+                                {{ $order->isIssued() ? $order->car->vin_number : '미입력 (검토중)'}}
+                        </td>
+                </tr>
+                <tr>
+                        <th>등록번호</th>
+                        <td>
+                                {{ $order->car_number }}
+                        </td>
+                        <th>동일성여부</th>
+                        <td>
+                                {{ $order->certificates ? $order->certificates->getVinCd->display() : '' }}
+                        </td>
+                </tr>
+                <tr>
+                        <th>최초등록일</th>
+                        <td>
+                                {{ $order->isIssued() ? \Carbon\Carbon::parse($order->car->registration_date)->format('Y년 m월 d일') : '미입력 (검토중)' }}
+                        </td>
+                        <th>연식</th>
+                        <td>
+                                {{ $order->isIssued() ? $order->car->year : '미입력 (검토중)' }}
+                        </td>
+                </tr>
+                <tr>
+                        <th>변속기</th>
+                        <td>
+                                {{ $order->isIssued() ? $order->car->getTransmission->display() : '미입력 (검토중)' }}
+                        </td>
+                        <th>색상</th>
+                        <td>
+                                @if($order->isIssued())
+                                        {{ $order->car->getExteriorColor->display() }}(외부)
+                                        {{--/ {{ $order->car->getInteriorColor->display() }}(내부)--}}
+                                @else
+                                        미입력 (검토중)
+                                @endif
+                        </td>
+                </tr>
+                <tr>
+                        <th>세부모델</th>
+                        <td>
+                                {{ $order->getCarfullName() }}
+                        </td>
+                        <th>주행거리(km)</th>
+                        <td>
+                                @if($order->isIssued())
                                         {{ number_format($order->mileage) }} km
-                                </td>
-                        </tr>
-                        <tr>
-                                <th><strong class='fcol_navy'>인증서 발급일</strong></th>
-                                <td>
-                                        <strong class='fcol_navy'>
-                                                {{ $order->certificates->updated_at->format('Y년 m월 d일') }}
-                                        </strong>
-                                </td>
-                        </tr>
+                                @else
+                                        미입력 (검토중)
+                                @endif
+
+                        </td>
+                </tr>
+                <tr>
+                        <th>배기량(cc)</th>
+                        <td>
+                                @if($order->isIssued())
+                                        {{ number_format($order->car->displacement) }} cc
+                                @else
+                                        미입력 (검토중)
+                                @endif
+                        </td>
+                        <th>사용연료</th>
+                        <td>
+                                {{ $order->isIssued() ? $order->car->getFuelType->display() : '미입력 (검토중)' }}
+                        </td>
+                </tr>
                 </tbody>
         </table>
 </div>

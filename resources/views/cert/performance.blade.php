@@ -2,102 +2,189 @@
 
 @section( 'content' )
 
-<div class='report_title_type2'>차량정보</div>
+{{--<div class='report_title_type2'>차량정보</div>--}}
+{{--<div class='report_table exp'>--}}
+        {{--<table>--}}
+                {{--<colgroup>--}}
+                        {{--<col style='width:120px;'>--}}
+                        {{--<col style='width:280px;'>--}}
+                        {{--<col style='width:120px;'>--}}
+                        {{--<col style='width:280px;'>--}}
+                {{--</colgroup>--}}
+                {{--<tbody>--}}
+                        {{--<tr>--}}
+                                {{--<th>차명</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->getCarFullName()}}--}}
+                                {{--</td>--}}
+                                {{--<th>차대번호</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->car_number}}--}}
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                                {{--<th>차종구분</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->car->getKind->display() }} / {{ $order->car->passenger }}인--}}
+                                {{--</td>--}}
+                                {{--<th>동일성확인</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->certificates ? $order->certificates->getVinCd->display() : '' }}--}}
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                                {{--<th>등록번호</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->car_number}}--}}
+                                {{--</td>--}}
+                                {{--<th>연식</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->car->year }}--}}
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                                {{--<th>최초등록일</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->car->registration_date }}--}}
+                                {{--</td>--}}
+                                {{--<th>사용월수</th>--}}
+                                {{--<td>--}}
+
+                                        {{--{{ $order->car->registration_date }} 개월--}}
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                                {{--<th>변속기</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->car->getTransmission->display() }}--}}
+                                {{--</td>--}}
+                                {{--<th>색상</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->car->getExteriorColor->display() }}(외부)--}}
+                                        {{--/ {{ $order->isIssued() ? $order->car->getInteriorColor->display() : '' }}(내부)--}}
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                                {{--<th>세부모델</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->getCarFullName()}}--}}
+                                {{--</td>--}}
+                                {{--<th>주행거리(km)</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ number_format($order->mileage) }} km--}}
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                                {{--<th>배기량(cc)</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->car->displacement }} cc--}}
+                                {{--</td>--}}
+                                {{--<th>차량소유자이력</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->certificates ? $order->certificates->history_owner : '' }}명--}}
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                                {{--<th>사용연료</th>--}}
+                                {{--<td>--}}
+                                        {{--{{ $order->car->getFuelType->display() }}--}}
+                                {{--</td>--}}
+                                {{--<th>최종등록차고지</th>--}}
+                                {{--<td>--}}
+                                        {{--@if($order->certificates->history_garage)--}}
+                                        {{--{{ $order->certificates->history_garage }}--}}
+                                        {{--@else--}}
+                                        {{--없음--}}
+                                        {{--@endif--}}
+                                {{--</td>--}}
+                        {{--</tr>--}}
+                {{--</tbody>--}}
+        {{--</table>--}}
+{{--</div>--}}
+<div class='report_title_type2'>기본정보</div>
 <div class='report_table exp'>
         <table>
                 <colgroup>
                         <col style='width:120px;'>
-                        <col style='width:280px;'>
+                        <col style='width:270px;'>
                         <col style='width:120px;'>
-                        <col style='width:280px;'>
+                        <col style='width:270px;'>
                 </colgroup>
                 <tbody>
-                        <tr>
-                                <th>차명</th>
-                                <td>
-                                        {{ $order->getCarFullName()}}
-                                </td>
-                                <th>차대번호</th>
-                                <td>
-                                        {{ $order->car_number}}
-                                </td>
-                        </tr>
-                        <tr>
-                                <th>차종구분</th>
-                                <td>
-                                        {{ $order->car->getKind->display() }} / {{ $order->car->passenger }}인
-                                </td>
-                                <th>동일성확인</th>
-                                <td>
-                                        {{ $order->certificates ? $order->certificates->getVinCd->display() : '' }}
-                                </td>
-                        </tr>
-                        <tr>
-                                <th>등록번호</th>
-                                <td>
-                                        {{ $order->car_number}}
-                                </td>
-                                <th>연식</th>
-                                <td>
-                                        {{ $order->car->year }}
-                                </td>
-                        </tr>
-                        <tr>
-                                <th>최초등록일</th>
-                                <td>
-                                        {{ $order->car->registration_date }}
-                                </td>
-                                <th>사용월수</th>
-                                <td>
-
-                                        {{ $order->car->registration_date }} 개월
-                                </td>
-                        </tr>
-                        <tr>
-                                <th>변속기</th>
-                                <td>
-                                        {{ $order->car->getTransmission->display() }}
-                                </td>
-                                <th>색상</th>
-                                <td>
+                <tr>
+                        <th>차명</th>
+                        <td>
+                                {{ $order->getCarFullName() }}
+                        </td>
+                        <th>차대번호</th>
+                        <td>
+                                {{ $order->isIssued() ? $order->car->vin_number : '미입력 (검토중)'}}
+                        </td>
+                </tr>
+                <tr>
+                        <th>등록번호</th>
+                        <td>
+                                {{ $order->car_number }}
+                        </td>
+                        <th>동일성여부</th>
+                        <td>
+                                {{ $order->certificates ? $order->certificates->getVinCd->display() : '' }}
+                        </td>
+                </tr>
+                <tr>
+                        <th>최초등록일</th>
+                        <td>
+                                {{ $order->isIssued() ? \Carbon\Carbon::parse($order->car->registration_date)->format('Y년 m월 d일') : '미입력 (검토중)' }}
+                        </td>
+                        <th>연식</th>
+                        <td>
+                                {{ $order->isIssued() ? $order->car->year : '미입력 (검토중)' }}
+                        </td>
+                </tr>
+                <tr>
+                        <th>변속기</th>
+                        <td>
+                                {{ $order->isIssued() ? $order->car->getTransmission->display() : '미입력 (검토중)' }}
+                        </td>
+                        <th>색상</th>
+                        <td>
+                                @if($order->isIssued())
                                         {{ $order->car->getExteriorColor->display() }}(외부)
-                                        {{--/ {{ $order->isIssued() ? $order->car->getInteriorColor->display() : '' }}(내부)--}}
-                                </td>
-                        </tr>
-                        <tr>
-                                <th>세부모델</th>
-                                <td>
-                                        {{ $order->getCarFullName()}}
-                                </td>
-                                <th>주행거리(km)</th>
-                                <td>
+                                        {{--/ {{ $order->car->getInteriorColor->display() }}(내부)--}}
+                                @else
+                                        미입력 (검토중)
+                                @endif
+                        </td>
+                </tr>
+                <tr>
+                        <th>세부모델</th>
+                        <td>
+                                {{ $order->getCarfullName() }}
+                        </td>
+                        <th>주행거리(km)</th>
+                        <td>
+                                @if($order->isIssued())
                                         {{ number_format($order->mileage) }} km
-                                </td>
-                        </tr>
-                        <tr>
-                                <th>배기량(cc)</th>
-                                <td>
-                                        {{ $order->car->displacement }} cc
-                                </td>
-                                <th>차량소유자이력</th>
-                                <td>
-                                        {{ $order->certificates ? $order->certificates->history_owner : '' }}명
-                                </td>
-                        </tr>
-                        <tr>
-                                <th>사용연료</th>
-                                <td>
-                                        {{ $order->car->getFuelType->display() }}
-                                </td>
-                                <th>최종등록차고지</th>
-                                <td>
-                                        @if($order->certificates->history_garage)
-                                        {{ $order->certificates->history_garage }}
-                                        @else
-                                        없음
-                                        @endif
-                                </td>
-                        </tr>
+                                @else
+                                        미입력 (검토중)
+                                @endif
+
+                        </td>
+                </tr>
+                <tr>
+                        <th>배기량(cc)</th>
+                        <td>
+                                @if($order->isIssued())
+                                        {{ number_format($order->car->displacement) }} cc
+                                @else
+                                        미입력 (검토중)
+                                @endif
+                        </td>
+                        <th>사용연료</th>
+                        <td>
+                                {{ $order->isIssued() ? $order->car->getFuelType->display() : '미입력 (검토중)' }}
+                        </td>
+                </tr>
                 </tbody>
         </table>
 </div>
@@ -135,7 +222,7 @@
                         @else
                                 {{ $order->engineer->user_extra->ceo_name }}
                         @endif
-                        {{ Helper::imageTag('/avatar/'.$order->engineer->id, 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile', 'style'=>'width : 170px;')) }}
+                        {{--{{ Helper::imageTag('/avatar/'.$order->engineer->id, 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile', 'style'=>'width : 170px;')) }}--}}
                 </span>
         </li>
 </ul>

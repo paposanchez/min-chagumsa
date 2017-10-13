@@ -56,7 +56,9 @@
                                         @endif
 
                                         <div class='report_frame_title'>
-                                                <div class='report_title'><h2>
+                                                <div class='report_title'>
+                                                        <strong>{{ $order->getOrderNumber() }}</strong>
+                                                <h2>
                                                         @if($page == 'summary')
                                                                 자동차 요약 보고서
                                                         @elseif($page == 'performance')
@@ -67,7 +69,9 @@
                                                                 자동차 가격 산정 보고서
                                                         @endif
 
-                                                </h2></div></div>
+                                                </h2>
+
+                                                </div></div>
                                                 <div class='report_frame_cont'>
 
 

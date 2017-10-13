@@ -49,8 +49,8 @@
             <input type="hidden" name="item_id" id="item_id" value="">
             <input type="hidden" name="payment_price" id="payment_price" value="">
             <input type="hidden" name="payment_method" id="payment_method" value="">
-            <input type="hidden" name="sms_id" id="sms_id" autocomplete="off" value="">
-            <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off" value="">
+            <input type="hidden" name="sms_id" id="sms_id" autocomplete="off" value="1">
+            <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="1" autocomplete="off" value="">
             <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off">
             <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off">
             <input type="hidden" name="mobile" id="mobile" value="">
