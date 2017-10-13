@@ -48,7 +48,7 @@ html, body, #document {height:100%;min-height:100%;}
 
 .report_frame_cont {border:1px solid #cfcfcf;border-top:0;background:#fff;padding:40px 60px;}
 
-.report_title_type1 {height:35px;padding:10px 0;line-height:38px;font-size:38px;color:#444;position:relative;}
+.report_title_type1 {height:35px;padding:10px 0;line-height:38px;font-size:34px;color:#444;position:relative;}
 .report_title_type1 span {position:absolute;right:0;top:20px;font-size:14px;}
 .report_title_type1 span strong {padding-right:10px;}
 
