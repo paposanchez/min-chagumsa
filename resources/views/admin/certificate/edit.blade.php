@@ -114,16 +114,6 @@
 
                             </li>
 
-                        <!-- <li class="list-group-item">
-                                                        <small>소유자 이력</small>
-                                                        <div class="input-group"><input type="text" class="form-control" name="certificates_history_owner" value="{{ $order->certificates ? $order->certificates->history_owner : '' }}" required><span class="input-group-addon">명</span></div>
-                                                </li>
-
-                                                <li class="list-group-item">
-                                                <small>정비이력</small>
-                                                <div class="input-group"><input type="text" class="form-control" name="certificates_history_maintance" value="{{ $order->certificates ? $order->certificates->history_maintance : '' }}" required><span class="input-group-addon">번</span></div>
-                                        </li> -->
-
                             <li class="list-group-item">
                                 <small>최초등록일</small>
                                 <div class="input-group">
@@ -318,7 +308,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control cert-calculate-cost" placeholder=""
                                                title="" name="certificates_basic_etc" id="basic_etc"
-                                               value="{{ $order->certificates->basic_etc }}" required>
+                                               value="{{ $order->certificates->basic_etc }}">
                                         <span class="input-group-addon">만원</span>
                                     </div>
                                 </div>
@@ -821,13 +811,12 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2">정비이력</label>
+                                <label class="control-label col-sm-2">소유자변경이력</label>
                                 <div class="col-sm-5">
                                     <div class="input-group">
                                         <input type="text" class="form-control"
-                                               name="certificates_history_maintance"
-                                               id="certificates_history_maintance"
-                                               value="{{ $order->certificates->history_maintance }}" required>
+                                               name="certificates_history_owner" id="certificates_history_owner"
+                                               value="{{ $order->certificates->history_owner }}" required>
                                         <span class="input-group-addon">건</span>
                                     </div>
                                 </div>
@@ -836,7 +825,6 @@
 
                                 </div>
                             </div>
-
 
 
 

@@ -165,6 +165,13 @@ class CertificateController extends Controller
         ];
 
 
+        $order_data = [
+            "car_number" => $request->get('orders_car_number'),
+            "mileage" => $request->get('orders_mileage'),
+            "status_cd" => 108
+        ];
+
+
         $car_data = [
             "brands_id" => $order_where->car->brands_id,
             "models_id" => $order_where->car->models_id,
@@ -182,14 +189,16 @@ class CertificateController extends Controller
             "engine_type" => $request->get("cars_engine_type"),
             "fueltype_cd" => $request->get("cars_fueltype_cd"),
             "passenger" => $request->get("passenger"),
-            "kind_cd" => $request->get("kind_cd")
+            "kind_cd" => $request->get("kind_cd"),
+            "exterior_color_etc" => $request->get('car_exterior_color_etc') ? $request->get('car_exterior_color_etc') : '',
+            "fueltype_etc" => $request->get('car_fueltype_etc') ? $request->get('car_fueltype_etc') : ''
         ];
 
         $certificate_data = [
             "orders_id" => $order_where->id,
             "vin_yn_cd" => $request->get("certificates_vin_yn_cd"),
             "history_owner" => $request->get('certificates_history_owner'),
-            "history_maintance" => $request->get('certificates_history_maintance'),
+//            "history_maintance" => $request->get('certificates_history_maintance'),
             "history_insurance" => $request->get("certificates_history_insurance"),
             "history_purpose" => $request->get("certificates_history_purpose"),
             "history_garage" => $request->get("certificates_history_garage"),
@@ -204,41 +213,41 @@ class CertificateController extends Controller
             "usage_history_cd" => $request->get("certificates_usage_history_cd"),
             "usage_history_depreciation" => $request->get("certificates_usage_history_depreciation"),
 
-            "performance_exterior_cd" => $request->get("performance_exterior_cd"),
-            "performance_flooded_cd" => $request->get("performance_flooded_cd"),
-            "performance_consumption_cd" => $request->get("performance_consumption_cd"),
-            "performance_broken_cd" => $request->get("performance_broken_cd"),
-            "performance_power_cd" => $request->get('performance_power_cd'),
-            "performance_electronic_cd" => $request->get('performance_electronic_cd'),
-            "performance_interior_cd" => $request->get('performance_interior_cd'),
-            "performance_exteriortest_cd" => $request->get('performance_exteriortest_cd'),
-            "performance_plugin_cd" => $request->get('performance_plugin_cd'),
-            "performance_engine_cd" => $request->get('performance_engine_cd'),
-            "performance_steering_cd" => $request->get('performance_steering_cd'),
-            "performance_tire_cd" => $request->get('performance_tire_cd'),
-            "performance_accident_cd" => $request->get('performance_accident_cd'),
-            "performance_interiortest_cd" => $request->get('performance_interiortest_cd'),
-            "performance_driving_cd" => $request->get('performance_driving_cd'),
-            "performance_transmission_cd" => $request->get('performance_transmission_cd'),
-            "performance_braking_cd" => $request->get('performance_braking_cd'),
+            "performance_exterior_cd" => $request->get("performance_exterior_cd"),          //차량외부점검
+            "performance_interior_cd" => $request->get('performance_interior_cd'),          //차량내부점검
+            "performance_plugin_cd" => $request->get('performance_plugin_cd'),              //전장장착품작동상태
+            "performance_broken_cd" => $request->get("performance_broken_cd"),              //고잔진단
+            "performance_engine_cd" => $request->get('performance_engine_cd'),              //원동기
+            "performance_transmission_cd" => $request->get('performance_transmission_cd'),  //변속기
+            "performance_power_cd" => $request->get('performance_power_cd'),                //동력전달
+            "performance_steering_cd" => $request->get('performance_steering_cd'),          //조향장치 및 현가장치
+            "performance_braking_cd" => $request->get('performance_braking_cd'),            //제동장치
+            "performance_electronic_cd" => $request->get('performance_electronic_cd'),      //전기장치
+            "performance_tire_cd" => $request->get('performance_tire_cd'),                  //휠&타이어
+            "performance_driving_cd" => $request->get('performance_driving_cd'),            //주행테스트
+//            "performance_flooded_cd" => $request->get("performance_flooded_cd"),
+//            "performance_consumption_cd" => $request->get("performance_consumption_cd"),
+//            "performance_exteriortest_cd" => $request->get('performance_exteriortest_cd'),
+//            "performance_accident_cd" => $request->get('performance_accident_cd'),
+//            "performance_interiortest_cd" => $request->get('performance_interiortest_cd'),
 
             "exterior_comment" => $request->get('exterior_comment'),
-            "flooded_comment" => $request->get('flooded_comment'),
-            "consumption_comment" => $request->get('consumption_comment'),
-            "broken_comment" => $request->get('broken_comment'),
-            "power_comment" => $request->get('power_comment'),
-            "electronic_comment" => $request->get('electronic_comment'),
             "interior_comment" => $request->get('interior_comment'),
-            "exteriortest_comment" => $request->get('exteriortest_comment'),
             "plugin_comment" => $request->get('plugin_comment'),
+            "broken_comment" => $request->get('broken_comment'),
             "engine_comment" => $request->get('engine_comment'),
-            "steering_comment" => $request->get('steering_comment'),
-            "tire_comment" => $request->get('tire_comment'),
-            "accident_comment" => $request->get('accident_comment'),
-            "interiortest_comment" => $request->get('interiortest_comment'),
-            "driving_comment" => $request->get('driving_comment'),
             "transmission_comment" => $request->get('transmission_comment'),
+            "power_comment" => $request->get('power_comment'),
+            "steering_comment" => $request->get('steering_comment'),
             "braking_comment" => $request->get('braking_comment'),
+            "electronic_comment" => $request->get('electronic_comment'),
+            "tire_comment" => $request->get('tire_comment'),
+            "driving_comment" => $request->get('driving_comment'),
+//            "flooded_comment" => $request->get('flooded_comment'),
+//            "consumption_comment" => $request->get('consumption_comment'),
+//            "accident_comment" => $request->get('accident_comment'),
+//            "interiortest_comment" => $request->get('interiortest_comment'),
+//            "exteriortest_comment" => $request->get('exteriortest_comment'),
 
             "performance_depreciation" => $request->get("performance_depreciation"), // 차량성능상태 감가금액
             "history_depreciation" => $request->get('history_depreciation'), // 사용이력 감가금액 ( 현재 없음 )
@@ -252,7 +261,8 @@ class CertificateController extends Controller
             "special_depreciation" => $request->get("special_depreciation"),
             "valuation" => $request->get("certificates_valuation"),
             "opinion" => $request->get("certificates_opinion"),
-            "grade" => $request->get('grade_state_cd')
+            "grade" => $request->get('grade_state_cd'),
+            "usage_flood_cd" => $request->get('certificates_usage_flood_cd')
         ];
 
 
@@ -384,7 +394,7 @@ class CertificateController extends Controller
                 $mail_message = [
                     'order_number' => $order_number, 'certificate_url' => $certificate_url
                 ];
-                Mail::send(new \App\Mail\Ordering($user->email, "차검사 인증서 발급이 완료되었습니다.", $mail_message, 'message.email.fin-diagnosis-tech'));
+                Mail::send(new \App\Mail\Ordering($user->email, "차검사 인증서 발급이 완료되었습니다.", $mail_message, 'message.email.fin-certification-user'));
             } catch (\Exception $e) {
             }
 

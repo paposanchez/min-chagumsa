@@ -308,7 +308,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control cert-calculate-cost" placeholder=""
                                                title="" name="certificates_basic_etc" id="basic_etc"
-                                               value="{{ $order->certificates->basic_etc }}" required>
+                                               value="{{ $order->certificates->basic_etc }}">
                                         <span class="input-group-addon">만원</span>
                                     </div>
                                 </div>
@@ -710,10 +710,6 @@
                                 <label class="control-label col-sm-2">요인</label>
                                 <div class="col-sm-7">
                                     <div class="btn-group" data-toggle="buttons">
-                                        {{--<label class="btn btn-default {{ $order->certificates->special_flooded_cd == 3 ? 'active' : '' }}">--}}
-                                        {{--{{ Form::checkbox('certificates_special_flooded_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_flooded_cd)) }}--}}
-                                        {{--침수차량--}}
-                                        {{--</label>--}}
                                         <label class="btn btn-default {{ $order->certificates->special_fire_cd == 3 ? 'active' : '' }}">
                                             {{ Form::checkbox('certificates_special_fire_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_fire_cd)) }}
                                             화재차량
@@ -798,20 +794,31 @@
 
                                 </div>
                             </div>
+                            {{--<div class="form-group">--}}
+                                {{--<label class="control-label col-sm-2">정비이력</label>--}}
+                                {{--<div class="col-sm-5">--}}
+                                    {{--<div class="input-group">--}}
+                                        {{--<input type="text" class="form-control"--}}
+                                               {{--name="certificates_history_maintance"--}}
+                                               {{--id="certificates_history_maintance"--}}
+                                               {{--value="{{ $order->certificates->history_maintance }}" required>--}}
+                                        {{--<span class="input-group-addon">건</span>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+
+                                {{--<div class="col-sm-3">--}}
+
+                                {{--</div>--}}
+                            {{--</div>--}}
                             <div class="form-group">
-                                <label class="control-label col-sm-2">정비이력</label>
-                                <div class="col-sm-5">
+                                <label class="control-label col-sm-3">소유자변경이력</label>
+                                <div class="col-sm-4">
                                     <div class="input-group">
                                         <input type="text" class="form-control"
-                                               name="certificates_history_maintance"
-                                               id="certificates_history_maintance"
-                                               value="{{ $order->certificates->history_maintance }}" required>
+                                               name="certificates_history_owner" id="certificates_history_owner"
+                                               value="{{ $order->certificates->history_owner }}" required>
                                         <span class="input-group-addon">건</span>
                                     </div>
-                                </div>
-
-                                <div class="col-sm-3">
-
                                 </div>
                             </div>
                         </div>

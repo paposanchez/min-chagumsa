@@ -232,8 +232,8 @@ class CertificateController extends Controller
         $certificate_data = [
             "orders_id" => $order_where->id,
             "vin_yn_cd" => $request->get("certificates_vin_yn_cd"),
-//            "history_owner" => $request->get('certificates_history_owner'),
-            "history_maintance" => $request->get('certificates_history_maintance'),
+            "history_owner" => $request->get('certificates_history_owner'),
+//            "history_maintance" => $request->get('certificates_history_maintance'),
             "history_insurance" => $request->get("certificates_history_insurance"),
             "history_purpose" => $request->get("certificates_history_purpose"),
             "history_garage" => $request->get("certificates_history_garage"),
@@ -416,6 +416,30 @@ class CertificateController extends Controller
             $order = Order::findOrFail($order_id);
             $order->status_cd = 109;
             $order->save();
+
+            //문자, 메일 송부하기
+            $user = User::find($order->orderer_id);
+            $order_number = $order->getOrderNumber();
+            $certificate_url = 'http://cert.chagumsa.com/'.$order_number;
+
+            try{
+                //메일전송
+                $mail_message = [
+                    'order_number' => $order_number , 'certificate_url' => $certificate_url
+                ];
+                Mail::send(new \App\Mail\Ordering($user->email, "차검사 인증서 발급이 완료되었습니다.", $mail_message, 'message.email.fin-certification-user'));
+            }catch (\Exception $e){
+                return response()->json($e->getMessage());
+            }
+
+            try{
+                // SMS전송
+                $user_message = view('message.sms.fin-certification-user', compact('order_number', 'certificate_url'));
+                event(new SendSms($order->orderer_mobile, '', $user_message));
+            }catch (\Exception $e){
+                return response()->json($e->getMessage());
+            }
+            //발송 끝
 
             return response()->json('success');
         } catch (\Exception $ex) {
