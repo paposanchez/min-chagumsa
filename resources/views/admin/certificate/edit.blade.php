@@ -392,7 +392,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom: 5px;">
                                 <label class="control-label col-sm-2">사고/수리이력</label>
                                 <div class="col-sm-7">
                                     <div class="btn-group btn-group" data-toggle="buttons">
@@ -412,6 +412,7 @@
                                             {{ Form::radio('certificates_usage_history_cd', 1288, \App\Helpers\Helper::isCheckd(1288, $order->certificates->usage_history_cd)) }}
                                             기본차체교환/골격수리
                                         </label>
+
                                     </div>
                                     @if ($errors->has('certificates_usage_history_cd'))
                                         <span class="text-danger">
@@ -430,10 +431,15 @@
                                         <span class="input-group-addon">만원</span>
                                     </div>
                                 </div>
-                                <textarea name="exterior_comment" class="form-control"
-                                          style="height: 60px; margin-top:5px;">{{ $order->certificates ? $order->certificates->exterior_comment : '' }}</textarea>
                             </div>
                             <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <textarea name="history_comment" class="form-control"
+                                              style="height: 60px;">{{ $order->certificates ? $order->certificates->history_comment : '' }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 5px;">
                                 <label class="control-label col-sm-2">침수점검</label>
                                 <div class="col-sm-7">
                                     <div class="btn-group btn-group" data-toggle="buttons">
@@ -467,7 +473,14 @@
                                     {{--</div>--}}
                                 {{--</div>--}}
                             </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <textarea name="flood_comment" class="form-control"
+                                              style="height: 60px;">{{ $order->certificates ? $order->certificates->flood_comment : '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
+
 
                         <div class="panel-heading">
                             <div class="row">
@@ -843,96 +856,6 @@
 
                                 </div>
                             </div>
-
-
-
-
-
-                            {{--<div class="form-group">--}}
-                                {{--<label class="control-label col-sm-2"></label>--}}
-                                {{--<div class="col-sm-10">--}}
-
-                                    {{--<div class="form-group">--}}
-                                        {{--<label class="control-label col-sm-3">용도변경이력</label>--}}
-                                        {{--<div class="col-sm-9">--}}
-                                            {{--<input type="text" id="certificates_history_purpose" class="form-control"--}}
-                                                   {{--name="certificates_history_purpose" data-role="tagsinput"--}}
-                                                   {{--value="{{ $order->certificates->history_purpose }}"--}}
-                                                   {{--style="width:100%;">--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-
-                                    {{--<div class="form-group">--}}
-                                        {{--<label class="control-label col-sm-3">최종차고지이력</label>--}}
-                                        {{--<div class="col-sm-9">--}}
-                                            {{--<input type="text" id="certificates_history_garage"--}}
-                                                   {{--name="certificates_history_garage" class="form-control"--}}
-                                                   {{--data-role="tagsinput"--}}
-                                                   {{--value="{{ $order->certificates->history_garage }}"--}}
-                                                   {{--style="width:100%;">--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-
-                                    {{--<div class="form-group {{ $errors->has('attachment') ? 'has-error' : '' }}">--}}
-                                        {{--<label for="" class="control-label col-md-3">보험사고이력</label>--}}
-                                        {{--<div class="col-sm-4">--}}
-                                            {{--<div class="input-group">--}}
-                                                {{--<input type="text" class="form-control"--}}
-                                                       {{--name="certificates_history_insurance"--}}
-                                                       {{--id="certificates_history_insurance"--}}
-                                                       {{--value="{{ $order->certificates->history_insurance }}" required>--}}
-                                                {{--<span class="input-group-addon">건</span>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="col-md-offset-3 col-md-9" style="margin-top: 5px;">--}}
-                                            {{--<div class="plugin-attach" id="plugin-attachment">--}}
-
-                                                {{--@if ($errors->has('attachment'))--}}
-                                                    {{--<span class="help-block">--}}
-                                                {{--{{ $errors->first('attachment') }}--}}
-                                            {{--</span>--}}
-                                                {{--@endif--}}
-
-                                            {{--</div>--}}
-
-
-                                            {{--@if ($errors->has('attachment'))--}}
-                                                {{--<span class="help-block">--}}
-                                            {{--{{ $errors->first('attachment') }}--}}
-                                        {{--</span>--}}
-                                            {{--@endif--}}
-
-                                        {{--</div>--}}
-
-                                    {{--</div>--}}
-
-
-                                    {{--<div class="form-group">--}}
-                                        {{--<label class="control-label col-sm-3">소유자변경이력</label>--}}
-                                        {{--<div class="col-sm-4">--}}
-                                            {{--<div class="input-group">--}}
-                                                {{--<input type="text" class="form-control"--}}
-                                                       {{--name="certificates_history_owner" id="certificates_history_owner"--}}
-                                                       {{--value="{{ $order->certificates->history_owner }}" required>--}}
-                                                {{--<span class="input-group-addon">건</span>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-
-                                    {{--<div class="form-group no-margin">--}}
-                                        {{--<label class="control-label col-sm-3">정비이력</label>--}}
-                                        {{--<div class="col-sm-4">--}}
-                                            {{--<div class="input-group">--}}
-                                                {{--<input type="text" class="form-control"--}}
-                                                       {{--name="certificates_history_maintance"--}}
-                                                       {{--id="certificates_history_maintance"--}}
-                                                       {{--value="{{ $order->certificates->history_maintance }}" required>--}}
-                                                {{--<span class="input-group-addon">건</span>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
                         </div>
 
 

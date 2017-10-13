@@ -17,19 +17,18 @@
             <a href="/order/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"
                style="margin-left:10px;">주문보기</a>
 
-            <a href="/certificate/diagnosis/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"
+            <a href="{{ url("diagnosis", [$order->id]) }}" target="_blank" class="btn btn-default pull-right"
                style="margin-left:10px;" data-toggle="tooltip" title="인증서 진단정보 보기">진단정보 보기</a>
 
             <button id="issue" class="btn btn-primary pull-right" data-toggle="tooltip" title="인증서 진단정보 보기"
                     data-id="{{ $order->id }}" style="margin-left:10px;">인증서 발급하기
             </button>
 
-            <button id="certificate-submit" type="submit" class="btn btn-info pull-right" data-toggle="tooltip" title="인증서 저장하기" style="margin-left:10px;">인증서 저장하기
+            <button id="certificate-submit" class="btn btn-info pull-right" data-toggle="tooltip" title="인증서 저장하기" style="margin-left:10px;">인증서
+                저장하기
             </button>
 
             <a href="/certificate/{{ $order->id }}" target="_blank" class="btn btn-primary pull-right" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
-
-
 
         </h3>
 
@@ -37,7 +36,6 @@
         <div class="row">
 
             <div class="col-xs-6">
-
 
                 <div class="block bg-white" style="margin-bottom:10px;">
 
@@ -77,8 +75,8 @@
         </div>
 
 
-        {!! Form::model($order, ['method' => 'PATCH','url' => ['certificate/update'], 'class'=>'form-horizontal', 'id'=>'frm', 'enctype'=>"multipart/form-data"]) !!}
-        <input type="hidden" name="order_id" value="{{ $order->id }}"/>
+        {!! Form::model($order, ['method' => 'PATCH','route' => ['certificate.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
+
         <div class="bg-white">
 
             <div class="row">
@@ -112,7 +110,6 @@
                                 {!! Form::select('certificates_vin_yn_cd', $select_vin_yn, [$order->certificates->vin_yn_cd], ['class' =>'form-control']) !!}
 
                             </li>
-
 
                             <li class="list-group-item">
                                 <small>최초등록일</small>
@@ -173,8 +170,8 @@
                             </li>
 
                             {{--<li class="list-group-item">--}}
-                                {{--<small>내부색상</small>--}}
-                                {{--{!! Form::select('cars_interior_color', $select_color, [$car->interior_color_cd ? $car->interior_color_cd : ''], ['class'=>'form-control', 'required']) !!}--}}
+                            {{--<small>내부색상</small>--}}
+                            {{--{!! Form::select('cars_interior_color', $select_color, [$car->interior_color_cd ? $car->interior_color_cd : ''], ['class'=>'form-control', 'required']) !!}--}}
                             {{--</li>--}}
 
                             <li class="list-group-item">
@@ -219,6 +216,25 @@
                         </ul>
                     </div>
 
+                </div>
+                <div class="col-md-8">
+                    <h4 style="margin-top:36px !important; ">대표이미지 선택</h4>
+                    <div style="border: #000000 solid 1px; margin-top: 10px; padding: 10px;">
+                        @foreach($order->getExteriorPicture() as $picture)
+                            @foreach($picture->files as $file)
+                                <img
+                                        name="picture"
+                                        src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $file->id }}"
+                                        class="img-responsive picture"
+                                        style="width:100px;height:100px;display:inline-block;
+                                        @if($order->certificates->pictures == $file->id)
+                                                opacity:0.2;
+                                        @endif
+                                                " data-id="{{$file->id}}">
+                            @endforeach
+                        @endforeach
+                    </div>
+                    <input type="hidden" name="selecte_picture_id" id="selecte_picture_id" value="">
                 </div>
 
                 <div class="col-md-8">
@@ -314,6 +330,18 @@
                                 </div>
                             </div>
 
+                            {{--<div class="form-group no-margin">--}}
+                            {{--<label for="" class="control-label col-md-offset-5 col-md-3">기본가격(A) 감가금액</label>--}}
+                            {{--<div class="col-sm-4">--}}
+                            {{--<div class="input-group">--}}
+                            {{--<input type="text" class="form-control" name="basic_depreciation"--}}
+                            {{--id="basic_depreciation"--}}
+                            {{--value="{{ $order->certificates->history_depreciation ? $order->certificates->history_depreciation : '' }}"--}}
+                            {{--required>--}}
+                            {{--<span class="input-group-addon">원</span>--}}
+                            {{--</div>--}}
+                            {{--</div>--}}
+                            {{--</div>--}}
                         </div>
 
                         <div class="panel-heading">
@@ -364,7 +392,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom: 5px;">
                                 <label class="control-label col-sm-2">사고/수리이력</label>
                                 <div class="col-sm-7">
                                     <div class="btn-group btn-group" data-toggle="buttons">
@@ -384,6 +412,7 @@
                                             {{ Form::radio('certificates_usage_history_cd', 1288, \App\Helpers\Helper::isCheckd(1288, $order->certificates->usage_history_cd)) }}
                                             기본차체교환/골격수리
                                         </label>
+
                                     </div>
                                     @if ($errors->has('certificates_usage_history_cd'))
                                         <span class="text-danger">
@@ -404,6 +433,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <textarea name="history_comment" class="form-control"
+                                              style="height: 60px;">{{ $order->certificates ? $order->certificates->history_comment : '' }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 5px;">
                                 <label class="control-label col-sm-2">침수점검</label>
                                 <div class="col-sm-7">
                                     <div class="btn-group btn-group" data-toggle="buttons">
@@ -428,16 +464,23 @@
                                 </div>
 
                                 {{--<div class="col-sm-3">--}}
-                                    {{--<div class="input-group">--}}
-                                        {{--<input type="text" class="form-control cert-calculate-cost" placeholder=""--}}
-                                               {{--title="" name="certificates_usage_mileage_depreciation"--}}
-                                               {{--id="certificates_usage_mileage_depreciation"--}}
-                                               {{--value="" required>--}}
-                                        {{--<span class="input-group-addon">만원</span>--}}
-                                    {{--</div>--}}
+                                {{--<div class="input-group">--}}
+                                {{--<input type="text" class="form-control cert-calculate-cost" placeholder=""--}}
+                                {{--title="" name="certificates_usage_mileage_depreciation"--}}
+                                {{--id="certificates_usage_mileage_depreciation"--}}
+                                {{--value="" required>--}}
+                                {{--<span class="input-group-addon">만원</span>--}}
+                                {{--</div>--}}
                                 {{--</div>--}}
                             </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <textarea name="flood_comment" class="form-control"
+                                              style="height: 60px;">{{ $order->certificates ? $order->certificates->flood_comment : '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
+
 
                         <div class="panel-heading">
                             <div class="row">
@@ -710,6 +753,10 @@
                                 <label class="control-label col-sm-2">요인</label>
                                 <div class="col-sm-7">
                                     <div class="btn-group" data-toggle="buttons">
+                                        {{--<label class="btn btn-default {{ $order->certificates->special_flooded_cd == 3 ? 'active' : '' }}">--}}
+                                        {{--{{ Form::checkbox('certificates_special_flooded_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_flooded_cd)) }}--}}
+                                        {{--침수차량--}}
+                                        {{--</label>--}}
                                         <label class="btn btn-default {{ $order->certificates->special_fire_cd == 3 ? 'active' : '' }}">
                                             {{ Form::checkbox('certificates_special_fire_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_fire_cd)) }}
                                             화재차량
@@ -794,25 +841,9 @@
 
                                 </div>
                             </div>
-                            {{--<div class="form-group">--}}
-                                {{--<label class="control-label col-sm-2">정비이력</label>--}}
-                                {{--<div class="col-sm-5">--}}
-                                    {{--<div class="input-group">--}}
-                                        {{--<input type="text" class="form-control"--}}
-                                               {{--name="certificates_history_maintance"--}}
-                                               {{--id="certificates_history_maintance"--}}
-                                               {{--value="{{ $order->certificates->history_maintance }}" required>--}}
-                                        {{--<span class="input-group-addon">건</span>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-
-                                {{--<div class="col-sm-3">--}}
-
-                                {{--</div>--}}
-                            {{--</div>--}}
                             <div class="form-group">
-                                <label class="control-label col-sm-3">소유자변경이력</label>
-                                <div class="col-sm-4">
+                                <label class="control-label col-sm-2">소유자변경이력</label>
+                                <div class="col-sm-5">
                                     <div class="input-group">
                                         <input type="text" class="form-control"
                                                name="certificates_history_owner" id="certificates_history_owner"
@@ -820,9 +851,12 @@
                                         <span class="input-group-addon">건</span>
                                     </div>
                                 </div>
+
+                                <div class="col-sm-3">
+
+                                </div>
                             </div>
                         </div>
-
 
 
                         <div class="panel-heading">
@@ -883,58 +917,67 @@
 @endsection
 
 @push( 'header-script' )
-{{ Html::style(Helper::assets('vendor/tagsinput/bootstrap-tagsinput.css')) }}
+    {{ Html::style(Helper::assets('vendor/tagsinput/bootstrap-tagsinput.css')) }}
 @endpush
 
 @push( 'footer-script' )
-{{ Html::script(Helper::assets( 'vendor/tagsinput/bootstrap-tagsinput.min.js' )) }}
+    {{ Html::script(Helper::assets( 'vendor/tagsinput/bootstrap-tagsinput.min.js' )) }}
 
-<script type="text/template" id="qq-template">
+    <script type="text/template" id="qq-template">
 @include("partials/files")
-</script>
-<link rel="stylesheet"
-      href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}"/>
-<script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
-<script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
-<script type="text/template" id="insurance-template">@include("partials/files", ['files'=> $order->certificates->insurance_files])</script>
+    </script>
+    <link rel="stylesheet"
+          href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}"/>
+    <script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
+    <script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
+    <script type="text/template" id="insurance-template">@include("partials/files", ['files'=> $order->certificates->insurance_files])</script>
 
-<script type="text/javascript">
-    var sum_certificate_price = function () {
-        var Pst = parseInt($("#pst").val());
+    <script type="text/javascript">
+        var sum_certificate_price = function () {
+            var Pst = parseInt($("#pst").val());
 //        var A = parseInt($("#basic_registraion_depreciation").val())
 //            + parseInt($("#basic_mounting_cd").val()) + parseInt($("#basic_etc").val());
 
-        var A = parseInt($('#basic_depreciation').val());
+            var A = parseInt($('#basic_depreciation').val());
 //        var B = parseInt($("#usage_mileage_depreciation").val()) + parseInt($("#usage_history_depreciation").val());
-        var B = parseInt($('#history_depreciation').val());
-        var C = parseInt($("#performance_depreciation").val());
-        var S = parseInt($("#special_depreciation").val());
+            var B = parseInt($('#history_depreciation').val());
+            var C = parseInt($("#performance_depreciation").val());
+            var S = parseInt($("#special_depreciation").val());
 
-        var V = Pst + (A + B + C + S);
-        return V;
-    }
+            var V = Pst + (A + B + C + S);
+            return V;
+        }
 
-    $(function () {
+        $(function () {
 
-        $(document).on('click', '#certificate-submit', function () {
-            if (confirm("인증서를 저장하시겠습니까?")) {
-                $("#frm").submit();
-            }
-        });
+            $(document).on('click', '.picture', function(){
+                $(this).parent().find('img').css('opacity', '1');
+                $(this).css('opacity', '0.2');
+
+                $('#selecte_picture_id').val($(this).data('id'));
+            });
 
 
-        $("#frm").validate({
-            messages: {
-                orders_car_number: "자동차 등록번호를 입력해 주세요.",
-                cars_vin_number: "차대번호를 입력해 주세요.",
-                certificates_vin_yn_cd: "차대번호 동일성확인을 선택해 주세요.",
-                cars_registration_date: "차량의 최초등록일을 입력해 주세요.",
-                cars_year: "연식을 입력해 주세요.",
-                orders_mileage: "주행거리를 km단위로 입력해 주세요. (정수값)",
-                cars_displacement: "배기량을 입력해 주세요.",
-                cars_engine_type: "엔진타입을 입력해 주세요.",
-                cars_fuel_consumption: "연비를 선택해 주세요.",
-                passenger: "승차인원을 입력해 주세요.",
+
+            $(document).on('click', '#certificate-submit', function () {
+                if (confirm("인증서를 저장하시겠습니까?")) {
+                    $("#frm-basic").submit();
+                }
+            });
+
+
+            $("#frm-basic").validate({
+                messages: {
+                    orders_car_number: "자동차 등록번호를 입력해 주세요.",
+                    cars_vin_number: "차대번호를 입력해 주세요.",
+                    certificates_vin_yn_cd: "차대번호 동일성확인을 선택해 주세요.",
+                    cars_registration_date: "차량의 최초등록일을 입력해 주세요.",
+                    cars_year: "연식을 입력해 주세요.",
+                    orders_mileage: "주행거리를 km단위로 입력해 주세요. (정수값)",
+                    cars_displacement: "배기량을 입력해 주세요.",
+                    cars_engine_type: "엔진타입을 입력해 주세요.",
+                    cars_fuel_consumption: "연비를 선택해 주세요.",
+                    passenger: "승차인원을 입력해 주세요.",
 
 //                certificates_usage_history_depreciation: "사고/수리이력 감가금액을 입력해주세요.",
 //                certificates_basic_etc: "색상 등 기타 감가금액을 입력해주세요.",
@@ -957,7 +1000,7 @@
 //                driving_comment: "주행테스트 점검의견을 입력해주세요.",
 //                transmission_comment: "변속기 점검의견을 입력해주세요.",
 //                braking_comment: "제동장치 점검의견을 입력해주세요.",
-//                certificates_history_owner: "소유자 변경이력을 입력해주세요.",
+////                certificates_history_owner: "소유자 변경이력을 입력해주세요.",
 //                certificates_history_garage: "차고지 변경이력을 입력해주세요.",
 //                certificates_history_maintance: "정비 변경이력을 입력해주세요.",
 //                certificates_history_purpose: "용도 변경이력을 입력해주세요.",
@@ -966,142 +1009,142 @@
 //                certificates_valuation: "평가금액을 입력하세요.",
 //                certificates_history_insurance: "보험사고이력을 입력해주세요.",
 //
-//                history_depreciation: "사용이력 감가금액을 입력해주세요.",
+//                history_depreciation: "주요이력평가 감가금액을 입력해주세요.",
 //                basic_depreciation: "기본평가 감가금액을 입력해주세요.",
 //                special_depreciation: "특별요인 감가금액을 입력해주세요.",
-//                performance_depreciation: "차량성능삼태 감가금액을 입력해주세요.",
-            },
+//                performance_depreciation: "차량성능삼태 감가금액을 입력해주세요."
+                },
 //        errorPlacement: function(error, element) {
 //            var chk_name = element.attr("name");
 //            $('input[name='+chk_name+'-error]').addClass('text-danger');
 //        },
-            submitHandler: function (form) {
-                form.submit();
-            }
-        });
-
-        $("#valuation").on("click", function () {
-            if (confirm("평가금액을 계산하시겠습니까?")) {
-                var valuation = sum_certificate_price();
-
-                if (!isNaN(valuation)) {
-                    $("#valuation").val(valuation);
-                } else {
-                    $("#valuation").val('');
-                    alert('평가금액 계산을 위해 금액을 정확히 입력해 주세요.')
+                submitHandler: function (form) {
+                    form.submit();
                 }
-            } else {
-                $("#valuation").focus();
-            }
+            });
 
-        });
+            $("#valuation").on("click", function () {
+                if (confirm("평가금액을 계산하시겠습니까?")) {
+                    var valuation = sum_certificate_price();
 
-
-        // 인증서 발급하기
-        $("#issue").click(function () {
-            var id = $(this).data('id');
-            var c = confirm("인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
-            if (c == true) {
-                $.ajax({
-                    type: 'post',
-                    url: '/certificate/issue',
-                    data: {
-                        'order_id': id
-                    },
-                    success: function (data) {
-                        alert('인증서 발급이 완료되었습니다.');
-                        location.href = "/certificate";
-                    },
-                    error: function (data) {
-                        alert(JSON.stringify(data));
+                    if (!isNaN(valuation)) {
+                        $("#valuation").val(valuation);
+                    } else {
+                        $("#valuation").val('');
+                        alert('평가금액 계산을 위해 금액을 정확히 입력해 주세요.')
                     }
-                })
-            }
+                } else {
+                    $("#valuation").focus();
+                }
 
+            });
+
+
+            // 인증서 발급하기
+            $("#issue").click(function () {
+                var id = $(this).data('id');
+                var c = confirm("인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
+                if (c == true) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/certificate/issue',
+                        data: {
+                            'order_id': id
+                        },
+                        success: function (data) {
+                            alert('인증서 발급이 완료되었습니다.');
+                            location.href = "/certificate";
+                        },
+                        error: function (data) {
+                            alert(JSON.stringify(data));
+                        }
+                    })
+                }
+
+            });
+
+            $('#cars_exterior_color').change(function (){
+                if($('#cars_exterior_color').val() == 1132){
+                    $('#exterior_color_etc').css('display', '')
+                }else{
+                    $('#exterior_color_etc').css('display', 'none')
+                }
+            });
+
+            $('#cars_fueltype_cd').change(function(){
+                if($('#cars_fueltype_cd').val() == 1106){
+                    $('#fueltype_etc').css('display', '')
+                }else{
+                    $('#fueltype_etc').css('display', 'none')
+                }
+            });
         });
 
-        $('#cars_exterior_color').change(function (){
-            if($('#cars_exterior_color').val() == 1132){
-                $('#exterior_color_etc').css('display', '')
-            }else{
-                $('#exterior_color_etc').css('display', 'none')
-            }
-        });
 
-        $('#cars_fueltype_cd').change(function(){
-           if($('#cars_fueltype_cd').val() == 1106){
-               $('#fueltype_etc').css('display', '')
-           }else{
-               $('#fueltype_etc').css('display', 'none')
-           }
-        });
-    });
-
-
-    $(document).ready(function () {
-        $('#plugin-attachment').fineUploader({
-            debug: true,
-            template: 'insurance-template',
-            request: {
-                inputName: "upfile",
-                endpoint: '/file/upload',
-                customHeaders: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            },
-            deleteFile: {
-                enabled: true,
-                endpoint: '/file/delete',
-                customHeaders: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            },
-            thumbnails: {
-                placeholders: {
-                    waitingPath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/waiting-generic.png' ) }}",
-                    notAvailablePath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/not_available-generic.png' ) }}",
-                }
-            },
-            validation: {
-                allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'hwp'],
-                itemLimit: 3,
-                sizeLimit: 5120000, // 50 kB = 50 * 1024 bytes
-                stopOnFirstInvalidFile: true
-            },
-            text: {
-                uploadButton: 'Upload a file',
-                cancelButton: 'Cancel',
-                retryButton: 'Retry',
-                failUpload: 'Upload failed',
-                dragZone: 'Drop files here to upload',
-                formatProgress: "{percent}% of {total_size}",
-                waitingForResponse: "Processing..."
-            },
-            messages: {
-                typeError: "{file} has an invalid extension. Valid extension(s): {extensions}.",
-                sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
-                minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
-                emptyError: "{file} is empty, please select files again without it.",
-                noFilesError: "No files to upload.",
-                onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
-            },
-            callbacks: {
-                onSubmit: function (id, fileName) {
-                    this.setParams({'upfile_group': "insurance", 'upfile_group_id': "{{ $order->id }}"});
+        $(document).ready(function () {
+            $('#plugin-attachment').fineUploader({
+                debug: true,
+                template: 'insurance-template',
+                request: {
+                    inputName: "upfile",
+                    endpoint: '/file/upload',
+                    customHeaders: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
                 },
-                onComplete: function (id, fileName, responseJSON) {
-                    if (responseJSON.success == true) {
-                        $.notify(responseJSON.msg, "success");
+                deleteFile: {
+                    enabled: true,
+                    endpoint: '/file/delete',
+                    customHeaders: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                },
+                thumbnails: {
+                    placeholders: {
+                        waitingPath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/waiting-generic.png' ) }}",
+                        notAvailablePath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/not_available-generic.png' ) }}",
+                    }
+                },
+                validation: {
+                    allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'hwp'],
+                    itemLimit: 3,
+                    sizeLimit: 5120000, // 50 kB = 50 * 1024 bytes
+                    stopOnFirstInvalidFile: true
+                },
+                text: {
+                    uploadButton: 'Upload a file',
+                    cancelButton: 'Cancel',
+                    retryButton: 'Retry',
+                    failUpload: 'Upload failed',
+                    dragZone: 'Drop files here to upload',
+                    formatProgress: "{percent}% of {total_size}",
+                    waitingForResponse: "Processing..."
+                },
+                messages: {
+                    typeError: "{file} has an invalid extension. Valid extension(s): {extensions}.",
+                    sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+                    minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                    emptyError: "{file} is empty, please select files again without it.",
+                    noFilesError: "No files to upload.",
+                    onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
+                },
+                callbacks: {
+                    onSubmit: function (id, fileName) {
+                        this.setParams({'upfile_group': "insurance", 'upfile_group_id': "{{ $order->id }}"});
+                    },
+                    onComplete: function (id, fileName, responseJSON) {
+                        if (responseJSON.success == true) {
+                            $.notify(responseJSON.msg, "success");
 
 //                        var $listItem = $(this).fineUploader('getItemByFileId', id);
 //                        $listItem.find('.plugin-attach-file-input').val(responseJSON.data.id);
 
-                    } else {
-                        $.notify(responseJSON.msg, "error");
+                        } else {
+                            $.notify(responseJSON.msg, "error");
+                        }
                     }
                 }
-            }
-        });
+            });
 
 
             if($('#cars_exterior_color').val() == 1132){
@@ -1119,6 +1162,6 @@
             }
 
 
-    });
-</script>
+        });
+    </script>
 @endpush

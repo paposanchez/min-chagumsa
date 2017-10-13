@@ -134,6 +134,7 @@
 
                     <h4>결제정보</h4>
                     <ul class="list-group">
+                        {{-- todo 결제상태를 채크하여 결제상태가 102(주문완료) 일떄만 결제일자 결제번호 를 표출하는걸로 해야 한다. --}}
                         <li class="list-group-item no-border"><span>상품명</span> <em
                                     class="pull-right">{{ $order->item->name }}</em></li>
                         <li class="list-group-item no-border"><span>결제금액</span> <em

@@ -25,7 +25,7 @@
                             <div class="btn-group">
                                 <button class="btn btn-default" name="status_cd" value="">전체</button>
                                 <button class="btn btn-default" name="status_cd" value="100">주문취소</button>
-                                <button class="btn btn-default" name="status_cd" value="101">주문신청</button>
+                                {{--<button class="btn btn-default" name="status_cd" value="101">주문신청</button>--}}
                                 <button class="btn btn-default" name="status_cd" value="102">주문완료</button>
                                 <button class="btn btn-default" name="status_cd" value="103">예약확인</button>
                                 <button class="btn btn-default" name="status_cd" value="104">입고대기</button>
@@ -87,7 +87,6 @@
         <div class="row margin-bottom">
 
             <div class="col-md-12">
-
 
                 <p class="form-control-static">
                     {!! trans('common.search-result', ['count' => '<span class="text-danger">'.number_format($entrys->total()).'</span>']) !!}

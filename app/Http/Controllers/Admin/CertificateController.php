@@ -300,6 +300,8 @@ class CertificateController extends Controller
             "opinion" => $request->get("certificates_opinion"),
             "grade" => $request->get('grade_state_cd'),
             "usage_flood_cd" => $request->get('certificates_usage_flood_cd'),
+            "flood_comment" => $request->get('flood_comment'),
+            "history_comment" => $request->get('history_comment'),
 
 
 
