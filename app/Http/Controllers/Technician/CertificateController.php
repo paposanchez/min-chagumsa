@@ -145,6 +145,7 @@ class CertificateController extends Controller
      */
     public function update(Request $request)
     {
+
         $id = $request->get('order_id');
 
         $order_where = Order::find($id);
@@ -338,6 +339,7 @@ class CertificateController extends Controller
             }
 
             DB::commit();
+
 
             return redirect()->back()->with('success', '인증서 정보가 갱신되었습니다');
 

@@ -75,8 +75,8 @@
         </div>
 
 
-        {!! Form::model($order, ['method' => 'PATCH','route' => ['certificate.update', $order->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
-
+        {!! Form::model($order, ['method' => 'PATCH','url' => ['certificate/update'], 'class'=>'form-horizontal', 'id'=>'frm', 'enctype'=>"multipart/form-data"]) !!}
+        <input type="hidden" name="order_id" value="{{ $order->id }}"/>
         <div class="bg-white">
 
             <div class="row">
@@ -961,12 +961,12 @@
 
             $(document).on('click', '#certificate-submit', function () {
                 if (confirm("인증서를 저장하시겠습니까?")) {
-                    $("#frm-basic").submit();
+                    $("#frm").submit();
                 }
             });
 
 
-            $("#frm-basic").validate({
+            $("#frm").validate({
                 messages: {
                     orders_car_number: "자동차 등록번호를 입력해 주세요.",
                     cars_vin_number: "차대번호를 입력해 주세요.",
