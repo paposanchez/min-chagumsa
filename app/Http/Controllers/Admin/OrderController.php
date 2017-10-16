@@ -144,7 +144,9 @@ class OrderController extends Controller
         $entrys = $where->paginate(25);
 
 
-        return view('admin.order.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys'));
+        $engineers = Role::find(5)->users->pluck('name', 'id');
+
+        return view('admin.order.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'engineers'));
     }
 
     public function show($id)
@@ -756,7 +758,7 @@ class OrderController extends Controller
     public function confirmation($order_id)
     {
         try {
-            $reservation = Reservation::where('orders_id', $order_id);
+            $reservation = Reservation::where('orders_id', $order_id)->first();
             $reservation->update([
                 'updated_id' => Auth::user()->id,
                 'updated_at' => Carbon::now()
@@ -1089,6 +1091,24 @@ class OrderController extends Controller
             return response()->json($ex->getMessage());
         }
 
+    }
+
+    public function diagnosing(Request $request){
+        try{
+            $order_id = $request->get('order_id');
+            $engineer_id = $request->get('engineer_id');
+
+            $order = Order::findOrFail($order_id);
+
+            $order->engineer_id = $engineer_id;
+            $order->diagnose_at = new DateTime('now');
+            $order->status_cd = 106;
+            $order->save();
+
+            return response()->json('success');
+        }catch(\Exception $ex) {
+            return response()->json($ex->getMessage());
+        }
     }
 
 

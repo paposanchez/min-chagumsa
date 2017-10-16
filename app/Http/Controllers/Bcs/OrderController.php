@@ -106,10 +106,17 @@ class OrderController extends Controller
             }
         }
 
-
         $entrys = $where->paginate(25);
 
-        return view('bcs.order.index', compact('search_fields', 'entrys'));
+        $engineers = $where = User::select('users.*')->join('user_extras', function($extra_qry){
+            $extra_qry->on('users.id', 'user_extras.users_id');
+        })->join('role_user', function($role_user_qry){
+            $role_user_qry->on('user_extras.users_id', 'role_user.user_id');
+        })->join('roles', function($role_qry){
+            $role_qry->on('role_user.role_id', 'roles.id');
+        })->where('role_user.role_id', 5)->where('user_extras.garage_id', Auth::user()->id)->orderBy('created_at', 'DESC')->pluck('name', 'id');;
+
+        return view('bcs.order.index', compact('search_fields', 'entrys', 'engineers'));
     }
 
     /**
@@ -265,7 +272,15 @@ class OrderController extends Controller
         $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
 
         $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
-        $engineers = Role::find(5)->users->pluck('name', 'id');
+//        $engineers = Role::find(5)->users->pluck('name', 'id');
+
+        $engineers = User::select('users.*')->join('user_extras', function($extra_qry){
+            $extra_qry->on('users.id', 'user_extras.users_id');
+        })->join('role_user', function($role_user_qry){
+            $role_user_qry->on('user_extras.users_id', 'role_user.user_id');
+        })->join('roles', function($role_qry){
+            $role_qry->on('role_user.role_id', 'roles.id');
+        })->where('role_user.role_id', 5)->where('user_extras.garage_id', Auth::user()->id)->orderBy('created_at', 'DESC')->pluck('name', 'id');
         $technicians = Role::find(6)->users->pluck('name', 'id');
 
         return view('bcs.order.detail', compact('order', 'payment', 'payment_cancel', 'brands', 'garages', 'engineers', 'technicians'));
@@ -372,7 +387,7 @@ class OrderController extends Controller
     public function confirmation($order_id)
     {
         try {
-            $reservation = Reservation::where('orders_id', $order_id);
+            $reservation = Reservation::where('orders_id', $order_id)->first();
             $reservation->update([
                 'updated_id' => Auth::user()->id,
                 'updated_at' => Carbon::now()
@@ -418,11 +433,6 @@ class OrderController extends Controller
                 return response()->json($e->getMessage());
             }
             //발송 끝
-
-
-
-
-
 
             return response()->json(true);
         } catch (Exception $ex) {
@@ -590,6 +600,24 @@ class OrderController extends Controller
 
         return redirect()->route('bcs.order.show', $order_id)
             ->with($event, $message);
+    }
+
+    public function diagnosing(Request $request){
+        try{
+            $order_id = $request->get('order_id');
+            $engineer_id = $request->get('engineer_id');
+
+            $order = Order::findOrFail($order_id);
+
+            $order->engineer_id = $engineer_id;
+            $order->diagnose_at = new DateTime('now');
+            $order->status_cd = 106;
+            $order->save();
+
+            return response()->json('success');
+        }catch(\Exception $ex) {
+            return response()->json($ex->getMessage());
+        }
     }
 
 }

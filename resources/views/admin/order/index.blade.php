@@ -212,6 +212,10 @@
                                        data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>
                                 @endif
 
+                                @if( $data->status_cd == 104 )
+                                    <button type="button" class="btn btn-success diagnosing" id="diagnosing" data-order_id="{{ $data->id }}">진단시작</button>
+                                @endif
+
                                 <a href="{{ url("order", [$data->id]) }}" class="btn btn-default" data-toggle="tooltip"
                                    title="주문상세보기">상세보기</a>
 
@@ -295,11 +299,55 @@
 
         </div>
     </div>
+
+    <div id="diagnosingModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">진단시작</h4>
+                </div>
+
+                <form class="form-horizontal">
+                    <input type="hidden" id="order_id_2" value="">
+                    <div class="modal-body">
+
+
+                        <div class="form-group form-group-lg" style="margin:0px;">
+                            <label class="control-label"  style="margin-bottom: 10px;">엔지니어 선택</label>
+                            <br>
+                            <select class="form-control select2" id="engineer" name="engineer" id="select2" autocomplete="off" style="width: 100%;">
+                                @foreach($engineers as $key => $val)
+                                    <option value="{{ $key }}">{{ $val }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" data-loading-text="처리중..." type="button"
+                                id="diagnose_process">진단시작
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
+@push( 'header-script' )
+    <link rel="stylesheet" href="{{ Helper::assets( 'vendor/select2/css/select2.min.css' ) }}"/>
+@endpush
+
 
 @push( 'footer-script' )
+    <script src="{{ Helper::assets( 'vendor/select2/js/select2.full.min.js' ) }}"></script>
+    <script src="{{ Helper::assets( 'vendor/select2/js/i18n/ko.js' ) }}"></script>
 <script type="text/javascript">
     $(function () {
         $('#sort').click(function () {
@@ -369,7 +417,38 @@
                             alert('처리중 오류가 발생하였습니다. 잠시후 다시 시도해주세요.');
 //                                alert(JSON.stringify(data));
                         }
+                })1
+        });
+
+        $('.select2').select2();
+
+        $('.diagnosing').click(function(){
+            var order_id = $(this).data('order_id');
+            $('#order_id_2').val(order_id);
+            $('#diagnosingModal').modal();
+        });
+
+        $('#diagnose_process').click(function(){
+            var engineer_id = $('.select2').val();
+            var order_id = $('#order_id_2').val();
+            if(confirm('해당 엔지니어로 진단을 시작하시겠습니까?')){
+                $.ajax({
+                    type : 'post',
+                    url : '/order/diagnosing',
+                    data : {
+                        'order_id' : order_id,
+                        'engineer_id' : engineer_id
+                    },
+                    success : function(data){
+//                        alert(JSON.stringify(data));
+                        alert('진단이 시작되었습니다. 수정이 가능합니다.');
+                        location.href = '/order';
+                    },
+                    error : function(data){
+                        alert(JSON.stringify(data));
+                    }
                 })
+            }
         });
     })
 </script>
