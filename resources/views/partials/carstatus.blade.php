@@ -1,15 +1,30 @@
+@if($entry['selected'] == 1328)
+    @if(key_exists('loc', $entry))
+    <span class='status_char char_ok {{ $entry['loc'] }}' data-toggle="tooltip" title="{{ $entry['name'] }}"></span>
+    @endif
+@endif
 @if($entry['selected'] == 1172)
-<span class='status_char char_x loc{{ $n }}' data-toggle="tooltip" title="{{ $entry['name'] }}"></span>
+    @if(key_exists('loc', $entry))
+<span class='status_char char_x {{ $entry['loc'] }}' data-toggle="tooltip" title="{{ $entry['name'] }}"></span>
+    @endif
 @endif
 @if($entry['selected'] == 1173)
-<span class='status_char char_w loc{{ $n }}' data-toggle="tooltip" title="{{ $entry['name'] }}"></span>
+    @if(key_exists('loc', $entry))
+<span class='status_char char_w {{ $entry['loc'] }}' data-toggle="tooltip" title="{{ $entry['name'] }}"></span>
+    @endif
 @endif
 @if($entry['selected'] == 1174)
-<span class='status_char char_r loc{{ $n }}' data-toggle="tooltip" title="{{ $entry['name'] }}"></span>
+    @if(key_exists('loc', $entry))
+<span class='status_char char_r {{ $entry['loc'] }}' data-toggle="tooltip" title="{{ $entry['name'] }}"></span>
+    @endif
 @endif
 @if($entry['selected'] == 1175)
-<span class='status_char char_s loc{{ $n }}' data-toggle="tooltip" title="{{ $entry['name'] }}"></span>
+    @if(key_exists('loc', $entry))
+<span class='status_char char_s {{ $entry['loc'] }}' data-toggle="tooltip" title="{{ $entry['name'] }}"></span>
+    @endif
 @endif
 @if($entry['selected'] == 1176)
-<span class='status_char char_c loc{{ $n }}' data-toggle="tooltip" title="{{ $entry['name'] }}"></span>
+    @if(key_exists('loc', $entry))
+<span class='status_char char_ok {{ $entry['loc'] }}' data-toggle="tooltip" title="{{ $entry['name'] }}"></span>
+    @endif
 @endif

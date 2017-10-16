@@ -118,13 +118,16 @@ class CertificateRepository {
                                 // 주요외판 : 2007
                                         // 주요외판상태 : 2009
                                 $diagnosis_extra_a = [
-                                        1172 => [],
-                                        1173 => [],
-                                        1174 => [],
-                                        1175 => [],
-                                        1176 => [],
-                                        1328 => []
+                                    1172 => [],
+                                    1173 => [],
+                                    1174 => [],
+                                    1175 => [],
+                                    1176 => [],
+                                    1328 => []
                                 ];
+
+
+
                                 // 주요내판 및 골격 : 2014
                                         // 주요내판 및 골격 : 2017
                                 $diagnosis_extra_b = [
@@ -135,6 +138,7 @@ class CertificateRepository {
                                         1176 => [],
                                         1328 => []
                                 ];
+
 
                                 foreach($diagnosis['entrys'] as $entrys)
                                 {
@@ -156,7 +160,9 @@ class CertificateRepository {
                                                                                 $diagnosis_extra_a[$children['selected']][] = [
                                                                                         "id" => $children['name']['id'],
                                                                                         "name"  => $children['name']['display'],
-                                                                                        "selected" => $children['selected']
+                                                                                        "selected" => $children['selected'],
+                                                                                        "loc" => $this->getExtraDisplayLocation($children['name']['name'])
+
                                                                                 ];
                                                                         }
                                                                 }
@@ -173,7 +179,8 @@ class CertificateRepository {
                                                                                 $diagnosis_extra_b[$children['selected']][] = [
                                                                                         "id" => $children['name']['id'],
                                                                                         "name"  => $children['name']['display'],
-                                                                                        "selected" => $children['selected']
+                                                                                        "selected" => $children['selected'],
+                                                                                        "loc" => $this->getInnerDisplayLocation($children['name']['name'])
                                                                                 ];
                                                                         }
 
@@ -287,6 +294,68 @@ class CertificateRepository {
                 }
 
 
+                /**
+                 * 주요 외판 css 위치 설정 메소드
+                 * @param $code
+                 * @return mixed|null
+                 */
+                protected function getExtraDisplayLocation($code){
+                        $outer = [
+                            'front_fender_left' => 'loc1',
+                            'front_door_left' => 'loc2',
+                            'rear_door_left' => 'loc4',
+                            'side_seats_left' => 'loc3',
+                            'quarter_panel_left' => 'loc5',
+                            'hood' => 'loc6',
+                            'roof_panel' => 'loc7',
+                            'trunk_lead' => 'loc8',
+                            'front_fender_right' => 'loc9',
+                            'front_door_right' => 'loc10',
+                            'rear_door_right' => 'loc12',
+                            'side_seats_right' => 'loc11',
+                            'quarter_panel_right' => 'loc13'
+                        ];
+                        if(key_exists($code, $outer)){
+                            return $outer[$code];
+                        }else{
+                            return null;
+                        }
+                }
 
+                /**
+                 * 주요내판 및 골격
+                 * @param $code
+                 * @return mixed|null
+                 */
+                protected function getInnerDisplayLocation($code){
+                        $outer = [
+                            "filler_a-left" => 'loc1',
+                            "filler_b-left" => 'loc2',
+                            "filler_c-left" => 'loc3',
+                            "front_panel" => 'loc4',
+                            "cross_member_front" => 'loc5',
+                            "side_member_front/left" => 'loc6',
+                            "hill_house_front/left" => 'loc8',
+                            "side_member_front/right" => 'loc7',
+                            "hill_house_front/right" => 'loc9',
+                            "dash_panel" => 'loc10',
+                            "floor" => 'loc11',
+                            "cross_member_back" => 'loc12',
+                            "side_member_rear/left" => 'loc17',
+                            "hill_house_rear/left" => 'loc15',
+                            "side_member_rear/right" => 'loc18',
+                            "hill_house_rear/right" => 'loc16',
+                            "trunk_floor" => 'loc13',
+                            "rear_panel" => 'loc14',
+                            "filler_a-right" => 'loc19',
+                            "filler_b-right" => 'loc20',
+                            "filler_c-right" => 'loc21',
+                        ];
+                    if(key_exists($code, $outer)){
+                        return $outer[$code];
+                    }else{
+                        return null;
+                    }
+                }
 
         }

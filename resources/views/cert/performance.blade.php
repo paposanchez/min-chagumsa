@@ -250,7 +250,7 @@
                                                 <?php $n = 1; ?>
                                                 @foreach($diagnosis_extra_a as $entrys)
                                                 @foreach($entrys as $val)
-                                                @includeIf("partials.carstatus", ['entry' => $val, 'n' => $n])
+                                                @includeIf("partials.carstatus", ['entry' => $val, 'class_name' => 'status_char'])
                                                 <?php $n++; ?>
                                                 @endforeach
                                                 @endforeach
@@ -261,7 +261,7 @@
                                                 <?php $m = 1; ?>
                                                 @foreach($diagnosis_extra_b as $n => $entrys)
                                                 @foreach($entrys as $val)
-                                                @includeIf("partials.carstatus", ['entry' => $val, 'n' => $m])
+                                                @includeIf("partials.carstatus", ['entry' => $val, 'class_name' => "type2"])
                                                 <?php $m++; ?>
                                                 @endforeach
                                                 @endforeach
