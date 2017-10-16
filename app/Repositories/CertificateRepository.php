@@ -192,8 +192,7 @@ class CertificateRepository {
 
                                 case 'history':
                                     $diagnosis_exterior = Diagnosis::where('orders_id', $order_id)->where('group', 2008)->first();
-                                    $exterior_picture_id = DiagnosisFile::where('diagnoses_id', $diagnosis_exterior->id)->first()->id;
-                                return view('cert.history', compact('order', 'order_id', 'url_prefix', 'page', 'exterior_picture_id'))->render();
+                                return view('cert.history', compact('order', 'order_id', 'url_prefix', 'page'))->render();
 
                                 case 'price':
                                 //특별요인

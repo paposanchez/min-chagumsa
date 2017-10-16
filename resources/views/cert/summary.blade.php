@@ -25,31 +25,31 @@
             <tr >
 
                 <th class='td_al_vt'>산정가격</th>
-                <td class='td_al_vb td_al_c'>
+                <td class='td_al_vb td_al_c' style="">
                     <strong class='fsize_50'>{{ number_format($order->certificates->valuation) }}</strong><strong
                             class='fsize_20'>만원</strong>
                 </td>
-                <th rowspan="3">연식</th>
+                <th rowspan="3">대표 이미지</th>
                 <td rowspan="3">
                     <img
                             name="picture"
                             src="http://cdn.chagumsa.com/diagnosis/{{ $order->certificates->pictures }}"
                             class="img-responsive picture"
-                    style="height:100px;">
+                    style="width: 250px;">
                 </td>
             </tr>
             <tr>
 
                 <th class='td_al_vt'>차량 성능 등급</th>
-                <td class='td_al_vb td_al_c' style="text-align:center;">
+                <td class='td_al_vb td_al_c'>
                     <strong class='fsize_50'>
                         {{ $order->certificates->certificate_grade ? $order->certificates->certificate_grade->display() : '미입력 (검토중)' }}
                     </strong>
                 </td>
             </tr>
             <tr>
-                <th>보증기간</th>
-                <td>{{ $order->certificates->updated_at->format('Y년 m월 d일') }} ~ {{ $order->certificates->getExpireDate()->format('Y년 m월 d일') }} 까지</td>
+                <th class="td_al_vt">보증기간</th>
+                <td class="text-center">{{ $order->certificates->updated_at->format('Y년 m월 d일') }} ~ {{ $order->certificates->getExpireDate()->format('Y년 m월 d일') }}</td>
             </tr>
 
             </tbody>

@@ -196,7 +196,7 @@
                 <tbody>
                         <tr>
                                 <th>기준가격</th>
-                                <td colspan='3'><strong>{{ $order->certificates->price }} 만원</strong></td>
+                                <td colspan='3'><strong>{{ number_format($order->certificates->price) }} 만원</strong></td>
                         </tr>
                         <tr>
                                 <th rowspan='3'>기본평가</th>
@@ -321,7 +321,7 @@
                         </tr>
                         <tr>
                                 <td><strong>감가금액</strong></td>
-                                <td><strong>{{ $order->certificates->special_depreciation }} 만원</strong></td>
+                                <td><strong>{{ number_format($order->certificates->special_depreciation) }} 만원</strong></td>
                         </tr>
                 </tbody>
         </table>
