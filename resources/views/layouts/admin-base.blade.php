@@ -14,8 +14,9 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
         <!-- Styles -->
-        {{ Html::style(Helper::assets('css/app.css')) }}
-        {{ Html::style(Helper::assets('css/vendor.css')) }}
+        {!! Html::style(mix('/assets/css/app.css')) !!}
+        {{ Html::style(mix('/assets/css/vendor.css')) }}
+
 
 
         <!-- Scripts -->
@@ -25,7 +26,7 @@
         ]) !!};
         </script>
 
-        {{ Html::script(Helper::assets( 'js/app.js' )) }}
+        {{ Html::script(mix( '/assets/js/app.js' )) }}
 
         @yield('content-header-script')
 

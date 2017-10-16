@@ -37,7 +37,7 @@ Route::get('/thumbnail/{id?}', function($id){
 Route::any('/{order_id}/{page?}/{flush?}', function ($order_id, $page = 'summary', $flush = '') {
 
 
-    try{
+//    try{
 
         if(!in_array($page, ['performance', 'price', 'history', 'summary']))
         {
@@ -73,11 +73,12 @@ Route::any('/{order_id}/{page?}/{flush?}', function ($order_id, $page = 'summary
 
         return $cache;
 
-    }catch (Exception $exception)
-    {
-            abort(404, '인증서를 찾을 수 없습니다.');
+//    }catch (Exception $exception)
+//    {
+        echo $exception->getMessage();
+//            abort(404, '인증서를 찾을 수 없습니다.');
 
-    }
+//    }
 
 
 })->name('cert');

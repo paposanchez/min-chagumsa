@@ -22,7 +22,7 @@
             ]) !!};
     </script>
 
-    {{ Html::script(Helper::assets( 'js/app.js' )) }}
+    {{ Html::script(mix( '/assets/js/app.js' )) }}
 
     @yield('content-header-script')
 </head>
