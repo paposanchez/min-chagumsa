@@ -202,7 +202,7 @@
                 <span>{{ $order->diagnose_at->format('Y년 m월 d일')}}</span>
         </li>
         <li>
-                <label>진단장소</label>
+                <label style="vertical-align: top;">진단장소</label>
                 <span>
                         <!-- 한스모터스 -->
                         {{ $order->garage->user_extra->address }} / {{ $order->garage->name }}
