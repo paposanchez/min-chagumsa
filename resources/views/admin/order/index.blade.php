@@ -417,7 +417,7 @@
                             alert('처리중 오류가 발생하였습니다. 잠시후 다시 시도해주세요.');
 //                                alert(JSON.stringify(data));
                         }
-                })1
+                })
         });
 
         $('.select2').select2();
