@@ -1,17 +1,9 @@
 @extends( 'layouts.report' )
 
 @section( 'content' )
-    {{--<div class='report_title_type1' style="margin-bottom: 20px;">--}}
-        {{--{{ $order->getCarFullName() }}--}}
-        {{--<span style="font-size:12px;"><strong>보증기간</strong>--}}
-            {{--{{ $order->certificates->updated_at->format('Y년 m월 d일 H:i') }}--}}
-            {{--~ {{ $order->certificates->getExpireDate()->format('Y년 m월 d일 H:i') }}--}}
-            {{--{{ $order->certificates->getExpireDate()->format('Y년 m월 d일 H:i') }} 까지--}}
-        {{--</span>--}}
-    {{--</div>--}}
-
-
-
+    <div class='report_title_type1' style="margin-bottom: 20px;">
+        {{ $order->getCarFullName() }}
+    </div>
 
     <div class='report_table exp'>
         <table>
@@ -22,25 +14,26 @@
                 <col style='width:270px;'>
             </colgroup>
             <tbody>
-            <tr >
+            <tr>
 
-                <th class='td_al_vt'>산정가격</th>
+                {{--<th class='td_al_vt'>산정가격</th>--}}
+                <th class='text-center'>산정가격</th>
                 <td class='td_al_vb td_al_c' style="">
                     <strong class='fsize_50'>{{ number_format($order->certificates->valuation) }}</strong><strong
                             class='fsize_20'>만원</strong>
                 </td>
-                <th rowspan="3">대표 이미지</th>
+                <th rowspan="3" class="text-center">대표 이미지</th>
                 <td rowspan="3">
                     <img
                             name="picture"
                             src="http://cdn.chagumsa.com/diagnosis/{{ $order->certificates->pictures }}"
                             class="img-responsive picture"
-                    style="width: 250px;">
+                            style="width: 250px;">
                 </td>
             </tr>
             <tr>
 
-                <th class='td_al_vt'>차량 성능 등급</th>
+                <th class='text-center'>차량 성능 등급</th>
                 <td class='td_al_vb td_al_c'>
                     <strong class='fsize_50'>
                         {{ $order->certificates->certificate_grade ? $order->certificates->certificate_grade->display() : '미입력 (검토중)' }}
@@ -48,8 +41,10 @@
                 </td>
             </tr>
             <tr>
-                <th class="td_al_vt">보증기간</th>
-                <td class="text-center">{{ $order->certificates->updated_at->format('Y년 m월 d일') }} ~ {{ $order->certificates->getExpireDate()->format('Y년 m월 d일') }}</td>
+                <th class="text-center" style="color: #0b4777;font-weight: bold;">보증기간</th>
+                <td class="text-center"
+                    style="color: #0b4777;font-weight: bold;">{{ $order->certificates->updated_at->format('Y년 m월 d일') }}
+                    ~ {{ $order->certificates->getExpireDate()->format('Y년 m월 d일') }}</td>
             </tr>
 
             </tbody>
@@ -148,7 +143,62 @@
 
     <div class='br30'></div>
 
-    {{--<div class='br20'></div>--}}
+    <div class='report_title_type2'>종합진단 결과</div>
+    <div class="report_table exp">
+        <table>
+            <colgroup>
+                <col style="width: 148px;">
+                <col>
+                <col style="width: 148px;">
+                <col>
+            </colgroup>
+            <tbody>
+            <tr>
+                <th class="text-center" colspan="4"
+                    style="border-top: #0b4777 3px solid;color: #0b4777;font-weight: bold;">사고/침수진단
+                </th>
+            </tr>
+            <tr>
+                <td class="">
+                    <dl class='bubble_desc bubble_desc2'>
+                        <dt style="text-align: center">사고진단
+                            {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
+                        <dd>{{ $order->certificates->history_comment }}<span>×</span></dd>
+                    </dl>
+                </td>
+
+
+                <td class="text-center">
+                    <div class="total_result">
+                        {{ Html::image(Helper::theme_web( '/img/report/accident_car.png')) }}
+                        <span class="total_result_text">{{ $order->certificates->usage_history->display() }}</span>
+                    </div>
+
+                </td>
+                <td class="">
+                    <dl class='bubble_desc bubble_desc2'>
+                        <dt style="text-align: center">
+                            침수진단
+                            {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                            <dd>{{ $order->certificates->flood_comment }}<span>×</span></dd>
+                        </dt>
+
+                    </dl>
+                </td>
+                <td class="text-center">
+                    <div class="total_result">
+                        {{ Html::image(Helper::theme_web( '/img/report/flooded_car.png')) }}
+                        <span class="total_result_text">{{ $order->certificates->usage_flood->display() }}</span>
+                    </div>
+
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 
     <div class='report_title_type2'>종합진단 결과</div>
     <div class='report_table exp'>
@@ -158,32 +208,43 @@
                 <col style='width:120px;'>
                 <col style='width:120px;'>
                 <col style='width:120px;'>
-                <col style='width:120px;'>
+                <col style='width:125px;'>
                 <col style='width:120px;'>
             </colgroup>
             <tbody>
             <tr>
+                <th class="text-center" colspan="6"
+                    style="border-top: #0b4777 3px solid;color: #0b4777;font-weight: bold;">차량요소 성능진단
+                </th>
+            </tr>
+            <tr>
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>차량외부점</dt>
+                        <dt>차량외부점
+                            {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
                         <dd>{{ $order->certificates->exterior_comment }}<span>×</span></dd>
                     </dl>
                 </th>
                 <td>
                     <span class='
                     @if($order->certificates->performance_exterior_cd == 1329)
-                        status_good
-                    @elseif($order->certificates->performance_exterior_cd == 1330)
-                        status_warn
-                    @else
-                        status_bad
-                    @endif'>{{ $order->certificates->performance_exterior ? $order->certificates->performance_exterior->display() : '미입력 (검토중)' }}
+                            status_good
+@elseif($order->certificates->performance_exterior_cd == 1330)
+                            status_normal
+@elseif($order->certificates->performance_exterior_cd == 1331)
+                            status_warn
+@else
+                            status_bad
+@endif'>{{ $order->certificates->performance_exterior ? $order->certificates->performance_exterior->display() : '미입력 (검토중)' }}
                     </span>
                 </td>
 
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>차량내부점검</dt>
+                        <dt>차량내부점검
+                            {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
                         <dd>{{ $order->certificates->interior_comment }}<span>×</span></dd>
                     </dl>
                 </th>
@@ -192,6 +253,8 @@
                     @if($order->certificates->performance_interior_cd == 1329)
                             status_good
 @elseif($order->certificates->performance_interior_cd == 1330)
+                            status_normal
+@elseif($order->certificates->performance_interior_cd == 1331)
                             status_warn
 @else
                             status_bad
@@ -201,7 +264,9 @@
 
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>전장장착품작동상태</dt>
+                        <dt>전장장착품작동상태
+                            {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
                         <dd>{{ $order->certificates->plugin_comment }}<span>×</span></dd>
                     </dl>
                 </th>
@@ -219,7 +284,9 @@
             <tr>
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>고장진단</dt>
+                        <dt>고장진단
+                            {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
                         <dd>{{ $order->certificates->broken_comment }}<span>×</span></dd>
                     </dl>
                 </th>
@@ -228,6 +295,8 @@
                     @if($order->certificates->performance_broken_cd == 1329)
                             status_good
 @elseif($order->certificates->performance_broken_cd == 1330)
+                            status_normal
+@elseif($order->certificates->performance_broken_cd == 1331)
                             status_warn
 @else
                             status_bad
@@ -237,7 +306,9 @@
 
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>원동기</dt>
+                        <dt>원동기
+                        {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
                         <dd>{{ $order->certificates->engine_comment }}<span>×</span></dd>
                     </dl>
                 </th>
@@ -246,6 +317,8 @@
                     @if($order->certificates->performance_engine_cd == 1329)
                             status_good
 @elseif($order->certificates->performance_engine_cd == 1330)
+                            status_normal
+@elseif($order->certificates->performance_engine_cd == 1331)
                             status_warn
 @else
                             status_bad
@@ -255,7 +328,9 @@
 
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>변속기</dt>
+                        <dt>변속기
+                        {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
                         <dd>{{ $order->certificates->transmission_comment }}<span>×</span></dd>
                     </dl>
                 </th>
@@ -264,6 +339,8 @@
                     @if($order->certificates->performance_transmission_cd == 1329)
                             status_good
 @elseif($order->certificates->performance_transmission_cd == 1330)
+                            status_normal
+@elseif($order->certificates->performance_transmission_cd == 1331)
                             status_warn
 @else
                             status_bad
@@ -275,7 +352,9 @@
             <tr>
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>동력전달</dt>
+                        <dt>동력전달
+                        {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
                         <dd>{{ $order->certificates->power_comment }}<span>×</span></dd>
                     </dl>
                 </th>
@@ -284,6 +363,8 @@
                     @if($order->certificates->performance_power_cd == 1329)
                             status_good
 @elseif($order->certificates->performance_power_cd == 1330)
+                            status_normal
+@elseif($order->certificates->performance_power_cd == 1331)
                             status_warn
 @else
                             status_bad
@@ -293,7 +374,9 @@
 
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>조향 및 현가장치</dt>
+                        <dt>조향 및 현가장치
+                        {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
                         <dd>{{ $order->certificates->steering_comment }}<span>×</span></dd>
                     </dl>
                 </th>
@@ -302,6 +385,8 @@
                     @if($order->certificates->performance_steering_cd == 1329)
                             status_good
 @elseif($order->certificates->performance_steering_cd == 1330)
+                            status_normal
+@elseif($order->certificates->performance_steering_cd == 1331)
                             status_warn
 @else
                             status_bad
@@ -311,7 +396,9 @@
 
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>제동장치</dt>
+                        <dt>제동장치
+                        {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
                         <dd>{{ $order->certificates->braking_comment }}<span>×</span></dd>
                     </dl>
                 </th>
@@ -320,6 +407,8 @@
                     @if($order->certificates->performance_braking_cd == 1329)
                             status_good
 @elseif($order->certificates->performance_braking_cd == 1330)
+                            status_normal
+                            @elseif($order->certificates->performance_braking_cd == 1331)
                             status_warn
 @else
                             status_bad
@@ -331,7 +420,9 @@
             <tr>
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>전기장치</dt>
+                        <dt>전기장치
+                        {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
                         <dd>{{ $order->certificates->electronic_comment }}<span>×</span></dd>
                     </dl>
                 </th>
@@ -340,6 +431,8 @@
                     @if($order->certificates->performance_electronic_cd == 1329)
                             status_good
 @elseif($order->certificates->performance_electronic_cd == 1330)
+                            status_normal
+                            @elseif($order->certificates->performance_electronic_cd == 1331)
                             status_warn
 @else
                             status_bad
@@ -349,7 +442,9 @@
 
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>휠&타이터</dt>
+                        <dt>휠&타이터
+                        {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
                         <dd>{{ $order->certificates->tire_comment }}<span>×</span></dd>
                     </dl>
                 </th>
@@ -358,6 +453,8 @@
                     @if($order->certificates->performance_tire_cd == 1329)
                             status_good
 @elseif($order->certificates->performance_tire_cd == 1330)
+                            status_normal
+                            @elseif($order->certificates->performance_tire_cd == 1331)
                             status_warn
 @else
                             status_bad
@@ -367,7 +464,9 @@
 
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>주행테스트</dt>
+                        <dt>주행테스트
+                        {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                        </dt>
                         <dd>{{ $order->certificates->driving_comment }}<span>×</span></dd>
                     </dl>
                 </th>
@@ -376,6 +475,8 @@
                     @if($order->certificates->performance_driving_cd == 1329)
                             status_good
 @elseif($order->certificates->performance_driving_cd == 1330)
+                            status_normal
+                            @elseif($order->certificates->performance_driving_cd == 1331)
                             status_warn
 @else
                             status_bad
@@ -401,7 +502,8 @@
     <div class='line_break'></div>
 
     <div class='report_desc fcol_navy'>
-        이 차검사인증서는 차량판매자가 제공된 정보를 기반으로 하며 발급일로부터 3개월 5,000km 까지 유효합니다 이 차량에 대한 기타 정보(문제포함)는 차검사 인증서에서 보고되지 않을 수 있습니다. 차검사인증서는 자동차관리법에 의거하여 차량기술사가 자동차 검사 및 엔진 등 중요 부품에 대한 진단을 토대로 이 차량의 적정 등급 및 가격을 신청하여 제시합니다.
+        이 차검사인증서는 차량판매자가 제공된 정보를 기반으로 하며 발급일로부터 3개월 5,000km 까지 유효합니다 이 차량에 대한 기타 정보(문제포함)는 차검사 인증서에서 보고되지 않을 수 있습니다.
+        차검사인증서는 자동차관리법에 의거하여 차량기술사가 자동차 검사 및 엔진 등 중요 부품에 대한 진단을 토대로 이 차량의 적정 등급 및 가격을 신청하여 제시합니다.
     </div>
 
     <div class='br30'></div>

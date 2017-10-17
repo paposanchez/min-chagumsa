@@ -187,7 +187,7 @@
 {{-- 나중에 처 --}}
 <div class='report_title_type2'>차량정보</div>
 <div class='report_table exp'>
-        <table>
+        <table >
                 <colgroup>
                         <col style='width:120px;'>
                         <col style='width:390px;'>

@@ -540,7 +540,7 @@ return [
     //1339
     'flood_state_cd' => [
         'none' => '없음',
-        'suspicion' => '침수의심',
+        'suspiction' => '침수의심',
         'flooded' => '침수'
     ],
 

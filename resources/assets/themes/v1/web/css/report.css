@@ -43,10 +43,14 @@ html, body, #document {height:100%;min-height:100%;}
 .report_frame_title button {position:absolute;top:0;right:0;width:150px;height:36px;font-size:14px;font-weight:bold;}
 
 
+/*.report_title {background:#0b4777;position:relative;padding:30px 25px;}*/
+.report_title {height:105px;background:url('../img/report/report_title_logo.png') 30px center no-repeat #0b4777;line-height:105px;position:relative;}
+.report_title strong {color:#ffffff;font-size:24px;font-weight:bold;margin-left: 170px;}
+.report_title h2 {position:absolute;right:25px;top:40px;color:#5fb4ee;font-size:24px;font-weight:bold;width:300px;text-align: right;display: inline-block; }
 
-.report_title {background:#0b4777;position:relative;padding:30px 25px;}
-.report_title strong {color:#ffffff;font-size:24px;font-weight:bold;}
-.report_title h2 {position:absolute;right:25px;top:30px;color:#5fb4ee;font-size:24px;font-weight:bold;width:300px;text-align: right;display: inline-block; }
+
+.total_result {position: relative; height: 120px;}
+.total_result_text {position: absolute; line-height: 42px;vertical-align: middle; top: 90px; left: 108px; transform: translate(-50%, -50%);}
 
 
 
@@ -61,7 +65,7 @@ html, body, #document {height:100%;min-height:100%;}
 .report_table {}
 .report_table table {width:100%;}
 .report_table table tbody th, .report_table table tbody td {padding:10px 10px;border:1px solid #ddd;}
-.report_table table tbody th {background:#f6f6f6;color:#444;font-size:12px;line-height:15px;vertical-align:middle;text-align:left;}
+.report_table table tbody th {background:#f6f6f6;color:#444;font-size:12px;line-height:15px;vertical-align:middle;}
 .report_table table tbody td {color:#444;}
 
 .report_table table tbody td table th,
@@ -81,10 +85,11 @@ html, body, #document {height:100%;min-height:100%;}
 .report_stamp_wrap span {display:inline-block;line-height:68px;height:68px;margin-right:20px;font-size:14px;}
 .report_stamp_wrap span strong {padding-right:10px;color:#0b4777;}
 
-.status_good, .status_warn, .status_bad {height:23px;font-weight:bold;padding-left:30px;display:block;background-image:url('../img/report/status_icon.png');background-repeat:no-repeat;}
-.status_good {color:#49bb1c;}
-.status_warn {color:#e3aa31;background-position:0 -23px;}
-.status_bad {color:#e33131;background-position:0 -46px;}
+.status_good, .status_warn, .status_bad, .status_normal {height:24px;font-weight:bold;padding-left:30px;display:block;padding-top: 2px;}
+.status_good {color:#49bb1c;background: url("../img/report/status_icon01.png"); background-repeat: no-repeat;}
+.status_normal {color:#e3aa31;background: url("../img/report/status_icon02.png"); background-repeat: no-repeat;}
+.status_warn {color:#ff6a2f;background: url("../img/report/status_icon03.png"); background-repeat: no-repeat;}
+.status_bad {color:#e33131;background: url("../img/report/status_icon04.png"); background-repeat: no-repeat;}
 
 .status_char {position:relative;padding-left:25px;}
 .status_char:before {position:absolute;top:0;left:0;display:inline-block;color:#fff;content:'';background:#0b4777;width:20px;height:20px;line-height:20px;border-radius:100%;text-align:center;}
@@ -151,6 +156,8 @@ html, body, #document {height:100%;min-height:100%;}
 .img_person {width:170px;height:170px;}
 
 .bubble_desc {position:relative;}
+.bubble_desc2 dd {margin-left: 40px;}
+
 .bubble_desc dt {color:#0b4777;font-size:12px;letter-spacing:-1px;cursor:pointer;}
 .bubble_desc dd {display:none;position:absolute;z-index:99;left:0;top:30px;width:300%;line-height:17px;box-sizing:border-box;padding:12px 20px 12px 14px;background:#fffcd5;border:1px solid #b8b370;}
 .bubble_desc dd span {position:absolute;width:22px;height:22px;text-align:center;line-height:18px;right:-8px;top:-8px;background:#6c6c6c;border-radius:100%;color:#fff;cursor:pointer;font-size:20px;}
