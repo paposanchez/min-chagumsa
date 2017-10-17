@@ -191,6 +191,7 @@
                                     @if(in_array($data->status_cd, [101,102,103]))
                                         <button type="button" data-order_id="{{ $data->id }}"
                                                 class="btn btn-danger confirmReservation" data-toggle="tooltip"
+                                                data-loading-text="{{ trans('common.button.loading') }}"
                                                 title="예약확정">예약확정
                                         </button>
                                     @endif

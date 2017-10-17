@@ -186,6 +186,7 @@
                                     @if($data->status_cd < 104 )
                                         <button type="button" title="확정" data-order_id="{{ $data->id }}"
                                                 class="btn btn-danger confirmReservation" data-toggle="tooltip"
+                                                data-loading-text="{{ trans('common.button.loading') }}"
                                                 title="예약확정">예약확정
                                         </button>
                                     @endif
@@ -209,11 +210,9 @@
 
 
         <div class="row">
-
-
-            <div class="col-sm-6">
-                <a href="/test" class="btn btn-info">테스트 주문생성</a>
-            </div>
+            {{--<div class="col-sm-6">--}}
+                {{--<a href="/test" class="btn btn-info">테스트 주문생성</a>--}}
+            {{--</div>--}}
 
 
             <div class="col-sm-6 text-right">
