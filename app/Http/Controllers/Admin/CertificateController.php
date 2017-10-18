@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\SendSms;
 use App\Models\Car;
 use App\Models\Certificate;
 use App\Models\Diagnosis;
@@ -15,6 +16,7 @@ use App\Repositories\CertificateRepository;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CertificateController extends Controller
 {
@@ -305,7 +307,7 @@ class CertificateController extends Controller
 
 
 
-            "pictures" => $request->get('selecte_picture_id')
+            "pictures" => $request->get('selecte_picture_id') ? $request->get('selecte_picture_id') : $order_where->getExteriorPicture()[0]->files[0]->id
         ];
 
 

@@ -39,24 +39,25 @@ html, body, #document {height:100%;min-height:100%;}
 .report_cont {padding:15px 0 60px 385px;}
 
 .report_frame_wrap {width:900px;height:100%;min-height:100%;}
-.report_frame_title {padding-top:45px;position:relative;box-sizing:border-box;}
+.report_frame_title {padding-top:40px;position:relative;box-sizing:border-box;}
 .report_frame_title button {position:absolute;top:0;right:0;width:150px;height:36px;font-size:14px;font-weight:bold;}
 
 
 /*.report_title {background:#0b4777;position:relative;padding:30px 25px;}*/
 .report_title {height:105px;background:url('../img/report/report_title_logo.png') 30px center no-repeat #0b4777;line-height:105px;position:relative;}
 .report_title strong {color:#ffffff;font-size:24px;font-weight:bold;margin-left: 170px;}
-.report_title h2 {position:absolute;right:25px;top:40px;color:#5fb4ee;font-size:24px;font-weight:bold;width:300px;text-align: right;display: inline-block; }
+.report_title h2 {position:absolute;right:25px;top:40px;color:#5fb4ee;font-size:24px;width:300px;text-align: right;display: inline-block; }
 
 
 .total_result {position: relative; height: 120px;}
 .total_result_text {position: absolute; line-height: 42px;vertical-align: middle; top: 90px; left: 108px; transform: translate(-50%, -50%);}
+.comment-img {position: absolute;top: 0px;right: 0px;}
 
 
 
-.report_frame_cont {border:1px solid #cfcfcf;border-top:0;background:#fff;padding:40px 60px;}
+.report_frame_cont {border:1px solid #cfcfcf;border-top:0;background:#fff;padding:50px 60px 60px 60px;}
 
-.report_title_type1 {height:35px;padding:10px 0;line-height:38px;font-size:34px;color:#444;position:relative;}
+.report_title_type1 {height:35px;padding-top: 10px;font-size:34px;color:#444;position:relative;}
 .report_title_type1 span {position:absolute;right:0;top:20px;font-size:14px;}
 .report_title_type1 span strong {padding-right:10px;}
 
@@ -105,7 +106,7 @@ html, body, #document {height:100%;min-height:100%;}
 
 
 .status_char.char_ok:before {
-  content: '✓';color:#fff;background:#49bb1c;
+  content: '✓';color:#fff;background:#a4cd17;
 }
 
 
@@ -162,7 +163,7 @@ html, body, #document {height:100%;min-height:100%;}
 .bubble_desc {position:relative;}
 .bubble_desc2 dd {margin-left: 40px;}
 
-.bubble_desc dt {color:#0b4777;font-size:12px;letter-spacing:-1px;cursor:pointer;}
+.bubble_desc dt {color:#444444;font-size:12px;letter-spacing:-1px;cursor:pointer;}
 .bubble_desc dd {display:none;position:absolute;z-index:99;left:0;top:30px;width:300%;line-height:17px;box-sizing:border-box;padding:12px 20px 12px 14px;background:#fffcd5;border:1px solid #b8b370;}
 .bubble_desc dd span {position:absolute;width:22px;height:22px;text-align:center;line-height:18px;right:-8px;top:-8px;background:#6c6c6c;border-radius:100%;color:#fff;cursor:pointer;font-size:20px;}
 .bubble_desc.right dd {right:-130px;left:auto;}

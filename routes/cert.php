@@ -54,6 +54,7 @@ Route::any('/{order_id}/{page?}/{flush?}', function ($order_id, $page = 'summary
             $expire = false;
         }
 
+
         $hash = md5($order_id) . '-' . $page; //고유키값을 구성함
 
         $handler = new CertiRedisRepository($hash, $expire);

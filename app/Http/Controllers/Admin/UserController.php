@@ -31,7 +31,7 @@ class UserController extends Controller
         ];
 
         if ($role_cd) {
-            $where = $where->join('role_user', 'role_user.user_id', '=', 'users.id')
+            $where->join('role_user', 'role_user.user_id', '=', 'users.id')
                 ->where('role_user.role_id', '=', $role_cd);
         }
 
@@ -40,7 +40,7 @@ class UserController extends Controller
         $s = $request->get('s'); //검색어
 
         if ($sf && $s) {
-            $where = $where->where($sf, 'like', '%' . $s . '%');
+            $where->where($sf, 'like', '%' . $s . '%');
         }
 
         $entrys = $where->paginate(25);
@@ -51,7 +51,6 @@ class UserController extends Controller
     {
         $roles = Role::getArrayByNameNotMember();
         $status_cd_list = Code::whereGroup('user_status')->get();
-
 
         $aliances = User::select()->join('role_user', function ($join) {
             $join->on('users.id', '=', 'role_user.user_id')->where('role_id', 3);

@@ -31,11 +31,19 @@
                 </div>
                 <div class='cert_box_cont'>
                     <div class='cert_box_cont_img'>
-
-                        @if($order->diagnoses->where('group', 2008)->first()->files)
-                            <img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $order->diagnoses->where('group', 2008)->first()->id }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" >
+                        @if($order->certificates->pictures)
+                            <img
+                                    name="picture"
+                                    src="http://cdn.chagumsa.com/diagnosis/{{ $order->certificates->pictures }}"
+                                    class="img-responsive picture"
+                                    style="width: 290px;height: 290px;">
                         @else
-                            <img src="http://fakeimg.pl/270x204/" alt='차량 이미지'>
+                            {{--<img src="http://fakeimg.pl/270x204/" alt='차량 이미지'>--}}
+                                <img
+                                        name="picture"
+                                        src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $order->getExteriorPicture()[0]->files[0]->id }}"
+                                        class="img-responsive picture"
+                                        style="width: 290px;height: 290px;">
                         @endif
 
                     </div>
@@ -52,7 +60,7 @@
 
                         </ul>
                     </div>
-                    <div class='cert_box_cont_result'>
+                    <div class='cert_box_cont_result' style="margin-top: 50px;">
                         <div><label>산정가격</label><span><strong>{{ number_format($order->certificates->price) }} </strong>만원</span>
                         </div>
                         <div><label>차량 성능 등급</label><span><strong>{{ $order->certificates->certificate_grade->display() }}</strong></span>
@@ -81,6 +89,11 @@
                                 data-datekey="{{ \App\Models\Order::find($order->id)->created_at->format('ymd')}}">
                             상세보기
                         </button>
+
+                        <a class="btn btn-default fa fa-search" href="">상세보기</a>
+
+                        {{--<a href="/certificate/{{ $data->id }}" target="_blank" class="btn btn-primary"--}}
+                           {{--data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>--}}
                     </div>
                 </div>
             </div>
@@ -106,6 +119,7 @@
             var car_number = $(this).data('car_number');
             var datekey = $(this).data('datekey');
             window.open('http://cert.chagumsa.com/'+car_number+'-'+datekey, "", "width=1400, height=1400");
+
         });
 
         $('.open_cd').on('click', function () {
