@@ -72,7 +72,7 @@ class PostController extends Controller {
         $entrys = $where->paginate(10);
 
 
-        return view('admin.post.index', compact('entrys', 'board_list', 'shown_role_list', 'yn_list', 'request', 'search_fields'));
+        return view('admin.post.index', compact('entrys', 'board_list', 'shown_role_list', 'yn_list', 'request', 'search_fields', 'board_id', 's', 'sf', 'trs', 'tre'));
     }
 
     public function create() {

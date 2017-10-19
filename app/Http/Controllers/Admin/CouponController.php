@@ -21,11 +21,12 @@ class CouponController extends Controller
     public function index(Request $request){
 
         $where = Coupon::orderBy('id', 'DESC');
-        $sf = $request->get('s');
+        $sf = $request->get('sf');
+        $s = $request->get('s');
+        $search_fields = ["coupon_number" => "쿠폰번호", "coupon_kind" => "쿠폰종류"];
 
         if($sf){
-            $where = $where->where('coupon_number', 'like', $sf.'%')
-            ->orWhere('coupon_kind', 'like', $sf.'%');
+            $where->where($sf, 'like',  '%' .$s . '%');
         }
 
         //기간 검색
@@ -52,7 +53,7 @@ class CouponController extends Controller
         $entrys = $where->paginate(25);
 
 
-        return view('admin.coupon.index', compact('entrys'));
+        return view('admin.coupon.index', compact('entrys', 'search_fields', 's', 'sf', 'tre', 'trs'));
     }
 
 

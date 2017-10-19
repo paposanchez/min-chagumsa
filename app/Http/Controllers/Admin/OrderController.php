@@ -146,7 +146,7 @@ class OrderController extends Controller
 
         $engineers = Role::find(5)->users->pluck('name', 'id');
 
-        return view('admin.order.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'engineers'));
+        return view('admin.order.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'engineers', 'status_cd', 'sf', 's', 'tre', 'trs'));
     }
 
     public function show($id)
@@ -700,17 +700,11 @@ class OrderController extends Controller
 
 
             $order = Order::find($order_id);
-            $order->status_cd = 104;
+            $order->status_cd = 103;
             $order->save();
 
-
-            $last_diagnoses = Diagnosis::where('orders_id', $order->id)->get();
-            foreach ($last_diagnoses as $last_diagnosis) {
-                $last_diagnosis->delete();
-            }
-            $diagnosis = new DiagnosisRepository();
-            $diagnosis->prepare($order->id)->create($order->id);
-
+            //기존 진단데이터 삭제
+            Diagnosis::where('orders_id', $order->id)->delete();
 
             //문자, 메일 송부하기
             $user_info = User::find($order->orderer_id);
@@ -768,10 +762,9 @@ class OrderController extends Controller
             $order->status_cd = 104;
             $order->save();
 
-            $last_diagnoses = Diagnosis::where('orders_id', $order->id)->get();
-            foreach ($last_diagnoses as $last_diagnosis) {
-                $last_diagnosis->delete();
-            }
+            //기존 진단데이터 삭제
+            Diagnosis::where('orders_id', $order->id)->delete();
+
             $diagnosis = new DiagnosisRepository();
             $diagnosis->prepare($order->id)->create($order->id);
 

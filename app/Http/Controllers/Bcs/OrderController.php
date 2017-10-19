@@ -116,7 +116,7 @@ class OrderController extends Controller
             $role_qry->on('role_user.role_id', 'roles.id');
         })->where('role_user.role_id', 5)->where('user_extras.garage_id', Auth::user()->id)->orderBy('created_at', 'DESC')->pluck('name', 'id');;
 
-        return view('bcs.order.index', compact('search_fields', 'entrys', 'engineers'));
+        return view('bcs.order.index', compact('search_fields', 'entrys', 'engineers', 'status_cd', 's', 'sf', 'trs', 'tre'));
     }
 
     /**

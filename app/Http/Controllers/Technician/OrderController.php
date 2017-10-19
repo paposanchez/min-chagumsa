@@ -21,7 +21,7 @@ class OrderController extends Controller
             "order_num" => "주문번호", "car_number" => "차량번호", 'orderer_name' => '주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
         ];
 
-        $where = Order::where('status_cd', ">=", 102)->orderBy('created_at', 'DESC');
+        $where = Order::where('status_cd', ">=", 106)->orderBy('status_cd')->orderBy('created_at', 'DESC');
 
         //주문상태
         $status_cd = $request->get('status_cd');
@@ -91,7 +91,7 @@ class OrderController extends Controller
         $entrys = $where->paginate(25);
 
 
-        return view('technician.order.index', compact('search_fields', 'entrys'));
+        return view('technician.order.index', compact('search_fields', 'entrys', 'status_cd', 's', 'sf', 'trs', 'tre'));
     }
 
     public function show($id)

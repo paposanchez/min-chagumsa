@@ -22,9 +22,9 @@
                                         <div class="col-sm-6">
 
                                                 <div class="btn-group">
-                                                        <button class="btn btn-default" name="calculation_state" value="">전체</button>
-                                                        <button class="btn btn-default" name="calculation_state" value="110">정산대기</button>
-                                                        <button class="btn btn-default" name="calculation_state" value="111">정산완료</button>
+                                                        <button class="btn btn-default" name="status_cd" value="">전체</button>
+                                                        <button class="btn btn-default" name="status_cd" value="110">정산대기</button>
+                                                        <button class="btn btn-default" name="status_cd" value="111">정산완료</button>
                                                 </div>
 
                                         </div>
@@ -193,7 +193,17 @@
 
 
                 <div class="col-sm-6 text-right">
-                        {!! $entrys->render() !!}
+                        @if($status_cd)
+                                {!! $entrys->appends(['status_cd' => $status_cd])->render() !!}
+                        @elseif($trs && $tre)
+                                {!! $entrys->appends(['trs' => $trs, 'tre' => $tre])->render() !!}
+                        @elseif($trs)
+                                {!! $entrys->appends(['trs' => $trs])->render() !!}
+                        @elseif($tre)
+                                {!! $entrys->appends(['tre' => $tre])->render() !!}
+                        @else
+                                {!! $entrys->render() !!}
+                        @endif
                 </div>
 
         </div>

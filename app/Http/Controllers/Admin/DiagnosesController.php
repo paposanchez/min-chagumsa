@@ -132,7 +132,7 @@ class DiagnosesController extends Controller
 
                 $entrys = $where->paginate(25);
 
-                return view('admin.diagnosis.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys'));
+                return view('admin.diagnosis.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 's', 'sf', 'trs', 'tre'));
         }
 
         public function show(Request $request, $id){

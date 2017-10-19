@@ -39,6 +39,7 @@ Route::any('/{order_id}/{page?}/{flush?}', function ($order_id, $page = 'summary
 
 //    try{
 
+
         if(!in_array($page, ['performance', 'price', 'history', 'summary']))
         {
                 throw new Exception('인증서가 존재하지 않습니다.');

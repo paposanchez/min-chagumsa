@@ -105,7 +105,7 @@ class DiagnosesController extends Controller
 
         $entrys = $where->paginate(25);
 
-        return view('bcs.diagnosis.index', compact('search_fields', 'entrys', 'search_fields'));
+        return view('bcs.diagnosis.index', compact('search_fields', 'entrys', 'search_fields', 'status_cd', 's', 'sf', 'trs', 'tre'));
     }
 
     public function show($id)

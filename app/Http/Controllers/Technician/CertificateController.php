@@ -23,11 +23,17 @@ class CertificateController extends Controller
 
     public function index(Request $request)
     {
-        $where = Order::orderBy('orders.id', 'DESC')->whereIn('orders.status_cd', [107, 108, 109]);
+        $where = Order::where('status_cd', ">=", 107)->orderBy('status_cd')->orderBy('created_at', 'DESC');
 
         $search_fields = [
             "order_num" => "주문번호", "car_number" => "차량번호", 'orderer_name' => '주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
         ];
+
+        //주문상태
+        $status_cd = $request->get('status_cd');
+        if ($status_cd) {
+            $where->where('status_cd', $status_cd);
+        }
 
         //기간 검색
         $trs = $request->get('trs');
@@ -83,7 +89,7 @@ class CertificateController extends Controller
 
         $entrys = $where->paginate(25);
 
-        return view('technician.certificate.index', compact('search_fields', 'entrys', 'search_fields'));
+        return view('technician.certificate.index', compact('search_fields', 'entrys', 'search_fields', 'status_cd', 's', 'sf', 'trs', 'tre'));
     }
 
     public function show(Request $reqeust, $order_id, $page = 'summary')

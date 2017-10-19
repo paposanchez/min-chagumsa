@@ -18,6 +18,19 @@
 
                 <form method="GET" class="form-horizontal no-margin-bottom" role="form">
                     <div class="form-group">
+                        <label for="inputBoardId"
+                               class="control-label col-sm-3">{{ trans('admin/order.status') }}</label>
+                        <div class="col-sm-9">
+                            <div class="btn-group">
+                                <button class="btn btn-default" name="status_cd" value="">전체</button>
+                                <button class="btn btn-default" name="status_cd" value="107">진단완료</button>
+                                <button class="btn btn-default" name="status_cd" value="108">검토중</button>
+                                <button class="btn btn-default" name="status_cd" value="109">인증발급완료</button>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-sm-3">{{ trans('admin/order.period') }}</label>
 
                         <div class="col-sm-3">
@@ -210,7 +223,19 @@
         <div class="row">
 
             <div class="col-sm-6 text-right">
-                {!! $entrys->render() !!}
+                @if($status_cd)
+                    {!! $entrys->appends(['status_cd' => $status_cd])->render() !!}
+                @elseif($sf && $s)
+                    {!! $entrys->appends([$sf => $s])->render() !!}
+                @elseif($trs && $tre)
+                    {!! $entrys->appends(['trs' => $trs, 'tre' => $tre])->render() !!}
+                @elseif($trs)
+                    {!! $entrys->appends(['trs' => $trs])->render() !!}
+                @elseif($tre)
+                    {!! $entrys->appends(['tre' => $tre])->render() !!}
+                @else
+                    {!! $entrys->render() !!}
+                @endif
             </div>
 
         </div>

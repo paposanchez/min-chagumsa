@@ -44,7 +44,7 @@ class UserController extends Controller
         }
 
         $entrys = $where->paginate(25);
-        return view('admin.user.index', compact('entrys', 'search_fields'));
+        return view('admin.user.index', compact('entrys', 'search_fields', 'sf', 's', 'role_cd'));
     }
 
     public function create()

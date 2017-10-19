@@ -123,7 +123,7 @@ class CertificateController extends Controller
 
         $entrys = $where->paginate(25);
 
-        return view('admin.certificate.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys'));
+        return view('admin.certificate.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd'));
     }
 
     public function show(Request $reqeust, $order_id, $page = 'summary')

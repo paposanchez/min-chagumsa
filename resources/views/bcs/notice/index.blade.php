@@ -12,18 +12,6 @@
 
             <div class="panel-heading">
                 <span class="panel-title">검색조건</span>
-
-                {{--<div class="panel-heading-controls">--}}
-
-                {{--<div class="checkbox checkbox-slider--b-flat zfp-panel-collapse">--}}
-                {{--<label>--}}
-                {{--<input type="checkbox" >--}}
-                {{--<span></span>--}}
-                {{--</label>--}}
-                {{--</div>--}}
-
-                {{--</div>--}}
-
             </div>
 
             <div class="panel-body">
@@ -143,7 +131,17 @@
             </div>
 
             <div class="col-sm-6 text-right">
-                {!! $entrys->render() !!}
+                @if($sf && $s)
+                    {!! $entrys->appends([$sf => $s])->render() !!}
+                @elseif($trs && $tre)
+                    {!! $entrys->appends(['trs' => $trs, 'tre' => $tre])->render() !!}
+                @elseif($trs)
+                    {!! $entrys->appends(['trs' => $trs])->render() !!}
+                @elseif($tre)
+                    {!! $entrys->appends(['tre' => $tre])->render() !!}
+                @else
+                    {!! $entrys->render() !!}
+                @endif
             </div>
 
         </div>

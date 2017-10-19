@@ -27,7 +27,9 @@ class NoticeController extends Controller
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
         $yn_list = Code::getSelectList('yn');
         $shown_role_list = Code::getSelectList('post_shown_role');
-        $search_fields = Code::getSelectList('post_search_field');
+        $search_fields = [
+            'subject' => '제목', 'content' => '내용'
+        ];
 
         // 6번이 공개
         $where = Post::orderBy('id', 'desc')->where('board_id',4)->where('is_shown', 6);
@@ -57,23 +59,15 @@ class NoticeController extends Controller
         $sf = $request->get('sf'); //검색필드
         $s = $request->get('s'); //검색어
 
-        if($sf && $s){
-            if($sf == 8){
-                $where = $where->where('subject', 'like', '%'.$s.'%');
-            }
-            elseif($sf == 9){
-                $where = $where->where('content', 'like', '%'.$s.'%');
-            }
-            else{
-                $where = $where->where('name', 'like', '%'.$s.'%');
-            }
+        if($s){
+            $where = $where->where($sf, 'like', '%'.$s.'%');
         }
 
 
         $entrys = $where->paginate(10);
 
 
-        return view('bcs.notice.index', compact('entrys', 'board_list', 'shown_role_list', 'yn_list', 'request', 'search_fields'));
+        return view('bcs.notice.index', compact('entrys', 'board_list', 'shown_role_list', 'yn_list', 'request', 'search_fields', 'sf', 's', 'trs', 'tre'));
     }
 
     /**

@@ -235,7 +235,21 @@
             </div>
 
             <div class="col-sm-6 text-right">
-                {!! $entrys->render() !!}
+
+                @if($status_cd)
+                    {!! $entrys->appends(['status_cd' => $status_cd])->render() !!}
+                @elseif($sf && $s)
+                    {!! $entrys->appends([$sf => $s])->render() !!}
+                @elseif($trs && $tre)
+                    {!! $entrys->appends(['trs' => $trs, 'tre' => $tre])->render() !!}
+                @elseif($trs)
+                    {!! $entrys->appends(['trs' => $trs])->render() !!}
+                @elseif($tre)
+                    {!! $entrys->appends(['tre' => $tre])->render() !!}
+                @else
+                    {!! $entrys->render() !!}
+                @endif
+
             </div>
 
         </div>
