@@ -18,8 +18,9 @@
                     <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                         <label for="inputEmail" class="control-label col-md-3">상품명</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="상품명"
-                                   name="name" id="name" value="{{ $item->name }}">
+                            {{--<input type="text" class="form-control" placeholder="상품명"--}}
+                                   {{--name="name" id="name" value="{{ $item->name }}">--}}
+                            <p class="form-control-static">{{ $item->name }}</p>
                         </div>
                         @if ($errors->has('name'))
                             <span class="text-danger">
@@ -32,8 +33,9 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">가격</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="가격"
-                                   name="price" id="price" value="{{ $item->price }}">
+                            {{--<input type="text" class="form-control" placeholder="가격"--}}
+                                   {{--name="price" id="price" value="{{ $item->price }}">--}}
+                            <p class="form-control-static">{{ $item->price }}</p>
                         </div>
                         @if ($errors->has('price'))
                             <span class="text-danger">
@@ -45,8 +47,9 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">PG 수수료률</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder=""
-                                   name="commission" id="commission" value="{{ $item->commission }}">
+                            {{--<input type="text" class="form-control" placeholder=""--}}
+                                   {{--name="commission" id="commission" value="{{ $item->commission }}">--}}
+                            <p class="form-control-static">{{ $item->commission }}</p>
                         </div>
                         @if ($errors->has('commission'))
                             <span class="text-danger">
@@ -58,8 +61,9 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">보증료</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder=""
-                                   name="guarantee" id="guarantee" value="{{ $item->guarantee }}">
+                            {{--<input type="text" class="form-control" placeholder=""--}}
+                                   {{--name="guarantee" id="guarantee" value="{{ $item->guarantee }}">--}}
+                            <p class="form-control-static">{{ $item->guarantee }}</p>
                         </div>
                         @if ($errors->has('guarantee'))
                             <span class="text-danger">
@@ -71,8 +75,9 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">공임비용</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder=""
-                                   name="wage" id="wage" value="{{ $item->wage }}">
+                            {{--<input type="text" class="form-control" placeholder=""--}}
+                                   {{--name="wage" id="wage" value="{{ $item->wage }}">--}}
+                            <p class="form-control-static">{{ $item->wage }}</p>
                         </div>
                         @if ($errors->has('wage'))
                             <span class="text-danger">
@@ -84,8 +89,9 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">얼라이언스 Com</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder=""
-                                   name="alliance_ratio" id="alliance_ratio" value="{{ $item->alliance_ratio }}">
+                            {{--<input type="text" class="form-control" placeholder=""--}}
+                                   {{--name="alliance_ratio" id="alliance_ratio" value="{{ $item->alliance_ratio }}">--}}
+                            <p class="form-control-static">{{ $item->alliance_ratio }}</p>
                         </div>
                         @if ($errors->has('alliance_ratio'))
                             <span class="text-danger">
@@ -97,8 +103,9 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">기술사 Com</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder=""
-                                   name="certi_ratio" id="certi_ratio" value="{{ $item->certi_ratio }}">
+                            {{--<input type="text" class="form-control" placeholder=""--}}
+                                   {{--name="certi_ratio" id="certi_ratio" value="{{ $item->certi_ratio }}">--}}
+                            <p class="form-control-static">{{ $item->certi_ratio }}</p>
                         </div>
                         @if ($errors->has('certi_ratio'))
                             <span class="text-danger">
@@ -110,8 +117,9 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">수익</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder=""
-                                   name="self_ratio" id="self_ratio" value="{{ $item->self_ratio }}">
+                            {{--<input type="text" class="form-control" placeholder=""--}}
+                                   {{--name="self_ratio" id="self_ratio" value="{{ $item->self_ratio }}">--}}
+                            <p class="form-control-static">{{ $item->self_ratio }}</p>
                         </div>
                         @if ($errors->has('self_ratio'))
                             <span class="text-danger">

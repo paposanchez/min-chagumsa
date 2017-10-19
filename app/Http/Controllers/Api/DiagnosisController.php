@@ -624,19 +624,26 @@ function setDiagnosisComplete(Request $request)
         $order->diagnosed_at = Carbon::now();
         $order->save();
 
-        //            return response()->json($order);
+
+        $order_number = $order->getOrderNumber();
+        $garage_info = User::find($order->garage_id);
+        $garage = $garage_info->name;
+        $orderer_name = $order->orderer_name;
 
         try {
             //메일전송
-            $garage_info = User::find($order->garage_id);
-            $garage = $garage_info->name;
+
             $mail_message = [
-                'orderer_name' => $order->orderer_name, 'order_num' => $order->getOrderNumber(), 'garage' => $garage
+                'orderer_name' => $orderer_name, 'order_num' => $order_number, 'garage' => $garage
             ];
-            //todo
-//                        Mail::send(new \App\Mail\Ordering(env('TECH_PUBLIC_MAIL'), "고객님[".$order->getOrderNumber()."]의 차량진단이 완료되었습니다.", $mail_message, 'message.email.fin-diagnosis-tech'));
-            Mail::send(new \App\Mail\Ordering("carhnt@naver.com", "고객님[" . $order->getOrderNumber() . "]의 차량진단이 완료되었습니다.", $mail_message, 'message.email.fin-diagnosis-tech'));
+            Mail::send(new \App\Mail\Ordering($order->technician->email, "고객님[" . $order->getOrderNumber() . "]의 차량진단이 완료되었습니다.", $mail_message, 'message.email.fin-diagnosis-tech'));
         } catch (\Exception $e) {
+        }
+        try{
+            // SMS전송
+            $user_message = view('message.sms.fin-diagnosis-user', compact('order_number'));
+            event(new SendSms($order->orderer_mobile, '', $user_message));
+        }catch (\Exception $e){
         }
 
 

@@ -337,13 +337,7 @@ class OrderController extends Controller
             $order->status_cd = 104;
             $order->save();
 
-            $last_diagnoses = Diagnosis::where('orders_id', $order->id)->get();
-            foreach ($last_diagnoses as $last_diagnosis) {
-                $last_diagnosis->delete();
-            }
-            $diagnosis = new DiagnosisRepository();
-            $diagnosis->prepare($order->id)->create($order->id);
-
+            Diagnosis::where('orders_id', $order->id)->delete();
 
             //문자, 메일 송부하기
             $user_info = User::find($order->orderer_id);
@@ -364,16 +358,15 @@ class OrderController extends Controller
                 ];
                 Mail::send(new \App\Mail\Ordering($user_info->email, "차검사 차량입고 예약시간이 변경되었습니다.", $mail_message, 'message.email.change-reservation-user'));
             } catch (\Exception $e) {
-                return response()->json($e->getMessage());
+//                return response()->json($e->getMessage());
             }
 
             try{
                 // SMS전송
-//                $bcs_message = view('message.sms.change-reservation-bcs', compact('enter_date', 'week_day', 'garage', 'address', 'tel'));
                 $user_message = view('message.sms.change-reservation-user', compact('enter_date', 'week_day', 'garage', 'address', 'tel', 'price'));
                 event(new SendSms($order->orderer_mobile, '', $user_message));
             }catch (\Exception $e){
-                return response()->json($e->getMessage());
+//                return response()->json($e->getMessage());
             }
             //발송 끝
 
@@ -397,10 +390,8 @@ class OrderController extends Controller
             $order->status_cd = 104;
             $order->save();
 
-            $last_diagnoses = Diagnosis::where('orders_id', $order->id)->get();
-            foreach ($last_diagnoses as $last_diagnosis) {
-                $last_diagnosis->delete();
-            }
+            Diagnosis::where('orders_id', $order->id)->get();
+
             $diagnosis = new DiagnosisRepository();
             $diagnosis->prepare($order->id)->create($order->id);
 
