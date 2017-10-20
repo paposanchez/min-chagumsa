@@ -761,9 +761,9 @@ public function setTransDiagnosisFileInfo(Request $request){
         if($request->get('trans_id') > $where->trans_id){
             //이전 등록된 파일 정보보다 입력하려는 id가 크므로
             $model = new S3Tran();
-            $error = '입력요청값이 작습니다.';
-        }else{
             $error = '';
+        }else{
+            $error = '입력요청값이 작거나 같습니다.';
             $model = false;
         }
     }else{
@@ -776,7 +776,7 @@ public function setTransDiagnosisFileInfo(Request $request){
             'div' => $request->get('div'),
             'trans_id' => $request->get('trans_id')
         ];
-        $model->save();
+        $model->insert($data);
         return response()->json(['status' => 'ok', 'error' => $error]);
     }else{
         return response()->json(['status' => 'skip', 'error' => $error]);
