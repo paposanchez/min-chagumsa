@@ -232,6 +232,8 @@ class DiagnosisController extends ApiController
 
                 $data->save();
 
+                //todo mme를 호출해서 이미지변환을 요청함
+
                 $return = 'success';
             } else {
                 $return = 'error';
