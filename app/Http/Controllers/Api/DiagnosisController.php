@@ -675,16 +675,18 @@ function setDiagnosisComplete(Request $request)
 public
 function getReservationCount(Request $request)
 {
-    // $order_num = Order::find($order_id)->item_id;
-    // $layout = Item::find($order_num)->layout;
-    // return Order::findOrFail($order_id)->item->layout;
     $user = User::where("id", $request->get('user_id'))->first();
 
-    $today = Reservation::where("garage_id", $user->user_extra->garage_id)->whereNotNull('updated_at')->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), Carbon::today()->format('Y-m-d'))->count();
-    $tomorrow = Reservation::where("garage_id", $user->user_extra->garage_id)->whereNotNull('updated_at')->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), Carbon::tomorrow()->format('Y-m-d'))->count();
-
-    // $today = rand(0,99);
-    // $tomorrow = rand(0,99);
+    $today = Reservation::where('reservations.garage_id', $user->user_extra->garage_id)->join('orders', function($join){
+        $join->on('reservations.orders_id', '=', 'orders.id')
+            ->where('orders.status_cd', 104)
+            ->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), Carbon::today()->format('Y-m-d'));
+    })->count();
+    $tomorrow = Reservation::where('reservations.garage_id', $user->user_extra->garage_id)->join('orders', function($join){
+        $join->on('reservations.orders_id', '=', 'orders.id')
+            ->where('orders.status_cd', 104)
+            ->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), Carbon::tomorrow()->format('Y-m-d'));
+    })->count();
 
     return response()->json([
         'today' => [
