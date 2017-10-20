@@ -17,7 +17,7 @@
             <a href="/order/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"
                style="margin-left:10px;">주문보기</a>
 
-            <a href="{{ url("diagnosis", [$order->id]) }}" target="_blank" class="btn btn-default pull-right"
+            <a href="/certificate/diagnosis/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"
                style="margin-left:10px;" data-toggle="tooltip" title="인증서 진단정보 보기">진단정보 보기</a>
 
             <button id="issue" class="btn btn-primary pull-right" data-toggle="tooltip" title="인증서 진단정보 보기"

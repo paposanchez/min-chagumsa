@@ -8,6 +8,7 @@ use App\Models\Payment;
 use App\Models\UserExtra;
 use App\Models\PaymentCancel;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -72,6 +73,9 @@ class OrderController extends Controller
                     $where = $where->where('car_number', $car_number)
                         ->where('created_at', '>=', $date)
                         ->where('created_at', '<=', $next_day);
+
+
+
                 } else {
                     if (strlen($s) > 6) {
                         $where = $where->where('car_number', $s);
@@ -84,6 +88,9 @@ class OrderController extends Controller
                     }
 
                 }
+
+
+
             }
         }
 

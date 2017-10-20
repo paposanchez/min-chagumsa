@@ -212,7 +212,7 @@
                 @if($status_cd)
                     {!! $entrys->appends(['status_cd' => $status_cd])->render() !!}
                 @elseif($sf && $s)
-                    {!! $entrys->appends([$sf => $s])->render() !!}
+                    {!! $entrys->appends(['sf' => $sf, 's' => $s])->render() !!}
                 @elseif($trs && $tre)
                     {!! $entrys->appends(['trs' => $trs, 'tre' => $tre])->render() !!}
                 @elseif($trs)
