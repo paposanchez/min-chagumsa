@@ -25,7 +25,7 @@
 			<td rowspan='6' class='img_type2'>
 
 					@if($exterior_picture_ids[0]->files)
-						<img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $exterior_picture_ids[0]->id }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $exterior_picture_ids[0]->id }}&format=png&h_pos=10&bg_rgb=ffffff">
+						<img class="img" src="http://mme.chagumsa.com/resize?logo=1&r=1&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $exterior_picture_ids[0]->id }}&format=png&h_pos=10&bg_rgb=ffffff" alt='차량 이미지' id="imgSrc" data-url="http://mme.chagumsa.com/resize?logo=1&r=1&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $exterior_picture_ids[0]->id }}&format=png&h_pos=10&bg_rgb=ffffff">
 					@else
 						<img src="http://fakeimg.pl/272x205/">
 					@endif

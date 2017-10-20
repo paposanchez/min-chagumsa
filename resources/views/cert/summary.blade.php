@@ -27,13 +27,13 @@
                     @if($order->certificates->pictures)
                         <img
                                 name="picture"
-                                src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $order->certificates->pictures }}"
+                                src="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $order->certificates->pictures }}"
                                 class="img-responsive picture"
                                 style="width: 250px;">
                     @else
                         <img
                                 name="picture"
-                                src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $order->getExteriorPicture()[0]->files[0]->id }}"
+                                src="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $order->getExteriorPicture()[0]->files[0]->id }}"
                                 class="img-responsive picture"
                                 style="width: 250px;">
                     @endif

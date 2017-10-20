@@ -5,7 +5,7 @@
 @if($entry['use_image'] == 1)
     @if($entry['group'] != 2001)
         @foreach($entry['files'] as $file)
-            <a href="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=400&qty=80&url={{ $file['preview'] }}"
+            <a href="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url={{ $file['preview'] }}"
                class="diagnosis-thumbnail pull-right"
                data-toggle="lightbox"
                data-title="{{ $file['original'] }}"
@@ -14,7 +14,7 @@
                data-gallery="diagnosis-gallery"
             >
                 <img
-                        src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=400&qty=80&url={{ $file['preview'] }}"
+                        src="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url={{ $file['preview'] }}"
                         class="img-responsive"
                         style="width:30px;height:30px;display:inline-block;">
             </a>

@@ -41,7 +41,7 @@
                             {{--<img src="http://fakeimg.pl/270x204/" alt='차량 이미지'>--}}
                                 <img
                                         name="picture"
-                                        src="http://mme.chagumsa.com/resize?logo=1&r=ffffff&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $order->getExteriorPicture()[0]->files[0]->id }}"
+                                        src="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $order->getExteriorPicture()[0]->files[0]->id }}"
                                         class="img-responsive picture"
                                         style="width: 290px;height: 290px;">
                         @endif
