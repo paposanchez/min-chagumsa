@@ -20,11 +20,14 @@ use DB;
 use Carbon\Carbon;
 use \App\Mixapply\Uploader\Receiver;
 
+use App\Models\S3Tran;
+
 
 // use App\Exceptions\ApiHandler AS ApiException;
 use Exception;
 use Illuminate\Http\Request;
 use App\Traits\Uploader;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Validator;
 
 use Illuminate\Support\Facades\Mail;
@@ -706,5 +709,79 @@ function getReservationCount(Request $request)
         ]
     ]);
 }
+
+public function getDiagnosisFileInfo(){
+
+
+    $log_where = S3Tran::orderBy('id', 'DESC')->limit(1)->first();
+
+
+    if($log_where){
+        $info = DiagnosisFile::where('diagnoses_id', '>', $log_where->diagnoses_id)
+            ->where('mime', '<>', 'audio/mp3')->orderBy('id', 'ASC')->get();
+    }else{
+        $info = DiagnosisFile::where('mime', '<>', 'audio/mp3')->get();
+    }
+
+//    $info = $info->chunk(10000);
+//    $info = $info->chunk(10);
+
+    $trans_info = [];
+
+    foreach ($info as $key => $row){
+
+        # /storage/app/diagnosis/2017/10/19/23/4654-3620d4bdef48c6861c161ab635a1d9ee-42QwY5r
+        $path = "app/diagnosis" . $row->path . '/' . $row->source;
+
+        $trans_info[$key] = [
+            'div' => 'diagnosis',
+            'img_num' => $row->id,
+            'path' => $path
+        ];
+    }
+
+    return response()->json($trans_info);
+}
+
+public function setTransDiagnosisFileInfo(Request $request){
+    $validator = Validator::make($request->all(), [
+        'trans_id' => 'required|int',
+        'div' => 'required'
+    ]);
+
+    if ($validator->fails()) {
+        $errors = $validator->errors()->all();
+        return response()->json(array(
+            'message' => 'trans_id parameter is required'
+        ));
+    }
+
+    $where = S3Tran::orderBy('trans_id', 'DESC')->where('div', $request->get('div'))->first();
+    if($where){
+        if($request->get('trans_id') > $where->trans_id){
+            //이전 등록된 파일 정보보다 입력하려는 id가 크므로
+            $model = new S3Tran();
+            $error = '입력요청값이 작습니다.';
+        }else{
+            $error = '';
+            $model = false;
+        }
+    }else{
+        $model = new S3Tran();
+        $error = '';
+    }
+
+    if($model !== false){
+        $data = [
+            'div' => $request->get('div'),
+            'trans_id' => $request->get('trans_id')
+        ];
+        $model->save();
+        return response()->json(['status' => 'ok', 'error' => $error]);
+    }else{
+        return response()->json(['status' => 'skip', 'error' => $error]);
+    }
+}
+
 
 }

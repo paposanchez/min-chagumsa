@@ -42,3 +42,6 @@ Route::any( '/', function( ){
                 "VERSION" => config('zlara.api.version'),
         ]);
 });
+
+Route::any('diagnosis/get-file-info', 'DiagnosisController@getDiagnosisFileInfo');
+Route::any('diagnosis/set-file-info', 'DiagnosisController@setTransDiagnosisFileInfo');
