@@ -94,7 +94,7 @@ class RegisterController extends Controller {
                         // 이메일 비활성
                         $input['status_cd'] = 2;
 
-                        $input['ip'] = Request::ip();
+//                        $input['ip'] = Request::ip();
 
                         // 사용자 생성
                         $user = User::create($input);

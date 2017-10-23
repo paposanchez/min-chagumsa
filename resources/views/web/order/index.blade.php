@@ -135,7 +135,7 @@
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="input-group input-group-lg">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <span class="input-group-addon" id="calendar-opener" style="cursor:pointer;"><i class="fa fa-calendar"></i></span>
                                     <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD"
                                            placeholder="{{ trans('web/order.reservation_date') }}"
                                            name='reservation_date'
@@ -345,7 +345,7 @@
 
                     <div class="block" id="purchase-items">
 
-                        <div id="purchase-items-blind">차량모델에 따라 상품이 자동선택됩니다. 상품을 변경하시려면 차량모델을 변경하세요.</div>
+                        <div id="purchase-items-blind" style="z-index: 1">차량모델에 따라 상품이 자동선택됩니다. 상품을 변경하시려면 차량모델을 변경하세요.</div>
 
                         <div class="row">
                             @foreach($items as $item)
@@ -1040,8 +1040,9 @@
                             $(".coupon-error").css({'color': '#0b4777'});
                             //인증버튼을 결제처리 버튼으로 변경한다.
 
-                            $("#modal-coupon-verify").attr("disabled", "disabled");
-                            $("#coupon-process").show(0.5);
+//                            $("#modal-coupon-verify").attr("disabled", "disabled");
+//                            $("#coupon-process").show(0.5);
+                            $("#modal-coupon-verify").attr("display", "none");
 
                         } else {
                             $(".coupon-error").css({'color': 'red'});
@@ -1132,10 +1133,10 @@
         new Pikaday(opt);
     });
 
-    // 달력이미지 클릭
-    // $('#calendar-opener').click(function () {
-    //         $("#reservation_date").click();
-    // });
+//     달력이미지 클릭
+     $('#calendar-opener').click(function () {
+             $("#reservation_date").click();
+     });
 
 
     var paymentSubmit = function (orders_id, is_complete, action) {

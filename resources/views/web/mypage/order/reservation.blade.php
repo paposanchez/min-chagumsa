@@ -118,7 +118,7 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="input-group input-group-lg">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <span class="input-group-addon" id="calendar-opener" style="cursor:pointer;"><i class="fa fa-calendar"></i></span>
                             <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD"
                                    placeholder="{{ trans('web/order.reservation_date') }}" name='reservation_date'
                                    id="reservation_date" value='{{ $order->reservation->reservation_at }}'
@@ -170,7 +170,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get_section/',
+                url: '/order/get-section/',
                 data: {
                     '_token': '{{ csrf_token() }}',
                     'garage_area': garage_area
@@ -201,7 +201,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get_address/',
+                url: '/order/get-address/',
                 data: {
                     'sel_area': garage_area,
                     'sel_section': garage_section
@@ -246,14 +246,16 @@
             var opt = {
                 field: element,
                 format: 'YYYY-MM-DD',
-                disableWeekends: true,
-                // minDate: moment().add(1, 'days').toDate(),
+                minDate: moment().add(1, 'days').toDate(),
+                disableDayFn: function (date) {
+                    return date.getDay() === 0;
+                },
                 i18n: {
                     previousMonth: '이전달',
                     nextMonth: '다음달',
                     months: '1월.2월.3월.4월.5월.6월.7월.8월.9월.10월.11월.12월.'.split('.'),
                     weekdays: '월요일.화요일.수요일.목요일.금요일.토요일.일요일'.split('.'),
-                    weekdaysShort: '월.화.수.목.금.토.일.'.split('.')
+                    weekdaysShort: '일.월.화.수.목.금.토.'.split('.')
                 },
             };
 
@@ -262,6 +264,11 @@
             }
 
             new Pikaday(opt);
+        });
+
+        //달력이미지 클릭
+        $('#calendar-opener').click(function () {
+            $("#reservation_date").click();
         });
 
         $('#prev').click(function () {

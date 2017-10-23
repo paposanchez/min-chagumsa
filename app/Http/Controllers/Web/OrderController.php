@@ -489,7 +489,7 @@ class OrderController extends Controller
                 // SMS전송
                 //사용자
                 $user_message = view('message.sms.ordering-user', compact('enter_date', 'garage', 'price'))->render();
-                event(new SendSms(Auth::user()->mobile, '', $user_message));
+                event(new SendSms($order_where->orderer_mobile, '', $user_message));
 
                 //BCS
                 $orderer_name = Auth::user()->name;
@@ -703,8 +703,10 @@ class OrderController extends Controller
         }
 
         //주문정보 갱신함.
-
         $reservation = $order->reservation;
+
+
+
         return view('web.order.complete', compact('order', 'reservation', 'is_coupon', 'coupon_kind'));
     }
 

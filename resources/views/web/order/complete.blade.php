@@ -81,7 +81,8 @@
 
 
             <p class="text-center" style="margin-bottom:30px;">
-                <button type="button" class='btn btn-default btn-lg'>새로운 주문하기</button>
+                {{--<button type="button" class='btn btn-default btn-lg'>새로운 주문하기</button>--}}
+                <a class="btn btn-default btn-lg" href="/order">새로운 주문하기</a>
                 <a class='btn btn-default btn-lg' href="/mypage/order/change-reservation/{{ $order->id }}">예약 변경하기</a>
                 <button type="button" class='btn btn-primary btn-lg' id="mypage">주문 상세보기</button>
             </p>

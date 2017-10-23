@@ -32,7 +32,8 @@ class InquireController extends PostController
     {
         $user = Auth::user();
 
-        $where = Post::whereBoardId($this->board_id)->where('user_id', $user->id)->where('is_shown', 6)
+        $where = Post::whereBoardId($this->board_id)->where('user_id', $user->id)
+//            ->where('is_shown', 6)
             ->orderBy('id', 'desc');
 
         $entrys = $where->paginate($this->num_of_page);

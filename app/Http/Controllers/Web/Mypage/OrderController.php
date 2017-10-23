@@ -54,9 +54,10 @@ class OrderController extends Controller
         $user_id = Auth::user()->id;
 
         $my_orders = Order::where('orderer_id', $user_id)->whereNotIn('status_cd', [101])
-            ->orderBy('status_cd', 'DESC')
+            ->orderBy('created_at', 'DESC')
+//            ->orderBy('status_cd', '')
             ->orderBy(DB::raw('CASE status_cd WHEN 100 THEN 9999 ELSE status_cd END'), 'ASC')
-            ->orderBy('created_at', 'DESC')->paginate(10);
+            ->paginate(10);
 
         return view('web.mypage.order.index', compact('my_orders'));
     }
@@ -156,12 +157,16 @@ class OrderController extends Controller
             $order_num = $order->getOrderNumber();
             $bcs_message = view('message.sms.change-reservation-bcs', compact('orderer_name', 'order_num', 'enter_date'));
             $user_message = view('message.sms.change-reservation-user', compact('enter_date', 'week_day', 'garage', 'address', 'tel', 'price'));
-            event(new SendSms($order->orderer_mobile, '', $bcs_message, $user_message));
-            event(new SendSms($ceo_mobile, '', $bcs_message, $bcs_message));
+            event(new SendSms($order->orderer_mobile, '[차검사 예약 변경]', $user_message));
+            event(new SendSms($ceo_mobile, '', $bcs_message));
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
         //발송 끝
+
+
+
+
         return redirect()
             ->route('mypage.order.show', $order->id)
             ->with('success', trans('web/mypage.modify_complete'));
