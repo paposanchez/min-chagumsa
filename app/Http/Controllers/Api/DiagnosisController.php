@@ -710,21 +710,28 @@ function getReservationCount(Request $request)
     ]);
 }
 
-public function getDiagnosisFileInfo(){
+public function getDiagnosisFileInfo(Request $request){
 
 
-    $log_where = S3Tran::orderBy('id', 'DESC')->limit(1)->first();
+    $validator = Validator::make($request->all(), [
+        'div' => 'required'
+    ]);
 
+    if ($validator->fails()) {
+        $errors = $validator->errors()->all();
+        return response()->json(array(
+            'message' => 'div parameter is required'
+        ));
+    }
+
+    $log_where = S3Tran::orderBy('id', 'DESC')->where('div', $request->get('div'))->first();
 
     if($log_where){
-        $info = DiagnosisFile::where('diagnoses_id', '>', $log_where->diagnoses_id)
+        $info = DiagnosisFile::where('id', '>', $log_where->trans_id)
             ->where('mime', '<>', 'audio/mp3')->orderBy('id', 'ASC')->get();
     }else{
         $info = DiagnosisFile::where('mime', '<>', 'audio/mp3')->get();
     }
-
-//    $info = $info->chunk(10000);
-//    $info = $info->chunk(10);
 
     $trans_info = [];
 
@@ -752,7 +759,7 @@ public function setTransDiagnosisFileInfo(Request $request){
     if ($validator->fails()) {
         $errors = $validator->errors()->all();
         return response()->json(array(
-            'message' => 'trans_id parameter is required'
+            'message' => 'trans_id or div parameter is required'
         ));
     }
 
