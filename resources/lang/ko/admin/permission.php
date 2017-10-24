@@ -5,7 +5,7 @@ return [
     'name' => '권한명',
     'display_name' => '노출명',
     'description' => '설명',
-    'role' => '역활',
+    'role' => '역할',
     'status' => '상태',
     'created' => '생성되었습니다.',
     'updated' => '수정되었습니다.',

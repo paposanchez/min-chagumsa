@@ -46,20 +46,49 @@ class DiagnosesController extends Controller
             $where->where('status_cd', $status_cd);
         }
 
+
+
         //기간 검색
+        $df = $request->get('df');
         $trs = $request->get('trs');
         $tre = $request->get('tre');
-        if ($trs) {
-            $where->where(function ($qry) use ($trs, $tre) {
-                $qry->where("created_at", ">=", $trs);
-            });
+        if($df){
+            switch ($df){
+                case 'order' :
+                    if ($trs) {
+                        $where->where(function ($qry) use ($trs, $tre) {
+                            $qry->where("created_at", ">=", $trs);
+                        });
+                    }
+
+                    if ($tre) {
+                        $where->where(function ($qry) use ($tre) {
+                            $qry->where("created_at", "<=", date('Y-m-d', strtotime($tre. "+1 days")));
+                        });
+                    }
+                    break;
+//                case 'reservation' :
+//                    if ($trs) {
+//                        $where = $where->join('reservations', 'reservations.orders_id', '=', 'orders.id')
+//                            ->where(function ($qry) use ($trs, $tre) {
+//                                $qry->where("reservations.reservation_at", ">=", $trs);
+//                            });
+//                    }
+//
+//                    if ($tre) {
+//                        $where = $where->join('reservations', 'reservations.orders_id', '=', 'orders.id')
+////                            ->where('reservations.reservation_at', '<=', date('Y-m-d', strtotime($tre. "+1 days")));
+//                            ->where(function ($qry) use ($trs, $tre) {
+//                                $qry->where("reservations.reservation_at", "<=", date('Y-m-d', strtotime($tre. "+1 days")));
+//                            });
+//                    }
+//                    break;
+//                case 'diagnosis' :
+//                    break;
+            }
         }
 
-        if ($tre) {
-            $where->where(function ($qry) use ($tre) {
-                $qry->where("created_at", "<=", $tre);
-            });
-        }
+
 
         $search_fields = [
             "order_id" => "주문아이디",
@@ -70,6 +99,12 @@ class DiagnosesController extends Controller
             "engineer_name" => "엔지니어명",
             "bcs_name" => "BCS명",
             "tech_name" => "기술사명"
+        ];
+
+        $date_fields = [
+            "order" => "주문기간",
+//            "reservation" => "예약기간",
+//            "diagnosis" => "진단기간"
         ];
 
 
@@ -129,7 +164,7 @@ class DiagnosesController extends Controller
 
         $entrys = $where->paginate(25);
 
-        return view('admin.diagnosis.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 's', 'sf', 'trs', 'tre'));
+        return view('admin.diagnosis.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 's', 'sf', 'trs', 'tre', 'date_fields', 'request', 'df'));
     }
 
     public function show(Request $request, $id)

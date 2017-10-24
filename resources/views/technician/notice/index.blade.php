@@ -20,7 +20,7 @@
 
 
                     <div class="form-group">
-                        <label class="control-label col-sm-3">{{ trans('common.search.period') }}</label>
+                        <label class="control-label col-sm-3">등록일</label>
 
                         <div class="col-sm-3">
                             <div class="input-group">
@@ -39,7 +39,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
                         <div class="col-sm-3">
-                            {!! Form::select('sf', $search_fields, [], ['class'=>'form-control']) !!}
+                            {!! Form::select('sf', $search_fields, $sf, ['class'=>'form-control']) !!}
 
                         </div>
                         <div class="col-sm-3">

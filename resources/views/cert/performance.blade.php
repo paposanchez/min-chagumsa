@@ -128,7 +128,7 @@
                         </td>
                         <th>동일성여부</th>
                         <td>
-                                {{ $order->certificates ? $order->certificates->getVinCd->display() : '' }}
+                                {{ $order->certificates->getVinCd ? $order->certificates->getVinCd->display() : '미입력 (검토중)' }}
                         </td>
                 </tr>
                 <tr>
@@ -482,9 +482,9 @@
                         <tr>
                                 <td>
                                         {{--H&T 차량기술법인에서 인증한 차량 성능 등급이 AA로 전반적으로 양호한 상태이나, 차량 구조적 손상 및 수리 상태 점검 결과, 정비가 필요한 부분이 있습니다. 또 차량 소모품 상태 검검 결과 배터리의 수명이 다 되어 교체를 해야 하니 참고하시길 바랍니다.--}}
-                                        {{ $order->certificates ? $order->certificates->opinion : '' }}
+                                        {{ $order->certificates ? $order->certificates->opinion : '미입력 (검토중)' }}
                                 </td>
-                                <td class='td_al_c'>인증등급<br><strong class='fsize_50'>{{ $order->certificates ? $order->certificates->certificate_grade->display() : '' }}</strong></td>
+                                <td class='td_al_c'>인증등급<br><strong class='fsize_50'>{{ $order->certificates->certificate_grade ? $order->certificates->certificate_grade->display() : '미입력 (검토중)' }}</strong></td>
                         </tr>
                 </tbody>
         </table>

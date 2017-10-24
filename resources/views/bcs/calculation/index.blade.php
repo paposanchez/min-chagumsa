@@ -12,17 +12,6 @@
 
         <div class="panel-heading">
             <span class="panel-title">검색조건</span>
-
-            {{--<div class="panel-heading-controls">--}}
-
-            {{--<div class="checkbox checkbox-slider--b-flat zfp-panel-collapse">--}}
-            {{--<label>--}}
-            {{--<input type="checkbox" >--}}
-            {{--<span></span>--}}
-            {{--</label>--}}
-            {{--</div>--}}
-
-            {{--</div>--}}
         </div>
 
         <div class="panel-body">
@@ -31,10 +20,21 @@
 
                 <div class="form-group">
                     <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/order.status') }}</label>
-                    <div class="col-sm-6">
-                        <button class="btn btn-default" name="status_cd" value="107">진단완료</button>
-                        <button class="btn btn-default" name="status_cd" value="108">검토중</button>
-                        <button class="btn btn-default" name="status_cd" value="109">인증발급완료</button>
+                    <div class="col-sm-9">
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }} selected_cd">
+                                {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }} 전체
+                            </label>
+                            <label class="btn btn-default {{ $status_cd == 107 ? 'active' : '' }} selected_cd">
+                                {{ Form::radio('status_cd', 107, \App\Helpers\Helper::isCheckd(107, $status_cd), ['name' => 'status_cd']) }} 진단완료
+                            </label>
+                            <label class="btn btn-default {{ $status_cd == 108 ? 'active' : '' }} selected_cd">
+                                {{ Form::radio('status_cd', 108, \App\Helpers\Helper::isCheckd(108, $status_cd), ['name' => 'status_cd']) }} 검토중
+                            </label>
+                            <label class="btn btn-default {{ $status_cd == 109 ? 'active' : '' }} selected_cd">
+                                {{ Form::radio('status_cd', 109, \App\Helpers\Helper::isCheckd(109, $status_cd), ['name' => 'status_cd']) }} 인증발급완료
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -44,13 +44,13 @@
                     <div class="col-sm-3">
                         <div class="input-group">
                             <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
-                            <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('common.search.period_start') }}" name='trs' value=''>
+                            <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('common.search.period_start') }}" name='trs' value='{{ $trs }}'>
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="input-group">
                             <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
-                            <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('common.search.period_end') }}" name='tre' value=''>
+                            <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD" placeholder="{{ trans('common.search.period_end') }}" name='tre' value='{{ $tre }}'>
                         </div>
                     </div>
                 </div>
@@ -58,11 +58,11 @@
                 <div class="form-group">
                     <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
                     <div class="col-sm-3">
-                        {!! Form::select('sf', $search_fields, [], ['class'=>'form-control']) !!}
+                        {!! Form::select('sf', $search_fields, $sf, ['class'=>'form-control']) !!}
 
                     </div>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}" name='s' value=''>
+                        <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}" name='s' value='{{ $s }}'>
                     </div>
                 </div>
 

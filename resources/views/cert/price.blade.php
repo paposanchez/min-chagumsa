@@ -2,98 +2,6 @@
 
 @section( 'content' )
 
-{{--<div class='report_title_type2'>기본정보</div>--}}
-{{--<div class='report_table exp'>--}}
-        {{--<table>--}}
-                {{--<colgroup>--}}
-                        {{--<col style='width:120px;'>--}}
-                        {{--<col style='width:270px;'>--}}
-                        {{--<col style='width:120px;'>--}}
-                        {{--<col style='width:270px;'>--}}
-                {{--</colgroup>--}}
-                {{--<tbody>--}}
-                        {{--<tr>--}}
-                                {{--<th>차명</th>--}}
-                                {{--<td>--}}
-                                        {{--{{ $order->getCarFullName() }}--}}
-                                {{--</td>--}}
-                                {{--<th>차대번호</th>--}}
-                                {{--<td>--}}
-                                        {{--{{ $order->isIssued() ? $order->car->vin_number : '미입력 (검토중)'}}--}}
-                                {{--</td>--}}
-                        {{--</tr>--}}
-                        {{--<tr>--}}
-                                {{--<th>등록번호</th>--}}
-                                {{--<td>--}}
-                                        {{--{{ $order->car_number }}--}}
-                                {{--</td>--}}
-                                {{--<th>연식</th>--}}
-                                {{--<td>--}}
-                                        {{--{{ $order->isIssued() ? $order->car->year : '미입력 (검토중)' }}--}}
-                                {{--</td>--}}
-                        {{--</tr>--}}
-                        {{--<tr>--}}
-                                {{--<th>최초등록일</th>--}}
-                                {{--<td>--}}
-                                        {{--{{ $order->isIssued() ? \Carbon\Carbon::parse($order->car->registration_date)->format('Y년 m월 d일') : '미입력 (검토중)' }}--}}
-                                {{--</td>--}}
-                                {{--<th>사용월수</th>--}}
-                                {{--<td>--}}
-                                        {{--@if($order->isIssued())--}}
-                                                {{--{{ \Carbon\Carbon::parse($order->car->registration_date)->diffInMonths(\Carbon\Carbon::now()) }} 개월--}}
-                                        {{--@else--}}
-                                                {{--미입력 (검토중)--}}
-                                        {{--@endif--}}
-
-                                {{--</td>--}}
-                        {{--</tr>--}}
-                        {{--<tr>--}}
-                                {{--<th>변속기</th>--}}
-                                {{--<td>--}}
-                                        {{--{{ $order->isIssued() ? $order->car->getTransmission->display() : '미입력 (검토중)' }}--}}
-                                {{--</td>--}}
-                                {{--<th>색상</th>--}}
-                                {{--<td>--}}
-                                        {{--@if($order->isIssued())--}}
-                                                {{--{{ $order->car->getExteriorColor->display() }}(외부)--}}
-                                                {{--/ {{ $order->car->getInteriorColor->display() }}(내부)--}}
-                                        {{--@else--}}
-                                                {{--미입력 (검토중)--}}
-                                        {{--@endif--}}
-                                {{--</td>--}}
-                        {{--</tr>--}}
-                        {{--<tr>--}}
-                                {{--<th>세부모델</th>--}}
-                                {{--<td>--}}
-                                        {{--{{ $order->getCarfullName() }}--}}
-                                {{--</td>--}}
-                                {{--<th>주행거리(km)</th>--}}
-                                {{--<td>--}}
-                                        {{--@if($order->isIssued())--}}
-                                                {{--{{ number_format($order->mileage) }} km--}}
-                                        {{--@else--}}
-                                                {{--미입력 (검토중)--}}
-                                        {{--@endif--}}
-
-                                {{--</td>--}}
-                        {{--</tr>--}}
-                        {{--<tr>--}}
-                                {{--<th>배기량(cc)</th>--}}
-                                {{--<td>--}}
-                                        {{--@if($order->isIssued())--}}
-                                                {{--{{ number_format($order->car->displacement) }} cc--}}
-                                        {{--@else--}}
-                                                {{--미입력 (검토중)--}}
-                                        {{--@endif--}}
-                                {{--</td>--}}
-                                {{--<th>사용연료</th>--}}
-                                {{--<td>--}}
-                                        {{--{{ $order->isIssued() ? $order->car->getFuelType->display() : '미입력 (검토중)' }}--}}
-                                {{--</td>--}}
-                        {{--</tr>--}}
-                {{--</tbody>--}}
-        {{--</table>--}}
-{{--</div>--}}
 <div class='report_title_type2'>기본정보</div>
 <div class='report_table exp'>
         <table>
@@ -121,7 +29,7 @@
                         </td>
                         <th>동일성여부</th>
                         <td>
-                                {{ $order->certificates ? $order->certificates->getVinCd->display() : '' }}
+                                {{ $order->certificates->getVinCd ? $order->certificates->getVinCd->display() : '미입력 (검토중)' }}
                         </td>
                 </tr>
                 <tr>
@@ -257,51 +165,51 @@
                         <th rowspan='14'>종합진단결과</th>
                         <tr>
                                 <td>차량외부점검</td>
-                                <td>{{ $order->certificates->performance_exterior->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->certificates->performance_exterior->display() : '미입력 (검토중)'}}</td>
                         </tr>
                         <tr>
                                 <td>차량내부점검</td>
-                                <td>{{ $order->certificates->performance_interior->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->certificates->performance_interior->display() : '미입력 (검토중)'}}</td>
                         </tr>
                         <tr>
                                 <td>전장장착품작동상태</td>
-                                <td>{{ $order->certificates->performance_plugin->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->certificates->performance_plugin->display() : '미입력 (검토중)'}}</td>
                         </tr>
                         <tr>
                                 <td>고장진단</td>
-                                <td>{{ $order->certificates->performance_broken->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->certificates->performance_broken->display() : '미입력 (검토중)'}}</td>
                         </tr>
                         <tr>
                                 <td>원동기</td>
-                                <td>{{ $order->certificates->performance_engine->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->certificates->performance_engine->display() : '미입력 (검토중)'}}</td>
                         </tr>
                         <tr>
                                 <td>변속기</td>
-                                <td>{{ $order->certificates->performance_transmission->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->certificates->performance_transmission->display() : '미입력 (검토중)'}}</td>
                         </tr>
                         <tr>
                                 <td>동력전달</td>
-                                <td>{{ $order->certificates->performance_power->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->certificates->performance_power->display() : '미입력 (검토중)'}}</td>
                         </tr>
                         <tr>
                                 <td>조향 및 현가장치</td>
-                                <td>{{ $order->certificates->performance_steering->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->certificates->performance_steering->display() : '미입력 (검토중)'}}</td>
                         </tr>
                         <tr>
                                 <td>제동장치</td>
-                                <td>{{ $order->certificates->performance_braking->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->certificates->performance_braking->display() : '미입력 (검토중)'}}</td>
                         </tr>
                         <tr>
                                 <td>전기장치</td>
-                                <td>{{ $order->certificates->performance_electronic->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->certificates->performance_electronic->display() : '미입력 (검토중)'}}</td>
                         </tr>
                         <tr>
                                 <td>휠&타이터</td>
-                                <td>{{ $order->certificates->performance_tire->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->certificates->performance_tire->display() : '미입력 (검토중)'}}</td>
                         </tr>
                         <tr>
                                 <td>주행테스트</td>
-                                <td>{{ $order->certificates->performance_driving->display() }}</td>
+                                <td>{{ $order->isIssued() ? $order->certificates->performance_driving->display() : '미입력 (검토중)'}}</td>
                         </tr>
                         <tr>
                                 <td><strong>감가금액</strong></td>

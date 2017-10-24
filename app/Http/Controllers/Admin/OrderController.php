@@ -64,15 +64,23 @@ class OrderController extends Controller
         //기간 검색
         $trs = $request->get('trs');
         $tre = $request->get('tre');
-        if ($trs) {
+        if ($trs && $tre) {
+            //시작일, 종료일이 모두 있을때
             $where->where(function ($qry) use ($trs, $tre) {
-                $qry->where("created_at", ">=", $trs);
+                $qry->where("created_at", ">=", $trs)
+                    ->where("created_at", "<=", $tre)
+                    ->orWhere(function ($qry) use ($trs, $tre) {
+                        $qry->where("updated_at", ">=", $trs)
+                            ->where("updated_at", "<=", $tre);
+                    });
             });
-        }
-
-        if ($tre) {
-            $where->where(function ($qry) use ($tre) {
-                $qry->where("created_at", "<=", $tre);
+        } elseif ($trs && !$tre) {
+            //시작일만 있을때
+            $where->where(function ($qry) use ($trs) {
+                $qry->where("created_at", ">=", $trs)
+                    ->orWhere(function ($qry) use ($trs) {
+                        $qry->where("updated_at", ">=", $trs);
+                    });
             });
         }
 
@@ -146,7 +154,7 @@ class OrderController extends Controller
 
         $engineers = Role::find(5)->users->pluck('name', 'id');
 
-        return view('admin.order.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'engineers', 'status_cd', 'sf', 's', 'tre', 'trs'));
+        return view('admin.order.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'engineers', 'status_cd', 'sf', 's', 'tre', 'trs', 'status_cd'));
     }
 
     public function show($id)
@@ -925,7 +933,9 @@ class OrderController extends Controller
                                 $order->refund_status = 1;
                                 $order->save();
                             }
-                            $message = "결제취소를 완료 하였습니다.";
+                            $event = 'success';
+                            $message = trans('web/mypage.cancel_complete');
+
                         }
                     } else {
                         $payment_cancel = new PaymentCancel();
@@ -1005,6 +1015,34 @@ class OrderController extends Controller
         } else {
             $message = "해당 주문을 확인할 수 없습니다.<br>관리자에게 문의해 주세요.";
             $event = 'error';
+        }
+
+        if($event == 'success'){
+            //문자, 메일 송부하기
+            $orderer_name = $order->orderer_name;
+            $order_number = $order->getOrderNumber();
+            try {
+                //메일전송
+                $mail_message = [
+                    'enter_date' => $order->reservation->reservation_at, 'garage' => $order->garage, 'price' => $order->item->price
+                ];
+                Mail::send(new \App\Mail\Ordering($order->orderer->email, "제목", $mail_message, 'message.email.cancel-ordering-user'));
+            } catch (\Exception $e) {
+//                return response()->json($e->getMessage());
+            }
+
+            try {
+                // SMS전송
+
+                $bcs_message = view('message.sms.cancel-ordering-bcs', compact('orderer_name', 'order_number'));
+                $user_message = view('message.sms.');
+                event(new SendSms($order->orderer_mobile, '[차검사 주문 취소]',$user_message));
+                event(new SendSms($order->garage->user_extra->ceo_mobile, '[차검사 주문 취소]', $bcs_message));
+            } catch (\Exception $e) {
+//                return response()->json($e->getMessage());
+            }
+            //발송 끝
+
         }
 
         return redirect()->route('order.show', $order_id)

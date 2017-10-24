@@ -33,7 +33,7 @@
                     @else
                         <img
                                 name="picture"
-                                src="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $order->getExteriorPicture()[0]->files[0]->id }}"
+                                src="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $order->getExteriorPicture()[3]->files[0]->id }}"
                                 class="img-responsive picture"
                                 style="width: 250px;">
                     @endif
@@ -90,7 +90,7 @@
                 </td>
                 <th>동일성여부</th>
                 <td>
-                    {{ $order->certificates ? $order->certificates->getVinCd->display() : '' }}
+                    {{ $order->certificates->vin_yn_cd ? $order->certificates->getVinCd->display() : '' }}
                 </td>
             </tr>
             <tr>
@@ -184,7 +184,7 @@
                 <td class="text-center">
                     <div class="total_result">
                         {{ Html::image(Helper::theme_web( '/img/report/accident_car.png')) }}
-                        <span class="total_result_text">{{ $order->certificates->usage_history->display() }}</span>
+                        <span class="total_result_text">{{ $order->certificates->usage_history ? $order->certificates->usage_history->display() : '미입력 (검토중)' }}</span>
                     </div>
 
                 </td>
@@ -203,7 +203,7 @@
                 <td class="text-center">
                     <div class="total_result">
                         {{ Html::image(Helper::theme_web( '/img/report/flooded_car.png')) }}
-                        <span class="total_result_text">{{ $order->certificates->usage_flood->display() }}</span>
+                        <span class="total_result_text">{{ $order->certificates->usage_flood ? $order->certificates->usage_flood->display() : '미입력 (검토중)' }}</span>
                     </div>
 
                 </td>

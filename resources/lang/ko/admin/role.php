@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'title' => '역활',
+    'title' => '역할',
     'dashboard' => '회원',
     'users' => 'users',
-    'name' => '역활명',
+    'name' => '역할명',
     'display_name' => '노출명',
-    'roles' => '역활',
+    'roles' => '역할',
     'description' => '설명',
     'permission' => '권한',
     'status' => '상태',

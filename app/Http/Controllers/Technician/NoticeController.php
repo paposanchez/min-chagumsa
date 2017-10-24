@@ -31,21 +31,23 @@ class NoticeController extends Controller
         //기간 검색
         $trs = $request->get('trs');
         $tre = $request->get('tre');
-        if($trs && $tre){
+        if ($trs && $tre) {
             //시작일, 종료일이 모두 있을때
-            $where = $where->where(function($qry) use($trs, $tre){
+            $where->where(function ($qry) use ($trs, $tre) {
                 $qry->where("created_at", ">=", $trs)
-                    ->where("created_at", "<=", $tre);
-            })->orWhere(function($qry) use($trs, $tre){
-                $qry->where("updated_at", ">=", $trs)
-                    ->where("updated_at", "<=", $tre);
+                    ->where("created_at", "<=", $tre)
+                    ->orWhere(function ($qry) use ($trs, $tre) {
+                        $qry->where("updated_at", ">=", $trs)
+                            ->where("updated_at", "<=", $tre);
+                    });
             });
-        }elseif ($trs && !$tre){
+        } elseif ($trs && !$tre) {
             //시작일만 있을때
-            $where = $where->where(function($qry) use($trs){
-                $qry->where("created_at", ">=", $trs);
-            })->orWhere(function($qry) use($trs){
-                $qry->where("updated_at", ">=", $trs);
+            $where->where(function ($qry) use ($trs) {
+                $qry->where("created_at", ">=", $trs)
+                    ->orWhere(function ($qry) use ($trs) {
+                        $qry->where("updated_at", ">=", $trs);
+                    });
             });
         }
 
@@ -71,7 +73,7 @@ class NoticeController extends Controller
         $start_num = \App\Helpers\Helper::getStartNum($entrys);
 
 
-        return view('technician.notice.index', compact('entrys', 'start_num', 'request', 'search_fields'));
+        return view('technician.notice.index', compact('entrys', 'start_num', 'request', 'search_fields', 's', 'sf', 'trs', 'tre'));
     }
 
     /**

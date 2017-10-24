@@ -7,7 +7,7 @@ return [
     'comment' => '코멘트',
     'configuration' => '환경설정',
     'code' => '기본코드',
-    'role' => '역활',
+    'role' => '역할',
     'permission' => '권한',
     'board' => '게시판',
 ];
