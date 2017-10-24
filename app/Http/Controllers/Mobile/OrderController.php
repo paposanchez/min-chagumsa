@@ -794,7 +794,7 @@ class OrderController extends Controller
     public function getGrades(Request $request)
     {
         $detail_id = $request->get('detail');
-        $grades = Grade::where('details_id', $detail_id)->get();
+        $grades = Grade::where('details_id', $detail_id)->where('items_id', '>', '0')->get();
         return $grades;
     }
 
