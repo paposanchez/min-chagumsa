@@ -41,30 +41,55 @@ class DiagnosesController extends Controller
         $tre = $request->get('tre');
 
 
+//        if ($trs && $tre) {
+//            //시작일, 종료일이 모두 있을때
+//            $where->where(function ($qry) use ($trs, $tre) {
+//                $qry->where("diagnose_at", ">=", $trs)
+//                    ->where("diagnose_at", "<=", $tre);
+//            })->orWhere(function ($qry) use ($trs, $tre) {
+//                $qry->where("diagnosed_at", ">=", $trs)
+//                    ->where("diagnosed_at", "<=", $tre);
+//            });
+//
+//        } elseif ($trs && !$tre) {
+//            //시작일만 있을때
+//            $where->where(function ($qry) use ($trs) {
+//                $qry->where("diagnose_at", ">=", $trs);
+//            })->orWhere(function ($qry) use ($trs) {
+//                $qry->where("diagnosed_at", ">=", $trs);
+//            });
+//        } else if (!$trs && $tre) {
+//            $where->where(function ($qry) use ($tre) {
+//                $qry->where("diagnosed_at", "<=", $tre);
+//            })->orWhere(function ($qry) use ($tre) {
+//                $qry->where("diagnosed_at", "<=", $tre);
+//            });
+//        }
+
+
+        //기간 검색
+        $trs = $request->get('trs');
+        $tre = $request->get('tre');
         if ($trs && $tre) {
             //시작일, 종료일이 모두 있을때
             $where->where(function ($qry) use ($trs, $tre) {
                 $qry->where("diagnose_at", ">=", $trs)
-                    ->where("diagnose_at", "<=", $tre);
-            })->orWhere(function ($qry) use ($trs, $tre) {
-                $qry->where("diagnosed_at", ">=", $trs)
-                    ->where("diagnosed_at", "<=", $tre);
+                    ->where("diagnose_at", "<=", $tre)
+                    ->orWhere(function ($qry) use ($trs, $tre) {
+                        $qry->where("diagnose_at", ">=", $trs)
+                            ->where("diagnose_at", "<=", $tre);
+                    });
             });
-
         } elseif ($trs && !$tre) {
             //시작일만 있을때
             $where->where(function ($qry) use ($trs) {
-                $qry->where("diagnose_at", ">=", $trs);
-            })->orWhere(function ($qry) use ($trs) {
-                $qry->where("diagnosed_at", ">=", $trs);
-            });
-        } else if (!$trs && $tre) {
-            $where->where(function ($qry) use ($tre) {
-                $qry->where("diagnosed_at", "<=", $tre);
-            })->orWhere(function ($qry) use ($tre) {
-                $qry->where("diagnosed_at", "<=", $tre);
+                $qry->where("diagnose_at", ">=", $trs)
+                    ->orWhere(function ($qry) use ($trs) {
+                        $qry->where("diagnose_at", ">=", $trs);
+                    });
             });
         }
+
 
         //검색어 검색
         $sf = $request->get('sf'); //검색필드

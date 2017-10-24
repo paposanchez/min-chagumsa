@@ -22,19 +22,19 @@
                         <label for="inputBoardId"
                                class="control-label col-sm-3">{{ trans('admin/order.status') }}</label>
                         <div class="col-sm-9">
-                            <div class="btn-group">
-                                <button class="btn btn-default" name="status_cd" value="">전체</button>
-                                {{--<button class="btn btn-default" name="status_cd" value="100">주문취소</button>--}}
-                                {{--<button class="btn btn-default" name="status_cd" value="101">주문신청</button>--}}
-                                {{--<button class="btn btn-default" name="status_cd" value="102">주문완료</button>--}}
-                                {{--<button class="btn btn-default" name="status_cd" value="103">예약확인</button>--}}
-                                {{--<button class="btn btn-default" name="status_cd" value="104">입고대기</button>--}}
-                                {{--<button class="btn btn-default" name="status_cd" value="105">입고</button>--}}
-                                {{--<button class="btn btn-default" name="status_cd" value="106">진단중</button>--}}
-                                <button class="btn btn-default" name="status_cd" value="107">진단완료</button>
-                                <button class="btn btn-default" name="status_cd" value="108">검토중</button>
-                                <button class="btn btn-default" name="status_cd" value="109">인증발급완료</button>
-
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }} 전체
+                                </label>
+                                <label class="btn btn-default {{ $status_cd == 107 ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('status_cd', 107, \App\Helpers\Helper::isCheckd(107, $status_cd), ['name' => 'status_cd']) }} 진단완료
+                                </label>
+                                <label class="btn btn-default {{ $status_cd == 108 ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('status_cd', 108, \App\Helpers\Helper::isCheckd(108, $status_cd), ['name' => 'status_cd']) }} 검토중
+                                </label>
+                                <label class="btn btn-default {{ $status_cd == 109 ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('status_cd', 109, \App\Helpers\Helper::isCheckd(109, $status_cd), ['name' => 'status_cd']) }} 인증발급완료
+                                </label>
                             </div>
                         </div>
                     </div>

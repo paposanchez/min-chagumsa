@@ -70,7 +70,6 @@ class OrderController extends Controller
                     });
             });
         }
-//        dd($where->toSql(), $user->id);
 
         //검색어 검색
         $sf = $request->get('sf'); //검색필드
