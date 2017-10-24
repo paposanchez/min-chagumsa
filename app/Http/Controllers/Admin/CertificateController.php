@@ -44,15 +44,23 @@ class CertificateController extends Controller
         //기간 검색
         $trs = $request->get('trs');
         $tre = $request->get('tre');
-        if ($trs) {
+        if ($trs && $tre) {
+            //시작일, 종료일이 모두 있을때
             $where->where(function ($qry) use ($trs, $tre) {
-                $qry->where("created_at", ">=", $trs);
+                $qry->where("created_at", ">=", $trs)
+                    ->where("created_at", "<=", $tre)
+                    ->orWhere(function ($qry) use ($trs, $tre) {
+                        $qry->where("updated_at", ">=", $trs)
+                            ->where("updated_at", "<=", $tre);
+                    });
             });
-        }
-
-        if ($tre) {
-            $where->where(function ($qry) use ($tre) {
-                $qry->where("created_at", "<=", $tre);
+        } elseif ($trs && !$tre) {
+            //시작일만 있을때
+            $where->where(function ($qry) use ($trs) {
+                $qry->where("created_at", ">=", $trs)
+                    ->orWhere(function ($qry) use ($trs) {
+                        $qry->where("updated_at", ">=", $trs);
+                    });
             });
         }
 

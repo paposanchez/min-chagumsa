@@ -20,14 +20,18 @@
                     <div class="form-group">
                         <label for="inputBoardId"
                                class="control-label col-sm-3">{{ trans('admin/calculation.status') }}</label>
-                        <div class="col-sm-6">
-
-                            <div class="btn-group">
-                                <button class="btn btn-default" name="status_cd" value="">전체</button>
-                                <button class="btn btn-default" name="status_cd" value="110">정산대기</button>
-                                <button class="btn btn-default" name="status_cd" value="111">정산완료</button>
+                        <div class="col-sm-9">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }} 전체
+                                </label>
+                                <label class="btn btn-default {{ $status_cd == 110 ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('status_cd', 110, \App\Helpers\Helper::isCheckd(110, $status_cd), ['name' => 'status_cd']) }} 정산대기
+                                </label>
+                                <label class="btn btn-default {{ $status_cd == 111 ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('status_cd', 111, \App\Helpers\Helper::isCheckd(111, $status_cd), ['name' => 'status_cd']) }} 정산완료
+                                </label>
                             </div>
-
                         </div>
                     </div>
 

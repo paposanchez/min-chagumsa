@@ -27,28 +27,32 @@
             <div class="panel-body">
 
                 <form method="GET" class="form-horizontal no-margin-bottom" role="form">
-                    <div class="form-group">
-                        <label class="control-label col-sm-3">{{ trans('admin/order.period') }}</label>
+                    {{--<div class="form-group">--}}
+                        {{--<label class="control-label col-sm-3">{{ trans('admin/order.period') }}</label>--}}
 
-                        <div class="col-sm-3">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
-                                <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_start') }}" name='trs' value='{{ $trs }}'>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
-                                <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_end') }}" name='tre' value='{{ $tre }}'>
-                            </div>
-                        </div>
-                    </div>
+                        {{--<div class="col-sm-3">--}}
+                            {{--<div class="input-group">--}}
+                                {{--<span class="input-group-addon"><i class='fa fa-calendar'></i></span>--}}
+                                {{--<input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"--}}
+                                       {{--placeholder="{{ trans('common.search.period_start') }}" name='trs' value='{{ $trs }}'>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-sm-3">--}}
+                            {{--<div class="input-group">--}}
+                                {{--<span class="input-group-addon"><i class='fa fa-calendar'></i></span>--}}
+                                {{--<input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"--}}
+                                       {{--placeholder="{{ trans('common.search.period_end') }}" name='tre' value='{{ $tre }}'>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
                     <div class="form-group">
                         <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
+                            {!! Form::select('sf', $search_fields, $sf, ['class'=>'form-control']) !!}
+
+                        </div>
+                        <div class="col-sm-3">
                             <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}"
                                    name='s' value='{{ $s }}'>
                         </div>

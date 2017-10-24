@@ -11,15 +11,6 @@
 
             <div class="panel-heading">
                 <span class="panel-title">검색조건</span>
-
-                {{--<div class="panel-heading-controls">--}}
-                {{--<div class="checkbox checkbox-slider--b-flat zfp-panel-collapse">--}}
-                {{--<label>--}}
-                {{--<input type="checkbox" >--}}
-                {{--<span></span>--}}
-                {{--</label>--}}
-                {{--</div>--}}
-                {{--</div>--}}
             </div>
 
             <div class="panel-body">
@@ -28,22 +19,30 @@
 
                     <div class="form-group">
                         <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/user.roles') }}</label>
-                        <div class="col-sm-6">
-                        {{--                        {!! Form::select('board_id', [null=>trans('common.search.first_select')] + $board_list, $request->query('board_id'), ['class'=>'form-control', 'id'=>'inputBoardId']) !!}--}}
-                        <!--
-                                                                        case 100: $code_msg = '주문취소';break;
-                                                                        case 101: $code_msg = '발급대기';break;
-                                                                        case 102: $code_msg = '주문완료';break;
-                                                                        case 103: $code_msg = '주문요청';break;
-                                                                        case 105: $code_msg = '차량입고';break;
-                                                                -->
-                            <button class="btn btn-default" name="role_cd" value="">전체</button>
-                            <button class="btn btn-default" name="role_cd" value="1">관리자</button>
-                            <button class="btn btn-default" name="role_cd" value="2">일반회원</button>
-                            <button class="btn btn-default" name="role_cd" value="3">얼라이언스</button>
-                            <button class="btn btn-default" name="role_cd" value="4">정비소</button>
-                            <button class="btn btn-default" name="role_cd" value="5">엔지니어</button>
-                            <button class="btn btn-default" name="role_cd" value="6">기술사</button>
+                        <div class="col-sm-9">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-default {{ $role_cd == '' ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('role_cd', '', \App\Helpers\Helper::isCheckd('', $role_cd), ['name' => 'role_cd']) }} 전체
+                                </label>
+                                <label class="btn btn-default {{ $role_cd == 1 ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('role_cd', 1, \App\Helpers\Helper::isCheckd(1, $role_cd), ['name' => 'role_cd']) }} 관리자
+                                </label>
+                                <label class="btn btn-default {{ $role_cd == 2 ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('role_cd', 2, \App\Helpers\Helper::isCheckd(2, $role_cd), ['name' => 'role_cd']) }} 일반회원
+                                </label>
+                                <label class="btn btn-default {{ $role_cd == 3 ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('role_cd', 3, \App\Helpers\Helper::isCheckd(3, $role_cd), ['name' => 'role_cd']) }} 얼라이언스
+                                </label>
+                                <label class="btn btn-default {{ $role_cd == 4 ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('role_cd', 4, \App\Helpers\Helper::isCheckd(4, $role_cd), ['name' => 'role_cd']) }} 정비소
+                                </label>
+                                <label class="btn btn-default {{ $role_cd == 5 ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('role_cd', 5, \App\Helpers\Helper::isCheckd(5, $role_cd), ['name' => 'role_cd']) }} 엔지니어
+                                </label>
+                                <label class="btn btn-default {{ $role_cd == 6 ? 'active' : '' }} selected_cd">
+                                    {{ Form::radio('role_cd', 6, \App\Helpers\Helper::isCheckd(6, $role_cd), ['name' => 'role_cd']) }} 기술사
+                                </label>
+                            </div>
                         </div>
                     </div>
 

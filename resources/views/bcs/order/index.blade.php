@@ -430,7 +430,7 @@
                     success : function(data){
 //                        alert(JSON.stringify(data));
                         alert('진단이 시작되었습니다. 수정이 가능합니다.');
-                        location.href = '/order';
+                        location.href = '/diagnosis/'+order_id;
                     },
                     error : function(data){
                         alert(JSON.stringify(data));

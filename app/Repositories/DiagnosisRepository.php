@@ -31,6 +31,10 @@ class DiagnosisRepository {
         public function prepare($order_id) {
                 $this->order = Order::findOrFail($order_id);
                 $this->diagnoses = $this->order->diagnoses;
+
+                $diagnoses = Diagnosis::where('orders_id', $order_id)->get();
+
+
                 return $this;
         }
 

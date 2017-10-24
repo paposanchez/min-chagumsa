@@ -41,7 +41,7 @@ class OrderController extends Controller
         ];
         $user = Auth::user();
 
-        $where = Order::where('status_cd', ">=", 102)->orderBy('created_at', 'DESC')->where('garage_id', $user->id);;
+        $where = Order::where('status_cd', ">=", 102)->orderBy('created_at', 'DESC')->where('garage_id', $user->id);
         //주문상태
         $status_cd = $request->get('status_cd');
         if ($status_cd) {
@@ -55,19 +55,22 @@ class OrderController extends Controller
             //시작일, 종료일이 모두 있을때
             $where->where(function ($qry) use ($trs, $tre) {
                 $qry->where("created_at", ">=", $trs)
-                    ->where("created_at", "<=", $tre);
-            })->orWhere(function ($qry) use ($trs, $tre) {
-                $qry->where("updated_at", ">=", $trs)
-                    ->where("updated_at", "<=", $tre);
+                    ->where("created_at", "<=", $tre)
+                    ->orWhere(function ($qry) use ($trs, $tre) {
+                        $qry->where("updated_at", ">=", $trs)
+                            ->where("updated_at", "<=", $tre);
+                    });
             });
         } elseif ($trs && !$tre) {
             //시작일만 있을때
             $where->where(function ($qry) use ($trs) {
-                $qry->where("created_at", ">=", $trs);
-            })->orWhere(function ($qry) use ($trs) {
-                $qry->where("updated_at", ">=", $trs);
+                $qry->where("created_at", ">=", $trs)
+                    ->orWhere(function ($qry) use ($trs) {
+                        $qry->where("updated_at", ">=", $trs);
+                    });
             });
         }
+//        dd($where->toSql(), $user->id);
 
         //검색어 검색
         $sf = $request->get('sf'); //검색필드
