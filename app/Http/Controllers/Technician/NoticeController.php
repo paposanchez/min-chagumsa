@@ -71,7 +71,7 @@ class NoticeController extends Controller
         $start_num = \App\Helpers\Helper::getStartNum($entrys);
 
 
-        return view('technician.notice.index', compact('entrys', 'start_num', 'request', 'search_fields'));
+        return view('technician.notice.index', compact('entrys', 'start_num', 'request', 'search_fields', 's', 'sf', 'trs', 'tre'));
     }
 
     /**

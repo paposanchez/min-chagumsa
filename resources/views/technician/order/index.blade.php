@@ -30,7 +30,7 @@
                                 {{--<button class="btn btn-default" name="status_cd" value="103">예약확인</button>--}}
                                 {{--<button class="btn btn-default" name="status_cd" value="104">입고대기</button>--}}
                                 {{--<button class="btn btn-default" name="status_cd" value="105">입고</button>--}}
-                                <button class="btn btn-default" name="status_cd" value="106">진단중</button>
+                                {{--<button class="btn btn-default" name="status_cd" value="106">진단중</button>--}}
                                 <button class="btn btn-default" name="status_cd" value="107">진단완료</button>
                                 <button class="btn btn-default" name="status_cd" value="108">검토중</button>
                                 <button class="btn btn-default" name="status_cd" value="109">인증발급완료</button>
@@ -46,14 +46,14 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                 <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_start') }}" name='trs' value=''>
+                                       placeholder="{{ trans('common.search.period_start') }}" name='trs' value='{{ $trs }}'>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                 <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_end') }}" name='tre' value=''>
+                                       placeholder="{{ trans('common.search.period_end') }}" name='tre' value='{{ $tre }}'>
                             </div>
                         </div>
                     </div>
@@ -61,12 +61,12 @@
                     <div class="form-group">
                         <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
                         <div class="col-sm-3">
-                            {!! Form::select('sf', $search_fields, [], ['class'=>'form-control']) !!}
+                            {!! Form::select('sf', $search_fields, $sf, ['class'=>'form-control']) !!}
 
                         </div>
                         <div class="col-sm-3">
                             <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}"
-                                   name='s' value=''>
+                                   name='s' value='{{ $s }}'>
                         </div>
                     </div>
 

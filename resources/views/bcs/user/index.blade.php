@@ -21,11 +21,11 @@
                     <div class="form-group">
                         <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
                         <div class="col-sm-3">
-                            {!! Form::select('sf', $search_fields, [], ['class'=>'form-control']) !!}
+                            {!! Form::select('sf', $search_fields, $sf, ['class'=>'form-control']) !!}
 
                         </div>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}" name='s' value=''>
+                            <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}" name='s' value='{{ $s }}'>
                         </div>
                     </div>
                     <div class="form-group no-margin-bottom">

@@ -79,7 +79,7 @@ class CalculationController extends Controller
 
         $entrys = $where->paginate(25);
 
-        return view('bcs.calculation.index', compact('search_fields', 'entrys'));
+        return view('bcs.calculation.index', compact('search_fields', 'entrys', 'sf', 's', 'trs', 'tre'));
     }
 
     /**

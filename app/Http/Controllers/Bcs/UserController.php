@@ -58,7 +58,7 @@ class UserController extends Controller
         }
 
         $entrys = $where->paginate(25);
-        return view('bcs.user.index', compact('entrys', 'search_fields'));
+        return view('bcs.user.index', compact('entrys', 'search_fields', 's', 'sf'));
 
     }
 

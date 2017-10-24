@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-3">{{ trans('common.search.period') }}</label>
+                        <label class="control-label col-sm-3">등록일</label>
 
                         <div class="col-sm-3">
                             <div class="input-group">

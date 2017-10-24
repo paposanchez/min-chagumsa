@@ -925,7 +925,9 @@ class OrderController extends Controller
                                 $order->refund_status = 1;
                                 $order->save();
                             }
-                            $message = "결제취소를 완료 하였습니다.";
+                            $event = 'success';
+                            $message = trans('web/mypage.cancel_complete');
+
                         }
                     } else {
                         $payment_cancel = new PaymentCancel();
@@ -1005,6 +1007,34 @@ class OrderController extends Controller
         } else {
             $message = "해당 주문을 확인할 수 없습니다.<br>관리자에게 문의해 주세요.";
             $event = 'error';
+        }
+
+        if($event == 'success'){
+            //문자, 메일 송부하기
+            $orderer_name = $order->orderer_name;
+            $order_number = $order->getOrderNumber();
+            try {
+                //메일전송
+                $mail_message = [
+                    'enter_date' => $order->reservation->reservation_at, 'garage' => $order->garage, 'price' => $order->item->price
+                ];
+                Mail::send(new \App\Mail\Ordering($order->orderer->email, "제목", $mail_message, 'message.email.cancel-ordering-user'));
+            } catch (\Exception $e) {
+//                return response()->json($e->getMessage());
+            }
+
+            try {
+                // SMS전송
+
+                $bcs_message = view('message.sms.cancel-ordering-bcs', compact('orderer_name', 'order_number'));
+                $user_message = view('message.sms.');
+                event(new SendSms($order->orderer_mobile, '[차검사 주문 취소]',$user_message));
+                event(new SendSms($order->garage->user_extra->ceo_mobile, '[차검사 주문 취소]', $bcs_message));
+            } catch (\Exception $e) {
+//                return response()->json($e->getMessage());
+            }
+            //발송 끝
+
         }
 
         return redirect()->route('order.show', $order_id)
