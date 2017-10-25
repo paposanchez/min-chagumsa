@@ -137,18 +137,6 @@
                 },
                 success: function (response) {
                     alert(response);
-
-                    // $.notify({
-                    //         type: 'info'
-                    // }, {
-                    //         element: 'body',
-                    //         allow_dismiss: true,
-                    //         animate: {
-                    //                 enter: 'animated fadeInDown',
-                    //                 exit: 'animated fadeOutUp'
-                    //         },
-                    //         message : response
-                    // });
                 },
                 error: function (data) {
                     alert('처리중 오류가 발생했습니다.');

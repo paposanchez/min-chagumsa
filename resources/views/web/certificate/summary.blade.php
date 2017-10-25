@@ -24,11 +24,21 @@
                 </td>
                 <th rowspan="3" class="text-center">대표 이미지</th>
                 <td rowspan="3">
-                    <img
-                            name="picture"
-                            src="http://cdn.chagumsa.com/diagnosis/{{ $order->certificates->pictures }}"
-                            class="img-responsive picture"
-                            style="width: 250px;">
+                    @if($order->certificates->pictures)
+                        <img
+                                name="picture"
+                                src="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $order->certificates->pictures }}"
+                                class="img-responsive picture"
+                                style="width: 250px;">
+                    @else
+                        <img
+                                name="picture"
+                                src="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $order->getExteriorPicture()[3]->files[0]->id }}"
+                                class="img-responsive picture"
+                                style="width: 250px;">
+                    @endif
+
+
                 </td>
             </tr>
             <tr>
@@ -51,7 +61,7 @@
         </table>
     </div>
 
-
+    <div class='br40'></div>
 
     <div class='report_title_type2'>기본정보</div>
     <div class='report_table exp'>
@@ -80,7 +90,7 @@
                 </td>
                 <th>동일성여부</th>
                 <td>
-                    {{ $order->certificates ? $order->certificates->getVinCd->display() : '' }}
+                    {{ $order->certificates->vin_yn_cd ? $order->certificates->getVinCd->display() : '' }}
                 </td>
             </tr>
             <tr>
@@ -141,7 +151,7 @@
         </table>
     </div>
 
-    <div class='br30'></div>
+    <div class='br40'></div>
 
     <div class='report_title_type2'>종합진단 결과</div>
     <div class="report_table exp">
@@ -174,7 +184,7 @@
                 <td class="text-center">
                     <div class="total_result">
                         {{ Html::image(Helper::theme_web( '/img/report/accident_car.png')) }}
-                        <span class="total_result_text">{{ $order->certificates->usage_history->display() }}</span>
+                        <span class="total_result_text">{{ $order->certificates->usage_history ? $order->certificates->usage_history->display() : '미입력 (검토중)' }}</span>
                     </div>
 
                 </td>
@@ -193,7 +203,7 @@
                 <td class="text-center">
                     <div class="total_result">
                         {{ Html::image(Helper::theme_web( '/img/report/flooded_car.png')) }}
-                        <span class="total_result_text">{{ $order->certificates->usage_flood->display() }}</span>
+                        <span class="total_result_text">{{ $order->certificates->usage_flood ? $order->certificates->usage_flood->display() : '미입력 (검토중)' }}</span>
                     </div>
 
                 </td>
@@ -203,8 +213,9 @@
         </table>
     </div>
 
+    <div class='br40'></div>
 
-    <div class='report_title_type2'>종합진단 결과</div>
+    {{--<div class='report_title_type2'>종합진단 결과</div>--}}
     <div class='report_table report_table2 exp'>
         <table>
             <colgroup>
@@ -252,7 +263,9 @@
                     <dl class='bubble_desc'>
                         <dt>차량내부점검
                             @if($order->certificates->interior_comment)
-                                {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
                             @endif
                         </dt>
                         <dd>{{ $order->certificates->interior_comment }}<span>×</span></dd>
@@ -276,7 +289,9 @@
                     <dl class='bubble_desc'>
                         <dt>전장장착품작동상태
                             @if($order->certificates->plugin_comment)
-                                {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
                             @endif
                         </dt>
                         <dd>{{ $order->certificates->plugin_comment }}<span>×</span></dd>
@@ -298,7 +313,9 @@
                     <dl class='bubble_desc'>
                         <dt>고장진단
                             @if($order->certificates->broken_comment)
-                                {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
                             @endif
                         </dt>
                         <dd>{{ $order->certificates->broken_comment }}<span>×</span></dd>
@@ -322,7 +339,9 @@
                     <dl class='bubble_desc'>
                         <dt>원동기
                             @if($order->certificates->engine_comment)
-                                {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
                             @endif
                         </dt>
                         <dd>{{ $order->certificates->engine_comment }}<span>×</span></dd>
@@ -346,7 +365,9 @@
                     <dl class='bubble_desc'>
                         <dt>변속기
                             @if($order->certificates->transmission_comment)
-                                {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
                             @endif
                         </dt>
                         <dd>{{ $order->certificates->transmission_comment }}<span>×</span></dd>
@@ -372,7 +393,9 @@
                     <dl class='bubble_desc'>
                         <dt>동력전달
                             @if($order->certificates->power_comment)
-                                {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
                             @endif
                         </dt>
                         <dd>{{ $order->certificates->power_comment }}<span>×</span></dd>
@@ -396,7 +419,9 @@
                     <dl class='bubble_desc'>
                         <dt>조향 및 현가장치
                             @if($order->certificates->steering_comment)
-                                {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
                             @endif
                         </dt>
                         <dd>{{ $order->certificates->steering_comment }}<span>×</span></dd>
@@ -420,7 +445,9 @@
                     <dl class='bubble_desc'>
                         <dt>제동장치
                             @if($order->certificates->braking_comment)
-                                {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
                             @endif
                         </dt>
                         <dd>{{ $order->certificates->braking_comment }}<span>×</span></dd>
@@ -446,7 +473,9 @@
                     <dl class='bubble_desc'>
                         <dt>전기장치
                             @if($order->certificates->electronic_comment)
-                                {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
                             @endif
                         </dt>
                         <dd>{{ $order->certificates->electronic_comment }}<span>×</span></dd>
@@ -470,7 +499,9 @@
                     <dl class='bubble_desc'>
                         <dt>휠&타이터
                             @if($order->certificates->tire_comment)
-                                {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
                             @endif
                         </dt>
                         <dd>{{ $order->certificates->tire_comment }}<span>×</span></dd>
@@ -494,7 +525,9 @@
                     <dl class='bubble_desc'>
                         <dt>주행테스트
                             @if($order->certificates->driving_comment)
-                                {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
                             @endif
                         </dt>
                         <dd>{{ $order->certificates->driving_comment }}<span>×</span></dd>
@@ -522,7 +555,7 @@
         </span>
     </div>
 
-    <div class='br20'></div>
+    <div class='br40'></div>
 
     <div class='report_title_type2'>차량정보</div>
     <div class='report_desc fsize_14'>
