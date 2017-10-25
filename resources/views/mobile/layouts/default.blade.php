@@ -5,15 +5,16 @@
     @section( 'content-header-script' )
         <script src="https://use.fontawesome.com/23c54b84b1.js"></script>
 
-        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/common.css' )) }}
-        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub.css' )) }}
-        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/main.css' )) }}
-        {{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' )) }}
+        {{ Html::style(mix( '/assets/themes/v1/mobile/css/common.css' )) }}
+        {{ Html::style(mix( '/assets/themes/v1/mobile/css/sub.css' )) }}
+        {{ Html::style(mix( '/assets/themes/v1/mobile/css/main.css' )) }}
+        {{ Html::script(mix( '/assets/themes/v1/mobile/js/common.js' )) }}
 
-        {{-- margin이 bootstrap과 충돌이 있어 일단 배제함 --}}
-        {{ Html::style(Helper::assets('css/app.css')) }}
-        {{ Html::style(Helper::assets('css/vendor.css')) }}
-        {{ Html::style(Helper::assets('themes/v1/mobile/css/mobile.css')) }}
+        
+
+        {!! Html::style(mix('/assets/css/app.css')) !!}
+        {{ Html::style(mix('/assets/css/vendor.css')) }}
+        {{ Html::style(mix('/assets/themes/v1/mobile/css/mobile.css')) }}
 
         @stack('header-script')
     @endsection

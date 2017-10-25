@@ -201,8 +201,8 @@
                     <div class='order_info_cont2'>
                         <div class="block">
                             <div class="row">
-                                @foreach($items as $item)
-                                    <div class="col-xs-3">
+                                @foreach($items as  $key => $item)
+                                    <div class="col-xs-">
                                         <div class="purchase-item purchase-item-product disabled-purchase" data-index="{{ $item->id }}" data-price="{{ $item->price }}">
                                             <div class="point-price">{{ $item->name }}</div>
                                             <div class="point-desc text-muted">{{ number_format($item->price) }}원</div>
