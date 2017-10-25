@@ -38,8 +38,15 @@ Route::any('/{order_id}/{page?}/{flush?}', function ($order_id, $page = 'summary
 
 
 //    try{
-    $order = \App\Models\Order::find($order_id);
-    if(Auth::user() || $order->status_cd == 1326){
+    list($car_number, $datekey) = explode("-", $order_id);
+    $order_date = \Carbon\Carbon::createFromFormat('ymd', $datekey);
+
+    $order = \App\Models\Order::where('car_number', $car_number)
+        ->whereYear('created_at', '=', \Carbon\Carbon::parse($order_date)->format('Y'))
+        ->whereMonth('created_at', '=', \Carbon\Carbon::parse($order_date)->format('n'))
+        ->whereDay('created_at', '=', \Carbon\Carbon::parse($order_date)->format('j'))->first();
+
+//    if(Auth::user() || $order->status_cd == 1326){
         if (!in_array($page, ['performance', 'price', 'history', 'summary'])) {
             throw new Exception('인증서가 존재하지 않습니다.');
         }
@@ -70,8 +77,8 @@ Route::any('/{order_id}/{page?}/{flush?}', function ($order_id, $page = 'summary
         $cache = $handler->getCacheHtml($page);
 
         return $cache;
-    }else{
-        abort(404, '인증서를 찾을 수 없습니다.');
-    }
+//    }else{
+//        abort(404, '인증서를 찾을 수 없습니다.');
+//    }
 
 })->name('cert');
