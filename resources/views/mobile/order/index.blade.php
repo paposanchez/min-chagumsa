@@ -1207,7 +1207,6 @@
 
                 return false;
             } else {
-                console.log(sms_confirmed, expired);
                 if (!sms_confirmed) {
                     $("#time-clocks").text(expired);
                 }
