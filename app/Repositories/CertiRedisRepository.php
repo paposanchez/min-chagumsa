@@ -27,7 +27,10 @@ class CertiRedisRepository extends CertificateRepository
         $redis_host = env('REDIS_HOST', '127.0.0.1');
 
         $this->redis = new Client([
-            'host' => $redis_host
+            'host' => $redis_host,
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', 6379),
+            'database' => 0,
         ]);
         $this->expire = $expire;
     }
