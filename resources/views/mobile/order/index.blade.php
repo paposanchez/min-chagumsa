@@ -1267,7 +1267,7 @@
             disable_product(click_num);
             $(".purchase-item-product").eq(click_num).addClass('active').addClass('purchase-item');
             $("#payment_price").val($('.purchase-item-product').data("price"));
-            $('#item_id').val($('.purchase-item-product').data("index"));
+            $('#item_id').val(num);
         }
 
     }
