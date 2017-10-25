@@ -49,7 +49,7 @@
             <input type="hidden" name="item_id" id="item_id" value="">
             <input type="hidden" name="payment_price" id="payment_price" value="">
             <input type="hidden" name="payment_method" id="payment_method" value="">
-            <input type="hidden" name="sms_id" id="sms_id" autocomplete="off" value="1">
+            <input type="hidden" name="sms_id" id="sms_id" autocomplete="off" value="0">
             <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="1" autocomplete="off" value="">
             <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off">
             <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off">
@@ -1095,7 +1095,7 @@ var step_validate = function(current_step){
         }
 
         //휴대폰 인증
-        if (!$('#sms_id').val()) {
+        if ($('#sms_id').val() != "1") {
             alert('휴대전화번호를 확인해주세요.');
             $('#orderer_mobile').focus();
             return;
@@ -1163,6 +1163,7 @@ var step_validate = function(current_step){
         });
     }else{
     }
+
 
 
 }
@@ -1263,7 +1264,7 @@ var timeCountdown = function () {
 
         if(click_num > -1){
             disable_product(click_num);
-            $('.purchase-item-product').toggleClass("active");
+            $(".purchase-item-product").eq(click_num).addClass('active').addClass('purchase-item');
             $("#payment_price").val($('.purchase-item-product').data("price"));
             $('#item_id').val($('.purchase-item-product').data("index"));
         }
@@ -1275,7 +1276,7 @@ var timeCountdown = function () {
         $.each($(".purchase-item-product"), function (key, data) {
             if(key != num){
                 $(this).removeClass("purchase-item", function () {
-                    $(this).addClass("purchase-item2");
+                    $(this).removeClass("active");
                 })
 
             }

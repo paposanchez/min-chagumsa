@@ -6,7 +6,8 @@
     <meta name='description' content='차검사'>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
     <meta name="format-detection" content="telephone=no">
-    <meta name='viewport' content="width=device-width, initial-scale=1">
+    {{--<meta name='viewport' content="width=device-width, initial-scale=1">--}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <title>차검사</title>
 
     <!-- CSRF Token -->
