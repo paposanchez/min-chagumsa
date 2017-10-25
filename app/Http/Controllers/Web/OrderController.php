@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
-use App\Models\Car;
 use App\Models\Code;
 use App\Models\Detail;
 use App\Models\Grade;
@@ -18,20 +17,15 @@ use App\Models\Reservation;
 use App\Models\User;
 use App\Models\UserExtra;
 use Carbon\Carbon;
-
 use App\Models\SmsTemp;
 use App\Models\Payment;
 use App\Models\PaymentResult;
-use App\Models\ScTran;
-
 use App\Models\Coupon;
 use Illuminate\Support\Facades\Crypt;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-
 use App\Tpay\TpayLib as Encryptor;
 use GuzzleHttp\Client;
 use App\Events\SendSms;
@@ -40,8 +34,6 @@ use Illuminate\Support\Facades\Mail;
 class OrderController extends Controller
 {
 
-
-    //todo 현재 테스트 계정임. 변경할
     protected $merchantKey;//상점키
     protected $mid;//상점id
 
@@ -62,7 +54,6 @@ class OrderController extends Controller
             return redirect('/mypage/profile')->with('error', "현재 계정이 비활성화 상태입니댜. <br>계정이 활성화되어야 주문신청이 가능합니다.");
         }
 
-
         $brands = Brand::select('id', 'name')
             ->orderByRaw('CASE WHEN id = 5 THEN 8 WHEN id = 6 THEN 9 WHEN id = 4 OR id = 19 OR id = 38 OR id = 74 OR id = 44 THEN 5 WHEN id = 1 OR id = 28 OR id = 45 THEN 1 ELSE 3 END ASC, name ASC')
             ->get();
@@ -78,27 +69,11 @@ class OrderController extends Controller
             '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
         ];
 
-
-//                $garages = UserExtra::orderBy('area', 'ASC')->groupBy('area')->whereNotNull('aliance_id')->get();
         $garages = UserExtra::whereNotIn('users_id', [4])->orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
 
 
         return view('web.order.index', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
-        //        return view('web.order.index_2', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
-
     }
-
-
-    public function reservation(Request $request)
-    {
-
-    }
-
-    public function purchase(Request $request)
-    {
-
-    }
-
 
     /**
      * 결제 팝업
@@ -107,57 +82,16 @@ class OrderController extends Controller
      */
     public function paymentPopup(Request $request)
     {
-
-
-        //                $validate = Validator::make($request->all(), [
-        //                    'item_id' => 'required',        // item seq
-        //                    'payment_price' => 'required',  // item 가격
-        //                    'payment_method' => 'required', // 결제 방식 11 = 카드, 12 = 실시간 계좌 이체
-        //                    'orderer_name' => 'required',   // 주문자 이름
-        //                    'orderer_mobile' => 'required',
-        //                    'areas' => 'required',          // 정비소 시/도
-        //                    'sections' => 'required',       // 정비소 구/군
-        //                    'garages' => 'required',        // 정비소명
-        //                    'reservation_date' => 'required',// 예약날짜 (Y-m-d)
-        //                    'sel_time' => 'required',       // 예약 시간
-        //                    'car_number' => 'required',     // 차량 번호
-        //                    'brands' => 'required',         // 브랜드 seq
-        //                    'models' => 'required',         // 모델 seq
-        //                    'details' => 'required',        // 디테일 seq
-        //                    'grades' => 'required',         // 등급 seq
-        //                ]);
-
-        //                if ($validate->fails())
-        //                {
-        //                    foreach ($validate->messages()->getMessages() as $field_name => $messages)
-        //                    {
-        //                        //                var_dump($messages); // messages are retrieved (publicly)
-        //                    }
-        //                    return redirect()->back()->with('error', '인증서 신청 정보를 충분히 입력하세요.');
-        //                }
         $orderer = Auth::user();
 
-
-        $datekey = Carbon::now()->format('ymd');
-
-
-        //                $order = Order::OrderBy('id', 'DESC')->where('car_number', $request->get('car_number'))->first();
-
-
-        //        $garage_info = UserExtra::where('area', $request->get('areas'))
-        //        ->where('section', $request->get('sections'))
-        //        ->where('name', $request->get('garages'))->first();
         $garage_info = UserExtra::where('users_id', $request->get('garages'))->first();
 
         if (!$garage_info) {
             $garage_info = new UserExtra();
         }
 
-        //                if(!$order){
         $order = new Order();
-        //                }
         $order->car_number = $request->get('car_number');
-        //        $order->cars_id = $order_car->id;
         $order->garage_id = $garage_info->users_id;
         $order->orderer_id = $orderer->id;
         $order->orderer_name = $request->get('orderer_name');
@@ -336,40 +270,14 @@ class OrderController extends Controller
         //등록된 정보 가져오기
         $order_where = Order::find($decMoid);
         if ($order_where) {
-
-            //            $order_price = $order_where->item->price;
-            //            $purchase_id = $order_where->purchase_id;
-            //
-            //            //결제결과 purchase update
-            //            $purchase = Purchase::find($purchase_id);
-            //            $purchase->status_cd = 102;
-            //            $purchase->amount =;
-            //            $purchase->refund_name =;
-            //            $purchase->refund_bank =;
-            //            $purchase->refund_account =;
-            //            $purchase->type=; //todo type이 실시간 계좌이체일 시 계좌관련정보(위에 property)를 갱신한다.
-            //            $purchase->save();
-            //
-            //            //order 결제상태 변경
-            //            $order_where->item_id =;
-            //            $order_where->status_cd = 102;
-            //            $order_where->save();
-
-            $order_price = $order_where->item->price;
             $purchase_id = $order_where->purchase_id;
-
-
         } else {
             $order_where = new Order();
-            $order_price = false;
             $purchase_id = false;
-
         }
 
-        //        if( $decAmt != $order_price || $decMoid != $order_where->id ){
-        //todo 실 결제 처리시에는 위의 주석된 부분으로
-        if ($decMoid != $order_where->id) {
 
+        if ($decMoid != $order_where->id) {
             $result = "결제처리 진행 중입니다.";
             $event = true; //결제완료
         } else {
@@ -394,7 +302,6 @@ class OrderController extends Controller
             $purchase->save();
 
             //order 결제상태 변경
-            //            $order_where->item_id =;
             $order_where->status_cd = 102;
             $order_where->save();
 

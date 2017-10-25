@@ -1,134 +1,137 @@
 @extends( 'admin.layouts.default' )
 
 @section('breadcrumbs')
-@include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin')])
+    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin')])
 @endsection
 
 @section( 'content' )
 
-<div class="container-fluid">
+    <div class="container-fluid">
 
         <div class="row">
 
-                {{-- 최근 문의사항 --}}
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                        <div class="panel panel-primary">
-                                <div class="panel-heading dark">
-                                        <i class="fa fa-file-text-o" style="padding-right: 5px;"></i> 최근 1:1문의
-                                        <a href="{{ url('post')}}" class="pull-right">더보기</a>
-                                </div>
+            {{-- 최근 문의사항 --}}
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading dark">
+                        <i class="fa fa-file-text-o" style="padding-right: 5px;"></i> 최근 1:1문의
+                        <a href="{{ url('post')}}" class="pull-right">더보기</a>
+                    </div>
 
 
-                                <div class="list-group">
-                                        @unless(count($lated_inquire) > 0)
-                                        <div class="list-group-item no-result">{{ trans('common.no-result') }}</div>
-                                        @endunless
+                    <div class="list-group">
+                        @unless(count($lated_inquire) > 0)
+                            <div class="list-group-item no-result">{{ trans('common.no-result') }}</div>
+                        @endunless
 
-                                        @foreach($lated_inquire as $n => $data)
-                                        <a href="{{ url('/post/'.$data->id.'/edit') }}" class="list-group-item">
-                                                @if($data->is_answered)
-                                                <span class="label label-success" style="width:60px;display:inline-block;">답변완료</span>
-                                                @else
-                                                <span class="label label-info" style="width:60px;display:inline-block;">미답변</span>
-                                                @endif
+                        @foreach($lated_inquire as $n => $data)
+                            <a href="{{ url('/post/'.$data->id.'/edit') }}" class="list-group-item">
+                                @if($data->is_answered)
+                                    <span class="label label-success"
+                                          style="width:60px;display:inline-block;">답변완료</span>
+                                @else
+                                    <span class="label label-info" style="width:60px;display:inline-block;">미답변</span>
+                                @endif
 
-                                                {{ $data->subject }}
+                                {{ $data->subject }}
 
-                                                <small class="pull-right">
-                                                        {{ $data->created_at->format('m-d H:i') }}
-                                                </small>
-                                        </a>
-                                        @endforeach
+                                <small class="pull-right">
+                                    {{ $data->created_at->format('m-d H:i') }}
+                                </small>
+                            </a>
+                        @endforeach
 
-                                </div>
-                        </div>
-
-                        <div class="panel panel-primary ">
-
-                                <div class="panel-heading dark">
-                                        <i class="fa fa-file-text-o" style="padding-right: 5px;"></i> 최근 인증서
-                                        <a href="{{ url('order?status_cd=109')}}" class="pull-right">더보기</a>
-                                </div>
-
-                                <div class="list-group">
-
-                                        @unless(count($certificates) > 0)
-                                        <div class="list-group-item no-result">등록된 인증서가 없습니다.</div>
-                                        @endunless
-
-                                        @foreach($certificates as $n => $data)
-                                        <a href="{{ url('/order/'.$data->id) }}" class="list-group-item">
-                                                @if($data->certificates->certificate_grade)
-                                                        <span class="label label-success" style="width:60px;display:inline-block;">{{ $data->certificates->certificate_grade->display() }}</span>
-                                                @else
-                                                        <span class="label label-warning" style="width:60px;display:inline-block;">미정</span>
-                                                @endif
-
-                                                {{ $data->getOrderNumber() }}
-
-                                                <small class="pull-right">
-                                                        {{ $data->certificates->updated_at->format('m-d H:i') }}
-                                                </small>
-                                        </a>
-                                        @endforeach
-
-                                </div>
-
-                        </div>
+                    </div>
                 </div>
 
-                {{-- 최근 게시물 --}}
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                        <div class="panel panel-primary">
-                                <div class="panel-heading dark">
-                                        <i class="fa fa-file-text-o" style="padding-right: 5px;"></i> 최근 주문
-                                        <a href="{{ url('order')}}" class="pull-right">총 {{ number_format($total_diagnosis) }} 개</a>
-                                </div>
+                <div class="panel panel-primary ">
 
-                                <div class="list-group">
+                    <div class="panel-heading dark">
+                        <i class="fa fa-file-text-o" style="padding-right: 5px;"></i> 최근 인증서
+                        <a href="{{ url('order?status_cd=109')}}" class="pull-right">더보기</a>
+                    </div>
 
-                                        @unless(count($lated_diagnosis) >0)
-                                        <div class="list-group-item no-result">{{ trans('common.no-result') }}</div>
-                                        @endunless
+                    <div class="list-group">
 
-                                        @foreach($lated_diagnosis as $n => $data)
-                                        <a href="{{ url('order', [$data->id]) }}" class="list-group-item">
+                        @unless(count($certificates) > 0)
+                            <div class="list-group-item no-result">등록된 인증서가 없습니다.</div>
+                        @endunless
+
+                        @foreach($certificates as $n => $data)
+                            <a href="{{ url('/order/'.$data->id) }}" class="list-group-item">
+                                @if($data->certificates->certificate_grade)
+                                    <span class="label label-success"
+                                          style="width:60px;display:inline-block;">{{ $data->certificates->certificate_grade->display() }}</span>
+                                @else
+                                    <span class="label label-warning" style="width:60px;display:inline-block;">미정</span>
+                                @endif
+
+                                {{ $data->getOrderNumber() }}
+
+                                <small class="pull-right">
+                                    {{ $data->certificates->updated_at->format('m-d H:i') }}
+                                </small>
+                            </a>
+                        @endforeach
+
+                    </div>
+
+                </div>
+            </div>
+
+            {{-- 최근 게시물 --}}
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading dark">
+                        <i class="fa fa-file-text-o" style="padding-right: 5px;"></i> 최근 주문
+                        <a href="{{ url('order')}}" class="pull-right">총 {{ number_format($total_diagnosis) }} 개</a>
+                    </div>
+
+                    <div class="list-group">
+
+                        @unless(count($lated_diagnosis) >0)
+                            <div class="list-group-item no-result">{{ trans('common.no-result') }}</div>
+                        @endunless
+
+                        @foreach($lated_diagnosis as $n => $data)
+                            <a href="{{ url('order', [$data->id]) }}" class="list-group-item">
                                                 <span class="label
                                                 @if($data->status_cd == 100)
-                                                label-default
-                                                @elseif($data->status_cd == 106)
-                                                label-primary
-                                                @else
-                                                label-info
-                                                @endif
+                                                        label-default
+@elseif($data->status_cd == 106)
+                                                        label-primary
+@else
+                                                        label-info
+@endif
 
-                                                " style="width:60px;display:inline-block;">{{ $data->status->display() }}</span>
+                                                        "
+                                                      style="width:60px;display:inline-block;">{{ $data->status->display() }}</span>
 
-                                                {{ $data->getOrderNumber() }}
+                                {{ $data->getOrderNumber() }}
 
-                                                <small class="pull-right">
-                                                        {{ $data->updated_at ? $data->updated_at->format('m-d H:i') : $data->created_at->format('m-d H:i') }}
-                                                </small>
-                                        </a>
-                                        @endforeach
+                                <small class="pull-right">
+                                    {{ $data->updated_at ? $data->updated_at->format('m-d H:i') : $data->created_at->format('m-d H:i') }}
+                                </small>
+                            </a>
+                        @endforeach
 
-                                </div>
+                    </div>
 
-                        </div>
                 </div>
+            </div>
 
         </div>
 
-</div>
+    </div>
 
 @endsection
 
 
 @push( 'footer-script' )
-<script type="text/javascript">
-$('document').ready(function () {
+    <script type="text/javascript">
+        $('document').ready(function () {
 
-});
+        });
 
-</script>
+    </script>
 @endpush

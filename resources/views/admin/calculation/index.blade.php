@@ -36,7 +36,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-3">{{ trans('admin/order.period') }}</label>
+                        <label class="control-label col-sm-3">정산기간</label>
 
                         <div class="col-sm-3">
                             <div class="input-group">

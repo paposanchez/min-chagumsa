@@ -123,38 +123,6 @@
                 </div>
             </div>
 
-
-            {{--<div class="form-group">--}}
-                {{--<label for="">차량옵션</label>--}}
-
-                {{--<div class="block">--}}
-                    {{--<ul class='order_option_wrap'>--}}
-                        {{--@foreach($options_group as $key => $val)--}}
-                            {{--<li><strong>{{ $val }}</strong>--}}
-                                {{--@foreach($options as $option)--}}
-                                    {{--@if($key == $option->group)--}}
-                                        {{--<div class='option_box'>--}}
-                                            {{--<label>--}}
-                                                {{--<input type='checkbox' class='psk type2' value="{{ $option->id }}"--}}
-                                                       {{--@foreach($order_features as $feature)--}}
-                                                       {{--@if($feature->features_id == $option->id)--}}
-                                                       {{--checked--}}
-                                                       {{--@endif--}}
-                                                       {{--@endforeach--}}
-                                                       {{--name="options_ck[]">--}}
-                                                {{--<span class='lbl' name="exterior_ck"> {{ $option->display() }}</span>--}}
-                                            {{--</label>--}}
-                                        {{--</div>--}}
-                                    {{--@endif--}}
-                                {{--@endforeach--}}
-                            {{--</li>--}}
-                        {{--@endforeach--}}
-                    {{--</ul>--}}
-
-                    {{--<small class='help-block'>※ 추후 가격 산정에 영향을 미치므로 아래 항목 중 장착되어 있는 옵션을 정확히 체크해 주세요.</small>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-
             <p class="form-control-static text-center">
                 <a href="/mypage/order/{{ $order->id }}" class='btn btn-default btn-lg wid25'>돌아가기</a>
                 <button type="button" class='btn btn-primary btn-lg wid25' id="save">저장</button>
@@ -176,6 +144,7 @@
     var car_num_chk = function (car_num) {
         var pattern1 = /\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 12저1234
         var pattern2 = /[가-힣ㄱ-ㅎㅏ-ㅣ\x20]{2}\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 서울12치1233
+
         if (!pattern1.test(car_num)) {
             if (!pattern2.test(car_num)) {
                 return 1;
@@ -185,7 +154,12 @@
             }
         }
         else {
-            return 2;
+            if(car_num.length < 8){
+                return 2;
+            }else{
+                return 1;
+            }
+
         }
     };
 

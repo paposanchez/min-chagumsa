@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Order;
 use App\Models\Role;
-use App\Models\RoleUser;
 use App\Models\User;
 use App\Models\Code;
-use App\Models\UserExtra;
-use App\Models\UserSequence;
 use DB;
 use Hash;
 use Image;
-use Carbon\Carbon;
-use Laracasts\Flash\Flash;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
@@ -203,7 +199,8 @@ class UserController extends Controller
 
         // 회원일때
         $order = Order::where('orderer_id', $user->id)->whereIn('status_cd', [105,106,107])->get();
-        if($order){
+
+        if(count($order) > 0){
             return redirect()->back()->with('error', '진행중인 주문이 있어 탈퇴가 불가능합니다. 관리자에게 문의하세요.');
         }
 
@@ -225,14 +222,16 @@ class UserController extends Controller
 
     public function searchGarage(Request $request)
     {
-        $garage = GarageInfo::where('name', 'like', '%' . $request->get('garage_name') . '%');
-
-        if ($garage) {
-            $json = $garage->get()->toArray();
+        $garages = User::where('name', 'like', '%' . $request->get('garage_name') . '%')
+                    ->join('role_user', function($join){
+                        $join->on('users.id', '=', 'role_user.user_id')
+                            ->where('role_user.role_id', 4);
+                    })->get();
+        if ($garages) {
+            $json = $garages;
         } else {
             $json = [];
         }
-
         return \GuzzleHttp\json_encode($json);
     }
 

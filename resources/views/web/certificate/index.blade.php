@@ -89,11 +89,6 @@
                                 data-datekey="{{ \App\Models\Order::find($order->id)->created_at->format('ymd')}}">
                             상세보기
                         </button>
-
-                        <a class="btn btn-default fa fa-search" href="">상세보기</a>
-
-                        {{--<a href="/certificate/{{ $data->id }}" target="_blank" class="btn btn-primary"--}}
-                           {{--data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>--}}
                     </div>
                 </div>
             </div>

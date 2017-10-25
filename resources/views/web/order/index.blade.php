@@ -163,8 +163,6 @@
             </fieldset>
         </div>
 
-        <!-- pt-page pt-page-1 -->
-
 
         <div class="pt-page pt-page-2">
 
@@ -260,69 +258,6 @@
                         </div>
                     </div>
                 </div>
-
-
-                {{--<div class="form-group">--}}
-                {{--<label for="">8. 차량옵션</label>--}}
-
-                {{--<div class="block">--}}
-                {{--<ul class='order_option_wrap'>--}}
-                {{--<li><strong>외관</strong>--}}
-                {{--@foreach($exterior_option as $exterior)--}}
-                {{--<div class='option_box'>--}}
-                {{--<label>--}}
-                {{--<input type='checkbox' class='psk type2' value="{{ $exterior->id }}" name="options_ck[]">--}}
-                {{--<span class='lbl' name="exterior_ck"> {{ $exterior->display() }}</span>--}}
-                {{--</label>--}}
-                {{--</div>--}}
-                {{--@endforeach--}}
-                {{--</li>--}}
-                {{--<li><strong>내장</strong>--}}
-                {{--@foreach($interior_option as $interior)--}}
-                {{--<div class='option_box'>--}}
-                {{--<label>--}}
-                {{--<input type='checkbox' class='psk type2' value="{{ $interior->id }}" name="options_ck[]">--}}
-                {{--<span class='lbl' name="exterior_ck"> {{ $interior->display() }}</span>--}}
-                {{--</label>--}}
-                {{--</div>--}}
-                {{--@endforeach--}}
-                {{--</li>--}}
-                {{--<li><strong>안전</strong>--}}
-                {{--@foreach($safety_option as $safety)--}}
-                {{--<div class='option_box'>--}}
-                {{--<label>--}}
-                {{--<input type='checkbox' class='psk type2' value="{{ $safety->id }}" name="options_ck[]">--}}
-                {{--<span class='lbl' name="exterior_ck"> {{ $safety->display() }}</span>--}}
-                {{--</label>--}}
-                {{--</div>--}}
-                {{--@endforeach--}}
-                {{--</li>--}}
-                {{--<li><strong>편의</strong>--}}
-                {{--@foreach($facilities_option as $facilites)--}}
-                {{--<div class='option_box'>--}}
-                {{--<label>--}}
-                {{--<input type='checkbox' class='psk type2' value="{{ $facilites->id }}" name="options_ck[]">--}}
-                {{--<span class='lbl' name="exterior_ck"> {{ $facilites->display() }}</span>--}}
-                {{--</label>--}}
-                {{--</div>--}}
-                {{--@endforeach--}}
-                {{--</li>--}}
-                {{--<li><strong>멀티미디어</strong>--}}
-                {{--@foreach($multimedia_option as $multimedia)--}}
-                {{--<div class='option_box'>--}}
-                {{--<label>--}}
-                {{--<input type='checkbox' class='psk type2' value="{{ $multimedia->id }}" name="options_ck[]">--}}
-                {{--<span class='lbl' name="exterior_ck"> {{ $multimedia->display() }}</span>--}}
-                {{--</label>--}}
-                {{--</div>--}}
-                {{--@endforeach--}}
-                {{--</li>--}}
-                {{--</ul>--}}
-
-                {{--<small class='help-block'>※ 추후 가격 산정에 영향을 미치므로 아래 항목 중 장착되어 있는 옵션을 정확히 체크해 주세요.</small>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-
                 <p class="form-control-static text-center">
                     <button type="button" class='btn btn-default btn-lg wid25 order-page-back' data-index="0">이전
                     </button>
@@ -476,7 +411,7 @@
                             <button type="button" class="btn btn-default btn-lg" id="modal-coupon-close">취소</button>
                             <button type="button" class='btn btn-primary btn-lg' id="modal-coupon-verify">인증</button>
                             <button type="button" class='btn btn-warning  btn-lg' style="display: none;"
-                                    id="coupon-process">쿠폰결제 진행하기
+                                    id="coupon-process">결제완료
                             </button>
                         </p>
                     </form>
@@ -521,9 +456,14 @@
             }
         }
         else {
-            return 2;
+            if(car_num.length < 8){
+                return 2;
+            }else{
+                return 1;
+            }
+
         }
-    }
+    };
 
 
     $(document).ready(function () {
@@ -543,10 +483,6 @@
                 if (!$('#orderer_name').val()) {
                     alert('주문자명을 입력하세요.');
                     $('#orderer_name').focus();
-
-                    // $('#orderer_name').closest('.form-group').addClass('has-error');
-                    // $('#orderer_name').closest('.block').addClass('bg-danger');
-                    //
                     return false;
                 }
 
@@ -554,9 +490,6 @@
                 if (!$('#sms_id').val()) {
                     alert('휴대전화번호를 확인해주세요.');
                     $('#orderer_mobile').focus();
-
-                    // $('#orderer_mobile').closest('.form-group').addClass('has-error');
-                    // $('#orderer_mobile').closest('.block').addClass('bg-danger');
                     return false;
                 }
 
@@ -793,8 +726,6 @@
 
         // 인증취소
         $(document).on("click", "#modalSms-close", function () {
-
-
             var number = $('#orderer_mobile').val();
 
             try {
@@ -802,27 +733,6 @@
                 $('#modalSms').modal('hide');
             } catch (e) {
             }
-
-
-            // $.ajax({
-            //         type: 'post',
-            //         dataType: 'json',
-            //         url: '/order/delete-sms',
-            //         data: {'mobile_num': number},
-            //         success: function (jdata) {
-            //                 $('#modalSms').modal('hide');
-            //                 $('#orderer_mobile').val("");
-            //                 $("#mobile-verification").prop('disabled', false); //SMS 인증번호를 활성화 함
-            //                 alert("인증번호 전송을 취소하였습니다.");
-            //         },
-            //         error: function (qXHR, textStatus, errorThrown) {
-            //                 return false;
-            //         },
-            //         complete: function (e) {
-            //                 $("#time-clocks").html(180);
-            //         }
-            // });
-
         });
 
         var smsTempDelete = function (sms_id) {
@@ -1039,10 +949,8 @@
 
                             $(".coupon-error").css({'color': '#0b4777'});
                             //인증버튼을 결제처리 버튼으로 변경한다.
-
-//                            $("#modal-coupon-verify").attr("disabled", "disabled");
-//                            $("#coupon-process").show(0.5);
-                            $("#modal-coupon-verify").attr("display", "none");
+                            $("#modal-coupon-verify").css("display", "none");
+                            $("#coupon-process").css("display", "inline");
 
                         } else {
                             $(".coupon-error").css({'color': 'red'});
