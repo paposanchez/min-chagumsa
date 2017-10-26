@@ -24,3 +24,4 @@ Homestead.yaml
 cargumsa.iml
 composer.lock
 /storage
+/manifest.json
