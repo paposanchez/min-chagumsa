@@ -50,7 +50,7 @@
             <input type="hidden" name="payment_price" id="payment_price" value="">
             <input type="hidden" name="payment_method" id="payment_method" value="">
             <input type="hidden" name="sms_id" id="sms_id" autocomplete="off" value="0">
-            <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="1" autocomplete="off" value="">
+            <input type="hidden" name="sms_confirmed" id="sms_confirmed" value="" autocomplete="off" value="">
             <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off">
             <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off">
             <input type="hidden" name="mobile" id="mobile" value="">
@@ -101,7 +101,7 @@
                     <label>4. 입고희망일</label>
                     <div class='ipt_dual_input br10'>
                         {{--<div style='width:70%;'>--}}
-                            {{--<input type='date' class='ipt'>--}}
+                        {{--<input type='date' class='ipt'>--}}
                         {{--</div>--}}
                         <div class="input-group input-group-lg" style='width:70%;'>
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -201,9 +201,9 @@
                     <div class='order_info_cont2'>
                         <div class="block">
                             <div class="row">
-                                @foreach($items as $item)
-                                    <div class="col-xs-3">
-                                        <div class="purchase-item purchase-item-product" data-index="{{ $item->id }}" data-price="{{ $item->price }}">
+                                @foreach($items as  $key => $item)
+                                    <div class="col-xs-6">
+                                        <div class="purchase-item purchase-item-product disabled-purchase" data-index="{{ $item->id }}" data-price="{{ $item->price }}">
                                             <div class="point-price">{{ $item->name }}</div>
                                             <div class="point-desc text-muted">{{ number_format($item->price) }}원</div>
                                         </div>
@@ -360,7 +360,7 @@
                         <div class="col-xs-6 col-xs-offset-3">
                             <div class="input-group">
                                 <span class="input-group-addon"><em id="time-clocks">180</em>초</span>
-                                <input type="text" class="form-control input-lg" id="sms_num" placeholder='인증번호' value="{{ old('car_number') }}" name="sms_num">
+                                <input type="text" class="form-control input-lg" id="sms_num" placeholder='인증번호' value="{{ old('car_number') }}" name="sms_num" autocomplete="off">
                             </div>
 
 
@@ -460,7 +460,7 @@
 
                         <div class="form-group">
                             <label for="exampleInputCoupon" class="sr-only">쿠폰 번호</label>
-                            <input type="text" class="form-control input-lg" id="coupon_number" placeholder='쿠폰번호를 입력해 주세요.' name="coupon_number">
+                            <input type="text" class="form-control input-lg" id="coupon_number" placeholder='쿠폰번호를 입력해 주세요.' name="coupon_number" autocomplete="off">
                             <span class="coupon-error text-center"></span>
                         </div>
 
@@ -490,427 +490,426 @@
 
     var countdown;
 
-$(function () {
-    $("#options").on("click", function () {
-        $("#modal-option").modal();
-    });
-
-    //시도선택 모달
-    $(".bcs-select").on("click", function () {
-        $("#modal-bcs").modal();
-    })
-    //시도 선택
-    $(".area_chk").on("click", function(){
-
-        //지역,대리점 선택 초기화
-        delete_section();
-
-        var garage_area = $(this).data("value");
-
-        $.ajax({
-            type: 'get',
-            dataType: 'json',
-            url: '/order/get-section/',
-            data: {
-                'garage_area': garage_area
-            },
-            success: function (data) {
-
-                $.each(data, function (key, value) {
-
-                    $("#section-list").append($("<li/>", {
-                        "data-value": value,
-                        text: value,
-                        "data-area": garage_area
-                    }));
-                });
-            },
-            error: function () {
-                alert('error');
-            },
-            beforeSend: function () {
-
-
-
-                $("#bcs-l1").show();
-
-                $("#areas").val(garage_area);
-                $("#selected_area").html("<li class='glyphicon glyphicon-ok'></li> " + garage_area);
-
-
-            },
-            complete: function () {
-                $("#collapse1-bcs").collapse('hide');
-                $("#collapse3-bcs").collapse('hide');
-
-                $("#bcs-l1").hide(200);
-
-                $("#collapse2-bcs").collapse('show');
-            }
-        });
-    });
-
-    //지역 선택
-    $("#section-list").delegate("li", "click", function(){
-
-        //대리점 초기화
-        delete_garage();
-
-        var garage_section = $(this).data("value");
-        var garage_area = $(this).data("area");
-
-        $.ajax({
-            type: 'get',
-            dataType: 'json',
-            url: '/order/get-address/',
-            data: {
-                'sel_area': garage_area,
-                'sel_section': garage_section
-            },
-            success: function (data) {
-
-                $.each(data, function (key, value) {
-                    $('#bcs-list').append($('<li/>', {
-                        "data-value": key,
-                        text: value
-                    }))
-                });
-            },
-            error: function (data) {
-
-                alert('error');
-            },
-            beforeSend: function(){
-                $("#sectins").val(garage_section);
-                $("#selected_section").html("<li class='glyphicon glyphicon-ok'></li> " + garage_section);
-            },
-            complete: function(){
-                $("#collapse1-bcs").collapse('hide');
-                $("#collapse2-bcs").collapse('hide');
-                $("#collapse3-bcs").collapse('show');
-            }
+    $(function () {
+        $("#options").on("click", function () {
+            $("#modal-option").modal();
         });
 
-    });
+        //시도선택 모달
+        $(".bcs-select").on("click", function () {
+            $("#modal-bcs").modal();
+        })
+        //시도 선택
+        $(".area_chk").on("click", function(){
 
-    //대리점 선택
-    $("#bcs-list").delegate("li", "click", function(){
-        var garage_id = $(this).data("value");
-        var garage_name = $(this).text();
-        $("#garages").val(garage_id);
+            //지역,대리점 선택 초기화
+            delete_section();
 
-        $("#bcs-list").css({'background': '#fff'});
-        $(this).css({'background': '#efefef'});
+            var garage_area = $(this).data("value");
+
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/order/get-section/',
+                data: {
+                    'garage_area': garage_area
+                },
+                success: function (data) {
+
+                    $.each(data, function (key, value) {
+
+                        $("#section-list").append($("<li/>", {
+                            "data-value": value,
+                            text: value,
+                            "data-area": garage_area
+                        }));
+                    });
+                },
+                error: function () {
+                    alert('error');
+                },
+                beforeSend: function () {
 
 
-        $.ajax({
-            type : 'get',
-            dataType : 'json',
-            url : '/order/get-full-address',
-            data : {
-                'garage_id' : garage_id
-            },
-            success : function (data){
-                if(data == 'error'){
-                    alert('해당 대리점 주소를 수신하는데 실패하였습니다.');
-                }else{
-                    $("#garage-summary").val( data + ' ' + garage_name );
+
+                    $("#bcs-l1").show();
+
+                    $("#areas").val(garage_area);
+                    $("#selected_area").html("<li class='glyphicon glyphicon-ok'></li> " + garage_area);
+
+
+                },
+                complete: function () {
+                    $("#collapse1-bcs").collapse('hide');
+                    $("#collapse3-bcs").collapse('hide');
+
+                    $("#bcs-l1").hide(200);
+
+                    $("#collapse2-bcs").collapse('show');
                 }
-
-            },
-            error : function (data){
-                console.log(data);
-                alert('대리점 선택을 실패하였습니다.');
-            },
-            complete: function(){
-                $("#modal-bcs").modal("hide");
-            }
+            });
         });
 
-    });
+        //지역 선택
+        $("#section-list").delegate("li", "click", function(){
 
+            //대리점 초기화
+            delete_garage();
 
+            var garage_section = $(this).data("value");
+            var garage_area = $(this).data("area");
 
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/order/get-address/',
+                data: {
+                    'sel_area': garage_area,
+                    'sel_section': garage_section
+                },
+                success: function (data) {
 
-    //브랜드선택 모달
-    $(".brand").on("click", function () {
-        $("#modal-brand").modal();
-    });
+                    $.each(data, function (key, value) {
+                        $('#bcs-list').append($('<li/>', {
+                            "data-value": key,
+                            text: value
+                        }))
+                    });
+                },
+                error: function (data) {
 
-    //brand 선택
-    $(".brand_chk").on("click", function(){
+                    alert('error');
+                },
+                beforeSend: function(){
+                    $("#sectins").val(garage_section);
+                    $("#selected_section").html("<li class='glyphicon glyphicon-ok'></li> " + garage_section);
+                },
+                complete: function(){
+                    $("#collapse1-bcs").collapse('hide');
+                    $("#collapse2-bcs").collapse('hide');
+                    $("#collapse3-bcs").collapse('show');
+                }
+            });
 
-        //모델,세부모델,등급 초기화
-        delete_models();
-
-        var brand_val = $(this).data("value");
-        var brand_name = $(this).data("name");
-
-
-
-        $.ajax({
-            type: 'get',
-            dataType: 'json',
-            url: '/order/get-models/',
-            data: {'brand': brand_val},
-            success: function (data) {
-
-                $.each(data, function (key, value) {
-                    $('#model-list').append($('<li/>', {
-                        "data-value": value.id,
-                        text: value.name,
-                        class: 'model_chk',
-                        "data-name": value.name
-                    }));
-                });
-            },
-            error: function (data) {
-                alert('처리중 오류가 발생했습니다.');
-            },
-            beforeSend: function(){
-                $("#brands").val(brand_val);
-
-                $("#selected_brand").html("<li class='glyphicon glyphicon-ok'></li> " + brand_name);
-
-                $("#collapse1").collapse("hide");
-            },
-            complete: function () {
-                $("#brands_name").val(brand_name);
-                $("#collapse2").collapse('show');
-            }
-        });
-    });
-
-    //모델선택
-    $("#model-list").delegate("li", "click", function(){
-
-        //세부모델, 등급 초기화
-        delete_details();
-
-        var model_id = $(this).data("value");
-        var model_name = $(this).data("name");
-
-
-        $.ajax({
-            type: 'get',
-            dataType: 'json',
-            url: '/order/get-details/',
-            data: {'model': model_id},
-            success: function (data) {
-
-                $.each(data, function (key, value) {
-                    $('#detail-list').append($('<li/>', {
-                        "data-value": value.id,
-                        text: value.name,
-                        class: "detail_chk",
-                        "data-name": value.name
-                    }));
-                });
-
-            },
-            error: function (data) {
-                alert('처리중 오류가 발생했습니다.');
-            },
-            beforeSend: function(){
-                $("#models").val(model_id);
-
-                $("#selected_model").html("<li class='glyphicon glyphicon-ok'></li> " + model_name);
-
-                $("#collapse2").collapse('hide');
-            },
-            complete: function(){
-                $("#models_name").val(model_name);
-                $("#collapse3").collapse('show');
-            }
         });
 
-    });
+        //대리점 선택
+        $("#bcs-list").delegate("li", "click", function(){
+            var garage_id = $(this).data("value");
+            var garage_name = $(this).text();
+            $("#garages").val(garage_id);
 
-    //세부모델 선택
-    $("#detail-list").delegate("li", "click", function(){
+            $("#bcs-list").css({'background': '#fff'});
+            $(this).css({'background': '#efefef'});
 
-        //초기화
-        delete_grades();
 
-        var detail_id = $(this).data("value");
-        var detail_name = $(this).data("name");
+            $.ajax({
+                type : 'get',
+                dataType : 'json',
+                url : '/order/get-full-address',
+                data : {
+                    'garage_id' : garage_id
+                },
+                success : function (data){
+                    if(data == 'error'){
+                        alert('해당 대리점 주소를 수신하는데 실패하였습니다.');
+                    }else{
+                        $("#garage-summary").val( data + ' ' + garage_name );
+                    }
 
-        console.log(detail_id, detail_name);
-        $.ajax({
-            type: 'get',
-            dataType: 'json',
-            url: '/order/get-grades/',
-            data: {'detail': detail_id},
-            success: function (data) {
+                },
+                error : function (data){
+                    console.log(data);
+                    alert('대리점 선택을 실패하였습니다.');
+                },
+                complete: function(){
+                    $("#modal-bcs").modal("hide");
+                }
+            });
 
-                console.log(data);
-                $.each(data, function (key, value) {
-                    $('#grade-list').append($('<li/>', {
-                        "data-value": value.id,
-                        text: value.name,
-                        class: "grade_chk",
-                        "data-name": value.name,
-                        "data-items_id": value.items_id
-                    }));
-                });
-
-            },
-            error: function (data) {
-                alert('처리중 오류가 발생했습니다.');
-            },
-            beforeSend: function(){
-
-                $("#details").val(detail_id);
-                $("#selected_detail").html("<li class='glyphicon glyphicon-ok'></li> " + detail_name);
-
-                $("#collapse3").collapse('hide');
-            },
-            complete: function(){
-                $("#details_name").val(detail_name);
-                $("#collapse4").collapse('show');
-            }
         });
-    });
 
-    //등급 선택
-    $("#grade-list").delegate("li", "click", function(){
-        var grade_id = $(this).data("value");
-        $("#grades").val(grade_id);
-        $("#grades_name").val($(this).data("name"));
-        $("#items_id").val($(this).data("items_id"));
 
-        check_product($(this).data("items_id"));
+
+
+        //브랜드선택 모달
+        $(".brand").on("click", function () {
+            $("#modal-brand").modal();
+        });
+
+        //brand 선택
+        $(".brand_chk").on("click", function(){
+
+            //모델,세부모델,등급 초기화
+            delete_models();
+
+            var brand_val = $(this).data("value");
+            var brand_name = $(this).data("name");
+
+
+
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/order/get-models/',
+                data: {'brand': brand_val},
+                success: function (data) {
+
+                    $.each(data, function (key, value) {
+                        $('#model-list').append($('<li/>', {
+                            "data-value": value.id,
+                            text: value.name,
+                            class: 'model_chk',
+                            "data-name": value.name
+                        }));
+                    });
+                },
+                error: function (data) {
+                    alert('처리중 오류가 발생했습니다.');
+                },
+                beforeSend: function(){
+                    $("#brands").val(brand_val);
+
+                    $("#selected_brand").html("<li class='glyphicon glyphicon-ok'></li> " + brand_name);
+
+                    $("#collapse1").collapse("hide");
+                },
+                complete: function () {
+                    $("#brands_name").val(brand_name);
+                    $("#collapse2").collapse('show');
+                }
+            });
+        });
+
+        //모델선택
+        $("#model-list").delegate("li", "click", function(){
+
+            //세부모델, 등급 초기화
+            delete_details();
+
+            var model_id = $(this).data("value");
+            var model_name = $(this).data("name");
+
+
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/order/get-details/',
+                data: {'model': model_id},
+                success: function (data) {
+
+                    $.each(data, function (key, value) {
+                        $('#detail-list').append($('<li/>', {
+                            "data-value": value.id,
+                            text: value.name,
+                            class: "detail_chk",
+                            "data-name": value.name
+                        }));
+                    });
+
+                },
+                error: function (data) {
+                    alert('처리중 오류가 발생했습니다.');
+                },
+                beforeSend: function(){
+                    $("#models").val(model_id);
+
+                    $("#selected_model").html("<li class='glyphicon glyphicon-ok'></li> " + model_name);
+
+                    $("#collapse2").collapse('hide');
+                },
+                complete: function(){
+                    $("#models_name").val(model_name);
+                    $("#collapse3").collapse('show');
+                }
+            });
+
+        });
+
+        //세부모델 선택
+        $("#detail-list").delegate("li", "click", function(){
+
+            //초기화
+            delete_grades();
+
+            var detail_id = $(this).data("value");
+            var detail_name = $(this).data("name");
+
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/order/get-grades/',
+                data: {'detail': detail_id},
+                success: function (data) {
+
+                    console.log(data);
+                    $.each(data, function (key, value) {
+                        $('#grade-list').append($('<li/>', {
+                            "data-value": value.id,
+                            text: value.name,
+                            class: "grade_chk",
+                            "data-name": value.name,
+                            "data-items_id": value.items_id
+                        }));
+                    });
+
+                },
+                error: function (data) {
+                    alert('처리중 오류가 발생했습니다.');
+                },
+                beforeSend: function(){
+
+                    $("#details").val(detail_id);
+                    $("#selected_detail").html("<li class='glyphicon glyphicon-ok'></li> " + detail_name);
+
+                    $("#collapse3").collapse('hide');
+                },
+                complete: function(){
+                    $("#details_name").val(detail_name);
+                    $("#collapse4").collapse('show');
+                }
+            });
+        });
+
+        //등급 선택
+        $("#grade-list").delegate("li", "click", function(){
+            var grade_id = $(this).data("value");
+            $("#grades").val(grade_id);
+            $("#grades_name").val($(this).data("name"));
+            $("#items_id").val($(this).data("items_id"));
+
+            check_product($(this).data("items_id"));
 
 //        $("#grade-list li").css({'background': '#fff'});
 //        $(this).css({'background': '#efefef'});
-        if($("#brands").val() && $("#models").val() && $("#details").val() && $("#grades").val()){
-            $("#car-summary").val(
-                $("#brands_name").val() + ' > ' + $("#models_name").val()  + ' > ' +  $("#details_name").val()  + ' > ' +  $("#grades_name").val()
-            );
-            $("#modal-brand").modal("hide");
-        }
-    });
-
-    //모델선택 완료
-    $("#selected-car").on("click", function(){
-        if($("#brands").val() && $("#models").val() && $("#details").val() && $("#grades").val()){
-            $("#car-summary").val(
-                $("#brands_name").val() + ' > ' + $("#models_name").val()  + ' > ' +  $("#details_name").val()  + ' > ' +  $("#grades_name").val()
-            );
-            $("#modal-brand").modal("hide");
-        }
-    });
-
-
-    //단계별 폼 validate
-    $("#step-btn").on("click", function(){
-        var current_step = parseInt($(this).data("step"));
-        step_validate(current_step);
-    });
-
-
-    //sms 관련
-    //sms 전송
-
-
-    // 휴대전화번호 인증
-    $(document).on("click", "#mobile-verification", function () {
-        var regExp = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
-        var number = $('#orderer_mobile').val();
-        if (!regExp.test(number)) {
-            alert("잘못된 휴대폰 번호입니다. 숫자, - 를 포함한 숫자만 입력하세요.");
-            return false;
-        }
-        if (!number) {
-            alert("휴대전화번호를 입력하세요.");
-            return false;
-        }
-
-        $("#mobile-verification").prop('disabled', true);
-        $('#mobile').val(number);
-        $.ajax({
-            type: 'post',
-            dataType: 'json',
-            url: '/order/send-sms',
-            data: {'mobile_num': number},
-            success: function (jdata) {
-                if (jdata.result == 'OK') {
-                    //time 체크 시작
-                    timeCountdown();
-
-                    $('#modalSms').modal({
-                        backdrop: 'static',
-                        keyboard: false,
-                        show: true
-                    });
-
-                    $('#sms_id').val(jdata.id);
-
-                } else {
-                    //                        console.log(jdata);
-                    alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");
-                    return false;
-                }
-            },
-            error: function (qXHR, textStatus, errorThrown) {
-                alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");
-                return false;
+            if($("#brands").val() && $("#models").val() && $("#details").val() && $("#grades").val()){
+                $("#car-summary").val(
+                    $("#brands_name").val() + ' > ' + $("#models_name").val()  + ' > ' +  $("#details_name").val()  + ' > ' +  $("#grades_name").val()
+                );
+                $("#modal-brand").modal("hide");
             }
         });
-    });
+
+        //모델선택 완료
+        $("#selected-car").on("click", function(){
+            if($("#brands").val() && $("#models").val() && $("#details").val() && $("#grades").val()){
+                $("#car-summary").val(
+                    $("#brands_name").val() + ' > ' + $("#models_name").val()  + ' > ' +  $("#details_name").val()  + ' > ' +  $("#grades_name").val()
+                );
+                $("#modal-brand").modal("hide");
+            }
+        });
 
 
-    // 인증취소
-    $(document).on("click", "#modalSms-close", function () {
+        //단계별 폼 validate
+        $("#step-btn").on("click", function(){
+            var current_step = parseInt($(this).data("step"));
+            step_validate(current_step);
+        });
 
 
-        var number = $('#orderer_mobile').val();
-
-        try {
-            clearInterval(countdown);
-            $('#modalSms').modal('hide');
-        } catch (e) { }
-
-    });
+        //sms 관련
+        //sms 전송
 
 
+        // 휴대전화번호 인증
+        $(document).on("click", "#mobile-verification", function () {
+            var regExp = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+            var number = $('#orderer_mobile').val();
+            if (!regExp.test(number)) {
+                alert("잘못된 휴대폰 번호입니다. 숫자, - 를 포함한 숫자만 입력하세요.");
+                return false;
+            }
+            if (!number) {
+                alert("휴대전화번호를 입력하세요.");
+                return false;
+            }
 
-    $(document).on("click", "#modalSms-verify", function () {
-        var sms_num = $("#sms_num").val();
-        if (sms_num) {
+            $("#mobile-verification").prop('disabled', true);
+            $('#mobile').val(number);
             $.ajax({
                 type: 'post',
                 dataType: 'json',
-                url: '/order/is-sms',
-                data: {
-                    'sms_num': sms_num,
-                    'sms_id': $("#sms_id").val()
-                },
+                url: '/order/send-sms',
+                data: {'mobile_num': number},
                 success: function (jdata) {
                     if (jdata.result == 'OK') {
-                        $("#sms_confirmed").val(1);
-                        alert('휴대폰 인증이 완료 되었습니다. \n입고 대리점 및 입고 희망일을 선택해 주세요.');
-                        $('#modalSms').modal('hide');
-                        $("#orderer_mobile").prop('disabled', true);
+                        //time 체크 시작
+                        timeCountdown();
+
+                        $('#modalSms').modal({
+                            backdrop: 'static',
+                            keyboard: false,
+                            show: true
+                        });
+
+                        $('#sms_id').val(jdata.id);
+
                     } else {
-                        alert('인증번호가 잘못 입력되었습니다.\n인증번호를 다시 입력해 주세요.');
-                        $("#sms_num").focus();
+                        //                        console.log(jdata);
+                        alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");
+                        return false;
                     }
                 },
                 error: function (qXHR, textStatus, errorThrown) {
+                    alert("SMS 전송을 실패하였습니다.\n 핸드폰 번호 확인 후 '인증번호 전송버튼'을 클릭해 주세요.");
                     return false;
                 }
             });
-        } else {
-            alert('전송된 인증번호를 입력해 주세요.');
-            return false;
-        }
+        });
 
-    });
 
-    /////////////////////// 결제 관련
+        // 인증취소
+        $(document).on("click", "#modalSms-close", function () {
 
-    // 상품선택
+
+            var number = $('#orderer_mobile').val();
+
+            try {
+                clearInterval(countdown);
+                $('#modalSms').modal('hide');
+            } catch (e) { }
+
+        });
+
+
+
+        $(document).on("click", "#modalSms-verify", function () {
+            var sms_num = $("#sms_num").val();
+            if (sms_num) {
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    url: '/order/is-sms',
+                    data: {
+                        'sms_num': sms_num,
+                        'sms_id': $("#sms_id").val()
+                    },
+                    success: function (jdata) {
+                        if (jdata.result == 'OK') {
+                            $("#sms_confirmed").val(1);
+                            alert('휴대폰 인증이 완료 되었습니다. \n입고 대리점 및 입고 희망일을 선택해 주세요.');
+                            $('#modalSms').modal('hide');
+                            $("#orderer_mobile").prop('disabled', true);
+                        } else {
+                            alert('인증번호가 잘못 입력되었습니다.\n인증번호를 다시 입력해 주세요.');
+                            $("#sms_num").focus();
+                        }
+                    },
+                    error: function (qXHR, textStatus, errorThrown) {
+                        return false;
+                    }
+                });
+            } else {
+                alert('전송된 인증번호를 입력해 주세요.');
+                return false;
+            }
+
+        });
+
+        /////////////////////// 결제 관련
+
+        // 상품선택
 //    $(document).on("click", ".purchase-item-product", function () {
 //
 //        $('.purchase-item-product').removeClass("active");
@@ -921,299 +920,300 @@ $(function () {
 //    });
 
 
-    $(document).on("click", ".purchase-item-method", function () {
-        $('.purchase-item-method').removeClass("active");
-        $(this).toggleClass("active");
-        var item_id = $('#item_id').val();
+        $(document).on("click", ".purchase-item-method", function () {
+            $('.purchase-item-method').removeClass("active");
+            $(this).toggleClass("active");
+            var item_id = $('#item_id').val();
 
-        if ($(this).data('index') == '21') { //쿠폰
-            if(item_id.length != 0){
-                $('#payment_method').val($(this).data("index"));
-                $('#modal-coupon').modal();
+            if ($(this).data('index') == '21') { //쿠폰
+                if(item_id.length != 0){
+                    $('#payment_method').val($(this).data("index"));
+                    $('#modal-coupon').modal();
+                }else{
+                    alert('상품을 선택하세요.');
+                    $('#payment_method').val('');
+                    $(this).removeClass('active');
+                }
             }else{
-                alert('상품을 선택하세요.');
-                $('#payment_method').val('');
-                $(this).removeClass('active');
+                $('#payment_method').val($(this).data("index"));
             }
-        }else{
-            $('#payment_method').val($(this).data("index"));
-        }
+        });
+
+        //이전 버튼처리
+        $("#step-prev").on("click", function(){
+            var current_step = parseInt($("#step-btn").data("step"));
+
+            if(current_step != 1){
+                var prev_step = current_step -1;
+                $("#step-btn").data("step", prev_step);
+                $("#step"+current_step).fadeOut(function () {
+                    $("#step" + prev_step).fadeIn(function () {
+                        $("#s" + current_step).removeClass("on");
+                    });
+                });
+            }
+        });
+
+        //쿠폰 모달 제어
+
+        $("#modal-coupon-close").on("click", function () {
+            $("#coupon_number").val("");
+            $('#payment_method').val('');
+            $("#coupon").removeClass("active");
+            $("#modal-coupon").modal('hide');
+        });
+
+        $("#modal-coupon-verify").on("click", function () {
+
+            var coupon_number = $("#coupon_number").val();
+
+
+            if (coupon_number.length > 9 && coupon_number.length < 21) {
+                $.ajax({
+                    url: "/order/coupon-verify",
+                    type: "post",
+                    dataType: "json",
+                    data: {'coupon_number': coupon_number, '_token': '{{ csrf_token() }}'},
+                    success: function (jdata, textStatus, jqXHR) {
+                        var verify = jdata.status;
+
+                        if (verify === 'ok') {
+                            //인증서 유효성 확인됨.
+
+                            $("#use_coupon_number").val(jdata.coupon_number);
+                            $("#coupon_id").val(jdata.id);
+
+                            $(".coupon-error").css({'color': '#0b4777'});
+                            //인증버튼을 결제처리 버튼으로 변경한다.
+
+                            $("#modal-coupon-verify").attr("disabled", "disabled");
+                            $("#coupon-process").show(0.5);
+
+                        } else {
+                            $(".coupon-error").css({'color': 'red'});
+                            $("#coupon_number").select();
+
+                        }
+                        $(".coupon-error").text(jdata.msg);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $(".coupon-error").css({'color': 'red'});
+                        $("#coupon_number").focus();
+                        $(".coupon-error").text('쿠폰번호를 확인하지 못하였습니다.');
+                    }
+                });
+            } else {
+
+                $(".coupon-error").css({'color': 'red'});
+                $("#coupon_number").focus();
+                $(".coupon-error").text('쿠폰번호를 확인해주세요');
+            }
+
+        });
+
+        //쿠폰 결제 진행
+        $("#coupon-process").on("click", function () {
+
+            var use_coupon_number = $("#use_coupon_number").val();
+            var coupon_id = $("#coupon_id").val();
+            if (use_coupon_number && coupon_id) {
+                $("#orderFrm").removeAttr("target");
+                $("#orderFrm").attr("action", "{{ url("order/coupon-process") }}");
+                $("#orderFrm").submit();
+            }
+        });
+
     });
 
-    //이전 버튼처리
-    $("#step-prev").on("click", function(){
-        var current_step = parseInt($("#step-btn").data("step"));
+    /**
+     * model 이하를 모두 삭제하기
+     */
+    var delete_models = function(){
+//    alert('model');
+        $("#models").val('');
+        delete_details(); //세부모델 이하 모두 삭제
 
-        if(current_step != 1){
-            var prev_step = current_step -1;
-            $("#step-btn").data("step", prev_step);
-            $("#step"+current_step).fadeOut(function () {
-                $("#step" + prev_step).fadeIn(function () {
-                    $("#s" + current_step).removeClass("on");
+        $("#collapse3").collapse('hide');
+        $("#model-list li").remove();
+        $("#selected_model").html('');
+    };
+    /**
+     *
+     */
+    var delete_details = function(){
+//    alert('detail');
+        $("#details").val('');
+        delete_grades(); //등급 관면 모두 삭제
+
+        $("#collapse4").collapse('hide');
+        $("#detail-list li").remove();
+        $("#selected_detail").html('');
+    };
+    /**
+     * grade 관련 내용을 모두 삭제하기
+     */
+    var delete_grades = function(){
+//    alert('grade');
+        $("#grades").val('');
+        $("#grade-list li").remove();
+
+    };
+
+    /**
+     * 지역 이하 모두 초기화
+     */
+    var delete_section = function(){
+        $("#sections").val('');
+        delete_garage();
+
+        $("#section-list li").remove();
+    };
+
+    /**
+     * 대리점 정보 모두 초기화
+     */
+    var delete_garage = function(){
+        $("#garages").val('');
+        $("#bcs-list li").remove();
+    };
+
+    /**
+     * 각 입력폼 확인 및 제어
+     * @param current_step int step 단계
+     */
+    var step_validate = function(current_step){
+
+        var is_valid = false;
+
+        if(current_step == 1){
+            //사용자명
+            if (!$('#orderer_name').val()) {
+                alert('주문자명을 입력하세요.');
+                $('#orderer_name').focus();
+                return;
+            }
+
+            //휴대폰 인증
+            if (parseInt($('#sms_id').val()) < 1) {
+                alert('휴대전화번호를 확인해주세요.');
+                $('#orderer_mobile').focus();
+                return;
+            }
+
+            // 입고대리점 검사
+            if (!$('#garages').val()) {
+                alert('입고대리점을 선택해주세요.');
+                $("#areas").focus();
+                return;
+            }
+
+            // 입고희망일 검사
+            if (!$('#reservation_date').val()) {
+                alert('예약일을 선택해주세요.');
+                $("#reservation_date").focus();
+                return;
+            }
+
+            is_valid = true;
+
+        }else if(current_step == 2){
+
+            if (car_num_chk($("#car_number").val()) == 1) {
+                alert('차량번호를 정확히 입력해주세요.');
+                $('#car_number').focus();
+                return;
+            }
+
+            // 차량 모델 검사
+            if (!$('#grades').val()) {
+                alert('차량 모델 정보를 선택하세요.');
+                $('#brands').focus();
+                return;
+            }
+            is_valid = true;
+
+        }else if(current_step == 3){ //결제
+
+            if(!$("#payment_price").val()){
+                alert('상품을 선택해 주세요.');
+                return;
+            }
+            if(!$("#payment_method").val()){
+                alert('결제방법을 선택해 주세요.');
+                return;
+            }
+
+            //결제 submit
+            $("#orderFrm").submit();
+        }else{
+            if(confirm('잘못된 접근입니다.\n새로고침 하시겠습니까?')){
+                location.reload();
+            }
+        }
+
+        if(is_valid === true){
+            var next_step = parseInt(current_step) + 1;
+
+            $("#step-btn").data("step", next_step);
+            $("#step" + current_step).fadeOut(function(){
+                $("#step" + next_step).fadeIn(function () {
+                    $("#s"+next_step).addClass("on");
                 });
             });
+        }else{
         }
-    });
-
-    //쿠폰 모달 제어
-
-    $("#modal-coupon-close").on("click", function () {
-        $("#coupon_number").val("");
-        $('#payment_method').val('');
-        $("#coupon").removeClass("active");
-        $("#modal-coupon").modal('hide');
-    });
-
-    $("#modal-coupon-verify").on("click", function () {
-
-        var coupon_number = $("#coupon_number").val();
 
 
-        if (coupon_number.length > 9 && coupon_number.length < 21) {
+
+    }
+
+    var smsTempDelete = function (sms_id) {
+        if (sms_id) {
             $.ajax({
-                url: "/order/coupon-verify",
-                type: "post",
-                dataType: "json",
-                data: {'coupon_number': coupon_number, '_token': '{{ csrf_token() }}'},
-                success: function (jdata, textStatus, jqXHR) {
-                    var verify = jdata.status;
-
-                    if (verify === 'ok') {
-                        //인증서 유효성 확인됨.
-
-                        $("#use_coupon_number").val(jdata.coupon_number);
-                        $("#coupon_id").val(jdata.id);
-
-                        $(".coupon-error").css({'color': '#0b4777'});
-                        //인증버튼을 결제처리 버튼으로 변경한다.
-
-                        $("#modal-coupon-verify").attr("disabled", "disabled");
-                        $("#coupon-process").show(0.5);
-
-                    } else {
-                        $(".coupon-error").css({'color': 'red'});
-                        $("#coupon_number").select();
-
-                    }
-                    $(".coupon-error").text(jdata.msg);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    $(".coupon-error").css({'color': 'red'});
-                    $("#coupon_number").focus();
-                    $(".coupon-error").text('쿠폰번호를 확인하지 못하였습니다.');
+                type: 'post',
+                dataType: 'json',
+                url: '/order/delete-sms',
+                data: {'sms_id': sms_id},
+                success: function (jdata) {
+                    $('#modalSms').modal('hide');
                 }
             });
-        } else {
-
-            $(".coupon-error").css({'color': 'red'});
-            $("#coupon_number").focus();
-            $(".coupon-error").text('쿠폰번호를 확인해주세요');
         }
 
-    });
+    };
 
-    //쿠폰 결제 진행
-    $("#coupon-process").on("click", function () {
+    var timeCountdown = function () {
 
-        var use_coupon_number = $("#use_coupon_number").val();
-        var coupon_id = $("#coupon_id").val();
-        if (use_coupon_number && coupon_id) {
-            $("#orderFrm").removeAttr("target");
-            $("#orderFrm").attr("action", "{{ url("order/coupon-process") }}");
-            $("#orderFrm").submit();
-        }
-    });
+        clearInterval(countdown); //countdown 초기화
 
-});
+        var expired = 180;
 
-/**
- * model 이하를 모두 삭제하기
- */
-var delete_models = function(){
-//    alert('model');
-    $("#models").val('');
-    delete_details(); //세부모델 이하 모두 삭제
-
-    $("#collapse3").collapse('hide');
-    $("#model-list li").remove();
-    $("#selected_model").html('');
-};
-/**
- *
- */
-var delete_details = function(){
-//    alert('detail');
-    $("#details").val('');
-    delete_grades(); //등급 관면 모두 삭제
-
-    $("#collapse4").collapse('hide');
-    $("#detail-list li").remove();
-    $("#selected_detail").html('');
-};
-/**
- * grade 관련 내용을 모두 삭제하기
- */
-var delete_grades = function(){
-//    alert('grade');
-    $("#grades").val('');
-    $("#grade-list li").remove();
-
-};
-
-/**
- * 지역 이하 모두 초기화
- */
-var delete_section = function(){
-   $("#sections").val('');
-   delete_garage();
-
-   $("#section-list li").remove();
-};
-
-/**
- * 대리점 정보 모두 초기화
- */
-var delete_garage = function(){
-    $("#garages").val('');
-    $("#bcs-list li").remove();
-};
-
-/**
- * 각 입력폼 확인 및 제어
- * @param current_step int step 단계
- */
-var step_validate = function(current_step){
-
-    var is_valid = false;
-
-    if(current_step == 1){
-        //사용자명
-        if (!$('#orderer_name').val()) {
-            alert('주문자명을 입력하세요.');
-            $('#orderer_name').focus();
-            return;
-        }
-
-        //휴대폰 인증
-        if ($('#sms_id').val() != "1") {
-            alert('휴대전화번호를 확인해주세요.');
-            $('#orderer_mobile').focus();
-            return;
-        }
-
-        // 입고대리점 검사
-        if (!$('#garages').val()) {
-            alert('입고대리점을 선택해주세요.');
-            $("#areas").focus();
-            return;
-        }
-
-        // 입고희망일 검사
-        if (!$('#reservation_date').val()) {
-            alert('예약일을 선택해주세요.');
-            $("#reservation_date").focus();
-            return;
-        }
-
-        is_valid = true;
-
-    }else if(current_step == 2){
-
-        if (car_num_chk($("#car_number").val()) == 1) {
-            alert('차량번호를 정확히 입력해주세요.');
-            $('#car_number').focus();
-            return;
-        }
-
-        // 차량 모델 검사
-        if (!$('#grades').val()) {
-            alert('차량 모델 정보를 선택하세요.');
-            $('#brands').focus();
-            return;
-        }
-        is_valid = true;
-
-    }else if(current_step == 3){ //결제
-
-        if(!$("#payment_price").val()){
-            alert('상품을 선택해 주세요.');
-            return;
-        }
-        if(!$("#payment_method").val()){
-            alert('결제방법을 선택해 주세요.');
-            return;
-        }
-
-        //결제 submit
-        $("#orderFrm").submit();
-    }else{
-        if(confirm('잘못된 접근입니다.\n새로고침 하시겠습니까?')){
-            location.reload();
-        }
-    }
-
-    if(is_valid === true){
-        var next_step = parseInt(current_step) + 1;
-
-        $("#step-btn").data("step", next_step);
-        $("#step" + current_step).fadeOut(function(){
-            $("#step" + next_step).fadeIn(function () {
-                $("#s"+next_step).addClass("on");
-            });
-        });
-    }else{
-    }
+        countdown = setInterval(function () {
+            var sms_id = $("#sms_id").val();
+            var sms_confirmed = $("#sms_confirmed").val();
 
 
+            if (expired == 0) {
+                $("#time-clocks").text(expired);
+                if (!sms_confirmed && sms_id) {
+                    //                         alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요." + expired);
+                    alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요.");
 
-}
+                    smsTempDelete(sms_id);// 인증 번호관련 사항을 삭제함.
+                }
+                clearInterval(countdown);
 
-var smsTempDelete = function (sms_id) {
-    if (sms_id) {
-        $.ajax({
-            type: 'post',
-            dataType: 'json',
-            url: '/order/delete-sms',
-            data: {'sms_id': sms_id},
-            success: function (jdata) {
-                $('#modalSms').modal('hide');
+                $("#mobile-verification").prop('disabled', false); //인증버튼을 다시 풀어줌
+
+                return false;
+            } else {
+                if (!sms_confirmed) {
+                    $("#time-clocks").text(expired);
+                }
             }
-        });
-    }
-
-};
-
-var timeCountdown = function () {
-
-    clearInterval(countdown); //countdown 초기화
-
-    var expired = 180;
-
-    countdown = setInterval(function () {
-        var sms_id = $("#sms_id").val();
-        var sms_confirmed = $("#sms_confirmed").val();
-
-        if (expired == 0) {
-            $("#time-clocks").html(expired);
-            if (!sms_confirmed && sms_id) {
-                //                         alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요." + expired);
-                alert("인증코드 입력시간이 초과했습니다.\nSMS 인증을 다시 시도해 주세요.");
-
-                smsTempDelete(sms_id);// 인증 번호관련 사항을 삭제함.
-            }
-            clearInterval(countdown);
-
-            $("#mobile-verification").prop('disabled', false); //인증버튼을 다시 풀어줌
-
-            return false;
-        } else {
-            if (!sms_confirmed) {
-                $("#time-clocks").html(expired);
-            }
-        }
-        expired--;
-    }, 1000);
-};
+            expired--;
+        }, 1000);
+    };
 
     var car_num_chk = function (car_num) {
         var pattern1 = /\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 12저1234
@@ -1266,7 +1266,7 @@ var timeCountdown = function () {
             disable_product(click_num);
             $(".purchase-item-product").eq(click_num).addClass('active').addClass('purchase-item');
             $("#payment_price").val($('.purchase-item-product').data("price"));
-            $('#item_id').val($('.purchase-item-product').data("index"));
+            $('#item_id').val(num);
         }
 
     }
@@ -1276,7 +1276,9 @@ var timeCountdown = function () {
         $.each($(".purchase-item-product"), function (key, data) {
             if(key != num){
                 $(this).removeClass("purchase-item", function () {
-                    $(this).removeClass("active");
+                    $(this).removeClass("active", function(){
+                        $(this).addClass("disabled-purchase");
+                    });
                 })
 
             }

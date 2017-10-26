@@ -460,6 +460,10 @@
     color: #fff;
 }
 
+.disabled-purchase{
+    text-align: center;padding: 30px 15px;position: relative;border: 2px solid #dadada;
+}
+
 .loader {
     border: 10px solid #f3f3f3;
     border-radius: 50%;

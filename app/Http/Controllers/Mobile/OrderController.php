@@ -186,6 +186,7 @@ class OrderController extends Controller
         $order->purchase_id = $purchase->id;
         $order->save();
 
+
         //order_car 등록
 
         $order_car = new OrderCar();
@@ -243,11 +244,8 @@ class OrderController extends Controller
 
 
         //결제금액을 구함.
-        if ($request->get('payment_price')) {
-            $amt = $request->get('payment_price');//결제금액
-        } else {
-            $error = false;
-        }
+        $amt = $order->item->price;
+
 
         $moid = $order->id;
         //$ediDate, $mid, $merchantKey, $amt

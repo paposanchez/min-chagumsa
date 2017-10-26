@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" href=""/>
     <link rel="apple-touch-startup-image" href="" />
 
-    {{ Html::script(Helper::assets( 'js/app.js' )) }}
+    {{ Html::script(mix( '/assets/js/app.js' )) }}
 
 
 </head>
