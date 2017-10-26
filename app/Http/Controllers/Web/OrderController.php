@@ -69,7 +69,12 @@ class OrderController extends Controller
             '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
         ];
 
-        $garages = UserExtra::whereNotIn('users_id', [4])->orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
+        $garages = UserExtra::whereNotIn('users_id', [4])
+            ->join('users', function ($join) {
+                $join->on('user_extras.users_id', 'users.id')
+                    ->where('users.status_cd', 1);
+            })
+            ->orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->get();
 
 
         return view('web.order.index', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));

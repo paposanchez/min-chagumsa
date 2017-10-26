@@ -57,7 +57,7 @@
                 <div class="row no-margin-bottom">
 
                     <div class="col-xs-4">
-                        <h6 class="text-left">시도</h6>
+                        <h6 class="text-left">시/도</h6>
                         <select class="form-control" size="5" id="areas" name="areas" autocomplete="off"
                                 style="padding:15px !important;">
                             @foreach($areas as $key => $val)
@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="col-xs-4">
-                        <h6 class="text-left">구군</h6>
+                        <h6 class="text-left">구/군</h6>
                         <select class="form-control" size="5" id="sections" name="sections"
                                 style="padding:15px !important;">
                             @foreach($sections as $key => $val)
