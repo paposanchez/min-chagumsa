@@ -74,7 +74,7 @@ class OrderController extends Controller
                 $join->on('user_extras.users_id', 'users.id')
                     ->where('users.status_cd', 1);
             })
-            ->orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->get();
+            ->orderBy(DB::raw('field(area, "서울시")'), 'desc')->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->get();
 
 
         return view('web.order.index', compact('items', 'garages', 'brands', 'exterior_option', 'interior_option', 'safety_option', 'facilities_option', 'multimedia_option', 'user', 'search_fields'));
@@ -729,7 +729,7 @@ class OrderController extends Controller
         $users = \App\Models\Role::find(4)->users;
         $sections = [];
         foreach ($users as $user) {
-            if ($user->user_extra->users_id != 4 && $user->status_cd !=2 && $user->user_extra->area == $request->get('garage_area')) {
+            if ($user->status_cd != 2 && $user->user_extra->users_id != 4 && $user->status_cd !=2 && $user->user_extra->area == $request->get('garage_area')) {
                 $sections[$user->user_extra->section] = $user->user_extra->section;
             }
 
@@ -744,7 +744,7 @@ class OrderController extends Controller
         $users = \App\Models\Role::find(4)->users;
         $garages = [];
         foreach ($users as $user) {
-            if ($user->user_extra->users_id != 4 && $user->status_cd !=2 && $user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
+            if ($user->status_cd != 2 && $user->user_extra->users_id != 4 && $user->status_cd !=2 && $user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
                 $garages[$user->id] = $user->name;
             }
 
