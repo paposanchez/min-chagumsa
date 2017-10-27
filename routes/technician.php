@@ -2,7 +2,7 @@
 // After login
 Route::group(['middleware' => ['auth', 'role:technician']], function () {
 
-
+    //대쉬보드
     Route::get('dashboard', 'DashboardController');
 
     //진단데이터
@@ -16,11 +16,9 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
 
     //주문 관련
     Route::resource('order', 'OrderController');
-
-    Route::resource('notice', 'NoticeController', ['as' => 'technician']);
+    Route::resource('notice', 'NoticeController', ['only' => ['index', 'show']], ['as' => 'technician']);
     Route::get('user/edit', 'UserController@edit')->name('technician.user.edit');
     Route::post('user/update', 'UserController@update')->name('technician.user.update');
-    Route::post('user/pass-update', 'UserController@passUpdate')->name('technician.user.pass-update');
 
     // Avatar
     Route::get('thumbnail/{id?}', '\App\Http\Controllers\Admin\ImageController@thumbnail')->name("thumbnail");
@@ -33,8 +31,6 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
     Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");
     Route::delete('file/delete/{id}', '\App\Http\Controllers\FileController@delete')->name("file/delete");
 });
-
-//Route::get('order/insurance-file-view/{id}', 'TechOrderController@insuranceFileView')->name('order/insurance-file-view');
 
 Route::any('logout', 'Auth\LoginController@logout');
 Route::group(['middleware' => ['guest.admin']], function () {

@@ -213,7 +213,7 @@ return [
         'front_fender_left' => '프론트펜더 좌',
         'front_door_left' => '프론트도어 좌',
         'rear_door_left' => '리어도어 좌',
-        'side_seats_left' => '사이드시트 좌',
+        'side_seats_left' => '사이드실 좌',
         'quarter_panel_left' => '쿼터패널 좌',
     ],
     'exterior_position_center_cd' => [
@@ -225,7 +225,7 @@ return [
         'front_fender_right' => '프론트펜더 우',
         'front_door_right' => '프론트도어 우',
         'rear_door_right' => '리어도어 우',
-        'side_seats_right' => '사이트시트 우',
+        'side_seats_right' => '사이드실 우',
         'quarter_panel_right' => '쿼터패널 우'
     ],
     'interior_position_left_cd' => [
@@ -240,7 +240,6 @@ return [
         'hill_house_rear/left' => '힐하우스 후-좌',
         'hill_house_rear/right' => '힐하우스 후-우',
         'cross_member_front' => '크로스 멤버 전',
-//        'cross_member_back' => '크로스 멤버 후',
         'cross_member_back' => '패키지트레이',
         'side_member_front/left' => '사이드멤버 전-좌',
         'side_member_front/right' => '사이드멤버 전-우',
@@ -258,11 +257,6 @@ return [
     ],
     'part_state_cd' => [
         'good' => '양호',
-//        'replacement' => '교환수리이력',
-//        'welding' => '용접∙판금 수리이력',
-//        'need_repair' => '수리필요(교환/판금)',
-//        'scratch' => '긁힘(상처)',
-//        'corrosion' => '부식',
         'replacement' => '교환수리',
         'welding' => '용접∙판금 수리',
         'need_repair' => '수리필요',

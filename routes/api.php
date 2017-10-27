@@ -5,7 +5,7 @@ Route::get('codes', "CodeController");
 // Route::post('user', "UserController@show");
 Route::post('login', "UserController@login");
 Route::any('logout', "UserController@logout");
-Route::post('password', "UserController@changePassword");
+Route::get('password', "UserController@changePassword");
 
 // 공지사항 목록
 Route::get('notice', "NoticeController@index");

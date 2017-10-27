@@ -2,25 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\Helper;
 use App\Mixapply\Uploader\Receiver;
-use App\Models\Car;
-use App\Models\Certificate;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisFile;
 use App\Models\Order;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Code;
-use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
-use Illuminate\Support\Facades\Redirect;
-use GuzzleHttp\Client;
 use App\Repositories\DiagnosisRepository;
-use Illuminate\Support\Facades\Cache;
-
 use DB;
 
 class DiagnosesController extends Controller
@@ -28,7 +18,6 @@ class DiagnosesController extends Controller
 
     public function index(Request $request)
     {
-
         $where = Order::whereIn('orders.status_cd', [106, 107, 108, 109]);
 
         // 정렬옵션
@@ -45,8 +34,6 @@ class DiagnosesController extends Controller
         if ($status_cd) {
             $where->where('status_cd', $status_cd);
         }
-
-
 
         //기간 검색
         $df = $request->get('df');
@@ -88,8 +75,6 @@ class DiagnosesController extends Controller
             }
         }
 
-
-
         $search_fields = [
             "order_id" => "주문아이디",
             "order_num" => "주문번호",
@@ -106,7 +91,6 @@ class DiagnosesController extends Controller
 //            "reservation" => "예약기간",
 //            "diagnosis" => "진단기간"
         ];
-
 
         //검색어 검색
         $sf = $request->get('sf'); //검색필드

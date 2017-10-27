@@ -2,27 +2,26 @@
 
 namespace App\Http\Controllers\Bcs;
 
-use App\Helpers\Helper;
 use App\Mixapply\Uploader\Receiver;
-use App\Models\Car;
-use App\Models\Certificate;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisFile;
 use App\Models\Order;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Code;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
-use Illuminate\Support\Facades\Redirect;
-use GuzzleHttp\Client;
 use App\Repositories\DiagnosisRepository;
 
 class DiagnosesController extends Controller
 {
-
+    /**
+     * @param Request $request
+     * 진단중 상태인 주문 리스트
+     * 검색조건에 해당되는 주문들을 출력한다.
+     * 예약변경, 에약확정, 진단시작 기능 사용 가능
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $where = Order::orderBy('orders.id', 'DESC')->whereIn('orders.status_cd', [106, 107, 108, 109])->where('garage_id', Auth::user()->id);
@@ -35,37 +34,6 @@ class DiagnosesController extends Controller
         if ($status_cd) {
             $where->where('status_cd', $status_cd);
         }
-
-        //기간 검색
-        $trs = $request->get('trs');
-        $tre = $request->get('tre');
-
-
-//        if ($trs && $tre) {
-//            //시작일, 종료일이 모두 있을때
-//            $where->where(function ($qry) use ($trs, $tre) {
-//                $qry->where("diagnose_at", ">=", $trs)
-//                    ->where("diagnose_at", "<=", $tre);
-//            })->orWhere(function ($qry) use ($trs, $tre) {
-//                $qry->where("diagnosed_at", ">=", $trs)
-//                    ->where("diagnosed_at", "<=", $tre);
-//            });
-//
-//        } elseif ($trs && !$tre) {
-//            //시작일만 있을때
-//            $where->where(function ($qry) use ($trs) {
-//                $qry->where("diagnose_at", ">=", $trs);
-//            })->orWhere(function ($qry) use ($trs) {
-//                $qry->where("diagnosed_at", ">=", $trs);
-//            });
-//        } else if (!$trs && $tre) {
-//            $where->where(function ($qry) use ($tre) {
-//                $qry->where("diagnosed_at", "<=", $tre);
-//            })->orWhere(function ($qry) use ($tre) {
-//                $qry->where("diagnosed_at", "<=", $tre);
-//            });
-//        }
-
 
         //기간 검색
         $trs = $request->get('trs');
@@ -89,7 +57,6 @@ class DiagnosesController extends Controller
                     });
             });
         }
-
 
         //검색어 검색
         $sf = $request->get('sf'); //검색필드
@@ -133,6 +100,11 @@ class DiagnosesController extends Controller
         return view('bcs.diagnosis.index', compact('search_fields', 'entrys', 'search_fields', 'status_cd', 's', 'sf', 'trs', 'tre'));
     }
 
+    /**
+     * @param Int $id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show($id)
     {
         $order = Order::findOrFail($id);
