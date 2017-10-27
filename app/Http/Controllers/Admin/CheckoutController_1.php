@@ -6,7 +6,7 @@ use App\Models\Board;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CheckoutController extends Controller {
+class CheckoutController1 extends Controller {
 
     public function index() {
 

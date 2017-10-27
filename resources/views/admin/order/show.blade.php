@@ -48,7 +48,7 @@
 
                     <h4>주문정보
 
-                        @if($order->status_cd < 106)
+                        @if($order->status_cd != 100 && $order->status_cd < 106)
                             <a class='pull-right text-sm text-danger'
                                href="#" id="cancel-click" data-cancel_order_id="{{ $order->id }}">주문취소</a>
                         @endif
@@ -258,7 +258,7 @@
 
                     <h4 class="">BCS
 
-                        @if($order->status_cd < 108)
+                        @if($order->status_cd != 100 && $order->status_cd < 108)
                             <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
                                data-target="#bcsModal" id="ch_garage">변경</a>
                         @endif
@@ -280,7 +280,7 @@
 
                     <h4 class="">기술사
 
-                        @if($order->status_cd == 108)
+                        @if($order->status_cd != 100 && $order->status_cd == 108)
                             <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
                                data-target="#techModal" id="ch_garage">변경</a>
                         @endif

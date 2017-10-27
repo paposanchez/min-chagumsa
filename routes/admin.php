@@ -58,8 +58,6 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::resource('order', 'OrderController');
 
         // 진단관리
-//
-
         Route::post('/diagnosis/delete-file/{id}', 'DiagnosesController@fileDelete');
         Route::post('/diagnosis/upload-file', 'DiagnosesController@fileUpload');
 
