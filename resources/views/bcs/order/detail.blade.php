@@ -334,11 +334,13 @@
 
                                 <div class="form-group  form-group-lg" style="margin:0px;">
                                     <label class="control-label">시/도</label>
-                                    <input class="form-control" type="text" value="{{ $order->garage->user_extra->area }}" readonly>
+                                    <input class="form-control" type="text"
+                                           value="{{ $order->garage->user_extra->area }}" readonly>
                                 </div>
                                 <div class="form-group  form-group-lg" style="margin:0px;">
                                     <label class="control-label">구/군</label>
-                                    <input class="form-control" type="text" value="{{ $order->garage->user_extra->section }}" readonly>
+                                    <input class="form-control" type="text"
+                                           value="{{ $order->garage->user_extra->section }}" readonly>
                                 </div>
                                 <div class="form-group  form-group-lg {{ $errors->has('garages') ? 'has-error' : '' }}"
                                      style="margin:0px;">
@@ -349,9 +351,10 @@
                                      style="margin:0px;">
                                     <label class="control-label">엔지니어</label>
 
-                                    <select class="form-control" id="engineer" name="engineer" {{ $order->engineer ? $order->engineer->id : '' }}
-                                    @if($order->engineer)
-                                    data-id="{{ $order->engineer->id }}"
+                                    <select class="form-control" id="engineer" name="engineer"
+                                            {{ $order->engineer ? $order->engineer->id : '' }}
+                                            @if($order->engineer)
+                                            data-id="{{ $order->engineer->id }}"
                                             @endif
                                             autocomplete="off">
                                         <option value="0">선택하세요.</option>

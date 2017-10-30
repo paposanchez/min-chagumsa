@@ -10,11 +10,14 @@ use App\Models\Order;
 
 class CalculationController extends Controller
 {
+    /**
+     * @param Request $request
+     * 정산관리 인덱스 페이지
+     * 인증서 발급된 주문에 한해 노출한다.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
-        $search_fields = [
-            "order_num" => "주문번호", "car_number" => "차량번호", 'orderer_name' => '주문자성명', "orderer_mobile" => "주문자 핸드폰번호"
-        ];
         $where = Order::orderBy('orders.id', 'DESC')->whereIn('orders.status_cd', [109]);
 
         $search_fields = [

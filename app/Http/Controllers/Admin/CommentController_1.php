@@ -3,20 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Comment;
-use App\Models\Post;
 use App\Models\Code;
 use App\Models\Board;
-use App\Models\File;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
 
-class CommentController extends Controller {
+class CommentController1 extends Controller {
 
+    /**
+     * @param Request $request
+     * @param int $page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request, $page = 1) {
-
         $yn_list = Code::getCodesByGroup('yn');
         $shown_role_list = Code::getCodesByGroup('post_shown_role');
 
@@ -82,9 +85,7 @@ class CommentController extends Controller {
 
         $upfiles = $request->get("upfile");
         if (count($upfiles) > 0) {
-//            File::query();
         }
-
 
         return redirect()
                         ->route('post.edit', $post->id)

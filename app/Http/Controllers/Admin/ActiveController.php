@@ -15,13 +15,4 @@ class ActiveController extends Controller {
 
         return view('admin.board.index', compact('entrys'));
     }
-
-    public function show(Request $request, $id) {
-        
-    }
-
-    public function create() {
-        
-    }
-
 }

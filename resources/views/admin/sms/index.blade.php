@@ -83,11 +83,9 @@ $(document).ready(function () {
                     'content' : content
                 },
                 success : function (data){
-//                    alert(JSON.stringify(data));
                     alert('문자가 정상적으로 발송되었습니다.');
                 },
                 error : function (data) {
-//                    alert(JSON.stringify(data));
                     alert('전송도중 문제가 발생하였습니다.');
                 }
             })

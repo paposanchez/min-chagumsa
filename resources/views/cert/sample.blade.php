@@ -28,12 +28,10 @@ $(function () {
 
         $(".sample_img").on("click", function(){
                 var id = $(this).data('id');
-                //            $("#sample").attr("src", sample_list[id]);
                 $("#sample").fadeOut(200)
                 .delay(200)
                 .queue(function(next) { $(this).attr("src", sample_list[id]); next(); })
                 .delay(200)
-                //                .fadeIn(200);
                 .slideToggle(200);
         });
 })

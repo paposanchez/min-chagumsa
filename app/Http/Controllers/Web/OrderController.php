@@ -724,6 +724,11 @@ class OrderController extends Controller
         return $item;
     }
 
+    /**
+     * @param Request $request
+     * 정비소 시/군 정보 리스트
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getSection(Request $request)
     {
         $users = \App\Models\Role::find(4)->users;
@@ -739,6 +744,11 @@ class OrderController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * 정비소명 정보 리스트
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAddress(Request $request)
     {
         $users = \App\Models\Role::find(4)->users;
@@ -753,6 +763,11 @@ class OrderController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * 정비소 전체 주소 출력
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getFullAddress(Request $request)
     {
         try {
@@ -770,8 +785,10 @@ class OrderController extends Controller
     }
 
     /**
-     * SMS 전송 메소드
      * @param Request $request
+     * sms 전송 메소드
+     * 핸드폰 인증번호를 전송한다.
+     * todo 나중에 event로 태워야 할 것 같다     * @return string
      */
     public function sendSms(Request $request)
     {
@@ -830,8 +847,9 @@ class OrderController extends Controller
     }
 
     /**
-     * SMS 코드 검증 메소드
      * @param Request $request
+     * SMS 코드 검증 메소드
+     * @return string
      */
     public function isSms(Request $request)
     {
@@ -876,8 +894,9 @@ class OrderController extends Controller
     }
 
     /**
-     * SMS 임시코드 삭제 메소드
      * @param Request $request
+     * SMS 임시코드 삭제 메소드
+     * @return string
      */
     public function deleteSms(Request $request)
     {
@@ -907,8 +926,9 @@ class OrderController extends Controller
 
 
     /**
-     * 쿠폰 번호 검증 메소드
      * @param Request $request
+     * 쿠폰 번호 검증 메소드
+     * @return array
      */
     public function couponVerify(Request $request)
     {
@@ -954,6 +974,12 @@ class OrderController extends Controller
         return $result;
     }
 
+    /**
+     * @param Request $request
+     * 쿠폰 번호 인증 처리
+     * 쿠폰번호가 인증된다면, 주문을 생성한다.
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function couponProcess(Request $request)
     {
         $validate = Validator::make($request->all(), [
@@ -989,11 +1015,9 @@ class OrderController extends Controller
             $garage_info = new UserExtra();
         }
 
-
         $order = new Order();
 
         $order->car_number = $request->get('car_number');
-        //        $order->cars_id = $order_car->id;
         $order->garage_id = $garage_info->users_id;
         $order->orderer_id = $orderer->id;
         $order->orderer_name = $request->get('orderer_name');
@@ -1025,7 +1049,6 @@ class OrderController extends Controller
         $order->purchase_id = $purchase->id;
         $order->save();
 
-
         // order_car 의 orders_id 입력
         $order_car = new OrderCar();
         $order_car->orders_id = $order->id;
@@ -1034,7 +1057,6 @@ class OrderController extends Controller
         $order_car->details_id = $request->get('details');
         $order_car->grades_id = $request->get('grades');
         $order_car->save();
-
 
         // 예약 관련
         $reservation_date = new \DateTime($request->get('reservation_date') . ' ' . $request->get('sel_time') . ':00:00');
@@ -1048,7 +1070,6 @@ class OrderController extends Controller
         $reservation->created_id = $order->orderer_id;
         $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
         $reservation->save();
-
 
         if ($request->get('options_ck') != []) {
             $order_features = OrderFeature::where('orders_id', $order->id)->first();

@@ -2,15 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Mockery\Exception;
-use Illuminate\Support\Facades\Redirect;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Coupon;
@@ -18,8 +12,15 @@ use App\Models\Coupon;
 class CouponController extends Controller
 {
 
+    /**
+     * @param Request $request
+     * 쿠폰 인덱스 페이지
+     * 현재 발행된 쿠폰 리스트를 출력한다.
+     * 새로운 쿠폰을 발행 할 수 있다.
+     * 최소 글자 수는 10글자
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request){
-
         $where = Coupon::orderBy('id', 'DESC');
         $sf = $request->get('sf');
         $s = $request->get('s');
@@ -32,38 +33,47 @@ class CouponController extends Controller
         //기간 검색
         $trs = $request->get('trs');
         $tre = $request->get('tre');
-        if($trs && $tre){
+        if ($trs && $tre) {
             //시작일, 종료일이 모두 있을때
-            $where = $where->where(function($qry) use($trs, $tre){
+            $where->where(function ($qry) use ($trs, $tre) {
                 $qry->where("created_at", ">=", $trs)
-                    ->where("created_at", "<=", $tre);
-            })->orWhere(function($qry) use($trs, $tre){
-                $qry->where("updated_at", ">=", $trs)
-                    ->where("updated_at", "<=", $tre);
+                    ->where("created_at", "<=", $tre)
+                    ->orWhere(function ($qry) use ($trs, $tre) {
+                        $qry->where("updated_at", ">=", $trs)
+                            ->where("updated_at", "<=", $tre);
+                    });
             });
-        }elseif ($trs && !$tre){
+        } elseif ($trs && !$tre) {
             //시작일만 있을때
-            $where = $where->where(function($qry) use($trs){
-                $qry->where("created_at", ">=", $trs);
-            })->orWhere(function($qry) use($trs){
-                $qry->where("updated_at", ">=", $trs);
+            $where->where(function ($qry) use ($trs) {
+                $qry->where("created_at", ">=", $trs)
+                    ->orWhere(function ($qry) use ($trs) {
+                        $qry->where("updated_at", ">=", $trs);
+                    });
             });
         }
 
         $entrys = $where->paginate(25);
 
-
         return view('admin.coupon.index', compact('entrys', 'search_fields', 's', 'sf', 'tre', 'trs'));
     }
 
 
-
+    /**
+     * 쿠폰 생성 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create(){
         return view('admin.coupon.create');
     }
 
+    /**
+     * @param Request $request
+     * 쿠폰 생성 메소드
+     * 새로운 쿠폰을 생성 한다.
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request){
-
         $validate = Validator::make($request->all(), [
             'publish_num' => 'required|int',
             'coupon_kind' => 'required'
@@ -89,7 +99,6 @@ class CouponController extends Controller
             $insert_array[] = $data;
         }
 
-
         $model = new Coupon();
         DB::beginTransaction();
         try{
@@ -101,7 +110,6 @@ class CouponController extends Controller
             DB::rollback();
             return redirect()->back()->with('error', '데이터부하로 쿠폰발행을 실패하였습니다.<br>Exception: '. $e->getMessage());
         }
-
     }
 
     /**
@@ -119,6 +127,11 @@ class CouponController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * 쿠폰사용자에 대한 정보 가져오
+     * @return array
+     */
     public function getUserInfo(Request $request){
         $validate = Validator::make($request->all(), [
             'id' => 'required|int'
@@ -144,6 +157,13 @@ class CouponController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * 쿠폰삭제 메소드
+     * 추후를 위하여 구현
+     * admin사이트에는 구현 안 할 예정
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destory(Request $request){
 
         $validate = Validator::make($request->all(), [

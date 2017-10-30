@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 class TagController extends Controller {
 
     public function index() {
-
         $where = TaggingTag::orderBy('group');
         $entrys = $where->paginate(25);
 

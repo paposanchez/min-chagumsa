@@ -34,14 +34,16 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                 <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_start') }}" name='trs' value='{{ $trs }}'>
+                                       placeholder="{{ trans('common.search.period_start') }}" name='trs'
+                                       value='{{ $trs }}'>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                 <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_end') }}" name='tre' value='{{ $tre }}'>
+                                       placeholder="{{ trans('common.search.period_end') }}" name='tre'
+                                       value='{{ $tre }}'>
                             </div>
                         </div>
                     </div>
@@ -82,14 +84,7 @@
 
                 <table class="table text-middle text-center">
                     <colgroup>
-
                         <col width="5%">
-                        {{--<col width="12%">--}}
-                        {{--<col width="*">--}}
-                        {{--<col width="30%">--}}
-                        {{--<col width="15%">--}}
-                        {{--<col width="8%">--}}
-
                     </colgroup>
 
                     <thead>
@@ -223,12 +218,6 @@
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         alert('사용자 정보 수신을 실패하였습니다.')
-                        /*
-                        console.log("HTTP Request Failed");
-                        console.log(jqXHR);
-                        console.log(textStatus);
-                        console.log(errorThrown);
-                        */
                     }
                 });
             });

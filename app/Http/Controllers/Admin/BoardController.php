@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Board;
-use App\Models\Role;
 use App\Models\Code;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
@@ -11,6 +10,10 @@ use Illuminate\Http\Request;
 
 class BoardController extends Controller {
 
+    /**
+     * 게시판 관리 인덱스 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index() {
         $where = Board::orderBy('id', 'DESC');
         $entrys = $where->paginate(20);
@@ -18,12 +21,21 @@ class BoardController extends Controller {
         return view('admin.board.index', compact('entrys'));
     }
 
+    /**
+     * 게시판 새로 생성 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create() {
         $status_cd_list = Code::whereGroup('yn')->get();
         
         return view('admin.board.create', compact('status_cd_list'));
     }
 
+    /**
+     * @param Request $request
+     * 새로운 개시판 생성
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request) {
 
         $this->validate($request, [
@@ -75,12 +87,25 @@ class BoardController extends Controller {
                         ->with('success', trans('admin/board.created'));
     }
 
+    /**
+     * @param Int $id
+     * 게시판 수정 페이지
+     * 해당 게시판의 seq를 받아와 정보 노출
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id) {
         $board = Board::findorFail($id);
         $status_cd_list = Code::whereGroup('yn')->get();
         return view('admin.board.edit', compact('board', 'status_cd_list'));
     }
 
+    /**
+     * @param Request $request
+     * @param Int $id
+     * 게시판 수정 처리
+     * 해당 게시물의 seq번호를 받아와 해당 게시판 수정
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id) {
 
         $this->validate($request, [
@@ -137,12 +162,18 @@ class BoardController extends Controller {
             'use_thumbnail' => $request->get('use_thumbnail') ? $request->get('use_thumbnail') : 0
         ]);
 
-
         return redirect()
                         ->route('board.edit', $board->id)
                         ->with('success', trans('admin/board.updated'));
     }
 
+    /**
+     * @param Request $request
+     * @param Int $id
+     * 게시판 삭제
+     * 해당 게시판의 seq를 받아와 게시판을 삭제한다.
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Request $request, $id) {
         $board = Board::findOrFail($id);
         $board->delete();

@@ -27,25 +27,6 @@
             <div class="panel-body">
 
                 <form method="GET" class="form-horizontal no-margin-bottom" role="form">
-                    {{--<div class="form-group">--}}
-                        {{--<label class="control-label col-sm-3">{{ trans('admin/order.period') }}</label>--}}
-
-                        {{--<div class="col-sm-3">--}}
-                            {{--<div class="input-group">--}}
-                                {{--<span class="input-group-addon"><i class='fa fa-calendar'></i></span>--}}
-                                {{--<input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"--}}
-                                       {{--placeholder="{{ trans('common.search.period_start') }}" name='trs' value='{{ $trs }}'>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="col-sm-3">--}}
-                            {{--<div class="input-group">--}}
-                                {{--<span class="input-group-addon"><i class='fa fa-calendar'></i></span>--}}
-                                {{--<input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"--}}
-                                       {{--placeholder="{{ trans('common.search.period_end') }}" name='tre' value='{{ $tre }}'>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
                     <div class="form-group">
                         <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
                         <div class="col-sm-3">
@@ -123,7 +104,6 @@
                             <td class=""><a href="/item/{{ $data->id }}/show">{{ $data->id }}</a></td>
                             <td class="text-left">{{ $data->name}}</td>
                             <td class=""><i class="fa fa-won"></i>{{ number_format($data->price) }}</td>
-                        <!-- <td class="">{{ $data->car_sort }}</td> -->
                             <td class="">{{ $data->commission}}%</td>
                             <td class=""><i class="fa fa-won"></i>{{ number_format($data->guarantee) }}</td>
                             <td class=""><i class="fa fa-won"></i>{{ number_format($data->wage) }}</td>
@@ -147,13 +127,7 @@
 
         <div class="row">
 
-            <div class="col-sm-6">
-
-                {{--<a href="" class="btn btn-primary">등록</a>--}}
-
-            </div>
-
-            <div class="col-sm-6 text-right">
+            <div class="col-sm-offset-6 col-sm-6 text-right">
 
             </div>
 
@@ -164,8 +138,8 @@
 
 
 
-@section( 'footer-script' )
+@push( 'footer-script' )
     <script type="text/javascript">
 
     </script>
-@endsection
+@endpush

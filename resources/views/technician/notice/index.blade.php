@@ -102,7 +102,6 @@
                     @foreach($entrys as $n => $data)
                         <tr>
                             <td class="">
-                                {{--{{ $start_num - $n }}--}}
                                 {{ $data->id }}
                             </td>
 
@@ -110,7 +109,6 @@
                                 {{ $data->board->name }}
                             </td>
 
-                            {{--<td class="text-left">--}}
                             <td>
                                 <a href="{{ url("notice", ['id'=> $data->id]) }}">{{ $data->subject }}</a>
                             </td>

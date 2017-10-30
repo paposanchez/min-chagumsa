@@ -11,9 +11,9 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller {
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
+     * 대쉬보드 인덱스 페이지
+     * 최근 1:!문의, 최근 주문 항목, 전체 주문 항목, 인증서 발행 항목 노출
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function __invoke() {
         $lated_inquire = Post::where('board_id', '3')->orderBy('created_at', 'desc')->take(5)->get();   //최근 1:1 문의

@@ -260,7 +260,6 @@ class DiagnosesController extends Controller
 
                 // Save the record to the db
                 $data = DiagnosisFile::create([
-                    //                    'diagnoses_id' => $diagnoses_id,
                     'diagnoses_id' => $diagnoses_id,
                     'original' => $response['result']['original'],
                     'source' => $response['result']['source'],
@@ -270,7 +269,6 @@ class DiagnosesController extends Controller
                 ]);
 
                 $data->save();
-
 
                 // make thumbnail html
                 $file = array(

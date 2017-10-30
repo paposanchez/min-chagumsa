@@ -41,57 +41,6 @@
                         </div>
                     </div>
 
-                    {{--<div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">--}}
-                        {{--<label for="inputPassword" class="control-label col-md-3">{{ trans('bcs/user.password') }}</label>--}}
-                        {{--<div class="col-md-4">--}}
-                            {{--<input type="password" class="form-control" placeholder="{{ trans('bcs/user.password') }}" name="password" id="inputPassword">--}}
-
-                            {{--@if ($errors->has('password'))--}}
-                                {{--<span class="help-block">--}}
-                                {{--{{ $errors->first('password') }}--}}
-                            {{--</span>--}}
-                            {{--@endif--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">--}}
-                        {{--<label for="inputPasswordConfirmation" class="control-label col-md-3">{{ trans('bcs/user.password_confirmation') }}</label>--}}
-                        {{--<div class="col-md-4">--}}
-                            {{--<input type="password" class="form-control" placeholder="{{ trans('bcs/user.password_confirmation') }}" name="password_confirmation" id="inputPasswordConfirmation">--}}
-
-                            {{--@if ($errors->has('password_confirmation'))--}}
-                                {{--<span class="help-block">--}}
-                                {{--{{ $errors->first('password_confirmation') }}--}}
-                            {{--</span>--}}
-                            {{--@endif--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">--}}
-                        {{--<label for="bcs_number" class="control-label col-md-3">{{ trans('bcs/user.bcs_number') }}</label>--}}
-                        {{--<div class="col-md-4">--}}
-                            {{--<p class='form-control-static'>123</p>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-
-
-                    {{--<div class="form-group ">--}}
-                        {{--<label for="inputUserStatus" class="control-label col-md-3">상태</label>--}}
-                        {{--<div class="col-md-3">--}}
-                            {{--<div class="btn-group" data-toggle="buttons">--}}
-                                {{--<label class="btn btn-default">--}}
-                                    {{--<input name="status_cd" autocomplete="off" value="1" type="radio"> 활성--}}
-                                {{--</label>--}}
-                                {{--<label class="btn btn-default">--}}
-                                    {{--<input name="status_cd" autocomplete="off" value="2" type="radio"> 비활성--}}
-                                {{--</label>--}}
-                            {{--</div>--}}
-
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-
                     <div class="form-group {{ $errors->has('mobile') ? 'has-error' : '' }}">
                         <label for="inputMobile" class="control-label col-md-3">{{ trans('bcs/user.mobile') }}</label>
                         <div class="col-md-4">
@@ -151,8 +100,8 @@
 
 @endsection
 
-@section( 'footer-script' )
+@push( 'footer-script' )
     <script type="text/javascript">
 
     </script>
-@endsection
+@endpush
