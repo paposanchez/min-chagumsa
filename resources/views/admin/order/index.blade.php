@@ -181,7 +181,6 @@
                             </td>
 
                             <td class="">
-                                {{--<a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span class="text-muted">{{ number_format($data->item->price) }}원</span></a>--}}
                                 <a href="/item">{{ $data->item->name }} <span class="text-muted">{{ number_format($data->item->price) }}
                                         원</span></a>
                                 <br/>

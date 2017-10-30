@@ -15,7 +15,13 @@ use DB;
 
 class DiagnosesController extends Controller
 {
-
+    /**
+     * @param Request $request
+     * 진단중 상태 이상의 주문 리스트
+     * 검색조건에 해당되는 주문을 출력한다.
+     * 예약변경, 예약확정, 진단시작 기능 사용 가능
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $where = Order::whereIn('orders.status_cd', [106, 107, 108, 109]);
@@ -151,16 +157,30 @@ class DiagnosesController extends Controller
         return view('admin.diagnosis.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 's', 'sf', 'trs', 'tre', 'date_fields', 'request', 'df'));
     }
 
+    /**
+     * @param Request $request
+     * @param Int $id
+     * 진단에 대한 정보 출력
+     * 진단 데이터를 수정 가능하며 사진첨부가 가능
+     * 진단완료 처리가 가능
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show(Request $request, $id)
     {
         $order = Order::findOrFail($id);
 
+        //진단데이터를 레이아웃을 통해 생성
         $handler = new DiagnosisRepository();
         $diagnosis = $handler->prepare($id)->get(true);
 
         return view('admin.diagnosis.detail', compact('diagnosis', 'order'));
     }
 
+    /**
+     * @param Request $request
+     * 진단 항목에 대한 선택값 업데이트
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
     public function updateCode(Request $request)
     {
         $id = $request->get('id');
@@ -172,6 +192,11 @@ class DiagnosesController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * 진단 항목에 대한 코멘트 업데이트
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateComment(Request $request)
     {
         try {
@@ -188,26 +213,19 @@ class DiagnosesController extends Controller
         }
     }
 
-
+    /**
+     * @param Request $request
+     * 진단 항목에 대한 이미지 업로드
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fileUpload(Request $request)
     {
         try {
-
-            // $order_id = $request->get('order_id');
-            // $user_id = $request->get('user_id');
             $diagnoses_id = $request->get('diagnosis_id');
 
-            // if(!$diagnoses_id || !$order_id || !$user_id) {
-            //         throw new Exception('필수 파라미터가 없습니다.');
-            // }
             if (!$diagnoses_id) {
                 throw new Exception('필수 파라미터가 없습니다.');
             }
-
-            // $engineer_check = Order::where('id', $order_id)->where('engineer_id', $request->get('user_id'))->count();
-            // if($engineer_check != 1){
-            //         throw new Exception('접근권한이 없습니다.');
-            // }
 
             // validator
             $uploader_name = 'upfile';
@@ -286,11 +304,14 @@ class DiagnosesController extends Controller
         }
     }
 
-
+    /**
+     * @param Request $request
+     * @param Int $id
+     * 진단 항목에 대한 이미지 삭제
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fileDelete(Request $request, $id)
     {
-
-
         try {
             $file = DiagnosisFile::findOrFail($id);
             // 실제파일 삭제하지않음
@@ -301,10 +322,13 @@ class DiagnosesController extends Controller
 
             return response()->json('error');
         }
-
-
     }
 
+    /**
+     * @param Request $request
+     * 진단완료 처리
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function complete(Request $request)
     {
         try {
@@ -318,37 +342,5 @@ class DiagnosesController extends Controller
             return response()->json($ex->getMessage());
         }
     }
-
-
-    public function edit($id)
-    {
-
-    }
-
-    public function store(Request $request)
-    {
-
-    }
-
-    public function insuranceFile(Request $request)
-    {
-
-    }
-
-    public function insuranceFileView($id)
-    {
-
-    }
-
-    public function history(Request $request)
-    {
-
-    }
-
-    public function update(Request $request, $id)
-    {
-
-    }
-
 
 }
