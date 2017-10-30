@@ -1,20 +1,23 @@
 @if($entry['name'])
         <strong style="display:inline-block; width:100px;">{{ $entry['name']['display'] }}</strong>
 @endif
-
 @if($entry['use_image'] == 1)
     @if($entry['group'] != 2001)
         @foreach($entry['files'] as $file)
-            <a href="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url={{ $file['preview'] }}"
+            <a href="http://image.chagumsa.com/diagnosis/{{ $file['id'] }}-400.png"
                class="diagnosis-thumbnail pull-right"
                data-toggle="lightbox"
                data-title="{{ $file['original'] }}"
-               data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }} | <a href='{{ $file['preview'] }}' target='_blank'>원본보기</a>"
+               @if(strpos(url('/'), "http://cert.") !== false)
+                data-footer=""
+               @else
+                       data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }} | <a href='http://image.chagumsa.com/diagnosis/{{ $file['id'] }}.png' target='_blank'>원본보기</a>"
+               @endif
                data-type="image"
                data-gallery="diagnosis-gallery"
             >
                 <img
-                        src="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url={{ $file['preview'] }}"
+                        src="http://image.chagumsa.com/diagnosis/{{ $file['id'] }}-264.png"
                         class="img-responsive"
                         style="width:30px;height:30px;display:inline-block;">
             </a>

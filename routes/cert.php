@@ -47,7 +47,7 @@ Route::any('/{order_id}/{page?}/{flush?}', function ($order_id, $page = 'summary
         ->whereDay('created_at', '=', \Carbon\Carbon::parse($order_date)->format('j'))->first();
 
 //    if(Auth::user() || $order->status_cd == 1326){
-        if (!in_array($page, ['performance', 'price', 'history', 'summary'])) {
+        if (!in_array($page, ['performance', 'price', 'history', 'summary', 'mobile-summary', 'mobile-price'])) {
             throw new Exception('인증서가 존재하지 않습니다.');
         }
 

@@ -3,8 +3,8 @@
 @section( 'content' )
 
     <ul class='report_menu_wrap'>
-        <li class=''><a href='cert_report1.html'>자동차 인증서</a></li>
-        <li class='select'><a href='cert_report2.html'>가격산정서</a></li>
+        <li class=''><a href='{{ url($order->car_number.'-'.\App\Models\Order::find($order->id)->created_at->format('ymd').'/mobile-summary') }}'>자동차 인증서</a></li>
+        <li class='select'><a href='{{ url($order->car_number.'-'.\App\Models\Order::find($order->id)->created_at->format('ymd').'/mobile-price') }}'>가격산정서</a></li>
     </ul>
 
     <div class='br20'></div>
