@@ -220,8 +220,8 @@
 .cert_box_cont {padding:20px 25px;box-sizing:border-box;overflow:hidden; background:#fff;}
 .cert_box_cont_img {float:left;}
 .cert_box_cont_info {float:left;}
-.cert_box_cont_info ul {padding:0 0 0 20px;width:340px;box-sizing:border-box;border-right:1px solid #efefef;}
-.cert_box_cont_info ul li {padding:4px 0px; letter-spacing:-1px;}
+.cert_box_cont_info ul {padding:0 0 0 20px;width:320px;box-sizing:border-box;border-right:1px solid #efefef;}
+.cert_box_cont_info ul li {padding:7px 0px; letter-spacing:-1px;}
 .cert_box_cont_info ul li label {display:inline-block;font-weight: 400;color:#999;width:95px;}
 .cert_box_cont_info ul li span {display:inline-block;color:#0b4777;}
 .cert_box_cont_result {float:left;width:250px;}
