@@ -14,7 +14,7 @@
     <div id='sub_wrap'>
 
         <div class='ipt_line'>
-            <button class='btns btns_navy' style='display:inline-block;'>목록</button>
+            <button class='btns btns_navy' style='display:inline-block;' id="list"  data-url="{{ route('mobile.'.$board_namespace.'.index') }}">목록</button>
         </div>
 
     </div>
@@ -28,5 +28,12 @@
 
 @push( 'footer-script' )
 
+<script type="text/javascript">
+    $(function () {
+        $("#list").on("click", function () {
+            location.href = $(this).data("url");
+        })
+    })
+</script>
 
 @endpush
