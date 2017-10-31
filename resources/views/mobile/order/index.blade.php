@@ -107,7 +107,7 @@
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD"
                                    placeholder="{{ trans('web/order.reservation_date') }}" name='reservation_date'
-                                   id="reservation_date" value='' style="margin-right: 5px;">
+                                   id="reservation_date" value='' style="margin-right: 5px;" readonly="true">
 
                         </div>
                         <div style='width:30%;'>
@@ -1248,6 +1248,8 @@
                 weekdays: '월요일.화요일.수요일.목요일.금요일.토요일.일요일'.split('.'),
                 weekdaysShort: '일.월.화.수.목.금.토.'.split('.')
             },
+            ignoreReadOnly: true,
+            allowInputToggle: true
         };
 
         if ($(this).data('format')) {
