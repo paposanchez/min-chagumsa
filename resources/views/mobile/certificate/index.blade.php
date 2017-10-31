@@ -18,7 +18,7 @@
         @foreach($orders as $key => $order)
         <div class='cert_list_box{{($order->certificates->isExpired())? " expire": ''}}'>
                     <div class='cert_box_head'>
-                <a href=''><div>{{ $order->getOrderNumber() }}</div></a>
+                <a href='http://cert.chagumsa.com/{{ $order->car_number }}-{{ \App\Models\Order::find($order->id)->created_at->format('ymd')}}/mobile-summary'><div>{{ $order->getOrderNumber() }}</div></a>
             </div>
             <div class='cert_box_cont'>
                 <div class='cert_box_cont_img thumbnail'>
@@ -58,10 +58,12 @@
                     </label>
                 </div>
                 <div class='cert_detail'>
-                    <button class='btn btn-default fa fa-search detail' id="certi-view"  data-car_number="{{ $order->car_number }}"
-                            data-datekey="{{ \App\Models\Order::find($order->id)->created_at->format('ymd')}}">
+                    <a class='btn btn-default fa fa-search' id="certi-view"
+                       href="http://cert.chagumsa.com/{{ $order->car_number }}-{{ \App\Models\Order::find($order->id)->created_at->format('ymd')}}/mobile-summary"
+
+                    >
                         상세보기
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -120,9 +122,6 @@
 
         });
 
-        $("#certi-view").on("click", function () {
-            var page = "mobile-mu"
-        })
 
     });
 </script>
