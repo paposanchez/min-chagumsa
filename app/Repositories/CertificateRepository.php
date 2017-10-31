@@ -41,7 +41,7 @@ class CertificateRepository {
                 ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
                 ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
                 ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'))
-                ->where('open_cd', 1326)
+//                ->where('open_cd', 1326)
                 ->orderBy('id', 'DESC')
                 ->first();
 
