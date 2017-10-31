@@ -14,7 +14,7 @@ class NoticeController extends PostController {
     protected $view_path = 'web.community.notice.';
 
     /**
-     *
+     * 공지사항 인덱스 페이지
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(){
@@ -25,6 +25,12 @@ class NoticeController extends PostController {
         return view($this->view_path . 'index', compact('entrys', 'board_namespace', 'start_num'));
     }
 
+    /**
+     * @param Int $id
+     * 공지사항 상세보기 페이지
+     * 공지사항의 seq를 이용하여 기존 정보 노출
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show($id)
     {
         $parent = parent::show($id);
@@ -50,8 +56,6 @@ class NoticeController extends PostController {
         if(!$files){
             $files = [];
         }
-
-
 
         return view($this->view_path . 'show', compact('data', 'board_namespace', 'prev', 'next', 'files'));
     }

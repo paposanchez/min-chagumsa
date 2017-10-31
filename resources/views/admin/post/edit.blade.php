@@ -101,7 +101,7 @@
                         <label for="inputEmail" class="control-label col-md-3">{{ trans('admin/post.email') }}</label>
                         <div class="col-md-4">
                             <input type="email" class="form-control" placeholder="{{ trans('admin/post.email') }}"
-                                   name="email" id="inputEmail" value="{{ $post->email }}">
+                                   name="email" id="inputEmail" value="{{ \Illuminate\Support\Facades\Auth::user()->email }}">
 
                             @if ($errors->has('email'))
                                 <span class="help-block">

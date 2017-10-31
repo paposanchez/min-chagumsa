@@ -37,12 +37,20 @@ class OrderController extends Controller
     protected $merchantKey;//상점키
     protected $mid;//상점id
 
+    /**
+     * OrderController constructor.
+     */
     public function __construct()
     {
         $this->merchantKey = env('PG_KEY');
         $this->mid = env('PG_ID');
     }
 
+    /**
+     * @param Request $request
+     * 주문 신청 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $user = Auth::user();
@@ -203,7 +211,6 @@ class OrderController extends Controller
         $buyerName = $request->get('orderer_name');
         $buyerEmail = $orderer->email;
         $buyerTel = $request->get('orderer_mobile');
-        //        $product_name = $order->car_number . " " . $order->getCarFullName();
         $product_name = $order->item->name;
         $mid = $this->mid;
         $merchantKey = $this->merchantKey;
@@ -214,6 +221,11 @@ class OrderController extends Controller
         );
     }
 
+    /**
+     * 결제완료 저장 메소드
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function paymentResult(Request $request)
     {
         //webTx에서 받은 결과값들
@@ -423,6 +435,7 @@ class OrderController extends Controller
     /**
      * 결제 callback action. purchase에서 처리 에러가 발생시 콜백을 통하여 처리 가능함.
      * @param Request $request
+     * @return string
      */
     public function payResult(Request $request)
     {
@@ -589,19 +602,18 @@ class OrderController extends Controller
                 ]);
             }
         }
-        //todo 맞는건지 확인 필요
-        event(new SendSms());
+
         return \GuzzleHttp\json_encode(['result' => 'ok']);
     }
 
+    /**
+     * 주문완료 페이지
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function complete(Request $request)
     {
-        //todo 결제정보에서 데이터를 request로 받는다는 전제하에 작성
-        // $moid 주문번호
-        //todo 예약일자를 받아와야한다
-
         $order = Order::where('id', $request->get('orders_id'))->first();
-        // ->where("status_cd", 102)
         if (!$order) {
             return redirect("/order")->with("error", "잘못된 접근 또는 결제가 정상 처리되지 못하였습니다. 관리자에게 문의해 주세요.");
         }
@@ -617,12 +629,14 @@ class OrderController extends Controller
         //주문정보 갱신함.
         $reservation = $order->reservation;
 
-
-
         return view('web.order.complete', compact('order', 'reservation', 'is_coupon', 'coupon_kind'));
     }
 
-
+    /**
+     * 주문취소 콜백 메소드
+     * @param Request $request
+     * @return string
+     */
     public function orderCancelCallback(Request $request)
     {
 
@@ -697,6 +711,11 @@ class OrderController extends Controller
 
     }
 
+    /**
+     * 차량 모델 조회 메소드
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getModels(Request $request)
     {
         $brand_id = $request->get('brand');
@@ -704,6 +723,11 @@ class OrderController extends Controller
         return $models;
     }
 
+    /**
+     * 차량 세부모델 조회 메소드
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getDetails(Request $request)
     {
         $model_id = $request->get('model');
@@ -711,6 +735,11 @@ class OrderController extends Controller
         return $details;
     }
 
+    /**
+     * 차량 등급 조회 메소드
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getGrades(Request $request)
     {
         $detail_id = $request->get('detail');
@@ -718,6 +747,11 @@ class OrderController extends Controller
         return $grades;
     }
 
+    /**
+     * 아이템 getter
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     */
     public function selItem(Request $request)
     {
         $item = Item::find($request->get('sel_item'));
@@ -739,9 +773,7 @@ class OrderController extends Controller
             }
 
         }
-
         return response()->json(array_keys($sections));
-
     }
 
     /**

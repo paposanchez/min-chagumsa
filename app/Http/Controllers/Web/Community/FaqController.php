@@ -17,6 +17,10 @@ class FaqController extends PostController {
     protected $config;
     protected $view_path = 'web.community.faq.';
 
+    /**
+     * faq 인덱스 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(){
         $category_id = Input::get('category_id');
         if(!$category_id){

@@ -32,10 +32,23 @@ use ResetsPasswords;
         $this->middleware('guest');
     }
 
+    /**
+     * @param Request $request
+     * @param null $token
+     * 비밀번호 변경 페이지
+     * 토근을 생성하여 가져간다
+     * @return $this
+     */
     public function showResetForm(Request $request, $token = null) {
         return view('web.auth.passwords.reset-form')->with(['token' => $token]);
     }
 
+    /**
+     * @param Request $request
+     * 비밀번호 변경 처리
+     * 비밀번호를 변경하고 home으로 이동한다
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function reset(Request $request){
         $user = User::where('email', $request->email)->first();
         $user->password = bcrypt($request->get('password'));

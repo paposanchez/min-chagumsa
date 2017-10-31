@@ -8,8 +8,11 @@ use App\Models\Item;
 
 class InformationController extends Controller {
 
+    /**
+     * 신청절차 및 수수료 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function price(){
-
         $item = Item::OrderBy('car_sort', 'ASC')->orderBy('price', 'ASC')->get();
 
         $local_cnt = 0;
@@ -21,7 +24,6 @@ class InformationController extends Controller {
                 $forein_cnt++;
             }
         }
-
 
         $is_local = false;
         $is_for = false;

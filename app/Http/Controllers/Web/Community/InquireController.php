@@ -21,6 +21,10 @@ class InquireController extends PostController
     protected $config;
     protected $view_path = 'web.community.inquire.';
 
+    /**
+     * 로그인 정보 validate
+     * InquireController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -28,12 +32,15 @@ class InquireController extends PostController
         parent::__construct();
     }
 
+    /**
+     * 1:1문의 인덱스 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $user = Auth::user();
 
         $where = Post::whereBoardId($this->board_id)->where('user_id', $user->id)
-//            ->where('is_shown', 6)
             ->orderBy('id', 'desc');
 
         $entrys = $where->paginate($this->num_of_page);
@@ -42,9 +49,12 @@ class InquireController extends PostController
 
         $start_num = \App\Helpers\Helper::getStartNum($entrys);
         return view($this->view_path . 'index', compact('entrys', 'board_namespace', 'start_num', 'user'));
-
     }
 
+    /**
+     * 1:1 문의하기 새글작성 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         $user = Auth::user();
@@ -53,6 +63,11 @@ class InquireController extends PostController
         return view($this->view_path . 'create', compact('board_namespace', 'user'));
     }
 
+    /**
+     * @param Int $id
+     * 1:1문의 상세보기
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function show($id)
     {
         $user = Auth::user();
@@ -69,9 +84,13 @@ class InquireController extends PostController
         return view($this->view_path . 'show', compact('data', 'board_namespace', 'files', 'user'));
     }
 
+    /**
+     * @param Request $request
+     * 1:1문의 저장 메소드
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
-
         $this->validate($request, [
             'subject' => 'required|min:1',
             'content' => 'required|min:1',
@@ -98,6 +117,12 @@ class InquireController extends PostController
         return redirect()->route('inquire.index')->with('success', '1:1문의가 등록되었습니다.');
     }
 
+    /**
+     * @param Int $id
+     * 1:1 문의 수정 페이지
+     * 게시물 번호를 이용하여 기존의 게시물 정보를 노출
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function edit($id)
     {
         $user = Auth::user();
@@ -113,6 +138,12 @@ class InquireController extends PostController
         return view($this->view_path . 'edit', compact('data', 'board_namespace', 'files', 'user'));
     }
 
+    /**
+     * @param Request $request
+     * @param Int $id
+     * 1:1문의 수정 메소드
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
 
@@ -148,13 +179,15 @@ class InquireController extends PostController
         return redirect()
             ->route('inquire.show', [$data->id])
             ->with('success', '1:1문의가 수정되었습니다.');
-
-
     }
 
+    /**
+     * @param Int $id
+     * 1:1 문의 삭
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
-
         $data = Post::findOrFail($id);
 
         $user = Auth::user();
@@ -172,8 +205,6 @@ class InquireController extends PostController
         return redirect()
             ->route('inquire.index')
             ->with('success', '삭제되었습니다.');
-
-
     }
 
 
