@@ -36,17 +36,19 @@ Route::get('/thumbnail/{id?}', function ($id) {
 });
 Route::any('/{order_id}/{page?}/{flush?}', function ($order_id, $page = 'summary', $flush = '') {
 
+    list($car_number, $order_date) = explode('-',$order_id);
 
-//    try{
-    list($car_number, $datekey) = explode("-", $order_id);
-    $order_date = \Carbon\Carbon::createFromFormat('ymd', $datekey);
+    $order_date = Carbon::createFromFormat('ymd', $order_date);
 
-    $order = \App\Models\Order::where('car_number', $car_number)
-        ->whereYear('created_at', '=', \Carbon\Carbon::parse($order_date)->format('Y'))
-        ->whereMonth('created_at', '=', \Carbon\Carbon::parse($order_date)->format('n'))
-        ->whereDay('created_at', '=', \Carbon\Carbon::parse($order_date)->format('j'))->first();
+    $order =  Order::whereIn("status_cd",[108, 109])
+        ->where('car_number', $car_number)
+        ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
+        ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
+        ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'))
+        ->orderBy('id', 'DESC')
+        ->first();
 
-    if(Auth::user() || $order->status_cd == 1326){
+    if($order->status_cd == 1326 || Auth::user()){
         if (!in_array($page, ['performance', 'price', 'history', 'summary'])) {
             throw new Exception('인증서가 존재하지 않습니다.');
         }
