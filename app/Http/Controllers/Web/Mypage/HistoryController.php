@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 class HistoryController extends Controller {
 
+
     public function index() {
 
         $where = ActivityLog::orderBy('id');

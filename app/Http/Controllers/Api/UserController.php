@@ -194,6 +194,7 @@ class UserController extends ApiController
      */
     public function changePassword(Request $request)
     {
+<<<<<<< HEAD
         try {
             $user_id = $request->get('user_id');
             $password = $request->get('password');
@@ -204,15 +205,33 @@ class UserController extends ApiController
                 if ($user->status->name != 'active') {
 //                                        return abort(401, trans('auth.status.unauthorized'));
                     return response()->json('false');
+=======
+
+        try {
+
+            if (Auth::attempt(['id' => $request->get('engineer_id'), 'password' => $request->get('password')])) {
+                $user = Auth::user();
+
+                if ($user->status->name != 'active') {
+                    return abort(401, trans('auth.status.unauthorized'));
+>>>>>>> origin/clear
                 }
 
                 // 앱에서 로그인 정보 갱신
                 $user->update([
+<<<<<<< HEAD
                     'password' => bcrypt($password_new),
                     'updated_at' => Carbon::now()
                 ]);
 //                                return response()->json($user);
                 return response()->json('true');
+=======
+                    'password' => bcrypt($request->get('password_new')),
+                    'updated_at' => Carbon::now()
+                ]);
+
+                return response()->json($user);
+>>>>>>> origin/clear
             }
 
             return abort(404, trans('auth.not-found'));

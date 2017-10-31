@@ -11,9 +11,10 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
+     * 대쉬보드 페이지
+     * 최근 5개의 게시물을 보여줌
+     * 최근 진단완료, 최근 인증서 발급, 최근 공지사항
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function __invoke() {
 

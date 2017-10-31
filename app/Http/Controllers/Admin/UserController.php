@@ -16,10 +16,15 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
+    /**
+     * @param Request $request
+     * 회원 관리 인덱스 페이지
+     * 전체 회원을 관리하는 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $where = User::orderBy('id', 'DESC');
-
         $role_cd = $request->get('role_cd');
 
         $search_fields = [
@@ -43,6 +48,11 @@ class UserController extends Controller
         return view('admin.user.index', compact('entrys', 'search_fields', 'sf', 's', 'role_cd'));
     }
 
+    /**
+     * 회원 생성 페이지
+     * 각자의 역할을 가진 회원을 생성 할 수 있다.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         $roles = Role::getArrayByNameNotMember();
@@ -57,6 +67,11 @@ class UserController extends Controller
         return view('admin.user.create', compact('roles', 'status_cd_list', 'garages', 'aliances'));
     }
 
+    /**
+     * @param Request $request
+     * 회원 생성 메소드
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
 
@@ -109,24 +124,31 @@ class UserController extends Controller
             ->with('success', trans('admin/user.created'));
     }
 
+    /**
+     * @param Int $id
+     * 회원 수정 페이지
+     * 회원의 seq번호를 이용하여 회원정보 노출
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id)
     {
-
         $user = User::findorFail($id);
-
         $status_cd_list = Code::whereGroup('user_status')->get();
-
         $roles = Role::getArrayByName();
-
         $aliances = Role::find(3)->users->pluck('name', 'id');
-
         $garages = Role::find(4)->users;
-
         $userRole = $user->roles->pluck('id', 'name')->toArray();
 
         return view('admin.user.edit', compact('user', 'roles', 'userRole', 'status_cd_list', 'garages', 'aliances'));
     }
 
+    /**
+     * @param Request $request
+     * @param Int $id
+     * 회원 정보 수정 메소드
+     * 회원의 seq번호를 이용하여 회원정보 수정
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
@@ -163,12 +185,10 @@ class UserController extends Controller
             $input = array_except($input, array('password'));
         }
 
-
         $user = User::findOrFail($id);
         $user->update($input);
 
-
-        // 롤갱신
+        // 역할 갱신
         if ($user->id != 1) {
             DB::table('role_user')->where('user_id', $id)->delete();
             foreach ($input['roles'] as $key => $value) {
@@ -176,9 +196,7 @@ class UserController extends Controller
             }
         }
 
-
         $user->user_extra->update($input);
-
 
         // 아바타 변경
         if ($request->file('avatar')) {
@@ -192,9 +210,17 @@ class UserController extends Controller
             ->with('success', trans('admin/user.updated'));
     }
 
-    //todo 계정삭제에 대한 정책이 필요하므로 일단은 삭제코드를 그대로 둔다.
+    /**
+     * @param Request $request
+     * @param Int $id
+     * 회원 삭제 메소드
+     * 회원의 seq를 이용하여 회원의 정보를 삭제
+     * 계정삭제에 대한 정책이 없으므로 현재 비활성으로 대체 중
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Request $request, $id)
     {
+        //todo 계정삭제에 대한 정책이 필요하므로 일단은 삭제코드를 그대로 둔다.
         $user = User::findOrFail($id);
 
         // 회원일때
@@ -220,6 +246,12 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * 정비소 리스트 호출 메소드
+     * 엔지니어 선택시 설정 가능한 BCS 리스트 호출 메소드
+     * @return string
+     */
     public function searchGarage(Request $request)
     {
         $garages = User::where('name', 'like', '%' . $request->get('garage_name') . '%')

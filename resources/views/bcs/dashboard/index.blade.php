@@ -115,15 +115,15 @@
 @endsection
 
 @push( 'footer-script' )
-<script type="text/javascript">
-    $(function () {
-        $(".more-click").on("click", function () {
-            var link = $(this).data("url");
-            if (link) {
-                location.href = link;
-            }
-        });
+    <script type="text/javascript">
+        $(function () {
+            $(".more-click").on("click", function () {
+                var link = $(this).data("url");
+                if (link) {
+                    location.href = link;
+                }
+            });
 
-    });
-</script>
+        });
+    </script>
 @endpush

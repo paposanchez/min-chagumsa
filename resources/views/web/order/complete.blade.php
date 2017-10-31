@@ -68,7 +68,8 @@
                     <strong class="text-light text-md">예약정보</strong>
                     <div class="block bg-white">
                         <ul>
-                            <li><strong class="text-light text-muted">예약상태</strong> <span>{{ $order->status->display() }}</span>
+                            <li><strong class="text-light text-muted">예약상태</strong>
+                                <span>{{ $order->status->display() }}</span>
                             </li>
                             <li><strong class="text-light text-muted">입고예정일</strong>
                                 <span>{{ $reservation->reservation_at->format('Y년 m월 d일') }}</span></li>
@@ -81,7 +82,6 @@
 
 
             <p class="text-center" style="margin-bottom:30px;">
-                {{--<button type="button" class='btn btn-default btn-lg'>새로운 주문하기</button>--}}
                 <a class="btn btn-default btn-lg" href="/order">새로운 주문하기</a>
                 <a class='btn btn-default btn-lg' href="/mypage/order/change-reservation/{{ $order->id }}">예약 변경하기</a>
                 <button type="button" class='btn btn-primary btn-lg' id="mypage">주문 상세보기</button>
@@ -97,16 +97,16 @@
 @endpush
 
 @push( 'footer-script' )
-<script type="text/javascript">
-    $(function () {
-        $('#home').click(function () {
-            location.href = '/';
-        });
+    <script type="text/javascript">
+        $(function () {
+            $('#home').click(function () {
+                location.href = '/';
+            });
 
-        $('#mypage').click(function () {
-            location.href = '{{ route('mypage.order.show', ['order_id' => $order->id]) }}';
+            $('#mypage').click(function () {
+                location.href = '{{ route('mypage.order.show', ['order_id' => $order->id]) }}';
+            });
         });
-    });
-</script>
+    </script>
 
 @endpush

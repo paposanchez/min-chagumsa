@@ -11,12 +11,20 @@ use Illuminate\Http\Request;
 
 class SmsController extends Controller
 {
+    /**
+     * sms 전송 인덱스 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(){
         return view('admin.sms.index');
     }
 
+    /**
+     * @param Request $request
+     * sms 전송 메소드
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sendSms(Request $request){
-        //$tr_senddate, $tr_phone, $tr_callback, $tr_msg, $tr_sendstat=0, $tr_msgtype=1
         try{
             $content = $request->get('content');
 
@@ -31,6 +39,11 @@ class SmsController extends Controller
         }
     }
 
+    /**
+     * BCS 정비소 전화번호 호출 메소드
+     * 정비소 역할을 가진 유저의 전화번호를 노출
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function totalBcs(){
         $garages = Role::find(4)->users;
         $bcs_numbers = [];

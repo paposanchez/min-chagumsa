@@ -24,26 +24,33 @@
                         <div class="col-sm-9">
                             <div class="btn-group" data-toggle="buttons">
                                 <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }} 전체
+                                    {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }}
+                                    전체
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 100 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 100, \App\Helpers\Helper::isCheckd(100, $status_cd), ['name' => 'status_cd']) }} 주문취소
+                                    {{ Form::radio('status_cd', 100, \App\Helpers\Helper::isCheckd(100, $status_cd), ['name' => 'status_cd']) }}
+                                    주문취소
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 102 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 102, \App\Helpers\Helper::isCheckd(102, $status_cd), ['name' => 'status_cd']) }} 주문완료
+                                    {{ Form::radio('status_cd', 102, \App\Helpers\Helper::isCheckd(102, $status_cd), ['name' => 'status_cd']) }}
+                                    주문완료
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 103 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 103, \App\Helpers\Helper::isCheckd(103, $status_cd), ['name' => 'status_cd']) }} 예약확인
+                                    {{ Form::radio('status_cd', 103, \App\Helpers\Helper::isCheckd(103, $status_cd), ['name' => 'status_cd']) }}
+                                    예약확인
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 104 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 104, \App\Helpers\Helper::isCheckd(104, $status_cd), ['name' => 'status_cd']) }} 입고대기
+                                    {{ Form::radio('status_cd', 104, \App\Helpers\Helper::isCheckd(104, $status_cd), ['name' => 'status_cd']) }}
+                                    입고대기
                                 </label>
 
                                 <label class="btn btn-default {{ $status_cd == 106 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 106, \App\Helpers\Helper::isCheckd(106, $status_cd), ['name' => 'status_cd']) }} 진단중
+                                    {{ Form::radio('status_cd', 106, \App\Helpers\Helper::isCheckd(106, $status_cd), ['name' => 'status_cd']) }}
+                                    진단중
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 107 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 107, \App\Helpers\Helper::isCheckd(107, $status_cd), ['name' => 'status_cd']) }} 진단완료
+                                    {{ Form::radio('status_cd', 107, \App\Helpers\Helper::isCheckd(107, $status_cd), ['name' => 'status_cd']) }}
+                                    진단완료
                                 </label>
                             </div>
                         </div>
@@ -56,14 +63,16 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                 <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_start') }}" name='trs' value='{{ $trs }}'>
+                                       placeholder="{{ trans('common.search.period_start') }}" name='trs'
+                                       value='{{ $trs }}'>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                 <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_end') }}" name='tre' value='{{ $tre }}'>
+                                       placeholder="{{ trans('common.search.period_end') }}" name='tre'
+                                       value='{{ $tre }}'>
                             </div>
                         </div>
                     </div>
@@ -166,7 +175,8 @@
                             </td>
 
                             <td class="">
-                                {{ $data->item->name }} <span class="text-muted">{{ number_format($data->item->price) }}원</span>
+                                {{ $data->item->name }} <span class="text-muted">{{ number_format($data->item->price) }}
+                                    원</span>
                                 <br/>
                                 <small class="text-warning">{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
                             </td>
@@ -203,7 +213,9 @@
                                 @endif
 
                                 @if( $data->status_cd == 104 )
-                                    <button type="button" class="btn btn-success diagnosing" id="diagnosing" data-order_id="{{ $data->id }}">진단시작</button>
+                                    <button type="button" class="btn btn-success diagnosing" id="diagnosing"
+                                            data-order_id="{{ $data->id }}">진단시작
+                                    </button>
                                 @endif
 
                                 <a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip"
@@ -220,10 +232,6 @@
 
 
         <div class="row">
-            {{--<div class="col-sm-6">--}}
-                {{--<a href="/test" class="btn btn-info">테스트 주문생성</a>--}}
-            {{--</div>--}}
-
 
             <div class="col-sm-6 text-right">
                 @if($status_cd)
@@ -319,9 +327,10 @@
 
 
                         <div class="form-group form-group-lg" style="margin:0px;">
-                            <label class="control-label"  style="margin-bottom: 10px;">엔지니어 선택</label>
+                            <label class="control-label" style="margin-bottom: 10px;">엔지니어 선택</label>
                             <br>
-                            <select class="form-control select2" id="engineer" name="engineer" id="select2" autocomplete="off" style="width: 100%;">
+                            <select class="form-control select2" id="engineer" name="engineer" id="select2"
+                                    autocomplete="off" style="width: 100%;">
                                 @foreach($engineers as $key => $val)
                                     <option value="{{ $key }}">{{ $val }}</option>
                                 @endforeach
@@ -350,104 +359,100 @@
 @push( 'footer-script' )
     <script src="{{ Helper::assets( 'vendor/select2/js/select2.full.min.js' ) }}"></script>
     <script src="{{ Helper::assets( 'vendor/select2/js/i18n/ko.js' ) }}"></script>
-<script type="text/javascript">
-    $(function () {
+    <script type="text/javascript">
+        $(function () {
 
-        $(document).on('click', '.changeReservationModalOpen', function (e) {
-            e.preventDefault();
-            var d = $(this).data("date");
-            var t = $(this).data("time");
-            var order_id = $(this).data('order_id');
-            var order_number = $(this).data("order_number");
-            $("#datepickerReservation").val(d);
-            $("#datepickerReservationTime").val(t);
-            $("#order_id").val(order_id);
-            $("#order_number").html(order_number);
-            $("#changeReservationModal").modal();
+            $(document).on('click', '.changeReservationModalOpen', function (e) {
+                e.preventDefault();
+                var d = $(this).data("date");
+                var t = $(this).data("time");
+                var order_id = $(this).data('order_id');
+                var order_number = $(this).data("order_number");
+                $("#datepickerReservation").val(d);
+                $("#datepickerReservationTime").val(t);
+                $("#order_id").val(order_id);
+                $("#order_number").html(order_number);
+                $("#changeReservationModal").modal();
 
-        });
+            });
 
-        $(document).on('click', '.confirmReservation', function (e) {
-            var $obj = $(this);
-            var order_id = $(this).data("order_id");
+            $(document).on('click', '.confirmReservation', function (e) {
+                var $obj = $(this);
+                var order_id = $(this).data("order_id");
 
-            if (confirm("해당 주문의 예약일자를 확정하시겠습니까?")) {
+                if (confirm("해당 주문의 예약일자를 확정하시겠습니까?")) {
+                    $.ajax({
+                        url: '/order/confirmation/' + order_id,
+                        type: 'post',
+                        data: {
+                            order_id: order_id
+                        },
+                        success: function (data) {
+                            $obj.parent().find('.changeReservationModalOpen').remove();
+                            $obj.parent().find('.confirmReservation').remove();
+                            location.href = '/order';
+                        },
+                        error: function (data) {
+                            alert('문제가 발생하엿습니다. 관리자에게 문의 바랍니다.');
+                        }
+                    })
+                } else {
+                    return false;
+                }
+            });
+
+            $('#reservation_change').click(function () {
+                var date = $("#datepickerReservation").val();
+                var time = $("#datepickerReservationTime").val();
+                var order_id = $("#order_id").val();
+
+
                 $.ajax({
-                    url: '/order/confirmation/' + order_id,
                     type: 'post',
+                    url: '/order/reservation_change',
                     data: {
-                        order_id: order_id
+                        'order_id': order_id,
+                        'date': date,
+                        'time': time
                     },
                     success: function (data) {
-//                        alert(JSON.stringify(data));
-                        $obj.parent().find('.changeReservationModalOpen').remove();
-                        $obj.parent().find('.confirmReservation').remove();
-                        location.href = '/order';
+                        alert('예약날짜가 변경되었습니다.');
                     },
                     error: function (data) {
-                        alert('문제가 발생하엿습니다. 관리자에게 문의 바랍니다.');
-//                        alert(JSON.stringify(data));
+                        alert('문제가 발생하였습니다. 관리자에게 문의 바랍니다');
                     }
                 })
-            } else {
-                return false;
-            }
-        });
+            });
 
-        $('#reservation_change').click(function () {
-            var date = $("#datepickerReservation").val();
-            var time = $("#datepickerReservationTime").val();
-            var order_id = $("#order_id").val();
+            $('.select2').select2();
 
+            $('.diagnosing').click(function () {
+                var order_id = $(this).data('order_id');
+                $('#order_id_2').val(order_id);
+                $('#diagnosingModal').modal();
+            });
 
-            $.ajax({
-                type: 'post',
-                url: '/order/reservation_change',
-                data: {
-                    'order_id': order_id,
-                    'date': date,
-                    'time': time
-                },
-                success: function (data) {
-                    //                    alert('success');
-                    location.href = '/order';
-                },
-                error: function (data) {
-                    alert(JSON.stringify(data));
+            $('#diagnose_process').click(function () {
+                var engineer_id = $('.select2').val();
+                var order_id = $('#order_id_2').val();
+                if (confirm('해당 엔지니어로 진단을 시작하시겠습니까?')) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/order/diagnosing',
+                        data: {
+                            'order_id': order_id,
+                            'engineer_id': engineer_id
+                        },
+                        success: function (data) {
+                            alert('진단이 시작되었습니다. 수정이 가능합니다.');
+                            location.href = '/diagnosis/' + order_id;
+                        },
+                        error: function (data) {
+                            alert(JSON.stringify(data));
+                        }
+                    })
                 }
-            })
-        });
-
-        $('.select2').select2();
-
-        $('.diagnosing').click(function(){
-            var order_id = $(this).data('order_id');
-            $('#order_id_2').val(order_id);
-            $('#diagnosingModal').modal();
-        });
-
-        $('#diagnose_process').click(function(){
-            var engineer_id = $('.select2').val();
-            var order_id = $('#order_id_2').val();
-            if(confirm('해당 엔지니어로 진단을 시작하시겠습니까?')){
-                $.ajax({
-                    type : 'post',
-                    url : '/order/diagnosing',
-                    data : {
-                        'order_id' : order_id,
-                        'engineer_id' : engineer_id
-                    },
-                    success : function(data){
-//                        alert(JSON.stringify(data));
-                        alert('진단이 시작되었습니다. 수정이 가능합니다.');
-                        location.href = '/diagnosis/'+order_id;
-                    },
-                    error : function(data){
-                        alert(JSON.stringify(data));
-                    }
-                })
-            }
-        });
-    })
-</script>
+            });
+        })
+    </script>
 @endpush

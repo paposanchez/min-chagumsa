@@ -55,25 +55,20 @@ use SendsPasswordResetEmails;
     }
 
 
-
-
-
+    /**
+     * @param Request $request
+     * 비밀번호 재설정 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function resetForm(Request $request){
-//        $this->validate($request->all(), ['email'=> 'required|email'], [], ['email' => trans('passwords.email')]);
-
         $user = User::where('email', $request->get('email'))->first();
 
         if(!$user){
             return redirect()->back()->with('error', trans('verification.check_error_email'));
         }
-//        return redirect()->route('password.reset', ['email' => $request->get('email')]);
-
 
         $email = $request->get('email');
         return view('web.auth.passwords.reset-form', compact('email'));
     }
 
-//    public function reset(Request $request){
-//        dd('dd');
-//    }
 }

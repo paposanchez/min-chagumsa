@@ -18,8 +18,6 @@
                     <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                         <label for="inputEmail" class="control-label col-md-3">상품명</label>
                         <div class="col-md-6">
-                            {{--<input type="text" class="form-control" placeholder="상품명"--}}
-                                   {{--name="name" id="name" value="{{ $item->name }}">--}}
                             <p class="form-control-static">{{ $item->name }}</p>
                         </div>
                         @if ($errors->has('name'))
@@ -33,8 +31,6 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">가격</label>
                         <div class="col-md-6">
-                            {{--<input type="text" class="form-control" placeholder="가격"--}}
-                                   {{--name="price" id="price" value="{{ $item->price }}">--}}
                             <p class="form-control-static">{{ $item->price }}</p>
                         </div>
                         @if ($errors->has('price'))
@@ -47,8 +43,6 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">PG 수수료률</label>
                         <div class="col-md-6">
-                            {{--<input type="text" class="form-control" placeholder=""--}}
-                                   {{--name="commission" id="commission" value="{{ $item->commission }}">--}}
                             <p class="form-control-static">{{ $item->commission }}</p>
                         </div>
                         @if ($errors->has('commission'))
@@ -61,8 +55,6 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">보증료</label>
                         <div class="col-md-6">
-                            {{--<input type="text" class="form-control" placeholder=""--}}
-                                   {{--name="guarantee" id="guarantee" value="{{ $item->guarantee }}">--}}
                             <p class="form-control-static">{{ $item->guarantee }}</p>
                         </div>
                         @if ($errors->has('guarantee'))
@@ -75,8 +67,6 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">공임비용</label>
                         <div class="col-md-6">
-                            {{--<input type="text" class="form-control" placeholder=""--}}
-                                   {{--name="wage" id="wage" value="{{ $item->wage }}">--}}
                             <p class="form-control-static">{{ $item->wage }}</p>
                         </div>
                         @if ($errors->has('wage'))
@@ -89,8 +79,6 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">얼라이언스 Com</label>
                         <div class="col-md-6">
-                            {{--<input type="text" class="form-control" placeholder=""--}}
-                                   {{--name="alliance_ratio" id="alliance_ratio" value="{{ $item->alliance_ratio }}">--}}
                             <p class="form-control-static">{{ $item->alliance_ratio }}</p>
                         </div>
                         @if ($errors->has('alliance_ratio'))
@@ -103,8 +91,6 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">기술사 Com</label>
                         <div class="col-md-6">
-                            {{--<input type="text" class="form-control" placeholder=""--}}
-                                   {{--name="certi_ratio" id="certi_ratio" value="{{ $item->certi_ratio }}">--}}
                             <p class="form-control-static">{{ $item->certi_ratio }}</p>
                         </div>
                         @if ($errors->has('certi_ratio'))
@@ -117,8 +103,6 @@
                     <div class="form-group">
                         <label for="inputEmail" class="control-label col-md-3">수익</label>
                         <div class="col-md-6">
-                            {{--<input type="text" class="form-control" placeholder=""--}}
-                                   {{--name="self_ratio" id="self_ratio" value="{{ $item->self_ratio }}">--}}
                             <p class="form-control-static">{{ $item->self_ratio }}</p>
                         </div>
                         @if ($errors->has('self_ratio'))
@@ -148,11 +132,6 @@
                     <div class="col-md-6 col-md-offset-3">
                         <a href="{{ url('/item') }}" class="btn btn-default"><i
                                     class="fa fa-reply"></i> {{ trans('common.button.back') }}</a>
-
-                        {{--<button class="btn btn-primary" data-loading-text="{{ trans('common.button.loading') }}"--}}
-                                {{--type="submit">저장--}}
-                        {{--</button>--}}
-
                     </div>
                 </div>
                 {!! Form::close() !!}
@@ -164,14 +143,10 @@
 
     </div><!-- container -->
 
-    {{--{!! Form::open(['method' => 'DELETE', 'route' => ['user.destroy', $item->id], 'id'=>'frm-user-destroy']) !!}--}}
-    {{--{!! Form::close() !!}--}}
-
-
 @endsection
 
-@section( 'footer-script' )
+@push( 'footer-script' )
     <script type="text/javascript">
 
     </script>
-@endsection
+@endpush

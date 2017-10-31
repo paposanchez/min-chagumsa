@@ -5,10 +5,7 @@
 @endsection
 
 @section( 'content' )
-{{--
-todo 패스워드 변경은 별도 모달로 한다.
-일단, 기능상에서는 처리하지 말자
---}}
+
     <div class="container-fluid">
 
         <div class="row">
@@ -100,8 +97,6 @@ todo 패스워드 변경은 별도 모달로 한다.
         $("#user-form").validate({
             messages: {
                 name: "성명을 입력해 주세요.",
-//                password: "비밀번호를 입력해 주세요.",
-//                password_confirmation: "비밀번호 확인을 입력해 주세요.",
                 mobile: "휴대전화를 입력해 주세요.",
             },
 

@@ -6,13 +6,12 @@
 
 @section( 'content' )
     <div class="container-fluid">
-
         <h3>
-                <span class="text-lg">
-                        <span class="text-danger text-lighter">{{ $order->status->display() }}</span>
-                        <span class="text-lighter">| </span>
-                    {{ $order->getOrderNumber() }}
-                </span>
+            <span class="text-lg">
+                    <span class="text-danger text-lighter">{{ $order->status->display() }}</span>
+                    <span class="text-lighter">| </span>
+                {{ $order->getOrderNumber() }}
+            </span>
             <a href="/order/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"
                style="margin-left:10px;">주문보기</a>
 
@@ -51,14 +50,12 @@
 
                     <h4>차량정보</h4>
                     <ul class="list-group">
-
                         <li class="list-group-item no-border"><span>차량명</span> <em
                                     class="pull-right">{{ $order->getCarFullName()  }}</em></li>
                         <li class="list-group-item no-border"><span>사고유무</span> <em
                                     class="pull-right">{{ $order->accident_state_cd == 1 ? '예' : '아니요' }}</em></li>
                         <li class="list-group-item no-border"><span>침수여부</span> <em
                                     class="pull-right">{{ $order->flooding_state_cd == 1 ? '예' : '아니요' }}</em></li>
-
                     </ul>
                 </div>
             </div>
@@ -93,11 +90,6 @@
                 </div>
 
                 <div class="col-md-9">
-
-                    <!-- <form class="form-horizontal">
-
-                            <fieldset> -->
-
                     <div class="panel panel-primary">
                         @foreach($diagnosis['entrys'] as $entrys)
                             <div class="panel-heading" id="dia-{{ $entrys['name_cd'] }}">
@@ -132,7 +124,6 @@
                                                             no-padding
 @endif
                                                             ">
-                                                {{--@each("partials.diagnosis", $entry['entrys'], 'entry')--}}
                                                 @foreach($entry['entrys'] as $entry)
                                                     @if($entry['name'])
                                                         <strong style="display:inline-block; width:100px;">{{ $entry['name']['display'] }}</strong>
@@ -152,13 +143,20 @@
 
                                                     @if($entry['use_voice'] == 1)
                                                         @foreach($entry['files'] as $file)
-                                                            <button type="button" class="btn btn-circle btn-primary diagnosis-soundplay" data-toggle="tooltip"
-                                                                    data-source="{{ $file['fullpath'] }}" data-mime="{{ $file['mime'] }}" title="{{ $file['original'] }}"><i
+                                                            <button type="button"
+                                                                    class="btn btn-circle btn-primary diagnosis-soundplay"
+                                                                    data-toggle="tooltip"
+                                                                    data-source="{{ $file['fullpath'] }}"
+                                                                    data-mime="{{ $file['mime'] }}"
+                                                                    title="{{ $file['original'] }}"><i
                                                                         class="fa fa-play"></i></button>
                                                         @endforeach
 
-                                                        <textarea name="comment" class="form-control" data-id="{{ $entry['id'] }}" style="height:60px; margin-top:10px;"
-                                                                  id="{{ $entry['id'] }}" placeholder="음성파일 내용을 입력해주세요." readonly>{{ $entry['comment'] }}</textarea>
+                                                        <textarea name="comment" class="form-control"
+                                                                  data-id="{{ $entry['id'] }}"
+                                                                  style="height:60px; margin-top:10px;"
+                                                                  id="{{ $entry['id'] }}" placeholder="음성파일 내용을 입력해주세요."
+                                                                  readonly>{{ $entry['comment'] }}</textarea>
 
 
                                                     @endif
@@ -187,28 +185,31 @@
                                                                                     </div>
                                                                                 @endif
 
-
                                                                                 @if($child['options'])
-
-                                                                                        {{--@foreach(\App\Helpers\Helper::getCodeArray($child['options_cd']) as $key=>$val )--}}
-                                                                                            {{--<label class="btn btn-default {{ $child['selected'] == $key ? 'active' : '' }}">--}}
-                                                                                                {{--{{ Form::radio('selected[]', $key, \App\Helpers\Helper::isCheckd($key, $child['selected'])) }} {{ $val }}--}}
-                                                                                            {{--</label>--}}
-                                                                                        {{--@endforeach--}}
-                                                                                        <p class="form-control-static">{{ \App\Helpers\Helper::getCodeName($child['selected']) }}</p>
-
+                                                                                    <p class="form-control-static">{{ \App\Helpers\Helper::getCodeName($child['selected']) }}</p>
                                                                                 @endif
 
 
                                                                                 @if($child['use_voice'] == 1)
                                                                                     @foreach($child['files'] as $file)
-                                                                                        <button type="button" class="btn btn-circle btn-primary diagnosis-soundplay" data-toggle="tooltip"
-                                                                                                data-source="{{ $file['fullpath'] }}" data-mime="{{ $file['mime'] }}" title="{{ $file['original'] }}"><i
-                                                                                                    class="fa fa-play"></i></button>
+                                                                                        <button type="button"
+                                                                                                class="btn btn-circle btn-primary diagnosis-soundplay"
+                                                                                                data-toggle="tooltip"
+                                                                                                data-source="{{ $file['fullpath'] }}"
+                                                                                                data-mime="{{ $file['mime'] }}"
+                                                                                                title="{{ $file['original'] }}">
+                                                                                            <i
+                                                                                                    class="fa fa-play"></i>
+                                                                                        </button>
                                                                                     @endforeach
 
-                                                                                    <textarea name="comment" class="form-control" data-id="{{ $child['id'] }}" style="height:60px; margin-top:10px;"
-                                                                                              id="{{ $entry['id'] }}" placeholder="음성파일 내용을 입력해주세요." readonly>{{ $child['comment'] }}</textarea>
+                                                                                    <textarea name="comment"
+                                                                                              class="form-control"
+                                                                                              data-id="{{ $child['id'] }}"
+                                                                                              style="height:60px; margin-top:10px;"
+                                                                                              id="{{ $entry['id'] }}"
+                                                                                              placeholder="음성파일 내용을 입력해주세요."
+                                                                                              readonly>{{ $child['comment'] }}</textarea>
                                                                                 @endif
 
                                                                             </li>
@@ -230,10 +231,6 @@
                             </div>
                         @endforeach
                     </div>
-                    <!--
-                                                                                                    </fieldset>
-
-                                                                                            </form> -->
 
                 </div>
 
@@ -250,110 +247,32 @@
 
 @push( 'footer-script' )
 
-<script>
-    var diagnosis_audio;
+    <script>
+        var diagnosis_audio;
+        //진단 음성파일
+        $('.diagnosis-soundplay').on('click', function (e) {
 
-    $('.diagnosis-soundplay').on('click', function (e) {
+            e.preventDefault();
+            var $obj = $(this).find('.fa');
 
-        e.preventDefault();
-        var $obj = $(this).find('.fa');
-
-        if ($obj.hasClass("fa-play")) {
-            // remove all started instance
-            $('.diagnosis-soundplay .fa-pause').each(function () {
-                $(this).removeClass('fa-pause').addClass('fa-play');
-                if (diagnosis_audio instanceof Audio) {
-                    diagnosis_audio.pause();
-                }
-                diagnosis_audio = null;
-            });
-
-            // var s = "/assets/crowd-cheering.mp3";
-            var s = $obj.data('source');
-            diagnosis_audio = new Audio(s);
-            diagnosis_audio.play();
-            $obj.removeClass('fa-play').addClass('fa-pause');
-        } else {
-            diagnosis_audio.pause();
-            $obj.removeClass('fa-pause').addClass('fa-play');
-        }
-
-        // .toggleClass('fa-play fa-pause');
-        // if ( $obj.is( ".fa-play" ) ) {
-        //         $obj.removeClass('fa-play').addClass('fa-pause');
-        // } else {
-        //         $obj.removeClass('fa-pause').addClass('fa-play');
-        // }
-
-    });
-    $(".selected_cd").change(function () {
-        var change_value = $(this).val();
-        var diagnosis_id = $(this).data('id');
-        var notify = $.notify({}, {
-            type: 'success',
-            element: 'body',
-            position: null,
-            allow_dismiss: true,
-            showProgressbar: false,
-            animate: {
-                enter: 'animated fadeInDown',
-                exit: 'animated fadeOutUp'
-            },
+            if ($obj.hasClass("fa-play")) {
+                $('.diagnosis-soundplay .fa-pause').each(function () {
+                    $(this).removeClass('fa-pause').addClass('fa-play');
+                    if (diagnosis_audio instanceof Audio) {
+                        diagnosis_audio.pause();
+                    }
+                    diagnosis_audio = null;
+                });
+                var s = $obj.data('source');
+                diagnosis_audio = new Audio(s);
+                diagnosis_audio.play();
+                $obj.removeClass('fa-play').addClass('fa-pause');
+            } else {
+                diagnosis_audio.pause();
+                $obj.removeClass('fa-pause').addClass('fa-play');
+            }
         });
 
-        $.ajax({
-            type: 'post',
-            dataType: 'json',
-            url: '/diagnosis/update-code',
-            data: {
-                'id': diagnosis_id,
-                'selected': change_value
-            },
-            success: function (data) {
-                notify.update('type', 'success');
-                notify.update('title', '<strong>선택값이</strong>');
-                notify.update('message', '정상적으로 변경되었습니다.');
-            },
-            error: function (data) {
-                notify.update('type', 'warning');
-                notify.update('message', '오류가 발생했습니다.');
-            }
-        })
-    });
-
-    $('.save').on('click', function () {
-        var diagnosis_id = $(this).data('id');
-        var comment = $('#' + diagnosis_id).val();
-        var notify = $.notify({}, {
-            type: 'success',
-            element: 'body',
-            position: null,
-            allow_dismiss: true,
-            showProgressbar: false,
-            animate: {
-                enter: 'animated fadeInDown',
-                exit: 'animated fadeOutUp'
-            },
-        });
-        $.ajax({
-            url: '/diagnosis/update-comment',
-            type: 'post',
-            dataType: 'json',
-            data: {
-                'diagnosis_id': diagnosis_id,
-                'comment': comment
-            },
-            success: function (data) {
-                notify.update('type', 'success');
-                notify.update('title', '<strong>점검의견</strong>이 ');
-                notify.update('message', '정상적으로 변경되었습니다.');
-            },
-            error: function (data) {
-                notify.update('type', 'warning');
-                notify.update('message', '오류가 발생했습니다.');
-            }
-        })
-    });
-</script>
+    </script>
 
 @endpush

@@ -33,7 +33,8 @@ class Diagnosis extends Model
         }
 
         public function name() {
-                return $this->hasOne(Code::class, 'id', 'name_cd')->remember(100,'diagnosis.name');
+            return $this->hasOne(Code::class, 'id', 'name_cd');
+//                return $this->hasOne(Code::class, 'id', 'name_cd')->remember(100,'diagnosis.name');
         }
 
         public function selected_code(){

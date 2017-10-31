@@ -35,7 +35,6 @@ use Illuminate\Support\Facades\Mail;
 class OrderController extends Controller
 {
 
-    //todo 현재 테스트 계정임. 변경할것
     protected $merchantKey;//상점키
     protected $mid;//상점id
     protected $cancel_passwd = "123456"; //취소 시 사용되는 패스워드(Tpay 계정 설정 참조)
@@ -49,19 +48,28 @@ class OrderController extends Controller
         $this->api_key = env('PG_KEY');
     }
 
+    /**
+     * 내 주문목록 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $user_id = Auth::user()->id;
 
         $my_orders = Order::where('orderer_id', $user_id)->whereNotIn('status_cd', [101])
             ->orderBy('created_at', 'DESC')
-//            ->orderBy('status_cd', '')
             ->orderBy(DB::raw('CASE status_cd WHEN 100 THEN 9999 ELSE status_cd END'), 'ASC')
             ->paginate(10);
 
         return view('web.mypage.order.index', compact('my_orders'));
     }
 
+    /**
+     * @param Int $id
+     * 주문 상세보기 페이지
+     * 주문 seq를 이용하여 정보 노출
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show($id)
     {
         $order = Order::find($id);
@@ -72,6 +80,11 @@ class OrderController extends Controller
         return view('web.mypage.order.show', compact('order', 'features'));
     }
 
+    /**
+     * @param int $order_id
+     * 예약변경 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function changeReservation($order_id)
     {
         $order = Order::findOrFail($order_id);
@@ -110,7 +123,12 @@ class OrderController extends Controller
         return view('web.mypage.order.reservation', compact('order', 'search_fields', 'areas', 'sections', 'garages', 'my_garage'));
     }
 
-
+    /**
+     * @param Request $request
+     * @param int $order_id
+     * 예약 및 bcs정보 변경 메소드
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function updateReservation(Request $request, $order_id)
     {
 
@@ -165,15 +183,17 @@ class OrderController extends Controller
         }
         //발송 끝
 
-
-
-
         return redirect()
             ->route('mypage.order.show', $order->id)
             ->with('success', trans('web/mypage.modify_complete'));
     }
 
-
+    /**
+     * @param Request $request
+     * @param int $order_id
+     * 차량정보 변경 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function changeCar(Request $request, $order_id)
     {
         $order = Order::findOrFail($order_id);
@@ -184,7 +204,12 @@ class OrderController extends Controller
         return view('web.mypage.order.car', compact('order'));
     }
 
-
+    /**
+     * @param Request $request
+     * @param int $order_id
+     * 차량정보 수정 메소드
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateCar(Request $request, $order_id)
     {
         $this->validate($request, ['car_number' => 'required'], [], ['car_number' => '차량번호']);
@@ -206,7 +231,11 @@ class OrderController extends Controller
             ->with('success', trans('web/mypage.modify_complete'));
     }
 
-
+    /**
+     * @param Request $request
+     * 주문 취소 메소드
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function cancel(Request $request)
     {
 
@@ -261,9 +290,6 @@ class OrderController extends Controller
                         $cancel_process = $payment_cancel->paymentCancelProcess($order_id, $cancelAmt, $tid);
 
                         if (in_array($cancel_process->result_cd, [2001, 2002])) {
-
-                            //                            dd($cancel_process);
-
                             if (isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
                             if (isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
                             if (isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
@@ -287,7 +313,6 @@ class OrderController extends Controller
                             $event = 'success';
 
                         } else {
-                            //                            dd($cancel_process);
                             $message = "해당 결제내역에 대한 결제취소를 진행할 수 없습니다.<br>";
                             if (isset($cancel_process->result_msg)) $message .= "결제취소 거부 사유: " . $cancel_process->result_msg;
                             $event = 'error';
@@ -377,9 +402,4 @@ class OrderController extends Controller
             ->with($event, $message);
     }
 
-
-    public function reservation()
-    {
-        return view('web.mypage.order.show');
-    }
 }

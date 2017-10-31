@@ -25,12 +25,6 @@
                             <div class="form-control" name="subject" id="inputSubject" style="height: 500px;">{{ $post->content }}</div>
                         </div>
                     </div>
-                    {{--<div class="form-group">--}}
-                        {{--<label for="inputName" class="control-label col-md-3">첨부파일</label>--}}
-                        {{--<div class="col-md-9">--}}
-                            {{--<input class="form-control" readonly="" value="http://mme.lge.app/dwn/ext/020/A001/2017/08/17/ee7226ec-cf00-442d-a612-1f29c6fe84d0.pdf" id="upload-origin" type="text">--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
 
                     @if(count($files) != 0)
                         <div class="form-group">
@@ -68,7 +62,7 @@
 @endsection
 
 
-@section( 'footer-script' )
+@push( 'footer-script' )
 
     <script type="text/javascript">
         $(function () {
@@ -79,4 +73,4 @@
             });
         })
     </script>
-@endsection
+@endpush

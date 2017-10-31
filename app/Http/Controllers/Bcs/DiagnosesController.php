@@ -2,27 +2,26 @@
 
 namespace App\Http\Controllers\Bcs;
 
-use App\Helpers\Helper;
 use App\Mixapply\Uploader\Receiver;
-use App\Models\Car;
-use App\Models\Certificate;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisFile;
 use App\Models\Order;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Code;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
-use Illuminate\Support\Facades\Redirect;
-use GuzzleHttp\Client;
 use App\Repositories\DiagnosisRepository;
 
 class DiagnosesController extends Controller
 {
-
+    /**
+     * @param Request $request
+     * 진단중 상태 이상의 주문 리스트
+     * 검색조건에 해당되는 주문들을 출력한다.
+     * 예약변경, 에약확정, 진단시작 기능 사용 가능
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $where = Order::orderBy('orders.id', 'DESC')->whereIn('orders.status_cd', [106, 107, 108, 109])->where('garage_id', Auth::user()->id);
@@ -35,37 +34,6 @@ class DiagnosesController extends Controller
         if ($status_cd) {
             $where->where('status_cd', $status_cd);
         }
-
-        //기간 검색
-        $trs = $request->get('trs');
-        $tre = $request->get('tre');
-
-
-//        if ($trs && $tre) {
-//            //시작일, 종료일이 모두 있을때
-//            $where->where(function ($qry) use ($trs, $tre) {
-//                $qry->where("diagnose_at", ">=", $trs)
-//                    ->where("diagnose_at", "<=", $tre);
-//            })->orWhere(function ($qry) use ($trs, $tre) {
-//                $qry->where("diagnosed_at", ">=", $trs)
-//                    ->where("diagnosed_at", "<=", $tre);
-//            });
-//
-//        } elseif ($trs && !$tre) {
-//            //시작일만 있을때
-//            $where->where(function ($qry) use ($trs) {
-//                $qry->where("diagnose_at", ">=", $trs);
-//            })->orWhere(function ($qry) use ($trs) {
-//                $qry->where("diagnosed_at", ">=", $trs);
-//            });
-//        } else if (!$trs && $tre) {
-//            $where->where(function ($qry) use ($tre) {
-//                $qry->where("diagnosed_at", "<=", $tre);
-//            })->orWhere(function ($qry) use ($tre) {
-//                $qry->where("diagnosed_at", "<=", $tre);
-//            });
-//        }
-
 
         //기간 검색
         $trs = $request->get('trs');
@@ -89,7 +57,6 @@ class DiagnosesController extends Controller
                     });
             });
         }
-
 
         //검색어 검색
         $sf = $request->get('sf'); //검색필드
@@ -133,16 +100,29 @@ class DiagnosesController extends Controller
         return view('bcs.diagnosis.index', compact('search_fields', 'entrys', 'search_fields', 'status_cd', 's', 'sf', 'trs', 'tre'));
     }
 
+    /**
+     * @param Int $id
+     * 진단에 대한 정보 출력
+     * 진단 데이터를 수정 가능하며 사진첨부가 가능
+     * 진단완료 처리 가능
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show($id)
     {
         $order = Order::findOrFail($id);
 
+        //진단데이터를 레이아웃을 통해 생성
         $handler = new DiagnosisRepository();
         $diagnosis = $handler->prepare($id)->get();
 
         return view('bcs.diagnosis.detail', compact('diagnosis', 'order'));
     }
 
+    /**
+     * @param Request $request
+     * 진단 항목에 대한 선택값 업데이트
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
     public function updateCode(Request $request)
     {
         $id = $request->get('id');
@@ -154,6 +134,11 @@ class DiagnosesController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * 진단 항목에 대한 코멘트 업데이트
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateComment(Request $request)
     {
         try {
@@ -170,25 +155,19 @@ class DiagnosesController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * 진단 항목에 대한 이미지 업로드
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fileUpload(Request $request)
     {
         try {
-
-            // $order_id = $request->get('order_id');
-            // $user_id = $request->get('user_id');
             $diagnoses_id = $request->get('diagnosis_id');
 
-            // if(!$diagnoses_id || !$order_id || !$user_id) {
-            //         throw new Exception('필수 파라미터가 없습니다.');
-            // }
             if (!$diagnoses_id) {
                 throw new Exception('필수 파라미터가 없습니다.');
             }
-
-            // $engineer_check = Order::where('id', $order_id)->where('engineer_id', $request->get('user_id'))->count();
-            // if($engineer_check != 1){
-            //         throw new Exception('접근권한이 없습니다.');
-            // }
 
             // validator
             $uploader_name = 'upfile';
@@ -267,11 +246,14 @@ class DiagnosesController extends Controller
         }
     }
 
-
+    /**
+     * @param Request $request
+     * @param Int $id
+     * 진단 항목에 대한 이미지 삭제
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fileDelete(Request $request, $id)
     {
-
-
         try {
             $file = DiagnosisFile::findOrFail($id);
             // 실제파일 삭제하지않음
@@ -282,10 +264,13 @@ class DiagnosesController extends Controller
 
             return response()->json('error');
         }
-
-
     }
 
+    /**
+     * @param Request $request
+     * 진단완료 처리
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function complete(Request $request){
         try{
             $order_id = $request->get('order_id');
@@ -297,36 +282,6 @@ class DiagnosesController extends Controller
         }catch(\Exception $ex){
             return response()->json($ex->getMessage());
         }
-    }
-
-    public function edit($id)
-    {
-
-    }
-
-    public function store(Request $request)
-    {
-
-    }
-
-    public function insuranceFile(Request $request)
-    {
-
-    }
-
-    public function insuranceFileView($id)
-    {
-
-    }
-
-    public function history(Request $request)
-    {
-
-    }
-
-    public function update(Request $request, $id)
-    {
-
     }
 
 }

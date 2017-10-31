@@ -111,7 +111,6 @@ Route::get('logout', 'Auth\LoginController@logout');
 
 // 회원가입폼
 Route::get('agreement', 'Auth\RegisterController@agreement')->name('register.agreement');
-// Route::post('register/join', 'Auth\RegisterController@join')->name('register.join');
 
 // 회원가입완료
 Route::get('register/registered', 'Auth\RegisterController@registered')->name('register.registered');

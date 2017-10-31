@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 class WelcomeController extends Controller {
 
     /**
-     * Display the home page.
-     *
+     * 어드민 로그인 페이지
      * @return \Illuminate\Http\Response
      */
     public function __invoke() {

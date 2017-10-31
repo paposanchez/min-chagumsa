@@ -23,16 +23,20 @@
                         <div class="col-sm-9">
                             <div class="btn-group" data-toggle="buttons">
                                 <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }} 전체
+                                    {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }}
+                                    전체
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 107 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 107, \App\Helpers\Helper::isCheckd(107, $status_cd), ['name' => 'status_cd']) }} 진단완료
+                                    {{ Form::radio('status_cd', 107, \App\Helpers\Helper::isCheckd(107, $status_cd), ['name' => 'status_cd']) }}
+                                    진단완료
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 108 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 108, \App\Helpers\Helper::isCheckd(108, $status_cd), ['name' => 'status_cd']) }} 검토중
+                                    {{ Form::radio('status_cd', 108, \App\Helpers\Helper::isCheckd(108, $status_cd), ['name' => 'status_cd']) }}
+                                    검토중
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 109 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 109, \App\Helpers\Helper::isCheckd(109, $status_cd), ['name' => 'status_cd']) }} 인증발급완료
+                                    {{ Form::radio('status_cd', 109, \App\Helpers\Helper::isCheckd(109, $status_cd), ['name' => 'status_cd']) }}
+                                    인증발급완료
                                 </label>
                             </div>
                         </div>
@@ -44,14 +48,16 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                 <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_start') }}" name='trs' value='{{ $trs }}'>
+                                       placeholder="{{ trans('common.search.period_start') }}" name='trs'
+                                       value='{{ $trs }}'>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                 <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_end') }}" name='tre' value='{{ $tre }}'>
+                                       placeholder="{{ trans('common.search.period_end') }}" name='tre'
+                                       value='{{ $tre }}'>
                             </div>
                         </div>
                     </div>
@@ -197,23 +203,25 @@
                             <td>
 
                                 @if($data->status_cd > 107)
-                                    <a href="{{ url('certificate', $data->id) }}" target="_blank" class="btn btn-primary" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
+                                    <a href="{{ url('certificate', $data->id) }}" target="_blank"
+                                       class="btn btn-primary" data-toggle="tooltip" title="인증서 미리보기"><i
+                                                class="fa fa-eye"></i></a>
                                 @endif
 
                                 @if($data->status_cd == 107)
-                                        <button data-id="{{ $data->id }}" class="btn btn-danger certificate-assign"
-                                                data-toggle="tooltip" title="인증서 발급시작">인증시작
-                                        </button>
+                                    <button data-id="{{ $data->id }}" class="btn btn-danger certificate-assign"
+                                            data-toggle="tooltip" title="인증서 발급시작">인증시작
+                                    </button>
                                 @endif
 
 
                                 @if($data->status_cd == 108)
-                                    {{--<a href="/certificate/{{ $data->id }}/edit" class="btn btn-danger" data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>--}}
-                                    <a href="{{ url('certificate/'.$data->id.'/edit') }}" class="btn btn-danger" data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>
+                                    <a href="{{ url('certificate/'.$data->id.'/edit') }}" class="btn btn-danger"
+                                       data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>
                                 @endif
 
-                                <a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip" title="주문상세보기">상세보기</a>
-
+                                <a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip"
+                                   title="주문상세보기">상세보기</a>
 
 
                             </td>
@@ -254,11 +262,9 @@
 
 
 @push( 'footer-script' )
-<script type="text/javascript">
-    $(function () {
+    <script type="text/javascript">
+        $(function () {
 
-
-
-    });
-</script>
+        });
+    </script>
 @endpush

@@ -16,16 +16,20 @@
 
 
             @if($order->status_cd > 107)
-                <a href="{{ url('certificate', $order->id) }}" target="_blank" class="btn btn-primary pull-right" style="margin-left:10px;" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
+                <a href="{{ url('certificate', $order->id) }}" target="_blank" class="btn btn-primary pull-right"
+                   style="margin-left:10px;" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
             @endif
 
             @if($order->status_cd == 107)
-                <button data-id="{{ $order->id }}" class="btn btn-danger pull-right certificate-assign" style="margin-left:10px;" data-toggle="tooltip" title="인증서 발급시작">인증시작</button>
+                <button data-id="{{ $order->id }}" class="btn btn-danger pull-right certificate-assign"
+                        style="margin-left:10px;" data-toggle="tooltip" title="인증서 발급시작">인증시작
+                </button>
             @endif
 
 
             @if($order->status_cd == 108)
-                <a href="/certificate/{{ $order->id }}/edit" class="btn btn-warning  pull-right" style="margin-left:10px;" data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>
+                <a href="/certificate/{{ $order->id }}/edit" class="btn btn-warning  pull-right"
+                   style="margin-left:10px;" data-toggle="tooltip" title="인증서 발급정보 수정">인증정보 수정</a>
             @endif
 
         </h3>
@@ -46,8 +50,6 @@
 
                     </h4>
 
-
-
                     {!! Form::open(['method' => 'POST','route' => ['order.user-update', 'id' => $order->id], 'class'=>'form-horizontal', 'id'=>'userForm', 'enctype'=>"multipart/form-data"]) !!}
 
 
@@ -65,7 +67,7 @@
                                 <input type="text" class="form-control" placeholder="" name="name"
                                        value="{{ $order->orderer_name }}">
                                 @if ($errors->has('name'))
-                                    <span class="text-danger" >
+                                    <span class="text-danger">
                                                         {{ $errors->first('name') }}
                                                 </span>
                                 @endif
@@ -80,7 +82,7 @@
                                 <input type="text" class="form-control" placeholder="" name="mobile"
                                        value="{{ $order->orderer_mobile }}">
                                 @if ($errors->has('mobile'))
-                                    <span class="text-danger" >
+                                    <span class="text-danger">
                                                         {{ $errors->first('mobile') }}
                                                 </span>
                                 @endif
@@ -120,7 +122,6 @@
                     {!! Form::close() !!}
 
 
-
                 </div>
 
 
@@ -128,11 +129,16 @@
 
                     <h4>결제정보</h4>
                     <ul class="list-group">
-                        <li class="list-group-item no-border"><span>상품명</span> <em class="pull-right">{{ $order->item->name }}</em></li>
-                        <li class="list-group-item no-border"><span>결제금액</span> <em class="pull-right">{{ number_format($order->purchase->amount) }}원</em></li>
-                        <li class="list-group-item no-border"><span>결제방법</span> <em class="pull-right">{{ $order->purchase->payment_type->display() }}</em></li>
-                        <li class="list-group-item no-border"><span>결제일자</span> <em class="pull-right">{{ $order->purchase->updated_at }}</em></li>
-                        <li class="list-group-item no-border"><span>결제번호</span> <em class="pull-right">{{ $order->purchase->transaction_id or '-' }}</em></li>
+                        <li class="list-group-item no-border"><span>상품명</span> <em
+                                    class="pull-right">{{ $order->item->name }}</em></li>
+                        <li class="list-group-item no-border"><span>결제금액</span> <em
+                                    class="pull-right">{{ number_format($order->purchase->amount) }}원</em></li>
+                        <li class="list-group-item no-border"><span>결제방법</span> <em
+                                    class="pull-right">{{ $order->purchase->payment_type->display() }}</em></li>
+                        <li class="list-group-item no-border"><span>결제일자</span> <em
+                                    class="pull-right">{{ $order->purchase->updated_at }}</em></li>
+                        <li class="list-group-item no-border"><span>결제번호</span> <em
+                                    class="pull-right">{{ $order->purchase->transaction_id or '-' }}</em></li>
                     </ul>
 
                 </div>
@@ -150,9 +156,10 @@
                                 차량번호
                             </label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="car_number" placeholder="" value="{{ $order->car_number }}">
+                                <input type="text" class="form-control" name="car_number" placeholder=""
+                                       value="{{ $order->car_number }}">
                                 @if ($errors->has('car_number'))
-                                    <span class="text-danger" >
+                                    <span class="text-danger">
                                                         {{ $errors->first('car_number') }}
                                                 </span>
                                 @endif
@@ -172,7 +179,8 @@
                             <div class="col-md-6">
                                 <div class="checkbox checkbox-slider--b-flat">
                                     <label>
-                                        <input type="checkbox" value="1" name="accident_state_cd" {{ $order->accident_state_cd == 1 ? 'checked="checked"' : '' }}><span></span>
+                                        <input type="checkbox" value="1"
+                                               name="accident_state_cd" {{ $order->accident_state_cd == 1 ? 'checked="checked"' : '' }}><span></span>
                                     </label>
                                 </div>
                             </div>
@@ -184,7 +192,8 @@
                             <div class="col-md-6">
                                 <div class="checkbox checkbox-slider--b-flat">
                                     <label>
-                                        <input type="checkbox" value="1" name="flooding_state_cd" {{ $order->flooding_state_cd == 1 ? 'checked="checked"' : '' }}><span></span>
+                                        <input type="checkbox" value="1"
+                                               name="flooding_state_cd" {{ $order->flooding_state_cd == 1 ? 'checked="checked"' : '' }}><span></span>
                                     </label>
                                 </div>
                             </div>
@@ -243,10 +252,14 @@
 
                     <h4 class="">BCS</h4>
                     <ul class="list-group">
-                        <li class="list-group-item no-border"><span>대리점</span> <em class="pull-right">{{ $order->garage->name }}</em></li>
-                        <li class="list-group-item no-border"><span>대리점 연락처</span> <em class="pull-right">{{ $order->garage->user_extra->phone }}</em></li>
-                        <li class="list-group-item no-border"><span>엔지니어</span> <em class="pull-right">{{ $order->engineer ? $order->engineer->name : '-' }}</em></li>
-                        <li class="list-group-item no-border"><span>엔지니어 연락처</span> <em class="pull-right">{{ $order->engineer ? $order->engineer->mobile : '-' }}</em></li>
+                        <li class="list-group-item no-border"><span>대리점</span> <em
+                                    class="pull-right">{{ $order->garage->name }}</em></li>
+                        <li class="list-group-item no-border"><span>대리점 연락처</span> <em
+                                    class="pull-right">{{ $order->garage->user_extra->phone }}</em></li>
+                        <li class="list-group-item no-border"><span>엔지니어</span> <em
+                                    class="pull-right">{{ $order->engineer ? $order->engineer->name : '-' }}</em></li>
+                        <li class="list-group-item no-border"><span>엔지니어 연락처</span> <em
+                                    class="pull-right">{{ $order->engineer ? $order->engineer->mobile : '-' }}</em></li>
                     </ul>
                 </div>
 
@@ -311,96 +324,92 @@
         </p>
 
 
-@endsection
+        @endsection
 
-@push( 'footer-script' )
-<script type="text/javascript">
-    $(function () {
+        @push( 'footer-script' )
+            <script type="text/javascript">
+                $(function () {
 
-        $('#areas').change(function () {
-            var garage_area = $('#areas option:selected').text();
+                    $('#areas').change(function () {
+                        var garage_area = $('#areas option:selected').text();
 
-            $.ajax({
-                type: 'get',
-                dataType: 'json',
-                url: '/order/get_section/',
-                data: {
-                    'garage_area': garage_area
-                },
-                success: function (data) {
+                        $.ajax({
+                            type: 'get',
+                            dataType: 'json',
+                            url: '/order/get_section/',
+                            data: {
+                                'garage_area': garage_area
+                            },
+                            success: function (data) {
 
-                    //select box 초기화
-                    $('#sections').html("");
-                    $('#garages').html('<option>대리점을 선택하세요.</option>');
-
-                    //                    $('#sel_area').val(garage_area);
-                    $('#sections').append('<option>구/군을 선택하세요.</option>');
-                    $.each(data, function (key, value) {
-                        $('#sections').append($('<option/>', {
-                            value: value,
-                            text: value
-                        }));
+                                //select box 초기화
+                                $('#sections').html("");
+                                $('#garages').html('<option>대리점을 선택하세요.</option>');
+                                $('#sections').append('<option>구/군을 선택하세요.</option>');
+                                $.each(data, function (key, value) {
+                                    $('#sections').append($('<option/>', {
+                                        value: value,
+                                        text: value
+                                    }));
+                                });
+                            },
+                            error: function (data) {
+                                alert('error');
+                            }
+                        })
                     });
-                },
-                error: function (data) {
-                    alert('error');
-                }
-            })
-        });
 
-        $('#sections').change(function () {
-            var garage_area = $('#areas option:selected').text();
-            var garage_section = $('#sections option:selected').text();
+                    $('#sections').change(function () {
+                        var garage_area = $('#areas option:selected').text();
+                        var garage_section = $('#sections option:selected').text();
 
-            $.ajax({
-                type: 'get',
-                dataType: 'json',
-                url: '/order/get_address/',
-                data: {
-                    'sel_area': garage_area,
-                    'sel_section': garage_section
-                },
-                success: function (data) {
-                    $('#garages').html("");
+                        $.ajax({
+                            type: 'get',
+                            dataType: 'json',
+                            url: '/order/get_address/',
+                            data: {
+                                'sel_area': garage_area,
+                                'sel_section': garage_section
+                            },
+                            success: function (data) {
+                                $('#garages').html("");
 
-                    $.each(data, function (key, value) {
-                        $('#garages').append($('<option/>', {
-                            value: key,
-                            text: value
-                        }))
+                                $.each(data, function (key, value) {
+                                    $('#garages').append($('<option/>', {
+                                        value: key,
+                                        text: value
+                                    }))
+                                });
+                            },
+                            error: function (data) {
+                                alert('error');
+                            }
+                        });
                     });
-                },
-                error: function (data) {
-                    alert('error');
-                }
-            });
-        });
 
-        $('#bcs_submit').on('click', function(){
-            var garage = $('#garages').val();
-            //            var eng = $('#sel_eng').val();
+                    $('#bcs_submit').on('click', function () {
+                        var garage = $('#garages').val();
 
-            if(garage != 0){
-                $('#bcsForm').submit();
-            }else{
-                alert('정비소를 선택해주세요.');
-            }
-        });
+                        if (garage != 0) {
+                            $('#bcsForm').submit();
+                        } else {
+                            alert('정비소를 선택해주세요.');
+                        }
+                    });
 
-        $("#cancel-click").on("click", function () {
-            if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
-                var order_id = $(this).data("cancel_order_id");
-                if (order_id) {
-                    $("#cancel-order_id").val(order_id);
-                    $("#cancel-form").submit();
-                } else {
-                    alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
-                }
+                    $("#cancel-click").on("click", function () {
+                        if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
+                            var order_id = $(this).data("cancel_order_id");
+                            if (order_id) {
+                                $("#cancel-order_id").val(order_id);
+                                $("#cancel-form").submit();
+                            } else {
+                                alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
+                            }
 
-            }
-        });
+                        }
+                    });
 
-
-    });
-</script>
-@endpush
+                });
+            </script>
+    @endpush

@@ -29,7 +29,6 @@
 
                 @endif
         @endfor
-        <!-- <li class="disabled"><span>...</span></li> -->
 
         <li class="{{ ($entrys->currentPage() == $entrys->lastPage()) ? ' disabled' : '' }}">
                 <a href="{{ $entrys->url($entrys->lastPage()) }}"><i class="icon-angle-double-right"></i></a>

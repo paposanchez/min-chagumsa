@@ -10,14 +10,12 @@ Route::group(['middleware' => ['auth', 'role:garage']], function () {
         Route::post('order/confirmation/{order_id}', 'OrderController@confirmation');
         Route::post('order/reservation_change', 'OrderController@reservationChange');
         Route::post('/order/diagnosing', 'OrderController@diagnosing');
-
+        Route::post('order/bcs-update', 'OrderController@bcsUpdate')->name('order.bcs-update');
         Route::resource('order', 'OrderController', ['as' => 'bcs']);
 
         Route::resource('calculation', 'CalculationController', ['as' => 'bcs']);
         Route::resource('notice', 'NoticeController', ['as' => 'bcs']);
         //정보수정
-        //    Route::get('bcs-info', 'BcsController@bscInfo')->name('bcs-info');
-        //    Route::post('bcs-edit', 'BcsController@bcsEdit')->name('bcs-edit');
         Route::resource('info', 'BcsController', ['as' => 'bcs']);
         Route::resource('user', 'UserController', ['as' => 'bcs']);
 

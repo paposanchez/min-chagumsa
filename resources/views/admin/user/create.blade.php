@@ -190,7 +190,6 @@
                             <input type="text" class="form-control"
                                    placeholder="{{ trans('admin/user.registration_number') }}"
                                    name="registration_number" id="registration_number" value="">
-                            {{--<span class="help-block">{{ trans('bcs/bcs-info.help-address') }}</span>--}}
                         </div>
                     </div>
                     <div class="form-group {{ $errors->has('bank') ? 'has-error' : '' }} bank">

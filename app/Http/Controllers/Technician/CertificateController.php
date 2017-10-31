@@ -4,17 +4,14 @@ namespace App\Http\Controllers\Technician;
 
 use App\Models\Car;
 use App\Models\Certificate;
-use App\Models\Diagnosis;
 use App\Models\Order;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Code;
 use App\Repositories\CertificateRepository;
-use App\Repositories\DiagnosisRepository;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Events\SendSms;
@@ -22,6 +19,12 @@ use App\Events\SendSms;
 class CertificateController extends Controller
 {
 
+    /**
+     * @param Request $request
+     * 인증서 인덱스 페이지
+     * 주문상태, 검색기간, 검색어를 필터링하여 주문 검색
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $where = Order::where('status_cd', ">=", 107)->orderBy('status_cd')->orderBy('created_at', 'DESC');
@@ -89,8 +92,6 @@ class CertificateController extends Controller
                         ->where('created_at', '>=', $date)
                         ->where('created_at', '<=', $next_day);
 
-
-
                 } else {
                     if (strlen($s) > 6) {
                         $where = $where->where('car_number', $s);
@@ -101,11 +102,7 @@ class CertificateController extends Controller
 
                         $where = $where->where('created_at', '>=', $date)->where('created_at', '<=', $next_day);
                     }
-
                 }
-
-
-
             }
         }
 
@@ -114,6 +111,13 @@ class CertificateController extends Controller
         return view('technician.certificate.index', compact('search_fields', 'entrys', 'search_fields', 'status_cd', 's', 'sf', 'trs', 'tre'));
     }
 
+    /**
+     * @param Request $reqeust
+     * @param Int $order_id
+     * @param string $page
+     * 해당 주문에 대한 인증서 미리보기 페이지
+     * @return string
+     */
     public function show(Request $reqeust, $order_id, $page = 'summary')
     {
         if (!in_array($page, ['performance', 'price', 'history', 'summary'])) {
@@ -124,11 +128,15 @@ class CertificateController extends Controller
         return $handler->prepareWithId($order_id)->generate($page);
     }
 
-
+    /**
+     * @param Request $request
+     * @param Int $order_id
+     * 인증서 수정 및 작성 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit(Request $request, $order_id)
     {
         $order = Order::where("status_cd", '>', 107)->findOrFail($order_id);
-
 
         /**
          * 기본정보: 자동차등록증 / 차대번호 / 주행거리 / 색상 / 추가옵션
@@ -142,13 +150,11 @@ class CertificateController extends Controller
          *
          */
 
-
         if ($order->car) {
             $car = $order->car;
         } else {
             $car = $order->orderCar;
         }
-
 
         $grades = Code::getSelectList('grade_state_cd');
         $select_color = Code::getSelectList('color_cd');
@@ -163,17 +169,16 @@ class CertificateController extends Controller
         return view('technician.certificate.edit', compact('order', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'car', 'standard_states', 'operation_state_cd'));
     }
 
-
     /**
+     * @param Request $request
      * 인증서 데이터 갱신
      * section==basic : 주문 및 차량정보. 해당 데이터에 대한 처리는 무조건 update만 존재한다. 대상 테이블: order, car, certificates
      * section==history : 이력정보. 기존 인증서 내용이 없다면 insert, 있다면 수정이다. 향후 해당 처리에 대한 정책검토 필요함. 대상 테이블: certificates
      * section==price: 가격정보. 기존 인증서 내용이 없다면 insert, 있다면 수정이다. 향후 해당 처리에 대한 정책검토 필요함. 대상 테이블: certificates
-     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request)
     {
-
         $id = $request->get('order_id');
 
         $order_where = Order::find($id);
@@ -187,20 +192,13 @@ class CertificateController extends Controller
             return redirect()->back()->with('error', '잘못된 인증서입니다. 관리자에게 문의하세요.');
         }
 
+        //주문정보 갱신, 검토중
         $order_data = [
             "car_number" => $request->get('orders_car_number'),
             "mileage" => $request->get('orders_mileage'),
-            "status_cd" => 108
         ];
 
-
-        $order_data = [
-            "car_number" => $request->get('orders_car_number'),
-            "mileage" => $request->get('orders_mileage'),
-            "status_cd" => 108
-        ];
-
-
+        //차량정보 갱신
         $car_data = [
             "brands_id" => $order_where->car->brands_id,
             "models_id" => $order_where->car->models_id,
@@ -223,16 +221,15 @@ class CertificateController extends Controller
             "fueltype_etc" => $request->get('car_fueltype_etc') ? $request->get('car_fueltype_etc') : ''
         ];
 
+        //인증서 정보 갱신
         $certificate_data = [
             "orders_id" => $order_where->id,
             "vin_yn_cd" => $request->get("certificates_vin_yn_cd"),
             "history_owner" => $request->get('certificates_history_owner'),
-//            "history_maintance" => $request->get('certificates_history_maintance'),
             "history_insurance" => $request->get("certificates_history_insurance"),
             "history_purpose" => $request->get("certificates_history_purpose"),
             "history_garage" => $request->get("certificates_history_garage"),
             "price" => $request->get("pst"),
-            //            "vat" => $request->get("certificates_vat"),
             "new_car_price" => $request->get("certificates_new_car_price"),
             "basic_registraion" => $request->get("certificates_basic_registraion"),
             "basic_registraion_depreciation" => $request->get("basic_registraion_depreciation"),
@@ -241,7 +238,6 @@ class CertificateController extends Controller
             "usage_mileage_depreciation" => $request->get("certificates_usage_mileage_depreciation"),
             "usage_history_cd" => $request->get("certificates_usage_history_cd"),
             "usage_history_depreciation" => $request->get("certificates_usage_history_depreciation"),
-
             "performance_exterior_cd" => $request->get("performance_exterior_cd"),          //차량외부점검
             "performance_interior_cd" => $request->get('performance_interior_cd'),          //차량내부점검
             "performance_plugin_cd" => $request->get('performance_plugin_cd'),              //전장장착품작동상태
@@ -254,12 +250,6 @@ class CertificateController extends Controller
             "performance_electronic_cd" => $request->get('performance_electronic_cd'),      //전기장치
             "performance_tire_cd" => $request->get('performance_tire_cd'),                  //휠&타이어
             "performance_driving_cd" => $request->get('performance_driving_cd'),            //주행테스트
-//            "performance_flooded_cd" => $request->get("performance_flooded_cd"),
-//            "performance_consumption_cd" => $request->get("performance_consumption_cd"),
-//            "performance_exteriortest_cd" => $request->get('performance_exteriortest_cd'),
-//            "performance_accident_cd" => $request->get('performance_accident_cd'),
-//            "performance_interiortest_cd" => $request->get('performance_interiortest_cd'),
-
             "exterior_comment" => $request->get('exterior_comment'),
             "interior_comment" => $request->get('interior_comment'),
             "plugin_comment" => $request->get('plugin_comment'),
@@ -272,16 +262,9 @@ class CertificateController extends Controller
             "electronic_comment" => $request->get('electronic_comment'),
             "tire_comment" => $request->get('tire_comment'),
             "driving_comment" => $request->get('driving_comment'),
-//            "flooded_comment" => $request->get('flooded_comment'),
-//            "consumption_comment" => $request->get('consumption_comment'),
-//            "accident_comment" => $request->get('accident_comment'),
-//            "interiortest_comment" => $request->get('interiortest_comment'),
-//            "exteriortest_comment" => $request->get('exteriortest_comment'),
-
             "performance_depreciation" => $request->get("performance_depreciation"), // 차량성능상태 감가금액
             "history_depreciation" => $request->get('history_depreciation'), // 사용이력 감가금액 ( 현재 없음 )
             "basic_depreciation" => $request->get("basic_depreciation"), // 기본가격 감가금액 ( 현재없음 )
-            //            "special_depreciation" => $request->get("special_depreciation"), // 특별요인 감가금액 ( 현재없음 )
             "special_flooded_cd" => $request->get("certificates_special_flooded_cd"),
             "special_fire_cd" => $request->get("certificates_special_fire_cd"),
             "special_fulllose_cd" => $request->get("certificates_special_fulllose_cd"),
@@ -294,18 +277,13 @@ class CertificateController extends Controller
             "usage_flood_cd" => $request->get('certificates_usage_flood_cd'),
             "flood_comment" => $request->get('flood_comment'),
             "history_comment" => $request->get('history_comment'),
-
-
-
             "pictures" => $request->get('selecte_picture_id')
         ];
 
-
-        //DB처리
         /**
+         * DB처리
          * child table부터 처리 해야 하므로 car 또는 certificates 테이블 처리후 order를 처리해야 한다.
          */
-
 
         try {
             DB::beginTransaction();
@@ -316,8 +294,6 @@ class CertificateController extends Controller
                 $car_filter = array_filter($car_data, function($value){
                     return ($value !== null && $value !== false && $value !== '');
                 });
-
-
 
                 if ($cars_id) {
                     $car_where = Car::find($cars_id);
@@ -333,7 +309,6 @@ class CertificateController extends Controller
                     }
                 }
 
-                //                $car_where->update($car_filter);
                 $car_where->save();
 
                 $order_data['cars_id'] = $car_where->id;
@@ -344,7 +319,6 @@ class CertificateController extends Controller
                 $certificates_filter = array_filter($certificate_data, function($value){
                     return ($value !== null && $value !== false && $value !== '');
                 });
-
 
                 if (!$certificates_where) {
                     $certificates_where = new Certificate();
@@ -368,7 +342,6 @@ class CertificateController extends Controller
 
             DB::commit();
 
-
             return redirect()->back()->with('success', '인증서 정보가 갱신되었습니다');
 
         } catch (\Exception $e) {
@@ -376,11 +349,15 @@ class CertificateController extends Controller
 
             return redirect()->back()->with('error', '인증서 정보가 갱신이 실패하였습니다.<br>' . $e->getMessage());
         }
-
-
     }
 
-
+    /**
+     * @param Request $request
+     * @param Int $id
+     * 인증서 발급 시작
+     * 주문상태를 검토중으로 변경
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function assign(Request $request, $id)
     {
 
@@ -388,7 +365,6 @@ class CertificateController extends Controller
             DB::beginTransaction();
 
             $order = Order::where("status_cd", 107)->findOrFail($id);
-            //                        $order->engineer_id = Auth::id();
             $order->technist_id = Auth::user()->id;
             $order->status_cd = 108;
             $order->save();
@@ -401,18 +377,22 @@ class CertificateController extends Controller
 
             return response()->json(true);
 
-
         } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json($e->getMessage());
-
         }
     }
 
+    /**
+     * @param Request $request
+     * 인증서 발급처리
+     * 주문상태를 인증서 발급 완료로 변경
+     * 고객에게 메일, 문자 전송
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function issue(Request $request)
     {
-
         try {
             $order_id = $request->get('order_id');
             $order = Order::findOrFail($order_id);
@@ -426,7 +406,6 @@ class CertificateController extends Controller
 
             try {
                 //메일전송
-
                 $mail_message = [
                     'order_number' => $order_number, 'certificate_url' => $certificate_url
                 ];
@@ -441,7 +420,6 @@ class CertificateController extends Controller
             } catch (\Exception $e) {
             }
             //발송 끝
-
 
             return response()->json('success');
         } catch (\Exception $ex) {
