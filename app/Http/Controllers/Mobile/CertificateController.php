@@ -31,7 +31,25 @@ class CertificateController extends Controller
             case 'history':
                 return view('mobile.certificate.history', compact('order', 'page'));
             case 'price':
-                return view('mobile.certificate.price', compact('order', 'page'));
+                //특별요인
+                $specials = [];
+                if($order->certificates->special_flooded_cd){
+                    $specials[] = '침수차량';
+                }
+                if($order->certificates->special_fire_cd){
+                    $specials[] = '화재차량';
+                }
+                if($order->certificates->special_fulllose_cd){
+                    $specials[] = '전손차량';
+                }
+                if($order->certificates->special_remodel_cd){
+                    $specials[] = '불법개조';
+                }
+                if($order->certificates->special_etc_cd){
+                    $specials[] = '기타요인';
+                }
+                $specials = implode(", ", $specials);
+                return view('mobile.certificate.price', compact('order', 'page', 'specials'));
             default:
                 return view('mobile.certificate.summary', compact('order', 'page'));
         }
@@ -44,14 +62,14 @@ class CertificateController extends Controller
             return redirect('/login')->with('error', '로그인이 필요한 서비스입니다.');
         }
 
-        $orders = Order::where('orderer_id', $user->id)
-            ->where('status_cd', 107)
-            ->join('certificates', function ($join) {
-                $join->on('orders.id', '=', 'certificates.orders_id');
-            })->paginate(10);
+         $orders = Order::where('orderer_id', $user->id)
+             ->where('status_cd', 109)
+             ->paginate(10);
+
+                $select_open_cd = Code::getCodesByGroup("open_cd");
 
 
-        $select_open_cd = Code::getCodesByGroup("open_cd");
+
 
         return view('mobile.certificate.index', compact('orders', 'select_open_cd'));
     }

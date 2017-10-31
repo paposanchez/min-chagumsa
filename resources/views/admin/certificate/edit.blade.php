@@ -224,7 +224,7 @@
                         @foreach($picture->files as $file)
                             <img
                                     name="picture"
-                                    src="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/{{ $file->id }}"
+                                    src="http://image.chagumsa.com/diagnosis/{{ $file->id }}-264.png"
                                     class="img-responsive picture"
                                     style="width:100px;height:100px;display:inline-block;
                                     @if($order->certificates->pictures == $file->id)

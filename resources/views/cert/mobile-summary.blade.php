@@ -3,8 +3,8 @@
 @section( 'content' )
 
     <ul class='report_menu_wrap'>
-        <li class='select'><a href='{{ url("/certificate", ['id' => 4, 'summary']) }}'>자동차 인증서</a></li>
-        <li class=''><a href='{{ url("/certificate", ['id' => 4, 'price']) }}'>가격산정서</a></li>
+        <li class='select'><a href='{{ url($order->car_number.'-'.\App\Models\Order::find($order->id)->created_at->format('ymd').'/mobile-summary') }}'>자동차 인증서</a></li>
+        <li class=''><a href='{{ url($order->car_number.'-'.\App\Models\Order::find($order->id)->created_at->format('ymd').'/mobile-price') }}'>가격산정서</a></li>
     </ul>
 
     <div class='br20'></div>
@@ -96,44 +96,44 @@
                 <col style='width:25%;'>
             </colgroup>
             <tbody>
-                <tr>
-                    <th colspan="4" style="text-align: center;"><strong class='fcol_navy'>사고/침수진단</strong></th>
-                </tr>
-                <tr>
-                <tr>
-                    <td class="">
+            <tr>
+                <th colspan="4" style="text-align: center;"><strong class='fcol_navy'>사고/침수진단</strong></th>
+            </tr>
+            <tr>
+            <tr>
+                <td class="">
+                    <dt style="text-align: center">
+                        사고진단
+                    </dt>
+                </td>
+
+
+                <td class="text-center">
+
+                    <div class="total_result">
+                        {{ Html::image(Helper::theme_mobile( '/img/report/accident_car.png')) }}
+                        <div class="total_text"><span class="total_result_text">{{ $order->certificates->usage_history ? $order->certificates->usage_history->display() : '미입력 (검토중)' }}</span></div>
+                    </div>
+
+                </td>
+                <td class="">
+                    <dl class='bubble_desc bubble_desc2'>
                         <dt style="text-align: center">
-                            사고진단
+                            침수진단
                         </dt>
-                    </td>
 
+                    </dl>
+                </td>
+                <td class="text-center">
+                    <div class="total_result">
+                        {{ Html::image(Helper::theme_mobile( '/img/report/flooded_car.png')) }}
+                        <div class="total_text"><span class="total_result_text">{{ $order->certificates->usage_flood ? $order->certificates->usage_flood->display() : '미입력 (검토중)' }}</span></div>
+                    </div>
 
-                    <td class="text-center">
+                </td>
 
-                        <div class="total_result">
-                            {{ Html::image(Helper::theme_mobile( '/img/report/accident_car.png')) }}
-                            <div class="total_text"><span class="total_result_text">{{ $order->certificates->usage_history ? $order->certificates->usage_history->display() : '미입력 (검토중)' }}</span></div>
-                        </div>
-
-                    </td>
-                    <td class="">
-                        <dl class='bubble_desc bubble_desc2'>
-                            <dt style="text-align: center">
-                                침수진단
-                            </dt>
-
-                        </dl>
-                    </td>
-                    <td class="text-center">
-                        <div class="total_result">
-                            {{ Html::image(Helper::theme_mobile( '/img/report/flooded_car.png')) }}
-                            <div class="total_text"><span class="total_result_text">{{ $order->certificates->usage_flood ? $order->certificates->usage_flood->display() : '미입력 (검토중)' }}</span></div>
-                        </div>
-
-                    </td>
-
-                </tr>
-                </tr>
+            </tr>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -272,8 +272,8 @@
                 </th>
                 <td>
                     <span class='@if($order->certificates->performance_power_cd == 1329)
-                        status_good
-                        @elseif($order->certificates->performance_power_cd == 1330)
+                            status_good
+@elseif($order->certificates->performance_power_cd == 1330)
                             status_normal
                         @elseif($order->certificates->performance_power_cd == 1331)
                             status_warn
@@ -292,14 +292,14 @@
                 </th>
                 <td>
                     <span class='@if($order->certificates->performance_steering_cd == 1329)
-                        status_good
-                    @elseif($order->certificates->performance_steering_cd == 1330)
-                        status_normal
-                    @elseif($order->certificates->performance_steering_cd == 1331)
-                        status_warn
-                    @else
-                        status_bad
-                    @endif'>{{ $order->certificates->performance_steering ? $order->certificates->performance_steering->display() : '미입력 (검토중)' }}</span>
+                            status_good
+@elseif($order->certificates->performance_steering_cd == 1330)
+                            status_normal
+@elseif($order->certificates->performance_steering_cd == 1331)
+                            status_warn
+@else
+                            status_bad
+@endif'>{{ $order->certificates->performance_steering ? $order->certificates->performance_steering->display() : '미입력 (검토중)' }}</span>
                 </td>
 
                 <th>
@@ -387,12 +387,12 @@
                      <span class='@if($order->certificates->performance_driving_cd == 1329)
                              status_good
                         @elseif($order->certificates->performance_driving_cd == 1330)
-                                                     status_normal
-                        @elseif($order->certificates->performance_driving_cd == 1331)
-                                                     status_warn
-                        @else
-                                                     status_bad
-                        @endif'>{{ $order->certificates->performance_driving ? $order->certificates->performance_driving->display() : '미입력 (검토중)' }}</span>
+                             status_normal
+@elseif($order->certificates->performance_driving_cd == 1331)
+                             status_warn
+@else
+                             status_bad
+@endif'>{{ $order->certificates->performance_driving ? $order->certificates->performance_driving->display() : '미입력 (검토중)' }}</span>
                 </td>
             </tr>
             </tbody>

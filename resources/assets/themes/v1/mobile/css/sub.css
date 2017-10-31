@@ -190,7 +190,7 @@
 
 .cert_box_cont {border-top:1px solid #e5e5e5;padding:14px;box-sizing:border-box;overflow:hidden;}
 .cert_box_cont_img {float:left;width:50%;}
-.cert_box_cont_img img {width:100%;max-width:355px;max-height:268px;}
+.cert_box_cont_img img {width:100%;max-width:264px;}
 .cert_box_cont_info {float:left;width:50%;}
 .cert_box_cont_info ul {padding:0 0 0 25px;box-sizing:border-box;}
 .cert_box_cont_info ul li {font-size:13px;letter-spacing:-1px;margin-bottom:10px;}
@@ -516,3 +516,8 @@
     font-size: 16px;
     line-height: 30px;
 }
+
+.cert_box_foot {padding:15px 25px;height:70px;line-height:70px;border-top:solid 1px #efefef;box-sizing:border-box;background:#fff;position:relative;}
+.cert_box_foot .cert_msg {position:absolute;font-size:14px;top:15px;left:230px;height:40px;line-height:40px;display:inline-block;color:#bbb;}
+.cert_detail {position:absolute;right:15px;top:25px;}
+.cert_detail button {}
