@@ -39,7 +39,7 @@ class NotifyController extends Controller {
             if(!$user_device){
                 $user_device = new UserDevice();
             }
-            $user_device->users_id = $request->get('users_id');
+            $user_device->user_id = $request->get('user_id');
             $user_device->device_id = $request->get('device_id');
             $user_device->save();
 
