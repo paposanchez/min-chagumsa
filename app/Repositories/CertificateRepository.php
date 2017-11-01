@@ -84,7 +84,7 @@ class CertificateRepository
             $html = $this->generate($page);
             Storage::disk('local')->makeDirectory($this->cached_path(), 0775, true);
             return Storage::disk('local')->put($this->cached_file($page, true), $html);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 
@@ -204,7 +204,7 @@ class CertificateRepository
                     return view('cert.summary', compact('order', 'order_id', 'url_prefix', 'page'))->render();
             }
         }else{
-            throw new Exception('인증서가 존재하지 않습니다.');
+            throw new \Exception('인증서가 존재하지 않습니다.');
         }
     }
 
@@ -221,7 +221,7 @@ class CertificateRepository
             return true;
 
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
 
             return false;
@@ -249,7 +249,7 @@ class CertificateRepository
             return true;
 
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
 
             return false;
