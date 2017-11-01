@@ -369,6 +369,10 @@ class OrderController extends Controller
         $order->engineer_id = $request->get('engineer');
         $order->save();
 
+        $reservation = Reservation::where('orders_id', $order->id)->first();
+        $reservation->garage_id = $request->get('garages');
+        $reservation->save();
+
         return redirect()->back()->with('success', 'BCS정보가 수정되었습니다.');
     }
 

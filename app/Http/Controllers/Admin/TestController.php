@@ -50,7 +50,7 @@ class TestController extends Controller {
             $item = Item::find(1);
             $purchase = new Purchase();
             $purchase->amount = $item->price;
-            $purchase->type = 11;
+            $purchase->type = 22;
             $purchase->status_cd = 103;
             $purchase->save();
 

@@ -151,6 +151,10 @@ class OrderController extends Controller
         $order->reservation->reservation_at = Carbon::parse($request->get('reservation_date') . ' ' . $request->get('sel_time') . ':00:00');
         $order->push();
 
+        $reservation = Reservation::where('orders_id', $order_id)->first();
+        $reservation->garage_id = $request->get('garage_id');
+        $reservation->save();
+
         //문자, 메일 송부하기
         $enter_date = $order->reservation->reservation_at;
         $garage_info = User::find($order->garage_id);
@@ -220,11 +224,6 @@ class OrderController extends Controller
         $order->accident_state_cd = $request->get('accident');
         $order->car_number = $request->get('car_number');
         $order->save();
-
-        //@TODO orderCar에 차량번호를 굳이 업데이트 해줘야 하는 이유가 없으면 빼는것으로
-        // $order->orderCar->car_number = $request->get('car_number');
-        // $order->orderCar->save();
-        OrderFeature::replaceAll($order_id, $request->get('options_ck'));
 
         return redirect()
             ->route('mypage.order.show', $order->id)

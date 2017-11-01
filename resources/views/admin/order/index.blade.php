@@ -459,6 +459,7 @@
                     },
                     success: function (data) {
                         alert('예약날짜가 변경되었습니다.');
+                        $("#changeReservationModal").modal('hide');
                     },
                     error: function (data) {
                         alert('처리중 오류가 발생하였습니다. 잠시후 다시 시도해주세요.');
