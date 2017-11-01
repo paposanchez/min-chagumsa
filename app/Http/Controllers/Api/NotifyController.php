@@ -35,7 +35,8 @@ class NotifyController extends Controller {
      */
     public function register(Request $request){
         try{
-            $user_device = UserDevice::where('users_id', $request->get('users_id'))->first();
+            // user_id와 device_id 복합 PK
+            $user_device = UserDevice::where('users_id', $request->get('user_id'))->where('device_id', $request->get('device_id'))->first();
             if(!$user_device){
                 $user_device = new UserDevice();
             }
