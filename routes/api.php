@@ -13,6 +13,8 @@ Route::get('notice', "NoticeController@index");
 Route::get('notice/news', "NoticeController@news");
 // 공지사항 상세보기
 Route::get('notice/show', "NoticeController@show");
+// 디바이스 아이디 업데이트
+Route::get('notice/register', "NoticeController@register");
 
 //예약목록
 Route::get('diagnosis/reservation', "DiagnosisController@getDiagnosisReservation");
