@@ -13,7 +13,7 @@ class UserDevice extends Model {
         'users_id',
         'device_id'
     ];
-    protected $dates = ['created_at'];
+    public $timestamps = false;
 
 
 
