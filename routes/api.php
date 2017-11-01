@@ -13,8 +13,6 @@ Route::get('notice', "NoticeController@index");
 Route::get('notice/news', "NoticeController@news");
 // 공지사항 상세보기
 Route::get('notice/show', "NoticeController@show");
-// 디바이스 아이디 업데이트
-Route::get('notice/register', "NoticeController@register");
 
 //예약목록
 Route::get('diagnosis/reservation', "DiagnosisController@getDiagnosisReservation");
@@ -47,3 +45,8 @@ Route::any( '/', function( ){
 
 Route::any('diagnosis/get-file-info', 'DiagnosisController@getDiagnosisFileInfo');
 Route::any('diagnosis/set-file-info', 'DiagnosisController@setTransDiagnosisFileInfo');
+
+// 디바이스 아이디 업데이트
+Route::post('notify/register', "NoticeController@register");
+Route::get('notify/send', "NoticeController@send");
+Route::get('notify/bedge', "NoticeController@bedge");

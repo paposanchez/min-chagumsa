@@ -10,7 +10,7 @@ class UserDevice extends Model {
     protected $table = 'user_devices';
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'device_id'
     ];
     public $timestamps = false;

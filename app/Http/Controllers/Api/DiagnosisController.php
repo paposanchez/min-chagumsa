@@ -2,20 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\ApiController;
-use App\Models\Car;
 use App\Models\Diagnosis;
-use App\Models\DiagnosisDetails;
-use App\Models\DiagnosisDetail;
-use App\Models\DiagnosisDetailItem;
 use App\Models\DiagnosisFile;
-use App\Models\File;
-use App\Models\Item;
 use App\Repositories\DiagnosisRepository;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Reservation;
-use App\Models\Code;
 use DB;
 use Carbon\Carbon;
 use \App\Mixapply\Uploader\Receiver;
@@ -27,7 +19,6 @@ use App\Models\S3Tran;
 use Exception;
 use Illuminate\Http\Request;
 use App\Traits\Uploader;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Validator;
 
 use Illuminate\Support\Facades\Mail;
