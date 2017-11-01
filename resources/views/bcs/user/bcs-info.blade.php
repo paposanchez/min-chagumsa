@@ -45,7 +45,7 @@
                         <label for="inputName"
                                class="control-label col-md-3">{{ trans('bcs/bcs-info.registration_number') }}</label>
                         <div class="col-md-4">
-                            <p class='form-control-static'>{{ $user->user_extra->registration_number }}</p>
+                            <p class='form-control-static'>{{ $user->user_extra->registration_number ? $user->user_extra->registration_number : '미등록, 짐브로스에 문의하세요.' }}</p>
                             <input type="hidden" name="registration_number"
                                    value="{{ $user->user_extra->registration_number }}">
                         </div>

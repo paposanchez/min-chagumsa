@@ -417,6 +417,7 @@
                     },
                     success: function (data) {
                         alert('예약날짜가 변경되었습니다.');
+                        $("#changeReservationModal").modal('hide');
                     },
                     error: function (data) {
                         alert('문제가 발생하였습니다. 관리자에게 문의 바랍니다');
