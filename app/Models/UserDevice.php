@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserDevice extends Model {
 
-    protected $primaryKey = 'idx';
+    protected $table = 'user_devices';
 
     protected $fillable = [
         'users_id',
