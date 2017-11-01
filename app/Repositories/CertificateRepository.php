@@ -247,6 +247,7 @@ class CertificateRepository {
                                     return view('cert.mobile-price', compact('order', 'order_id', 'page', 'url_prefix', 'specials'))->render();
 
                                 case "mobile-summary":
+                                    dd($order, $order_id, $url_prefix, $page);
                                     return view('cert.mobile-summary', compact('order', 'order_id','url_prefix',  'page'))->render();
 
                                 default:
