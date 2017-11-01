@@ -23,13 +23,16 @@
                         <div class="col-sm-9">
                             <div class="btn-group" data-toggle="buttons">
                                 <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }} 전체
+                                    {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }}
+                                    전체
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 110 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 110, \App\Helpers\Helper::isCheckd(110, $status_cd), ['name' => 'status_cd']) }} 정산대기
+                                    {{ Form::radio('status_cd', 110, \App\Helpers\Helper::isCheckd(110, $status_cd), ['name' => 'status_cd']) }}
+                                    정산대기
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 111 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 111, \App\Helpers\Helper::isCheckd(111, $status_cd), ['name' => 'status_cd']) }} 정산완료
+                                    {{ Form::radio('status_cd', 111, \App\Helpers\Helper::isCheckd(111, $status_cd), ['name' => 'status_cd']) }}
+                                    정산완료
                                 </label>
                             </div>
                         </div>
@@ -42,14 +45,16 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                 <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_start') }}" name='trs' value='{{ $trs }}'>
+                                       placeholder="{{ trans('common.search.period_start') }}" name='trs'
+                                       value='{{ $trs }}'>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                 <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_end') }}" name='tre' value='{{ $tre }}'>
+                                       placeholder="{{ trans('common.search.period_end') }}" name='tre'
+                                       value='{{ $tre }}'>
                             </div>
                         </div>
                     </div>

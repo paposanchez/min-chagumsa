@@ -118,7 +118,8 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="input-group input-group-lg">
-                            <span class="input-group-addon" id="calendar-opener" style="cursor:pointer;"><i class="fa fa-calendar"></i></span>
+                            <span class="input-group-addon" id="calendar-opener" style="cursor:pointer;"><i
+                                        class="fa fa-calendar"></i></span>
                             <input type="text" class="form-control datepicker2" data-format="YYYY-MM-DD"
                                    placeholder="{{ trans('web/order.reservation_date') }}" name='reservation_date'
                                    id="reservation_date" value='{{ $order->reservation->reservation_at }}'
@@ -161,121 +162,119 @@
 @endpush
 
 @push( 'footer-script' )
-<script type="text/javascript">
-    $(function () {
-        // 정비소 관련 리스트
-        $('#areas').change(function () {
-            var garage_area = $('#areas option:selected').text();
+    <script type="text/javascript">
+        $(function () {
+            // 정비소 관련 리스트
+            $('#areas').change(function () {
+                var garage_area = $('#areas option:selected').text();
 
-            $.ajax({
-                type: 'get',
-                dataType: 'json',
-                url: '/order/get-section/',
-                data: {
-                    '_token': '{{ csrf_token() }}',
-                    'garage_area': garage_area
-                },
-                success: function (data) {
-                    //select box 초기화
-                    $('#sections').html("");
-                    $('#garages').html('<option disabled="true">대리점을 선택하세요.</option>');
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: '/order/get-section/',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        'garage_area': garage_area
+                    },
+                    success: function (data) {
+                        //select box 초기화
+                        $('#sections').html("");
+                        $('#garages').html('<option disabled="true">대리점을 선택하세요.</option>');
 
-                    $('#sel_area').val(garage_area);
-                    $.each(data, function (key, value) {
-                        $('#sections').append($('<option/>', {
-                            value: value,
-                            text: value
-                        }));
-                    });
-                },
-                error: function () {
-                    alert('error');
-                }
-            })
-        });
-
-        $('#sections').change(function () {
-            var garage_area = $('#areas option:selected').text();
-            var garage_section = $('#sections option:selected').text();
-
-            $.ajax({
-                type: 'get',
-                dataType: 'json',
-                url: '/order/get-address/',
-                data: {
-                    'sel_area': garage_area,
-                    'sel_section': garage_section
-                },
-                success: function (data) {
-                    $('#garages').html("");
-
-                    $.each(data, function (key, value) {
-                        $('#garages').append($('<option/>', {
-                            value: key,
-                            text: value
-                        }));
-                    });
-                },
-                error: function (data) {
-                    alert('error');
-                }
+                        $('#sel_area').val(garage_area);
+                        $.each(data, function (key, value) {
+                            $('#sections').append($('<option/>', {
+                                value: value,
+                                text: value
+                            }));
+                        });
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                })
             });
+
+            $('#sections').change(function () {
+                var garage_area = $('#areas option:selected').text();
+                var garage_section = $('#sections option:selected').text();
+
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: '/order/get-address/',
+                    data: {
+                        'sel_area': garage_area,
+                        'sel_section': garage_section
+                    },
+                    success: function (data) {
+                        $('#garages').html("");
+
+                        $.each(data, function (key, value) {
+                            $('#garages').append($('<option/>', {
+                                value: key,
+                                text: value
+                            }));
+                        });
+                    },
+                    error: function (data) {
+                        alert('error');
+                    }
+                });
+            });
+
+
+            $("#reservation-form").submit(function () {
+
+                if ($("input[name='reservaton_date']").val() == '') {
+                    alert('입고희망일을 선택해 주세요.');
+                    $("input[name='reservaton_date']").focus();
+                    return false;
+                }
+
+                if ($("#garage_id").val() == '') {
+                    alert('입고 대리점을 선택해 주세요.');
+                    $("garage_list").attr("tabindex", -1).focus();
+                    return false;
+                }
+                return true;
+            });
+
+
+            //########## Pikaday
+            $('.datepicker2').each(function (index, element) {
+                var opt = {
+                    field: element,
+                    format: 'YYYY-MM-DD',
+                    minDate: moment().add(1, 'days').toDate(),
+                    disableDayFn: function (date) {
+                        return date.getDay() === 0;
+                    },
+                    i18n: {
+                        previousMonth: '이전달',
+                        nextMonth: '다음달',
+                        months: '1월.2월.3월.4월.5월.6월.7월.8월.9월.10월.11월.12월.'.split('.'),
+                        weekdays: '월요일.화요일.수요일.목요일.금요일.토요일.일요일'.split('.'),
+                        weekdaysShort: '일.월.화.수.목.금.토.'.split('.')
+                    },
+                };
+
+                if ($(this).data('format')) {
+                    opt.format = $(this).data('format');
+                }
+
+                new Pikaday(opt);
+            });
+
+            //달력이미지 클릭
+            $('#calendar-opener').click(function () {
+                $("#reservation_date").click();
+            });
+
+            $('#prev').click(function () {
+                location.href = "{{ URL::previous() }}";
+            });
+
         });
-
-
-        $("#reservation-form").submit(function () {
-
-            if ($("input[name='reservaton_date']").val() == '') {
-                alert('입고희망일을 선택해 주세요.');
-                $("input[name='reservaton_date']").focus();
-                return false;
-            }
-
-            if ($("#garage_id").val() == '') {
-                alert('입고 대리점을 선택해 주세요.');
-                $("garage_list").attr("tabindex", -1).focus();
-                return false;
-            }
-            //            alert($("#reservation-form").attr("action"));
-            return true;
-        });
-
-
-        //########## Pikaday
-        $('.datepicker2').each(function (index, element) {
-            var opt = {
-                field: element,
-                format: 'YYYY-MM-DD',
-                minDate: moment().add(1, 'days').toDate(),
-                disableDayFn: function (date) {
-                    return date.getDay() === 0;
-                },
-                i18n: {
-                    previousMonth: '이전달',
-                    nextMonth: '다음달',
-                    months: '1월.2월.3월.4월.5월.6월.7월.8월.9월.10월.11월.12월.'.split('.'),
-                    weekdays: '월요일.화요일.수요일.목요일.금요일.토요일.일요일'.split('.'),
-                    weekdaysShort: '일.월.화.수.목.금.토.'.split('.')
-                },
-            };
-
-            if ($(this).data('format')) {
-                opt.format = $(this).data('format');
-            }
-
-            new Pikaday(opt);
-        });
-
-        //달력이미지 클릭
-        $('#calendar-opener').click(function () {
-            $("#reservation_date").click();
-        });
-
-        $('#prev').click(function () {
-            location.href = "{{ URL::previous() }}";
-            {{--location.href = "{{ route('mypage.order.show', ['id'=>$order->id]) }}";--}}
-        });
-
-    });
-</script>
+    </script>
 @endpush

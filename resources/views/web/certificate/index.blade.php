@@ -36,14 +36,13 @@
                                     name="picture"
                                     src="http://cdn.chagumsa.com/diagnosis/{{ $order->certificates->pictures }}"
                                     class="img-responsive picture"
-                                    style="width: 290px;height: 290px;">
+                                    style="width: 302px;height: 232px;">
                         @else
-                            {{--<img src="http://fakeimg.pl/270x204/" alt='차량 이미지'>--}}
                                 <img
                                         name="picture"
                                         src="http://image.chagumsa.com/diagnosis/{{ $order->getExteriorPicture()[0]->files[0]->id }}-264.png"
                                         class="img-responsive picture"
-                                        style="width: 290px;height: 290px;">
+                                        style="width: 302px;height: 232px;">
                         @endif
 
                     </div>

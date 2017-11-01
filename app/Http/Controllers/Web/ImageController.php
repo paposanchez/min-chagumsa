@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class ImageController extends Controller {
 
+    /**
+     * @param Request $request
+     * @param null $id
+     * 섬네일 관련 메소드
+     * @return mixed
+     */
     public function thumbnail(Request $request, $id = null) {
         $image = public_path('assets/img/noimage.png');
 
@@ -29,6 +35,12 @@ class ImageController extends Controller {
         return response()->file($image);
     }
 
+    /**
+     * @param Request $request
+     * @param null $user_id
+     * 프로필 사진 관련 메소드
+     * @return mixed
+     */
     public function avatar(Request $request, $user_id = null) {
         $image = public_path('assets/img/avatar.png');
 

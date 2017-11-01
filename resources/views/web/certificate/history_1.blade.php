@@ -1,4 +1,4 @@
-@extends( 'layouts.report' )
+@extends( 'web.layouts.report' )
 
 @section( 'content' )
 
@@ -7,7 +7,6 @@
         {{ $order->getCarFullName() }}
     </div>
 
-    <div class='report_title_type2'>기본정보</div>
     <div class='report_table exp'>
         <table>
             <colgroup>
@@ -18,76 +17,55 @@
             </colgroup>
             <tbody>
             <tr>
-                <th>차명</th>
-                <td>
-                    {{ $order->getCarFullName() }}
-                </td>
-                <th>차대번호</th>
-                <td>
-                    {{ $order->isIssued() ? $order->car->vin_number : '미입력 (검토중)'}}
-                </td>
-            </tr>
-            <tr>
-                <th>등록번호</th>
-                <td>
-                    {{ $order->car_number }}
-                </td>
-                <th>동일성여부</th>
-                <td>
-                    {{ $order->certificates->getVinCd ? $order->certificates->getVinCd->display() : '미입력 (검토중)' }}
-                </td>
-            </tr>
-            <tr>
-                <th>최초등록일</th>
-                <td>
-                    {{ $order->isIssued() ? \Carbon\Carbon::parse($order->car->registration_date)->format('Y년 m월 d일') : '미입력 (검토중)' }}
-                </td>
                 <th>연식</th>
                 <td>
-                    {{ $order->isIssued() ? $order->car->year : '미입력 (검토중)' }}
+                    {{ $order->car->year }}
                 </td>
-            </tr>
-            <tr>
-                <th>변속기</th>
-                <td>
-                    {{ $order->isIssued() ? $order->car->getTransmission->display() : '미입력 (검토중)' }}
-                </td>
-                <th>색상</th>
-                <td>
-                    @if($order->isIssued())
-                        {{ $order->car->getExteriorColor->display() }}(외부)
+
+                <td rowspan='6' class='img_type2'>
+
+                    @if($exterior_picture_ids[0]->files)
+                        <img class="img"
+                             src="http://mme.chagumsa.com/resize?logo=1&r=1&width=300&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $exterior_picture_ids[0]->id }}&format=png&h_pos=10&bg_rgb=ffffff"
+                             alt='차량 이미지' id="imgSrc"
+                             data-url="http://mme.chagumsa.com/resize?logo=1&r=1&width=860&qty=87&w_opt=0.4&w_pos=10&url=http://www.chagumsa.com/file/diagnosis-download/{{ $exterior_picture_ids[0]->id }}&format=png&h_pos=10&bg_rgb=ffffff">
                     @else
-                        미입력 (검토중)
+                        <img src="http://fakeimg.pl/272x205/">
                     @endif
-                </td>
-            </tr>
-            <tr>
-                <th>세부모델</th>
-                <td>
-                    {{ $order->getCarfullName() }}
-                </td>
-                <th>주행거리(km)</th>
-                <td>
-                    @if($order->isIssued())
-                        {{ number_format($order->mileage) }} km
-                    @else
-                        미입력 (검토중)
-                    @endif
+
 
                 </td>
             </tr>
             <tr>
-                <th>배기량(cc)</th>
+                <th>차대번호</th>
                 <td>
-                    @if($order->isIssued())
-                        {{ number_format($order->car->displacement) }} cc
-                    @else
-                        미입력 (검토중)
-                    @endif
+                    {{ $order->car_number }}
                 </td>
+            </tr>
+            <tr>
+                <th>차종구분</th>
+                <td>
+                    {{ $order->car->getKind->display() }} {{ $order->car->passenger }}인승
+                </td>
+            </tr>
+            <tr>
                 <th>사용연료</th>
                 <td>
-                    {{ $order->isIssued() ? $order->car->getFuelType->display() : '미입력 (검토중)' }}
+                    {{ $order->car->getFuelType->display() }}
+                </td>
+            </tr>
+            <tr>
+                <th>주행거리</th>
+                <td>
+                    {{ number_format($order->mileage) }} km
+                </td>
+            </tr>
+            <tr>
+                <th><strong class='fcol_navy'>인증서 발급일</strong></th>
+                <td>
+                    <strong class='fcol_navy'>
+                        {{ \Carbon\Carbon::parse($order->certificates->created_at)->format('Y년 m월 d일') }}
+                    </strong>
                 </td>
             </tr>
             </tbody>
@@ -153,32 +131,52 @@
                 <th class='fcol_navy'>용도변경 이력</th>
                 <td>
                     @if($order->certificates->history_purpose)
-                        {{ count(explode(',', $order->certificates->history_purpose)) }}건
+                        있음
                     @else
                         없음
                     @endif
                 </td>
                 <td>
-                    {{ $order->certificates->history_purpose ? $order->certificates->history_purpose : '용도변경 이력' }}
+                    @if($order->certificates->history_purpose)
+                        @foreach(json_decode($order->certificates->history_purpose, true) as $key => $purpose)
+                            {{ $purpose }}
+                        @endforeach
+                    @else
+                        용도변경이력이 없음
+                    @endif
                 </td>
             </tr>
             <tr>
                 <th class='fcol_navy'>차고지 이력</th>
                 <td>
                     @if($order->certificates->history_garage)
-                        {{ count(explode(',', $order->certificates->history_garage)) }}건
-                </td>
+                        최근 / {{ json_decode($order->certificates->history_garage, true)[0] }}</td>
                 @else
                     없음
                 @endif
+                {{--<td>강원도/강릉, 경기도/파주</td>--}}
                 <td>
-                    {{ $order->certificates->history_garage ? $order->certificates->history_garage : '차고지 이력 없음' }}
+                    @if($order->certificates->history_garage)
+                        @foreach(json_decode($order->certificates->history_garage, true) as $key => $garage_row)
+                            • {{ $garage_row }}
+                        @endforeach
+                    @else
+                        차고지이력이 없음
+                    @endif
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+@endsection
 
+
+
+
+@push( 'header-script' )
+@endpush
+
+@push( 'footer-script' )
     <script type="text/javascript">
 
         $(window).on("load", function () {
@@ -193,4 +191,4 @@
 
 
     </script>
-@endsection
+@endpush

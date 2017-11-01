@@ -10,4 +10,4 @@
 <hr/>
 <p>{{ $body }}</p>
 <hr/>
-{{--<footer>Mail from {{ config('app.url') }}</footer>--}}
+

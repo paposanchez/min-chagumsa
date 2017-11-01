@@ -48,9 +48,4 @@ class PostController extends Controller {
                 $board_namespace = $this->board_namespace;
                 return view($this->view_path . 'create', compact('board_namespace'));
         }
-
-        //    public function store() {
-        //        dd('ddd');
-        //    }
-
 }

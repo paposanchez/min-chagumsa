@@ -11,8 +11,8 @@
 
     <div id='sub_wrap'>
         <ul class='menu_tab_wrap'>
-                <li><a class='select' href='{{ route('mypage.order.index') }}'>주문목록</a></li>
-                <li><a class='' href='{{ route('mypage.profile.index') }}'>회원정보수정</a></li>
+            <li><a class='select' href='{{ route('mypage.order.index') }}'>주문목록</a></li>
+            <li><a class='' href='{{ route('mypage.profile.index') }}'>회원정보수정</a></li>
         </ul>
 
         <div class='br30'></div>
@@ -161,24 +161,24 @@
 @endpush
 
 @push( 'footer-script' )
-<script type="text/javascript">
-    $(function () {
-        $('#mypage').click(function () {
-            history.back();
-        });
+    <script type="text/javascript">
+        $(function () {
+            $('#mypage').click(function () {
+                history.back();
+            });
 
-        $("#cancel-click").on("click", function () {
-            if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
-                var order_id = $(this).data("cancel_order_id");
-                if (order_id) {
-                    $("#cancel-order_id").val(order_id);
-                    $("#cancel-form").submit();
-                } else {
-                    alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
+            $("#cancel-click").on("click", function () {
+                if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
+                    var order_id = $(this).data("cancel_order_id");
+                    if (order_id) {
+                        $("#cancel-order_id").val(order_id);
+                        $("#cancel-form").submit();
+                    } else {
+                        alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
+                    }
+
                 }
-
-            }
-        });
-    })
-</script>
+            });
+        })
+    </script>
 @endpush

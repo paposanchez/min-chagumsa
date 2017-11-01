@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\UserDevice;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use App\Http\Controllers\Api\ApiController;
@@ -99,5 +100,6 @@ class NoticeController extends ApiController {
         $return = Post::where('board_id', $this->board_id)->where('created_at', ">=", Carbon::yesterday())->count();
         return response()->json($return);
     }
+
 
 }

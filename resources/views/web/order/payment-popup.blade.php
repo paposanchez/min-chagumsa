@@ -1,25 +1,26 @@
 <!doctype html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-        <title>차검사</title>
+    <title>차검사</title>
 
-        <link rel="stylesheet" href="//webtx.tpay.co.kr/css/nyroModal.tpay.custom.css" type="text/css" media="screen" />
-        <script type="text/javascript" src="//webtx.tpay.co.kr/js/jquery-1.7.2.js"></script>
-        <script type="text/javascript">var resultUrl = "/order/payment-result";</script>
-    </head>
+    <link rel="stylesheet" href="//webtx.tpay.co.kr/css/nyroModal.tpay.custom.css" type="text/css" media="screen"/>
+    <script type="text/javascript" src="//webtx.tpay.co.kr/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript">var resultUrl = "/order/payment-result";</script>
+</head>
 
-    <body>
-    <div style="visibility: hidden;">
+<body>
+<div style="visibility: hidden;">
     <div>
-        <form id="transMgr" name="transMgr" method="post" action="{{ $payActionUrl }}/webTxInit" class="nyroModal" target="_blank">
+        <form id="transMgr" name="transMgr" method="post" action="{{ $payActionUrl }}/webTxInit" class="nyroModal"
+              target="_blank">
             <input type="hidden" name="payType" value="1">
-            <input type="hidden" name="ediDate"	value="{{ $ediDate }}">
+            <input type="hidden" name="ediDate" value="{{ $ediDate }}">
             <input type="hidden" name="encryptData" value="{{ $encryptData }}">
-            <input type="hidden" name="userIp"	value="{{ $request->server('SERVER_ADDR') }}">
+            <input type="hidden" name="userIp" value="{{ $request->server('SERVER_ADDR') }}">
             <input type="hidden" name="browserType" id="browserType">
             <input type="hidden" name="mallUserId" value="{{ Auth::user()->email }}">
             <input type="hidden" name="parentEmail">
@@ -41,7 +42,7 @@
             <input type="hidden" name="socketReturnURL" value="{{ $payLocalUrl }}/order/payment-result">
             <input type="hidden" name="retryUrl" value="{{ $payLocalUrl }}/order/pay-callback">
             <input type="text" name="goodsName" value="{{ $product_name }}" readonly>
-            <input type="text" name="amt" value="{{ $amt }}" readonly >
+            <input type="text" name="amt" value="{{ $amt }}" readonly>
             <input type="text" name="moid" value="{{ $moid }}" readonly>
             <input type="text" name="buyerName" value="{{ $buyerName }}" readonly>
             <input type="text" name="buyerTel" value="{{ $buyerTel }}" readonly>
@@ -58,19 +59,19 @@
             $("#transMgr").submit();
         });
 
-        function tPayClose(){
-            if($("#iframeUrlSendBox").length==false){
+        function tPayClose() {
+            if ($("#iframeUrlSendBox").length == false) {
 
-            }else{
+            } else {
                 $("#iframeUrlSendBox").remove();
             }
 
             parent.paymentClose(); //결제모달 닫기
 
             var tpay = $.nmTop();
-            if(tpay!=undefined){
+            if (tpay != undefined) {
                 $.nmTop().close();
-            }else{
+            } else {
                 document.location.reload();
             }
         }

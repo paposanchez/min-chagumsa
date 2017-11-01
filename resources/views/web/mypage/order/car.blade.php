@@ -140,46 +140,45 @@
 @endpush
 
 @push( 'footer-script' )
-<script type="text/javascript">
-    var car_num_chk = function (car_num) {
-        var pattern1 = /\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 12저1234
-        var pattern2 = /[가-힣ㄱ-ㅎㅏ-ㅣ\x20]{2}\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 서울12치1233
+    <script type="text/javascript">
+        var car_num_chk = function (car_num) {
+            var pattern1 = /\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 12저1234
+            var pattern2 = /[가-힣ㄱ-ㅎㅏ-ㅣ\x20]{2}\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 서울12치1233
 
-        if (!pattern1.test(car_num)) {
-            if (!pattern2.test(car_num)) {
-                return 1;
+            if (!pattern1.test(car_num)) {
+                if (!pattern2.test(car_num)) {
+                    return 1;
+                }
+                else {
+                    return 2;
+                }
             }
             else {
-                return 2;
-            }
-        }
-        else {
-            if(car_num.length < 8){
-                return 2;
-            }else{
-                return 1;
-            }
+                if (car_num.length < 8) {
+                    return 2;
+                } else {
+                    return 1;
+                }
 
-        }
-    };
+            }
+        };
 
 
-    $(function () {
-        // 차량번호 검사
-        $('#save').on('click', function(){
-            var car_num = $('#car_number').val();
-            if (car_num_chk(car_num) == 1) {
-                alert('차량번호를 정확히 입력해주세요.');
-                $('#car_number').focus();
-            }else{
-                $('#frmOrder').submit();
-            }
+        $(function () {
+            // 차량번호 검사
+            $('#save').on('click', function () {
+                var car_num = $('#car_number').val();
+                if (car_num_chk(car_num) == 1) {
+                    alert('차량번호를 정확히 입력해주세요.');
+                    $('#car_number').focus();
+                } else {
+                    $('#frmOrder').submit();
+                }
+            });
+
+
         });
 
 
-    });
-
-
-
-</script>
+    </script>
 @endpush

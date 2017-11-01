@@ -48,7 +48,7 @@
 
                     <h4>주문정보
 
-                        @if($order->status_cd < 106)
+                        @if($order->status_cd != 100 && $order->status_cd < 106)
                             <a class='pull-right text-sm text-danger'
                                href="#" id="cancel-click" data-cancel_order_id="{{ $order->id }}">주문취소</a>
                         @endif
@@ -258,7 +258,7 @@
 
                     <h4 class="">BCS
 
-                        @if($order->status_cd < 108)
+                        @if($order->status_cd != 100 && $order->status_cd < 108)
                             <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
                                data-target="#bcsModal" id="ch_garage">변경</a>
                         @endif
@@ -280,7 +280,7 @@
 
                     <h4 class="">기술사
 
-                        @if($order->status_cd == 108)
+                        @if($order->status_cd != 100 && $order->status_cd == 108)
                             <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
                                data-target="#techModal" id="ch_garage">변경</a>
                         @endif
@@ -481,9 +481,10 @@
                                  style="margin:0px;">
                                 <label class="control-label">엔지니어</label>
 
-                                <select class="form-control" id="engineer" name="engineer" {{ $order->engineer ? $order->engineer->id : '' }}
-                                @if($order->engineer)
-                                data-id="{{ $order->engineer->id }}"
+                                <select class="form-control" id="engineer" name="engineer"
+                                        {{ $order->engineer ? $order->engineer->id : '' }}
+                                        @if($order->engineer)
+                                        data-id="{{ $order->engineer->id }}"
                                         @endif
                                         autocomplete="off">
 
@@ -558,117 +559,115 @@
 @endsection
 
 @push( 'footer-script' )
-<script type="text/javascript">
-    $(function () {
+    <script type="text/javascript">
+        $(function () {
 
 
-        $('#areas').change(function () {
-            var garage_area = $('#areas option:selected').text();
-            $.ajax({
-                type: 'get',
-                dataType: 'json',
-                url: '/order/get-section',
-                data: {
-                    'garage_area': garage_area
-                },
-                success: function (data) {
+            $('#areas').change(function () {
+                var garage_area = $('#areas option:selected').text();
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: '/order/get-section',
+                    data: {
+                        'garage_area': garage_area
+                    },
+                    success: function (data) {
 
-                    //select box 초기화
-                    $('#sections').html("");
-                    $('#garages').html('<option value="0">대리점을 선택하세요.</option>');
-                    $('#sections').append('<option value="0">구/군을 선택하세요.</option>');
-                    $.each(data, function (key, value) {
-                        $('#sections').append($('<option/>', {
-                            value: value,
-                            text: value
-                        }));
-                    });
-                },
-                error: function (data) {
-                    alert('error');
-                }
-            })
-        });
+                        //select box 초기화
+                        $('#sections').html("");
+                        $('#garages').html('<option value="0">대리점을 선택하세요.</option>');
+                        $('#sections').append('<option value="0">구/군을 선택하세요.</option>');
+                        $.each(data, function (key, value) {
+                            $('#sections').append($('<option/>', {
+                                value: value,
+                                text: value
+                            }));
+                        });
+                    },
+                    error: function (data) {
+                        alert('error');
+                    }
+                })
+            });
 
-        $('#sections').change(function () {
-            var garage_area = $('#areas option:selected').text();
-            var garage_section = $('#sections option:selected').text();
+            $('#sections').change(function () {
+                var garage_area = $('#areas option:selected').text();
+                var garage_section = $('#sections option:selected').text();
 
-            $.ajax({
-                type: 'get',
-                dataType: 'json',
-                url: '/order/get-address',
-                data: {
-                    'sel_area': garage_area,
-                    'sel_section': garage_section
-                },
-                success: function (data) {
-                    $('#garages').html("");
-                    $('#garages').append('<option value="0">대리점을 선택하세요.</option>');
-                    $.each(data, function (key, value) {
-                        $('#garages').append($('<option/>', {
-                            value: key,
-                            text: value
-                        }))
-                    });
-                },
-                error: function (data) {
-                    alert('error');
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: '/order/get-address',
+                    data: {
+                        'sel_area': garage_area,
+                        'sel_section': garage_section
+                    },
+                    success: function (data) {
+                        $('#garages').html("");
+                        $('#garages').append('<option value="0">대리점을 선택하세요.</option>');
+                        $.each(data, function (key, value) {
+                            $('#garages').append($('<option/>', {
+                                value: key,
+                                text: value
+                            }))
+                        });
+                    },
+                    error: function (data) {
+                        alert('error');
+                    }
+                });
+            });
+
+            $('#garages').change(function () {
+                var garage_id = $('#garages option:selected').val();
+
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: '/order/get-engineer',
+                    data: {
+                        'garage_id': garage_id
+                    },
+                    success: function (data) {
+                        $('#engineer').html('');
+                        $.each(data, function (key, value) {
+                            $('#engineer').append($('<option/>', {
+                                value: key,
+                                text: value
+                            }))
+                        });
+                    },
+                    error: function (data) {
+                        alert(JSON.stringify(data));
+                    }
+                })
+            });
+
+            $('#bcs_submit').on('click', function () {
+                var garage = $('#garages').val();
+
+                if (garage != 0) {
+                    $('#bcsForm').submit();
+                } else {
+                    alert('정비소를 선택해주세요.');
                 }
             });
-        });
 
-        $('#garages').change(function(){
-            var garage_id = $('#garages option:selected').val();
+            $("#cancel-click").on("click", function () {
+                if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
+                    var order_id = $(this).data("cancel_order_id");
+                    if (order_id) {
+                        $("#cancel-order_id").val(order_id);
+                        $("#cancel-form").submit();
+                    } else {
+                        alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
+                    }
 
-            $.ajax({
-                type : 'get',
-                dataType : 'json',
-                url : '/order/get-engineer',
-                data : {
-                    'garage_id' : garage_id
-                },
-                success : function(data){
-                    $('#engineer').html('');
-//                    alert(JSON.stringify(data));
-                    $.each(data, function (key, value) {
-                        $('#engineer').append($('<option/>', {
-                            value: key,
-                            text: value
-                        }))
-                    });
-                },
-                error : function(data){
-                    alert(JSON.stringify(data));
                 }
-            })
+            });
+
+
         });
-
-        $('#bcs_submit').on('click', function () {
-            var garage = $('#garages').val();
-            //            var eng = $('#sel_eng').val();
-
-            if (garage != 0) {
-                $('#bcsForm').submit();
-            } else {
-                alert('정비소를 선택해주세요.');
-            }
-        });
-
-        $("#cancel-click").on("click", function () {
-            if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
-                var order_id = $(this).data("cancel_order_id");
-                if (order_id) {
-                    $("#cancel-order_id").val(order_id);
-                    $("#cancel-form").submit();
-                } else {
-                    alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
-                }
-
-            }
-        });
-
-
-    });
-</script>
+    </script>
 @endpush

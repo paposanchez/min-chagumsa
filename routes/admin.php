@@ -58,8 +58,6 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::resource('order', 'OrderController');
 
         // 진단관리
-//
-
         Route::post('/diagnosis/delete-file/{id}', 'DiagnosesController@fileDelete');
         Route::post('/diagnosis/upload-file', 'DiagnosesController@fileUpload');
 
@@ -98,7 +96,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::resource('post', 'PostController');
 
         // 코멘트
-        Route::resource('comment', 'CommentController');
+//        Route::resource('comment', 'CommentController');
 
         // 환경설정
         Route::group(['prefix' => 'config'], function () {
@@ -106,14 +104,15 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
                 Route::resource('code', 'CodeController');
                 // 역활
                 Route::resource('role', 'RoleController');
-                //권한
-                Route::resource('permission', 'PermissionController');
                 // 게시판설정
                 Route::resource('board', 'BoardController');
-                // tag
-                Route::resource('tag', 'TagController');
                 // 사용자로그
                 Route::resource('active', 'ActiveController');
+
+                //권한
+                //Route::resource('permission', 'PermissionController');
+                // tag
+                //Route::resource('tag', 'TagController');
         });
 
 

@@ -16,10 +16,10 @@ class VerifyController extends Controller {
     }
 
     /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @param array $data
+     * 벨리데이터
+     * 필수 값이 들어왓는지 검사
+     * @return mixed
      */
     protected function validator(array $data) {
         $validator = Validator::make($data, [
@@ -39,6 +39,13 @@ class VerifyController extends Controller {
         return $validator;
     }
 
+    /**
+     * @param Request $request
+     * @param $email
+     * @param $token
+     * 인덱스 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request, $email, $token) {
 
         if ($result) {
@@ -48,6 +55,11 @@ class VerifyController extends Controller {
         }
     }
 
+    /**
+     * @param Request $request
+     * 이메일 채크
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function emailCheck(Request $request){
         $where = User::where('email', $request->get('email'))->first();
         if($where){

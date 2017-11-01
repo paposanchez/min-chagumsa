@@ -6,7 +6,7 @@ use App\Models\Config;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ConfigController extends Controller {
+class ConfigController1 extends Controller {
 
     public function index() {
 

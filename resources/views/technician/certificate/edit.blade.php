@@ -24,11 +24,13 @@
                     data-id="{{ $order->id }}" style="margin-left:10px;">인증서 발급하기
             </button>
 
-            <button id="certificate-submit" class="btn btn-info pull-right" data-toggle="tooltip" title="인증서 저장하기" style="margin-left:10px;">인증서
+            <button id="certificate-submit" class="btn btn-info pull-right" data-toggle="tooltip" title="인증서 저장하기"
+                    style="margin-left:10px;">인증서
                 저장하기
             </button>
 
-            <a href="/certificate/{{ $order->id }}" target="_blank" class="btn btn-primary pull-right" data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
+            <a href="/certificate/{{ $order->id }}" target="_blank" class="btn btn-primary pull-right"
+               data-toggle="tooltip" title="인증서 미리보기"><i class="fa fa-eye"></i></a>
 
         </h3>
 
@@ -169,11 +171,6 @@
                                        value="{{ $car->exterior_color_etc ? $car->exterior_color_etc : '' }}">
                             </li>
 
-                            {{--<li class="list-group-item">--}}
-                            {{--<small>내부색상</small>--}}
-                            {{--{!! Form::select('cars_interior_color', $select_color, [$car->interior_color_cd ? $car->interior_color_cd : ''], ['class'=>'form-control', 'required']) !!}--}}
-                            {{--</li>--}}
-
                             <li class="list-group-item">
                                 <small>연비</small>
                                 <div class="input-group"><input type="text" class="form-control"
@@ -265,7 +262,8 @@
                                 <label for="" class="control-label col-sm-2">기준가격(P)</label>
                                 <div class="col-sm-3 col-sm-offset-7 has-error">
                                     <div class="input-group">
-                                        <input type="text" class="form-control cert-calculate-subtotal" placeholder="" title="" name="pst" id="pst" value="{{ $order->certificates->price }}">
+                                        <input type="text" class="form-control cert-calculate-subtotal" placeholder=""
+                                               title="" name="pst" id="pst" value="{{ $order->certificates->price }}">
                                         <span class="input-group-addon">만원</span>
                                     </div>
                                 </div>
@@ -277,7 +275,9 @@
                                 <label for="" class="control-label col-sm-2">기본평가(A)</label>
                                 <div class="col-sm-3 col-sm-offset-7 has-error">
                                     <div class="input-group">
-                                        <input type="text" class="form-control cert-calculate-subtotal" placeholder="" title="" name="basic_depreciation" id="basic_depreciation" value="{{ $order->certificates->basic_depreciation }}">
+                                        <input type="text" class="form-control cert-calculate-subtotal" placeholder=""
+                                               title="" name="basic_depreciation" id="basic_depreciation"
+                                               value="{{ $order->certificates->basic_depreciation }}">
                                         <span class="input-group-addon">만원</span>
                                     </div>
                                 </div>
@@ -329,19 +329,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            {{--<div class="form-group no-margin">--}}
-                            {{--<label for="" class="control-label col-md-offset-5 col-md-3">기본가격(A) 감가금액</label>--}}
-                            {{--<div class="col-sm-4">--}}
-                            {{--<div class="input-group">--}}
-                            {{--<input type="text" class="form-control" name="basic_depreciation"--}}
-                            {{--id="basic_depreciation"--}}
-                            {{--value="{{ $order->certificates->history_depreciation ? $order->certificates->history_depreciation : '' }}"--}}
-                            {{--required>--}}
-                            {{--<span class="input-group-addon">원</span>--}}
-                            {{--</div>--}}
-                            {{--</div>--}}
-                            {{--</div>--}}
                         </div>
 
                         <div class="panel-heading">
@@ -349,7 +336,9 @@
                                 <label for="" class="control-label col-sm-2">주요이력평가(B)</label>
                                 <div class="col-sm-3 col-sm-offset-7 has-error">
                                     <div class="input-group">
-                                        <input type="text" class="form-control cert-calculate-subtotal" placeholder="" title="" name="history_depreciation" id="history_depreciation" value="{{ $order->certificates->history_depreciation }}">
+                                        <input type="text" class="form-control cert-calculate-subtotal" placeholder=""
+                                               title="" name="history_depreciation" id="history_depreciation"
+                                               value="{{ $order->certificates->history_depreciation }}">
                                         <span class="input-group-addon">만원</span>
                                     </div>
                                 </div>
@@ -462,16 +451,6 @@
                                         </span>
                                     @endif
                                 </div>
-
-                                {{--<div class="col-sm-3">--}}
-                                {{--<div class="input-group">--}}
-                                {{--<input type="text" class="form-control cert-calculate-cost" placeholder=""--}}
-                                {{--title="" name="certificates_usage_mileage_depreciation"--}}
-                                {{--id="certificates_usage_mileage_depreciation"--}}
-                                {{--value="" required>--}}
-                                {{--<span class="input-group-addon">만원</span>--}}
-                                {{--</div>--}}
-                                {{--</div>--}}
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
@@ -487,7 +466,9 @@
                                 <label for="" class="control-label col-sm-2">종합진단결과(C)</label>
                                 <div class="col-sm-3 col-sm-offset-7 has-error">
                                     <div class="input-group">
-                                        <input type="text" class="form-control cert-calculate-subtotal" placeholder="" title="" name="performance_depreciation" id="performance_depreciation" value="{{ $order->certificates->performance_depreciation }}">
+                                        <input type="text" class="form-control cert-calculate-subtotal" placeholder=""
+                                               title="" name="performance_depreciation" id="performance_depreciation"
+                                               value="{{ $order->certificates->performance_depreciation }}">
                                         <span class="input-group-addon">만원</span>
                                     </div>
                                 </div>
@@ -741,7 +722,9 @@
                                 <label for="" class="control-label col-sm-2">특별요인(S)</label>
                                 <div class="col-sm-3 col-sm-offset-7 has-error">
                                     <div class="input-group">
-                                        <input type="text" class="form-control cert-calculate-subtotal" placeholder="" title="" name="special_depreciation" id="special_depreciation" value="{{ $order->certificates->special_depreciation }}">
+                                        <input type="text" class="form-control cert-calculate-subtotal" placeholder=""
+                                               title="" name="special_depreciation" id="special_depreciation"
+                                               value="{{ $order->certificates->special_depreciation }}">
                                         <span class="input-group-addon">만원</span>
                                     </div>
                                 </div>
@@ -753,10 +736,6 @@
                                 <label class="control-label col-sm-2">요인</label>
                                 <div class="col-sm-7">
                                     <div class="btn-group" data-toggle="buttons">
-                                        {{--<label class="btn btn-default {{ $order->certificates->special_flooded_cd == 3 ? 'active' : '' }}">--}}
-                                        {{--{{ Form::checkbox('certificates_special_flooded_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_flooded_cd)) }}--}}
-                                        {{--침수차량--}}
-                                        {{--</label>--}}
                                         <label class="btn btn-default {{ $order->certificates->special_fire_cd == 3 ? 'active' : '' }}">
                                             {{ Form::checkbox('certificates_special_fire_cd', 3, \App\Helpers\Helper::isCheckd(3, $order->certificates->special_fire_cd)) }}
                                             화재차량
@@ -930,42 +909,38 @@
           href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}"/>
     <script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
     <script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
-    <script type="text/template" id="insurance-template">@include("partials/files", ['files'=> $order->certificates->insurance_files])</script>
+    <script type="text/template"
+            id="insurance-template">@include("partials/files", ['files'=> $order->certificates->insurance_files])</script>
 
     <script type="text/javascript">
         var sum_certificate_price = function () {
             var Pst = parseInt($("#pst").val());
-//        var A = parseInt($("#basic_registraion_depreciation").val())
-//            + parseInt($("#basic_mounting_cd").val()) + parseInt($("#basic_etc").val());
-
             var A = parseInt($('#basic_depreciation').val());
-//        var B = parseInt($("#usage_mileage_depreciation").val()) + parseInt($("#usage_history_depreciation").val());
             var B = parseInt($('#history_depreciation').val());
             var C = parseInt($("#performance_depreciation").val());
             var S = parseInt($("#special_depreciation").val());
 
             var V = Pst + (A + B + C + S);
             return V;
-        }
+        };
 
         $(function () {
-
-            $(document).on('click', '.picture', function(){
+            //대표이미지 선택
+            $(document).on('click', '.picture', function () {
                 $(this).parent().find('img').css('opacity', '1');
                 $(this).css('opacity', '0.2');
 
                 $('#selecte_picture_id').val($(this).data('id'));
             });
 
-
-
+            //인증서 임시저장
             $(document).on('click', '#certificate-submit', function () {
                 if (confirm("인증서를 저장하시겠습니까?")) {
                     $("#frm").submit();
                 }
             });
 
-
+            //폼 전송
             $("#frm").validate({
                 messages: {
                     orders_car_number: "자동차 등록번호를 입력해 주세요.",
@@ -978,51 +953,13 @@
                     cars_engine_type: "엔진타입을 입력해 주세요.",
                     cars_fuel_consumption: "연비를 선택해 주세요.",
                     passenger: "승차인원을 입력해 주세요.",
-
-//                certificates_usage_history_depreciation: "사고/수리이력 감가금액을 입력해주세요.",
-//                certificates_basic_etc: "색상 등 기타 감가금액을 입력해주세요.",
-//                basic_registraion_depreciation : "등록일 보정 평가액을 선택해주세요.",
-//                certificates_usage_mileage_depreciation: "주행거리 감가금액을 입력해주세요.",
-//                exterior_comment: "주요외판 점검의견을 입력해주세요.",
-//                flooded_comment: "침수흔적 점검의견을 입력해주세요.",
-//                consumption_comment: "소모품상태 점검의견을 입력해주세요.",
-//                broken_comment: "고장진단 점검의견을 입력해주세요.",
-//                power_comment: "동력전달 점검의견을 입력해주세요.",
-//                electronic_comment: "전기 점검의견을 입력해주세요.",
-//                interior_comment: "주요내판 점검의견을 입력해주세요.",
-//                exteriortest_comment: "차량외판 점검의견을 입력해주세요.",
-//                plugin_comment: "전장품 유리기어/작동상태 점검의견을 입력해주세요.",
-//                engine_comment: "엔진(원동기) 점검의견을 입력해주세요.",
-//                steering_comment: "조향장치 점검의견을 입력해주세요.",
-//                tire_comment: "타이어 점검의견을 입력해주세요.",
-//                accident_comment: "사고유무 점검의견을 입력해주세요.",
-//                interiortest_comment: "차량실내 점검의견을 입력해주세요.",
-//                driving_comment: "주행테스트 점검의견을 입력해주세요.",
-//                transmission_comment: "변속기 점검의견을 입력해주세요.",
-//                braking_comment: "제동장치 점검의견을 입력해주세요.",
-////                certificates_history_owner: "소유자 변경이력을 입력해주세요.",
-//                certificates_history_garage: "차고지 변경이력을 입력해주세요.",
-//                certificates_history_maintance: "정비 변경이력을 입력해주세요.",
-//                certificates_history_purpose: "용도 변경이력을 입력해주세요.",
-//                certificates_opinion: "종합의견을 입력해 주세요.",
-//                grade_state_cd: "차량등급을 선택해주세요.",
-//                certificates_valuation: "평가금액을 입력하세요.",
-//                certificates_history_insurance: "보험사고이력을 입력해주세요.",
-//
-//                history_depreciation: "주요이력평가 감가금액을 입력해주세요.",
-//                basic_depreciation: "기본평가 감가금액을 입력해주세요.",
-//                special_depreciation: "특별요인 감가금액을 입력해주세요.",
-//                performance_depreciation: "차량성능삼태 감가금액을 입력해주세요."
                 },
-//        errorPlacement: function(error, element) {
-//            var chk_name = element.attr("name");
-//            $('input[name='+chk_name+'-error]').addClass('text-danger');
-//        },
                 submitHandler: function (form) {
                     form.submit();
                 }
             });
 
+            //평가금액 계싼
             $("#valuation").on("click", function () {
                 if (confirm("평가금액을 계산하시겠습니까?")) {
                     var valuation = sum_certificate_price();
@@ -1063,24 +1000,26 @@
 
             });
 
-            $('#cars_exterior_color').change(function (){
-                if($('#cars_exterior_color').val() == 1132){
+            //차량 기타 색상
+            $('#cars_exterior_color').change(function () {
+                if ($('#cars_exterior_color').val() == 1132) {
                     $('#exterior_color_etc').css('display', '')
-                }else{
+                } else {
                     $('#exterior_color_etc').css('display', 'none')
                 }
             });
 
-            $('#cars_fueltype_cd').change(function(){
-                if($('#cars_fueltype_cd').val() == 1106){
+            //차량 기타 연료
+            $('#cars_fueltype_cd').change(function () {
+                if ($('#cars_fueltype_cd').val() == 1106) {
                     $('#fueltype_etc').css('display', '')
-                }else{
+                } else {
                     $('#fueltype_etc').css('display', 'none')
                 }
             });
         });
 
-
+        //파일업로드
         $(document).ready(function () {
             $('#plugin-attachment').fineUploader({
                 debug: true,
@@ -1135,33 +1074,12 @@
                     onComplete: function (id, fileName, responseJSON) {
                         if (responseJSON.success == true) {
                             $.notify(responseJSON.msg, "success");
-
-//                        var $listItem = $(this).fineUploader('getItemByFileId', id);
-//                        $listItem.find('.plugin-attach-file-input').val(responseJSON.data.id);
-
                         } else {
                             $.notify(responseJSON.msg, "error");
                         }
                     }
                 }
             });
-
-
-            if($('#cars_exterior_color').val() == 1132){
-                $('#exterior_color_etc').css('display', '')
-            }else{
-                $('#exterior_color_etc').css('display', 'none')
-            }
-
-
-
-            if($('#cars_fueltype_cd').val() == 1106){
-                $('#fueltype_etc').css('display', '')
-            }else{
-                $('#fueltype_etc').css('display', 'none')
-            }
-
-
         });
     </script>
 @endpush

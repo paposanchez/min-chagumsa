@@ -12,25 +12,16 @@
 
             <div class="panel-heading">
                 <span class="panel-title">검색조건</span>
-
-                {{--<div class="panel-heading-controls">--}}
-                {{--<div class="checkbox checkbox-slider--b-flat zfp-panel-collapse">--}}
-                {{--<label>--}}
-                {{--<input type="checkbox" >--}}
-                {{--<span></span>--}}
-                {{--</label>--}}
-                {{--</div>--}}
-                {{--</div>--}}
             </div>
 
             <div class="panel-body">
 
-                <form  method="GET" class="form-horizontal no-margin-bottom" role="form">
+                <form method="GET" class="form-horizontal no-margin-bottom" role="form">
 
                     <div class="form-group">
                         <label for="inputBoardId" class="control-label col-sm-3 text-center">검색조건</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="엔지니어 검색" >
+                            <input type="text" class="form-control" placeholder="엔지니어 검색">
                         </div>
                         <div>
                             <button class="btn btn-primary">검색</button>
@@ -44,7 +35,6 @@
         <div class="row margin-bottom">
 
             <div class="col-md-12">
-
 
 
                 <p class="form-control-static">
@@ -72,7 +62,9 @@
                     <tbody>
 
                     @unless(count($entrys) >0)
-                        <tr><td colspan="6" class="no-result">{{ trans('common.no-result') }}</td></tr>
+                        <tr>
+                            <td colspan="6" class="no-result">{{ trans('common.no-result') }}</td>
+                        </tr>
                     @endunless
 
                     @foreach($entrys as $n => $data)
@@ -95,7 +87,8 @@
                             </td>
 
                             <td>
-                                <a href="{{ route('user.edit', $data->id) }}" class="btn btn-default"  data-tooltip="{pos:'top'}" title="수정">수정</a>
+                                <a href="{{ route('user.edit', $data->id) }}" class="btn btn-default"
+                                   data-tooltip="{pos:'top'}" title="수정">수정</a>
                             </td>
                         </tr>
                     @endforeach

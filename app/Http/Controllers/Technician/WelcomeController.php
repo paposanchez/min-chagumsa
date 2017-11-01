@@ -8,9 +8,8 @@ use Illuminate\Http\Request;
 class WelcomeController extends Controller {
 
     /**
-     * Display the home page.
-     *
-     * @return \Illuminate\Http\Response
+     * 기술사 로그인 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function __invoke() {
         return view('technician.auth.login');

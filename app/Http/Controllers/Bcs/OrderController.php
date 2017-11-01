@@ -7,20 +7,14 @@ use App\Models\Diagnosis;
 use App\Models\Role;
 use App\Models\UserExtra;
 use App\Repositories\DiagnosisRepository;
-use Doctrine\DBAL\Types\ObjectType;
 use DateTime;
-use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
-
-use App\Models\Car;
-use App\Models\Certificate;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\User;
 use App\Models\Code;
-use App\Models\ScTran;
 use App\Models\PaymentCancel;
 use App\Models\Purchase;
 use App\Models\Reservation;
@@ -28,12 +22,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
-
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
 
+    /**
+     * @param Request $request
+     * 주문 인덱스 페이지
+     * 주문상태, 검색기간, 검색어를 필터링하여 주문 검색
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $search_fields = [
@@ -121,161 +120,22 @@ class OrderController extends Controller
         return view('bcs.order.index', compact('search_fields', 'entrys', 'engineers', 'status_cd', 's', 'sf', 'trs', 'tre'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-        $validate = Validator::make($request->all(), [
-            'id' => 'required',
-            'order_status' => 'required'
-        ]);
-
-        if ($validate->fails()) {
-            return redirect()->back()->with('error', "필수파라미터가 입력되지 않았습니다.");
-        }
-
-
-        $status_cd = $request->get("order_status");
-        $id = $request->get('id');
-
-        if ($status_cd) {
-            //주문상태 변경
-            /**
-             * todo: 주문취소의 경우 pg 결제와 연동 필요함.
-             */
-            if (in_array($status_cd, [100, 104, 108])) {
-                $row = Order::find($id);
-                if ($row) {
-
-                    $purchase = Purchase::find($id);
-
-                    $current_status = $row->status_cd;
-                    if (($current_status <= 105 && $status_cd == 100) || ($current_status > 105 && $status_cd > 105)) {
-
-                        $row->status_cd = $status_cd;
-                        if ($status_cd == 100) {
-                            //결제취소 연동 및 refund_status 업데이트처리함.
-                            //1. 결제취소 처리
-                            $payment_cancel = PaymentCancel::OrderBy('id', 'DESC')->whereIn('resultCd', [2001, 2002])
-                                ->where('orders_id', $id)->first();
-                            if ($payment_cancel) {
-                                //PG 결제취소는 완료하였으나 order의 결제상태를 수정 안됨
-                                if (in_array($payment_cancel->resultCd, [2001, 2002])) {
-                                    if ($current_status != 100) {
-                                        //결제취소 PG연동은 완료 되었으나, order 상태가 변경 안됨.
-                                        $row->status_cd = 100;
-                                        $row->refund_status = 1;
-                                        $row->save();
-
-                                        //purchases 업데이트
-                                        if ($purchase) {
-                                            $purchase->status_cd = 100;
-                                            $purchase->save();
-                                        }
-                                    }
-                                    $message = "결제취소를 완료 하였습니다.";
-                                }
-                            } else {
-                                //결제취소 진행
-
-                                $cancelAmt = $row->item->price;
-
-                                $payment = Payment::OrderBy('id', 'DESC')->whereIn('resultCd', [3001, 4000, 4100])->where('orders_id', $id)->first();
-                                if ($payment) {
-                                    $tid = $payment->tid; //PG 거래ID
-
-                                    $payment_cancel = new PaymentCancel();
-                                    $cancel_process = $payment_cancel->paymentCancelProcess($id, $cancelAmt, $tid);
-
-                                    if (in_array($cancel_process->result_cd, [2001, 2002])) {
-
-                                        if (isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
-                                        if (isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
-                                        if (isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
-                                        if (isset($cancel_process->result_cd)) $payment_cancel->resultCd = $cancel_process->result_cd;
-                                        $cancel_process->cancelAmt = $cancelAmt;
-                                        $payment_cancel->orders_id = $id;
-                                        $payment_cancel->save();
-
-                                        //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
-                                        $row->status_cd = 100;
-                                        $row->refund_status = 1;
-                                        $row->save();
-
-                                        //purchases 업데이트
-                                        if ($purchase) {
-                                            $purchase->status_cd = 100;
-                                            $purchase->save();
-                                        }
-
-                                        return Redirect::back()->with('success', "결제취소 요청완료 및 주문상태가 업데이트 되었습니다.");
-                                    } else {
-                                        return Redirect::back()->with('error', "PG사의 결제취소 오류로 주문상태를 업데이트하지 못하였습니다.<br>상세 메세지: " . $cancel_process->result_msg);
-                                    }
-
-                                } else {
-
-                                    //결제승인 내역이 없음.
-                                    //결제내역을 없으나, 해당 주문에 대한 취소가 불가함
-                                    return Redirect::back()->with('error', "결제정보가 누락되어 해당 주문의 상태를 변경할 수 없습니다.");
-                                }
-
-
-                            }
-
-                        } else {
-
-                            // 주문상태가 진단이후이므로 진단 이후 상태로 모두 변경 가능함.
-                            if (in_array($status_cd, [106, 107, 108, 109])) {
-                                $row->status_cd = $status_cd;
-                                $row->save();
-                            }
-                        }
-
-                    } else {
-                        return Redirect::back()->with('error', "주문상태를 확인해주세요.<br>현재 주문상태: " . Helper::getCodeName($row->status_cd));
-                    }
-
-                    return Redirect::back()->with('success', "주문상태가 업데이트 되었습니다.");
-                } else {
-                    return Redirect::back()->with('error', '해당 주문이 없습니다.');
-                }
-            }
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param Int $id
+     * 주문 상세보기 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
-        //
         $order = Order::findOrFail($id);
 
         $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
         $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
 
         $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
-//        $engineers = Role::find(5)->users->pluck('name', 'id');
 
+        //bcs에 속한 정비사 리스트
         $engineers = User::select('users.*')->join('user_extras', function($extra_qry){
             $extra_qry->on('users.id', 'user_extras.users_id');
         })->join('role_user', function($role_user_qry){
@@ -289,39 +149,12 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * 주문 예약 변경
+     * 예약날짜 및 상태 변경
+     * 고객에게 메일, 문자 전송
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     public function reservationChange(Request $request)
     {
         try {
@@ -329,17 +162,16 @@ class OrderController extends Controller
             $date = $request->get('date');
             $time = $request->get('time');
 
+            //예약날짜 변경
             $reservation_date = new DateTime($date . ' ' . $time . ':00:00');
-
             $reservation = Reservation::where('orders_id', $order_id)->first();
-            $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');;
+            $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
             $reservation->save();
 
+            //주문의 상태를 예약 확인으로 변경
             $order = Order::find($order_id);
-            $order->status_cd = 104;
+            $order->status_cd = 103;
             $order->save();
-
-            Diagnosis::where('orders_id', $order->id)->delete();
 
             //문자, 메일 송부하기
             $user_info = User::find($order->orderer_id);
@@ -360,7 +192,7 @@ class OrderController extends Controller
                 ];
                 Mail::send(new \App\Mail\Ordering($user_info->email, "차검사 차량입고 예약시간이 변경되었습니다.", $mail_message, 'message.email.change-reservation-user'));
             } catch (\Exception $e) {
-//                return response()->json($e->getMessage());
+                return response()->json($e->getMessage());
             }
 
             try{
@@ -368,9 +200,10 @@ class OrderController extends Controller
                 $user_message = view('message.sms.change-reservation-user', compact('enter_date', 'week_day', 'garage', 'address', 'tel', 'price'));
                 event(new SendSms($order->orderer_mobile, '', $user_message));
             }catch (\Exception $e){
-//                return response()->json($e->getMessage());
+                return response()->json($e->getMessage());
             }
             //발송 끝
+
 
             return response()->json('success');
         } catch (Exception $ex) {
@@ -378,7 +211,12 @@ class OrderController extends Controller
         }
     }
 
-    //  예약확정
+    /**
+     * @param Int $order_id
+     * 주문 예약 확정
+     * 고객에게 예약 확정에 대한 메일, 문자 전송
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function confirmation($order_id)
     {
         try {
@@ -392,7 +230,8 @@ class OrderController extends Controller
             $order->status_cd = 104;
             $order->save();
 
-            Diagnosis::where('orders_id', $order->id)->get();
+            //기존 진단데이터 삭제
+            Diagnosis::where('orders_id', $order->id)->delete();
 
             $diagnosis = new DiagnosisRepository();
             $diagnosis->prepare($order->id)->create($order->id);
@@ -433,6 +272,11 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * 고객 정보 변경
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function userUpdate(Request $request){
         $this->validate($request, [
             'mobile' => 'required'
@@ -447,6 +291,12 @@ class OrderController extends Controller
         return redirect()->back()->with('success', '주문정보가 수정되었습니다.');
     }
 
+    /**
+     * @param Request $request
+     * 고객의 차량 정보 변경
+     * 차량번호, 침수여부, 사고여부 변경
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function carUpdate(Request $request)
     {
         $this->validate($request, [
@@ -464,11 +314,62 @@ class OrderController extends Controller
         return redirect()->back()->with('success', '차정보가 수정되었습니다.');
     }
 
+    /**
+     * @param Request $request
+     * 주문에 대한 정비사 변경
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function bcsUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'engineer' => 'required'
+        ], [],
+            [
+                'engineer' => '엔지니어'
+            ]);
+
+        $order = Order::findOrFail($request->get('id'));
+        $order->garage_id = Auth::user()->id;
+        $order->engineer_id = $request->get('engineer') == 0 ? $order->engineer_id : $request->get('engineer');
+        $order->save();
+
+        return redirect()->back()->with('success', 'BCS정보가 수정되었습니다.');
+    }
+
+    /**
+     * @param Request $request
+     * 진단 시작
+     * 입고대기에 해당하는 주문을 진단 시작 할 수 있다.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function diagnosing(Request $request){
+        try{
+            $order_id = $request->get('order_id');
+            $engineer_id = $request->get('engineer_id');
+
+            $order = Order::findOrFail($order_id);
+
+            $order->engineer_id = $engineer_id;
+            $order->diagnose_at = new DateTime('now');
+            $order->status_cd = 106;
+            $order->save();
+
+            return response()->json('success');
+        }catch(\Exception $ex) {
+            return response()->json($ex->getMessage());
+        }
+    }
+
+    /**
+     * @param Request $request
+     * 주문취소
+     * 현재 주문이 입고 이후의 상태면 취소가 불가능하다.
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function orderCancel(Request $request){
         $validate = Validator::make($request->all(), [
             'order_id' => 'required'
         ]);
-
 
         if ($validate->fails()) {
             return redirect()->back()->with('error', '주문번호가 누락되었습니다.');
@@ -485,15 +386,11 @@ class OrderController extends Controller
 
             if (in_array($order->status_cd, [101, 102, 103, 104])) {
                 $cancelAmt = $order->item->price;
-//                $cancelAmt = 1000; //todo 가격부문을 위에 것으로 변경해야 함.
-
-
                 $payment = Payment::OrderBy('id', 'DESC')->whereIn('resultCd', [3001, 4000, 4100])
                     ->where('orders_id', $order_id)->first();
 
                 if ($payment) {
                     $tid = $payment->tid;//거래아이디
-                    //        $moid = $payment->moid;//상품주문번호
                     $cancelMsg = "고객요청";
                     $partialCancelCode = 0; //전체취소
                     $dataType = "json";
@@ -516,9 +413,6 @@ class OrderController extends Controller
                         $cancel_process = $payment_cancel->paymentCancelProcess($order_id, $cancelAmt, $tid);
 
                         if (in_array($cancel_process->result_cd, [2001, 2002])) {
-
-                            //                            dd($cancel_process);
-
                             if (isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
                             if (isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
                             if (isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
@@ -541,23 +435,17 @@ class OrderController extends Controller
                             $message = trans('web/mypage.cancel_complete');
                             $event = 'success';
                         } else {
-                            //                            dd($cancel_process);
                             $message = "해당 결제내역에 대한 결제취소를 진행할 수 없습니다.<br>";
                             if (isset($cancel_process->result_msg)) $message .= "결제취소 거부 사유: " . $cancel_process->result_msg;
                             $event = 'error';
                         }
-
-
                     }
-
-
                 } else {
                     if (in_array($order->status_cd, [101, 102, 103, 104])) {
                         //주문상태가 결제 완료가 아니며, 주문신청/예약확인/입고대기/입고 상태까지만 주문 취소를 함.
                         $order->status_cd = 100;
                         $order->refund_status = 1;
                         $order->save();
-
 
                         //purchases 업데이트
                         if ($purchase) {
@@ -595,22 +483,49 @@ class OrderController extends Controller
             ->with($event, $message);
     }
 
-    public function diagnosing(Request $request){
-        try{
-            $order_id = $request->get('order_id');
-            $engineer_id = $request->get('engineer_id');
 
-            $order = Order::findOrFail($order_id);
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
-            $order->engineer_id = $engineer_id;
-            $order->diagnose_at = new DateTime('now');
-            $order->status_cd = 106;
-            $order->save();
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
 
-            return response()->json('success');
-        }catch(\Exception $ex) {
-            return response()->json($ex->getMessage());
-        }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 
 }

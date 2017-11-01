@@ -48,7 +48,6 @@ class BcsController extends Controller {
             'address' => 'required',
             'tel' => 'required',
             'fax' => 'required',
-            'registration_number' => 'required',
 
             'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'], [], [
             'email' => trans('bcs/user.email'),

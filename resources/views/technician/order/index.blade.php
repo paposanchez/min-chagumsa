@@ -24,16 +24,20 @@
                         <div class="col-sm-9">
                             <div class="btn-group" data-toggle="buttons">
                                 <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }} 전체
+                                    {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }}
+                                    전체
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 107 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 107, \App\Helpers\Helper::isCheckd(107, $status_cd), ['name' => 'status_cd']) }} 진단완료
+                                    {{ Form::radio('status_cd', 107, \App\Helpers\Helper::isCheckd(107, $status_cd), ['name' => 'status_cd']) }}
+                                    진단완료
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 108 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 108, \App\Helpers\Helper::isCheckd(108, $status_cd), ['name' => 'status_cd']) }} 검토중
+                                    {{ Form::radio('status_cd', 108, \App\Helpers\Helper::isCheckd(108, $status_cd), ['name' => 'status_cd']) }}
+                                    검토중
                                 </label>
                                 <label class="btn btn-default {{ $status_cd == 109 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 109, \App\Helpers\Helper::isCheckd(109, $status_cd), ['name' => 'status_cd']) }} 인증발급완료
+                                    {{ Form::radio('status_cd', 109, \App\Helpers\Helper::isCheckd(109, $status_cd), ['name' => 'status_cd']) }}
+                                    인증발급완료
                                 </label>
                             </div>
                         </div>
@@ -46,14 +50,16 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                 <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_start') }}" name='trs' value='{{ $trs }}'>
+                                       placeholder="{{ trans('common.search.period_start') }}" name='trs'
+                                       value='{{ $trs }}'>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                 <input type="text" class="form-control datepicker" data-format="YYYY-MM-DD"
-                                       placeholder="{{ trans('common.search.period_end') }}" name='tre' value='{{ $tre }}'>
+                                       placeholder="{{ trans('common.search.period_end') }}" name='tre'
+                                       value='{{ $tre }}'>
                             </div>
                         </div>
                     </div>
@@ -156,7 +162,6 @@
                             </td>
 
                             <td class="">
-                                {{--<a href="/item/{{ $data->item->id }}/show">{{ $data->item->name }} <span class="text-muted">{{ number_format($data->item->price) }}원</span></a>--}}
                                 <a href="/item">{{ $data->item->name }} <span class="text-muted">{{ number_format($data->item->price) }}
                                         원</span></a>
                                 <br/>
@@ -294,69 +299,6 @@
     <script type="text/javascript">
         $(function () {
 
-            $(document).on('click', '.changeReservationModalOpen', function (e) {
-                e.preventDefault();
-                var d = $(this).data("date");
-                var t = $(this).data("time");
-                var order_id = $(this).data('order_id');
-                var order_number = $(this).data("order_number");
-                $("#datepickerReservation").val(d);
-                $("#datepickerReservationTime").val(t);
-                $("#order_id").val(order_id);
-                $("#order_number").html(order_number);
-                $("#changeReservationModal").modal();
-
-            });
-
-            $(document).on('click', '.confirmReservation', function (e) {
-                var $obj = $(this);
-                var order_id = $(this).data("order_id");
-
-                if (confirm("해당 주문의 예약일자를 확정하시겠습니까?")) {
-                    $.ajax({
-                        url: '/order/confirmation/' + order_id,
-                        type: 'post',
-                        data: {
-                            order_id: order_id
-                        },
-                        success: function (data) {
-
-                            $obj.parent().find('.changeReservationModalOpen').remove();
-                            $obj.parent().find('.confirmReservation').remove();
-                            location.href = '/order';
-                        },
-                        error: function (data) {
-                            //                        alert('error');
-                        }
-                    })
-                } else {
-                    return false;
-                }
-            });
-
-            $('#reservation_change').click(function () {
-                var date = $("#datepickerReservation").val();
-                var time = $("#datepickerReservationTime").val();
-                var order_id = $("#order_id").val();
-
-
-                $.ajax({
-                    type: 'post',
-                    url: '/order/reservation_change',
-                    data: {
-                        'order_id': order_id,
-                        'date': date,
-                        'time': time
-                    },
-                    success: function (data) {
-                        //                    alert('success');
-                        location.href = '/order';
-                    },
-                    error: function (data) {
-                        alert(JSON.stringify(data));
-                    }
-                })
-            });
         })
     </script>
 @endpush

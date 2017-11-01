@@ -11,8 +11,7 @@ use DB;
 class RoleController extends Controller {
 
     /**
-     * Display a listing of the resource.
-     *
+     * 역할 설정 인덱스 페이지
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
@@ -22,8 +21,7 @@ class RoleController extends Controller {
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
+     * 새로운 역할 생성 페이
      * @return \Illuminate\Http\Response
      */
     public function create() {
@@ -33,7 +31,6 @@ class RoleController extends Controller {
 
     /**
      * Store a newly created resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */

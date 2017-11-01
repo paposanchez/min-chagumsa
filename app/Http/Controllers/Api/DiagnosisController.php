@@ -2,20 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\ApiController;
-use App\Models\Car;
 use App\Models\Diagnosis;
-use App\Models\DiagnosisDetails;
-use App\Models\DiagnosisDetail;
-use App\Models\DiagnosisDetailItem;
 use App\Models\DiagnosisFile;
-use App\Models\File;
-use App\Models\Item;
 use App\Repositories\DiagnosisRepository;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Reservation;
-use App\Models\Code;
 use DB;
 use Carbon\Carbon;
 use \App\Mixapply\Uploader\Receiver;
@@ -27,7 +19,6 @@ use App\Models\S3Tran;
 use Exception;
 use Illuminate\Http\Request;
 use App\Traits\Uploader;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Validator;
 
 use Illuminate\Support\Facades\Mail;
@@ -83,7 +74,7 @@ class DiagnosisController extends ApiController
             return response()->json($return);
 
         } catch (Exception $e) {
-            return abort(404, trans('order.not-found'));
+            return response()->json('fail');
         }
 
 
@@ -129,7 +120,6 @@ class DiagnosisController extends ApiController
             if (count($diagnoses_files)) {
                 $diagnoses_ids = [];
                 foreach ($diagnoses_files as $diagnosis) {
-                    //                $where->where('diagnoses_id', $diagnosis->id)->delete();
                     $diagnoses_ids[] = $diagnosis->id;
                 }
                 DiagnosisFile::whereIn('diagnoses_id', $diagnoses_ids)->delete();
@@ -142,7 +132,7 @@ class DiagnosisController extends ApiController
             return response()->json('success');
 
         } catch (Exception $ex) {
-            return response()->json($ex->getMessage());
+            return response()->json('fail');
         }
     }
 
@@ -214,7 +204,6 @@ class DiagnosisController extends ApiController
                     'size' => $file_size,
                     'extension' => $file->getClientOriginalExtension(),
                     'mime' => $file->getClientMimeType(),
-                    //@TODO 실제파일이 아닌 파일
                     'hash' => md5($file)
                 ];
             });
@@ -224,7 +213,6 @@ class DiagnosisController extends ApiController
 
                 // Save the record to the db
                 $data = DiagnosisFile::create([
-                    //                    'diagnoses_id' => $diagnoses_id,
                     'diagnoses_id' => $diagnoses_id,
                     'original' => $response['result']['original'],
                     'source' => $response['result']['source'],
@@ -239,13 +227,13 @@ class DiagnosisController extends ApiController
 
                 $return = 'success';
             } else {
-                $return = 'error';
+                $return = 'fail';
             }
 
             return response()->json($return);
         } catch (Exception $ex) {
-                        return response()->json($ex->getMessage());
-                }
+            return response()->json('fail');
+        }
 }
 
 
@@ -271,26 +259,11 @@ class DiagnosisController extends ApiController
 public
 function getItem(Request $request)
 {
-    //        $diagnosis = new DiagnosisRepository();
-    //        $return = $diagnosis->get($order_id);
-    //
-    //        return response()->json($return->item);
     try {
         $order_id = $request->get('order_id');
 
         $item = Order::findOrFail($order_id)->item;
 
-        //             return response()->json([
-        //                                 'id' => $item->id,
-        //                 'name' => $item->name,
-        //                 'price' => $item->price,
-        // //                'layout' => $item->layout,
-        //                 'layout' => json_encode(str_replace(["\r\n","\r","\n", "\""], ["", "", "", "'"] ,stripcslashes($item->layout))),
-        //                 'created_at' => $item->created_at
-        // ]);
-
-
-        //            return response()->json(json_decode($item->layout,true));
         return response()->json(json_decode($item->layout, true));
 
     } catch (Exception $e) {
@@ -347,7 +320,6 @@ function setDiagnosisEngineer(Request $request)
 
         // 앱에서는 간단하게
     } catch (Exception $e) {
-        //           return abort(404, trans('diagnosis.not-found'));
         return response()->json(false);
     }
 }
@@ -467,17 +439,6 @@ function getDiagnosisWorking(Request $request)
         }
 
         $user = User::findOrFail($user_id);
-
-        // $garage_id = $request->get('garage_id');
-
-        // $validator = Validator::make($request->all(), [
-        //     'garage_id' => 'required|exists:user_extras,garage_id'
-        // ]);
-
-        // if ($validator->fails()) {
-        //     $errors = $validator->errors()->all();
-        //     throw new Exception($errors[0]);
-        // }
 
         // 내 대리점의 전체 진단중 목록
         $orders = Order::where('garage_id', $user->user_extra->garage_id)
@@ -623,7 +584,6 @@ function setDiagnosisComplete(Request $request)
             throw new Exception($errors[0]);
         }
 
-        //            $order                  = Order::findOrFail($order_id);
         $order = Order::where('id', $order_id)->where('engineer_id', $user_id)->first();
         $order->status_cd = 107;
         $order->diagnosed_at = Carbon::now();

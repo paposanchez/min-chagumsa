@@ -20,6 +20,12 @@ use Illuminate\Http\Request;
 
 class TestController extends Controller {
 
+    /**
+     * @param Request $request
+     * @param int $page
+     * 테스트 주문 생성 인덱스 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request, $page = 1) {
         $users = Role::find(2)->users->pluck('name', 'id');
         $garages = Role::find(4)->users->pluck('name', 'id');
@@ -27,6 +33,12 @@ class TestController extends Controller {
         return view('admin.test-order.index', compact('users', 'garages'));
     }
 
+    /**
+     * @param Request $request
+     * 테스트 주문 생성 메소드
+     * 결제방법 직권결제, 차량정보는 공통적으로 생성 된다.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function createOrder(Request $request) {
 
         try{
@@ -38,7 +50,7 @@ class TestController extends Controller {
             $item = Item::find(1);
             $purchase = new Purchase();
             $purchase->amount = $item->price;
-            $purchase->type = 11;
+            $purchase->type = 22;
             $purchase->status_cd = 103;
             $purchase->save();
 
@@ -72,10 +84,7 @@ class TestController extends Controller {
             $reservation->created_id = $user_id;
             $reservation->save();
 
-
-
             return response()->json('success');
-
         }catch (\Exception $ex){
             return response()->json('error');
         }

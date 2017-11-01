@@ -156,12 +156,9 @@
     <div class="row">
 
         <div class="col-sm-6">
-
-            {{--<a href="{{ route('order.edit', $data->id) }}" class="btn btn-primary">등록</a>--}}
-
         </div>
 
-        <div class="col-sm-6 text-right">
+        <div class="col-sm-offset-6 col-sm-6 text-right">
             {!! $entrys->render() !!}
         </div>
 

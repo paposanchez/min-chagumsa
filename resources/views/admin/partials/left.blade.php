@@ -45,9 +45,9 @@
                            <ul class="dropdown-menu">
                                <li class="{{ Request::is('config/code*') ? ' active':''}}"><a href="{{ url('/config/code') }}"><span class="nav-label">{{ trans('admin/code.title') }}</span></a></li>
                                <li class="{{ Request::is('config/role*') ? ' active':''}}"><a href="{{ url('/config/role') }}"><span class="nav-label">{{ trans('admin/role.title') }}</span></a></li>
-                               <li class="{{ Request::is('config/permission*') ? ' active':''}}"><a href="{{ url('/config/permission') }}"><span class="nav-label">{{ trans('admin/permission.title') }}</span></a></li>
+                               {{--<li class="{{ Request::is('config/permission*') ? ' active':''}}"><a href="{{ url('/config/permission') }}"><span class="nav-label">{{ trans('admin/permission.title') }}</span></a></li>--}}
                                <li class="{{ Request::is('config/board*') ? ' active':''}}"><a href="{{ url('/config/board') }}"><span class="nav-label">{{ trans('admin/board.title') }}</span></a></li>
-                               <li class="{{ Request::is('config/tag*') ? ' active':''}}"><a href="{{ url('/config/tag') }}"><span class="nav-label">{{ trans('admin/tag.title') }}</span></a></li>
+                               {{--<li class="{{ Request::is('config/tag*') ? ' active':''}}"><a href="{{ url('/config/tag') }}"><span class="nav-label">{{ trans('admin/tag.title') }}</span></a></li>--}}
                            </ul>
                        </li>
 

@@ -1,4 +1,3 @@
-
 @extends( 'technician.layouts.default' )
 
 @section('breadcrumbs')
@@ -15,36 +14,43 @@
 
                 <fieldset>
                     <div class="form-group">
-                        <label for="inputSubject" class="control-label col-md-2">{{ trans('admin/post.subject') }}</label>
+                        <label for="inputSubject"
+                               class="control-label col-md-2">{{ trans('admin/post.subject') }}</label>
                         <div class="col-md-10">
-                        <input type="text" class="form-control" placeholder="{{ trans('admin/post.subject') }}" name="subject" id="inputSubject" value="{{ $post->subject or old('subject') }}">
+                            <input type="text" class="form-control" placeholder="{{ trans('admin/post.subject') }}"
+                                   name="subject" id="inputSubject" value="{{ $post->subject or old('subject') }}">
 
-                    </div>
-            </div>
-
-            <div class="form-group">
-                <label for="inputName" class="control-label col-md-2 text-left">첨부파일</label>
-                <div class="col-md-10">
-
-                    <div class="input-group">
-                        <input class="form-control" readonly="" value="http://mme.lge.app/dwn/ext/020/A001/2017/08/17/ee7226ec-cf00-442d-a612-1f29c6fe84d0.pdf" id="upload-origin" type="text">
-                        <span class="input-group-btn">
-                            <button id="dwn-orgin" data-dwn="http://mme.lge.app/dwn/ext/020/A001/2017/08/17/ee7226ec-cf00-442d-a612-1f29c6fe84d0.pdf" data-file_name="2015년_결산_및_2016년_전망보고서_(최종_4도)_160225.pdf" class="btn btn-primary" type="button">Download</button>
-                        </span>
-
-                    </div>
-                </div>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="inputContent" class="control-label col-md-2">{{ trans('admin/post.content') }}</label>
+                        <label for="inputName" class="control-label col-md-2 text-left">첨부파일</label>
                         <div class="col-md-10">
-                            <div class="panel panel-primary">
-                                    <div class="panel-body">{!! $post->content or old('content') !!}</div>
+
+                            <div class="input-group">
+                                <input class="form-control" readonly=""
+                                       value="http://mme.lge.app/dwn/ext/020/A001/2017/08/17/ee7226ec-cf00-442d-a612-1f29c6fe84d0.pdf"
+                                       id="upload-origin" type="text">
+                                <span class="input-group-btn">
+                            <button id="dwn-orgin"
+                                    data-dwn="http://mme.lge.app/dwn/ext/020/A001/2017/08/17/ee7226ec-cf00-442d-a612-1f29c6fe84d0.pdf"
+                                    data-file_name="2015년_결산_및_2016년_전망보고서_(최종_4도)_160225.pdf" class="btn btn-primary"
+                                    type="button">Download</button>
+                        </span>
+
                             </div>
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="inputContent"
+                               class="control-label col-md-2">{{ trans('admin/post.content') }}</label>
+                        <div class="col-md-10">
+                            <div class="panel panel-primary">
+                                <div class="panel-body">{!! $post->content or old('content') !!}</div>
+                            </div>
+                        </div>
+                    </div>
 
 
                 </fieldset>
@@ -68,7 +74,7 @@
     <script type="text/javascript">
         $(function () {
             //파일 다운로드
-            $("#dwn-orgin").on("click",function(e){
+            $("#dwn-orgin").on("click", function (e) {
                 e.preventDefault();
                 window.location.href = $(this).data("dwn");
             });

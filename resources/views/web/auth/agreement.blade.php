@@ -1,8 +1,5 @@
 @extends( 'web.layouts.blank' )
 @section( 'content' )
-
-<!-- <div id='sub_title_wrap'><h2>회원가입<div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>회원가입</span></div></h2></div> -->
-
 <div id="sub_full_wrap">
     <div class="login_box_wrap" style="padding:20px;">
 
@@ -77,7 +74,6 @@
 <script type="text/javascript">
 	$(function () {
         $("#join-form").validate({
-//			debug: true,
             rules: {
                 term_use: "required",
                 term_info: "required"

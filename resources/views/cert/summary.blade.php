@@ -15,8 +15,6 @@
             </colgroup>
             <tbody>
             <tr>
-
-                {{--<th class='td_al_vt'>산정가격</th>--}}
                 <th class='text-center'>산정가격</th>
                 <td class='td_al_vb td_al_c' style="">
                     <strong class='fsize_50'>{{ number_format($order->certificates->valuation) }}</strong><strong
@@ -112,7 +110,6 @@
                 <td>
                     @if($order->isIssued())
                         {{ $order->car->getExteriorColor->display() }}(외부)
-                        {{--/ {{ $order->car->getInteriorColor->display() }}(내부)--}}
                     @else
                         미입력 (검토중)
                     @endif
@@ -215,7 +212,6 @@
 
     <div class='br40'></div>
 
-    {{--<div class='report_title_type2'>종합진단 결과</div>--}}
     <div class='report_table report_table2 exp'>
         <table>
             <colgroup>

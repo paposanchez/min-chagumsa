@@ -37,7 +37,7 @@
                                                   style="width:60px;display:inline-block;">{{ $data->status->display() }}</span>
                                 {{ $data->getOrderNumber() }}
 
-                                <small  class="pull-right">{{ $data->created_at->format('Y-m-d') }}</small>
+                                <small class="pull-right">{{ $data->created_at->format('Y-m-d') }}</small>
                             </a>
                         @endforeach
 
@@ -96,7 +96,7 @@
                                             <span class="label label-success"
                                                   style="width:70px;display:inline-block;">{{ $data->board->name }}</span>
                                 {{ $data->subject }}
-                                <small  class="pull-right">
+                                <small class="pull-right">
                                     {{ $data->created_at->format('Y-m-d') }}
                                 </small>
                             </a>
@@ -115,14 +115,14 @@
 @endsection
 
 @push( 'footer-script' )
-<script type="text/javascript">
-    $(function () {
-        $(".more-click").on("click", function () {
-            var link = $(this).data("url");
-            if (link) {
-                location.href = link;
-            }
+    <script type="text/javascript">
+        $(function () {
+            $(".more-click").on("click", function () {
+                var link = $(this).data("url");
+                if (link) {
+                    location.href = link;
+                }
+            });
         });
-    });
-</script>
+    </script>
 @endpush

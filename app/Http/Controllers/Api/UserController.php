@@ -92,10 +92,10 @@ class UserController extends ApiController
                 ]);
             }
 
-            return abort(401, trans('auth.status.unauthorized'));
+            return response()->json('fail');
 
         } catch (Exception $ex) {
-            return abort(401, trans('auth.status.unauthorized'));
+            return response()->json('fail');
 
         }
     }
@@ -166,10 +166,10 @@ class UserController extends ApiController
 
             }
 
-            return abort(404, trans('auth.not-found'));
+            return response()->json('fail');
             // 앱에서는 간단하게
         } catch (Exception $e) {
-            return abort(401, trans('auth.status.unauthorized'));
+            return response()->json('fail');
         }
     }
 
@@ -202,7 +202,7 @@ class UserController extends ApiController
                 $user = User::find($user_id);
 
                 if ($user->status->name != 'active') {
-//                                        return abort(401, trans('auth.status.unauthorized'));
+
                     return response()->json('false');
                 }
 
@@ -211,14 +211,13 @@ class UserController extends ApiController
                     'password' => bcrypt($password_new),
                     'updated_at' => Carbon::now()
                 ]);
-//                                return response()->json($user);
-                return response()->json('true');
+                return response()->json('success');
             }
 
-            return abort(404, trans('auth.not-found'));
+            return response()->json('fail');
 
         } catch (Exception $e) {
-            return abort(401, trans('auth.status.unauthorized'));
+            return response()->json('fail');
         }
     }
 

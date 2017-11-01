@@ -101,7 +101,7 @@
                         <label for="inputEmail" class="control-label col-md-3">{{ trans('admin/post.email') }}</label>
                         <div class="col-md-4">
                             <input type="email" class="form-control" placeholder="{{ trans('admin/post.email') }}"
-                                   name="email" id="inputEmail" value="{{ $post->email }}">
+                                   name="email" id="inputEmail" value="{{ \Illuminate\Support\Facades\Auth::user()->email }}">
 
                             @if ($errors->has('email'))
                                 <span class="help-block">
@@ -263,82 +263,82 @@
 
 
 @push( 'header-script' )
-<link rel="stylesheet" href="{{ Helper::assets( 'vendor/summernote/summernote.css' ) }}"/>
-<link rel="stylesheet" href="{{ Helper::assets( 'vendor/select2/css/select2.min.css' ) }}"/>
+    <link rel="stylesheet" href="{{ Helper::assets( 'vendor/summernote/summernote.css' ) }}"/>
+    <link rel="stylesheet" href="{{ Helper::assets( 'vendor/select2/css/select2.min.css' ) }}"/>
 @endpush
 
 @push( 'footer-script' )
-<script src="{{ Helper::assets( 'vendor/summernote/summernote.min.js' ) }}"></script>
-<script src="{{ Helper::assets( 'vendor/select2/js/select2.full.min.js' ) }}"></script>
-<script src="{{ Helper::assets( 'vendor/select2/js/i18n/ko.js' ) }}"></script>
-<script type="text/template" id="qq-template">@include("partials/files", ['files'=> $post->files])</script>
-<link rel="stylesheet"
-      href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}"/>
-<script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
-<script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
-<script src="{{ Helper::assets( 'js/plugin/post.js' ) }}"></script>
+    <script src="{{ Helper::assets( 'vendor/summernote/summernote.min.js' ) }}"></script>
+    <script src="{{ Helper::assets( 'vendor/select2/js/select2.full.min.js' ) }}"></script>
+    <script src="{{ Helper::assets( 'vendor/select2/js/i18n/ko.js' ) }}"></script>
+    <script type="text/template" id="qq-template">@include("partials/files", ['files'=> $post->files])</script>
+    <link rel="stylesheet"
+          href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}"/>
+    <script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
+    <script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
+    <script src="{{ Helper::assets( 'js/plugin/post.js' ) }}"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-        $('#plugin-attachment').fineUploader({
-            debug: true,
-            //        template: 'qq-template',
-            request: {
-                inputName: "upfile",
-                endpoint: '/file/upload',
-                customHeaders: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            },
-            deleteFile: {
-                enabled: true,
-                endpoint: '/file/delete',
-                customHeaders: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            },
-            thumbnails: {
-                placeholders: {
-                    waitingPath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/waiting-generic.png' ) }}",
-                    notAvailablePath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/not_available-generic.png' ) }}",
-                }
-            },
-            validation: {
-                //            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'hwp'],
-                itemLimit: 3,
-                sizeLimit: 5120000, // 50 kB = 50 * 1024 bytes
-                stopOnFirstInvalidFile: true
-            },
-            callbacks: {
-                onSubmit: function (id, fileName) {
-                    this.setParams({'upfile_group': "post", 'upfile_group_id': "{{ $post->id }}"});
+            $('#plugin-attachment').fineUploader({
+                debug: true,
+                //        template: 'qq-template',
+                request: {
+                    inputName: "upfile",
+                    endpoint: '/file/upload',
+                    customHeaders: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
                 },
-                onComplete: function (id, fileName, responseJSON) {
-                    if (responseJSON.success == true) {
-                        $.notify(responseJSON.msg, "success");
-                    } else {
-                        $.notify(responseJSON.msg, "error");
+                deleteFile: {
+                    enabled: true,
+                    endpoint: '/file/delete',
+                    customHeaders: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                },
+                thumbnails: {
+                    placeholders: {
+                        waitingPath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/waiting-generic.png' ) }}",
+                        notAvailablePath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/not_available-generic.png' ) }}",
+                    }
+                },
+                validation: {
+                    //            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'hwp'],
+                    itemLimit: 3,
+                    sizeLimit: 5120000, // 50 kB = 50 * 1024 bytes
+                    stopOnFirstInvalidFile: true
+                },
+                callbacks: {
+                    onSubmit: function (id, fileName) {
+                        this.setParams({'upfile_group': "post", 'upfile_group_id': "{{ $post->id }}"});
+                    },
+                    onComplete: function (id, fileName, responseJSON) {
+                        if (responseJSON.success == true) {
+                            $.notify(responseJSON.msg, "success");
+                        } else {
+                            $.notify(responseJSON.msg, "error");
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        $('#inputBoardId').change(function () {
-            if ($('#inputBoardId option:selected').val() == 2) {
+            $('#inputBoardId').change(function () {
+                if ($('#inputBoardId option:selected').val() == 2) {
+                    $('.category').css('display', '');
+                }
+                else {
+                    $('.category').css('display', 'none');
+                }
+            });
+
+            if ($('#inputBoardId').val() == 2) {
+
                 $('.category').css('display', '');
-            }
-            else {
-                $('.category').css('display', 'none');
+                $('#category_id').val({{ $post->category_id }});
+
             }
         });
-
-        if ($('#inputBoardId').val() == 2) {
-
-            $('.category').css('display', '');
-            $('#category_id').val({{ $post->category_id }});
-
-        }
-    });
-</script>
+    </script>
 @endpush

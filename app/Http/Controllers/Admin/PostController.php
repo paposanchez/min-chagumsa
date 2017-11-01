@@ -6,22 +6,22 @@ use App\Helpers\Helper;
 use App\Models\Post;
 use App\Models\Code;
 use App\Models\Board;
-use App\Models\File;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
 class PostController extends Controller {
 
+    /**
+     * @param Request $request
+     * @param int $page
+     * 게시글 관리 인덱스 페이지
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request, $page = 1) {
-
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
-        $yn_list = Code::getSelectList('yn');
-        $shown_role_list = Code::getSelectList('post_shown_role');
         $search_fields = Code::getSelectList('post_search_field');
-
         $where = Post::orderBy('id', 'desc');
 
         //카테고리 검색
@@ -70,19 +70,19 @@ class PostController extends Controller {
             }
         }
 
-
         $entrys = $where->paginate(10);
 
-
-        return view('admin.post.index', compact('entrys', 'board_list', 'shown_role_list', 'yn_list', 'request', 'search_fields', 'board_id', 's', 'sf', 'trs', 'tre'));
+        return view('admin.post.index', compact('entrys', 'board_list', 'request', 'search_fields', 'board_id', 's', 'sf', 'trs', 'tre'));
     }
 
+    /**
+     * 게시글 생성 페이지
+     * 1:1문의, 공지사항, faq, bcs공지사항 생성 가능
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create() {
-
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
-
         $yn_list = Helper::getCodeSelectArray(Code::getCodesByGroup('yn'), 'yn', '답변여부를 선택해주세요.');
-//        $shown_role_list = Code::getSelectList('post_shown_role');
         $shown_role_list = Helper::getCodeSelectArray(Code::getCodesByGroup('post_shown_role'), 'post_shown_role', '공개여부를 선택해주세요.');
 
         $categorys = Code::where('group', 'category_id')->get();
@@ -91,10 +91,14 @@ class PostController extends Controller {
         return view('admin.post.create', compact('board_list', 'shown_role_list', 'yn_list', 'categorys'));
     }
 
+    /**
+     * @param Request $request
+     * 게시글 생성 메소드
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request) {
         $this->validate($request, [
             'subject' => 'required|min:1',
-//            'content' => 'required|min:1',
             'board_id' => 'required|exists:boards,id',
             'user_id' => 'exists:users,id',
             'is_shown' => [
@@ -114,7 +118,6 @@ class PostController extends Controller {
         [
             'board_id' => trans('admin/post.board_id'),
             'user_id' => trans('admin/post.user_id'),
-//            'category_id' => trans('admin/post.category'),
             'is_shown' => trans('admin/post.is_shown'),
             'is_answered' => trans('admin/post.is_answered'),
             'thumbnail' => trans('admin/post.thumbnail'),
@@ -144,36 +147,36 @@ class PostController extends Controller {
         $post->name = $request->get('name');
         $post->is_shown = $request->get('is_shown');
         $post->ip = $request->ip();
-//        $post->created_at = Carbon::now();
-//        $post->updated_at = Carbon::now();
         $post->save();
 
-
-        $upfiles = $request->get("upfile");
-        if (count($upfiles) > 0) {
-//            File::query();
-        }
-
-
         return redirect()
-//                        ->route('post.edit', $post->id)
                         ->route('post.index')
                         ->with('success', trans('admin/post.created'));
     }
 
+    /**
+     * @param Int $id
+     * 게시글 수정 페이지
+     * 게시물의 seq를 이용해 해당 게시물의 정보를 호출
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id) {
         $post = Post::findOrFail($id);
 
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
-
         $yn_list = Helper::getCodeSelectArray(Code::getCodesByGroup('yn'), 'yn', '답변여부를 선택해주세요.');
         $shown_role_list = Helper::getCodeSelectArray(Code::getCodesByGroup('post_shown_role'), 'post_shown_role', '공개여부를 선택해주세요.');
-
         $categorys = Code::where('group', 'category_id')->get();
 
         return view('admin.post.edit', compact('post', 'board_list', 'shown_role_list', 'yn_list', 'categorys'));
     }
 
+    /**
+     * @param Request $request
+     * @param Int $id
+     * 게시물의 seq를 이용해 해당 게시물의 정보를 수정
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id) {
 
         $this->validate($request, [
@@ -187,7 +190,6 @@ class PostController extends Controller {
             ],
             'is_answered' => 'boolean',
             'thumbnail' => 'exists:files,id',
-//            'name' => 'min:1',
             'email' => 'email',
             'password' => 'nullable|min:4',
                 ], [], [
@@ -212,20 +214,18 @@ class PostController extends Controller {
             $input = array_except($input, array('password'));
         }
 
-
         $post = Post::findOrFail($id);
         $post->subject = $request->get('subject');
         $post->content = $request->get('content');
         $post->board_id = $request->get('board_id');
-
-        $post->password = $request->get('password');
+        //todo 현재 비밀번호 기능은 비활성화
+        // $post->password = $request->get('password');
         if($request->get('board_id') == 2){
             $post->category_id = $request->get('category_id');
         }else if ($request->get('board_id') == 3){
             $post->answer = $request->get('answer');
         }
         $post->is_shown = $request->get('is_shown');
-//        $post->is_answered = $request->get('is_answered');
         $post->is_answered = $request->get('is_answered') ? $request->get('is_answered') : 0;
         $post->name = $request->get('name');
         $post->is_shown = $request->get('is_shown');
@@ -234,11 +234,15 @@ class PostController extends Controller {
         $post->save();
 
         return redirect()
-//                        ->route('post.edit', $post->id)
                         ->route('post.index')
                         ->with('success', trans('admin/post.updated'));
     }
 
+    /**
+     * @param Int $id
+     * 게시글 삭제 메소드
+     * 현재는 비활성화로 대체 중
+     */
     public function destory($id) {
         $data = Post::findOrFail($id);
         $data->destory();
