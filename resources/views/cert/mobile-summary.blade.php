@@ -153,145 +153,201 @@
             <tr>
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>차량외부점검</dt>
-                        <dd>
-                            {{ $order->certificates->exterior_comment }}
-                            <span>×</span>
-                        </dd>
+                        <dt>차량외부점검
+                            @if($order->certificates->exterior_comment)
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png'), "", ['class' => '']) }}
+                                </div>
+                            @endif
+                        </dt>
+                        <dd>{{ $order->certificates->exterior_comment }}<span>×</span></dd>
                     </dl>
                 </th>
                 <td>
-                    <span class='@if($order->certificates->performance_exterior_cd == 1329)
+                    <span class='
+                    @if($order->certificates->performance_exterior_cd == 1329)
                             status_good
-                        @elseif($order->certificates->performance_exterior_cd == 1330)
+@elseif($order->certificates->performance_exterior_cd == 1330)
                             status_normal
-                        @elseif($order->certificates->performance_exterior_cd == 1331)
+@elseif($order->certificates->performance_exterior_cd == 1331)
                             status_warn
-                        @else
+@else
                             status_bad
-                        @endif'>{{ $order->certificates->performance_exterior ? $order->certificates->performance_exterior->display() : '미입력 (검토중)' }}
+@endif'>{{ $order->certificates->performance_exterior ? $order->certificates->performance_exterior->display() : '미입력 (검토중)' }}
                     </span>
                 </td>
 
                 <th>
-                    <dl class='bubble_desc right'>
-                        <dt>고장진단</dt>
-                        <dd>
-                            {{ $order->certificates->broken_comment }}
-                            <span>×</span>
-                        </dd>
+                    <dl class='bubble_desc'>
+                        <dt>차량내부점검
+                            @if($order->certificates->interior_comment)
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
+                            @endif
+                        </dt>
+                        <dd>{{ $order->certificates->interior_comment }}<span>×</span></dd>
                     </dl>
                 </th>
                 <td>
-                    <span class='@if($order->certificates->performance_broken_cd == 1329)
+                    <span class='
+                    @if($order->certificates->performance_interior_cd == 1329)
                             status_good
-                        @elseif($order->certificates->performance_broken_cd == 1330)
+@elseif($order->certificates->performance_interior_cd == 1330)
                             status_normal
-                        @elseif($order->certificates->performance_broken_cd == 1331)
+@elseif($order->certificates->performance_interior_cd == 1331)
                             status_warn
-                        @else
+@else
                             status_bad
-                        @endif'>{{ $order->certificates->performance_broken ? $order->certificates->performance_broken->display() : '미입력 (검토중)' }}
+@endif'>{{ $order->certificates->performance_interior ? $order->certificates->performance_interior->display() : '미입력 (검토중)' }}
+                    </span>
+                </td>
+
+                <th>
+                    <dl class='bubble_desc'>
+                        <dt>전장장착품작동상태
+                            @if($order->certificates->plugin_comment)
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
+                            @endif
+                        </dt>
+                        <dd>{{ $order->certificates->plugin_comment }}<span>×</span></dd>
+                    </dl>
+                </th>
+                <td>
+                    <span class='
+                    @if($order->certificates->performance_plugin_cd == 1196)
+                            status_good
+@else
+                            status_bad
+@endif'>{{ $order->certificates->performance_plugin ? $order->certificates->performance_plugin->display() : '미입력 (검토중)' }}
                     </span>
                 </td>
             </tr>
+
             <tr>
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>차량내부점검</dt>
-                        <dd>
-                            {{ $order->certificates->interior_comment }}
-                            <span>×</span>
-                        </dd>
+                        <dt>고장진단
+                            @if($order->certificates->broken_comment)
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
+                            @endif
+                        </dt>
+                        <dd>{{ $order->certificates->broken_comment }}<span>×</span></dd>
                     </dl>
                 </th>
                 <td>
-                    <span class='@if($order->certificates->performance_interior_cd == 1329)
+                    <span class='
+                    @if($order->certificates->performance_broken_cd == 1329)
                             status_good
-                        @elseif($order->certificates->performance_interior_cd == 1330)
+@elseif($order->certificates->performance_broken_cd == 1330)
                             status_normal
-                        @elseif($order->certificates->performance_interior_cd == 1331)
+@elseif($order->certificates->performance_broken_cd == 1331)
                             status_warn
-                        @else
+@else
                             status_bad
-                        @endif'>{{ $order->certificates->performance_interior ? $order->certificates->performance_interior->display() : '미입력 (검토중)' }}
+@endif'>{{ $order->certificates->performance_broken ? $order->certificates->performance_broken->display() : '미입력 (검토중)' }}
                     </span>
                 </td>
 
                 <th>
-                    <dl class='bubble_desc right'>
-                        <dt>원동기</dt>
-                        <dd>
-                            {{ $order->certificates->engine_comment }}
-                            <span>×</span>
-                        </dd>
+                    <dl class='bubble_desc'>
+                        <dt>원동기
+                            @if($order->certificates->engine_comment)
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
+                            @endif
+                        </dt>
+                        <dd>{{ $order->certificates->engine_comment }}<span>×</span></dd>
                     </dl>
                 </th>
                 <td>
-                    <span class='@if($order->certificates->performance_engine_cd == 1329)
+                    <span class='
+                    @if($order->certificates->performance_engine_cd == 1329)
                             status_good
-                        @elseif($order->certificates->performance_engine_cd == 1330)
+@elseif($order->certificates->performance_engine_cd == 1330)
                             status_normal
-                        @elseif($order->certificates->performance_engine_cd == 1331)
+@elseif($order->certificates->performance_engine_cd == 1331)
                             status_warn
-                        @else
+@else
                             status_bad
-                        @endif'>{{ $order->certificates->performance_engine ? $order->certificates->performance_engine->display() : '미입력 (검토중)' }}</span>
+@endif'>{{ $order->certificates->performance_engine ? $order->certificates->performance_engine->display() : '미입력 (검토중)' }}
+                    </span>
+                </td>
+
+                <th>
+                    <dl class='bubble_desc'>
+                        <dt>변속기
+                            @if($order->certificates->transmission_comment)
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
+                            @endif
+                        </dt>
+                        <dd>{{ $order->certificates->transmission_comment }}<span>×</span></dd>
+                    </dl>
+                </th>
+                <td>
+                    <span class='
+                    @if($order->certificates->performance_transmission_cd == 1329)
+                            status_good
+@elseif($order->certificates->performance_transmission_cd == 1330)
+                            status_normal
+@elseif($order->certificates->performance_transmission_cd == 1331)
+                            status_warn
+@else
+                            status_bad
+@endif'>{{ $order->certificates->performance_transmission ? $order->certificates->performance_transmission->display() : '미입력 (검토중)' }}
+                    </span>
                 </td>
             </tr>
+
             <tr>
                 <th>
                     <dl class='bubble_desc'>
-                        <dt>변속기</dt>
-                        <dd>
-                            {{ $order->certificates->transmission_comment }}
-                            <span>×</span>
-                        </dd>
+                        <dt>동력전달
+                            @if($order->certificates->power_comment)
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
+                            @endif
+                        </dt>
+                        <dd>{{ $order->certificates->power_comment }}<span>×</span></dd>
                     </dl>
                 </th>
                 <td>
-                    <span class='@if($order->certificates->performance_transmission_cd == 1329)
-                            status_good
-                        @elseif($order->certificates->performance_transmission_cd == 1330)
-                            status_normal
-                        @elseif($order->certificates->performance_transmission_cd == 1331)
-                            status_warn
-                        @else
-                            status_bad
-                        @endif'>{{ $order->certificates->performance_transmission ? $order->certificates->performance_transmission->display() : '미입력 (검토중)' }}</span>
-                </td>
-
-
-
-                <th>
-                    <dl class='bubble_desc right'>
-                        <dt>동력전달</dt>
-                        <dd>{{ $order->certificates->power_comment }}<span>×</span>
-                        </dd>
-                    </dl>
-                </th>
-                <td>
-                    <span class='@if($order->certificates->performance_power_cd == 1329)
+                    <span class='
+                    @if($order->certificates->performance_power_cd == 1329)
                             status_good
 @elseif($order->certificates->performance_power_cd == 1330)
                             status_normal
-                        @elseif($order->certificates->performance_power_cd == 1331)
+@elseif($order->certificates->performance_power_cd == 1331)
                             status_warn
-                        @else
+@else
                             status_bad
-                        @endif'>{{ $order->certificates->performance_power ? $order->certificates->performance_power->display() : '미입력 (검토중)' }}</span>
+@endif'>{{ $order->certificates->performance_power ? $order->certificates->performance_power->display() : '미입력 (검토중)' }}
+                    </span>
                 </td>
-            </tr>
 
-            <tr>
                 <th>
-                    <dl class='bubble_desc right'>
-                        <dt>조향 및 현가장치</dt>
+                    <dl class='bubble_desc'>
+                        <dt>조향 및 현가장치
+                            @if($order->certificates->steering_comment)
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
+                            @endif
+                        </dt>
                         <dd>{{ $order->certificates->steering_comment }}<span>×</span></dd>
                     </dl>
                 </th>
                 <td>
-                    <span class='@if($order->certificates->performance_steering_cd == 1329)
+                    <span class='
+                    @if($order->certificates->performance_steering_cd == 1329)
                             status_good
 @elseif($order->certificates->performance_steering_cd == 1330)
                             status_normal
@@ -299,100 +355,114 @@
                             status_warn
 @else
                             status_bad
-@endif'>{{ $order->certificates->performance_steering ? $order->certificates->performance_steering->display() : '미입력 (검토중)' }}</span>
+@endif'>{{ $order->certificates->performance_steering ? $order->certificates->performance_steering->display() : '미입력 (검토중)' }}
+                    </span>
                 </td>
 
                 <th>
-                    <dl class='bubble_desc right'>
-                        <dt>제동장치</dt>
+                    <dl class='bubble_desc'>
+                        <dt>제동장치
+                            @if($order->certificates->braking_comment)
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
+                            @endif
+                        </dt>
                         <dd>{{ $order->certificates->braking_comment }}<span>×</span></dd>
                     </dl>
                 </th>
                 <td>
-                    <span class='@if($order->certificates->performance_braking_cd == 1329)
+                    <span class='
+                    @if($order->certificates->performance_braking_cd == 1329)
                             status_good
-                        @elseif($order->certificates->performance_braking_cd == 1330)
+@elseif($order->certificates->performance_braking_cd == 1330)
                             status_normal
-                        @elseif($order->certificates->performance_braking_cd == 1331)
+                            @elseif($order->certificates->performance_braking_cd == 1331)
                             status_warn
-                        @else
-                            status_bad
-                        @endif'>{{ $order->certificates->performance_braking ? $order->certificates->performance_braking->display() : '미입력 (검토중)' }}</span>
-                </td>
-            </tr>
-
-            <tr>
-                <th>
-                    <dl class='bubble_desc'>
-                        <dt>전장장착품<br>작동상태</dt>
-                        <dd>{{ $order->certificates->plugin_comment }}<span>×</span></dd>
-                    </dl>
-                </th>
-                <td>
-                    <span class='@if($order->certificates->performance_plugin_cd == 1196)
-                            status_good
-                        @else
-                            status_bad
-                        @endif'>{{ $order->certificates->performance_plugin ? $order->certificates->performance_plugin->display() : '미입력 (검토중)' }}</span>
-                </td>
-
-                <th>
-                    <dl class='bubble_desc right'>
-                        <dt>전기장치</dt>
-                        <dd>{{ $order->certificates->electronic_comment }}<span>×</span>
-                        </dd>
-                    </dl>
-                </th>
-                <td>
-                    <span class='@if($order->certificates->performance_electronic_cd == 1329)
-                            status_good
-                        @elseif($order->certificates->performance_electronic_cd == 1330)
-                            status_normal
-                        @elseif($order->certificates->performance_electronic_cd == 1331)
-                            status_warn
-                        @else
-                            status_bad
-                        @endif'>{{ $order->certificates->performance_electronic ? $order->certificates->performance_electronic->display() : '미입력 (검토중)' }}</span>
-                </td>
-            </tr>
-
-            <tr>
-                <th>
-                    <dl class='bubble_desc'>
-                        <dt>휠&타이터</dt>
-                        <dd>{{ $order->certificates->tire_comment }}<span>×</span>
-                        </dd>
-                    </dl>
-                </th>
-                <td>
-                    <span class='@if($order->certificates->performance_tire_cd == 1329)
-                            status_good
-                        @elseif($order->certificates->performance_tire_cd == 1330)
-                            status_normal
-                        @elseif($order->certificates->performance_tire_cd == 1331)
-                            status_warn
-                        @else
-                            status_bad
-                        @endif'>{{ $order->certificates->performance_tire ? $order->certificates->performance_tire->display() : '미입력 (검토중)' }}</span>
-                </td>
-
-                <th>
-                    <dl class='bubble_desc'>
-                        <dt>주행테스트</dt>
-                        <dd>{{ $order->certificates->driving_comment }}<span>×</span>
-                        </dd>
-                    </dl>
-                </th>
-                <td>
-                     <span class='@if($order->certificates->performance_driving_cd == 1329)
-                             status_good
-                        @elseif($order->certificates->performance_driving_cd == 1330)
-                             status_normal
-@elseif($order->certificates->performance_driving_cd == 1331)
-                             status_warn
 @else
-                             status_bad
-@endif'>{{ $order->certificates->performance_driving ? $order->certificates->performance_driving->display() : '미입력 (검토중)' }}</span>
+                            status_bad
+@endif'>{{ $order->certificates->performance_braking ? $order->certificates->performance_braking->display() : '미입력 (검토중)' }}
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    <dl class='bubble_desc'>
+                        <dt>전기장치
+                            @if($order->certificates->electronic_comment)
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
+                            @endif
+                        </dt>
+                        <dd>{{ $order->certificates->electronic_comment }}<span>×</span></dd>
+                    </dl>
+                </th>
+                <td>
+                    <span class='
+                    @if($order->certificates->performance_electronic_cd == 1329)
+                            status_good
+@elseif($order->certificates->performance_electronic_cd == 1330)
+                            status_normal
+                            @elseif($order->certificates->performance_electronic_cd == 1331)
+                            status_warn
+@else
+                            status_bad
+@endif'>{{ $order->certificates->performance_electronic ? $order->certificates->performance_electronic->display() : '미입력 (검토중)' }}
+                    </span>
+                </td>
+
+                <th>
+                    <dl class='bubble_desc'>
+                        <dt>휠&타이터
+                            @if($order->certificates->tire_comment)
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
+                            @endif
+                        </dt>
+                        <dd>{{ $order->certificates->tire_comment }}<span>×</span></dd>
+                    </dl>
+                </th>
+                <td>
+                    <span class='
+                    @if($order->certificates->performance_tire_cd == 1329)
+                            status_good
+@elseif($order->certificates->performance_tire_cd == 1330)
+                            status_normal
+                            @elseif($order->certificates->performance_tire_cd == 1331)
+                            status_warn
+@else
+                            status_bad
+@endif'>{{ $order->certificates->performance_tire ? $order->certificates->performance_tire->display() : '미입력 (검토중)' }}
+                    </span>
+                </td>
+
+                <th>
+                    <dl class='bubble_desc'>
+                        <dt>주행테스트
+                            @if($order->certificates->driving_comment)
+                                <div class="comment-img">
+                                    {{ Html::image(Helper::theme_web( '/img/report/comment.png')) }}
+                                </div>
+                            @endif
+                        </dt>
+                        <dd>{{ $order->certificates->driving_comment }}<span>×</span></dd>
+                    </dl>
+                </th>
+                <td>
+                    <span class='
+                    @if($order->certificates->performance_driving_cd == 1329)
+                            status_good
+@elseif($order->certificates->performance_driving_cd == 1330)
+                            status_normal
+                            @elseif($order->certificates->performance_driving_cd == 1331)
+                            status_warn
+@else
+                            status_bad
+@endif'>{{ $order->certificates->performance_driving ? $order->certificates->performance_driving->display() : '미입력 (검토중)' }}
+                    </span>
                 </td>
             </tr>
             </tbody>
