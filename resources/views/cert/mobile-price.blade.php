@@ -27,6 +27,10 @@
             </tr>
             <tr>
                 <th>등록번호</th>
+                <td>{{ $order->car_number }}</td>
+            </tr>
+            <tr>
+                <th>동일성여부</th>
                 <td>{{ $order->certificates->getVinCd ? $order->certificates->getVinCd->display() : '미입력 (검토중)' }}</td>
             </tr>
             <tr>
@@ -40,10 +44,6 @@
             <tr>
                 <th>배기량(cc)</th>
                 <td>{{ number_format($order->car->displacement) }} cc</td>
-            </tr>
-            <tr>
-                <th>차대번호</th>
-                <td>{{ $order->car_number }}/td>
             </tr>
             <tr>
                 <th>연식</th>
@@ -243,8 +243,8 @@
     <div class='stamp_line_wrap'><div class='stamp_line_cont'>
             <div class='stamp_line_box'>
                 <div class='stamp_line_info'>
-                    <span><strong>발급일</strong> {{ \Carbon\Carbon::parse($order->certificates->created_at)->format('Y년 m월 d일') }}</span>
-                    <span><strong>보증기간</strong> {{ \Carbon\Carbon::parse($order->certificates->created_at)->addMonth(5)->format('Y년 m월 d일') }}</span>
+                    <span><strong>발급일</strong> {{ $order->certificates->updated_at->format('Y년 m월 d일') }}</span>
+                    <span><strong>보증기간</strong> {{ $order->certificates->getExpireDate()->format('Y년 m월 d일') }}</span>
                 </div>
                 <div class='stamp_wrap'><span>대표 기술사</span><strong>이해택</strong></div>
             </div>

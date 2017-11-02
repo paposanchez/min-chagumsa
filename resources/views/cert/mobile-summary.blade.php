@@ -3,8 +3,8 @@
 @section( 'content' )
 
     <ul class='report_menu_wrap'>
-        <li class='select'><a href='{{ url($order->car_number.'-'.\App\Models\Order::find($order->id)->created_at->format('ymd').'/mobile-summary') }}'>자동차 인증서</a></li>
-        <li class=''><a href='{{ url($order->car_number.'-'.\App\Models\Order::find($order->id)->created_at->format('ymd').'/mobile-price') }}'>가격산정서</a></li>
+        <li class='select'><a href='{{ url($order->car_number.'-'.$order->created_at->format('ymd').'/mobile-summary') }}'>자동차 인증서</a></li>
+        <li class=''><a href='{{ url($order->car_number.'-'.$order->id->created_at->format('ymd').'/mobile-price') }}'>가격산정서</a></li>
     </ul>
 
     <div class='br20'></div>
@@ -56,12 +56,11 @@
             </tr>
             <tr>
                 <th>인증서 발급일</th>
-                <td><strong class='fcol_navy'>{{ \Carbon\Carbon::parse($order->certificates->created_at)->format('Y년 m월 d일') }}</strong></td>
+                <td><strong class='fcol_navy'>{{ $order->certificates->updated_at->format('Y년 m월 d일') }}</strong></td>
             </tr>
             <tr>
                 <th>보증기간</th>
-                <td><strong class='fcol_navy '>{{ $order->certificates->updated_at->format('Y년 m월 d일') }}
-                        ~ {{ $order->certificates->getExpireDate()->format('Y년 m월 d일') }}</td>
+                <td><strong class='fcol_navy '>{{ $order->certificates->updated_at->format('Y년 m월 d일') }} ~ {{ $order->certificates->getExpireDate()->format('Y년 m월 d일') }}</strong></td>
             </tr>
             <tr>
                 <th>대표이미지</th>
@@ -117,12 +116,9 @@
 
                 </td>
                 <td class="">
-                    <dl class='bubble_desc bubble_desc2'>
-                        <dt style="text-align: center">
-                            침수진단
-                        </dt>
-
-                    </dl>
+                    <dt style="text-align: center">
+                        침수진단
+                    </dt>
                 </td>
                 <td class="text-center">
                     <div class="total_result">
