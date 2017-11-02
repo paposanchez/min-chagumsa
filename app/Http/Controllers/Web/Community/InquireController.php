@@ -38,17 +38,16 @@ class InquireController extends PostController
      */
     public function index()
     {
-        $user = Auth::user();
+        $user_id = Auth::user()->id;
 
-        $where = Post::whereBoardId($this->board_id)->where('user_id', $user->id)
+        $where = Post::whereBoardId($this->board_id)->where('user_id', $user_id)
             ->orderBy('id', 'desc');
 
         $entrys = $where->paginate($this->num_of_page);
 
         $board_namespace = $this->board_namespace;
 
-        $start_num = \App\Helpers\Helper::getStartNum($entrys);
-        return view($this->view_path . 'index', compact('entrys', 'board_namespace', 'start_num', 'user'));
+        return view($this->view_path . 'index', compact('entrys','board_namespace'));
     }
 
     /**
@@ -64,8 +63,8 @@ class InquireController extends PostController
     }
 
     /**
-     * @param Int $id
      * 1:1문의 상세보기
+     * @param Int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function show($id)
@@ -81,12 +80,15 @@ class InquireController extends PostController
 
         // 파일 다운로드 관련
         $files = File::where('group', 'post')->where('group_id', $id)->get();
+        if (!$files) {
+            $files = [];
+        }
         return view($this->view_path . 'show', compact('data', 'board_namespace', 'files', 'user'));
     }
 
     /**
-     * @param Request $request
      * 1:1문의 저장 메소드
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
@@ -182,8 +184,8 @@ class InquireController extends PostController
     }
 
     /**
+     * 1:1 문의 삭제
      * @param Int $id
-     * 1:1 문의 삭
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
