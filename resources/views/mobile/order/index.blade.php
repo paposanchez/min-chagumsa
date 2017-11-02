@@ -461,7 +461,7 @@
                         <div class="form-group">
                             <label for="exampleInputCoupon" class="sr-only">쿠폰 번호</label>
                             <input type="text" class="form-control input-lg" id="coupon_number" placeholder='쿠폰번호를 입력해 주세요.' name="coupon_number" autocomplete="off">
-                            <span class="coupon-error text-center"></span>
+                            <span class="coupon-error text-center" style="padding-left: 15px;"></span>
                         </div>
 
                         <p class="form-control-static text-center">
@@ -985,8 +985,7 @@
 
                             $(".coupon-error").css({'color': '#0b4777'});
                             //인증버튼을 결제처리 버튼으로 변경한다.
-
-                            $("#modal-coupon-verify").attr("disabled", "disabled");
+                            $("#modal-coupon-verify").css("display", "none");
                             $("#coupon-process").show(0.5);
 
                         } else {
@@ -1248,8 +1247,6 @@
                 weekdays: '월요일.화요일.수요일.목요일.금요일.토요일.일요일'.split('.'),
                 weekdaysShort: '일.월.화.수.목.금.토.'.split('.')
             },
-            ignoreReadOnly: true,
-            allowInputToggle: true
         };
 
         if ($(this).data('format')) {
@@ -1271,7 +1268,7 @@
             $('#item_id').val(num);
         }
 
-    }
+    };
 
     var disable_product = function(num){
 

@@ -14,13 +14,6 @@
         </dd>
     </dl>
     <dl class='inquery_view_wrap faq_answer'>
-        <dt>
-            @if($data->is_answered)
-                {!! $data->answer !!}
-            @else
-                답변대기중입니다.
-            @endif
-        </dt>
         <dd>
             <div> {!! $data->content !!}</div>
             @foreach($files as $file)
@@ -32,6 +25,13 @@
                 <br>
             @endforeach
         </dd>
+        <dt>
+            @if($data->is_answered)
+                {!! $data->answer !!}
+            @else
+                답변대기중입니다.
+            @endif
+        </dt>
     </dl>
 
     <div class='br20'></div>

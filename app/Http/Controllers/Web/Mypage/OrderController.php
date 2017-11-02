@@ -65,9 +65,9 @@ class OrderController extends Controller
     }
 
     /**
-     * @param Int $id
      * 주문 상세보기 페이지
      * 주문 seq를 이용하여 정보 노출
+     * @param Int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
@@ -81,8 +81,8 @@ class OrderController extends Controller
     }
 
     /**
-     * @param int $order_id
      * 예약변경 페이지
+     * @param int $order_id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function changeReservation($order_id)
@@ -92,13 +92,8 @@ class OrderController extends Controller
         if ($order->status_cd > 104) {
             return redirect()->back()->with('error', '잘못된 접근입니다. 관리자에게 문의해주세요.');
         }
-
         $my_garage = $order->garage;
 
-
-        //     $reservation = $order->getReservation($order->id);
-
-        //@TODO  Role을 통한 BCS 조회
         $users = Role::find(4)->users;
         $areas = [];
         $sections = [];
@@ -124,9 +119,9 @@ class OrderController extends Controller
     }
 
     /**
+     *
      * @param Request $request
      * @param int $order_id
-     * 예약 및 bcs정보 변경 메소드
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function updateReservation(Request $request, $order_id)
@@ -149,11 +144,8 @@ class OrderController extends Controller
         $order->save();
 
         $order->reservation->reservation_at = Carbon::parse($request->get('reservation_date') . ' ' . $request->get('sel_time') . ':00:00');
+        $order->reservation->garage_id = $request->get('garage_id');
         $order->push();
-
-        $reservation = Reservation::where('orders_id', $order_id)->first();
-        $reservation->garage_id = $request->get('garage_id');
-        $reservation->save();
 
         //문자, 메일 송부하기
         $enter_date = $order->reservation->reservation_at;
@@ -193,9 +185,9 @@ class OrderController extends Controller
     }
 
     /**
+     * 차량정보 변경 페이지
      * @param Request $request
      * @param int $order_id
-     * 차량정보 변경 페이지
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function changeCar(Request $request, $order_id)
@@ -209,9 +201,9 @@ class OrderController extends Controller
     }
 
     /**
+     * 차량정보 수정 메소드
      * @param Request $request
      * @param int $order_id
-     * 차량정보 수정 메소드
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updateCar(Request $request, $order_id)
@@ -219,7 +211,6 @@ class OrderController extends Controller
         $this->validate($request, ['car_number' => 'required'], [], ['car_number' => '차량번호']);
 
         $order = Order::findOrFail($order_id);
-
         $order->flooding_state_cd = $request->get('flooding');
         $order->accident_state_cd = $request->get('accident');
         $order->car_number = $request->get('car_number');
@@ -231,8 +222,8 @@ class OrderController extends Controller
     }
 
     /**
-     * @param Request $request
      * 주문 취소 메소드
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function cancel(Request $request)
@@ -257,9 +248,7 @@ class OrderController extends Controller
             $purchase = Purchase::find($order->purchase_id);
 
             if (in_array($order->status_cd, [101, 102, 103, 104])) {
-                //                $cancelAmt = $order->item->price;
-                $cancelAmt = 1000; //todo 가격부문을 위에 것으로 변경해야 함.
-
+                $cancelAmt = $order->item->price;
 
                 $payment = Payment::OrderBy('id', 'DESC')->whereIn('resultCd', [3001, 4000, 4100])
                     ->where('orders_id', $order_id)->first();
@@ -316,8 +305,6 @@ class OrderController extends Controller
                             if (isset($cancel_process->result_msg)) $message .= "결제취소 거부 사유: " . $cancel_process->result_msg;
                             $event = 'error';
                         }
-
-
                     }
 
 
