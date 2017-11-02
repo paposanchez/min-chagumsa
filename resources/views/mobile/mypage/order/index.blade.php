@@ -31,7 +31,20 @@
             </div>
 
             <div class='br30'></div>
+
         @endforeach
+        <div id="append-rows"></div>
+
+        <div class="br20"></div>
+        <div id='sub_wrap'>
+
+            <div class='ipt_line'>
+                <button id="next" type="button" class='btns btns_navy' style='display:inline-block;' data-page="2">
+                    더보기
+                </button>
+            </div>
+
+        </div>
 
         @unless(count($my_orders))
         <div class='order_info_box'>
@@ -67,7 +80,10 @@
             location.href = $(this).data("url")
         });
 
-        $(".cancel-click").on("click", function () {
+        $("div").delegate(".order_info_btn", "click", function(event){
+            event.stopPropagation();
+            event.preventDefault();
+
             if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
                 var order_id = $(this).data("cancel_order_id");
                 if (order_id) {
@@ -78,8 +94,33 @@
                 }
 
             }
+
+            event.cancelBubble = true;
         });
-    })
+
+        $("#next").on("click", function () {
+            $.ajax({
+                url: "/mypage/order/next",
+                type: "post",
+                data: {"page": $("#next").data("page")},
+                dataType: "json",
+            }).done(function (data) {
+
+
+                if(data.status == 'ok'){
+                    var next_page = parseInt($("#next").data("page")) + 1;
+
+                    $("#next").data('page', next_page);
+                    //render html
+                    $("#append-rows").append(data.my_orders);
+                }else{
+                    alert(data.msg);
+                }
+            }).fail(function () {
+                alert(data.msg);
+            });
+        })
+    });
 </script>
 
 @endpush
