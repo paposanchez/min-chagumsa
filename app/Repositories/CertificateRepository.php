@@ -200,6 +200,32 @@ class CertificateRepository
 
                     return view('cert.price', compact('order', 'order_id', 'page', 'url_prefix', 'specials'))->render();
 
+                //mobile 가격
+                case 'mobile-price':
+                    //특별요인
+                    $specials = [];
+                    if($this->order->certificates->special_flooded_cd){
+                        $specials[] = '침수차량';
+                    }
+                    if($this->order->certificates->special_fire_cd){
+                        $specials[] = '화재차량';
+                    }
+                    if($this->order->certificates->special_fulllose_cd){
+                        $specials[] = '전손차량';
+                    }
+                    if($this->order->certificates->special_remodel_cd){
+                        $specials[] = '불법개조';
+                    }
+                    if($this->order->certificates->special_etc_cd){
+                        $specials[] = '기타요인';
+                    }
+                    $specials = implode(", ", $specials);
+
+                    return view('cert.mobile-price', compact('order', 'order_id', 'page', 'url_prefix', 'specials'))->render();
+
+                case "mobile-summary":
+                    return view('cert.mobile-summary', compact('order', 'order_id','url_prefix',  'page'))->render();
+
                 default:
                     return view('cert.summary', compact('order', 'order_id', 'url_prefix', 'page'))->render();
             }
