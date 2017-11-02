@@ -60,7 +60,7 @@
                         </ul>
                     </div>
                     <div class='cert_box_cont_result' style="margin-top: 50px;">
-                        <div><label>산정가격</label><span><strong>{{ number_format($order->certificates->price) }} </strong>만원</span>
+                        <div><label>산정가격</label><span><strong>{{ number_format($order->certificates->valuation) }} </strong>만원</span>
                         </div>
                         <div><label>차량 성능 등급</label><span><strong>{{ $order->certificates->certificate_grade->display() }}</strong></span>
                         </div>
