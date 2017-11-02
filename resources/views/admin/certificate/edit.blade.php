@@ -777,7 +777,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-sm-2">최종차고지이력</label>
+                                <label class="control-label col-sm-2">최종차고지</label>
                                 <div class="col-sm-5">
                                     <input type="text" id="certificates_history_garage"
                                            name="certificates_history_garage" class="form-control"

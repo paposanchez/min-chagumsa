@@ -153,25 +153,18 @@
                 <th class='fcol_navy'>용도변경 이력</th>
                 <td>
                     @if($order->certificates->history_purpose)
-                        {{ count(explode(',', $order->certificates->history_purpose)) }}건
+                        {{ count(explode(',', $order->certificates->history_purpose))-1 }}건
                     @else
                         없음
                     @endif
                 </td>
                 <td>
-                    {{ $order->certificates->history_purpose ? $order->certificates->history_purpose : '용도변경 이력' }}
+                    {{ $order->certificates->history_purpose ? $order->certificates->history_purpose : '용도변경 이력 없음' }}
                 </td>
             </tr>
             <tr>
-                <th class='fcol_navy'>차고지 이력</th>
-                <td>
-                    @if($order->certificates->history_garage)
-                        {{ count(explode(',', $order->certificates->history_garage)) }}건
-                </td>
-                @else
-                    없음
-                @endif
-                <td>
+                <th class='fcol_navy'>최종차고지</th>
+                <td colspan="2">
                     {{ $order->certificates->history_garage ? $order->certificates->history_garage : '차고지 이력 없음' }}
                 </td>
             </tr>
