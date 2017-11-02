@@ -2,7 +2,6 @@
 
 // 마이페이지
 Route::group(['middleware' => ['auth']], function () {
-        Route::get('mypage', 'MypageController@index')->name("mypage");
         Route::group(['namespace' => 'Mypage', 'prefix' => 'mypage', 'as' => 'mypage.'], function () {
                 Route::post('profile/chk-pwd', ['as' => 'profile.chk-pwd', 'uses' => 'ProfileController@chkPwd']);
                 Route::resource('profile', 'ProfileController');

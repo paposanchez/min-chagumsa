@@ -54,7 +54,7 @@
                                 @endif
                                 @endforeach
 
-                        ><span>&nbsp;다른 사람이 인증서를 볼 수 있도록 하려면 인증서 공개로 변경하세요.</span>
+                        ><span>공개여부를 변경하세요.</span>
                     </label>
                 </div>
                 <div class='cert_detail'>
