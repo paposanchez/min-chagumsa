@@ -99,7 +99,7 @@ class CertificateRepository
         $order = $this->order;
         $order_id = $this->order_id;
         $url_prefix = $this->url_prefix;
-        if(Auth::user() || $order->status_cd == 1326){
+
             switch ($page) {
 
                 case 'performance':
@@ -203,9 +203,7 @@ class CertificateRepository
                 default:
                     return view('cert.summary', compact('order', 'order_id', 'url_prefix', 'page'))->render();
             }
-        }else{
-            throw new \Exception('인증서가 존재하지 않습니다.');
-        }
+
     }
 
 
