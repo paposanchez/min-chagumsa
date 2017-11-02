@@ -54,14 +54,12 @@
                                 @endif
                                 @endforeach
 
-                        ><span>&nbsp;다른 사람이 인증서를 볼 수 있도록 하려면 인증서 공개로 변경하세요.</span>
+                        ><span>&nbsp;공개여부를 변경하세요.</span>
                     </label>
                 </div>
                 <div class='cert_detail'>
                     <a class='btn btn-default fa fa-search' id="certi-view"
-                       href="http://cert.chagumsa.com/{{ $order->car_number }}-{{ \App\Models\Order::find($order->id)->created_at->format('ymd')}}/mobile-summary"
-
-                    >
+                       href="http://cert.chagumsa.com/{{ $order->car_number }}-{{ \App\Models\Order::find($order->id)->created_at->format('ymd')}}/mobile-summary">
                         상세보기
                     </a>
                 </div>
@@ -69,7 +67,22 @@
         </div>
         @endforeach
 
+        <div class="br20"></div>
+        <div id='sub_wrap'>
 
+            <div class='ipt_line'>
+                @if($orders->lastPage() > 1)
+                    <button id="next" type="button" class='btns btns_navy' style='display:inline-block;' data-page="2">
+                        더보기
+                    </button>
+                @else
+                    <button disabled type="button" class='btns btns_navy' style='display:inline-block;' data-page="-1">
+                        추가 목록이 없습니다.
+                    </button>
+                @endif
+            </div>
+
+        </div>
     </div>
 
 @endsection
@@ -122,6 +135,29 @@
 
         });
 
+
+        $("#next").on("click", function () {
+            $.ajax({
+                url: "/certificate/next",
+                type: "post",
+                data: {"page": $("#next").data("page")},
+                dataType: "json",
+            }).done(function (data) {
+
+
+                if(data.status == 'ok' && data.my_cert != null){
+                    var next_page = parseInt($("#next").data("page")) + 1;
+
+                    $("#next").data('page', next_page);
+                    //render html
+                    $("#cert_list_wrap").append(data.my_cert);
+                }else{
+                    alert(data.msg);
+                }
+            }).fail(function () {
+                alert(data.msg);
+            });
+        });
 
     });
 </script>

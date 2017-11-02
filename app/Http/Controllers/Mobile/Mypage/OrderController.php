@@ -89,12 +89,13 @@ class OrderController extends Controller
                 ->orderBy(DB::raw('CASE status_cd WHEN 100 THEN 9999 ELSE status_cd END'), 'ASC')
                 ->orderBy('created_at', 'DESC')->paginate(10);
 
-            if($my_orders){
+            if($my_orders->count() > 0){
                 $render = view('mobile.partials.my-oreder', compact('my_orders'))->render();
+                return ['my_orders' => $render, 'status' => 'ok', 'msg' => ''];
             }else{
-                $render = null;
+                return ['my_orders' => null, 'status' => 'ok', 'msg' => '추가 주문내용이 없습니다.'];
             }
-            return ['my_orders' => $render, 'status' => 'ok', 'msg' => ''];
+
         }
     }
 

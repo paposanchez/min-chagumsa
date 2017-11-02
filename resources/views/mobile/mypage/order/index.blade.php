@@ -107,7 +107,7 @@
             }).done(function (data) {
 
 
-                if(data.status == 'ok'){
+                if(data.status == 'ok' && data.my_orders != null){
                     var next_page = parseInt($("#next").data("page")) + 1;
 
                     $("#next").data('page', next_page);
@@ -119,7 +119,7 @@
             }).fail(function () {
                 alert(data.msg);
             });
-        })
+        });
     });
 </script>
 

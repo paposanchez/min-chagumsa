@@ -13,6 +13,8 @@ use App\Models\File;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Validator;
+
 class CertificateController extends Controller
 {
 
@@ -89,5 +91,39 @@ class CertificateController extends Controller
 
     public function sample(){
         return view('mobile.certificate.sample');
+    }
+
+    public function getNextCertificate(Request $request){
+
+        $user = Auth::user();
+        if(!$user){
+            return ["status" => "error", "msg" => "로그인이 필요한 서비스입니다.", "my_cert" => null];
+        }else{
+
+            $validate = Validator::make($request->all(),[
+                'page' => 'int|required'
+            ]);
+            if($validate->fails()){
+                $result['status'] = 'error';
+                $result['mag'] = '필수파라미터가 누락되었습니다.';
+                return ['my_cert' => null, 'status' => 'error', 'msg' => '필수파라미터가 누락되었습니다.'];
+            }else {
+
+                $orders = Order::where('orderer_id', $user->id)
+                    ->where('status_cd', 109)
+                    ->paginate(10);
+
+
+                if ($orders->count() > 0) {
+                    $render = view('mobile.partials.my-cert', compact('orders'))->render();
+                    return ['my_cert' => $render, 'status' => 'ok', 'msg' => ''];
+                }else{
+                    return ['my_cert' => null, 'status' => 'ok', 'msg' => '추가 인증서가 없습니다.'];
+                }
+
+
+            }
+
+        }
     }
 }

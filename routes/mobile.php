@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/order/get-full-address', 'OrderController@getFullAddress')->name("order.get_full_address");
 
     Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd')->name('mobile.certificate.change-open-cd');
+    Route::any('certificate/next', 'CertificateController@getNextCertificate')->name('mobile.certificate.next');
 
     //쿠폰인증
     Route::post('/order/coupon-verify', 'OrderController@couponVerify')->name("mobile.order.coupon-verify");
