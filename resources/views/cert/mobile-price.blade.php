@@ -55,7 +55,6 @@
             </tr>
             <th>색상</th>
             <td>{{ $order->car->getExteriorColor->display() }}(외부)
-                {{--/ {{ $order->car->getInteriorColor->display() }}(내부)--}}
             </td>
             </tr>
             <th>주행거리(km)</th>

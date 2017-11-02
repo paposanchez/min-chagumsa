@@ -4,7 +4,7 @@
 
     <ul class='report_menu_wrap'>
         <li class='select'><a href='{{ url($order->car_number.'-'.$order->created_at->format('ymd').'/mobile-summary') }}'>자동차 인증서</a></li>
-        <li class=''><a href='{{ url($order->car_number.'-'.$order->id->created_at->format('ymd').'/mobile-price') }}'>가격산정서</a></li>
+        <li class=''><a href='{{ url($order->car_number.'-'.$order->created_at->format('ymd').'/mobile-price') }}'>가격산정서</a></li>
     </ul>
 
     <div class='br20'></div>
