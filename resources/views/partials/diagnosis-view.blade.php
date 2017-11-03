@@ -32,5 +32,5 @@
 
 
 @if($entry['use_voice'] == 1)
-        {!! nl2br($entry['comment']) !!}
+        {!! $entry['comment'] ? nl2br($entry['comment']) : '점검의견 없음' !!}
 @endif

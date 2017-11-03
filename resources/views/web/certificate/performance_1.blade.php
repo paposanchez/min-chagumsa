@@ -390,7 +390,7 @@
 			</colgroup>
 			<tbody>
 			<tr>
-				<th class='td_al_c' colspan='2'>자동차기술사 종합의견</th>
+				<th class='td_al_c' colspan='2'>차량기술사 종합의견</th>
 			</tr>
 			<tr>
 				<td>
