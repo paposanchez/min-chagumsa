@@ -139,14 +139,6 @@
     <div class='report_title_type2'>차량정보</div>
     <div class='report_table exp'>
         <table>
-            <colgroup>
-                <col width="16.6%">
-                <col width="16.6%">
-                <col width="16.6%">
-                <col width="16.6%">
-                <col width="16.6%">
-                <col width="*">
-            </colgroup>
             <tbody>
             <tr>
                 <th>
