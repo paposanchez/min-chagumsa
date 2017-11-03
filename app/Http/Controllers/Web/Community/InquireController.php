@@ -47,7 +47,9 @@ class InquireController extends PostController
 
         $board_namespace = $this->board_namespace;
 
-        return view($this->view_path . 'index', compact('entrys','board_namespace'));
+        $start_num = \App\Helpers\Helper::getStartNum($entrys);
+
+        return view($this->view_path . 'index', compact('entrys','board_namespace', 'start_num'));
     }
 
     /**

@@ -348,7 +348,7 @@ input[type=checkbox].psk.psk-switch:checked + .lbl::after {left:28px;content:'ON
 .foot_wrap ul li {display:inline-block;border-right:1px solid #444;}
 .foot_wrap ul li:last-child {border:0;}
 .foot_wrap ul li a {display:block;padding:0 10px;color:#444;height:14px;line-height:14px;font-size:14px;}
-.foot_wrap ul li:last-child a {color:#0b4777;}
+.foot_wrap .active {color:#0b4777;}
 .foot_wrap p {height:12px;line-height:12px;font-size:12px;color:#bbb;text-align:center;}
 
 /* foot_full */
