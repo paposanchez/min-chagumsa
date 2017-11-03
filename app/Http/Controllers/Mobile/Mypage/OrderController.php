@@ -20,9 +20,11 @@ use App\Models\Role;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 use Mockery\Exception;
 use DB;
 
@@ -63,12 +65,46 @@ class OrderController extends Controller
         return view('mobile.mypage.order.index', compact('my_orders'));
     }
 
+
     /**
      * 주문 상세보기 페이지
      * 주문 seq를 이용하여 정보 노출
-     * @param Int $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param Request $request
+     * @return array
      */
+
+    public function nextOrder(Request $request){
+
+        $user_id = Auth::user()->id;
+
+        $validate = Validator::make($request->all(),[
+            'page' => 'int|required'
+        ]);
+
+        $result = [];
+
+        if($validate->fails()){
+            $result['status'] = 'error';
+            $result['mag'] = '필수파라미터가 누락되었습니다.';
+            return ['my_orders' => null, 'status' => 'error', 'msg' => '필수파라미터가 누락되었습니다.'];
+        }else{
+
+            $my_orders = Order::where('orderer_id', $user_id)->whereNotIn('status_cd', [101])
+                ->orderBy('status_cd', 'ASC')
+                ->orderBy(DB::raw('CASE status_cd WHEN 100 THEN 9999 ELSE status_cd END'), 'ASC')
+                ->orderBy('created_at', 'DESC')->paginate(10);
+
+            if($my_orders->count() > 0){
+                $render = view('mobile.partials.my-oreder', compact('my_orders'))->render();
+                return ['my_orders' => $render, 'status' => 'ok', 'msg' => ''];
+            }else{
+                return ['my_orders' => null, 'status' => 'ok', 'msg' => '추가 주문내용이 없습니다.'];
+            }
+
+        }
+    }
+
+
     public function show($id)
     {
         $order = Order::find($id);
