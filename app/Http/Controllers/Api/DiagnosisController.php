@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\SendSms;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisFile;
 use App\Repositories\DiagnosisRepository;
