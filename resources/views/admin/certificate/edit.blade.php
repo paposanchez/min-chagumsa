@@ -983,7 +983,6 @@
 //                grade_state_cd: "차량등급을 선택해주세요.",
 //                certificates_valuation: "평가금액을 입력하세요.",
 //                certificates_history_insurance: "보험사고이력을 입력해주세요.",
-//
 //                history_depreciation: "주요이력평가 감가금액을 입력해주세요.",
 //                basic_depreciation: "기본평가 감가금액을 입력해주세요.",
 //                special_depreciation: "특별요인 감가금액을 입력해주세요.",
@@ -1015,16 +1014,27 @@
             $("#issue").click(function () {
                 var id = $(this).data('id');
                 var c = confirm("인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
+                var params = $("#frm-basic").serialize();
+
+
+
                 if (c == true) {
                     $.ajax({
                         type: 'post',
                         url: '/certificate/issue',
                         data: {
-                            'order_id': id
+                            'order_id': id,
+                            'params': params
                         },
                         success: function (data) {
-                            alert('인증서 발급이 완료되었습니다.');
-                            location.href = "/certificate";
+                            alert(JSON.stringify(data));
+                            //                            if(data == 'success'){
+//                                alert('인증서 발급이 완료되었습니다.');
+//                                location.href = "/certificate";
+//                            }
+//                            else{
+//                                alert(data);
+//                            }
                         },
                         error: function (data) {
                             alert(JSON.stringify(data));
@@ -1114,18 +1124,7 @@
             });
 
 
-            if ($('#cars_exterior_color').val() == 1132) {
-                $('#exterior_color_etc').css('display', '')
-            } else {
-                $('#exterior_color_etc').css('display', 'none')
-            }
 
-
-            if ($('#cars_fueltype_cd').val() == 1106) {
-                $('#fueltype_etc').css('display', '')
-            } else {
-                $('#fueltype_etc').css('display', 'none')
-            }
 
 
         });
