@@ -70,3 +70,10 @@
 .total_result {position: relative; height: 120px; text-align: center !important;}
 .total_text{position: absolute;width:100%; min-height: 35px;margin-top: -32px;}
 . total_text .total_result_text {position: relative; line-height: 42px;vertical-align: middle; top: 70px; left: 130px; transform: translate(-50%, -50%);}
+
+@media screen and (max-width: 640px) {
+    table {
+        overflow-x: auto;
+        display: block;
+    }
+}
