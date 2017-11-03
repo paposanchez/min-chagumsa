@@ -116,6 +116,8 @@ class InquireController extends PostController
             return redirect()->route('inquire.index')->with('error', '문의가 정상적으로 처리되지 않았습니다.');
         }
 
+        $user = Auth::user();
+
         Post::create([
             'board_id' => $this->board_id,
             'user_id' => $user->id,
