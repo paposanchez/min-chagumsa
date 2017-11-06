@@ -34,9 +34,6 @@
 
 @if($entry['use_voice'] == 1)
     @foreach($entry['files'] as $file)
-        <button type="button" class="btn btn-circle btn-primary diagnosis-soundplay" data-toggle="tooltip"
-                data-source="{!! str_replace(array("http://admin", "http://cert", "http://bcs", "http://www", "http://image", "http://tech"), "http://cdn", url('/')) !!}/diagnosis/{{ $file['id'] }}" data-mime="{{ $file['mime'] }}" title="{{ $file['original'] }}"><i
-                    class="fa fa-play"></i></button>
         <audio src="{!! str_replace(array("http://admin", "http://cert", "http://bcs", "http://www", "http://image", "http://tech"), "http://cdn", url('/')) !!}/diagnosis/{{ $file['id'] }}" controls></audio>
     @endforeach
 
