@@ -226,12 +226,11 @@ class DiagnosisController extends ApiController
 
                 //todo mme를 호출해서 이미지변환을 요청함
 
-                $return = 'success';
+                return response()->json('success');
             } else {
-                $return = 'fail';
+                return response()->json('fail');
             }
 
-            return response()->json($return);
         } catch (Exception $ex) {
             return response()->json('fail');
         }
@@ -268,7 +267,7 @@ function getItem(Request $request)
         return response()->json(json_decode($item->layout, true));
 
     } catch (Exception $e) {
-        return abort(404, trans('item.not-found'));
+        return response()->json('fail');
     }
 
 }
@@ -317,11 +316,11 @@ function setDiagnosisEngineer(Request $request)
         $order->diagnose_at = Carbon::now();
         $order->save();
 
-        return response()->json(true);
+        return response()->json('success');
 
         // 앱에서는 간단하게
     } catch (Exception $e) {
-        return response()->json(false);
+        return response()->json('fail');
     }
 }
 
@@ -396,7 +395,7 @@ function getDiagnosisReservation(Request $request)
         ));
         // 앱에서는 간단하게
     } catch (Exception $e) {
-        return abort(404, trans('diagnosis.not-found'));
+        return response()->json('fail');
     }
 }
 
@@ -458,7 +457,7 @@ function getDiagnosisWorking(Request $request)
         // 앱에서는 간단하게
 
     } catch (Exception $e) {
-        return abort(404, trans('garage_id.not-found'));
+        return response()->json('fail');
     }
 }
 
@@ -544,7 +543,7 @@ function getDiagnosisCompleted(Request $request)
         ));
         // 앱에서는 간단하게
     } catch (Exception $e) {
-        return abort(404, trans('diagnosis.not-found'));
+        return response()->json('fail');
     }
 }
 
@@ -613,12 +612,11 @@ function setDiagnosisComplete(Request $request)
         }
 
 
-        return response()->json(true);
+        return response()->json('success');
 
         // 앱에서는 간단하게
     } catch (Exception $e) {
-        //            return abort(404, trans('diagnosis.not-found'));
-        return response()->json(false);
+        return response()->json('fail');
     }
 }
 
@@ -747,9 +745,9 @@ public function setTransDiagnosisFileInfo(Request $request){
             'trans_id' => $request->get('trans_id')
         ];
         $model->insert($data);
-        return response()->json(['status' => 'ok', 'error' => $error]);
+        return response()->json('success');
     }else{
-        return response()->json(['status' => 'skip', 'error' => $error]);
+        return response()->json('fail');
     }
 }
 
