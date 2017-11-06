@@ -35,8 +35,9 @@
 @if($entry['use_voice'] == 1)
     @foreach($entry['files'] as $file)
         <button type="button" class="btn btn-circle btn-primary diagnosis-soundplay" data-toggle="tooltip"
-                data-source="{{ $file['fullpath'] }}" data-mime="{{ $file['mime'] }}" title="{{ $file['original'] }}"><i
+                data-source="{!! preg_replace("/www.|admin.|tech.|api.|bcs.|m./i", "cdn.", url('/')) !!}/diagnosis/{{ $file['id'] }}" data-mime="{{ $file['mime'] }}" title="{{ $file['original'] }}"><i
                     class="fa fa-play"></i></button>
+        {{--{!! preg_replace("/www.|admin.|tech.|api.|bcs.|m./i", "cdn.", url('/')) !!}/diagnosis/{{ $file['id'] }}--}}
     @endforeach
 
     <textarea name="comment" class="form-control" data-id="{{ $entry['id'] }}" style="height:60px; margin-top:10px;"
