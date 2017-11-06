@@ -37,7 +37,10 @@
         <button type="button" class="btn btn-circle btn-primary diagnosis-soundplay" data-toggle="tooltip"
                 data-source="{!! str_replace(array("http://admin", "http://cert", "http://bcs", "http://www", "http://image", "http://tech"), "http://cdn", url('/')) !!}/diagnosis/{{ $file['id'] }}" data-mime="{{ $file['mime'] }}" title="{{ $file['original'] }}"><i
                     class="fa fa-play"></i></button>
-        {{--{!! preg_replace("/www.|admin.|tech.|api.|bcs.|m./i", "cdn.", url('/')) !!}/diagnosis/{{ $file['id'] }}--}}
+        <audio controls>
+            <source src="{!! str_replace(array("http://admin", "http://cert", "http://bcs", "http://www", "http://image", "http://tech"), "http://cdn", url('/')) !!}/diagnosis/{{ $file['id'] }}" type="{{ $file['mime'] }}">
+            Your browser does not support the audio tag.
+        </audio>
     @endforeach
 
     <textarea name="comment" class="form-control" data-id="{{ $entry['id'] }}" style="height:60px; margin-top:10px;"
