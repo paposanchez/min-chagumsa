@@ -37,8 +37,8 @@
         <input type="hidden" name="item_id" id="item_id" value="">
         <input type="hidden" name="payment_price" id="payment_price" value="">
         <input type="hidden" name="payment_method" id="payment_method" value="">
-        <input type="hidden" name="sms_id" id="sms_id" autocomplete="off" value="">
-        <input type="hidden" name="sms_confirmed" id="sms_confirmed" autocomplete="off" value="">
+        <input type="hidden" name="sms_id" id="sms_id" autocomplete="off" value="1">
+        <input type="hidden" name="sms_confirmed" id="sms_confirmed" autocomplete="off" value="1">
         <input type="hidden" name="is_complete" id="is_complete" value="" autocomplete="off">
         <input type="hidden" name="orders_id" id="orders_id" value="" autocomplete="off">
         <input type="hidden" name="mobile" id="mobile" value="">
@@ -532,6 +532,30 @@
                         $('#brands').focus();
                         return false;
                     }
+
+                    //todo 차량번호 validation
+
+                    $.ajax({
+                        type: 'get',
+                        dataType: 'json',
+                        url: '/order/car-validation/',
+                        data: {
+                            'car_number' : car_num
+                        },
+                        success : function (data) {
+                            if(data == 'fail'){
+                                alert('동일한 주문번호가 존재합니다. \n차량번호를 확인해주세요.');
+
+                                $('.pt-page-3').fadeOut();
+                                $('.pt-page-2').fadeIn();
+                                $('#join_step li').eq(1).addClass('on');
+                                return;
+                            }
+                        },
+                        error : function (data) {
+                            alert('문제가 발생하였습니다. 관리자에게 문의하세요.');
+                        }
+                    });
 
                     $('.pt-page-2').fadeOut();
                     $('.pt-page-3').fadeIn();
