@@ -518,7 +518,7 @@ class OrderController extends Controller
         if($event == 'success'){
             //문자, 메일 송부하기
             $orderer_name = $order->orderer_name;
-            $order_number = $order->getOrderNumber();
+            $order_num = $order->getOrderNumber();
             try {
                 //메일전송=
                 $mail_message = [
@@ -531,7 +531,7 @@ class OrderController extends Controller
 
             try {
                 // SMS전송
-                $bcs_message = view('message.sms.cancel-ordering-bcs', compact('orderer_name', '$order_num'));
+                $bcs_message = view('message.sms.cancel-ordering-bcs', compact('orderer_name', 'order_num'));
                 $user_message = view('message.sms.cancel-ordering-user');
                 event(new SendSms($order->orderer_mobile, '[차검사 주문 취소]',$user_message));
                 event(new SendSms($order->garage->user_extra->ceo_mobile, '[차검사 주문 취소]', $bcs_message));
