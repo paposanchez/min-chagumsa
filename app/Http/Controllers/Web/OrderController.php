@@ -1124,6 +1124,27 @@ class OrderController extends Controller
             'orders_id' => $order->id, 'is_complete' => 1,
             'is_coupon' => 1, 'coupon_id' => $coupon_where->id
         ])->with('success', '주문이 완료되었습니다');
+    }
+
+    public function carValidation(Request $request){
+        $car_number = $request->get('car_number');
+
+        try{
+            $order_date = Carbon::now()->format('ymd');
+            $order = Order::where('car_number', $car_number)
+                ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
+                ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
+                ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'))->get();
+
+            if(count($order) > 0){
+                return response()->json('fail');
+            }else{
+                return response()->json('success');
+            }
+
+        }catch (\Exception $e){
+            return response()->json($e->getMessage());
+        }
 
     }
 
