@@ -426,56 +426,52 @@ class CertificateController extends Controller
     public function issue(Request $request)
     {
 
-        $obj = unserialize($request->get('request'));
+        $obj = $request->get('params');
+        $params = [];
+        parse_str($obj, $params);
 
-
-        $foolish = [];
-        $isminseok = parse_str($request->get('params'), $foolish);
-
-
-        return response()->json($isminseok);
-
-        $validate = Validator::make($request->all(), [
+        $validate = Validator::make($params, [
             'cars_vin_number' => 'required',
-//            'car_imported_vin_number' => 'nullable',
-//            'cars_registration_date' => 'required',
-//            'cars_exterior_color' => 'required',
-//            'cars_year' => 'required',
-//            'cars_transmission_cd' => 'required',
-//            'cars_displacement' => 'required',
-//            'cars_fuel_consumption' => 'required',
-//            'cars_engine_type' => 'required',
-//            'cars_fueltype_cd' => 'required',
-//            'passenger' => 'required',
-//            'kind_cd' => 'required',
-//            'certificates_vin_yn_cd' => 'required',
-//            'certificates_new_car_price' => 'required',
-//            'pst' => 'required',
-//            'certificates_basic_registraion' => 'required',
-//            'basic_registraion_depreciation' => 'required',
-//            'certificates_basic_etc' => 'required',
-//            'certificates_usage_mileage_cd' => 'required',
-//            'certificates_usage_history_cd' => 'required',
-//            'history_depreciation' => 'required',
-//            'basic_depreciation' => 'required',
-//            'special_depreciation' => 'required',
-//            'certificates_valuation' => 'required',
-//            'certificates_opinion' => 'required',
-//            'grade_state_cd' => 'required',
-//            'certificates_usage_flood_cd' => 'required',
-//            'performance_exterior_cd' => 'required',
-//            'performance_interior_cd' => 'required',
-//            'performance_plugin_cd' => 'required',
-//            'performance_broken_cd' => 'required',
-//            'performance_engine_cd' => 'required',
-//            'performance_transmission_cd' => 'required',
-//            'performance_power_cd' => 'required',
-//            'performance_steering_cd' => 'required',
-//            'performance_braking_cd' => 'required',
-//            'performance_electronic_cd' => 'required',
-//            'performance_tire_cd' => 'required',
-//            'performance_driving_cd' => 'required',
-//            'performance_depreciation' => 'required',
+            'car_imported_vin_number' => 'nullable',
+            'cars_registration_date' => 'required',
+            'cars_exterior_color' => 'required',
+            'cars_year' => 'required',
+            'cars_transmission_cd' => 'required',
+            'cars_displacement' => 'required',
+            'cars_fuel_consumption' => 'required',
+            'cars_engine_type' => 'required',
+            'cars_fueltype_cd' => 'required',
+            'passenger' => 'required',
+            'kind_cd' => 'required',
+
+            'certificates_vin_yn_cd' => 'required',
+            'certificates_new_car_price' => 'required',
+            'pst' => 'required',
+            'certificates_basic_registraion' => 'required',
+            'basic_registraion_depreciation' => 'required',
+            'certificates_basic_etc' => 'required',
+            'certificates_usage_mileage_cd' => 'required',
+            'certificates_usage_history_cd' => 'required',
+            'history_depreciation' => 'required',
+            'basic_depreciation' => 'required',
+            'special_depreciation' => 'required',
+            'certificates_valuation' => 'required',
+            'certificates_opinion' => 'required',
+            'grade_state_cd' => 'required',
+            'certificates_usage_flood_cd' => 'required',
+            'performance_exterior_cd' => 'required',
+            'performance_interior_cd' => 'required',
+            'performance_plugin_cd' => 'required',
+            'performance_broken_cd' => 'required',
+            'performance_engine_cd' => 'required',
+            'performance_transmission_cd' => 'required',
+            'performance_power_cd' => 'required',
+            'performance_steering_cd' => 'required',
+            'performance_braking_cd' => 'required',
+            'performance_electronic_cd' => 'required',
+            'performance_tire_cd' => 'required',
+            'performance_driving_cd' => 'required',
+            'performance_depreciation' => 'required',
         ]);
 
         if ($validate->fails()) {
@@ -483,34 +479,35 @@ class CertificateController extends Controller
         }
 
         try {
-            $order_id = $request->get('order_id');
+
+            $order_id = $params['order_id'];
             $order = Order::findOrFail($order_id);
             $order->status_cd = 109;
-//            $order->save();
+            $order->save();
 
-//            //문자, 메일 송부하기
-//            $user = User::find($order->orderer_id);
-//            $order_number = $order->getOrderNumber();
-//            $certificate_url = 'http://cert.chagumsa.com/'.$order_number;
-//
-//            try{
-//                //메일전송
-//                $mail_message = [
-//                    'order_number' => $order_number , 'certificate_url' => $certificate_url
-//                ];
-//                Mail::send(new \App\Mail\Ordering($user->email, "차검사 인증서 발급이 완료되었습니다.", $mail_message, 'message.email.fin-certification-user'));
-//            }catch (\Exception $e){
-//                return response()->json($e->getMessage());
-//            }
-//
-//            try{
-//                // SMS전송
-//                $user_message = view('message.sms.fin-certification-user', compact('order_number', 'certificate_url'));
-//                event(new SendSms($order->orderer_mobile, '', $user_message));
-//            }catch (\Exception $e){
-//                return response()->json($e->getMessage());
-//            }
-//            //발송 끝
+            //문자, 메일 송부하기
+            $user = User::find($order->orderer_id);
+            $order_number = $order->getOrderNumber();
+            $certificate_url = 'http://cert.chagumsa.com/'.$order_number;
+
+            try{
+                //메일전송
+                $mail_message = [
+                    'order_number' => $order_number , 'certificate_url' => $certificate_url
+                ];
+                Mail::send(new \App\Mail\Ordering($user->email, "차검사 인증서 발급이 완료되었습니다.", $mail_message, 'message.email.fin-certification-user'));
+            }catch (\Exception $e){
+                return response()->json($e->getMessage());
+            }
+
+            try{
+                // SMS전송
+                $user_message = view('message.sms.fin-certification-user', compact('order_number', 'certificate_url'));
+                event(new SendSms($order->orderer_mobile, '', $user_message));
+            }catch (\Exception $e){
+                return response()->json($e->getMessage());
+            }
+            //발송 끝
 
             return response()->json('success');
         } catch (\Exception $ex) {
