@@ -952,7 +952,7 @@
                     cars_displacement: "배기량을 입력해 주세요.",
                     cars_engine_type: "엔진타입을 입력해 주세요.",
                     cars_fuel_consumption: "연비를 선택해 주세요.",
-                    passenger: "승차인원을 입력해 주세요.",
+                    passenger: "승차인원을 입력해 주세요."
                 },
                 submitHandler: function (form) {
                     form.submit();
@@ -979,25 +979,30 @@
 
             // 인증서 발급하기
             $("#issue").click(function () {
-                var id = $(this).data('id');
-                var c = confirm("인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
+                var c = confirm("인증서를 저장 하셨습니까? \n인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
+                var params = $("#frm").serialize();
+
                 if (c == true) {
                     $.ajax({
                         type: 'post',
                         url: '/certificate/issue',
                         data: {
-                            'order_id': id
+                            'params': params
                         },
                         success: function (data) {
-                            alert('인증서 발급이 완료되었습니다.');
-                            location.href = "/certificate";
+                            if (data == 'success') {
+                                alert('인증서 발급이 완료되었습니다.');
+                                location.href = "/certificate";
+                            }
+                            else {
+                                alert(data);
+                            }
                         },
                         error: function (data) {
-                            alert(JSON.stringify(data));
+                            alert('문제가 발생하였습니다. 관리자에게 문의하세요.');
                         }
                     })
                 }
-
             });
 
             //차량 기타 색상

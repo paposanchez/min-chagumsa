@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\SendSms;
 use App\Models\Car;
 use App\Models\Certificate;
 use App\Models\Order;
-use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Code;
 use App\Repositories\CertificateRepository;
@@ -14,7 +12,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class CertificateController extends Controller
 {
@@ -239,7 +237,6 @@ class CertificateController extends Controller
             "imported_vin_number" => $request->get('car_imported_vin_number'),
             "registration_date" => $request->get('cars_registration_date'),
             "exterior_color_cd" => $request->get('cars_exterior_color'),
-            "interior_color_cd" => $request->get('cars_interior_color'),
             "year" => $request->get('cars_year'),
             "transmission_cd" => $request->get('cars_transmission_cd'),
             "displacement" => $request->get('cars_displacement'),
@@ -268,7 +265,6 @@ class CertificateController extends Controller
             "usage_mileage_depreciation" => $request->get("certificates_usage_mileage_depreciation"),
             "usage_history_cd" => $request->get("certificates_usage_history_cd"),
             "usage_history_depreciation" => $request->get("certificates_usage_history_depreciation"),
-
             "performance_exterior_cd" => $request->get("performance_exterior_cd"),          //차량외부점검
             "performance_interior_cd" => $request->get('performance_interior_cd'),          //차량내부점검
             "performance_plugin_cd" => $request->get('performance_plugin_cd'),              //전장장착품작동상태
@@ -281,7 +277,6 @@ class CertificateController extends Controller
             "performance_electronic_cd" => $request->get('performance_electronic_cd'),      //전기장치
             "performance_tire_cd" => $request->get('performance_tire_cd'),                  //휠&타이어
             "performance_driving_cd" => $request->get('performance_driving_cd'),            //주행테스트
-
             "exterior_comment" => $request->get('exterior_comment'),
             "interior_comment" => $request->get('interior_comment'),
             "plugin_comment" => $request->get('plugin_comment'),
@@ -294,7 +289,6 @@ class CertificateController extends Controller
             "electronic_comment" => $request->get('electronic_comment'),
             "tire_comment" => $request->get('tire_comment'),
             "driving_comment" => $request->get('driving_comment'),
-
             "performance_depreciation" => $request->get("performance_depreciation"), // 차량성능상태 감가금액
             "history_depreciation" => $request->get('history_depreciation'), // 사용이력 감가금액 ( 현재 없음 )
             "basic_depreciation" => $request->get("basic_depreciation"), // 기본가격 감가금액 ( 현재없음 )
@@ -310,7 +304,6 @@ class CertificateController extends Controller
             "usage_flood_cd" => $request->get('certificates_usage_flood_cd'),
             "flood_comment" => $request->get('flood_comment'),
             "history_comment" => $request->get('history_comment'),
-
             "pictures" => $request->get('selecte_picture_id') ? $request->get('selecte_picture_id') : $order_where->getExteriorPicture()[0]->files[0]->id
         ];
 
@@ -432,8 +425,62 @@ class CertificateController extends Controller
      */
     public function issue(Request $request)
     {
+
+        $obj = $request->get('params');
+        $params = [];
+        parse_str($obj, $params);
+
+        $validate = Validator::make($params, [
+            'cars_vin_number' => 'required',
+            'car_imported_vin_number' => 'nullable',
+            'cars_registration_date' => 'required',
+            'cars_exterior_color' => 'required',
+            'cars_year' => 'required',
+            'cars_transmission_cd' => 'required',
+            'cars_displacement' => 'required',
+            'cars_fuel_consumption' => 'required',
+            'cars_engine_type' => 'required',
+            'cars_fueltype_cd' => 'required',
+            'passenger' => 'required',
+            'kind_cd' => 'required',
+
+            'certificates_vin_yn_cd' => 'required',
+            'certificates_new_car_price' => 'required',
+            'pst' => 'required',
+            'certificates_basic_registraion' => 'required',
+            'basic_registraion_depreciation' => 'required',
+            'certificates_basic_etc' => 'required',
+            'certificates_usage_mileage_cd' => 'required',
+            'certificates_usage_history_cd' => 'required',
+            'history_depreciation' => 'required',
+            'basic_depreciation' => 'required',
+            'special_depreciation' => 'required',
+            'certificates_valuation' => 'required',
+            'certificates_opinion' => 'required',
+            'grade_state_cd' => 'required',
+            'certificates_usage_flood_cd' => 'required',
+            'performance_exterior_cd' => 'required',
+            'performance_interior_cd' => 'required',
+            'performance_plugin_cd' => 'required',
+            'performance_broken_cd' => 'required',
+            'performance_engine_cd' => 'required',
+            'performance_transmission_cd' => 'required',
+            'performance_power_cd' => 'required',
+            'performance_steering_cd' => 'required',
+            'performance_braking_cd' => 'required',
+            'performance_electronic_cd' => 'required',
+            'performance_tire_cd' => 'required',
+            'performance_driving_cd' => 'required',
+            'performance_depreciation' => 'required',
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json('인증관련 정보가 누락되었습니다. 다시 확인 후 인증서를 발급해주세요.');
+        }
+
         try {
-            $order_id = $request->get('order_id');
+
+            $order_id = $params['order_id'];
             $order = Order::findOrFail($order_id);
             $order->status_cd = 109;
             $order->save();
