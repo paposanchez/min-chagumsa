@@ -479,6 +479,31 @@ class OrderController extends Controller
             $event = 'error';
         }
 
+        if($event == 'success'){
+            //문자, 메일 송부하기
+            $orderer_name = $order->orderer_name;
+            $order_num = $order->getOrderNumber();
+            try {
+                //메일전송=
+                $mail_message = [
+                    'enter_date' => $order->reservation->reservation_at, 'garage' => $order->garage, 'price' => $order->item->price
+                ];
+                Mail::send(new \App\Mail\Ordering($order->orderer->email, "제목", $mail_message, 'message.email.cancel-ordering-user'));
+            } catch (\Exception $e) {
+//                throw  new Exception($e->getMessage());
+            }
+
+            try {
+                // SMS전송
+                $bcs_message = view('message.sms.cancel-ordering-bcs', compact('orderer_name', 'order_num'));
+                $user_message = view('message.sms.cancel-ordering-user');
+                event(new SendSms($order->orderer_mobile, '[차검사 주문 취소]',$user_message));
+                event(new SendSms($order->garage->user_extra->ceo_mobile, '[차검사 주문 취소]', $bcs_message));
+            } catch (\Exception $e) {
+            }
+            //발송 끝
+        }
+
         return redirect()->route('bcs.order.show', $order_id)
             ->with($event, $message);
     }
