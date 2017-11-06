@@ -146,7 +146,7 @@
                                                             <button type="button"
                                                                     class="btn btn-circle btn-primary diagnosis-soundplay"
                                                                     data-toggle="tooltip"
-                                                                    data-source="{{ $file['fullpath'] }}"
+                                                                    data-source="{!! preg_replace("/www.|admin.|tech.|api.|bcs.|m./i", "cdn.", url('/')) !!}/diagnosis/{{ $file['id'] }}"
                                                                     data-mime="{{ $file['mime'] }}"
                                                                     title="{{ $file['original'] }}"><i
                                                                         class="fa fa-play"></i></button>
@@ -195,7 +195,7 @@
                                                                                         <button type="button"
                                                                                                 class="btn btn-circle btn-primary diagnosis-soundplay"
                                                                                                 data-toggle="tooltip"
-                                                                                                data-source="{{ $file['fullpath'] }}"
+                                                                                                data-source="{!! preg_replace("/www.|admin.|tech.|api.|bcs.|m./i", "cdn.", url('/')) !!}/diagnosis/{{ $file['id'] }}"
                                                                                                 data-mime="{{ $file['mime'] }}"
                                                                                                 title="{{ $file['original'] }}">
                                                                                             <i

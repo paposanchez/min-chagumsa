@@ -75,15 +75,9 @@ Route::get('/diagnosis/{id?}', function($id){
                 $file = DiagnosisFile::findOrFail($id);
 
                 if ($file) {
-                        $allowedMimeTypes = ['image/jpeg', 'image/gif', 'image/png', 'image/bmp', 'image/svg+xml'];
-                        if (in_array($file->mime, $allowedMimeTypes)) {
-                                // 실제파일 위치
-                                $image = storage_path('app/diagnosis' . $file->path) . '/' . $file->source;
-                        } else {
-                                return $this->makeImageWithText($file->extension);
-                        }
+                        $binary = storage_path('app/diagnosis' . $file->path) . '/' . $file->source;
                 }
         }
 
-        return response()->file($image);
+        return response()->file($binary);
 });
