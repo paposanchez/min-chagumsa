@@ -87,7 +87,11 @@ return [
         'shoba_state_cd' => '쇼바진단코드',
         'sbc_state_cd' => 'sbc진단코드',
         'break_oil_state_cd' => '브레이크오일진단코드',
-        'engine_state_cd' => '엔진진단코드'
+        'engine_state_cd' => '엔진진단코드',
+        'wheel_damage_cd' => '휠손상코드',
+        'abrasion_state_cd' => '타이어편마모코드',
+        'sipe_state_cd' => '타이어접지면마모코드',
+        'dot_state_cd' => '타이어제조일코드'
     ],
 
     'car_option' => [
@@ -154,11 +158,12 @@ return [
     ],
     'fuel_type' => [
         'gasoline' => '가솔린',
-        'e-85_gasoline' => 'E-85/Gasoline',
-        'gasoline_hybrid' => '가솔린 하이브리드',
+        'diesel_hybrid' => '하이브리드(디젤)',
+        'gasoline_hybrid' => '하이브리드(가솔린)',
         'diesel' => '디젤',
         'electric' => '전기',
-        'compressed_natural_gas' => 'Compressed Natural Gas',
+        'compressed_natural_gas' => 'CNG',
+        'lpg' => 'L',
         'none' => '기타'
     ],
     'drivetrain' => [
@@ -453,20 +458,6 @@ return [
         'certificating' => '검토중',//108
         'certificated' => '인증발급완료'//109
     ],
-    'wear_state_cd' => [
-        'good' => '없음',
-        'strain' => '차량 쏠림',
-        'tire_wear' => '타이어 마모',
-        'maintenance' => '교환요'
-    ],
-//    'car_part_state_cd' => [
-//        'good' => '양호',
-//        'replacement' => '교환수리이력',
-//        'welding' => '용접∙판금 수리이력',
-//        'need_repair' => '수리필요(교환/판금)',
-//        'scratch' => '긁힘(상처)',
-//        'corrosion' => '부식'
-//    ],
 
     'payment_cd' => [
         'card' => '신용/체크카드', //11
@@ -531,12 +522,38 @@ return [
         'D' => 'D',
         'AAA' => 'AAA'
     ],
-    //1339
+
     'flood_state_cd' => [
         'none' => '없음',
         'suspiction' => '침수의심',
         'flooded' => '침수'
     ],
+
+    //휠손상
+    'wheel_damage_cd' => [
+        'good' => '양호',
+        'micro_damaged'=> '경미한손상',
+        'crack'=> '균열/파손'
+    ],
+    //타이어편마모
+    'abrasion_state_cd' => [
+        'good'=> '',//양호
+        'micro'=> '',//경미
+        'damaged'=> ''//극심
+    ],
+    //타이어접지면마모
+    'sipe_state_cd' => [
+        'good'=> '',//양호
+        'abrasion'=> '',//마모
+        'over'=> ''//한계초과
+    ],
+    //타이어제조일(DOT)
+    'dot_state_cd' => [
+        '1year'=> '',//1년이내
+        '3year'=> '',//3년이내
+        'over'=> ''//3년이상
+    ],
+
 
     //진단 항목 코드
 
@@ -732,7 +749,7 @@ return [
     'diagnosis_wheeltire' => [
         'diagnosis_wheeltire_damage' => '휠 손상',
         'diagnosis_wheeltire_onesided_wear' => '타이어 편마모',
-        'diagnosis_wheeltire_sipe' => '타이어 접지면 깊이',
+        'diagnosis_wheeltire_sipe' => '타이어 접지면 마모',
         'diagnosis_wheeltire_dot' => '타이어 제조일(DOT)',
         'diagnosis_wheeltire_opinion' => '점검의견'
     ],
