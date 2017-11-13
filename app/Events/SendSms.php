@@ -25,7 +25,7 @@ class SendSms extends Event {
         $tr_callback = "18336889";
         $tr_sendstat = 0;
         $tr_msgtype = 0;
-        $mobile_list = str_replace(array(', ', ','), '/', $mobiles);
+        $mobile_list = str_replace(array(', ', ',', '.', '. ', '/'), '/', $mobiles);
         $mobile_lists = explode('/', $mobile_list);
         $msg_list = [];
 
