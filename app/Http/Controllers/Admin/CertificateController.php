@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\SendSms;
 use App\Models\Car;
 use App\Models\Certificate;
 use App\Models\Order;

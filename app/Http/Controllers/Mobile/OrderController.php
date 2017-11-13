@@ -331,25 +331,6 @@ class OrderController extends Controller
         //등록된 정보 가져오기
         $order_where = Order::find($decMoid);
         if ($order_where) {
-
-            //            $order_price = $order_where->item->price;
-            //            $purchase_id = $order_where->purchase_id;
-            //
-            //            //결제결과 purchase update
-            //            $purchase = Purchase::find($purchase_id);
-            //            $purchase->status_cd = 102;
-            //            $purchase->amount =;
-            //            $purchase->refund_name =;
-            //            $purchase->refund_bank =;
-            //            $purchase->refund_account =;
-            //            $purchase->type=; //todo type이 실시간 계좌이체일 시 계좌관련정보(위에 property)를 갱신한다.
-            //            $purchase->save();
-            //
-            //            //order 결제상태 변경
-            //            $order_where->item_id =;
-            //            $order_where->status_cd = 102;
-            //            $order_where->save();
-
             $order_price = $order_where->item->price;
             $purchase_id = $order_where->purchase_id;
 
@@ -361,9 +342,9 @@ class OrderController extends Controller
 
         }
 
-        //        if( $decAmt != $order_price || $decMoid != $order_where->id ){
-        //todo 실 결제 처리시에는 위의 주석된 부분으로
-        if ($decMoid != $order_where->id) {
+                if( $decAmt != $order_price || $decMoid != $order_where->id ){
+//        //todo 실 결제 처리시에는 위의 주석된 부분으로
+//        if ($decMoid != $order_where->id) {
 
             $result = "결제처리 진행 중입니다.";
             $event = true; //결제완료
@@ -389,7 +370,6 @@ class OrderController extends Controller
             $purchase->save();
 
             //order 결제상태 변경
-            //            $order_where->item_id =;
             $order_where->status_cd = 102;
             $order_where->save();
 

@@ -611,7 +611,6 @@ function setDiagnosisComplete(Request $request)
         }catch (\Exception $e){
         }
 
-
         return response()->json('success');
 
         // 앱에서는 간단하게
