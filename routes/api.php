@@ -47,6 +47,6 @@ Route::any('diagnosis/get-file-info', 'DiagnosisController@getDiagnosisFileInfo'
 Route::any('diagnosis/set-file-info', 'DiagnosisController@setTransDiagnosisFileInfo');
 
 // 디바이스 아이디 업데이트
-Route::post('notify/register', "NoticeController@register");
-Route::get('notify/send', "NoticeController@send");
-Route::get('notify/bedge', "NoticeController@bedge");
+Route::post('notify/register', "NotifyController@register");
+Route::get('notify/send', "NotifyController@send");
+Route::get('notify/bedge', "NotifyController@bedge");
