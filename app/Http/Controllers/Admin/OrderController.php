@@ -95,7 +95,7 @@ class OrderController extends Controller
         if ($s) {
             switch ($sf) {
                 case 'order_id':
-                    $where->where('id', 'like', '%' . $s . '%');
+                    $where->where('id',$s);
                     break;
                 case 'car_number':
                     $where->where($sf, 'like', '%' . $s . '%');
