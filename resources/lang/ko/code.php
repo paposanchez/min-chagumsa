@@ -163,7 +163,7 @@ return [
         'diesel' => '디젤',
         'electric' => '전기',
         'compressed_natural_gas' => 'CNG',
-        'lpg' => 'L',
+        'lpg' => 'LPG',
         'none' => '기타'
     ],
     'drivetrain' => [

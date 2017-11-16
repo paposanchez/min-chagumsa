@@ -945,14 +945,14 @@
                 messages: {
                     orders_car_number: "자동차 등록번호를 입력해 주세요.",
                     cars_vin_number: "차대번호를 입력해 주세요.",
-                    certificates_vin_yn_cd: "차대번호 동일성확인을 선택해 주세요.",
-                    cars_registration_date: "차량의 최초등록일을 입력해 주세요.",
-                    cars_year: "연식을 입력해 주세요.",
-                    orders_mileage: "주행거리를 km단위로 입력해 주세요. (정수값)",
-                    cars_displacement: "배기량을 입력해 주세요.",
-                    cars_engine_type: "엔진타입을 입력해 주세요.",
-                    cars_fuel_consumption: "연비를 선택해 주세요.",
-                    passenger: "승차인원을 입력해 주세요."
+//                    certificates_vin_yn_cd: "차대번호 동일성확인을 선택해 주세요.",
+//                    cars_registration_date: "차량의 최초등록일을 입력해 주세요.",
+//                    cars_year: "연식을 입력해 주세요.",
+//                    orders_mileage: "주행거리를 km단위로 입력해 주세요. (정수값)",
+//                    cars_displacement: "배기량을 입력해 주세요.",
+//                    cars_engine_type: "엔진타입을 입력해 주세요.",
+//                    cars_fuel_consumption: "연비를 선택해 주세요.",
+//                    passenger: "승차인원을 입력해 주세요."
                 },
                 submitHandler: function (form) {
                     form.submit();
@@ -980,7 +980,7 @@
             // 인증서 발급하기
             $("#issue").click(function () {
                 var c = confirm("인증서를 저장 하셨습니까? \n인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
-                var params = $("#frm").serialize();
+                var params = $("#frm-basic").serialize();
 
                 if (c == true) {
                     $.ajax({
@@ -995,7 +995,12 @@
                                 location.href = "/certificate";
                             }
                             else {
-                                alert(data);
+                                $.each(data, function (key, value) {
+                                    alert(value);
+                                    $('input[name='+key+']').parent().css('color', 'red');
+                                    $('input[name='+key+']').focus();
+                                    return false;
+                                });
                             }
                         },
                         error: function (data) {
