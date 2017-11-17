@@ -499,13 +499,40 @@
                                                                 </span>
                                 @endif
                             </div>
+                            <div class="form-group form-group-lg" style="margin:0px;">
+                                <label for="datepickerReservation" class="control-label">날짜</label>
+                                <input type="text" class="form-control datepicker" placeholder="날짜"
+                                       id="date" name="date" value="{{ $order->reservation->reservation_at ? $order->reservation->reservation_at : '' }}">
+                                @if ($errors->has('date'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('date') }}
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group form-group-lg" style="margin:0px;">
+                                <label for="" class="control-label">시간</label>
+
+                                <select class="form-control" id="time" name="time">
+                                    <option value="09">9시</option>
+                                    <option value="10">10시</option>
+                                    <option value="11">11시</option>
+                                    <option value="12">12시</option>
+                                    <option value="13">13시</option>
+                                    <option value="14">14시</option>
+                                    <option value="15">15시</option>
+                                    <option value="16">16시</option>
+                                    <option value="17">17시</option>
+                                </select>
+
+                            </div>
 
                         </div>
 
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="">변경</button>
+                        <button type="button" class="btn btn-primary" id="bcs_submit">변경</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
                     </div>
                     {!! Form::close() !!}
@@ -646,11 +673,17 @@
 
             $('#bcs_submit').on('click', function () {
                 var garage = $('#garages').val();
+                var date = $('#date').val();
+                var time = $('#time').val();
 
-                if (garage != 0) {
-                    $('#bcsForm').submit();
-                } else {
+                if(garage == 0){
                     alert('정비소를 선택해주세요.');
+                }else if (date.length == 0){
+                    alert('입고날짜를 입력하세요.');
+                }else if (time.length == 0){
+                    alert('입고시간을 입력하세요.');
+                }else{
+                    $('#bcsForm').submit();
                 }
             });
 

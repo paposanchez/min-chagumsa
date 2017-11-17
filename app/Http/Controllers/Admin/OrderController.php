@@ -165,7 +165,13 @@ class OrderController extends Controller
         //주문에 대한 차량 정보
         $car = $order->car;
         //전체 정비소 리스트
-        $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
+        $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')
+            ->join('users', function ($join) {
+                $join->on('user_extras.users_id', 'users.id')
+                    ->where('users.status_cd', 1);
+            })
+            ->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->get();
+
         //전체 엔지니어 리스트
         $engineers = Role::find(5)->users->pluck('name', 'id');
         //전체 기술사 리스트
@@ -218,7 +224,7 @@ class OrderController extends Controller
                 ];
                 Mail::send(new \App\Mail\Ordering($user_info->email, "차검사 차량입고 예약시간이 변경되었습니다.", $mail_message, 'message.email.change-reservation-user'));
             } catch (\Exception $e) {
-                return response()->json($e->getMessage());
+//                return response()->json($e->getMessage());
             }
 
             try{
@@ -226,7 +232,7 @@ class OrderController extends Controller
                 $user_message = view('message.sms.change-reservation-user', compact('enter_date', 'week_day', 'garage', 'address', 'tel', 'price'));
                 event(new SendSms($order->orderer_mobile, '', $user_message));
             }catch (\Exception $e){
-                return response()->json($e->getMessage());
+//                return response()->json($e->getMessage());
             }
             //발송 끝
 
@@ -355,23 +361,46 @@ class OrderController extends Controller
      */
     public function bcsUpdate(Request $request)
     {
-        $this->validate($request, [
-            'garages' => 'required',
-            'engineer' => 'required'
-        ], [],
-            [
-                'garages' => '차량번php호',
-                'engineer' => '엔지니어'
-            ]);
-
         $order = Order::findOrFail($request->get('id'));
         $order->garage_id = $request->get('garages');
         $order->engineer_id = $request->get('engineer');
+        $order->status_cd = 103;
         $order->save();
 
+        $reservation_date = new DateTime($request->get('date') . ' ' . $request->get('time') . ':00:00');
         $reservation = Reservation::where('orders_id', $order->id)->first();
         $reservation->garage_id = $request->get('garages');
+        $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
         $reservation->save();
+
+        //문자, 메일 송부하기
+        $user_info = User::find($order->orderer_id);
+        $enter_date = $reservation->reservation_at;
+        $daily = array('일','월','화','수','목','금','토');
+        $week_day = $daily[date('w', strtotime($enter_date))];
+        $garage_info = User::find($order->garage_id);
+        $garage = $garage_info->name;
+        $garage_extra = UserExtra::where('users_id', $garage_info->id)->first();
+        $address = $garage_extra->address;
+        $tel = $garage_extra->phone;
+        $price = $order->item->price;
+
+        try {
+            //메일전송
+            $mail_message = [
+                'enter_date' => $enter_date, 'garage' => $garage, 'price' => $price
+            ];
+            Mail::send(new \App\Mail\Ordering($user_info->email, "차검사 차량입고 예약시간이 변경되었습니다.", $mail_message, 'message.email.change-reservation-user'));
+        } catch (\Exception $e) {
+        }
+
+        try{
+            // SMS전송
+            $user_message = view('message.sms.change-reservation-user', compact('enter_date', 'week_day', 'garage', 'address', 'tel', 'price'));
+            event(new SendSms($order->orderer_mobile, '', $user_message));
+        }catch (\Exception $e){
+        }
+        //발송 끝
 
         return redirect()->back()->with('success', 'BCS정보가 수정되었습니다.');
     }
@@ -554,7 +583,7 @@ class OrderController extends Controller
         $users = \App\Models\Role::find(4)->users;
         $sections = [];
         foreach ($users as $user) {
-            if ($user->user_extra->area == $request->get('garage_area')) {
+            if ($user->status_cd != 2 && $user->user_extra->area == $request->get('garage_area')) {
                 $sections[$user->user_extra->section] = $user->user_extra->section;
             }
         }
@@ -571,7 +600,7 @@ class OrderController extends Controller
         $users = \App\Models\Role::find(4)->users;
         $garages = [];
         foreach ($users as $user) {
-            if ($user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
+            if ($user->status_cd != 2 && $user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
                 $garages[$user->id] = $user->name;
             }
         }
