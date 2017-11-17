@@ -996,7 +996,7 @@
                             }
                             else {
                                 $.each(data, function (key, value) {
-                                    alert(value);
+                                    alert(value+'\n항목을 선택 후 저장해주세요.\n저장 후 인증서를 발급하셔야 정상적으로 발급됩니다.');
                                     $('input[name='+key+']').parent().css('color', 'red');
                                     $('input[name='+key+']').focus();
                                     return false;

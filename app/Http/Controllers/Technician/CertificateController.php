@@ -465,7 +465,7 @@ class CertificateController extends Controller
             'certificates_usage_mileage_depreciation' => '주행거리 감가금액',
             'certificates_usage_history_cd' => '사고/수리이력 옵션',
             'certificates_usage_history_depreciation' => '사고/수리이력 감가금액',
-            'certificates_usage_flood_cd' => '침수점',
+            'certificates_usage_flood_cd' => '침수점검',
             'performance_depreciation' => '종합진단결과(C) 감가금액',
             'performance_exterior_cd' => '차량외부점검',
             'performance_interior_cd' => '차량내부점검',
