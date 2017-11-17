@@ -976,7 +976,7 @@
 
             // 인증서 발급하기
             $("#issue").click(function () {
-                var c = confirm("인증서를 저장 하셨습니까? \n인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
+                var c = confirm("인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
                 var params = $("#frm-basic").serialize();
 
                 if (c == true) {
