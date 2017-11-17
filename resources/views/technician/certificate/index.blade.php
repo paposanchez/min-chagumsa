@@ -132,25 +132,20 @@
                     @endunless
 
                     @foreach($entrys as $data)
-
                         <tr>
-
                             <td>
-                                                                <span
-                                                                        style="width:60px;display:inline-block;"
-                                                                        class="label
+                                <span
+                                    style="width:60px;display:inline-block;"
+                                    class="label
+                                    @if($data->status_cd == 109)
+                                        label-success
+                                    @else
+                                        label-info
+                                    @endif
+                                    ">
+                                {{ $data->status->display() }}
 
-                                                                @if($data->status_cd == 109)
-                                                                                label-success
-@else
-                                                                                label-info
-@endif
-
-                                                                                ">
-
-                                                                {{ $data->status->display() }}
-
-                                                        </span>
+                                </span>
                             </td>
 
                             <td class="text-center">
@@ -222,11 +217,7 @@
 
                                 <a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip"
                                    title="주문상세보기">상세보기</a>
-
-
                             </td>
-
-
                         </tr>
                     @endforeach
                     </tbody>

@@ -490,6 +490,7 @@ class CertificateController extends Controller
         }
 
         try {
+            DB::beginTransaction();
             $order_id = $params['order_id'];
             $order = Order::findOrFail($order_id);
             $order->status_cd = 109;
@@ -516,9 +517,10 @@ class CertificateController extends Controller
             } catch (\Exception $e) {
             }
             //발송 끝
-
+            DB::commit();
             return response()->json('success');
         } catch (\Exception $ex) {
+            DB::rollBack();
             return response()->json($ex->getMessage());
         }
     }

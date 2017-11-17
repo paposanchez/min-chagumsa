@@ -8,11 +8,13 @@ use App\Models\Certificate;
 use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Models\Code;
+use App\Models\User;
 use App\Repositories\CertificateRepository;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class CertificateController extends Controller
@@ -523,7 +525,7 @@ class CertificateController extends Controller
         }
 
         try {
-
+            DB::beginTransaction();
             $order_id = $params['order_id'];
             $order = Order::findOrFail($order_id);
             $order->status_cd = 109;
@@ -552,9 +554,10 @@ class CertificateController extends Controller
                 return response()->json($e->getMessage());
             }
             //발송 끝
-
+            DB::commit();
             return response()->json('success');
         } catch (\Exception $ex) {
+            DB::rollBack();
             return response()->json($ex->getMessage());
         }
     }
