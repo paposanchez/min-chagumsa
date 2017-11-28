@@ -405,7 +405,12 @@ class OrderController extends Controller
                 $mail_message = [
                     'enter_date' => $enter_date, 'garage' => $garage, 'price' => $price
                 ];
-                Mail::send(new \App\Mail\Ordering(Auth::user()->email, "차검사 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
+//                $emails = [Auth::user()->email, 'cs@jimbros.co.kr'];
+                $emails = [Auth::user()->email, 'minseok9106@gmail.com'];
+
+//                Mail::send(new \App\Mail\Ordering(Auth::user()->email, "차검사 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
+                Mail::send(new \App\Mail\Ordering($emails, "차검사 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
+
             } catch (\Exception $e) {
             }
 
