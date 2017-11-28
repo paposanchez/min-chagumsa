@@ -1127,6 +1127,25 @@ class OrderController extends Controller
         }
 
 
+        //메일 송부하기
+        $enter_date = $order->created_at;
+        $garage_info = User::find($order->garage_id);
+        $garage = $garage_info->name;
+
+        try {
+            //메일전송
+
+            $mail_message = [
+                'enter_date' => $enter_date, 'garage' => $garage, 'price' => $order->item->price
+            ];
+//                $emails = [Auth::user()->email, 'cs@jimbros.co.kr'];
+
+            Mail::send(new \App\Mail\Ordering('cs@jimbros.co.kr', Auth::user()->name."님의 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
+            Mail::send(new \App\Mail\Ordering(Auth::user()->email, "차검사 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
+
+        } catch (\Exception $e) {
+        }
+
         return redirect()->route('order.complete', [
             'orders_id' => $order->id, 'is_complete' => 1,
             'is_coupon' => 1, 'coupon_id' => $coupon_where->id
