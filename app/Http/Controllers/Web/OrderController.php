@@ -406,10 +406,9 @@ class OrderController extends Controller
                     'enter_date' => $enter_date, 'garage' => $garage, 'price' => $price
                 ];
 //                $emails = [Auth::user()->email, 'cs@jimbros.co.kr'];
-                $emails = [Auth::user()->email, 'minseok9106@gmail.com'];
 
-//                Mail::send(new \App\Mail\Ordering(Auth::user()->email, "차검사 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
-                Mail::send(new \App\Mail\Ordering($emails, "차검사 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
+                Mail::send(new \App\Mail\Ordering('cs@jimbros.co.kr', Auth::user()->name."님의 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
+                Mail::send(new \App\Mail\Ordering(Auth::user()->email, "차검사 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
 
             } catch (\Exception $e) {
             }
@@ -452,6 +451,7 @@ class OrderController extends Controller
         $amt = $request->get('amt');//
         $buyerName = $request->get('buyerName');//
         $buyerTel = $request->get('buyerTel');//
+        $buyerEmail = $request->get('buyerEmail');//
         $buyerEmail = $request->get('buyerEmail');//
         $mallReserved = $request->get('mallReserved'); //없음.
         $goodsName = $request->get('goodsName');//
