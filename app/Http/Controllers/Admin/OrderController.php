@@ -551,9 +551,9 @@ class OrderController extends Controller
             try {
                 //메일전송=
                 $mail_message = [
-                    'enter_date' => $order->reservation->reservation_at, 'garage' => $order->garage, 'price' => $order->item->price
+                    'enter_date' => $order->reservation->reservation_at, 'garage' => $order->garage->name, 'price' => $order->item->price
                 ];
-                Mail::send(new \App\Mail\Ordering($order->orderer->email, "제목", $mail_message, 'message.email.cancel-ordering-user'));
+                Mail::send(new \App\Mail\Ordering($order->orderer->email, "[차검사 주문 취소]", $mail_message, 'message.email.cancel-ordering-user'));
             } catch (\Exception $e) {
 //                throw  new Exception($e->getMessage());
             }
