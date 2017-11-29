@@ -1131,17 +1131,20 @@ class OrderController extends Controller
         $enter_date = $order->created_at;
         $garage_info = User::find($order->garage_id);
         $garage = $garage_info->name;
+        $user = Auth::user();
 
         try {
             //메일전송
-
             $mail_message = [
                 'enter_date' => $enter_date, 'garage' => $garage, 'price' => $order->item->price
             ];
-//                $emails = [Auth::user()->email, 'cs@jimbros.co.kr'];
 
-            Mail::send(new \App\Mail\Ordering('cs@jimbros.co.kr', Auth::user()->name."님의 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
-            Mail::send(new \App\Mail\Ordering(Auth::user()->email, "차검사 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
+            $mail_message2 = [
+                'user_name' => $user->name, 'enter_date' => $enter_date, 'reservation_date' => $order->reservation->reservation_at, 'price' => $order->item->price, 'type' => $order->purchase->payment_type->display(), 'garage' => $garage
+            ];
+
+            Mail::send(new \App\Mail\Ordering('cs@jimbros.co.kr', "[차검사 결제 완료] 주문자 : ".$user->name, $mail_message2, 'message.email.ordering-admin'));
+            Mail::send(new \App\Mail\Ordering($user->email, "차검사 주문 신청이 완료되었습니다.", $mail_message, 'message.email.ordering-user'));
 
         } catch (\Exception $e) {
         }
