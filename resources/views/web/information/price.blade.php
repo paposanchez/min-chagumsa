@@ -2,138 +2,109 @@
 
 @section( 'content' )
 
+    <!-- [s] subgnb -->
     <div id='sub_title_wrap'>
-        <h2>차검사 소개
-            <div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>차검사 소개</span></div>
+        <h2>차검사
+            <div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> 차검사 <i class="fa fa-angle-right"></i>  <span>중고차 성능기록과 실제 차이</span></div>
         </h2>
     </div>
+    <!-- [e] subgnb -->
 
-    <div id='sub_wrap'>
 
-        <ul class='menu_tab_wrap text-center'>
-            <li><a class='' href='{{ route("information.index") }}'>서비스 소개</a></li>
-            <li><a class='' href='{{ route("information.certificate") }}'>차검사인증서란?</a></li>
-            <li><a class='' href='{{ route("information.guide") }}'>특징 및 절차</a></li>
-            <li><a class='select' href='{{ route("information.price") }}'>신청절차 및 수수료</a></li>
-        </ul>
+    <!-- [s] contents -->
+    <div id='sub_full_wrap' class="topMargin wht">
+        <div class="contents-inner inpadding">
+            <ul class='menu_tab_wrap'>
+                <li><a href="{{ route('information.index') }}">중고차 성능기록과 실제 차이</a></li>
+                <li><a class='select' href="{{ route('information.price') }}">보증 기간 만료와 수리비 폭탄</a></li>
+                <li><a href="{{ route('information.guide') }}">제 값 받기 힘든 내 차 가격</a></li>
+            </ul>
 
-        <div class='br20'></div>
-        <div class='br20'></div>
-
-        <div class='intro3_title'>서비스 신청절차</div>
-
-        <div class='intro3_step_box'>
-            <div>
-                <strong>STEP01</strong>정보 입력
+            <div class="contents-title-box">
+                <p>[차검사 이야기] 수리비 폭탄 맞았습니다.</p>
+                <div class="contents-writer">
+                    <span>차검사</span>
+                    <strong>차검사 에디터</strong>
+                    <time>2017년 11월 06일 오전 06:00</time>
+                    <div class="hash">
+                        <span>#자동차</span>
+                        <span>#중고차</span>
+                        <span>#피해</span>
+                    </div>
+                    <div class="sns">
+                        <a href="" class="fb">facebook</a>
+                        <a href="" class="tw">twitter</a>
+                        <a href="" class="cp">copy</a>
+                    </div>
+                </div>
             </div>
-            <p>
-                <span>간단한 차량정보를 입력합니다.</span>
-                - 자동차제조사, 모델, 트림 정보 입력<br>
-                - 자동차등록번호 입력<br>
-                - 차량옵션 입력 <br>
-                &nbsp;&nbsp;※ 차량가격산정에 영향을 주므로 기본옵션 외 차량소유자가 설치한 옵션을 정확히 입력해 주세요
-            </p>
-        </div>
 
-        <div class='intro3_step_box'>
-            <div>
-                <strong>STEP02</strong>장소/시간 선택
+            <div class="contents-sample-box">
+                <p class="img">{{ Html::image('/assets/themes/v1/web/img/tip/sample0201.png') }}</p>
+
+                <div class="description">
+                    <p># 1년 전 꿈에 그리던 수입차 오너가 됐다. 3000만 원대 예산으로 원하던 수입차량을 구입하게 됐다. 하지만 수입차 제조사의 수리보증이 끝난 뒤 예상치 못한 문제가 터졌다.</p>
+                    <p>브레이크 장치 중 주요 부품을 교체하게 된 것. 총 200만 원을 들여 수리했지만 3개월 뒤 또 다른 문제가 터졌다. 변속기가 고장 난 것이다. 수리비 견적은 300만 원. 결국 수리비 부담 때문에 차를 팔게 됐다.</p>
+                </div>
             </div>
-            <p>
-                <span>전국 500개 보쉬카서비스에서 정밀한 진단이 가능합니다. </span>
-                - 가까운 보쉬카서비스 선택<br>
-                - 진단 일정 예약<br>
-                &nbsp;&nbsp;※ 원하는 시간을 선택하시면 진단담당자의 전화 확인 후 예약일정이 확정됩니다
-            </p>
-        </div>
 
-        <div class='intro3_step_box'>
-            <div>
-                <strong>STEP03</strong>결제
+            <div class="contents-description-box">
+                <p>'배보다 배꼽이 크다'는 수입차 수리비 문제는 어제오늘 일이 아닙니다. 국내 내수 시장에서 수입차량이 차지하는 비율은 올해 15.2%로 나타났습니다. 수입차가 증가하는 만큼 수입차 수리비도 함께 증가하고 있습니다. 수입차 구매자에게 구매 후 3년은 보유냐 파느냐를 결정해야 하는 시점입니다. AS기간인 3년이 지나면 수리비가 급격히 높아지기 때문입니다.</p>
+
+                <h3>비싼 외산 자동차 수리비</h3>
+                <p>한국보험개발원에 따르면 비슷한 가격대의 국산차와 외산 자동차의 수리비를 비교했을 때 외산차는 적게는 2~3배, 많게는 8배 이상 비싼 것으로 나타났습니다. 부품 원가가 비싼 데다 국내 부품 보유량이 적은 것도 원인이기 때문입니다.  또한 자동차 메이커들이 주요 부품에 대해 디자인보호권을 등록해 놓은 상태라서, 20년간 대체 부품 유통이 사실상 차단된 것입니다.</p>
+                <p>더 큰 문제는 국산 및 수입차 업체들이 대체 부품을 쓰면 통상 3년인 무상서비스 기간을 보장하기 어렵다는 입장을 보인다는 것입니다. 문제가 발생할 경우 책임소재를 밝히기 곤란하다는 게 이유입니다.  결국 울며 겨자먹기로 소비자들은 비싼 비용을 지불하고 제조사의 유상 AS를 받거나 별도 사설 정비센터를 이용하게 되는 거죠.</p>
+
+                <div class="figure-box">
+                    <h4>수입차 수리비 현황<br><span>(단위: 억원)</span></h4>
+                    <p class="thumb">{{ Html::image('/assets/themes/v1/web/img/tip/sample0202.jpg'), '수입차 수리비 현황 그래프' }}</p>
+
+                </div>
+
+                <p>제조자 AS 기간이 끝난 수입차를 구매 후 엔진 등 주요 구동 부위에 문제가 생길 경우 소비자가 부담해야 할 비용은 상상을 초월할 정도로 비쌉니다.  수입차는 구매보다 유지가 더 어려운 이유가 여기 있습니다.</p>
+                <p>제조사 무상 AS 기간이 끝난 차량을 사용 중이거나 구매할 계획이라면 차검사를 이용하세요. 차검사 인증을 받은 차량은 6개월 동안 수리비용이 비싼 ‘엔진’, ‘미션’, ‘브레이크’, ‘조향장치’, ‘공조장치’에 문제가 발생 시 최대 400만 원까지 수리 보증합니다.</p>
+
+                <div class="btn-box">
+                    <a href="{{ url('/chagumsa-info#anc07') }}" class="btns sky">보증 방법 알아보기</a>
+                    <a href="{{ url('/order') }}" class="btns sky">차검사 신청하기</a>
+                    <a href="{{ url('/community/inquire') }}" class="btns sky">1:1 문의하기</a>
+                </div>
             </div>
-            <p>
-                <span class='br30'>결제를 진행합니다.</span>
-            </p>
-        </div>
 
-        <div class='intro3_step_box'>
-            <div>
-                <strong>STEP04</strong>차량 입고
+            <div class="contents-relation-box">
+                <h3>‘자동차’ 관련글</h3>
+                <ul>
+                    <li>
+                        <div>
+                            <p class="thumb"><a href="{{ url('/information/index') }}">{{ Html::image('/assets/themes/v1/web/img/tip/sample0203.jpg'), '' }}</a></p>
+                            <p class="txt"><a href="{{ url('/information/index') }}">[차검사 이야기] 구매할 때 성능기록부와 실제 상태가 달라요!</a></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <p class="thumb"><a href="{{ url('/information/guide') }}">{{ Html::image('/assets/themes/v1/web/img/tip/sample0107.jpg'), '' }}</a></p>
+                            <p class="txt"><a href="{{ url('/information/guide') }}">[차검사 이야기] 내 차 가격이 이것 밖에 안 되나요?</a></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <p class="thumb"><a href="{{ url('/chagumsa-info') }}">{{ Html::image('/assets/themes/v1/web/img/tip/sample0108.jpg'), '' }}</a></p>
+                            <p class="txt"><a href="{{ url('/chagumsa-info') }}">내 차 진단부터 평가, 보증까지 믿고 맡길 곳 없을까?</a></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <p class="thumb"><a href="{{ url('/chagumsa-info#anc07') }}">{{ Html::image('/assets/themes/v1/web/img/tip/sample0109.jpg'), '' }}</a></p>
+                            <p class="txt"><a href="{{ url('/chagumsa-info#anc07') }}">하루 830원으로 180일 동안, 최대 20배를 보장해 준다면?</a></p>
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <p>
-                <span>예약이 확정된 시간에 신청 차량과 자동차등록증을 가지고 방문하시기 바랍니다.</span>
-                - 차량 내외부 점검, 사고유무 점검, 침수여부 점검, 추가 장착 옵션 점검 및 엔진 등 주요장치 진단<br>
-                - 1시간 소요 예정
-            </p>
-        </div>
 
-        <div class='intro3_step_box'>
-            <div>
-                <strong>STEP05</strong>인증서 발급 및<br>공인
-            </div>
-            <p>
-                <span>자동차 가치평가 분야에 전문적인 차량기술사가 인증서를 발급합니다. </span>
-                - 차량모델, 세부트림 및 히스토리, 차량 성능 기반 평가<br>
-                - 3개월 / 5천km 까지 보증<br>
-                - 중고차 판매 사이트 및 SNS에 공유 가능한 인증서 링크 제공
-            </p>
-        </div>
-
-        <div class='br30'></div>
-        <div class='br30'></div>
-
-        <div class='intro3_title'>인증서 발급수수료</div>
-        <div class='br20'></div>
-        <div class='para_type1'>
-            차검사 인증서 발급수수료는 아래와 같습니다. 국산차와 수입차의 발급수수료 차이는 진단장비 사용, 진단비용과 보증수수료 차이를 반영한 금액입니다.
-        </div>
-        <div class='br20'></div>
-
-
-        <div class='board_wrap'>
-            <table>
-                <colgroup>
-                    <col style='width:15%;'>
-                    <col style='width:15%;'>
-                    <col style='width:20%;'>
-                    <col style='width:20%;'>
-                    <col style='width:30%;'>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th colspan='2'>구분</th>
-                    <th class='alg_c'>인증 수수료<br>(VAT 포함)</th>
-                    <th>설명</th>
-                    <th class='alg_c'>인증서보장내역</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th rowspan="2" colspan="2">국산차</th>
-
-
-                    <th rowspan="2">150,000원 / 200,000원</th>
-                    <th rowspan="4">제조사, 모델, 배기량에 따라 다르며, 인증서 신청 시 자동 결정됩니다.</th>
-                    <td rowspan='4' style='padding-left:30px;'>
-                        - 품질등급 B 이상 차량에 한해 3개월/5천km 내 수리 보증<br><br>
-                        - 전국 500개 보쉬카서비스에서 수리가능<br><br>
-                        - 보장 범위는 품질 인증서에서 양호로 진단된 범위 내
-                    </td>
-                </tr>
-                <tr>
-
-
-                </tr>
-
-                <tr>
-                    <th rowspan="2" colspan="2">수입차</th>
-                    <th rowspan="2">300,000원 / 350,000원</th>
-                </tr>
-                </tbody>
-            </table>
         </div>
 
     </div>
+    <!-- [e] contents -->
 
 @endsection
 
