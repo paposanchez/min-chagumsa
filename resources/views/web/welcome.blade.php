@@ -133,7 +133,7 @@
                 <p class="small">※ 차검사 인증서 신청 시 케어 상품 (무상 수리 보증)을 옵션으로 구매 가능합니다.</p>
             </div>
             <div class="btn-box">
-                <a href="">차검사 인증서 더 보기</a>
+                <a href="{{ url('/sample') }}" target="_blank">차검사 인증서 더 보기</a>
             </div>
         </div>
     </div>
@@ -165,14 +165,14 @@
                     </tr>
                     <tr>
                         <th>신청비용</th>
-                        <td class="ac dark">국산차 최대 20만원<br> 수입차최대 25만원</td>
-                        <td class="ac">국산차 최대 100만원<br> 수입차최대 300만원</td>
+                        <td class="ac dark">국산차 최대 20만원<br> 수입차 최대 25만원</td>
+                        <td class="ac">국산차 최대 100만원<br> 수입차 최대 300만원</td>
                         <td class="ac">국산차 20만원</td>
                     </tr>
                     <tr>
                         <th>보상한도</th>
-                        <td class="ac dark">국산차 최대 13배<br> 수입차최대 20배</td>
-                        <td class="ac">국산차 최대 10배<br> 수입차최대 5배</td>
+                        <td class="ac dark">국산차 최대 13배<br> 수입차 최대 20배</td>
+                        <td class="ac">국산차 최대 10배<br> 수입차 최대 5배</td>
                         <td class="ac">국산차 최대 10배</td>
                     </tr>
                     <tr>
@@ -204,21 +204,23 @@
         <p>차검사에 대해 더 궁금하다면 지금 바로 상담을 신청해 보세요.<br>내 차에 어떤 혜택을 받을 수 있는지 전문 상담가가 알려 드립니다.</p>
 
         <div class="contents-inner">
-            <div class="main-counsel">
-                <p class="thumb">
-                    {{ Html::image('/assets/themes/v1/web/img/main/main0401.png') }}
-                </p>
-                <ul>
-                    <li><input id="name" type="text" placeholder="이름"></li>
-                    <li><input id="mobile" type="text" placeholder="휴대폰 번호"></li>
-                    <li><input id="email" type="email" placeholder="chagumsa@example.com"></li>
-                    <li><textarea id="content" placeholder="궁금한 점이나 상담 받고 싶은 내용을 적어주시면 &#13;&#10; 맞춤 상담을 받으실 수 있습니다."></textarea></li>
-                </ul>
+            <form id="counsel-frm">
+                <div class="main-counsel">
+                    <p class="thumb" style="margin-bottom: 50px;">
+                        {{ Html::image('/assets/themes/v1/web/img/main/main0401.png') }}
+                    </p>
+                    <ul>
+                        <li><input id="name" name="name" type="text" placeholder="이름" required></li>
+                        <li><input id="mobile" name="mobile" type="text" placeholder="휴대폰 번호" required></li>
+                        <li><input id="email" name="email" type="email" placeholder="chagumsa@example.com" required></li>
+                        <li><textarea id="content" name="content" placeholder="궁금한 점이나 상담 받고 싶은 내용을 적어주시면 &#13;&#10; 맞춤상담을 받으실 수 있습니다." required></textarea></li>
+                    </ul>
+                </div>
+                <div class="btn-box">
+                    <a id="send-email" href="#">상담 받기</a>
+                </div>
             </div>
-            <div class="btn-box">
-                <a id="send-email" href="#">상담 받기</a>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -248,15 +250,18 @@
         });
     });
 
-    $('#send-email').click(function(){
-        var name = $('#name').val();
-        var mobile = $('#mobile').val();
-        var email = $('#email').val();
-        var content = $('#content').val();
-
-        if(name.length == 0 || mobile.length == 0 || email.length == 0 || content.length == 0){
-            alert('메일을 전송하지 못햇습니다. 입력 값을 확인해주세요.');
-        }else{
+    $("#counsel-frm").validate({
+        messages: {
+            name : '성함을 입력해주세요.',
+            mobile : '휴대폰 번호를 입력해주세요.',
+            email : '이메일을 입력해주세요.',
+            content : '상담 내용을 입력해 주세요.'
+        },
+        submitHandler: function (form) {
+            var name = $('#name').val();
+            var mobile = $('#mobile').val();
+            var email = $('#email').val();
+            var content = $('#content').val();
             $.ajax({
                 url: '/send-email',
                 type: 'post',
@@ -274,7 +279,14 @@
                     alert('문제가 발생하엿습니다. 관리자에게 문의 바랍니다.');
                 }
             })
+
         }
+    });
+
+
+
+    $('#send-email').click(function(){
+        $('#counsel-frm').submit();
     });
 
 </script>

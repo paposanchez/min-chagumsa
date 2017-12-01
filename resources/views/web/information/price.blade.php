@@ -4,7 +4,7 @@
 
     <!-- [s] subgnb -->
     <div id='sub_title_wrap'>
-        <h2>차검사
+        <h2>차검사 팁
             <div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> 차검사 <i class="fa fa-angle-right"></i>  <span>중고차 성능기록과 실제 차이</span></div>
         </h2>
     </div>
@@ -32,9 +32,9 @@
                         <span>#피해</span>
                     </div>
                     <div class="sns">
-                        <a href="" class="fb">facebook</a>
-                        <a href="" class="tw">twitter</a>
-                        <a href="" class="cp">copy</a>
+                        <a href="http://www.facebook.com/sharer/sharer.php?u={{url('/information/price')}}" target="_blank" data-toggle="tooltip" title="" data-original-title="페이스북" class="fb">facebook</a>
+                        <a href="https://twitter.com/intent/tweet?text=TEXT&url={{url('/information/price')}}" target="_blank" data-toggle="tooltip" title="" data-original-title="트위터" class="tw">twitter</a>
+                        <a href="" data-toggle="tooltip" title="" data-original-title="복사" class="cp" onclick="javascript:copy_trackback(this.href); return false;"></a>
                     </div>
                 </div>
             </div>
@@ -113,11 +113,17 @@
 
 @push( 'footer-script' )
     <script type="text/javascript">
-        $(function () {
-            $('#find_garage').click(function () {
-                window.open("{{ route("information.find-garage") }}", "", "location=no, width=700, height=450");
-            });
-        });
+        <!--
+        function copy_trackback(trb) {
+            var IE=(document.all)?true:false;
+            if (IE) {
+                if(confirm("이 글의 트랙백 주소를 클립보드에 복사하시겠습니까?"))
+                    window.clipboardData.setData("Text", trb);
+            } else {
+                temp = prompt("이 글의 링크 주소입니다. 링크를 복사하여 사용해주세요.", trb);
+            }
+        }
+        //-->
     </script>
 
 @endpush

@@ -111,7 +111,7 @@
 .contents-writer > time {font-size:12px;color:#757575;}
 .contents-writer .hash {margin-top:15px;}
 .contents-writer .hash > span, .contents-writer .hash > a {display:inline-block;background:#f4faff;line-height:30px;color:#005899;font-size:14px;font-weight:600;padding:0 12px;margin-right:3px;}
-.contents-writer .sns {position:absolute;right:0;top:15px;}
+.contents-writer .sns {position:absolute;right:0;top:15px;padding-right: 8px;}
 .contents-writer .sns a {display:inline-block;width:26px;height:25px;text-indent:-999em;overflow:hidden;background:url(../img/comm/ico_sns.png) no-repeat;}
 .contents-writer .sns a.fb {background-position:left top;}
 .contents-writer .sns a.tw {background-position:-28px top;}

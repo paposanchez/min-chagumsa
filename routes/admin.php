@@ -115,6 +115,9 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
                 //Route::resource('tag', 'TagController');
         });
 
+        //상담
+        Route::resource('counsel', 'CounselController');
+
 
 });
 

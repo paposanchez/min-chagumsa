@@ -323,7 +323,7 @@
                         <li>
                             <h4>수리 보상 절차</h4>
                             <div class="arrow block">
-                                <span>전화</span>
+                                <span>고객센터</span>
                                 {{--<p class="underline ico04">고객센터로 연락하기</p>--}}
                                 <p class="underline ico04"></p>
                             </div>
@@ -360,10 +360,10 @@
 
                             </div>
                             <div class="block">
-                                <span class="icon icoC">품질 B등급 이상</span>
+                                <span class="icon icoC">품질 C등급 이상</span>
                             </div>
                             <div class="block">
-                                <span class="icon ico02">품질 B등급 이상</span>
+                                <span class="icon ico02">7년, 14만km</span>
                             </div>
                         </li>
                         <li>
@@ -421,9 +421,9 @@
                             </div>
                         </li>
                         <li>
-                            <h4>수리 절차</h4>
+                            <h4>수리 보증 절차</h4>
                             <div class="arrow block">
-                                <span>전화</span>
+                                <span>고객센터</span>
                                 <p class="underline ico04"></p>
                             </div>
                             <div class="arrow block">
@@ -432,7 +432,7 @@
                             </div>
                             <div class="block">
                                 <span>수리</span>
-                                <p class="underline ico03"></p>
+                                <p class="underline ico06"></p>
                             </div>
                         </li>
                         <li class="noicon">
