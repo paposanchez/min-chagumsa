@@ -333,7 +333,7 @@
                             </div>
                             <div class="block">
                                 <span>수리</span>
-                                <p class="underline ico06"></p>
+                                <p class="underline ico03"></p>
                             </div>
                         </li>
                     </ul>
@@ -432,7 +432,7 @@
                             </div>
                             <div class="block">
                                 <span>수리</span>
-                                <p class="underline ico06"></p>
+                                <p class="underline ico03"></p>
                             </div>
                         </li>
                         <li class="noicon">

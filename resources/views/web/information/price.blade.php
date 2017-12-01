@@ -32,9 +32,9 @@
                         <span>#피해</span>
                     </div>
                     <div class="sns">
-                        <a href="http://www.facebook.com/sharer/sharer.php?u={{url('/information/price')}}" target="_blank" data-toggle="tooltip" title="" data-original-title="페이스북" class="fb">facebook</a>
-                        <a href="https://twitter.com/intent/tweet?text=TEXT&url={{url('/information/price')}}" target="_blank" data-toggle="tooltip" title="" data-original-title="트위터" class="tw">twitter</a>
-                        <a href="" data-toggle="tooltip" title="" data-original-title="복사" class="cp" onclick="javascript:copy_trackback(this.href); return false;"></a>
+                        <a href="http://www.facebook.com/sharer/sharer.php?u={{url('/information/price')}}" target="_blank" class="fb">facebook</a>
+                        <a href="https://twitter.com/intent/tweet?text=TEXT&url={{url('/information/price')}}" target="_blank" class="tw">twitter</a>
+                        <a href="" class="cp" onclick="javascript:copy_trackback(this.href); return false;"></a>
                     </div>
                 </div>
             </div>
