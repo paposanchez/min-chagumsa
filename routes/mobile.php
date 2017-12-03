@@ -105,6 +105,10 @@ Route::get('information/price', 'InformationController@price')->name('mobile.inf
 //})->name('information.find-garage');
 Route::get('/information/find-garage', 'InformationController@findGarage')->name('mobile.information.find-garage');
 
+Route::get('chagumsa-info', function () {
+    return view('mobile.information.info');
+})->name('chagumsa-info');
+
 
 
 // Agreement
