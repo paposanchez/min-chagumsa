@@ -83,6 +83,9 @@ mix
 
         assetsDir + 'vendor/jasny/js/fileinput.js',
         assetsDir + 'vendor/jasny/js/inputmask.js',
+
+        nodeDir + '/bxslider/dist/jquery.bxslider.js',
+
         assetsDir + 'js/app.js'
 ], distDir + 'js/app.js');
 if (mix.config.inProduction) {

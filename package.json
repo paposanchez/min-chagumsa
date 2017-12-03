@@ -49,5 +49,8 @@
         "titatoggle": "^1.2.14",
         "particles.js": "^2.0.0",
         "jquery-simple-upload": "1.0.0"
+    },
+    "dependencies": {
+        "bxslider": "^4.2.13"
     }
 }

@@ -3,51 +3,197 @@
 @section( 'content' )
     <div id='main_wrap'>
 
-        <div id='mv2_wrap' style="height: 330px;">
-            <div class='mv2_top'>
-                {{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/mv2_top_text.png")) }}
-                <a href='{{ url("/sample") }}'>인증서 샘플보기</a>
-                {{--<a href=''>인증서 신청하기</a>--}}
-            </div>
-            {{--<div class='mv2_btm'>--}}
-                {{--{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/mv2_btm_text.png")) }}--}}
-                {{--<a href='{{ url("/community/notice/46") }}'>체험단 신청하기</a>--}}
-            {{--</div>--}}
-        </div>
-
-        <div id='main_service_wrap'>
-            <nav>	<div class="msb_prev"></div><div class="msb_next"></div></nav>
-            <div class='main_service_box' id='msb_1' data-index="0">
-                <div class='msb_top'>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/msb_icon1.png")) }}</div>
-                <div class='msb_btm'>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/msb_text1.png")) }}</div>
-            </div>
-            <div class='main_service_box' id='msb_2' data-index="1">
-                <div class='msb_top'>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/msb_icon2.png")) }}</div>
-                <div class='msb_btm'>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/msb_text2.png")) }}</div>
-            </div>
-            <div class='main_service_box' id='msb_3' data-index="2">
-                <div class='msb_top'>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/msb_icon3.png")) }}</div>
-                <div class='msb_btm'>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/main/msb_text3.png")) }}</div>
+        <div class="main-visual-wrap">
+            <div class="contents-inner">
+                <p class="main-visual-slogan">
+                    내 차의 <strong>진단, 평가와<br> 보증</strong>을 한번에!
+                </p>
+                <div class="main-visual-slide">
+                    <div class="main-visual-slide-in">
+                        <ul class="bxslider">
+                            <li>
+                                <p>내가 산 차가<br>침수차인지 궁금하다면?</p>
+                                <a href="">확인하기</a>
+                            </li>
+                            <li>
+                                <p>내 차 판매 가격<br>잘 받은 건지 궁금하다면?</p>
+                                <a href="">확인하기</a>
+                            </li>
+                            <li>
+                                <p>제조사 보증 끝난 수입차<br>연장보증이 궁금하다면?</p>
+                                <a href="">확인하기</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div id='main_standard_wrap'>
-            <div class='main_standard'>
-                <strong><span>차검사 인증서</span>로 안전하고 믿을수 있는<br>중고차 거래가 가능합니다.</strong>
-                <p>중고차의 정확한 품질평가와 공정한 가격산정에 대한 공인 인증 서비스!</p>
-                <div class='br10'></div>
+        <div class="main-contents-block">
+            <h3>같은 수리 항목, 다른 비용?!</h3>
+            <p>제조사 보증 기간은 끝났는데 큰 돈 나가는 수리 내용이 발생했다면?</p>
+            <p class="thumb receipt">
+                {{ Html::image(\App\Helpers\Helper::theme_mobile("/images/main0101.png"), "공식 서비스 센터 수리비 영수증") }}
+                <br>
+                {{ Html::image(\App\Helpers\Helper::theme_mobile("/images/main0102.png"), "차검사 수리비 영수증") }}
+            </p>
+        </div>
+
+        <div class="main-banner">
+            <img src="images/main_bn.png" alt="차검사 하셨군요!">
+        </div>
+
+        <div class="main-contents-block wht">
+            <h3>세계 1위 보쉬카 네트워크의 진단</h3>
+            <ul class="main-network">
+                <li>
+                    <p class="thumb">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/main0201.jpg")) }}</p>
+                    <dl>
+                        <dt>전세계 제조사 대부분 보쉬 부품 사용</dt>
+                        <dd><hr>B사, A사, M사 등 전세계 완성차<br>제조사에서  보쉬 부품 사용</dd>
+                    </dl>
+                </li>
+                <li>
+                    <p class="thumb">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/main0202.jpg")) }}</p>
+                    <dl>
+                        <dt>높은 수준의 진단, 정비 기술</dt>
+                        <dd><hr>국산차, 수입차를 아우르는 진단, 정비<br>16개 영역, 130여 개 항목 진단</dd>
+                    </dl>
+                </li>
+                <li>
+                    <p class="thumb">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/main0203.jpg")) }}</p>
+                    <dl>
+                        <dt>전세계 최대 네트워크망</dt>
+                        <dd><hr>전세계 150개국 15,000개 가맹점<br>대한민국 300여 개 정비소 분포</dd>
+                    </dl>
+                </li>
+            </ul>
+            <div class="btn-box">
+                <a href="" class="sky">진단항목 자세히 보기</a>
+            </div>
+        </div>
+
+        <div class="main-contents-block">
+            <h3>국내 최초 자동차 등급/가격 인증서 발급</h3>
+            <p>차검사는 법적 권한을 가진 전문가가 직접 평가하고 발급합니다.</p>
+            <div class="main-certification">
+                <p class="thumb">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/main0301.png")) }}</p>
+                <div class="table-box">
+                    <table>
+                        <caption>국내 최초 자동차 등급</caption>
+                        <colgroup>
+                            <col style="width:20%"><col style="width:*"><col style="width:30%"><col style="width:30%">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>차량모델</th>
+                            <th>차검사 인증서</th>
+                            <th>차검사 케어</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th rowspan="2">국산차</th>
+                            <td class="ac">소형</td>
+                            <td class="ac">150,000원</td>
+                            <td class="ac">150,000원</td>
+                        </tr>
+                        <tr>
+                            <td class="ac">중/대형</td>
+                            <td class="ac">200,000원</td>
+                            <td class="ac">200,000원</td>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">수입차</th>
+                            <td class="ac">소형</td>
+                            <td class="ac">300,000원</td>
+                            <td class="ac">300,000원</td>
+                        </tr>
+                        <tr>
+                            <td class="ac">중/대형</td>
+                            <td class="ac">350,000원</td>
+                            <td class="ac">350,000원</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="small">※ 차검사 인증서 신청 시 케어 상품 (무상 수리 보증)을 옵션으로 구매 가능합니다.</p>
+            </div>
+            <div class="btn-box">
+                <a href="" class="green">차검사 인증서 더 보기</a>
+            </div>
+        </div>
+
+        <div class="main-contents-block wht">
+            <h3>180일 무상 보증, 최대 20배 보상</h3>
+            <p>인증서 발급 시 차검사 케어를 추가 선택하면 해당 내용을 수리 보증합니다.</p>
+            <div class="table-box">
+                <table class="care">
+                    <caption>인증서 발급 시 차검사 케어</caption>
+                    <colgroup>
+                        <col style="width:30%"><col style="width:35%"><col style="width:35%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th><strong>차검사</strong></th>
+                        <th>A사</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>가입 가능 차종</th>
+                        <td class="ac dark">국산차, 수입차</td>
+                        <td class="ac">국산차, 수입차</td>
+                    </tr>
+                    <tr>
+                        <th>신청비용</th>
+                        <td class="ac dark">국산차 최대 20만원<br> 수입차최대 25만원</td>
+                        <td class="ac">국산차 최대 100만원<br> 수입차최대 300만원</td>
+                    </tr>
+                    <tr>
+                        <th>보상한도</th>
+                        <td class="ac dark">국산차 최대 13배<br> 수입차최대 20배</td>
+                        <td class="ac">국산차 최대 10배<br> 수입차최대 5배</td>
+                    </tr>
+                    <tr>
+                        <th>보증기간<br>(주행거리 조건)</th>
+                        <td class="ac dark">180일<br>(제한 없음)</td>
+                        <td class="ac">180일<br>(16만km 이하)</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="small">※ 수리 보증은 블루핸즈와 보쉬를 포함한 전국 1,700여 개 수리점에서 담당하여, 전국 어디서나 편리하게 이용하실 수 있습니다.</p>
+
+            <div class="btn-box">
+                <a href="" class="sky">보증 내용 더 보기</a>
+            </div>
+        </div>
+
+        <div class="main-banner02">
+            <h3>이 모든 것이 하루 1,600원부터</h3>
+            <p>해당 금액은 차검사 인증서 금액이며, 차검사 케어를 <br>추가 선택할 경우 별도 비용이 발생합니다.</p>
+            <a href="">차검사 더 알아보기</a>
+            <a href="">차검사 신청하기</a>
+        </div>
+
+        <div class="main-contents-block wht">
+            <h3>지금 상담 받기</h3>
+            <p>차검사에 대해 더 궁금하다면 지금 바로 상담을 신청해 보세요.<br>내 차에 어떤 혜택을 받을 수 있는지 전문 상담가가 알려 드립니다.</p>
+
+            <div class="main-counsel">
+                <p class="thumb">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/main0401.png")) }}</p>
                 <ul>
-                    <li>주요사고</li>
-                    <li>구조적 손상</li>
-                    <li>침수여부</li>
-                    <li>엔진 및 구동장치</li>
-                    <li>전장 및 주요부품</li>
-                    <li>차량 내 · 외부 수리상태</li>
-                    <li>로드테스트 기반 운행상태</li>
-                    <li>차량운행이력</li>
-                    <li>리콜정보</li>
-                    <li>차량옵션평가</li>
+                    <li><input type="text" placeholder="이름"></li>
+                    <li><input type="text" placeholder="휴대폰 번호"></li>
+                    <li><input type="email" placeholder="chagumsa@example.com"></li>
+                    <li><textarea placeholder="궁금한 점이나 상담 받고 싶은 내용을 적어주시면 &#13;&#10; 맞춤 상담을 받으실 수 있습니다."></textarea></li>
                 </ul>
+            </div>
+            <div class="btn-box">
+                <a href="">상담 받기</a>
             </div>
         </div>
 
@@ -105,6 +251,14 @@
                 $("#msb_3").fadeIn(400);
                 c=3;
             }
+        });
+
+        $(".main-visual-slide-in .bxslider").bxSlider({
+            controls: true,
+            auto : true,
+            autoControls: false,
+            pager : true,
+            pause : 5000
         });
 
     });

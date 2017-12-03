@@ -15,6 +15,10 @@
         {{ Html::style(mix('/assets/css/vendor.css')) }}
         {{ Html::style(Helper::assets('themes/v1/mobile/css/mobile.css')) }}
 
+        {{ Html::style(Helper::assets('themes/v1/mobile/css/common_new.css')) }}
+
+        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/main_new.css' )) }}
+
         @stack('header-script')
     @endsection
 
@@ -43,13 +47,16 @@
     {{-- 푸터 섹션 --}}
     @section( 'content-footer' )
         {{-- 푸터 카피라이트 --}}
-        <div class='foot_wrap'>
-            <ul>
-                <li><a href='{{ url("agreement/usage") }}' class="{!! (Request::path() == "agreement/usage")? "active":"" !!}">이용약관</a></li>
-                <li><a href='{{ url("agreement/term") }}'  class="{!! (Request::path() == "agreement/term")? "active":"" !!}">전자금융거래약관</a></li>
-                <li><a href='{{ url("agreement/privacy") }}'  class="{!! (Request::path() == "agreement/privacy")? "active":"" !!}">개인정보 취급방침</a></li>
-            </ul>
-            <p>Copyright &copy; JIMBROS Co., Ltd. All rights reserved.</p>
+
+        <div id="Footer" class="foot_wrap">
+            <div class="footer-link">
+                <ul>
+                    <li><a href="{{ url("agreement/usage") }}" class="{!! (Request::path() == "agreement/usage")? "active":"" !!}">이용약관</a></li>
+                    <li><a href="{{ url("agreement/term") }}"  class="{!! (Request::path() == "agreement/term")? "active":"" !!}">전자금융거래약관</a></li>
+                    <li><a href="{{ url("agreement/privacy") }}"  class="{!! (Request::path() == "agreement/privacy")? "active":"" !!}">개인정보취급방침</a></li>
+                </ul>
+                <p>Copyright © JIMBROS Co., Ltd. All rights reserved.</p>
+            </div>
         </div>
 
 
