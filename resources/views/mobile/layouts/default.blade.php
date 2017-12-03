@@ -17,7 +17,12 @@
 
         {{ Html::style(Helper::assets('themes/v1/mobile/css/common_new.css')) }}
 
-        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/main_new.css' )) }}
+
+        @if(Request::path() == '/')
+            {{ Html::style(Helper::assets( 'themes/v1/mobile/css/main_new.css' )) }}
+        @else
+            {{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub_new.css' )) }}
+        @endif
 
         @stack('header-script')
     @endsection
