@@ -11,7 +11,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Counsel;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -63,12 +62,10 @@ class CounselController extends Controller
         $s = $request->get('s'); //검색어
 
         if ($sf && $s) {
-            if ($sf == 8) {
-                $where = $where->where('subject', 'like', '%' . $s . '%');
-            } elseif ($sf == 9) {
-                $where = $where->where('content', 'like', '%' . $s . '%');
-            } else {
-                $where = $where->where('name', 'like', '%' . $s . '%');
+            if($sf == 'id'){
+                $where = $where->where('id', $s);
+            }else{
+                $where = $where->where($sf, 'like', '%' . $s . '%');
             }
         }
 
@@ -99,7 +96,7 @@ class CounselController extends Controller
 
             $counsel = Counsel::find($id);
             $counsel->reply = $request->get('reply');
-            $counsel->updated_at = Carbon::now();
+            $counsel->is_replied = 1;
             $counsel->save();
 
             $mail_message = [
@@ -108,12 +105,14 @@ class CounselController extends Controller
 
             Mail::send(new \App\Mail\Ordering($counsel->email, "[차검사] 고객님의 상담 내용에 대한 답변입니다.", $mail_message, 'message.email.counsel-user'));
             DB::commit();
+
+            return redirect()->back()->with('success', '이메일이 성공적으로 전송되었습니다.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return false;
+            return redirect()->back()->with('error', $e->getMessage());
         }
 
 
-        return redirect()->back()->with('success', '이메일이 성공적으로 전송되었습니다.');
+
     }
 }

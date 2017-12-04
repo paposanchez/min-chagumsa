@@ -33,8 +33,6 @@ class WelcomeController extends Controller
             $counsels->save();
 
             return response()->json('success');
-
-
         }catch (\Exception $e){
             return response()->json($e->getMessage());
         }

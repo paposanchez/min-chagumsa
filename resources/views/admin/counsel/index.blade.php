@@ -122,7 +122,7 @@
                                 {{ $data->created_at }}
                             </td>
                             <td class="">
-                                @if($data->updated_at)
+                                @if($data->is_replied == 1)
                                     <span style="width:60px;display:inline-block;" class="label label-success">답변 완료</span>
                                 @else
                                     <span style="width:60px;display:inline-block;" class="label label-default">미답변</span>
