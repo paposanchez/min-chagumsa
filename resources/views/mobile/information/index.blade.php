@@ -87,9 +87,9 @@
                 <p>물론 성실하고 믿을 수 있는 중고자동차 매매업자도 많을 테지만, 피해사례가 급증하고 있는 만큼 주의가 필요합니다. 중고차동차 매매상에 대한 불신이 커지면서 개인간 직거래도 증가하고 있습니다. 하지만 개인간 직거래 또한 성능 불량 등 품질의 위험성과 합리적 가격 책정의 어려움, 거래 후 발생하는 문제에 대한 법적인 보호를 받기 힘든 만큼 소비자 개인이 조금 더 꼼꼼히 따져보고 준비해야 피해를 최소화 할 수 있습니다.</p>
                 <p>차검사는 세계 1위의 차량 부품 및 진단 글로벌기업 보쉬가 차량의 16개 영역, 130여 항목을 최첨단 장비를 활용해 정밀진단하고 소비자에게 정확한 품질상태를 정보를 제공합니다.</p>
                 <div class="btn-box">
-                    <a href="" class="btns sky">보증 방법 알아보기</a>
-                    <a href="" class="btns sky">차검사 신청하기</a>
-                    <a href="" class="btns sky">1:1 문의하기</a>
+                    <a href="{{ url("/chagumsa-info#anc07") }}" class="btns sky">보증 방법 알아보기</a>
+                    <a href="{{ url("/order") }}" class="btns sky">차검사 신청하기</a>
+                    <a href="{{ url("/community/inquire") }}" class="btns sky">1:1 문의하기</a>
                 </div>
             </div>
 
@@ -98,26 +98,26 @@
                 <ul>
                     <li>
                         <div>
-                            <p class="thumb"><a href="">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0106.jpg")) }}</a></p>
-                            <p class="txt"><a href="">[차검사 이야기] 수리비 폭탄 맞았어요!</a></p>
+                            <p class="thumb"><a href="{{ url("/information/price") }}">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0106.jpg")) }}</a></p>
+                            <p class="txt"><a href="{{ url("/information/price") }}">[차검사 이야기] 수리비 폭탄 맞았어요!</a></p>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <p class="thumb"><a href="">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0107.jpg")) }}</a></p>
-                            <p class="txt"><a href="">[차검사 이야기] 내 차 가격이 이것 밖에 안 되나요?</a></p>
+                            <p class="thumb"><a href="{{ url("/information/guide") }}">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0107.jpg")) }}</a></p>
+                            <p class="txt"><a href="{{ url("/information/guide") }}">[차검사 이야기] 내 차 가격이 이것 밖에 안 되나요?</a></p>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <p class="thumb"><a href="">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0108.jpg")) }}</a></p>
-                            <p class="txt"><a href="">내 차 진단부터 평가, 보증까지 믿고 맡길 곳 없을까?</a></p>
+                            <p class="thumb"><a href="{{ url("/chagumsa-info") }}">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0108.jpg")) }}</a></p>
+                            <p class="txt"><a href="{{ url("/chagumsa-info") }}">내 차 진단부터 평가, 보증까지 믿고 맡길 곳 없을까?</a></p>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <p class="thumb"><a href="">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0109.jpg")) }}</a></p>
-                            <p class="txt"><a href="">하루 1,600원으로 180일 동안, 최대 20배를 보장해 준다면?</a></p>
+                            <p class="thumb"><a href="{{ url("/chagumsa-info#anc07") }}">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0109.jpg")) }}</a></p>
+                            <p class="txt"><a href="{{ url("/chagumsa-info#anc07") }}">하루 1,600원으로 180일 동안, 최대 20배를 보장해 준다면?</a></p>
                         </div>
                     </li>
                 </ul>

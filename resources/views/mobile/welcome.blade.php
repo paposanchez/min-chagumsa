@@ -40,7 +40,7 @@
         </div>
 
         <div class="main-banner">
-            <img src="images/main_bn.png" alt="차검사 하셨군요!">
+            {{ Html::image(\App\Helpers\Helper::theme_mobile("/images/main_bn.png"), "차검사 하셨군요!") }}
         </div>
 
         <div class="main-contents-block wht">
@@ -69,7 +69,7 @@
                 </li>
             </ul>
             <div class="btn-box">
-                <a href="" class="sky">진단항목 자세히 보기</a>
+                <a href="{{ url("/chagumsa-info#anc03") }}" class="sky">진단항목 자세히 보기</a>
             </div>
         </div>
 
@@ -121,7 +121,7 @@
                 <p class="small">※ 차검사 인증서 신청 시 케어 상품 (무상 수리 보증)을 옵션으로 구매 가능합니다.</p>
             </div>
             <div class="btn-box">
-                <a href="" class="green">차검사 인증서 더 보기</a>
+                <a href="{{ url("/sample") }}" class="green">차검사 인증서 더 보기</a>
             </div>
         </div>
 
@@ -168,15 +168,15 @@
             <p class="small">※ 수리 보증은 블루핸즈와 보쉬를 포함한 전국 1,700여 개 수리점에서 담당하여, 전국 어디서나 편리하게 이용하실 수 있습니다.</p>
 
             <div class="btn-box">
-                <a href="" class="sky">보증 내용 더 보기</a>
+                <a href="{{ url("/chagumsa-info#anc07") }}" class="sky">보증 내용 더 보기</a>
             </div>
         </div>
 
         <div class="main-banner02">
             <h3>이 모든 것이 하루 1,600원부터</h3>
             <p>해당 금액은 차검사 인증서 금액이며, 차검사 케어를 <br>추가 선택할 경우 별도 비용이 발생합니다.</p>
-            <a href="">차검사 더 알아보기</a>
-            <a href="">차검사 신청하기</a>
+            <a href="{{ url("/chagumsa-info") }}">차검사 더 알아보기</a>
+            <a href="{{ url("order") }}">차검사 신청하기</a>
         </div>
 
         <div class="main-contents-block wht">

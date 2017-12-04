@@ -3,7 +3,7 @@
 @section( 'content' )
 
     <!-- [s] subgnb -->
-    <div id='sub_title_wrap'>차검사 팁</div>
+    <div id='sub_title_wrap'>차검사 소개</div>
     <!-- [e] subgnb -->
 
 
@@ -12,14 +12,14 @@
 
     <div class="menu-tab-box gray">
         <ul class='menu_tab_wrap'>
-            <li><a class='select' href="#anc01">서비스 배경</a></li>
-            <li><a href="#anc02">차검사란?</a></li>
-            <li><a href="#anc03">정밀진단</a></li>
-            <li><a href="#anc04">품질등급제</a></li>
-            <li><a href="#anc05">차검사 순서</a></li>
-            <li><a href="#anc06">차검사인증서</a></li>
-            <li><a href="#anc07">차검사 케어</a></li>
-            <li><a href="#anc08">차검사 비용</a></li>
+            <li><a class='select s-tab' href="#anc01">서비스 배경</a></li>
+            <li><a href="#anc02" class="s-tab">차검사란?</a></li>
+            <li><a href="#anc03" class="s-tab">정밀진단</a></li>
+            <li><a href="#anc04" class="s-tab">품질등급제</a></li>
+            <li><a href="#anc05" class="s-tab">차검사 순서</a></li>
+            <li><a href="#anc06" class="s-tab">차검사인증서</a></li>
+            <li><a href="#anc07" class="s-tab">차검사 케어</a></li>
+            <li><a href="#anc08" class="s-tab">차검사 비용</a></li>
         </ul>
     </div>
     <div id='sub_wrap' class="gray">
@@ -291,7 +291,7 @@
             <div class="contents-inner">
                 <h3>차검사 순서</h3>
                 <p>차검사 인증서 신청 및 발급은 다섯 가지 순서로 진행됩니다. </p>
-                <p class="thumb">{{ Html::image(\App\Helpers\Helper::theme_mobile("images/service0103.jpg"), "차검사 순서 : 인증서 신청, 입고, 진단, 평가, 인증서 발급") }}</p>
+                <p class="thumb">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/service0103.jpg"), "차검사 순서 : 인증서 신청, 입고, 진단, 평가, 인증서 발급") }}</p>
             </div>
         </div>
 
@@ -343,7 +343,7 @@
                     </ul>
                 </div>
                 <div class="btn-box">
-                    <a href="" class="btns">지금 차검사 신청하기</a>
+                    <a href="{{ url("/order") }}" class="btns">지금 차검사 신청하기</a>
                 </div>
             </div>
         </div>
@@ -479,7 +479,7 @@
                     </ul>
                 </div>
                 <div class="btn-box">
-                    <a href="" class="btns">지금 차검사 신청하기</a>
+                    <a href="{{ url("/order") }}" class="btns">지금 차검사 신청하기</a>
                 </div>
             </div>
         </div>
@@ -562,7 +562,10 @@
         });
 
 
-
+        $(".s-tab").on("click", function(){
+            $(".s-tab").removeClass("select");
+            $(this).addClass("select");
+        })
     });
 
 

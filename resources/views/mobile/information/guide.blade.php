@@ -71,9 +71,9 @@
                 <p>차검사는 객관적이고 공정한 중고차 가격을 산정하기 위해 최고의 차량기술사로 구성된 차량기술법인 H&T와 업무 협약을 맺었습니다. 보쉬카서비스의 중고차 성능 및 상태 진단결과를 바탕으로 자동차관리법에 근거해 중고차 가격을 산정합니다. 차검사 인증서의 가격 산정 보고서는 중고차 거래 시 중고차 가격에 대한 객관성을 보장 받을 수 있습니다. 제3자의 객관적 입장에서 중고차 품질에 근거한 공정한 중고차 가격을 산정하기 때문입니다. </p>
 
                 <div class="btn-box">
-                    <a href="" class="btns sky">내 차 가격 정확히 알기</a>
-                    <a href="" class="btns sky">차검사 신청하기</a>
-                    <a href="" class="btns sky">1:1 문의하기</a>
+                    <a href="{{ url("/chagumsa-info#anc02") }}" class="btns sky">내 차 가격 정확히 알기</a>
+                    <a href="{{ url("/order") }}" class="btns sky">차검사 신청하기</a>
+                    <a href="{{ url("/community/inquire") }}" class="btns sky">1:1 문의하기</a>
                 </div>
             </div>
 
@@ -82,26 +82,26 @@
                 <ul>
                     <li>
                         <div>
-                            <p class="thumb"><a href="">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0106.jpg")) }}</a></p>
-                            <p class="txt"><a href="">[차검사 이야기] 수리비 폭탄 맞았어요!</a></p>
+                            <p class="thumb"><a href="{{ url("/information/price") }}">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0106.jpg")) }}</a></p>
+                            <p class="txt"><a href="{{ url("/information/price") }}">[차검사 이야기] 수리비 폭탄 맞았어요!</a></p>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <p class="thumb"><a href="">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0203.jpg")) }}</a></p>
-                            <p class="txt"><a href="">[차검사 이야기] 구매할 때 성능 기록부와 실제 상태가 달라요!</a></p>
+                            <p class="thumb"><a href="{{ url("/information/index") }}">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0203.jpg")) }}</a></p>
+                            <p class="txt"><a href="{{ url("/information/index") }}">[차검사 이야기] 구매할 때 성능 기록부와 실제 상태가 달라요!</a></p>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <p class="thumb"><a href="">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0108.jpg")) }}</a></p>
-                            <p class="txt"><a href="">내 차 진단부터 평가, 보증까지 믿고 맡길 곳 없을까?</a></p>
+                            <p class="thumb"><a href="{{ url("/chagumsa-info") }}">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0108.jpg")) }}</a></p>
+                            <p class="txt"><a href="{{ url("/chagumsa-info") }}">내 차 진단부터 평가, 보증까지 믿고 맡길 곳 없을까?</a></p>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <p class="thumb"><a href="">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0109.jpg")) }}</a></p>
-                            <p class="txt"><a href="">하루 1,600원으로 180일 동안, 최대 20배를 보장해 준다면?</a></p>
+                            <p class="thumb"><a href="{{ url("/chagumsa-info#anc07") }}">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0109.jpg")) }}</a></p>
+                            <p class="txt"><a href="{{ url("/chagumsa-info#anc07") }}">하루 1,600원으로 180일 동안, 최대 20배를 보장해 준다면?</a></p>
                         </div>
                     </li>
                 </ul>

@@ -64,9 +64,9 @@
                 <p>제조사 무상 AS 기간이 끝난 차량을 사용 중이거나 구매할 계획이라면 차검사를 이용하세요. 차검사 인증을 받은 차량은 6개월 동안 수리비용이 비싼 ‘엔진’, ‘미션’, ‘브레이크’, ‘조향장치’, ‘공조장치’에 문제가 발생시 최대 400만원까지 수리보증 합니다.</p>
 
                 <div class="btn-box">
-                    <a href="" class="btns sky">보증 연장 알아보기</a>
-                    <a href="" class="btns sky">차검사 신청하기</a>
-                    <a href="" class="btns sky">1:1 문의하기</a>
+                    <a href="{{ url(("/chagumsa-info#anc07")) }}" class="btns sky">보증 연장 알아보기</a>
+                    <a href="{{ url("/order") }}" class="btns sky">차검사 신청하기</a>
+                    <a href="{{ url("/community/inquire") }}" class="btns sky">1:1 문의하기</a>
                 </div>
             </div>
 
@@ -75,26 +75,26 @@
                 <ul>
                     <li>
                         <div>
-                            <p class="thumb"><a href="">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0203.jpg")) }}</a></p>
-                            <p class="txt"><a href="">[차검사 이야기] 구매할 때 성능기록부와 실제 상태가 달라요!</a></p>
+                            <p class="thumb"><a href="{{ url("/information/index") }}">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0203.jpg")) }}</a></p>
+                            <p class="txt"><a href="{{ url("/information/index") }}">[차검사 이야기] 구매할 때 성능기록부와 실제 상태가 달라요!</a></p>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <p class="thumb"><a href="">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0107.jpg")) }}</a></p>
-                            <p class="txt"><a href="">[차검사 이야기] 내 차 가격이 이것 밖에 안 되나요?</a></p>
+                            <p class="thumb"><a href="{{ url("/information/guide") }}">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0107.jpg")) }}</a></p>
+                            <p class="txt"><a href="{{ url("/information/guide") }}">[차검사 이야기] 내 차 가격이 이것 밖에 안 되나요?</a></p>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <p class="thumb"><a href="">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0108.jpg")) }}</a></p>
-                            <p class="txt"><a href="">내 차 진단부터 평가, 보증까지 믿고 맡길 곳 없을까?</a></p>
+                            <p class="thumb"><a href="{{ url("/chagumsa-info") }}">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0108.jpg")) }}</a></p>
+                            <p class="txt"><a href="{{ url("/chagumsa-info") }}">내 차 진단부터 평가, 보증까지 믿고 맡길 곳 없을까?</a></p>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <p class="thumb"><a href="">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0109.jpg")) }}</a></p>
-                            <p class="txt"><a href="">하루 1,600원으로 180일 동안, 최대 20배를 보장해 준다면?</a></p>
+                            <p class="thumb"><a href="{{ url("/chagumsa-info#anc07") }}">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/sample0109.jpg")) }}</a></p>
+                            <p class="txt"><a href="{{ url("/chagumsa-info#anc07") }}">하루 1,600원으로 180일 동안, 최대 20배를 보장해 준다면?</a></p>
                         </div>
                     </li>
                 </ul>
