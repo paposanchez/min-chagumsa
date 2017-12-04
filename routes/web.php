@@ -24,6 +24,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/order/is-sms', 'OrderController@isSms')->name('order.is-sms');
     Route::post('/order/delete-sms', 'OrderController@deleteSms')->name('order.delete-sms');
 
+
+
     // 주문하기
     Route::match(['get', 'post'], 'order/complete', 'OrderController@complete')->name("order.complete");
     Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
@@ -50,6 +52,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd');
 
 });
+
+//email 관련
+Route::post('/send-email', 'WelcomeController@sendEmail');
 
 /////////////////////////////////////////////////////////////
 Route::get('order', 'OrderController@index');
@@ -80,6 +85,9 @@ Route::get('information/guide', function () {
 })->name('information.guide');
 Route::get('information/price', 'InformationController@price')->name('information.price');
 Route::get('/information/find-garage', 'InformationController@findGarage')->name('information.find-garage');
+Route::get('chagumsa-info', function () {
+    return view('web.information.info');
+})->name('chagumsa-info');
 
 
 // Agreement
@@ -134,6 +142,7 @@ Route::post('register', 'Auth\RegisterController@postRegister');
 Route::any('/', 'WelcomeController');
 
 Route::get('sample', 'CertificateController@sample')->name('certificate.sample');
+
 //결제 prototype
 //Route::get('pay-test/index', 'PayTestController@index');
 //Route::post('pay-test/pay-result', 'PayTestController@payResult');

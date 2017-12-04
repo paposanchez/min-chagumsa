@@ -1,318 +1,115 @@
 @extends( 'web.layouts.default' )
 
 @section( 'content' )
+    <!-- [s] subgnb -->
     <div id='sub_title_wrap'>
-        <h2>차검사 소개
-            <div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> <span>차검사 소개</span></div>
+        <h2>차검사 팁
+            <div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> 차검사 <i class="fa fa-angle-right"></i>  <span>중고차 성능기록과 실제 차이</span></div>
         </h2>
     </div>
+    <!-- [e] subgnb -->
 
-    <div id='sub_wrap'>
 
-        <ul class='menu_tab_wrap text-center'>
-            <li><a class='' href='{{ route("information.index") }}'>서비스 소개</a></li>
-            <li><a class='' href='{{ route("information.certificate") }}'>차검사인증서란?</a></li>
-            <li><a class='select' href='{{ route("information.guide") }}'>특징 및 절차</a></li>
-            <li><a class='' href='{{ route("information.price") }}'>신청절차 및 수수료</a></li>
-        </ul>
-
-        <div class='br20'></div>
-        <div class='br20'></div>
-
-        <div class='intro3_title'>차검사 인증서는 2가지 보고서를 제공합니다.</div>
-
-        <div class='br20'></div>
-
-        <div class='intro3_tab_wrap'>
-            <ul>
-                <li id='intro3_tab1' class='intro3_tab tab_on'><a>
-                        <span>품질 보고서</span>
-                        차량진단, 정비의 글로벌 전문업체인 <strong>보쉬카서비스</strong>가<br>직접 진단하고 평가합니다
-                    </a></li>
-                <li id='intro3_tab2' class='intro3_tab '><a>
-                        <span>가격 산정 보고서</span>
-                        자동차관리법에 의거 중고차 가격산정 법적자격자로서,<br>자동차 가치평가 분야 최고 전문가인 <strong>차량기술사</strong>가 평가합니다
-                    </a></li>
+    <!-- [s] contents -->
+    <div id='sub_full_wrap' class="topMargin wht">
+        <div class="contents-inner inpadding">
+            <ul class='menu_tab_wrap'>
+                <li><a href="{{ route('information.index') }}">중고차 성능기록과 실제 차이</a></li>
+                <li><a href="{{ route('information.price') }}">보증 기간 만료와 수리비 폭탄</a></li>
+                <li><a class='select' href="{{ route('information.guide') }}">제 값 받기 힘든 내 차 가격</a></li>
             </ul>
 
-            <div class='intro3_tab_cont intro3_tab1' style='display:block;'>
-                <div class='para_type1'>
-                    <strong>정확한 품질확인을 위한 정밀한 진단</strong>
-                    전국 500개 보쉬카서비스 네트워크에서 첨단장비 및 숙련된 정비사를 통한 진단 및 평가를 진행합니다.<br><br>
-                    {{ Html::image(Helper::theme_web( '/img/intro/intro3_1.jpg')) }}
-
+            <div class="contents-title-box">
+                <p>[차검사 이야기] 내 차 가격이 이것 밖에 안 되나요?</p>
+                <div class="contents-writer">
+                    <span>차검사</span>
+                    <strong>차검사 에디터</strong>
+                    <time>2017년 11월 06일 오전 06:00</time>
+                    <div class="hash">
+                        <span>#자동차</span>
+                        <span>#중고차</span>
+                        <span>#피해</span>
+                    </div>
+                    <div class="sns">
+                        <a href="http://www.facebook.com/sharer/sharer.php?u={{url('/information/guide')}}" target="_blank" class="fb">facebook</a>
+                        <a href="https://twitter.com/intent/tweet?text=TEXT&url={{url('/information/guide')}}" target="_blank" class="tw">twitter</a>
+                        <a href="" class="cp" onclick="javascript:copy_trackback(this.href); return false;"></a>
+                    </div>
                 </div>
-                <div class='br30'></div>
-                <div class='para_type1'>
-                    <strong>130여가지의 점검항목을 통한 통합적인 진단</strong>
-                    중고차의 품질을 평가하기 위해 보쉬의 최첨단 진단장비를 활용하고, 각 점검부위에 대한 사진, 1급 정비사의 의견 등을 통한 차량의 통합적인 품질상태 점검 및 리포팅을 진행하여,
-                    소비자에게 정확한 품질상태를 제공합니다.
-                </div>
-                <div class='br30'></div>
-
-                <div class='board_wrap'>
-                    <table>
-                        <colgroup>
-                            <col style='width:120px;'>
-                            <col style='width:300px;'>
-                            <col style='width:100px;'>
-                            <col style='width:120px;'>
-                            <col style='width:300px;'>
-                            <col style='width:100px;'>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>진단항목</th>
-                            <th>상세</th>
-                            <th>항목수</th>
-                            <th>진단항목</th>
-                            <th>상세</th>
-                            <th>항목수</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th>주요내/외판</th>
-                            <th>차체 및 주요골격에 상태 교환수리, 판금, 부식 등 점검</th>
-                            <th>18</th>
-                            <th>엔진(원동기)</th>
-                            <th>엔진장공상태, 오일, 냉각수, 엔진 마운트 부분 상태 점검</th>
-                            <th>13</th>
-                        </tr>
-                        <tr>
-                            <th>사고유무</th>
-                            <th>보험사고이력조회가 아닌 실제적인 차축프레임 진단을 통한 사고이력 진단</th>
-                            <th>4</th>
-                            <th>변속기</th>
-                            <th>오일누유, 유량상태, 변속기 마운트 등 상태 점검</th>
-                            <th>8</th>
-                        </tr>
-                        <tr>
-                            <th>침수흔적</th>
-                            <th>엔진룸, 실내(앞바닥), 트렁크(바닥) 분해를 통한 확실한 침수흔적 점검</th>
-                            <th>3</th>
-                            <th>동력전달</th>
-                            <th>등록조인트, 추진축 및 베어링 상태 진단</th>
-                            <th>8</th>
-                        </tr>
-                        <tr>
-                            <th>차량외판</th>
-                            <th>차량외판, 범퍼, 등화관련 긁힘, 부식, 깨짐균열에 대한 점검</th>
-                            <th>4</th>
-                            <th>조향장치</th>
-                            <th>휠 얼라인먼트, 스티어링 기어 등 부품작동상태 진단</th>
-                            <th>10</th>
-                        </tr>
-                        <tr>
-                            <th>차량실내</th>
-                            <th>계기패널, 콘솔박스, 내장트림, 시트 등에 대한 긁힘, 오염 등 상태점검</th>
-                            <th>5</th>
-                            <th>제동장치</th>
-                            <th>브레이크 오일유량, 디스크, 배력장치 등 제동장치 상태 진단</th>
-                            <th>7</th>
-                        </tr>
-                        <tr>
-                            <th>소모품상태</th>
-                            <th>엔진오일, 브레이크패드, 배터리, 타이밍벨트 등 소모품 상태 점검</th>
-                            <th>9</th>
-                            <th>전기장치</th>
-                            <th>발전기, 시동모터, 실내송품모터, 라이에티터 팬 모터 등 상태 점검</th>
-                            <th>10</th>
-                        </tr>
-                        <tr>
-                            <th>전장품/유리기어</th>
-                            <th>도어록, 와이퍼, 사이드미러, 전동시트 등 전장품 및 장착품 작동상태 점검</th>
-                            <th>9</th>
-                            <th>휠&amp;타이어</th>
-                            <th>휠손상, 타이어편마모, 타이어접지면 등 상태 점검</th>
-                            <th>10</th>
-                        </tr>
-                        <tr>
-                            <th>전문진단기</th>
-                            <th>BOSCH 정밀 진단기를 통한 에러 상태 진단</th>
-                            <th>10</th>
-                            <th>주행테스트</th>
-                            <th>80km 이상 주행 테스트를 통한 엔진, 변속기, 브레이크, 조향 등 운전점검</th>
-                            <th>5</th>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class='br30'></div>
-
-                <div class='para_type1'>
-                    <strong>품질등급 인증</strong>
-                    중고차의 정밀한 진단을 통해 진단 중고차에 대한 등급을 인증하고, B등급 이상부터 3개월, 5천km 내 수리를 보증합니다.
-                </div>
-                <div class='br30'></div>
-
-                <div class='board_wrap'>
-                    <table>
-                        <colgroup>
-                            <col style='width:200px;'>
-                            <col style='width:400px;'>
-                            <col style='width:400px;'>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>등급구분</th>
-                            <th>평가 기준</th>
-                            <th>비 고</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th><strong>AAA</strong></th>
-                            <td>
-                                - 사고·수리이력이 전혀 없고 차량성능 및 관리상태가 매우 양호하여 시장시세의 상급으로 평가되는 차
-                            </td>
-                            <td>
-                                - 사고·수리이력 없음<br>
-                                - 표준주행거리 이내<br>
-                                - 추가옵션 장착
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><strong>AA</strong></th>
-                            <td>
-                                - 경미한 범퍼·외판수리이력이 있으나 차량성능 및 관리상태가 양호하여 시장시세 범위로 평가되는 차량
-                            </td>
-                            <td>
-                                - 경미한 범퍼·단순수리이력<br>
-                                - 표준주행거리<br>
-                                - 차량성능/관리상태 양호
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><strong>A</strong></th>
-                            <td>
-                                - 경미한 범퍼·외판수리이력이 있고, 차량성능 및 관리상태가 보통으로 평가되는 시장시세 범위 차량
-                            </td>
-                            <td>
-                                - 경비한 범퍼·단순수리이력<br>
-                                - 차량성능/관리상태 보통
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><strong>B</strong></th>
-                            <td>
-                                - 차체 외판·내판·골격에 대한 수리이력이 있고, 차량성능 및 관리상태가 다소 미흡하여 시장시세 이하로 평가되는 차량
-                            </td>
-                            <td>
-                                - 외판·내판·골격 수리이력<br>
-                                - 현저한 주행거리 초과<br>
-                                - 차량성능/관리상태 미흡<br>
-                                - 경미한 수리·정비 필요
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><strong>C</strong></th>
-                            <td>
-                                - 침수, 화재, 전손, 차체 주요 골격부의 절단·교환 수리이력이 있고, 차량성능 및 관리상태가 불량하여 시장시세보다 매우 감액 평가되는 차량
-                            </td>
-                            <td>
-                                - 골격부 절단·교환 수리이력<br>
-                                - 침수, 전손, 화재차량 등<br>
-                                - 차량성능/관리상태 불량
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><strong>D</strong></th>
-                            <td>
-                                - 평가 불가
-                            </td>
-                            <td>
-                                - 평가 불가
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class='br30'></div>
-
-                {{--<div class='board_wrap'>--}}
-                    {{--<table>--}}
-                        {{--<colgroup>--}}
-                            {{--<col style='width:25%;'>--}}
-                            {{--<col style='width:25%;'>--}}
-                            {{--<col style='width:25%;'>--}}
-                            {{--<col style='width:25%;'>--}}
-                        {{--</colgroup>--}}
-                        {{--<thead>--}}
-                        {{--<tr>--}}
-                            {{--<th colspan='4'>손상 및 수리 범위에 의한 사고/수리 이력 평가 등급의 구분</th>--}}
-                        {{--</tr>--}}
-                        {{--<tr>--}}
-                            {{--<th>AA</th>--}}
-                            {{--<th>AB<br>(소손상, 단순외판교환)</th>--}}
-                            {{--<th>AC<br>(중손상/주요패널수리)</th>--}}
-                            {{--<th>AD<br>(대손상/주요부재수리)</th>--}}
-                        {{--</tr>--}}
-                        {{--</thead>--}}
-                        {{--<tbody>--}}
-                        {{--<tr>--}}
-                            {{--<th>--}}
-                                {{--사고·수리이력 없음<br>--}}
-                                {{--단순 범퍼 교환 수리--}}
-                            {{--</th>--}}
-                            {{--<th>--}}
-                                {{--후드 (hood)<br>--}}
-                                {{--프론트펜더 (front fender)<br>--}}
-                                {{--프론트도어 (front door)<br>--}}
-                                {{--리어도어 (rear door)<br>--}}
-                                {{--트렁크리드 (trunk lid)<br>--}}
-                                {{--백도어 (back door)--}}
-                            {{--</th>--}}
-                            {{--<th>--}}
-                                {{--프론트패널 (front panel)<br>--}}
-                                {{--백패널 (리어패널)(back panel)<br>--}}
-                                {{--리어펜더 (rear fender)<br>--}}
-                                {{--인사이드패널 (inside panel)<br>--}}
-                                {{--트렁크바닥패널 (trunk floor)<br>--}}
-                                {{--사이드스텝패널 (side step panel)--}}
-                            {{--</th>--}}
-                            {{--<th>--}}
-                                {{--휠하우스 (wheel apron)<br>--}}
-                                {{--사이드멤버 (side member)<br>--}}
-                                {{--필러(A,B,C) (pillar)<br>--}}
-                                {{--카울,대쉬패널 (cowl & dash)<br>--}}
-                                {{--지붕 (roof)<br>--}}
-                                {{--실내바닥 (floor)<br>--}}
-                                {{--프레임 (frame)--}}
-                            {{--</th>--}}
-                        {{--</tr>--}}
-                        {{--</tbody>--}}
-                    {{--</table>--}}
-                {{--</div>--}}
-                {{--<div class='br30'></div>--}}
-
             </div>
 
-            <div class='intro3_tab_cont intro3_tab2'>
-                <div class='para_type1'>
-                    <strong>중고차 가격 산정 자격</strong>
-                    자동차관리법 제 58조 제1항, 제4호 및 같은 법 시행규칙 120조 제5항, 기술사법 제3조의 직무에 따라 법적 자격을 가진 차량기술사가 중고차의 가격을 조사, 산정합니다.
+            <div class="contents-sample-box">
+                <p class="img">{{ Html::image('/assets/themes/v1/web/img/tip/sample0301.png') }}</p>
+                <div class="description">
+                    <p># 5년 전 국산 중형세단을 구입했다. 나중에 판매할 때를 대비해 엔진오일도 정기적으로 갈아주고 기타 소모품도 교환주기에 맞춰 갈아주면서 차량 내부도 꼼꼼히 관리했다. 관리한 만큼 높은 가격을 기대했지만 중고차 매매상과 온라인 매매 사이트는 판매시세의 70% 금액에 A씨의 차량을 매입하겠다는 제안이 대다수였다. 누구보다 꼼꼼하게 관리한 내 차를 헐값에 넘기는 기분이 들었고 내 차의 제대로 된 가격을 받을 수 있을지 고민에 빠졌다.</p>
                 </div>
-                <div class='br30'></div>
-                <div class='para_type1'>
-                    <strong>중고차 가격 산정 보고서</strong>
-                    중고차를 구입할때 품질만큼 중요한 것은 바로 가격입니다. 하지만 중고차의 가격을 결정하는 주체에 따라 천차만별이 될 수 있고, 판매자이자 구매자인 소비자들은 가격에 대한 불안과
-                    불만을 가지고 있는 것이 사실입니다.<br>차검사인증서의 중고차 가치산정보고서는 법적 자격자인 차량기술사가 제3자적 관점에서 제시하여 공인 보고서를 발급합니다. 이를 중고차
-                    거래에 참조할 수 있습니다.
+            </div>
+
+            <div class="contents-description-box">
+                <p>중고차를 사거나 팔 때 가장 중요한 것은 무엇일까요? 아마도 품질만큼 중요한 것이 가격 아닐까요. 하지만 중고차의 가격을 확인하는 것은 쉽지 않습니다. 성능, 연식, 주행거리, 사고유무 등 중고차 가격에 영향을 주는 요인들이 너무 많기 때문입니다.</p>
+
+                <h3>들쑥날쑥 중고차 매매 가격</h3>
+                <p>중고차 가격은 대부분 중고차 매매 사업자에 의해 결정됩니다. 하지만 중고차 매매 사업자가 결정하는 중고차 가격은 기준이 정확하지 않습니다. 왜냐하면 딜러는 중고차 매입 가격에 일정 마진을 붙여 다시 판매하기에 낮은 가격에 매입해 높은 가격에 판매할수록 이익이 커지기 때문입니다. 그래서 중고차 판매자는 제 값 받고 차를 팔 수 있을지 불안하고, 구매자는 좋지 않은 차를 비싸게 구매하게 될까 봐 불안하게 됩니다</p>
+
+                <div class="thumb-box">
+                    <h4>A씨 차량 견적</h4>
+                    <ul>
+                        <li>
+                            <p class="thumb">{{ Html::image('/assets/themes/v1/web/img/tip/sample0302.jpg'), '매매단지 3,350만원' }}</p>
+                        </li>
+                        <li>
+                            <p class="thumb">{{ Html::image('/assets/themes/v1/web/img/tip/sample0303.jpg'), 'A딜러 3,400만원' }}</p>
+                        </li>
+                        <li>
+                            <p class="thumb">{{ Html::image('/assets/themes/v1/web/img/tip/sample0304.jpg'), 'B딜러 3,000만원' }}</p>
+                        </li>
+                    </ul>
                 </div>
-                <div class='br30'></div>
-                <div class='para_type1'>
-                    <strong>중고차 가격 산정 방법</strong>
-                    중고차 가격 산정 절차와 방법을 객관적이고 공정한 절차에 의거 산정내역을 제시합니다. 가치산정을 위해 차검사인증서 신청 시 추가장착품에 대해 정확히 기재해야 좀더 높은 가치를
-                    산정받을 수 있으며, 차량성능 상태에 대한 사전 보쉬카서비스에서 정확하게 검사받아야 합니다.
-                    <br><br>
-                    {{ Html::image(Helper::theme_web( '/img/intro/intro3_2.png')) }}
+
+                <p>정부는 중고차 시장의 투명성 확보와 소비자 보호를 위해 중고차 가격 조사 산정제도를 작년부터 시행하고 있습니다. 중고차 가격 조사 산정제도란 중고차 거래 시 중고차의 성능 및 상태 등 품질을 근거로 법적 자격을 갖춘 제3의 객관적 주체(기술사)로부터 공정한 중고차 가격을 산정하는  제도입니다.</p>
+                <p>차검사는 객관적이고 공정한 중고차 가격을 산정하기 위해 최고의 차량기술사로 구성된 차량기술법인 H&T와 업무 협약을 맺었습니다. 보쉬카서비스의 중고차 성능 및 상태 진단결과를 바탕으로 자동차관리법에 근거해 중고차 가격을 산정합니다. 차검사 인증서의 가격 산정 보고서는 중고차 거래 시 중고차 가격에 대한 객관성을 보장 받을 수 있습니다. 제3자의 객관적 입장에서 중고차 품질에 근거한 공정한 중고차 가격을 산정하기 때문입니다. </p>
+
+                <div class="btn-box">
+                    <a href="{{ url('/chagumsa-info#anc02') }}" class="btns sky">내 차 가격 정확히 알기</a>
+                    <a href="{{ url('/order') }}" class="btns sky">차검사 신청하기</a>
+                    <a href="{{ url('/community/inquire') }}" class="btns sky">1:1 문의하기</a>
                 </div>
+            </div>
+
+            <div class="contents-relation-box">
+                <h3>‘자동차’ 관련글</h3>
+                <ul>
+                    <li>
+                        <div>
+                            <p class="thumb"><a href="{{ url('/information/price') }}">{{ Html::image('/assets/themes/v1/web/img/tip/sample0106.jpg') }}</a></p>
+                            <p class="txt"><a href="{{ url('/information/price') }}">[차검사 이야기] 수리비 폭탄 맞았어요!</a></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <p class="thumb"><a href="{{ url('/information/index') }}">{{ Html::image('/assets/themes/v1/web/img/tip/sample0110.jpg') }}</a></p>
+                            <p class="txt"><a href="{{ url('/information/index') }}">[차검사 이야기] 구매할 때 성능 기록부와 실제 상태가 달라요!</a></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <p class="thumb"><a href="{{ url('/chagumsa-info') }}">{{ Html::image('/assets/themes/v1/web/img/tip/sample0108.jpg') }}</a></p>
+                            <p class="txt"><a href="{{ url('/chagumsa-info') }}">내 차 진단부터 평가, 보증까지 믿고 맡길 곳 없을까?</a></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <p class="thumb"><a href="{{ url('/chagumsa-info#anc07') }}">{{ Html::image('/assets/themes/v1/web/img/tip/sample0109.jpg') }}</a></p>
+                            <p class="txt"><a href="{{ url('/chagumsa-info#anc07') }}">하루 830원으로 180일 동안, 최대 20배를 보장해 준다면?</a></p>
+                        </div>
+                    </li>
+                </ul>
             </div>
 
         </div>
 
     </div>
+    <!-- [e] contents -->
 @endsection
 
 
@@ -321,15 +118,16 @@
 
 @push( 'footer-script' )
     <script>
-        $(document).ready(function () {
-
-            $('.intro3_tab').mousedown(function () {
-                $('.tab_on').removeClass('tab_on');
-                $('.intro3_tab_cont').hide();
-                $(this).addClass('tab_on');
-                $('.' + $(this).attr('id')).show();
-            });
-
-        });
+        <!--
+        function copy_trackback(trb) {
+            var IE=(document.all)?true:false;
+            if (IE) {
+                if(confirm("이 글의 트랙백 주소를 클립보드에 복사하시겠습니까?"))
+                    window.clipboardData.setData("Text", trb);
+            } else {
+                temp = prompt("이 글의 링크 주소입니다. 링크를 복사하여 사용해주세요.", trb);
+            }
+        }
+        //-->
     </script>
 @endpush

@@ -72,6 +72,11 @@ Breadcrumbs::register('admin.sms', function($breadcrumbs) {
     $breadcrumbs->push('SMS 전송', route('sms.index'));
 });
 
+Breadcrumbs::register('admin.counsel', function($breadcrumbs) {
+    $breadcrumbs->parent('admin');
+    $breadcrumbs->push('상담', route('counsel.index'));
+});
+
 //############################## Web
 Breadcrumbs::register('web', function($breadcrumbs) {
     $breadcrumbs->push(trans("web/home.title"), url('/'));
