@@ -24,8 +24,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/order/is-sms', 'OrderController@isSms')->name('order.is-sms');
     Route::post('/order/delete-sms', 'OrderController@deleteSms')->name('order.delete-sms');
 
-    //email 관련
-    Route::post('/send-email', 'WelcomeController@sendEmail');
+
 
     // 주문하기
     Route::match(['get', 'post'], 'order/complete', 'OrderController@complete')->name("order.complete");
@@ -53,6 +52,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd');
 
 });
+
+//email 관련
+Route::post('/send-email', 'WelcomeController@sendEmail');
 
 /////////////////////////////////////////////////////////////
 Route::get('order', 'OrderController@index');
