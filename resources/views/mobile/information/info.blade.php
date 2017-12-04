@@ -17,7 +17,7 @@
             <li><a href="#anc03" class="s-tab">정밀진단</a></li>
             <li><a href="#anc04" class="s-tab">품질등급제</a></li>
             <li><a href="#anc05" class="s-tab">차검사 순서</a></li>
-            <li><a href="#anc06" class="s-tab">차검사인증서</a></li>
+            <li><a href="#anc06" class="s-tab">차검사 인증서</a></li>
             <li><a href="#anc07" class="s-tab">차검사 케어</a></li>
             <li><a href="#anc08" class="s-tab">차검사 비용</a></li>
         </ul>
@@ -40,7 +40,7 @@
                         <li>
                             <div>
                                 <a href="{{ url("/information/index") }}">
-                                    <p>침수차인지<br>육안으로는<br>확인 어려워요</p>
+                                    <p>침수차인지<br>육안으로는<br>확인 어려워요.</p>
                                 </a>
                             </div>
                         </li>
@@ -209,7 +209,7 @@
                         <li>
                             <dl>
                                 <dt>주행테스트(5개)</dt>
-                                <dd>운전점검</dd>
+                                <dd>운전 점검</dd>
                             </dl>
                         </li>
                     </ul>
@@ -329,15 +329,15 @@
                             <h4>수리 보상 절차</h4>
                             <div class="arrow block">
                                 <span>전화</span>
-                                <p class="underline ico04">고객센터로 연락하기</p>
+                                <p class="underline ico04"></p>
                             </div>
                             <div class="arrow block">
                                 <span>입고</span>
-                                <p class="ico05">가까운 보쉬카서비스로 입고합니다.</p>
+                                <p class="ico05"></p>
                             </div>
                             <div class="block">
                                 <span>수리</span>
-                                <p class="underline ico06">수리 보증 항목 확인하기</p>
+                                <p class="underline ico03"></p>
                             </div>
                         </li>
                     </ul>
@@ -364,10 +364,10 @@
 
                             </div>
                             <div class="block">
-                                <span class="icon icoC">품질 B등급 이상</span>
+                                <span class="icon icoC">품질 C등급 이상</span>
                             </div>
                             <div class="block">
-                                <span class="icon ico02">품질 B등급 이상</span>
+                                <span class="icon ico02">7년, 14만km</span>
                             </div>
                         </li>
                         <li>
@@ -425,18 +425,18 @@
                             </div>
                         </li>
                         <li>
-                            <h4>수리 절차</h4>
+                            <h4>수리 보증 절차</h4>
                             <div class="arrow block">
-                                <span>전화</span>
-                                <p class="underline ico04">고객센터로 연락하기</p>
+                                <span>고객센터</span>
+                                <p class="underline ico04"></p>
                             </div>
                             <div class="arrow block">
                                 <span>입고</span>
-                                <p class="ico05">안내 받은 수리점으로<br>입고합니다.</p>
+                                <p class="ico05"></p>
                             </div>
                             <div class="block">
                                 <span>수리</span>
-                                <p class="underline ico03">수리 보증 항목 확인하기</p>
+                                <p class="underline ico03"></p>
                             </div>
                         </li>
                         <li class="noicon">

@@ -20,7 +20,7 @@
                                 <a href="{{ url("/information/guide") }}">확인하기</a>
                             </li>
                             <li>
-                                <p>제조사 보증 끝난 수입차<br>연장보증이 궁금하다면?</p>
+                                <p>제조사 보증 끝난 수입차<br>연장 보증이 궁금하다면?</p>
                                 <a href="{{ url("/information/price") }}">확인하기</a>
                             </li>
                         </ul>
@@ -149,13 +149,13 @@
                     </tr>
                     <tr>
                         <th>신청비용</th>
-                        <td class="ac dark">국산차 최대 20만원<br> 수입차최대 25만원</td>
-                        <td class="ac">국산차 최대 100만원<br> 수입차최대 300만원</td>
+                        <td class="ac dark">국산차 최대 20만원<br> 수입차 최대 25만원</td>
+                        <td class="ac">국산차 최대 100만원<br> 수입차 최대 300만원</td>
                     </tr>
                     <tr>
                         <th>보상한도</th>
-                        <td class="ac dark">국산차 최대 13배<br> 수입차최대 20배</td>
-                        <td class="ac">국산차 최대 10배<br> 수입차최대 5배</td>
+                        <td class="ac dark">국산차 최대 13배<br> 수입차 최대 20배</td>
+                        <td class="ac">국산차 최대 10배<br> 수입차 최대 5배</td>
                     </tr>
                     <tr>
                         <th>보증기간<br>(주행거리 조건)</th>
@@ -191,7 +191,7 @@
                     <li><input type="text" name="name" placeholder="이름" id="name" required></li>
                     <li><input type="text" placeholder="휴대폰 번호" id="mobile" name="mobile" required></li>
                     <li><input type="email" placeholder="chagumsa@example.com" name="email" id="email" required></li>
-                    <li><textarea placeholder="궁금한 점이나 상담 받고 싶은 내용을 적어주시면 &#13;&#10; 맞춤 상담을 받으실 수 있습니다." id="content" name="content" required></textarea></li>
+                    <li><textarea placeholder="궁금한 점이나 상담 받고 싶은 내용을 적어주시면 &#13;&#10; 맞춤상담을 받으실 수 있습니다." id="content" name="content" required></textarea></li>
                 </ul>
             </div>
             <div class="btn-box">
