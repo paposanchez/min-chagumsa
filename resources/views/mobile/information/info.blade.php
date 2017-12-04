@@ -548,7 +548,18 @@
 @push( 'footer-script' )
 <script type="text/javascript">
     $(function () {
-
+        $("[data-action]").on("click", function() {
+            if($(this).hasClass("on")) {
+                $(this).removeClass("on");
+                $(this).html("항목 자세히보기 <span>▼</span>");
+                $(this).next().hide();
+            } else {
+                $(this).addClass("on");
+                $(this).html("항목 접어두기 <span>▲</span>");
+                $(this).next().show();
+            }
+            return false;
+        });
 
         $(".service-anc01 .bxslider").bxSlider({
             controls: true,

@@ -11,7 +11,7 @@
                @if(strpos(url('/'), "http://cert.") !== false)
                 data-footer=""
                @else
-                       data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }} | <a href='http://image.chagumsa.com/diagnosis/{{ $file['id'] }}.png' target='_blank'>원본보기</a>"
+                       data-footer="{{ $file['created_at'] }} | {{ Helper::formatBytes($file['size']) }} | <a class='get-origin-image' href='#' data-origin_url='http://image.chagumsa.com/diagnosis/{{ $file['id'] }}.png'>원본보기</a>"
                @endif
                data-type="image"
                data-gallery="diagnosis-gallery"

@@ -388,5 +388,17 @@
         </table>
     </div>
 
-
+    <script type="text/javascript">
+        $(function () {
+            //원본 이미지 보기
+            $(".get-origin-image").on("click", function () {
+                alert('aaaa');
+                window.open($(this).data("origin_url"));
+            });
+        })
+    </script>
 @endsection
+
+@push( 'footer-script' )
+
+@endpush
