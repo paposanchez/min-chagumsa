@@ -68,11 +68,17 @@
 
                     </div>
                     <div class="form-group ">
-                        <label for="" class="control-label col-md-3">{{ trans('admin/post.updated_at') }}</label>
+                        <label for="" class="control-label col-md-3">답변상태</label>
 
                         <div class="col-md-9">
                             <div class="input-group">
-                                <p class="form-control-static" name="updated_at">{{ $counsel->updated_at ? $counsel->updated_at : '-'}}</p>
+                                <p class="form-control-static" name="is_replied">
+                                    @if($counsel->is_replied == 1)
+                                        <span style="width:60px;display:inline-block;" class="label label-success">답변 완료</span>
+                                    @else
+                                        <span style="width:60px;display:inline-block;" class="label label-default">미답변</span>
+                                    @endif
+                                </p>
                             </div>
                         </div>
 

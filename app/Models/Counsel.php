@@ -16,10 +16,11 @@ class Counsel extends Model {
         'email',
         'mobile',
         'content',
-        'reply'
+        'reply',
+        'is_replied'
     ];
 
     protected $dates = [
-        'created_at','updated_at'
+        'created_at', 'updated_at'
     ];
 }
