@@ -32,35 +32,35 @@
                     <ul class="bxslider">
                         <li>
                             <div>
-                                <a href="">
+                                <a href="{{ url("/information/guide") }}">
                                     <p>딜러 통하면<br>중간 수수료가<br>너무 많아요.</p>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <a href="">
+                                <a href="{{ url("/information/index") }}">
                                     <p>침수차인지<br>육안으로는<br>확인 어려워요</p>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <a href="">
+                                <a href="{{ url("/information/index") }}">
                                     <p>매매사이트에<br>허위 매물이<br>너무 많아요.</p>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <a href="">
+                                <a href="{{ url("/information/index") }}">
                                     <p>무사고 차라고<br>믿고 샀는데<br>접합차였어요.</p>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <a href="">
+                                <a href="{{ url("/information/index") }}">
                                     <p>성능확인서<br>조작해서<br>판매하던데요.</p>
                                 </a>
                             </div>

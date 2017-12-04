@@ -13,15 +13,15 @@
                         <ul class="bxslider">
                             <li>
                                 <p>내가 산 차가<br>침수차인지 궁금하다면?</p>
-                                <a href="">확인하기</a>
+                                <a href="{{ url("/information/index") }}">확인하기</a>
                             </li>
                             <li>
                                 <p>내 차 판매 가격<br>잘 받은 건지 궁금하다면?</p>
-                                <a href="">확인하기</a>
+                                <a href="{{ url("/information/guide") }}">확인하기</a>
                             </li>
                             <li>
                                 <p>제조사 보증 끝난 수입차<br>연장보증이 궁금하다면?</p>
-                                <a href="">확인하기</a>
+                                <a href="{{ url("/information/price") }}">확인하기</a>
                             </li>
                         </ul>
                     </div>
