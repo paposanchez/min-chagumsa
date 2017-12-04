@@ -53,9 +53,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 });
 
-//email 관련
-Route::post('/send-email', 'WelcomeController@sendEmail');
-
 /////////////////////////////////////////////////////////////
 Route::get('order', 'OrderController@index');
 Route::get('certificate', 'CertificateController@index');
@@ -142,6 +139,9 @@ Route::post('register', 'Auth\RegisterController@postRegister');
 Route::any('/', 'WelcomeController');
 
 Route::get('sample', 'CertificateController@sample')->name('certificate.sample');
+
+//email 관련
+Route::post('/send-email', 'WelcomeController@sendEmail');
 
 //결제 prototype
 //Route::get('pay-test/index', 'PayTestController@index');
