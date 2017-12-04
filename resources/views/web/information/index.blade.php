@@ -31,11 +31,10 @@
                         <span>#중고차</span>
                         <span>#피해</span>
                     </div>
-                    <div class="sns">
-                        <a href="http://www.facebook.com/sharer/sharer.php?u={{url('/information/index')}}" target="_blank" class="fb">facebook</a>
-                        <a href="https://twitter.com/intent/tweet?text=TEXT&url={{url('/information/index')}}" target="_blank" class="tw">twitter</a>
-                        <a href="" class="cp" onclick="javascript:copy_trackback(this.href); return false;"></a>
-                    </div>
+
+                    {{-- SNS --}}
+                    @include("web.partials.sns")
+
                 </div>
             </div>
 
@@ -140,17 +139,17 @@
 @endpush
 
 @push( 'footer-script' )
-    <script type="text/javascript">
-        <!--
-        function copy_trackback(trb) {
-            var IE=(document.all)?true:false;
-            if (IE) {
-                if(confirm("이 글의 트랙백 주소를 클립보드에 복사하시겠습니까?"))
-                    window.clipboardData.setData("Text", trb);
-            } else {
-                temp = prompt("이 글의 링크 주소입니다. 링크를 복사하여 사용해주세요.", trb);
-            }
-        }
-        //-->
-    </script>
+<script type="text/javascript">
+    $(function () {
+
+        var clipboard = new Clipboard(".cp");
+        clipboard.on('success', function(e){
+            e.clearSelection();
+            alert("복사되었습니다.");
+        });
+        clipboard.on('error', function(e) {
+            alert("복사를 실패하였습니다");
+        });
+    });
+</script>
 @endpush

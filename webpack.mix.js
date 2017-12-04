@@ -80,6 +80,7 @@ mix
         nodeDir + 'ekko-lightbox/dist/ekko-lightbox.js',
         // file uploader simple
         // nodeDir + 'jquery-simple-upload/simpleUpload.js',
+        nodeDir + 'clipboard/dist/clipboard.js',
 
         assetsDir + 'vendor/jasny/js/fileinput.js',
         assetsDir + 'vendor/jasny/js/inputmask.js',

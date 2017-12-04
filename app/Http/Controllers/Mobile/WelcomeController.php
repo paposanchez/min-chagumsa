@@ -22,4 +22,26 @@ class WelcomeController extends Controller {
         return view('mobile.welcome');
     }
 
+    public function sendEmail(Request $request){
+        try{
+            $name = $request->get('name');
+            $mobile = $request->get('mobile');
+            $email = $request->get('email');
+            $content = $request->get('content');
+            $counsels = new Counsel();
+            $counsels->name = $name;
+            $counsels->email = $email;
+            $counsels->mobile = $mobile;
+            $counsels->content = $content;
+            $counsels->save();
+
+            return response()->json('success');
+
+
+        }catch (\Exception $e){
+            return response()->json($e->getMessage());
+        }
+
+
+    }
 }

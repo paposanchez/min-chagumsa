@@ -51,6 +51,7 @@
         "jquery-simple-upload": "1.0.0"
     },
     "dependencies": {
-        "bxslider": "^4.2.13"
+        "bxslider": "^4.2.13",
+        "clipboard": "^1.7.1"
     }
 }

@@ -180,21 +180,24 @@
         </div>
 
         <div class="main-contents-block wht">
+            {!! Form::open(['method' => 'post', 'role' => 'form', 'id' => 'counsel-frm', 'autocomplete' => 'off']) !!}
+
             <h3>지금 상담 받기</h3>
             <p>차검사에 대해 더 궁금하다면 지금 바로 상담을 신청해 보세요.<br>내 차에 어떤 혜택을 받을 수 있는지 전문 상담가가 알려 드립니다.</p>
 
-            <div class="main-counsel">
+            <div class="main-counsel" id="counsel">
                 <p class="thumb">{{ Html::image(\App\Helpers\Helper::theme_mobile("/images/main0401.png")) }}</p>
                 <ul>
-                    <li><input type="text" placeholder="이름"></li>
-                    <li><input type="text" placeholder="휴대폰 번호"></li>
-                    <li><input type="email" placeholder="chagumsa@example.com"></li>
-                    <li><textarea placeholder="궁금한 점이나 상담 받고 싶은 내용을 적어주시면 &#13;&#10; 맞춤 상담을 받으실 수 있습니다."></textarea></li>
+                    <li><input type="text" name="name" placeholder="이름" id="name" required></li>
+                    <li><input type="text" placeholder="휴대폰 번호" id="mobile" name="mobile" required></li>
+                    <li><input type="email" placeholder="chagumsa@example.com" name="email" id="email" required></li>
+                    <li><textarea placeholder="궁금한 점이나 상담 받고 싶은 내용을 적어주시면 &#13;&#10; 맞춤 상담을 받으실 수 있습니다." id="content" name="content" required></textarea></li>
                 </ul>
             </div>
             <div class="btn-box">
-                <a href="">상담 받기</a>
+                <a id="send-email" href="#counsel">상담 받기</a>
             </div>
+            {!! Form::close() !!}
         </div>
 
 
@@ -259,6 +262,48 @@
             autoControls: false,
             pager : true,
             pause : 5000
+        });
+
+        $("#counsel-frm").validate({
+            messages: {
+                name : '성함을 입력해주세요.',
+                mobile : '휴대폰 번호를 입력해주세요.',
+                email : '이메일을 입력해주세요.',
+                content : '상담 내용을 입력해 주세요.'
+            },
+            submitHandler: function (form) {
+                var name = $('#name').val();
+                var mobile = $('#mobile').val();
+                var email = $('#email').val();
+                var content = $('#content').val();
+                $.ajax({
+                    url: '/send-email',
+                    type: 'post',
+                    data: {
+                        name : name,
+                        mobile : mobile,
+                        email : email,
+                        content : content,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function (data) {
+                        alert('이메일이 성공적으로 전송되었습니다.');
+                        $("#name").val('');
+                        $("#mobile").val('');
+                        $("#email").val('');
+                        $("#content").val('');
+
+                    },
+                    error: function (data) {
+                        alert('문제가 발생하엿습니다. 관리자에게 문의 바랍니다.');
+                    }
+                })
+
+            }
+        });
+
+        $('#send-email').click(function(){
+            $('#counsel-frm').submit();
         });
 
     });

@@ -31,11 +31,8 @@
                         <span>#중고차</span>
                         <span>#피해</span>
                     </div>
-                    <div class="sns">
-                        <a href="" class="fb">facebook</a>
-                        <a href="" class="tw">twitter</a>
-                        <a href="" class="cp">copy</a>
-                    </div>
+                    {{-- SNS --}}
+                    @include('mobile.partials.sns')
                 </div>
             </div>
 
@@ -124,6 +121,14 @@
 <script type="text/javascript">
     $(function () {
 
+        var clipboard = new Clipboard(".cp");
+        clipboard.on('success', function(e){
+            e.clearSelection();
+            alert("복사되었습니다.");
+        });
+        clipboard.on('error', function(e) {
+            alert("복사를 실패하였습니다");
+        });
     });
 </script>
 

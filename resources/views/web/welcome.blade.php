@@ -205,7 +205,7 @@
 
         <div class="contents-inner">
             <form id="counsel-frm">
-                <div class="main-counsel">
+                <div class="main-counsel" id="counsel">
                     <p class="thumb" style="margin-bottom: 50px;">
                         {{ Html::image('/assets/themes/v1/web/img/main/main0401.png') }}
                     </p>
@@ -273,6 +273,10 @@
                 },
                 success: function (data) {
                     alert('이메일이 성공적으로 전송되었습니다.');
+                    $("#name").val('');
+                    $("#mobile").val('');
+                    $("#email").val('');
+                    $("#content").val('');
 
                 },
                 error: function (data) {
