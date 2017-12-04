@@ -36,7 +36,7 @@
 
                        <li class="{{ Request::is('post*') ? ' active':''}}"><a href="/post"><i class="fa fa-pencil"></i><span class="nav-label">{{ trans('admin/post.title') }}</span></a></li>
 
-                       <li class="{{ Request::is('counsel*') ? ' active':''}}"><a href="/counsel"><i class="fa fa-pencil"></i><span class="nav-label">상담</span></a></li>
+                       <li class="{{ Request::is('counsel*') ? ' active':''}}"><a href="/counsel"><i class="fa fa-commenting" aria-hidden="true"></i><span class="nav-label">상담</span></a></li>
 
                        <li class="{{ Request::is('sms*') ? ' active':''}}"><a href="/sms"><i class="fa fa-comments" aria-hidden="true"></i><span class="nav-label">SMS</span></a></li>
 

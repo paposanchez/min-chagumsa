@@ -22,7 +22,7 @@
                         <div>
                             <a class='' href='{{ url("/chagumsa-info") }}'>차검사소개</a>
                             <a class='' href='{{ url("/information/index") }}'>차검사팁</a>
-                            <a class='' href='{{ url("/sample") }}'>인증서 샘플보</a>
+                            <a class='' href='{{ url("/sample") }}'>인증서 샘플보기</a>
                         </div>
                     </li>
                     <li><a class='menu2' href='{{ url("/order") }}'>인증서 신청</a></li>
