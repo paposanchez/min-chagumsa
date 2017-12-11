@@ -4,7 +4,7 @@
     <div id='sub_title_wrap'>
         <h2>마이페이지
             <div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> 마이페이지 <i
-                        class="fa fa-angle-right"></i> <span>주문목록</span></div>
+                        class="fa fa-angle-right"></i> <span>MY 인증서</span></div>
         </h2>
     </div>
 
@@ -16,7 +16,7 @@
             <li><a class='' href='{{ route('mypage.profile.index') }}'>회원정보수정</a></li>
 
             <li class="pull-right" style="font-size:18px;font-weight:200;margin-top:15px;">
-                총 <strong>{{ count($orders) }}</strong>개의 인증서를 발급하셨습니다.
+                총 <strong>{{ count($orders) }}</strong>개
             </li>
         </ul>
 
