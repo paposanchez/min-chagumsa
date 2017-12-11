@@ -55,7 +55,7 @@
 
                     </div>
                     <div class='cert_box_cont_info'>
-                        <ul>
+                        <ul style="width: 420px !important;">
                             <li><label>차량</label><span>{{ $order->getCarFullName() }}</span></li>
                             <li><label>연식</label><span>{{ $order->car->year }} 년식</span></li>
                             <li><label>사용연료</label><span>{{ $order->car->getFuelType->display() }}</span></li>
