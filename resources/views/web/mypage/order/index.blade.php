@@ -21,6 +21,7 @@
             </li>
         </ul>
 
+        <div class='br30'></div>
 
         @unless(count($my_orders))
             <div class="no-result">

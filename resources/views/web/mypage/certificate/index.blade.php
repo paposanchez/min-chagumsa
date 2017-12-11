@@ -19,6 +19,7 @@
                 총 <strong>{{ count($orders) }}</strong>개
             </li>
         </ul>
+        <div class='br30'></div>
 
         @unless(count($orders))
             <div class="no-result">
