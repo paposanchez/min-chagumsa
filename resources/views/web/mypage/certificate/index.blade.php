@@ -135,7 +135,6 @@
 
             $('.open_cd').on('click', function () {
 
-
                 var open_value = $(this).data('public');
 
                 if ($(this).prop('checked')) {
