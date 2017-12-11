@@ -146,7 +146,7 @@
 
                 $.ajax({
                     type: 'get',
-                    url: '/certificate/change-open-cd',
+                    url: '/mypage/certificate/change-open-cd',
                     data: {
                         'open_cd': open_value,
                         'order_id': $(this).data('idx')

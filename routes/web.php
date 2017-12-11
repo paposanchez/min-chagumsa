@@ -7,7 +7,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('profile', 'ProfileController');
         Route::resource('history', 'HistoryController');
         Route::resource('order', 'OrderController');
-        Route::resource('certificate', 'CertificateController');
+        Route::resource('certificate', 'CertificateController', ['only' => 'index']);
 
         Route::post('/order/cancel', 'OrderController@cancel')->name('order.cancel');
 
