@@ -33,7 +33,8 @@
 
 /* �� */
 .menu_tab_wrap {width:100%;border-bottom:1px solid #e5e5e5;font-size:0;}
-.menu_tab_wrap li {display:inline-block;height:45px;box-sizing:border-box;}
+/*.menu_tab_wrap li {display:inline-block;height:45px;box-sizing:border-box;}*/
+.menu_tab_wrap li {display:inline-block;box-sizing:border-box;}
 .menu_tab_wrap li a {position:relative;bottom:0px;display:block;text-align:center;line-height:45px;font-size:20px;padding:0 45px;color:#444;}
 .menu_tab_wrap li a:hover, .menu_tab_wrap li a.select {color:#a4cd17;border-bottom:1px solid #a4cd17;}
 
