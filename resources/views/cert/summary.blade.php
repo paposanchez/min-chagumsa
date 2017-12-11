@@ -78,7 +78,7 @@
                 </td>
                 <th>차대번호</th>
                 <td>
-                    {{ $order->isIssued() ? $order->car->vin_number : '미입력 (검토중)'}}
+                    {{ $order->isIssued() ? substr_replace($order->car->vin_number, '*****', -5, 5) : '미입력 (검토중)'}}
                 </td>
             </tr>
             <tr>

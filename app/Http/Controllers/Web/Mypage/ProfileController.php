@@ -41,7 +41,7 @@ class ProfileController extends Controller
             $user = User::findOrFail(Auth::id());
             $user->name = $request->get('name');
             $user->save();
-            return redirect("/mypage/profile")->with("success", "회원정보가 변경되었습니다.");
+            return redirect("/mypage/profile")->with('success', "회원정보가 변경되었습니다.");
         }
 
         //  패스워드 변경

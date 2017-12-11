@@ -13,6 +13,7 @@
 
         <ul class='menu_tab_wrap'>
             <li><a class='select' href='{{ route('mypage.order.index') }}'>주문목록</a></li>
+            <li><a class='' href='{{ route('mypage.certificate.index') }}'>MY 인증서</a></li>
             <li><a class='' href='{{ route('mypage.profile.index') }}'>회원정보수정</a></li>
 
             <li class="pull-right" style="font-size:18px;font-weight:200;margin-top:15px;">총

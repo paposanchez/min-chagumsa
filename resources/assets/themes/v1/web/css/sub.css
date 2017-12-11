@@ -209,7 +209,7 @@
 #cert_list_wrap {width:940px;margin:0 auto;padding:55px 0;min-height:460px;position:relative;}
 .cert_list_title {margin-bottom:10px; color:#555;}
 .cert_list_title strong {color:#0b4777;}
-.cert_list_box {margin:0px 0 20px 0;}
+/*.cert_list_box {margin:0px 0 20px 0;}*/
 
 .cert_box_head {position:relative; background:#0b4777; color:#fff; padding:15px 25px;}
 .cert_list_box.expire .cert_box_head:after {position:absolute;right:-10px;top:-7px;content:'';width:158px;height:99px;background:url('../img/sub/cert_expire_icon.png') no-repeat;}

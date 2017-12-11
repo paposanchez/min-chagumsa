@@ -7,6 +7,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('profile', 'ProfileController');
         Route::resource('history', 'HistoryController');
         Route::resource('order', 'OrderController');
+        Route::resource('certificate', 'CertificateController');
+
         Route::post('/order/cancel', 'OrderController@cancel')->name('order.cancel');
 
         Route::get('/order/change-car/{order_id}', 'OrderController@changeCar');
@@ -17,6 +19,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/leave', 'ProfileController@leaveForm');
         Route::post('/leave', 'ProfileController@leave')->name('profile.leave');
+
+        Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd');
     });
 
     //SMS관련
@@ -49,7 +53,7 @@ Route::group(['middleware' => ['auth']], function () {
     //쿠폰 주문 등록
     Route::post('/order/coupon-process', 'OrderController@couponProcess')->name("order.coupon-process");
 
-    Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd');
+
 
 });
 
