@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Code;
+use App\Models\UserExtra;
 use DB;
 use Hash;
 use Image;
@@ -106,12 +107,53 @@ class UserController extends Controller
         foreach ($input['roles'] as $key => $value) {
             $user->attachRole($value);
         }
-        if ($request->get('with_eng')) {
-            $user->attachRole(5);
-        }
 
         $input['users_id'] = $user->id;
-        $user->user_extra()->create($input);
+        if (in_array(4, $request->get('roles')) || in_array(5, $request->get('roles'))) {
+
+            if (in_array(4, $request->get('roles'))) {
+                if ($request->get('with_eng')) {
+                    $user->attachRole($request->get('with_eng'));
+                }
+
+                // user_extra 데이터 저장 / BCS 저장
+                $user_extra = UserExtra::where('users_id', $user->id)->first();
+                if (!$user_extra) {
+                    $user_extra = new UserExtra();
+                }
+                $user_extra->users_id = $user->id;
+                $user_extra->phone = $request->get('garage_tel');
+                $user_extra->zipcode = $request->get('garage_zipcode');
+                $user_extra->area = $request->get('garage_area');
+                $user_extra->section = $request->get('garage_section');
+                $user_extra->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_address');
+                $user_extra->address_extra = $request->get('garage_address');
+                $user_extra->aliance_id = $request->get('aliance_id');
+                $user_extra->registration_number = $request->get('registration_number');
+                $user_extra->fax = $request->get('fax');
+                $user_extra->bcs_bank = $request->get('bank');
+                $user_extra->bcs_account = $request->get('account');
+                $user_extra->bcs_account_name = $request->get('owner');
+                $user_extra->ceo_name = $request->get('name');
+                $user_extra->ceo_mobile = $request->get('mobile');
+                $user_extra->save();
+            } else {
+                // user_extra 데이터 저장
+                $user_extra = UserExtra::where('users_id', $user->id)->first();
+                $garage_info = GarageInfo::where('name', $request->get('garage'))->first();
+                if (!$user_extra) {
+                    $user_extra = new UserExtra();
+                }
+                $user_extra->users_id = $user->id;
+                $user_extra->phone = $request->get('mobile');
+                $user_extra->zipcode = $garage_info->tel;
+                $user_extra->address = $garage_info->address;
+                $user_extra->address_extra = $garage_info->name;
+                $user_extra->garage_id = $garage_info->garage_id;
+                $user_extra->save();
+
+            }
+        }
 
         if ($request->file('avatar')) {
             Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
@@ -196,7 +238,57 @@ class UserController extends Controller
             }
         }
 
-        $user->user_extra->update($input);
+        if (in_array(4, $request->get('roles')) || in_array(5, $request->get('roles'))) {
+            if (in_array(4, $request->get('roles'))) {
+
+                if ($request->get('with_eng')) {
+                    $eng_role = RoleUser::where('user_id', $id)->where('role_id', 5)->delete();
+                    $user->attachRole($request->get('with_eng'));
+                }
+
+                // user_extra 데이터 저장 / BCS 저장
+                $user_extra = UserExtra::where('users_id', $user->id)->first();
+                if (!$user_extra) {
+                    $user_extra = new UserExtra();
+                }
+                $user_extra->users_id = $user->id;
+                $user_extra->phone = $request->get('garage_tel');
+                $user_extra->zipcode = $request->get('garage_zipcode');
+                $user_extra->area = $request->get('garage_area');
+                $user_extra->section = $request->get('garage_section');
+                $user_extra->address_extra = $request->get('garage_address');
+                $user_extra->address = $request->get('garage_area')." ".$request->get('garage_section')." ".$request->get('garage_address'); // 정비소 나머지 주소
+                $user_extra->aliance_id = $request->get('aliance_id');
+                $user_extra->registration_number = $request->get('registration_number');
+                $user_extra->fax = $request->get('fax');
+                $user_extra->bcs_bank = $request->get('bank');
+                $user_extra->bcs_account = $request->get('account');
+                $user_extra->bcs_account_name = $request->get('owner');
+                $user_extra->ceo_name = $request->get('garage_name');
+                $user_extra->ceo_mobile = $request->get('mobile');
+                $user_extra->save();
+
+            }else{
+
+                $my_extra = UserExtra::where('users_id', $user->id)->first();
+
+                if($my_extra->garage->name != $request->get('garage')){
+                    // user_extra 데이터 저장
+                    $user_extra = UserExtra::where('users_id', $user->id)->first();
+                    $garage_info = UserExtra::where('users_id', $request->get('garage'))->first();
+                    if(!$user_extra){
+                        $user_extra = new UserExtra();
+                    }
+                    $user_extra->users_id = $user->id;
+                    $user_extra->phone = $request->get('mobile');
+                    $user_extra->zipcode = $garage_info->tel;
+                    $user_extra->address = $garage_info->address;
+                    $user_extra->address_extra = $garage_info->address_extra;
+                    $user_extra->garage_id = $garage_info->users_id;
+                    $user_extra->save();
+                }
+            }
+        }
 
         // 아바타 변경
         if ($request->file('avatar')) {
