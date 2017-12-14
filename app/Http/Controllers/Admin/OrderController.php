@@ -38,7 +38,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $where = Order::where('status_cd', ">=", 100);
+        $where = Order::where('status_cd', ">=", 100)->whereNotIn('status_cd', [101]);
         // 정렬옵션
         if ($request->get('sort') == 'order_num') {
             $where

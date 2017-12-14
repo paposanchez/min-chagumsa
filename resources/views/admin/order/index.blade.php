@@ -31,10 +31,6 @@
                                     {{ Form::radio('status_cd', 100, \App\Helpers\Helper::isCheckd(100, $status_cd), ['name' => 'status_cd']) }}
                                     주문취소
                                 </label>
-                                <label class="btn btn-default {{ $status_cd == 101 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('status_cd', 101, \App\Helpers\Helper::isCheckd(101, $status_cd), ['name' => 'status_cd']) }}
-                                    주문신청
-                                </label>
                                 <label class="btn btn-default {{ $status_cd == 102 ? 'active' : '' }} selected_cd">
                                     {{ Form::radio('status_cd', 102, \App\Helpers\Helper::isCheckd(102, $status_cd), ['name' => 'status_cd']) }}
                                     주문완료
