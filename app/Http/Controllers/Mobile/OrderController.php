@@ -104,57 +104,17 @@ class OrderController extends Controller
      */
     public function paymentProcess(Request $request)
     {
-
-
-        //        $validate = Validator::make($request->all(), [
-        //            'item_id' => 'required',        // item seq
-        //            'payment_price' => 'required',  // item 가격
-        //            'payment_method' => 'required', // 결제 방식 11 = 카드, 12 = 실시간 계좌 이체
-        //            'orderer_name' => 'required',   // 주문자 이름
-        //            'orderer_mobile' => 'required',
-        //            'areas' => 'required',          // 정비소 시/도
-        //            'sections' => 'required',       // 정비소 구/군
-        //            'garages' => 'required',        // 정비소명
-        //            'reservation_date' => 'required',// 예약날짜 (Y-m-d)
-        //            'sel_time' => 'required',       // 예약 시간
-        //            'car_number' => 'required',     // 차량 번호
-        //            'brands' => 'required',         // 브랜드 seq
-        //            'models' => 'required',         // 모델 seq
-        //            'details' => 'required',        // 디테일 seq
-        //            'grades' => 'required',         // 등급 seq
-        //        ]);
-        //
-        //        if ($validate->fails())
-        //        {
-        //            foreach ($validate->messages()->getMessages() as $field_name => $messages)
-        //            {
-        //                //                var_dump($messages); // messages are retrieved (publicly)
-        //            }
-        //            return redirect()->back()->with('error', '인증서 신청 정보를 충분히 입력하세요.');
-        //        }
         $orderer = Auth::user();
 
-
-        $datekey = Carbon::now()->format('ymd');
-
-
-//                $order = Order::OrderBy('id', 'DESC')->where('car_number', $request->get('car_number'))->first();
-
-
-//        $garage_info = UserExtra::where('area', $request->get('areas'))
-//        ->where('section', $request->get('sections'))
-//        ->where('name', $request->get('garages'))->first();
         $garage_info = UserExtra::where('users_id', $request->get('garages'))->first();
 
         if (!$garage_info) {
             $garage_info = new UserExtra();
         }
 
-//                if(!$order){
         $order = new Order();
-//                }
+
         $order->car_number = $request->get('car_number');
-        //        $order->cars_id = $order_car->id;
         $order->garage_id = $garage_info->users_id;
         $order->orderer_id = $orderer->id;
         $order->orderer_name = $request->get('orderer_name');
@@ -452,7 +412,6 @@ class OrderController extends Controller
             $price = $decAmt;
             try{
                 //메일전송
-
                 $mail_message = [
                     'enter_date'=>$enter_date, 'garage' => $garage, 'price' => $price
                 ];

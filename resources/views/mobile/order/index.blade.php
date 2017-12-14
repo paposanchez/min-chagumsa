@@ -780,8 +780,6 @@
 
             check_product($(this).data("items_id"));
 
-//        $("#grade-list li").css({'background': '#fff'});
-//        $(this).css({'background': '#efefef'});
             if($("#brands").val() && $("#models").val() && $("#details").val() && $("#grades").val()){
                 $("#car-summary").val(
                     $("#brands_name").val() + ' > ' + $("#models_name").val()  + ' > ' +  $("#details_name").val()  + ' > ' +  $("#grades_name").val()
@@ -908,17 +906,6 @@
         });
 
         /////////////////////// 결제 관련
-
-        // 상품선택
-//    $(document).on("click", ".purchase-item-product", function () {
-//
-//        $('.purchase-item-product').removeClass("active");
-//        $(this).toggleClass("active");
-//
-//        $('#item_id').val($(this).data("index"));
-//        $('#payment_price').val($(this).data("price"));
-//    });
-
 
         $(document).on("click", ".purchase-item-method", function () {
             $('.purchase-item-method').removeClass("active");

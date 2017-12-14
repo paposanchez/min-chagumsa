@@ -96,7 +96,7 @@
                     </div>
                     <div class='cert_detail'>
                         <button class='btn btn-default fa fa-search detail' data-car_number="{{ $order->car_number }}"
-                                data-datekey="{{ \App\Models\Order::find($order->id)->created_at->format('ymd')}}">
+                                data-datekey="{{ $order->created_at->format('ymd')}}">
                             상세보기
                         </button>
                     </div>
@@ -130,8 +130,8 @@
             $('.detail').click(function () {
                 var car_number = $(this).data('car_number');
                 var datekey = $(this).data('datekey');
-                window.open('http://cert.chagumsa.com/' + car_number + '-' + datekey, "", "width=1400, height=1400");
-
+//                window.open('http://cert.chagumsa.com/' + car_number + '-' + datekey, "", "width=1400, height=1400");
+                alert(car_number + '-' + datekey);
             });
 
             $('.open_cd').on('click', function () {
