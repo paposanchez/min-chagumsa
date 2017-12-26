@@ -168,8 +168,6 @@ return [
                 Spatie\Activitylog\ActivitylogServiceProvider::class,
                 //Baum
                 Baum\Providers\BaumServiceProvider::class,
-                // Tags
-                Conner\Tagging\Providers\TaggingServiceProvider::class,
         ],
         /*
         |--------------------------------------------------------------------------

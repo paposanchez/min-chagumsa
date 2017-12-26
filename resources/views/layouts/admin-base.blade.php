@@ -15,9 +15,6 @@
 
         <!-- Styles -->
         {!! Html::style(mix('/assets/css/app.css')) !!}
-        {{ Html::style(mix('/assets/css/vendor.css')) }}
-
-
 
         <!-- Scripts -->
         <script>

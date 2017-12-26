@@ -25,7 +25,6 @@
         "maatwebsite/excel": "^2.1",
         "nesbot/carbon": "^1.22",
         "predis/predis": "^1.1",
-        "rtconner/laravel-tagging": "~2.2",
         "spatie/laravel-activitylog": "^1.12",
         "zizaco/entrust": "dev-master"
     },

@@ -3,11 +3,6 @@
 
     {{-- 헤더 스크립트 --}}
     @section( 'content-header-script' )
-
-        {{ Html::style(Helper::assets( 'themes/v1/web/css/common.css' )) }}
-        {{ Html::style(Helper::assets( 'themes/v1/web/css/sub.css' )) }}
-        {{ Html::script(Helper::assets( 'themes/v1/web/js/common.js' )) }}
-
         @stack('header-script')
     @endsection
 

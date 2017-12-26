@@ -1,7 +1,5 @@
 {
   "/mix.js": "/mix.js",
-  "/assets/vendor/select2/css/core.css": "/assets/vendor/select2/css/core.css",
   "/assets/css/app.css": "/assets/css/app.css",
-  "/assets/css/vendor.css": "/assets/css/vendor.css",
   "/assets/js/app.js": "/assets/js/app.js"
 }

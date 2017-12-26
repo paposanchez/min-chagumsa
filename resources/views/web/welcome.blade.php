@@ -228,27 +228,11 @@
 
 
 @push( 'header-script' )
-{{ Html::style(Helper::assets( 'themes/v1/web/css/main.css' )) }}
-{{ Html::style(Helper::assets( 'themes/v1/web/css/main_new.css' )) }}
 @endpush
 
 @push( 'footer-script' )
-
-{{ Html::script(Helper::assets( 'themes/v1/web/js/main.js' )) }}
-{{ Html::script(Helper::assets( 'themes/v1/web/js/modernizr.custom.53451.js' )) }}
-{{ Html::script(Helper::assets( 'themes/v1/web/js/jquery.gallery.js' )) }}
-
-
 <script type="text/javascript">
-    $(document).ready(function() {
-        $(".main-visual-slide-in .bxslider").bxSlider({
-            controls: true,
-            auto : true,
-            autoControls: false,
-            pager : true,
-            pause : 5000
-        });
-    });
+
 
     $("#counsel-frm").validate({
         messages: {

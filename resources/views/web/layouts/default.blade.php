@@ -3,16 +3,6 @@
 
     {{-- 헤더 스크립트 --}}
     @section( 'content-header-script' )
-
-        {{ Html::style(Helper::assets( 'themes/v1/web/css/common.css' )) }}
-        {{ Html::style(Helper::assets( 'themes/v1/web/css/sub.css' )) }}
-        {{ Html::script(Helper::assets( 'themes/v1/web/js/common.js' )) }}
-        {{ Html::style(Helper::assets( 'themes/v1/web/css/common_new.css' )) }}
-        {{ Html::style(Helper::assets( 'themes/v1/web/css/sub_new.css' )) }}
-        {{ Html::script(Helper::assets( 'themes/v1/web/js/jquery.bxslider.js' )) }}
-
-        <meta name="google-site-verification" content="mTIbOBsbBJcHjCQBPHD-5H6BDQP4xmJHN-TZtkVa8VA" />
-
         @stack('header-script')
     @endsection
 

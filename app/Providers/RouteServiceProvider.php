@@ -17,13 +17,19 @@ class RouteServiceProvider extends ServiceProvider {
 
                 $this->mapCdnRoutes();
                 $this->mapCertRoutes();
+
+
                 $this->mapTechnicianRoutes();
                 $this->mapBcsRoutes();
-                $this->mapAllianceRoutes();
                 $this->mapAdminRoutes();
-                $this->mapApiRoutes();
-                $this->mapMobileRoutes();
+
                 $this->mapWebRoutes();
+
+                // $this->mapAllianceRoutes();
+                $this->mapApiRoutes();
+
+
+
         }
 
         protected function mapCdnRoutes() {
@@ -58,16 +64,16 @@ class RouteServiceProvider extends ServiceProvider {
                 });
         }
 
-        protected function mapAllianceRoutes() {
-                $namespace = $this->namespace . '\Alliance';
-                Route::group([
-                        'middleware' => 'web',
-                        'namespace' => $namespace,
-                        'domain' => 'alliance.' . config('app.domain'),
-                ], function ($router) {
-                        require base_path('routes/alliance.php');
-                });
-        }
+        // protected function mapAllianceRoutes() {
+        //         $namespace = $this->namespace . '\Alliance';
+        //         Route::group([
+        //                 'middleware' => 'web',
+        //                 'namespace' => $namespace,
+        //                 'domain' => 'alliance.' . config('app.domain'),
+        //         ], function ($router) {
+        //                 require base_path('routes/alliance.php');
+        //         });
+        // }
 
         protected function mapBcsRoutes() {
                 $namespace = $this->namespace . '\Bcs';
@@ -102,16 +108,16 @@ class RouteServiceProvider extends ServiceProvider {
                 });
         }
 
-        protected function mapMobileRoutes() {
-                $namespace = $this->namespace . '\Mobile';
-                Route::group([
-                        'middleware' => 'web',
-                        'namespace' => $namespace,
-                        'domain' => 'm.' . config('app.domain'),
-                ], function ($router) {
-                        require base_path('routes/mobile.php');
-                });
-        }
+        // protected function mapMobileRoutes() {
+        //         $namespace = $this->namespace . '\Mobile';
+        //         Route::group([
+        //                 'middleware' => 'web',
+        //                 'namespace' => $namespace,
+        //                 'domain' => 'm.' . config('app.domain'),
+        //         ], function ($router) {
+        //                 require base_path('routes/mobile.php');
+        //         });
+        // }
 
         protected function mapWebRoutes() {
                 $namespace = $this->namespace . '\Web';
