@@ -1,65 +1,131 @@
 {{-- LAYOUT --}}
-@extends( 'layouts.admin-base' )
+@extends( 'layouts.base' )
 
 @section( 'body-title', config("app.name") )
 
 @section('body-class') layout-wide  @endsection
 
+@section( 'content-header-script' )
+
+        <!-- Vendor CSS -->
+        {!! Html::style('/assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/animate.css/animate.min.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') !!}
+
+        @stack('header-script')
+
+@endsection
+
 @section( 'content-header' )
-{{-- 헤더 메뉴 --}}
-@includeIf( 'admin.partials.header' )
+        {{-- 헤더 메뉴 --}}
+        @includeIf( 'admin.partials.header' )
 @endsection
 
 @section( 'content-body' )
 
-@hasSection('breadcrumbs')
-@yield( 'breadcrumbs' )
-@endif
+        <section id="main">
 
-@include('flash::message')
-<div id="body" class="margin-vertical">
-        @yield( 'content' )
-</div>
+                {{-- 본문의 사이드 --}}
+                @includeIf( 'admin.partials.left' )
 
-{{-- 본문의 사이드 --}}
-@includeIf( 'admin.partials.left' )
-@includeIf( 'admin.partials.right' )
+                @includeIf( 'admin.partials.right' )
 
+                @hasSection('breadcrumbs')
+                @yield( 'breadcrumbs' )
+                @endif
 
-<div id="loading">Loading&#8230;</div>
+                @include('flash::message')
+
+                @yield( 'content' )
+
+        </section>
 
 @endsection
-
-
-@section( 'content-header-script' )
-        @stack('header-script')
-@endsection
-
 
 @section( 'content-footer' )
-        @stack( 'footer-script' )
+
         {{-- 푸터 카피라이트 --}}
         @includeIf( 'admin.partials.footer' )
+
+        <!-- Page Loader -->
+        <div class="page-loader">
+            <div class="preloader pls-blue">
+                <svg class="pl-circular" viewBox="25 25 50 50">
+                    <circle class="plc-path" cx="50" cy="50" r="20" />
+                </svg>
+
+                <p>Please wait...</p>
+            </div>
+        </div>
+
+        <!-- Older IE warning message -->
+        <!--[if lt IE 9]>
+            <div class="ie-warning">
+                <h1 class="c-white">Warning!!</h1>
+                <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+                <div class="iew-container">
+                    <ul class="iew-download">
+                        <li>
+                            <a href="http://www.google.com/chrome/">
+                                <img src="img/browsers/chrome.png" alt="">
+                                <div>Chrome</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.mozilla.org/en-US/firefox/new/">
+                                <img src="img/browsers/firefox.png" alt="">
+                                <div>Firefox</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.opera.com">
+                                <img src="img/browsers/opera.png" alt="">
+                                <div>Opera</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.apple.com/safari/">
+                                <img src="img/browsers/safari.png" alt="">
+                                <div>Safari</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                                <img src="img/browsers/ie.png" alt="">
+                                <div>IE (New)</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <p>Sorry for the inconvenience!</p>
+            </div>
+        <![endif]-->
 @endsection
 
-@section( 'content-footer-script' )
-{{ Html::script(Helper::assets( 'js/plugin/chagumsa.js' )) }}
 
-{{-- tracking script --}}
-@if( config('app.analytics'))
-<script type="text/javascript" >
-(function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o), m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-ga('create', "{{ config('app.analytics') }}", 'auto');
-ga('send', 'pageview');
-</script>
-@endif
+
+@section( 'content-footer-script' )
+
+        <!-- Javascript Libraries -->
+        {!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.resize.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/flot.curvedlines/curvedLines.js') !!}
+        {!! Html::script('/assets/vendors/sparklines/jquery.sparkline.min.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/moment/min/moment.min.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/Waves/dist/waves.min.js') !!}
+        {!! Html::script('/assets/vendors/bootstrap-growl/bootstrap-growl.min.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/sweetalert2/dist/sweetalert2.min.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') !!}
+
+        <!-- Placeholder for IE9 -->
+        <!--[if IE 9 ]>
+            <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+        <![endif]-->
+
+        @stack( 'footer-script' )
 @endsection

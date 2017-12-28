@@ -1,95 +1,117 @@
 @extends( 'admin.layouts.default' )
 
 @section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.config.permission')])
+@include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.certificate')])
 @endsection
 
 @section( 'content' )
-    <div class="container-fluid">
+<section id="content">
+        <div class="container">
+                <div class="block-header">
+                        <h2>Table</h2>
 
-        <div class="row margin-bottom">
+                        <ul class="actions">
+                                <li>
+                                        <a href="">
+                                                <i class="zmdi zmdi-trending-up"></i>
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="">
+                                                <i class="zmdi zmdi-check-all"></i>
+                                        </a>
+                                </li>
+                                <li class="dropdown">
+                                        <a href="" data-toggle="dropdown">
+                                                <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
 
-            <div class="col-md-12">
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                        <a href="">Refresh</a>
+                                                </li>
+                                                <li>
+                                                        <a href="">Manage Widgets</a>
+                                                </li>
+                                                <li>
+                                                        <a href="">Widgets Settings</a>
+                                                </li>
+                                        </ul>
+                                </li>
+                        </ul>
 
-                <p class="form-control-static">
-                    {!! trans('common.search-result', ['count' => '<span class="text-danger">'.number_format($entrys->total()).'</span>']) !!}
-                </p>
+                </div>
 
-                <table class="table text-middle text-center">
-                    <colgroup>
-                        <col width="10%">
-                        <col width="20%" class="">
-                        <col width="*" class=" ">
-                        <col width="10%" class="">
-                        <col width="10%">
-                    </colgroup>
+                <div class="card">
+                        <div class="card-header">
+                                <h2>Basic Table
+                                        <small>Basic example without any additional modification classes</small>
+                                </h2>
+                        </div>
 
-                    <thead>
-                    <tr class="active">
-                        <th class="text-center">#</th>
-                        <th class="text-center">{{ trans('admin/permission.name') }}</th>
-                        <th class="">{{ trans('admin/permission.description') }}</th>
-                        <th class="text-center">{{ trans('admin/permission.created_at') }}</th>
-                        <th class="text-center">{{ trans('admin/permission.action') }}</th>
-                    </tr>
-                    </thead>
+                        <div class="card-body">
+                                <table class="table text-center">
+                                        <colgroup>
+                                                <col width="10%">
+                                                <col width="20%" class="">
+                                                <col width="*" class=" ">
+                                                <col width="10%" class="">
+                                                <col width="10%">
+                                        </colgroup>
 
-                    <tbody>
+                                        <thead>
+                                                <tr class="active">
+                                                        <th class="text-center">#</th>
+                                                        <th class="text-center">{{ trans('admin/permission.name') }}</th>
+                                                        <th class="">{{ trans('admin/permission.description') }}</th>
+                                                        <th class="text-center">{{ trans('admin/permission.created_at') }}</th>
+                                                        <th class="text-center">{{ trans('admin/permission.action') }}</th>
+                                                </tr>
+                                        </thead>
 
-                    @unless(count($entrys) >0)
-                        <tr>
-                            <td colspan="5" class="no-result">{{ trans('common.no-result') }}</td>
-                        </tr>
-                    @endunless
+                                        <tbody>
 
-                    @foreach ($entrys as $key => $data)
-                        <tr>
-                            <td>{{ $data->name }}</td>
+                                                @unless(count($entrys) >0)
+                                                <tr>
+                                                        <td colspan="5" class="no-result">{{ trans('common.no-result') }}</td>
+                                                </tr>
+                                                @endunless
 
-                            <td>{{ $data->display_name }}</td>
+                                                @foreach ($entrys as $key => $data)
+                                                <tr>
+                                                        <td>{{ $data->name }}</td>
 
-                            <td class="text-left">{{ $data->description }}</td>
+                                                        <td>{{ $data->display_name }}</td>
 
-                            <td>{{ $data->created_at->format('Y.m.d') }}</td>
+                                                        <td class="text-left">{{ $data->description }}</td>
 
-                            <td>
-                                <a href="{{ route('permission.edit', $data->id) }}" class="btn btn-default"
-                                   data-tooltip="{pos:'top'}"
-                                   title="{{ trans('common.button.edit') }}">{{ trans('common.button.edit') }}</a>
-                            </td>
-                        </tr>
-                    @endforeach
+                                                        <td>{{ $data->created_at->format('Y.m.d') }}</td>
 
-                    </tbody>
-                </table>
+                                                        <td>
+                                                                <a href="{{ route('permission.edit', $data->id) }}" class="btn btn-default"
+                                                                        data-tooltip="{pos:'top'}"
+                                                                        title="{{ trans('common.button.edit') }}">{{ trans('common.button.edit') }}</a>
+                                                                </td>
+                                                        </tr>
+                                                        @endforeach
 
-            </div>
+                                                </tbody>
+                                        </table>
+                                </div>
 
-        </div>
+                                {{--page navigation--}}
+                                {!! $entrys->render() !!}
 
+                        </div>
 
-        <div class="row">
-
-            <div class="col-sm-6">
-
-                <a href="{{ route('permission.create') }}"
-                   class="btn btn-primary">{{ trans('common.button.create') }}</a>
-
-            </div>
-
-            <div class="col-sm-6 text-right">
-                {!! $entrys->render() !!}
-            </div>
-
-        </div>
-
-    </div>
-@endsection
+                </div>
+        </section>
+        @endsection
 
 
+        @push( 'header-script' )
+        @endpush
 
-@section( 'footer-script' )
-    <script type="text/javascript">
 
-    </script>
-@endsection
+        @push( 'footer-script' )
+        @endpush

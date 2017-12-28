@@ -1,56 +1,101 @@
 <?php
 
+
+// Information
+Route::get('information/index', function () {
+        return view('web.information.index');
+})->name('information.index');
+Route::get('information/diagnosis', function () {
+        return view('web.information.diagnosis');
+})->name('information.diagnosis');
+Route::get('information/certificate', function () {
+        return view('web.information.certificate');
+})->name('information.certificate');
+Route::get('information/warranty', function () {
+        return view('web.information.warranty');
+})->name('information.warranty');
+
+Route::get('information/guide', function () {
+        return view('web.information.guide');
+})->name('information.guide');
+Route::get('information/price', 'InformationController@price')->name('information.price');
+Route::get('/information/find-garage', 'InformationController@findGarage')->name('information.find-garage');
+Route::get('chagumsa-info', function () {
+        return view('web.information.info');
+})->name('chagumsa-info');
+
+
+
+// Agreement
+Route::get('agreement/usage', function () {
+        return view('web.agreement.usage');
+})->name('agreement.usage');
+Route::get('agreement/term', function () {
+        return view('web.agreement.term');
+})->name('agreement.term');
+Route::get('agreement/privacy', function () {
+        return view('web.agreement.privacy');
+})->name('agreement.privacy');
+
+
+
+
+
+
+
+
+
 // 마이페이지
 Route::group(['middleware' => ['auth']], function () {
-    Route::group(['namespace' => 'Mypage', 'prefix' => 'mypage', 'as' => 'mypage.'], function () {
-        Route::post('profile/chk-pwd', ['as' => 'profile.chk-pwd', 'uses' => 'ProfileController@chkPwd']);
-        Route::resource('profile', 'ProfileController');
-        Route::resource('history', 'HistoryController');
-        Route::resource('order', 'OrderController');
-        Route::resource('certificate', 'CertificateController', ['only' => 'index']);
+        Route::group(['namespace' => 'Mypage', 'prefix' => 'mypage', 'as' => 'mypage.'], function () {
+                Route::post('profile/chk-pwd', ['as' => 'profile.chk-pwd', 'uses' => 'ProfileController@chkPwd']);
+                Route::resource('profile', 'ProfileController');
+                Route::resource('history', 'HistoryController');
+                Route::resource('order', 'OrderController');
+                Route::resource('certificate', 'CertificateController', ['only' => 'index']);
 
-        Route::post('/order/cancel', 'OrderController@cancel')->name('order.cancel');
+                Route::post('/order/cancel', 'OrderController@cancel')->name('order.cancel');
 
-        Route::get('/order/change-car/{order_id}', 'OrderController@changeCar');
-        Route::post('/order/change-car/{order_id}', 'OrderController@updateCar');
-        Route::get('/order/change-reservation/{order_id}', 'OrderController@changeReservation');
-        Route::post('/order/change-reservation/{order_id}', 'OrderController@updateReservation');
-
-
-        Route::get('/leave', 'ProfileController@leaveForm');
-        Route::post('/leave', 'ProfileController@leave')->name('profile.leave');
-
-        Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd');
-    });
-
-    //SMS관련
-    Route::post('/order/send-sms', 'OrderController@sendSms')->name('order.send-sms');
-    Route::post('/order/is-sms', 'OrderController@isSms')->name('order.is-sms');
-    Route::post('/order/delete-sms', 'OrderController@deleteSms')->name('order.delete-sms');
+                Route::get('/order/change-car/{order_id}', 'OrderController@changeCar');
+                Route::post('/order/change-car/{order_id}', 'OrderController@updateCar');
+                Route::get('/order/change-reservation/{order_id}', 'OrderController@changeReservation');
+                Route::post('/order/change-reservation/{order_id}', 'OrderController@updateReservation');
 
 
+                Route::get('/leave', 'ProfileController@leaveForm');
+                Route::post('/leave', 'ProfileController@leave')->name('profile.leave');
 
-    // 주문하기
-    Route::match(['get', 'post'], 'order/complete', 'OrderController@complete')->name("order.complete");
-    Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
-    Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");
-    Route::get('order/factory/{page?}', 'OrderController@factory')->name("order.factory");
-    Route::post('order/payment-popup', 'OrderController@paymentPopup')->name("order.payment-popup");
+                Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd');
+        });
 
-    Route::get('/order/get-models', 'OrderController@getModels')->name("order.get_models");
-    Route::get('/order/get-details', 'OrderController@getDetails')->name("order.get_details");
-    Route::get('/order/get-grades', 'OrderController@getGrades')->name("order.get_grades");
-    Route::get('/order/sel-item', 'OrderController@selItem')->name("order.sel_item");
-    Route::get('/order/get-section', 'OrderController@getSection')->name("order.get_section");
-    Route::get('/order/get-address', 'OrderController@getAddress')->name("order.get_address");
-    Route::get('/order/get-full-address', 'OrderController@getFullAddress')->name("order.get_full_address");
-    Route::get('/order/car-validation', 'OrderController@carValidation');
+        //SMS관련
+        Route::post('/order/send-sms', 'OrderController@sendSms')->name('order.send-sms');
+        Route::post('/order/is-sms', 'OrderController@isSms')->name('order.is-sms');
+        Route::post('/order/delete-sms', 'OrderController@deleteSms')->name('order.delete-sms');
 
 
-    //쿠폰인증
-    Route::post('/order/coupon-verify', 'OrderController@couponVerify')->name("order.coupon-verify");
-    //쿠폰 주문 등록
-    Route::post('/order/coupon-process', 'OrderController@couponProcess')->name("order.coupon-process");
+
+        // 주문하기
+        Route::match(['get', 'post'], 'order/complete', 'OrderController@complete')->name("order.complete");
+        Route::post('order/reservation', 'OrderController@reservation')->name("order.reservation");
+        Route::get('order/verificate/{mobile}', 'OrderController@verificate')->name("order.verificate");
+        Route::get('order/factory/{page?}', 'OrderController@factory')->name("order.factory");
+        Route::post('order/payment-popup', 'OrderController@paymentPopup')->name("order.payment-popup");
+
+        Route::get('/order/get-models', 'OrderController@getModels')->name("order.get_models");
+        Route::get('/order/get-details', 'OrderController@getDetails')->name("order.get_details");
+        Route::get('/order/get-grades', 'OrderController@getGrades')->name("order.get_grades");
+        Route::get('/order/sel-item', 'OrderController@selItem')->name("order.sel_item");
+        Route::get('/order/get-section', 'OrderController@getSection')->name("order.get_section");
+        Route::get('/order/get-address', 'OrderController@getAddress')->name("order.get_address");
+        Route::get('/order/get-full-address', 'OrderController@getFullAddress')->name("order.get_full_address");
+        Route::get('/order/car-validation', 'OrderController@carValidation');
+
+
+        //쿠폰인증
+        Route::post('/order/coupon-verify', 'OrderController@couponVerify')->name("order.coupon-verify");
+        //쿠폰 주문 등록
+        Route::post('/order/coupon-process', 'OrderController@couponProcess')->name("order.coupon-process");
 
 
 
@@ -73,42 +118,16 @@ Route::match(['GET', 'POST'], 'payment/pay-result', 'PaymentController@payCallba
 Route::match(['GET', 'POST'], 'order/pay-callback', 'OrderController@payResult')->name('payment.pay-callback');
 Route::match(['GET', 'POST'], 'order/payment-result', 'OrderController@paymentResult')->name("order.payment-result");
 
-// Information
-Route::get('information/index', function () {
-    return view('web.information.index');
-})->name('information.index');
-Route::get('information/certificate', function () {
-    return view('web.information.certificate');
-})->name('information.certificate');
-Route::get('information/guide', function () {
-    return view('web.information.guide');
-})->name('information.guide');
-Route::get('information/price', 'InformationController@price')->name('information.price');
-Route::get('/information/find-garage', 'InformationController@findGarage')->name('information.find-garage');
-Route::get('chagumsa-info', function () {
-    return view('web.information.info');
-})->name('chagumsa-info');
 
-
-// Agreement
-Route::get('agreement/usage', function () {
-    return view('web.agreement.usage');
-})->name('agreement.usage');
-Route::get('agreement/term', function () {
-    return view('web.agreement.term');
-})->name('agreement.term');
-Route::get('agreement/privacy', function () {
-    return view('web.agreement.privacy');
-})->name('agreement.privacy');
 
 // 커뮤니티
 Route::get('community', function () {
-    return redirect('community/notice');
+        return redirect('community/notice');
 });
 Route::group(['namespace' => 'Community', 'prefix' => 'community'], function () {
-    Route::resource('notice', 'NoticeController');
-    Route::resource('faq', 'FaqController');
-    Route::resource('inquire', 'InquireController');
+        Route::resource('notice', 'NoticeController');
+        Route::resource('faq', 'FaqController');
+        Route::resource('inquire', 'InquireController');
 });
 
 Route::get('search{q?}', 'SearchController@index')->name('search.index');

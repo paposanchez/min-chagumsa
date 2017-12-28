@@ -1,109 +1,131 @@
 @extends( 'admin.layouts.default' )
 
 @section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.config.board')])
+@include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.certificate')])
 @endsection
 
 @section( 'content' )
-    <div class="container-fluid">
+<section id="content">
+        <div class="container">
+                <div class="block-header">
+                        <h2>Table</h2>
 
-        <div class="row margin-bottom">
+                        <ul class="actions">
+                                <li>
+                                        <a href="">
+                                                <i class="zmdi zmdi-trending-up"></i>
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="">
+                                                <i class="zmdi zmdi-check-all"></i>
+                                        </a>
+                                </li>
+                                <li class="dropdown">
+                                        <a href="" data-toggle="dropdown">
+                                                <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
 
-            <div class="col-md-12">
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                        <a href="">Refresh</a>
+                                                </li>
+                                                <li>
+                                                        <a href="">Manage Widgets</a>
+                                                </li>
+                                                <li>
+                                                        <a href="">Widgets Settings</a>
+                                                </li>
+                                        </ul>
+                                </li>
+                        </ul>
 
-                <p class="form-control-static">
-                    {!! trans('common.search-result', ['count' => '<span class="text-danger">'.number_format($entrys->total()).'</span>']) !!}
-                </p>
+                </div>
 
-                <table class="table text-middle text-center">
-                    <colgroup>
-                        <col width="10%">
-                        <col width="*">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                    </colgroup>
+                <div class="card">
+                        <div class="card-header">
+                                <h2>Basic Table
+                                        <small>Basic example without any additional modification classes</small>
+                                </h2>
+                        </div>
 
-                    <thead>
-                    <tr class="active">
-                        <th class="text-center">#</th>
-                        <th class="text-center">게시판명</th>
-                        <th class="text-center">게시물수</th>
-                        <th class="text-center">사용여부</th>
-                        <th class="text-center">등록일</th>
-                        <th class="text-center">처리</th>
-                    </tr>
-                    </thead>
+                        <div class="card-body">
+                                <table class="table text-center">
+                                        <colgroup>
+                                            <col width="10%">
+                                            <col width="*">
+                                            <col width="10%">
+                                            <col width="10%">
+                                            <col width="10%">
+                                            <col width="10%">
+                                        </colgroup>
 
-                    <tbody>
-                    @unless(count($entrys) >0)
-                        <tr>
-                            <td colspan="5" class="no-result">{{ trans('common.no-result') }}</td>
-                        </tr>
-                    @endunless
+                                        <thead>
+                                        <tr class="active">
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">게시판명</th>
+                                            <th class="text-center">게시물수</th>
+                                            <th class="text-center">사용여부</th>
+                                            <th class="text-center">등록일</th>
+                                            <th class="text-center">처리</th>
+                                        </tr>
+                                        </thead>
 
-                    @foreach($entrys as $n => $data)
-                        <tr>
-                            <td class="">
-                                {{ $data->id }}
-                            </td>
+                                        <tbody>
+                                        @unless(count($entrys) >0)
+                                            <tr>
+                                                <td colspan="5" class="no-result">{{ trans('common.no-result') }}</td>
+                                            </tr>
+                                        @endunless
 
-                            <td class="">
-                                {{ $data->name }}
-                            </td>
+                                        @foreach($entrys as $n => $data)
+                                            <tr>
+                                                <td class="">
+                                                    {{ $data->id }}
+                                                </td>
 
-                            <td class="">
-                                <a href="{{ route("post.index", ['board_id'=> $data->id]) }}">{{ $data->post_count() }}</a>
-                            </td>
+                                                <td class="">
+                                                    {{ $data->name }}
+                                                </td>
 
-                            <td class="">
-                                {{ $data->status->display() }}
-                            </td>
+                                                <td class="">
+                                                    <a href="{{ route("posting.index", ['board_id'=> $data->id]) }}">{{ $data->post_count() }}</a>
+                                                </td>
 
-                            <td class="">
-                                {{ $data->created_at->format('Y.m.d') }}
-                            </td>
+                                                <td class="">
+                                                    {{ $data->status->display() }}
+                                                </td>
+
+                                                <td class="">
+                                                    {{ $data->created_at->format('Y.m.d') }}
+                                                </td>
 
 
-                            <td>
-                                <a href="{{ route('board.edit', $data->id) }}" class="btn btn-default"
-                                   data-tooltip="{pos:'top'}" title="수정">수정</a>
-                            </td>
+                                                <td>
+                                                    <a href="{{ route('board.edit', $data->id) }}" class="btn btn-default"
+                                                       data-tooltip="{pos:'top'}" title="수정">수정</a>
+                                                </td>
 
-                        </tr>
-                    @endforeach
+                                            </tr>
+                                        @endforeach
 
-                    </tbody>
+                                        </tbody>
+                                </table>
+                        </div>
 
-                </table>
+                        {{--page navigation--}}
+                        {!! $entrys->render() !!}
 
-            </div>
+                </div>
 
         </div>
-
-
-        <div class="row">
-
-            <div class="col-sm-6">
-
-                <a href="{{ route('board.create') }}" class="btn btn-primary">등록</a>
-
-            </div>
-
-            <div class="col-sm-6 text-right">
-                {!! $entrys->render() !!}
-            </div>
-
-        </div>
-
-    </div>
+</section>
 @endsection
 
 
+@push( 'header-script' )
+@endpush
 
-@section( 'footer-script' )
-    <script type="text/javascript">
 
-    </script>
-@endsection
+@push( 'footer-script' )
+@endpush

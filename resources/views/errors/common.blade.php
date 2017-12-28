@@ -1,25 +1,65 @@
 @extends( 'layouts.error' )
 
 @section( 'content' )
-<div class="container">
-        <div class="col-md-10 col-md-offset-1">
-                <div class="text-middle text-center">
-                        <h1 class=" text-lighter" style="font-size:120px;">XXX</h1>
-                        <h5 class="text-muted text-light">보시면 안되는 에러가 발생을 했네요. 최대한 빨리 해결하겠습니다.</h5>
-                        <br/>
-                        <a href="/" class="btn btn-default">메인으로 돌아가기</a>
-                </div>
 
-                <br/>
-                @if(config('app.debug'))
-                <!-- detail error messge -->
-                <code>
-                <h6>{{ $e->getMessage() }}</h6>
-                file : {{ $e->getFile() }}<br/>
-                line : {{ $e->getLine() }}
-                </code>
-                @endif
+<div class="four-zero">
+    <div class="fz-block">
+        <h2>XXX</h2>
+        <small>대단히 죄송합니다. 서비스관리자에게 문의하세요.</small>
 
+        <div class="fzb-links">
+            <a href="index.html"><i class="zmdi zmdi-arrow-back"></i></a>
+            <a href="index.html"><i class="zmdi zmdi-home"></i></a>
         </div>
+    </div>
 </div>
+
+<!-- Older IE warning message -->
+<!--[if lt IE 9]>
+    <div class="ie-warning">
+        <h1 class="c-white">Warning!!</h1>
+        <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+        <div class="iew-container">
+            <ul class="iew-download">
+                <li>
+                    <a href="http://www.google.com/chrome/">
+                        <img src="img/browsers/chrome.png" alt="">
+                        <div>Chrome</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.mozilla.org/en-US/firefox/new/">
+                        <img src="img/browsers/firefox.png" alt="">
+                        <div>Firefox</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://www.opera.com">
+                        <img src="img/browsers/opera.png" alt="">
+                        <div>Opera</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.apple.com/safari/">
+                        <img src="img/browsers/safari.png" alt="">
+                        <div>Safari</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                        <img src="img/browsers/ie.png" alt="">
+                        <div>IE (New)</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <p>Sorry for the inconvenience!</p>
+    </div>
+<![endif]-->
 @endsection
+
+
+@push( 'header-script' )
+        {!! Html::style('/assets/vendors/bower_components/animate.css/animate.min.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') !!}
+@endpush

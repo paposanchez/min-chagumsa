@@ -11,7 +11,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
 
-class CommentController1 extends Controller {
+class CommentController extends Controller {
 
     /**
      * @param Request $request

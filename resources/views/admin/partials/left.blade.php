@@ -1,67 +1,125 @@
-<div id="aside-left" class="aside aside-left ">
+<aside id="sidebar" class="sidebar c-overflow">
+        <div class="s-profile">
+                <a href="" data-ma-action="profile-menu-toggle">
+                        <div class="sp-pic">
+                                <!-- <img src="/assets/img/demo/profile-pics/1.jpg" alt=""> -->
+                                {!! Html::image('/avatar/'.Auth::id()) !!}
+                        </div>
 
-   <div class="aside-container perfect-scrollbar">
-           <div class="aside-profile">
+                        <div class="sp-info">
+                                {{ Auth::user()->name }}
 
-               {{ Helper::imageTag('/avatar/'.Auth::id(), 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
+                                <i class="zmdi zmdi-caret-down"></i>
+                        </div>
+                </a>
 
-
-               <div class="aside-profile-info">
-                   <a href="{{ route("user.edit", [Auth::id()]) }}" class="aside-profile-info-name">{{ Auth::user()->name }}</a>
-                   <a href="{{ url("logout") }}" class="text-danger"><i class="fa fa-power-off"></i></a>
-                   <small class="aside-profile-info-desc">{{ Auth::user()->email }} <span class="text-info">/ {{ Auth::user()->status->display() }}</span></small>
-               </div>
-
-           </div>
-
-           <div class="navbar navbar-default">
-
-               <div class="navbar-inner">
-
-                   <ul class="nav navbar-nav">
-
-                       <li class="{{ Request::is('dashboard*') ? ' active':''}}"><a href="/dashboard"><i class="fa fa-gear"></i><span class="nav-label">{{ trans('admin/dashboard.title') }}</span></a></li>
-
-                       <li class="{{ Request::is('order*') ? ' active':''}}"><a href="/order"><i class="fa fa-shopping-cart"></i><span class="nav-label">{{ trans('admin/order.title') }}</span></a></li>
-
-                       <li class="{{ Request::is('diagnosis*') ? ' active':''}}"><a href="/diagnosis"><i class="fa fa-search"></i><span class="nav-label">{{ trans('admin/diagnosis.title') }}</span></a></li>
-
-                       <li class="{{ Request::is('certificate*') ? ' active':''}}"><a href="/certificate"><i class="fa fa-certificate"></i><span class="nav-label">{{ trans('admin/certificate.title') }}</span></a></li>
-
-                       <li class="{{ Request::is('calculation*') ? ' active':''}}"><a href="/calculation"><i class="fa fa-money"></i><span class="nav-label">{{ trans('admin/calculation.title') }}</span></a></li>
-
-                       <li class="{{ Request::is('item*') ? ' active':''}}"><a href="/item"><i class="fa fa-archive"></i><span class="nav-label">{{ trans('admin/item.title') }}</span></a></li>
-
-                       <li class="{{ Request::is('user*') ? ' active':''}}"><a href="/user"><i class="fa fa-group"></i><span class="nav-label">{{ trans('admin/user.title') }}</span></a></li>
-
-                       <li class="{{ Request::is('post*') ? ' active':''}}"><a href="/post"><i class="fa fa-pencil"></i><span class="nav-label">{{ trans('admin/post.title') }}</span></a></li>
-
-                       <li class="{{ Request::is('counsel*') ? ' active':''}}"><a href="/counsel"><i class="fa fa-commenting" aria-hidden="true"></i><span class="nav-label">상담</span></a></li>
-
-                       <li class="{{ Request::is('sms*') ? ' active':''}}"><a href="/sms"><i class="fa fa-comments" aria-hidden="true"></i><span class="nav-label">SMS</span></a></li>
-
-                       <li class="{{ Request::is('coupon*') ? ' active':''}}"><a href="/coupon"><i class="fa fa-qrcode"></i><span class="nav-label">쿠폰</span></a></li>
-
-                       <li class="dropdown {{ Request::is('config*') ? ' active':''}}">
-                           <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-gears"></i><span class="nav-label">{{ trans('admin/config.title') }}</span><b class="caret"></b></a>
-                           <ul class="dropdown-menu">
-                               <li class="{{ Request::is('config/code*') ? ' active':''}}"><a href="{{ url('/config/code') }}"><span class="nav-label">{{ trans('admin/code.title') }}</span></a></li>
-                               <li class="{{ Request::is('config/role*') ? ' active':''}}"><a href="{{ url('/config/role') }}"><span class="nav-label">{{ trans('admin/role.title') }}</span></a></li>
-                               {{--<li class="{{ Request::is('config/permission*') ? ' active':''}}"><a href="{{ url('/config/permission') }}"><span class="nav-label">{{ trans('admin/permission.title') }}</span></a></li>--}}
-                               <li class="{{ Request::is('config/board*') ? ' active':''}}"><a href="{{ url('/config/board') }}"><span class="nav-label">{{ trans('admin/board.title') }}</span></a></li>
-                               {{--<li class="{{ Request::is('config/tag*') ? ' active':''}}"><a href="{{ url('/config/tag') }}"><span class="nav-label">{{ trans('admin/tag.title') }}</span></a></li>--}}
-                           </ul>
-                       </li>
-
-                   </ul>
-
-               </div>
-
-           </div>
-
-           <div class="aside-footer">
-
-           </div>
-   </div>
-
+                <ul class="main-menu">
+                        <li>
+                                <a href="{{ route('profile.index') }}"><i class="zmdi zmdi-account"></i> 프로필</a>
+                        </li>
+                        <!-- <li>
+                        <a href=""><i class="zmdi zmdi-input-antenna"></i> Privacy Settings</a>
+                </li> -->
+                <!-- <li>
+                <a href=""><i class="zmdi zmdi-settings"></i> 설정</a>
+        </li> -->
+        <li>
+                <a href="{{ route('logout') }}"><i class="zmdi zmdi-lock"></i> 로그아웃</a>
+        </li>
+</ul>
 </div>
+
+<ul class="main-menu">
+        <li class="{{ Request::is('dashboard*') ? ' active':''}}">
+                <a href="{{ route('dashboard') }}"><i class="zmdi zmdi-home"></i> 대시보드</a>
+        </li>
+
+        <li class="sub-menu {{ Request::is('order*') ? ' active':''}}">
+                <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-shopping-cart"></i> 주문관리</a>
+                <ul>
+                        <li><a href="{{ route('order.index') }}">전체목록</a></li>
+                        <li><a href="{{ route('order.create') }}">신규주문</a></li>
+                </ul>
+        </li>
+
+        <li class="{{ Request::is('diagnosis*') ? ' active':''}}"><a href="{{ route('diagnosis.index') }}"><i class="zmdi zmdi-car"></i> 진단관리</a></li>
+        <li class="{{ Request::is('certificate*') ? ' active':''}}"><a href="{{ route('certificate.index') }}"><i class="zmdi zmdi-assignment-account"></i> 인증관리</a></li>
+        <li class="{{ Request::is('warranty*') ? ' active':''}}"><a href="{{ route('warranty.index') }}"><i class="zmdi zmdi-assignment-check"></i> 보증관리</a></li>
+        <li class="{{ Request::is('purchase*') ? ' active':''}}"><a href="{{ route('purchase.index') }}"><i class="zmdi zmdi-card"></i> 결제관리</a></li>
+        <li class="{{ Request::is('calculation*') ? ' active':''}}"><a href="{{ route('calculation.index') }}"><i class="zmdi zmdi-local-atm"></i> 정산관리</a></li>
+
+        <li class="sub-menu {{ Request::is('user*') ? ' active':''}}">
+                <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-account-box"></i> 회원관리</a>
+                <ul>
+                        <li><a href="{{ route('user.index') }}">전체목록</a></li>
+                        <li><a href="{{ route('user.create') }}">신규회원</a></li>
+                </ul>
+        </li>
+
+
+        <li class="sub-menu {{ Request::is('posting*') ? ' active':''}}">
+                <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-format-list-numbered"></i> 게시물관리</a>
+                <ul>
+                        <li><a href="{{ route('posting.index') }}">전체목록</a></li>
+                        <li><a href="{{ route('posting.create') }}">신규게시물</a></li>
+                        <li><a href="{{ route('comment.index') }}">전체코멘트</a></li>
+                </ul>
+        </li>
+
+        <li class="sub-menu {{ Request::is('notify*') ? ' active':''}}">
+                <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-notifications-active"></i> 알림관리</a>
+                <ul>
+                        <li><a href="{{ route('notify.index') }}">전체목록</a></li>
+                        <li><a href="{{ route('notify.create') }}">신규알림</a></li>
+                </ul>
+        </li>
+
+        <li class="sub-menu {{ Request::is('notify*') ? ' active':''}}">
+                <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-local-activity"></i> 쿠폰관리</a>
+                <ul>
+                        <li><a href="{{ route('coupon.index') }}">전체목록</a></li>
+                        <li><a href="{{ route('coupon.create') }}">신규쿠폰</a></li>
+                </ul>
+        </li>
+
+
+        <li class="sub-menu {{ Request::is('setting*') ? ' active':''}}">
+                <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-settings"></i> 기타관리</a>
+                <ul>
+
+                        <li><a href="{{ route('code.index') }}">코드관리</a></li>
+                        <li><a href="{{ route('item.index') }}">상품관리</a></li>
+
+                        <li class="sub-menu">
+                                <a href="" data-ma-action="submenu-toggle">역활관리</a>
+                                <ul>
+                                        <li><a href="{{ route('role.index') }}">전체목록</a></li>
+                                        <li><a href="{{ route('role.create') }}">신규역활</a></li>
+                                </ul>
+                        </li>
+
+                        <li class="sub-menu">
+                                <a href="" data-ma-action="submenu-toggle">권한관리</a>
+                                <ul>
+                                        <li><a href="{{ route('permission.index') }}">전체목록</a></li>
+                                        <li><a href="{{ route('permission.create') }}">신규권한</a></li>
+                                </ul>
+                        </li>
+
+                        <li class="sub-menu">
+                                <a href="" data-ma-action="submenu-toggle">게시판관리</a>
+                                <ul>
+                                        <li><a href="{{ route('board.index') }}">전체목록</a></li>
+                                        <li><a href="{{ route('board.create') }}">신규게시판</a></li>
+                                </ul>
+                        </li>
+
+
+
+                </ul>
+        </li>
+
+
+
+</ul>
+</aside>

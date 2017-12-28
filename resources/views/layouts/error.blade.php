@@ -1,23 +1,19 @@
 {{-- LAYOUT --}}
 @extends( 'layouts.base' )
 
-@section('body-class') layout-error @endsection
+@section('body-class')
+@endsection
 
 @section( 'body-title' ){{ config("app.name") }}@endsection
 
-@section( 'content-body' )
-<div id="content">
-        @yield( 'content' )
-</div>
-
-{{-- 본문의 사이드 --}}
+@section( 'content-header-script' )
+        @stack('header-script')
 @endsection
 
-@section( 'content-header-script' )
-@yield('header-script')
+@section( 'content-body' )
+        @yield( 'content' )
 @endsection
 
 @section( 'content-footer-script' )
-{{-- 본문에서 오는 푸터 --}}
-@yield( 'footer-script' )
+        @stack( 'footer-script' )
 @endsection

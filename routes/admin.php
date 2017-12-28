@@ -2,14 +2,65 @@
 // After login
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
-        //    Route::resource('bcs-post', 'BcsPostController');
-        Route::get('test', 'TestController@index')->name("test.index");
-        Route::get('/test/create-order', 'TestController@createOrder')->name("test.create-order");
+        // Route::resource('bcs-post', 'BcsPostController');
+        // Route::get('test', 'TestController@index')->name("test.index");
+        // Route::get('/test/create-order', 'TestController@createOrder')->name("test.create-order");
 
 
 
         // 대시보드
-        Route::get('dashboard', 'DashboardController');
+        Route::get('dashboard', 'DashboardController')->name("dashboard");
+
+
+        // 환경설정
+        Route::group(['prefix' => 'config'], function () {
+                // 기본코드테이블
+                Route::resource('code', 'CodeController');
+                // 사용자로그
+                Route::resource('active', 'ActiveController');
+                //권한
+                Route::resource('permission', 'PermissionController');
+                // 역활
+                Route::resource('role', 'RoleController');
+                // 게시판설정
+                Route::resource('board', 'BoardController');
+                // 아이템 관리
+                Route::resource('item', 'ItemController');
+
+                // tag
+                //Route::resource('tag', 'TagController');
+        });
+
+        // 주문관리
+        Route::resource('order', 'OrderController');
+
+        Route::resource('diagnosis', 'DiagnosesController');
+        Route::resource('warranty', 'WarrantyController');
+
+        Route::resource('purchase', 'PurchaseController');
+
+        // 정산관리
+        Route::resource('calculation', 'CalculationController');
+
+        // 게시물
+        Route::resource('posting', 'PostingController');
+
+        // 코멘트
+        Route::resource('comment', 'CommentController');
+
+        // 알림
+        Route::resource('notify', 'NotifyController');
+        
+        //쿠폰
+        Route::resource('coupon', 'CouponController', ['only' => ['index', 'store', 'create', 'destroy']]);
+
+        // 사용자
+        Route::resource('user', 'UserController', ['except' => ['show']]);
+        Route::get('user/search_garage', 'UserController@searchGarage')->name("user.search_garage");
+        // 프로파일
+        Route::resource('profile', 'ProfileController');
+
+
 
         // JSON : 회원목록
         Route::get('json/users', function () {
@@ -54,8 +105,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
         Route::post('/order/diagnosing', 'OrderController@diagnosing');
 
-        // 주문관리
-        Route::resource('order', 'OrderController');
+
 
         // 진단관리
         Route::post('/diagnosis/delete-file/{id}', 'DiagnosesController@fileDelete');
@@ -64,7 +114,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::post('/diagnosis/update-comment', 'DiagnosesController@updateComment');
         Route::post('diagnosis/update-code', 'DiagnosesController@updateCode');
         Route::post('diagnosis/complete', 'DiagnosesController@complete');
-        Route::resource('diagnosis', 'DiagnosesController');
+
 
         // 인증서
         Route::post('certificate/{id?}/assign', 'CertificateController@assign');
@@ -73,50 +123,18 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('certificate/{order_id}/{page?}/{flush?}', 'CertificateController@show');
         Route::resource('certificate', 'CertificateController', ['only' => ['index', 'update']]);
 
-        // 아이템 관리
-        Route::resource('item', 'ItemController');
 
-        // 정산관리
-        Route::resource('calculation', 'CalculationController');
 
-        //쿠폰
-        Route::resource('coupon', 'CouponController', ['only' => ['index', 'store', 'create', 'destroy']]);
-        Route::post('coupon/user-info', 'CouponController@getUserInfo')->name('coupon/user-info');
 
         // SMS
         Route::resource('sms', 'SmsController',['only' => ['index']]);
         Route::post('send-sms', 'SmsController@sendSms')->name('send-sms');
         Route::get('total-bcs', 'SmsController@totalBcs')->name('total-bcs');
 
-        // 사용자
-        Route::resource('user', 'UserController', ['except' => ['show']]);
-        Route::get('user/search_garage', 'UserController@searchGarage')->name("user.search_garage");
 
-        // 게시물
-        Route::resource('post', 'PostController');
-
-        // 코멘트
-//        Route::resource('comment', 'CommentController');
-
-        // 환경설정
-        Route::group(['prefix' => 'config'], function () {
-                // 기본코드테이블
-                Route::resource('code', 'CodeController');
-                // 역활
-                Route::resource('role', 'RoleController');
-                // 게시판설정
-                Route::resource('board', 'BoardController');
-                // 사용자로그
-                Route::resource('active', 'ActiveController');
-
-                //권한
-                //Route::resource('permission', 'PermissionController');
-                // tag
-                //Route::resource('tag', 'TagController');
-        });
 
         //상담
-        Route::resource('counsel', 'CounselController');
+        // Route::resource('counsel', 'CounselController');
 
 
 });

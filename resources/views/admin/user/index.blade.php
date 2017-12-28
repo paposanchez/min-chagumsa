@@ -1,180 +1,133 @@
 @extends( 'admin.layouts.default' )
 
 @section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.user')])
+@include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.user')])
 @endsection
 
 @section( 'content' )
-    <div class="container-fluid">
+<section id="content">
 
-        <div class="panel panel-default">
+        <div class="container container-alt">
 
-            <div class="panel-heading">
-                <span class="panel-title">검색조건</span>
-            </div>
+                <div class="block-header">
+                        <h2>Contacts
+                                <small>Manage your contact information</small>
+                        </h2>
 
-            <div class="panel-body">
+                        <ul class="actions m-t-20 hidden-xs">
+                                <li class="dropdown">
+                                        <a href="" data-toggle="dropdown">
+                                                <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
 
-                <form method="GET" class="form-horizontal no-margin-bottom" role="form">
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                        <a href="">Privacy Settings</a>
+                                                </li>
+                                                <li>
+                                                        <a href="">Account Settings</a>
+                                                </li>
+                                                <li>
+                                                        <a href="">Other Settings</a>
+                                                </li>
+                                        </ul>
+                                </li>
+                        </ul>
+                </div>
 
-                    <div class="form-group">
-                        <label for="inputBoardId" class="control-label col-sm-3">{{ trans('admin/user.roles') }}</label>
-                        <div class="col-sm-9">
-                            <div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-default {{ $role_cd == '' ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('role_cd', '', \App\Helpers\Helper::isCheckd('', $role_cd), ['name' => 'role_cd']) }} 전체
-                                </label>
-                                <label class="btn btn-default {{ $role_cd == 1 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('role_cd', 1, \App\Helpers\Helper::isCheckd(1, $role_cd), ['name' => 'role_cd']) }} 관리자
-                                </label>
-                                <label class="btn btn-default {{ $role_cd == 2 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('role_cd', 2, \App\Helpers\Helper::isCheckd(2, $role_cd), ['name' => 'role_cd']) }} 일반회원
-                                </label>
-                                <label class="btn btn-default {{ $role_cd == 3 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('role_cd', 3, \App\Helpers\Helper::isCheckd(3, $role_cd), ['name' => 'role_cd']) }} 얼라이언스
-                                </label>
-                                <label class="btn btn-default {{ $role_cd == 4 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('role_cd', 4, \App\Helpers\Helper::isCheckd(4, $role_cd), ['name' => 'role_cd']) }} 정비소
-                                </label>
-                                <label class="btn btn-default {{ $role_cd == 5 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('role_cd', 5, \App\Helpers\Helper::isCheckd(5, $role_cd), ['name' => 'role_cd']) }} 엔지니어
-                                </label>
-                                <label class="btn btn-default {{ $role_cd == 6 ? 'active' : '' }} selected_cd">
-                                    {{ Form::radio('role_cd', 6, \App\Helpers\Helper::isCheckd(6, $role_cd), ['name' => 'role_cd']) }} 기술사
-                                </label>
-                            </div>
+                <!-- Add button -->
+                <button class="btn btn-float btn-danger m-btn"><i class="zmdi zmdi-plus"></i></button>
+
+                <div class="card">
+                        <div class="action-header clearfix">
+                                <div class="ah-label hidden-xs">Some text here</div>
+
+                                <div class="ah-search">
+                                        <input type="text" placeholder="Start typing..." class="ahs-input">
+
+                                        <i class="ahs-close" data-ma-action="action-header-close">&times;</i>
+                                </div>
+
+                                <ul class="actions">
+                                        <li>
+                                                <a href="" data-ma-action="action-header-open">
+                                                        <i class="zmdi zmdi-search"></i>
+                                                </a>
+                                        </li>
+
+                                        <li>
+                                                <a href="">
+                                                        <i class="zmdi zmdi-time"></i>
+                                                </a>
+                                        </li>
+                                        <li class="dropdown">
+                                                <a href="" data-toggle="dropdown" aria-expanded="true">
+                                                        <i class="zmdi zmdi-sort"></i>
+                                                </a>
+
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                        <li>
+                                                                <a href="">Last Modified</a>
+                                                        </li>
+                                                        <li>
+                                                                <a href="">Last Edited</a>
+                                                        </li>
+                                                        <li>
+                                                                <a href="">Name</a>
+                                                        </li>
+                                                        <li>
+                                                                <a href="">Date</a>
+                                                        </li>
+                                                </ul>
+                                        </li>
+                                        <li>
+                                                <a href="">
+                                                        <i class="zmdi zmdi-info"></i>
+                                                </a>
+                                        </li>
+                                </ul>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-sm-3">{{ trans('common.search.keyword_field') }}</label>
-                        <div class="col-sm-3">
-                            {!! Form::select('sf', $search_fields, $sf, ['class'=>'form-control']) !!}
+                        <div class="card-body card-padding">
 
-                        </div>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" placeholder="{{ trans('common.search.keyword') }}"
-                                   name='s' value='{{ $s }}'>
-                        </div>
-                    </div>
-                    <div class="form-group no-margin-bottom">
-                        <label class="control-label col-sm-3 sr-only">{{ trans('common.search.button') }}</label>
-                        <div class="col-sm-4 col-sm-offset-3">
-                            <button type="submit" class="btn btn-block btn-primary"><i
-                                        class="fa fa-search"></i> {{ trans('common.search.button') }}</button>
-                        </div>
-                    </div>
+                                <div class="contacts clearfix row">
 
-                </form>
-            </div>
+                                        @foreach($entrys as $entry)
+                                        <div class="col-md-2 col-sm-4 col-xs-6">
+                                                <div class="c-item">
+                                                        <a href="" class="ci-avatar">
+
+                                                                {!! Html::image('/avatar/'.$entry->id) !!}
+                                                        </a>
+
+                                                        <div class="c-info">
+                                                                <strong>{{ $entry->name }}</strong>
+                                                                <small>{{ $entry->email }}</small>
+                                                        </div>
+
+                                                        <div class="c-footer">
+                                                                <div class="text-center">{{ $entry->status->display() }}</div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                         @endforeach
+
+                                </div>
+
+                                <div class="load-more">
+                                        <a href=""><i class="zmdi zmdi-refresh-alt"></i> Load More...</a>
+                                </div>
+                        </div>
+                </div>
         </div>
 
-        <div class="row margin-bottom">
-
-            <div class="col-md-12">
-
-
-                <p class="form-control-static">
-                    {!! trans('common.search-result', ['count' => '<span class="text-danger">'.number_format($entrys->total()).'</span>']) !!}
-                </p>
-
-                <table class="table text-middle text-center">
-                    <colgroup>
-                        <col width="10%">
-                        <col width="15%" class="">
-                        <col width="*">
-
-                        <col width="15%" class="">
-                        <col width="10%" class=" ">
-                        <col width="10%">
-                    </colgroup>
-
-                    <thead>
-                    <tr class="active">
-                        <th class="text-center">#</th>
-                        <th class="">이메일</th>
-                        <th class="text-center">이름</th>
-                        <th class="text-center">역할</th>
-                        <th class="text-center">상태</th>
-                        <!-- <th class="text-center">등록일</th> -->
-                        <th class="text-center">Remarks</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-
-                    @unless(count($entrys) >0)
-                        <tr>
-                            <td colspan="6" class="no-result">{{ trans('common.no-result') }}</td>
-                        </tr>
-                    @endunless
-
-                    @foreach($entrys as $n => $data)
-                        <tr>
-
-                            <td class="">
-                                {{ $data->id }}
-                            </td>
-
-                            <td class="text-left">
-                                {{ $data->email }}
-                            </td>
-
-                            <td class="">
-                                {{ $data->name }}
-                            </td>
-
-                            <td class="">
-                                <span class="label label-default">{!! $data->roles->implode('display_name', '</span> <span class="label label-default">') !!}</span>
-                            </td>
-
-                            <td class="">
-                                <span class="label label-info">{{ $data->status->display() }}</span>
-                            </td>
-
-                            <td>
-                                <a href="{{ route('user.edit', $data->id) }}" class="btn btn-default"
-                                   data-tooltip="{pos:'top'}" title="수정">수정</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-
-            </div>
-
-        </div>
-
-
-        <div class="row">
-
-            <div class="col-sm-6">
-
-                <a href="{{ route('user.create') }}" class="btn btn-primary">등록</a>
-
-            </div>
-
-            <div class="col-sm-6 text-right">
-
-                @if($role_cd)
-                    {!! $entrys->appends(['role_cd' => $role_cd])->render() !!}
-                @elseif($sf && $s)
-                    {!! $entrys->appends([$sf => $s])->render() !!}
-                @else
-                    {!! $entrys->render() !!}
-                @endif
-
-            </div>
-
-        </div>
-
-    </div>
+</section>
 @endsection
 
 
 
 @section( 'footer-script' )
-    <script type="text/javascript">
+<script type="text/javascript">
 
-    </script>
+</script>
 @endsection

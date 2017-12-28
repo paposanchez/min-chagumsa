@@ -17,12 +17,10 @@ class RouteServiceProvider extends ServiceProvider {
 
                 $this->mapCdnRoutes();
                 $this->mapCertRoutes();
-
-
                 $this->mapTechnicianRoutes();
                 $this->mapBcsRoutes();
-                $this->mapAdminRoutes();
 
+                $this->mapAdminRoutes();
                 $this->mapWebRoutes();
 
                 // $this->mapAllianceRoutes();

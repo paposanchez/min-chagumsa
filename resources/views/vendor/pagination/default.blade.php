@@ -1,9 +1,9 @@
-<ul class="pagination">
+<ul class="pagination lg-pagination">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
-        <li class="disabled"><span class="fa fa-angle-left"></span></li>
+        <li class="disabled"><a href="#" rel="prev"><i class="zmdi zmdi-chevron-left"></i></a></li>
         @else
-        <li><a href="{{ $paginator->previousPageUrl() }}" rel="prev"><span class="fa fa-angle-left"></span></a></li>
+        <li><a href="{{ $paginator->previousPageUrl() }}" rel="prev"><i class="zmdi zmdi-chevron-left"></i></a></li>
         @endif
 
         @if ($paginator->hasPages())
@@ -31,8 +31,8 @@
 
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
-        <li><a href="{{ $paginator->nextPageUrl() }}" rel="next"><span class="fa fa-angle-right"></span></a></li>
+        <li><a href="{{ $paginator->nextPageUrl() }}" rel="next"><i class="zmdi zmdi-chevron-right"></i></a></li>
         @else
-        <li class="disabled"><span class="fa fa-angle-right"></span></li>
+        <li class="disabled"><a href="#" rel="prev"><i class="zmdi zmdi-chevron-right"></i></a></li>
         @endif
 </ul>

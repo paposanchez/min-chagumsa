@@ -1,7 +1,11 @@
-<footer id="footer" class=''>
+<footer id="footer">
+    Copyright &copy; 2018 JIMBROS
 
-    <div class="container-fluid">
-        <div class="copyrights">© COPYRIGHTS JIMBROS INC.</div>
-    </div>
-
+    <ul class="f-menu">
+        <li><a href="">Home</a></li>
+        <li><a href="">Dashboard</a></li>
+        <li><a href="">Reports</a></li>
+        <li><a href="">Support</a></li>
+        <li><a href="">Contact</a></li>
+    </ul>
 </footer>

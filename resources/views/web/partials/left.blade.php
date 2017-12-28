@@ -1,102 +1,78 @@
-<div id="aside-left" class="aside aside-left perfect-scrollbar">
+<aside id="sidebar" class="sidebar sidebar-alt c-overflow">
+        <div class="s-profile">
+                <a href="" data-ma-action="profile-menu-toggle">
+                        <div class="sp-pic">
+                                {!! Html::image('/avatar/'.Auth::id()) !!}
+                        </div>
 
-    <div class="aside-profile">
+                        <div class="sp-info">
+                                @if(Auth::check())
+                                {{ Auth::user()->name }}
+                                @else
+                                로그인하세요
+                                @endif
 
-        {{ Html::image('/avatar/'.Auth::id(), 'zlara', array('class' => 'aside-profile-img', 'title'=>'profile')) }}
 
-        <div class="aside-profile-info">
-            @if(Auth::check())      
-            <a href="{{ route("user.edit", [Auth::id()]) }}" class="aside-profile-info-name">{{ Auth::user()->name }}</a>
-            <a href="{{ url("logout") }}" class="text-danger"><i class="fa fa-power-off"></i></a>
-            <small class="aside-profile-info-desc">{{ Auth::user()->email }} <span class="text-info">개발팀</span></small>
-            @else
-            <a href="{{ url("login") }}" class="btn btn-primary btn-sm btn-outline aside-profile-info-name">{{ trans("auth.login") }}</a>
-            @endif
+                                <i class="zmdi zmdi-caret-down"></i>
+                        </div>
+                </a>
 
+                <ul class="main-menu">
+
+                        @if(Auth::check())
+                        <li>
+                                <a href="{{ route('profile.index') }}"><i class="zmdi zmdi-account"></i> 프로필</a>
+                        </li>
+
+                        <li>
+                                <a href="{{ route('logout') }}"><i class="zmdi zmdi-lock"></i> 로그아웃</a>
+                        </li>
+                        @else
+                        <li>
+                                <a href="{{ route('login') }}"><i class="zmdi zmdi-account"></i> 로그인</a>
+                        </li>
+                        <li>
+                                <a href="{{ route('login') }}"><i class="zmdi zmdi-lock"></i> 회원정보분실</a>
+                        </li>
+
+                        <li>
+                                <a href="{{ route('register') }}"><i class="zmdi zmdi-account"></i> 회원가입</a>
+                        </li>
+                        @endif
+
+                </ul>
         </div>
 
 
+        <ul class="main-menu">
+                <li class="{{ Request::is('dashboard*') ? ' active':''}}">
+                        <a href="{{ route('dashboard') }}"><i class="zmdi zmdi-home"></i> 차검사진단서</a>
+                </li>
+                <li class="{{ Request::is('dashboard*') ? ' active':''}}">
+                        <a href="{{ route('dashboard') }}"><i class="zmdi zmdi-home"></i> 차검사평가서</a>
+                </li>
+                <li class="{{ Request::is('dashboard*') ? ' active':''}}">
+                        <a href="{{ route('dashboard') }}"><i class="zmdi zmdi-home"></i> 차검사보증서</a>
+                </li>
+                <li class="sub-menu {{ Request::is('user*') ? ' active':''}}">
+                        <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-account-box"></i> 고객센터</a>
+                        <ul>
+                                <li><a href="{{ route('user.index') }}">공지사항</a></li>
+                                <li><a href="{{ route('user.create') }}">FAQ</a></li>
+                        </ul>
+                </li>
 
-    </div>
-
-    <div class="navbar navbar-default">
-
-        <div class="navbar-inner">
-
-            <ul class="nav navbar-nav">
-
-                <li class="{{ Request::is('welcome') ? ' active':''}}"><a href="/"><i class="fa fa-home"></i><span class="nav-label">홈</span></a></li>
-
-                <li class="dropdown {{ Request::is('service*') ? ' active on open':''}}">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-gears"></i><span class="nav-label">서비스</span><b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/service/">THEME</a></li>
-                        <li><a href="/service/typo">TYPO</a></li>
-                        <li><a href="/service/button">BUTTONS</a></li>
-                        <li><a href="/service/alert">ALERT</a></li>
-                        <li><a href="/service/table">TABLE</a></li>
-                        <li><a href="/service/media">MEDIA</a></li>
-                        <li><a href="/service/comment">COMMENT</a></li>
-                        <li><a href="/service/card">CARD</a></li>
-                        <li><a href="/service/component">COMPONENT</a></li>
-                        <li><a href="/service/plugin">PLUGIN</a></li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" tabindex="-1" href="#">
-                                FORM 
-                                <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/service/form/">기본</a></li>
-                                <li><a href="/service/form/advanced">확장</a></li>
-                                <li><a href="/service/form/plugin">플러그인</a></li>
-                                <li><a href="/service/form/validation">검증</a></li>
-
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" tabindex="-1" href="#">
-                                CHART 
-                                <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/service/chart/">기본</a></li>
-                                <li><a href="/service/chart/highchart">HIGHCHART</a></li>
-                                <li><a href="/service/chart/d3">D3</a></li>
-                                <li><a href="/service/chart/extra">기타</a></li>
-                            </ul>
-                        </li>
-
-                    </ul>
+                <li class="sub-menu {{ Request::is('user*') ? ' active':''}}">
+                        <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-account-box"></i> About</a>
+                        <ul>
+                                <li><a href="{{ route('user.index') }}">회사소개</a></li>
+                                <li><a href="{{ route('user.create') }}">이용약관</a></li>
+                                <li><a href="{{ route('user.create') }}">전자금융거래약관</a></li>
+                                <li><a href="{{ route('user.create') }}">개인정보취급방침</a></li>
+                        </ul>
                 </li>
 
 
 
-
-
-
-
-
-
-
-
-                <li class="dropdown {{ Request::is('community*') ? ' active on open':''}}">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-group"></i><span class="nav-label">커뮤니티</span><b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li class="{{ Request::is('community/notice*') ? ' active':''}}"><a href="{{ url('/community/notice') }}"><span class="nav-label">공지사항</span></a></li>
-                        <li class="{{ Request::is('community/faq*') ? ' active':''}}"><a href="{{ url('/community/faq') }}"><span class="nav-label">FAQ</span></a></li>
-                        <li class="{{ Request::is('community/free*') ? ' active':''}}"><a href="{{ url('/community/free') }}"><span class="nav-label">자유게시판</span></a></li>
-                    </ul>
-                </li>
-
-
-            </ul>
-
-        </div>
-
-    </div>
-
-    <div class="aside-footer">
-
-    </div>
-
-</div>
+        </ul>
+</aside>
