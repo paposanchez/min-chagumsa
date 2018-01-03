@@ -6,6 +6,8 @@ use App\Mixapply\Uploader\Receiver;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisFile;
 use App\Models\Order;
+use App\Models\Role;
+use App\Models\UserExtra;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -24,16 +26,19 @@ class DiagnosesController extends Controller
      */
     public function index(Request $request)
     {
-        $where = Order::whereIn('orders.status_cd', [106, 107, 108, 109]);
+//        $d=Diagnosis::find(1);
+//        dd($d->order->orderer->email);
+
+        $where = Diagnosis::whereIn('status_cd', [106,107,108,109]);
 
         // 정렬옵션
-        if ($request->get('sort') == 'order_num') {
-            $where
-                ->orderBy('car_number', 'ASC')
-                ->orderBy('created_at', 'ASC');
-        } else {
-            $where->orderBy('id', 'DESC');
-        }
+//        if ($request->get('sort') == 'order_num') {
+//            $where
+//                ->orderBy('car_number', 'ASC')
+//                ->orderBy('created_at', 'ASC');
+//        } else {
+//            $where->orderBy('id', 'DESC');
+//        }
 
         //주문상태
         $status_cd = $request->get('status_cd');
@@ -45,41 +50,7 @@ class DiagnosesController extends Controller
         $df = $request->get('df');
         $trs = $request->get('trs');
         $tre = $request->get('tre');
-        if($df){
-            switch ($df){
-                case 'order' :
-                    if ($trs) {
-                        $where->where(function ($qry) use ($trs, $tre) {
-                            $qry->where("created_at", ">=", $trs);
-                        });
-                    }
 
-                    if ($tre) {
-                        $where->where(function ($qry) use ($tre) {
-                            $qry->where("created_at", "<=", date('Y-m-d', strtotime($tre. "+1 days")));
-                        });
-                    }
-                    break;
-//                case 'reservation' :
-//                    if ($trs) {
-//                        $where = $where->join('reservations', 'reservations.orders_id', '=', 'orders.id')
-//                            ->where(function ($qry) use ($trs, $tre) {
-//                                $qry->where("reservations.reservation_at", ">=", $trs);
-//                            });
-//                    }
-//
-//                    if ($tre) {
-//                        $where = $where->join('reservations', 'reservations.orders_id', '=', 'orders.id')
-////                            ->where('reservations.reservation_at', '<=', date('Y-m-d', strtotime($tre. "+1 days")));
-//                            ->where(function ($qry) use ($trs, $tre) {
-//                                $qry->where("reservations.reservation_at", "<=", date('Y-m-d', strtotime($tre. "+1 days")));
-//                            });
-//                    }
-//                    break;
-//                case 'diagnosis' :
-//                    break;
-            }
-        }
 
         $search_fields = [
             "order_id" => "주문아이디",
@@ -157,23 +128,42 @@ class DiagnosesController extends Controller
         return view('admin.diagnosis.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 's', 'sf', 'trs', 'tre', 'date_fields', 'request', 'df'));
     }
 
-    /**
-     * @param Request $request
-     * @param Int $id
-     * 진단에 대한 정보 출력
-     * 진단 데이터를 수정 가능하며 사진첨부가 가능
-     * 진단완료 처리가 가능
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
+//    /**
+//     * @param Request $request
+//     * @param Int $id
+//     * 진단에 대한 정보 출력
+//     * 진단 데이터를 수정 가능하며 사진첨부가 가능
+//     * 진단완료 처리가 가능
+//     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+//     */
+//    public function show(Request $request, $id)
+//    {
+//        $order = Order::findOrFail($id);
+//
+//        //진단데이터를 레이아웃을 통해 생성
+//        $handler = new DiagnosisRepository();
+//        $diagnosis = $handler->prepare($id)->get(true);
+//
+//        return view('admin.diagnosis.detail', compact('diagnosis', 'order'));
+//    }
+
+
     public function show(Request $request, $id)
     {
-        $order = Order::findOrFail($id);
 
-        //진단데이터를 레이아웃을 통해 생성
-        $handler = new DiagnosisRepository();
-        $diagnosis = $handler->prepare($id)->get(true);
+        $diagnosis = Diagnosis::find($id);
+        //전체 정비소 리스트
+        $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')
+            ->join('users', function ($join) {
+                $join->on('user_extras.users_id', 'users.id')
+                    ->where('users.status_cd', 1);
+            })
+            ->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->get();
+        //전체 엔지니어 리스트
+        $engineers = Role::find(5)->users->pluck('name', 'id');
 
-        return view('admin.diagnosis.detail', compact('diagnosis', 'order'));
+
+        return view('admin.diagnosis.show', compact('diagnosis', 'garages', 'engineers'));
     }
 
     /**

@@ -2,68 +2,101 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Code;
-use App\Models\DiagnosisFile;
+use App\Models\Diagnoses;
 
 class Diagnosis extends Model
 {
-        protected $primaryKey = 'id';
-        protected $fillable = [
-                'orders_id',
-                'group',
-                'name_cd',
-                'use_image',
-                'use_voice',
-                'options_cd',
-                'selected',
-                'except_options',
-                'description',
-                'comment'
-        ];
+    protected $table = 'diagnosis';
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        'orders_id',
+        'car_numbers_id',   //차람번호 테이블 id
+        'expire_period',    //만료기간
+        'status_cd',    //상태코드
+        'open_cd',  //공개여부
+        'garage_id',    //정비소 번호
+        'engineer_id',  //엔지니어 번호
+        'start_at',     //진단시작시간
+        'end_at',       //진단완료시간
+        'reservation_at',   //예약날짜
+        'confirm_at'        //예약확정날
+    ];
 
-        protected $dates = [
-                'created_at', 'updated_at'
-        ];
+    protected $dates = [
+        'created_at', 'updated_at','start_at', 'end_at', 'confirm_at', 'reservation_at'
+    ];
 
-        // 파일
-        public function files(){
-                return $this->hasMany(DiagnosisFile::class, 'diagnoses_id', 'id');
+    // 인증서 만료여부
+    public function isExpired()
+    {
+        return Carbon::now() >= $this->updated_at->addDays($this->expire_period);
+    }
+
+    // 인증서 만료일
+    public function getExpireDate()
+    {
+        if ($this->updated_at) {
+            return $this->updated_at->addDays($this->expire_period);
+        } else {
+            return;
         }
+    }
 
-        public function name() {
-            return $this->hasOne(Code::class, 'id', 'name_cd');
-//                return $this->hasOne(Code::class, 'id', 'name_cd')->remember(100,'diagnosis.name');
+    // 인증서 만료일 카운트다운
+    public function getCountdown()
+    {
+        if ($this->updated_at) {
+            return $this->updated_at->addDays($this->expire_period)->diffInDays(Carbon::now());
+        } else {
+            return 0;
         }
+    }
 
-        public function selected_code(){
-                return $this->hasOne(Code::class, "id", "selected")->remember(100,'diagnosis.selected_code');
-        }
+    //주문 조회
+    public function order(){
+        return $this->belongsTo(Order::class, 'orders_id', 'id');
+    }
 
-        // 추가선택코드데이터
-        public function options(){
-                return $this->hasOne(Code::class, "id", "options_cd")->remember(100,'diagnosis.options');
-        }
+    // 차량번호 테이블 조회
+    public function carNumber(){
+        return $this->belongsTo(CarNumber::class, 'car_numbers_id', 'id');
+    }
 
-        // 코드데이터로 옵션그룹서택
-        public static function getOptions($options_cd){
-                if($options_cd) {
-                        $option = Code::find($options_cd);
-                        return  Code::getByGroupArray($option->name);
-                }else{
-                        return null;
-                }
-        }
+    // 상태 조회
+    public function status(){
+        return $this->hasOne(Code::class, 'id', 'status_cd');
+    }
 
-        public function getFrontPicture(){
-            $picture_id = $this->where('group', 2008)->first()->id;
+    // 공개여부 조회
+    public function open(){
+        return $this->hasOne(Code::class, 'id', 'open_cd');
+    }
 
-            if($picture_id){
-                return $picture_id->id;
+    // 정비소 조회
+    public function garage(){
+        return $this->hasOne(User::class, 'id', 'garage_id');
+    }
+    // 앤지니어 조회
+    public function engineer(){
+        return $this->hasOne(User::class, 'id', 'engineer_id');
+    }
 
-            }else{
-                return [];
-            }
-        }
+    //주문상품 조회
+    public function orderItem(){
+        return $this->hasOne(OrderItem::class, 'id', 'order_items_id');
+    }
+
+    //진단항목 조회
+    public function diagnoses(){
+        return $this->hasMany(Diagnoses::class, 'diagnosis_id', 'id');
+    }
+
+    //예약로그 조회
+    public function reservation(){
+        return $this->hasMany(Reservation::class, 'diagnosis_id', 'id');
+    }
+
 }

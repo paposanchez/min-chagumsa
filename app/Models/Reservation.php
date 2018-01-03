@@ -16,38 +16,28 @@ class Reservation extends Model
 {
     protected $primaryKey = 'orders_id';
     protected $fillable = [
-        'orders_id',
+        'diagnosis_id',
         'garage_id',
-        'reservation_at',
-        'comment',
-        'created_id',
-        'updated_id'
+        'reservation_at'
     ];
 
     protected $dates = [
-        'created_at', 'updated_at', 'reservation_at'
+        'created_at'
     ];
 
-    public function order(){
-        return $this->belongsTo(Order::class, 'orders_id', 'id');
+    //진단정보 조회
+    public function diagnosis(){
+        return $this->belongsTo(Diagnosis::class, 'diagnosis_id', 'id');
     }
 
-    public function creater(){
-        return $this->hasOne(User::class, 'created_id', 'id');
+    //정비소 조회
+    public function garage(){
+        return $this->hasOne(User::class, 'id', 'garage_id');
     }
 
-    public function updater(){
-        return $this->hasOne(User::class, 'updated_id', 'id');
-    }
-
-    /**
-     * 예약확정여부
-     */
-    public function isFinal() {
-        if(is_null($this->updated_at) === false) {
-            return true;
-        }
-        return false;
+    //예약날짜 조회
+    public function reservation_date(){
+        return $this->reservation->format('Y-m-d');
     }
 
 }
