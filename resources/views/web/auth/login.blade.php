@@ -3,13 +3,14 @@
 
 @section( 'content' )
 
-<section id="content" class="content-alt m-t-25">
+<section id="content" class="content-alt">
 
         <div class="container">
 
                 <div class="row">
 
                         <div class="col-md-6 col-md-offset-3">
+
                                 <div class="card">
                                         <div class="card-header text-center">
                                                 {{ Html::image('/assets/img/logo.png') }}
@@ -36,7 +37,7 @@
 
                                                 <div class="form-group fg-float {{ $errors->has('password') ? 'has-error  has-feedback' : '' }}">
                                                         <div class="fg-line">
-                                                                <input type="email" class="form-control input-lg fg-input" name="password" id="inputPassword">
+                                                                <input type="password" class="form-control input-lg fg-input" name="password" id="inputPassword">
                                                                 <label class="fg-label">{{ trans('web/register.password') }}</label>
                                                         </div>
 
@@ -55,7 +56,7 @@
 
                                                 <hr>
 
-                                                <p>
+                                                <p class="text-center">
                                                         로그인 진행 시 차검사의 <a href="">개인정보 수집/이용</a>에 동의하신 것으로 확인합니다
                                                 </p>
 

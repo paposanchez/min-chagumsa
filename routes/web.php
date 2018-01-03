@@ -14,7 +14,6 @@ Route::get('information/certificate', function () {
 Route::get('information/warranty', function () {
         return view('web.information.warranty');
 })->name('information.warranty');
-
 Route::get('information/guide', function () {
         return view('web.information.guide');
 })->name('information.guide');
@@ -24,6 +23,19 @@ Route::get('chagumsa-info', function () {
         return view('web.information.info');
 })->name('chagumsa-info');
 
+
+
+
+// 커뮤니티
+Route::get('community', function () {
+        return redirect('community/notice');
+});
+Route::group(['namespace' => 'Community', 'prefix' => 'community'], function () {
+        Route::resource('notice', 'NoticeController');
+        Route::resource('faq', 'FaqController');
+        Route::resource('contact', 'ContactController');
+
+});
 
 
 // Agreement
@@ -42,7 +54,7 @@ Route::get('agreement/privacy', function () {
 
 
 
-
+Route::resource('inquire', 'InquireController');
 
 
 // 마이페이지
@@ -120,15 +132,6 @@ Route::match(['GET', 'POST'], 'order/payment-result', 'OrderController@paymentRe
 
 
 
-// 커뮤니티
-Route::get('community', function () {
-        return redirect('community/notice');
-});
-Route::group(['namespace' => 'Community', 'prefix' => 'community'], function () {
-        Route::resource('notice', 'NoticeController');
-        Route::resource('faq', 'FaqController');
-        Route::resource('inquire', 'InquireController');
-});
 
 Route::get('search{q?}', 'SearchController@index')->name('search.index');
 

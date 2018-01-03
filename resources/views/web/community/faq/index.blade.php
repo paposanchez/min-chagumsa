@@ -1,82 +1,61 @@
 @extends( 'web.layouts.default' )
 
 @section( 'content' )
-
-    <div id='sub_title_wrap'>
-        <h2>고객센터
-            <div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> 고객센터 <i
-                        class="fa fa-angle-right"></i> <span>공지사항</span></div>
-        </h2>
-    </div>
-
-    <div id='sub_wrap'>
-
-        <ul class='menu_tab_wrap'>
-            <li><a class='' href='{{ route('notice.index') }}'>공지사항</a></li>
-            <li><a class='select' href='{{ route('faq.index') }}'>FAQ</a></li>
-            <li><a class='' href='{{ route('inquire.index') }}'>1:1 문의</a></li>
-        </ul>
-
-        <ul class="faq_menu">
-            <li>
-                <strong>회원관련</strong>
-                <a href="{{ route("faq.index", ['category_id' => '13']) }}"
-                   class="{{ \App\Helpers\Helper::faqSelect('13', $category_id) }}">가입/탈퇴</a>
-                <a href="{{ route("faq.index", ['category_id' => '14']) }}"
-                   class="{{ \App\Helpers\Helper::faqSelect('14', $category_id) }}">로그인</a>
-                <a href="{{ route("faq.index", ['category_id' => '15']) }}"
-                   class="{{ \App\Helpers\Helper::faqSelect('15', $category_id) }}">아이디/비밀번호찾기</a>
-                <a href="{{ route("faq.index", ['category_id' => '16']) }}"
-                   class="{{ \App\Helpers\Helper::faqSelect('16', $category_id) }}">회원정보관리</a>
-            </li>
-            <li>
-                <strong>결제</strong>
-                <a href="{{ route("faq.index", ['category_id' => '17']) }}"
-                   class="{{ \App\Helpers\Helper::faqSelect('17', $category_id) }}">결제관련</a>
-                <a href="{{ route("faq.index", ['category_id' => '18']) }}"
-                   class="{{ \App\Helpers\Helper::faqSelect('18', $category_id) }}">주문상태</a>
-                <a href="{{ route("faq.index", ['category_id' => '19']) }}"
-                   class="{{ \App\Helpers\Helper::faqSelect('19', $category_id) }}">환불규정</a>
-            </li>
-            <li>
-                <strong>인증서신청</strong>
-                <a href="{{ route("faq.index", ['category_id' => '20']) }}"
-                   class="{{ \App\Helpers\Helper::faqSelect('20', $category_id) }}">가이드</a>
-            </li>
-        </ul>
-
-        <div class="faq_wrap">
-            <dl class="faq_dl">
-                @foreach($entrys as $key => $row)
-                    <dt class="">{{ $row->subject }}</dt>
-                    <dd style="display: none;">
-                        {!! nl2br($row->content) !!}
-
-                        @if(count($row->files) != 0)
-                            @foreach($row->files as $file)
-                                <a href="/file/download/{{ $file->id }}">
-                                    <i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{ $file->original }}
-                                </a>
-                                <br>
-                            @endforeach
-                        @endif
-                    </dd>
-                @endforeach
-            </dl>
+<div class="hometainer hometainer-sub bgm-black text-center">
+        <div class="container">
+                <h1 class="c-white"> is a fully responsive landing page template</h1>
+                <h4 class="c-white c-light">Zodkoo is a fully responsive landing page built using the latest Bootstrap framework. It's designed for describing your app, agency or business. The clean and well commented code allows easy customization of the theme.</h4>
+                <a href="" class="btn btn-danger">Get Started</a>
         </div>
+</div>
 
-        <div class='br30'></div>
+<section id="content" class="content-alt">
 
-        <div class='board_pagination_wrap'>
-            @include('vendor.pagination.web-page', ['paginator' => $entrys])
-        </div>
+        <div class="container">
 
-    </div>
-@endsection
+                <div class="card">
+                        <div class="card-header">
+                                <h2>FAQ
+                                        <small class="">총 12개의 게시물이 등록되어 있습니다.</small>
+                                </h2>
+                        </div>
 
+                        <table class="table table-hover ">
+                                <colgroup>
+                                        <col width='110px;'>
+                                        <col width='200px;'>
+                                        <col width='*'>
 
-@push( 'header-script' )
-@endpush
+                                </colgroup>
+                                <thead>
+                                        <tr class="">
+                                                <th class="text-center">번호</th>
+                                                <th class="text-center">카테고리</th>
+                                                <th>제목</th>
+                                        </tr>
+                                </thead>
+                                <tbody>
 
-@push( 'footer-script' )
-@endpush
+                                        @unless(count($entrys))
+                                        <tr>
+                                                <td colspan="4" class="no-result">등록된 문의가 없습니다.</td>
+                                        </tr>
+                                        @endunless
+
+                                        @foreach($entrys as $key => $entry)
+                                        <tr>
+                                                <td class="text-center">{{ $start_num - $key }}</td>
+                                                <td class="text-center">{{ $entry->category_id }}</td>
+                                                <td><a href="{{ route("faq.show", ["id" => $entry->id]) }}">{{ $entry->subject }}</a></td>
+
+                                                @endforeach
+                                        </tbody>
+                                </table>
+
+                                {{--page navigation--}}
+                                {!! $entrys->render() !!}
+                        </div>
+
+                </div>
+        </section>
+        @endsection

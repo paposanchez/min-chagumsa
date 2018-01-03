@@ -8,12 +8,13 @@ let targetDir = 'public/assets/';
 
 //################# 이미지
 // mix.copyDirectory(assetsDir + 'img/', distDir + 'img');
-mix.copy(baseDir + 'fonts/', targetDir + 'fonts/', false);
-mix.copy(baseDir + 'img/', targetDir + 'img/', false);
-mix.copy(resourceDir + 'img/', targetDir + 'img/', false);
-mix.copy(baseDir + 'vendors/', targetDir + 'vendors/', false);
-mix.copy(resourceDir + 'js/plugin/', targetDir + 'js/plugin/', false);
-mix.copy(resourceDir + 'js/languages/', targetDir + 'js/languages/', false);
+mix.copyDirectory(baseDir + 'fonts/', targetDir + 'fonts');
+mix.copyDirectory(baseDir + 'img/', targetDir + 'img');
+mix.copyDirectory(resourceDir + 'img/', targetDir + 'img');
+mix.copyDirectory(baseDir + 'vendors/', targetDir + 'vendors');
+mix.copyDirectory(resourceDir + 'js/plugin/', targetDir + 'js/plugin');
+mix.copyDirectory(resourceDir + 'js/languages/', targetDir + 'js/languages');
+
 mix.sass(resourceDir + 'scss/core.scss', 'assets/css/');
 mix.styles([
         targetDir + 'css/core.css',
@@ -22,17 +23,20 @@ mix.styles([
 
 mix.scripts([
         baseDir + 'vendors/bower_components/jquery/dist/jquery.js',
-        baseDir + 'vendors/bower_components/bootstap/dist/js/bootstrap.js',
+        baseDir + 'vendors/bower_components/bootstrap/dist/js/bootstrap.js'
 ], targetDir + 'js/base.js');
 
 mix.scripts([
-        resourceDir + 'js/theme.js',
+        // resourceDir + 'js/theme.js',
+        resourceDir + 'js/app.js',
         baseDir + 'js/app.js',
+
 ], targetDir + 'js/app.admin.js');
 
 mix.scripts([
+        resourceDir + 'js/app.js',
         resourceDir + 'js/theme.js',
-        baseDir + 'js/app.js'
+        // baseDir + 'js/app.js'
 ], targetDir + 'js/app.front.js');
 
 
