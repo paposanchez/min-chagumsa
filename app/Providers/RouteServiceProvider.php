@@ -16,14 +16,13 @@ class RouteServiceProvider extends ServiceProvider {
         public function map() {
 
                 $this->mapCdnRoutes();
-                $this->mapCertRoutes();
-                $this->mapTechnicianRoutes();
-                $this->mapBcsRoutes();
+                // $this->mapCertRoutes();
+                // $this->mapTechnicianRoutes();
+                // $this->mapBcsRoutes();
+                // $this->mapAllianceRoutes();
 
                 $this->mapAdminRoutes();
                 $this->mapWebRoutes();
-
-                // $this->mapAllianceRoutes();
                 $this->mapApiRoutes();
 
 
