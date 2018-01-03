@@ -48,7 +48,7 @@
                 "tijsverkoyen/css-to-inline-styles": "~2.2",
                 "vlucas/phpdotenv": "~2.2",
 
-                "davejamesmiller/laravel-breadcrumbs": "^3.0.1"
+                "davejamesmiller/laravel-breadcrumbs": "^3.0"
         },
         "require-dev": {
                 "filp/whoops": "~2.0",
