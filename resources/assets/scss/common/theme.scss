@@ -1,0 +1,47 @@
+/* theme customize */
+.layout-normal {
+
+        #main {
+                padding-top:70px !important;
+        }
+
+
+        #header {
+                background: #fff !important;
+                .hi-menu {
+                        &.hi-menu-lg {
+                                .him-label {
+                                        font-size:16px;
+                                }
+                        }
+
+                        // > li > a {
+                        //         color:#333;
+                        //
+                        //         &:hover,
+                        //         &:active,
+                        //         &:focus {
+                        //                 color:#000;
+                        //         }
+                        // }
+                }
+
+        }
+
+
+        .breadcrumb {
+
+                margin:15px 0px 15px 0px;
+                padding:10px;
+                border-bottom:0 none;
+                background: #fff;
+
+        }
+
+        #content {
+                margin-top:15px !important;
+        }
+
+
+
+}

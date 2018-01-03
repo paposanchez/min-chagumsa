@@ -2,10 +2,10 @@
 
 @section( 'content' )
 
-{{-- 본문메인 배너 --}}
+{{-- 메인 배너 --}}
 @include( 'web.partials.hometainer' )
 
-<section id="content" class="content-alt m-t-25">
+<section id="content" class="content-alt">
 
         <div class="container">
 
@@ -194,7 +194,6 @@
 
         </div>
 </section>
-
 @endsection
 
 

@@ -1,33 +1,26 @@
 @if ($breadcrumbs)
-<div class="page-title">
-    <div class="container">
-        <h2>    
-            @foreach ($breadcrumbs as $breadcrumb)
+<ol class="breadcrumb">
 
-            @if (!$breadcrumb->last)
+        @foreach ($breadcrumbs as $breadcrumb)
 
-            @if (!$breadcrumb->first)
-            <span class="divider">/</span>
-            @endif
+        @if (!$breadcrumb->last)
 
-            <span><a href="{{ $breadcrumb->url }}">{{ $breadcrumb->title }}</a></span>
-
-            @else
-
-            @if (!$breadcrumb->first)
-            <span class="divider">/</span>
-            @endif
-
-            <span class="active">{{ $breadcrumb->title }}</span>
-
-            @endif
-
-            @endforeach
-        </h2>
-
-        @if(isset($breadcrumb->desc) && $breadcrumb->desc)
-        <p class="desc">{{ $breadcrumb->desc }}</p>
+        @if (!$breadcrumb->first)
+        <!-- <span class="divider">/</span> -->
         @endif
-    </div>
-</div>
+
+        <li><a href="{{ $breadcrumb->url }}">{{ $breadcrumb->title }}</a></li>
+
+        @else
+
+        @if (!$breadcrumb->first)
+        <!-- <span class="divider">/</span> -->
+        @endif
+
+        <li class="active">{{ $breadcrumb->title }}</li>
+
+        @endif
+
+        @endforeach
+</ol>
 @endif

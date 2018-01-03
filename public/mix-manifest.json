@@ -1,7 +1,7 @@
 {
-  "/mix.js": "/mix.js",
-  "/assets/css/core.css": "/assets/css/core.css",
-  "/assets/css/app.css": "/assets/css/app.css",
-  "/assets/js/base.js": "/assets/js/base.js",
-  "/assets/js/app.js": "/assets/js/app.js"
+    "/assets/css/core.css": "/assets/css/core.css",
+    "/assets/css/app.css": "/assets/css/app.css",
+    "/assets/js/base.js": "/assets/js/base.js",
+    "/assets/js/app.admin.js": "/assets/js/app.admin.js",
+    "/assets/js/app.front.js": "/assets/js/app.front.js"
 }

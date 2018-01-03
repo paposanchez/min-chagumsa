@@ -8,12 +8,11 @@
 
 // Core variables and mixins
 // @import "variables";
-
+@import "common/mixin";
+@import "common/theme";
 
 //--------------------------------------------- Extras
 @import "common/hometainer";
-
-// @import "common/fonts";
 // @import "common/layout";
 // @import "common/aside";
 // @import "common/nav";
@@ -34,7 +33,7 @@
 // @import "common/files";
 // @import "common/panel";
 // @import "common/counter";
-// @import "common/utils";
+@import "common/utils";
 //form field 관련 내용 추가
 // @import "common/vertical-label.scss";
 

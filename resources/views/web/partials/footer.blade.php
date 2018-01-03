@@ -1,11 +1,11 @@
-<footer id="footer" class="bgm-bluegray p-20">
+<footer id="footer" class="bgm-black p-20">
 
         <div class="container">
 
                 <div class="col-md-12 text-left c-white">
 
                         <ul class="list-inline">
-                                <li><a href="{{ route('information.index') }}" class="c-white">회사소개</a></li>
+                                <li><a href="{{ route('information.index') }}" class="c-white">서비스소개</a></li>
                                 <li><a href="{{ route('agreement.usage') }}" class="c-white">이용약관</a></li>
                                 <li><a href="{{ route('agreement.term') }}" class="c-white">전자금융거래약관</a></li>
                                 <li><a href="{{ route('agreement.privacy') }}" class="c-white">개인정보취급방침</a></li>
@@ -15,6 +15,5 @@
                         <address> Copyright &copy; 2018 JIMBROS</address>
                 </div>
         </div>
-
 
 </footer>

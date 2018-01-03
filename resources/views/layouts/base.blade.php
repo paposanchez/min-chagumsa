@@ -41,9 +41,6 @@
 
         @yield('content-footer-script')
 
-        {{-- application script --}}
-        {{ Html::script(mix( '/assets/js/app.js' )) }}
-
         {{-- tracking script --}}
         @if( config('app.analytics'))
         <script type="text/javascript" >

@@ -127,5 +127,10 @@
             <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
         <![endif]-->
 
+
+        {{-- application script --}}
+        {{ Html::script(mix( '/assets/js/app.admin.js' )) }}
+
         @stack( 'footer-script' )
+
 @endsection
