@@ -42,11 +42,57 @@
 
                 </div>
 
+                <!-- Add button -->
+                <button class="btn btn-float btn-danger m-btn"><i class="zmdi zmdi-plus"></i></button>
+
                 <div class="card">
-                        <div class="card-header">
-                                <h2>Basic Table
-                                        <small>Basic example without any additional modification classes</small>
-                                </h2>
+                        <div class="action-header clearfix">
+                                <div class="ah-label hidden-xs">Some text here</div>
+
+                                <div class="ah-search">
+                                        <input type="text" placeholder="Start typing..." class="ahs-input">
+
+                                        <i class="ahs-close" data-ma-action="action-header-close">&times;</i>
+                                </div>
+
+                                <ul class="actions">
+                                        <li>
+                                                <a href="" data-ma-action="action-header-open">
+                                                        <i class="zmdi zmdi-search"></i>
+                                                </a>
+                                        </li>
+
+                                        <li>
+                                                <a href="">
+                                                        <i class="zmdi zmdi-time"></i>
+                                                </a>
+                                        </li>
+                                        <li class="dropdown">
+                                                <a href="" data-toggle="dropdown" aria-expanded="true">
+                                                        <i class="zmdi zmdi-sort"></i>
+                                                </a>
+
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                        <li>
+                                                                <a href="">Last Modified</a>
+                                                        </li>
+                                                        <li>
+                                                                <a href="">Last Edited</a>
+                                                        </li>
+                                                        <li>
+                                                                <a href="">Name</a>
+                                                        </li>
+                                                        <li>
+                                                                <a href="">Date</a>
+                                                        </li>
+                                                </ul>
+                                        </li>
+                                        <li>
+                                                <a href="">
+                                                        <i class="zmdi zmdi-info"></i>
+                                                </a>
+                                        </li>
+                                </ul>
                         </div>
 
                         <div class="card-body">
@@ -129,7 +175,7 @@
                                                 </td>
 
                                                 <td>
-                                                        
+
                                                         <a href="{{ url("order", [$data->id]) }}" class="btn btn-default" data-toggle="tooltip" title="주문상세보기">상세보기</a>
 
                                                         @if(in_array($data->status_cd, [101,102,103,104]))

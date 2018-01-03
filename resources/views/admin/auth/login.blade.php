@@ -7,36 +7,20 @@
         <!-- Login -->
         <div class="lc-block toggled" id="l-login">
 
-                <div class="mar-ver pad-btm">
-                        <h1 class="h3">
-                        차검사</h1>
-                        <p class="">CHAGUMSA ADMINISTRATION</p>
-                </div>
-
                 <!-- <div class="lcb-form"> -->
                 {!! Form::open(['url' => 'login', 'class' =>'lcb-form', 'method' => 'post', 'role' => 'form', 'id'=>'login-form']) !!}
                 <div class="input-group m-b-20">
                         <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
                         <div class="fg-line">
-                                <input type="email" class="form-control"
-                                placeholder="{{ trans('web/register.email') }}" name="email" id="inputEmail">
-
-                                @if ($errors->has('email'))
-                                <span class="help-block">{{ $errors->first('email') }}</span>
-                                @endif
+                                <input type="email" class="form-control" placeholder="{{ trans('web/register.email') }}" name="email" id="inputEmail">
                         </div>
                 </div>
 
                 <div class="input-group m-b-20">
                         <span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
                         <div class="fg-line">
-                                <input type="password" class="form-control"
-                                placeholder="{{ trans('web/register.password') }}" name="password"
-                                id="inputPassword">
+                                <input type="password" class="form-control" placeholder="{{ trans('web/register.password') }}" name="password" id="inputPassword">
                         </div>
-                        @if ($errors->has('password'))
-                        <span class="help-block">{{ $errors->first('password') }}</span>
-                        @endif
                 </div>
 
                 <!-- <div class="checkbox">
@@ -120,25 +104,25 @@
 $(function () {
 
         //form validation
-        $("#login-form").validate({
-                rules: {
-                        email: {
-                                required: true,
-                                email: true
-                        },
-                        password: {
-                                required: true
-                        }
-                },
-                messages: {
-                        email: "정확한 이메일 주소를 입력해 주세요.",
-                        password: "비밀번호를 확인하세요."
-                },
-                submitHandler: function (form) {
-
-                        form.submit();
-                }
-        });
+        // $("#login-form").validate({
+        //         rules: {
+        //                 email: {
+        //                         required: true,
+        //                         email: true
+        //                 },
+        //                 password: {
+        //                         required: true
+        //                 }
+        //         },
+        //         messages: {
+        //                 email: "정확한 이메일 주소를 입력해 주세요.",
+        //                 password: "비밀번호를 확인하세요."
+        //         },
+        //         submitHandler: function (form) {
+        //
+        //                 form.submit();
+        //         }
+        // });
 });
 
 </script>
