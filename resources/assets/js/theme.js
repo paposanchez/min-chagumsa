@@ -501,104 +501,104 @@ $(document).ready(function(){
     /*----------------------------------------------------------
         Calendar Widget
     -----------------------------------------------------------*/
-    if($('#calendar-widget')[0]) {
-
-        (function(){
-            $('#cw-body').fullCalendar({
-                contentHeight: 'auto',
-                theme: false,
-                buttonIcons: {
-                    prev: ' zmdi zmdi-chevron-left',
-                    next: ' zmdi zmdi-chevron-right'
-                },
-                header: {
-                    right: 'next',
-                    center: 'title, ',
-                    left: 'prev'
-                },
-                defaultDate: '2016-08-12',
-                editable: true,
-                events: [
-                    {
-                        title: 'Dolor Pellentesque',
-                        start: '2016-08-01',
-                        className: 'bgm-cyan'
-                    },
-                    {
-                        title: 'Purus Nibh',
-                        start: '2016-08-07',
-                        className: 'bgm-amber'
-                    },
-                    {
-                        title: 'Amet Condimentum',
-                        start: '2016-08-09',
-                        className: 'bgm-green'
-                    },
-                    {
-                        title: 'Tellus',
-                        start: '2016-08-12',
-                        className: 'bgm-blue'
-                    },
-                    {
-                        title: 'Vestibulum',
-                        start: '2016-08-18',
-                        className: 'bgm-cyan'
-                    },
-                    {
-                        title: 'Ipsum',
-                        start: '2016-08-24',
-                        className: 'bgm-teal'
-                    },
-                    {
-                        title: 'Fringilla Sit',
-                        start: '2016-08-27',
-                        className: 'bgm-blue'
-                    },
-                    {
-                        title: 'Amet Pharetra',
-                        url: 'http://google.com/',
-                        start: '2016-08-30',
-                        className: 'bgm-amber'
-                    }
-                ]
-            });
-        })();
-
-        //Display Current Date as Calendar widget header
-        var mYear = moment().format('YYYY');
-        var mDay = moment().format('dddd, MMM D');
-        $('#calendar-widget .cwh-year').html(mYear);
-        $('#calendar-widget .cwh-day').html(mDay);
-
-    }
+    // if($('#calendar-widget')[0]) {
+    //
+    //     (function(){
+    //         $('#cw-body').fullCalendar({
+    //             contentHeight: 'auto',
+    //             theme: false,
+    //             buttonIcons: {
+    //                 prev: ' zmdi zmdi-chevron-left',
+    //                 next: ' zmdi zmdi-chevron-right'
+    //             },
+    //             header: {
+    //                 right: 'next',
+    //                 center: 'title, ',
+    //                 left: 'prev'
+    //             },
+    //             defaultDate: '2016-08-12',
+    //             editable: true,
+    //             events: [
+    //                 {
+    //                     title: 'Dolor Pellentesque',
+    //                     start: '2016-08-01',
+    //                     className: 'bgm-cyan'
+    //                 },
+    //                 {
+    //                     title: 'Purus Nibh',
+    //                     start: '2016-08-07',
+    //                     className: 'bgm-amber'
+    //                 },
+    //                 {
+    //                     title: 'Amet Condimentum',
+    //                     start: '2016-08-09',
+    //                     className: 'bgm-green'
+    //                 },
+    //                 {
+    //                     title: 'Tellus',
+    //                     start: '2016-08-12',
+    //                     className: 'bgm-blue'
+    //                 },
+    //                 {
+    //                     title: 'Vestibulum',
+    //                     start: '2016-08-18',
+    //                     className: 'bgm-cyan'
+    //                 },
+    //                 {
+    //                     title: 'Ipsum',
+    //                     start: '2016-08-24',
+    //                     className: 'bgm-teal'
+    //                 },
+    //                 {
+    //                     title: 'Fringilla Sit',
+    //                     start: '2016-08-27',
+    //                     className: 'bgm-blue'
+    //                 },
+    //                 {
+    //                     title: 'Amet Pharetra',
+    //                     url: 'http://google.com/',
+    //                     start: '2016-08-30',
+    //                     className: 'bgm-amber'
+    //                 }
+    //             ]
+    //         });
+    //     })();
+    //
+    //     //Display Current Date as Calendar widget header
+    //     var mYear = moment().format('YYYY');
+    //     var mDay = moment().format('dddd, MMM D');
+    //     $('#calendar-widget .cwh-year').html(mYear);
+    //     $('#calendar-widget .cwh-day').html(mDay);
+    //
+    // }
 
 
     /*----------------------------------------------------------
         Weather Widget
     -----------------------------------------------------------*/
-    if ($('#weather-widget')[0]) {
-        $.simpleWeather({
-            location: 'Austin, TX',
-            woeid: '',
-            unit: 'f',
-            success: function(weather) {
-                html = '<div class="weather-status">'+weather.temp+'&deg;'+weather.units.temp+'</div>';
-                html += '<ul class="weather-info"><li>'+weather.city+', '+weather.region+'</li>';
-                html += '<li class="currently">'+weather.currently+'</li></ul>';
-                html += '<div class="weather-icon wi-'+weather.code+'"></div>';
-                html += '<div class="dw-footer"><div class="weather-list tomorrow">';
-                html += '<span class="weather-list-icon wi-'+weather.forecast[2].code+'"></span><span>'+weather.forecast[1].high+'/'+weather.forecast[1].low+'</span><span>'+weather.forecast[1].text+'</span>';
-                html += '</div>';
-                html += '<div class="weather-list after-tomorrow">';
-                html += '<span class="weather-list-icon wi-'+weather.forecast[2].code+'"></span><span>'+weather.forecast[2].high+'/'+weather.forecast[2].low+'</span><span>'+weather.forecast[2].text+'</span>';
-                html += '</div></div>';
-                $("#weather-widget").html(html);
-            },
-            error: function(error) {
-                $("#weather-widget").html('<p>'+error+'</p>');
-            }
-        });
-    }
+    // if ($('#weather-widget')[0]) {
+    //     $.simpleWeather({
+    //         location: 'Austin, TX',
+    //         woeid: '',
+    //         unit: 'f',
+    //         success: function(weather) {
+    //             html = '<div class="weather-status">'+weather.temp+'&deg;'+weather.units.temp+'</div>';
+    //             html += '<ul class="weather-info"><li>'+weather.city+', '+weather.region+'</li>';
+    //             html += '<li class="currently">'+weather.currently+'</li></ul>';
+    //             html += '<div class="weather-icon wi-'+weather.code+'"></div>';
+    //             html += '<div class="dw-footer"><div class="weather-list tomorrow">';
+    //             html += '<span class="weather-list-icon wi-'+weather.forecast[2].code+'"></span><span>'+weather.forecast[1].high+'/'+weather.forecast[1].low+'</span><span>'+weather.forecast[1].text+'</span>';
+    //             html += '</div>';
+    //             html += '<div class="weather-list after-tomorrow">';
+    //             html += '<span class="weather-list-icon wi-'+weather.forecast[2].code+'"></span><span>'+weather.forecast[2].high+'/'+weather.forecast[2].low+'</span><span>'+weather.forecast[2].text+'</span>';
+    //             html += '</div></div>';
+    //             $("#weather-widget").html(html);
+    //         },
+    //         error: function(error) {
+    //             $("#weather-widget").html('<p>'+error+'</p>');
+    //         }
+    //     });
+    // }
 
 
     /*----------------------------------------------------------

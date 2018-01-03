@@ -1,4 +1,4 @@
-<header id="header" class="clearfix" data-ma-theme="bluegray">
+<header id="header" class="clearfix" data-ma-theme="blue">
 
         <!-- <nav class="ha-menu" style="background:#000;">
                 <ul>
@@ -102,13 +102,13 @@
                                         <a hreaf="" data-toggle="dropdown" aria-expanded="false" class="text-lg"><span class="him-label">고객센터</span></a>
                                         <ul class="dropdown-menu dm-icon pull-right">
                                                 <li>
-                                                        <a href="{{ route('order.index') }}"><i class="zmdi zmdi-face"></i> 공지사항</a>
+                                                        <a href="{{ route('notice.index') }}"><i class="zmdi zmdi-face"></i> 공지사항</a>
                                                 </li>
                                                 <li>
-                                                        <a href="{{ route('order.index') }}"><i class="zmdi zmdi-settings"></i> FAQ</a>
+                                                        <a href="{{ route('faq.index') }}"><i class="zmdi zmdi-settings"></i> FAQ</a>
                                                 </li>
                                                 <li>
-                                                        <a href="{{ route('order.index') }}"><i class="zmdi zmdi-settings"></i> 문의하기</a>
+                                                        <a href="{{ route('contact.index') }}"><i class="zmdi zmdi-settings"></i> 문의하기</a>
                                                 </li>
                                         </ul>
                                 </li>
@@ -140,19 +140,5 @@
         </div>
 
 
-
-
-        <div class="dropdown">
-                                            <button type="button" class="btn btn-default waves-effect" data-toggle="dropdown" aria-expanded="false">Dropdown Left
-                                            </button>
-
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#">Action</a></li>
-                                                <li><a href="#">Another action</a></li>
-                                                <li><a href="#">Something else here</a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="#">Separated link</a></li>
-                                            </ul>
-                                        </div>
 
 </header>
