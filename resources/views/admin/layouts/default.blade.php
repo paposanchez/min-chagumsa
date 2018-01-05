@@ -14,6 +14,8 @@
         {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') !!}
         {!! Html::style('/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') !!}
 
+
+
         @stack('header-script')
 
 @endsection
@@ -121,6 +123,8 @@
         {!! Html::script('/assets/vendors/bootstrap-growl/bootstrap-growl.min.js') !!}
         {!! Html::script('/assets/vendors/bower_components/sweetalert2/dist/sweetalert2.min.js') !!}
         {!! Html::script('/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') !!}
+
 
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>

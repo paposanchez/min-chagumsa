@@ -31,8 +31,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
                 //Route::resource('tag', 'TagController');
         });
 
-        // 주문관리
-        Route::resource('order', 'OrderController');
+
 
         Route::resource('diagnosis', 'DiagnosesController');
         Route::resource('warranty', 'WarrantyController');
@@ -92,11 +91,13 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::post('order/history', 'OrderController@history')->name('order/history');
         Route::post('order/reservation_change', 'OrderController@reservationChange');
         Route::post('order/confirmation/{order_id}', 'OrderController@confirmation');
-        Route::get('order/get-section', 'OrderController@getSection');
-        Route::get('order/get-address', 'OrderController@getAddress');
-        Route::get('order/get-engineer', 'OrderController@getEngineer');
-
+        Route::get('/order/get-section', 'OrderController@getSection');
+        Route::get('/order/get-address', 'OrderController@getAddress');
+        Route::get('/order/get-engineer', 'OrderController@getEngineer');
         Route::get('order/get_full_address', 'OrderController@getFullAddress')->name("order.get_full_address");
+        Route::get('/order/get-models', 'OrderController@getModels');
+        Route::get('/order/get-details', 'OrderController@getDetails');
+        Route::get('/order/get-grades', 'OrderController@getGrades');
         Route::post('order/user-update', 'OrderController@userUpdate')->name('order.user-update');
         Route::post('order/car-update', 'OrderController@carUpdate')->name('order.car-update');
         Route::post('order/bcs-update', 'OrderController@bcsUpdate')->name('order.bcs-update');
@@ -105,6 +106,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
         Route::post('/order/diagnosing', 'OrderController@diagnosing');
 
+        // 주문관리
+        Route::resource('order', 'OrderController');
 
 
         // 진단관리

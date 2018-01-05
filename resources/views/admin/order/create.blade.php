@@ -6,96 +6,249 @@
 
 @section( 'content' )
     <section id="content">
-        <div class="container">
-            <div class="block-header">
-                <h2>Table</h2>
+        {{--<div class="container">--}}
+        {{--<div class="block-header">--}}
+        {{--<h2>신규주문 생성</h2>--}}
 
-                <ul class="actions">
-                    <li>
-                        <a href="">
-                            <i class="zmdi zmdi-trending-up"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="zmdi zmdi-check-all"></i>
-                        </a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="" data-toggle="dropdown">
-                            <i class="zmdi zmdi-more-vert"></i>
-                        </a>
+        {{--<ul class="actions">--}}
+        {{--<li>--}}
+        {{--<a href="">--}}
+        {{--<i class="zmdi zmdi-trending-up"></i>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--<li>--}}
+        {{--<a href="">--}}
+        {{--<i class="zmdi zmdi-check-all"></i>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--<li class="dropdown">--}}
+        {{--<a href="" data-toggle="dropdown">--}}
+        {{--<i class="zmdi zmdi-more-vert"></i>--}}
+        {{--</a>--}}
 
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li>
-                                <a href="">Refresh</a>
-                            </li>
-                            <li>
-                                <a href="">Manage Widgets</a>
-                            </li>
-                            <li>
-                                <a href="">Widgets Settings</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+        {{--<ul class="dropdown-menu dropdown-menu-right">--}}
+        {{--<li>--}}
+        {{--<a href="">Refresh</a>--}}
+        {{--</li>--}}
+        {{--<li>--}}
+        {{--<a href="">Manage Widgets</a>--}}
+        {{--</li>--}}
+        {{--<li>--}}
+        {{--<a href="">Widgets Settings</a>--}}
+        {{--</li>--}}
+        {{--</ul>--}}
+        {{--</li>--}}
+        {{--</ul>--}}
 
+        {{--</div>--}}
+
+        <div class="card">
+            <div class="card-header">
+                <h2>신규 주문 생성
+                    <small>새로운 주문을 생성한다.</small>
+                </h2>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h2>Basic Table
-                        <small>Basic example without any additional modification classes</small>
-                    </h2>
-                </div>
+            <div class="card-body">
+                {!! Form::open(['route' => ["order.store"], 'class' => 'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'frm']) !!}
+                <fieldset>
+                    <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                        <label for="" class="control-label col-md-3">상품선택</label>
+                        <div class="col-md-3">
+                            <input type="checkbox" name="diagnosis" id="diagnosis" value="diagnosis"
+                                    @if(old('diagnosis'))
+                                    checked
+                                    @endif>진단
+                            <input type="checkbox" name="certificate" id="certificate" value="certificate"
+                                    @if(old('certificate'))
+                                    checked
+                                    @endif>평가
+                            <input type="checkbox" name="warranty" id="warranty" value="warranty"
+                                    @if(old('warranty'))
+                                    checked
+                                    @endif>보증
+                        </div>
+                    </div>
+                    <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                        <label for="" class="control-label col-md-3">주문자 성명</label>
+                        <div class="col-md-3">
+                            @if($user->hasRole("admin"))
+                                {{--{!! Form::select('orderer_id', $users, null, ['class'=>'form-control', 'id'=>'orderer_id']) !!}--}}
+                                <input type="text" class="form-control" placeholder="ex) 010-0000-0000"
+                                       name="orderer_id"
+                                       id="orderer_id" value="">
+                            @else
+                                <input type="text" class="form-control" placeholder="ex) 010-0000-0000"
+                                       name="orderer_name"
+                                       id="orderer_name" value="">
+                            @endif
+                            <div id="error_div"></div>
+                        </div>
+                        <label for="" class="control-label col-md-2">주문자 휴대폰번호</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="ex) 010-0000-0000"
+                                   name="orderer_mobile"
+                                   id="orderer_mobile" value="{{ $user->mobile }}">
+                            {{--<span class="help-block">ex) 메뉴2 설명</span>--}}
+                            @if ($errors->has('orderer_mobile'))
+                                <span class="text-danger">
+                                        {{ $errors->first('orderer_mobile') }}
+                                    </span>
+                            @endif
+                        </div>
 
-                <div class="card-body">
+                    </div>
+                    <div class="form-group {{ $errors->has('') ? 'has-error' : '' }} order_div">
+                        <label for="" class="control-label col-md-3">주문번호</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="ex) 12가1234-180101"
+                                   name="order_number"
+                                   id="order_number" value="">
+                            @if ($errors->has('order_number'))
+                                <span class="text-danger">
+                                        {{ $errors->first('order_number') }}
+                                    </span>
+                            @endif
+                        </div>
+                    </div>
 
-
-                    <form class="form-horizontal">
-                        <fieldset>
-                            <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                <label for="" class="control-label col-md-3">주문 생성자</label>
-
-                                <div class="col-md-3">
-                                    {!! Form::select('user_id', $users, ['class'=>'form-control', 'id'=>'user_id']) !!}
-                                    <span class="help-block">ex) 유저 2 (user@2by.kr) => 주문하는 유저 seq 번호 </span>
+                    <div id="diagnosis_form" style="display: none;">
+                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                            <label for="" class="control-label col-md-3">차량번호</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder="ex) 12가1234"
+                                       name="car_number"
+                                       id="car_number" value="">
+                                <span class="help-block">ex) 메뉴4 설명</span>
+                                @if ($errors->has('car_number'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('car_number') }}
+                                    </span>
+                                @endif
+                            </div>
+                            <label for="" class="control-label col-md-2">차대번호</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder="ex) sdjdmncvbdjkdk8391mn"
+                                       name="vin_number"
+                                       id="vin_number" value="">
+                                @if ($errors->has('vin_number'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('vin_number') }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                            <label for="" class="control-label col-md-3">차량모델</label>
+                            <div class="col-md-2">
+                                <div class="select">
+                                    <select class="form-control" id="brands" name="brands" autocomplete="off">
+                                        <option value="">선택하세요.</option>
+                                        @foreach($brands as $brand)
+                                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
+                                @if ($errors->has('grades'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('grades') }}
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-md-2 select">
+                                <select class="form-control" id="models" name="models" autocomplete="off">
+                                    <option value="">선택하세요.</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 select">
+                                <select class="form-control" id="details" name="details" autocomplete="off">
+                                    <option value="">선택하세요.</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 select">
+                                <select class="form-control" id="grades" name="grades" autocomplete="off">
+                                    <option value="">선택하세요.</option>
+                                </select>
                             </div>
 
-                            <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                <label for="" class="control-label col-md-3">정비소 번호</label>
-                                <div class="col-md-3">
-                                    {!! Form::select('garage_id', $garages, ['class'=>'form-control', 'id'=>'garage_id']) !!}
-                                    <span class="help-block">ex) 정비소 4 (moon@2by.kr) => 주문하고자 하는 정비소 번호 </span>
+                        </div>
+                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                            <label for="" class="control-label col-md-3">사고/침수여부</label>
+                            <div class="col-md-3">
+                                <input type="checkbox" name="accident" id="accident">사고여부
+                                <input type="checkbox" name="flood" id="flood">침수여부
+                                @if ($errors->has('orderer_name'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('orderer_name') }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                            <label for="" class="control-label col-md-3">입고대리점</label>
+                            <div class="col-md-2">
+                                <div class="select">
+                                    <select class="form-control" id="areas" name="areas" autocomplete="off">
+                                        <option>선택하세요.</option>
+                                        @foreach($areas as $key => $area)
+                                            <option value="{{ $area->area }}">{{ $area->area }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
+
+                                @if ($errors->has('garages'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('garages') }}
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-md-2 select">
+                                <select class="form-control" id="sections" name="sections" autocomplete="off">
+                                    <option value="">선택하세요.</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 select">
+                                <select class="form-control" id="garages" name="garages" autocomplete="off">
+                                    <option value="">선택하세요.</option>
+                                </select>
                             </div>
 
-                            <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                <label for="" class="control-label col-md-3">차량번호</label>
-                                <div class="col-md-3">
-                                    <input type="text" class="form-control" placeholder="차량번호 ex) 00허0000"
-                                           name="car_number"
-                                           id="car_number" value="">
-                                    <span class="help-block">ex) 00허000</span>
+                        </div>
+                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                            <label for="" class="control-label col-md-3">입고희망일</label>
+                            <div class="col-md-3">
+                                <div class="input-group form-group">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                                    <div class="dtp-container">
+                                        <input type='text' class="form-control date-picker"
+                                               id="reservation_at" name="reservation_at"
+                                               placeholder="Click here...">
+                                    </div>
                                 </div>
+                                @if ($errors->has('reservation_at'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('reservation_at') }}
+                                    </span>
+                                @endif
                             </div>
-
-
-                            <div class="form-group">
-                                <div class="col-md-9 col-md-offset-3">
-                                    <button class="btn btn-primary"
-                                            data-loading-text="{{ trans('common.button.loading') }}"
-                                            id="create_order" type="button">주문 생성하기
-                                    </button>
-                                </div>
+                            <div class="col-md-1 select">
+                                {!! Form::select('sel_time', $sel_hours, [], ['class'=>'form-control ','id'=>'sel_time']) !!}
                             </div>
-                        </fieldset>
-                    </form>
-                </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button class="btn btn-primary"
+                                    data-loading-text="{{ trans('common.button.loading') }}"
+                                    id="create_order" type="button">주문 생성하기
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+                {!! Form::close() !!}
             </div>
-
         </div>
+
     </section>
 @endsection
 
@@ -105,4 +258,199 @@
 
 
 @push( 'footer-script' )
+    <script type="text/javascript">
+        $(function () {
+            if ($('#diagnosis').prop('checked')) {
+                $('#diagnosis_form').css('display', '');
+                $('.order_div').css('display', 'none');
+            } else {
+                $('#diagnosis_form').css('display', 'none');
+                $('.order_div').css('display', '');
+            }
+        });
+
+        $('#diagnosis').change(function () {
+            if ($(this).prop('checked')) {
+                $('#diagnosis_form').css('display', '');
+                $('.order_div').css('display', 'none');
+
+            } else {
+                $('#diagnosis_form').css('display', 'none');
+                $('.order_div').css('display', '');
+            }
+
+        });
+
+        $('#create_order').click(function(){
+            if(!$('#orderer_id').val() && !$('#orderer_name').val()){
+                alert('dddd');
+                $('#frm').submit();
+            }else{
+                var html = '<span class="text-danger">\n' +
+                    '주문자 성명 필드는 필수입니다.\n' +
+                    '</span>';
+                $('#error_div').append(html);
+            }
+        });
+
+
+        // brands 선택 시
+        $('#brands').on('change', function () {
+            var brand = $('#brands option:selected').val();
+            // $('#brand_id').val(brand);
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/order/get-models/',
+                data: {'brand': brand},
+                success: function (data) {
+                    $('#models').empty();
+                    $('#details').html('<option disabled="true">선택하세요.</option>');
+                    $('#grades').html('<option disabled="true">선택하세요.</option>');
+                    $('#models').append('<option >선택하세요.</option>');
+                    $.each(data, function (key, value) {
+                        $('#models').append($('<option/>', {
+                            value: value.id,
+                            text: value.name
+                        }));
+                    });
+                },
+                error: function (data) {
+                    // alert('처리중 오류가 발생했습니다.');
+                    alert(JSON.stringify(data));
+                }
+            });
+        });
+
+        // models 선택 시
+        $('#models').on('change', function () {
+
+            var model = $('#models option:selected').val();
+            $('#models_id').val(model);
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/order/get-details/',
+                data: {'model': model},
+                success: function (data) {
+                    $('#details').empty();
+                    $('#grades').html('<option disabled="true">선택하세요.</option>');
+                    $('#details').append('<option >선택하세요.</option>');
+                    $.each(data, function (key, value) {
+                        $('#details').append($('<option/>', {
+                            value: value.id,
+                            text: value.name
+                        }));
+                    });
+
+                },
+                error: function (data) {
+                    alert('처리중 오류가 발생했습니다.');
+                }
+            });
+        });
+
+        // detail 선택 시
+        $('#details').on('change', function () {
+            var detail = $('#details option:selected').val();
+            $('#detail_id').val(detail);
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/order/get-grades/',
+                data: {'detail': detail},
+                success: function (data) {
+
+                    $('#grades').empty();
+                    $('#grades').append('<option >선택하세요.</option>');
+                    $.each(data, function (key, value) {
+                        $('#grades').append('<option data-item="' + value.items_id + '" value="' + value.id + '">' + value.name + '</option>');
+                    });
+
+                },
+                error: function (data) {
+                    alert('처리중 오류가 발생했습니다.');
+                }
+            });
+        });
+
+        // grade 리스트
+        $('#grades').on('change', function (e) {
+
+            var pre_selected_item = $(e.target).find('option:selected').data('item');
+            if (pre_selected_item) {
+
+                $('.purchase-item-product').each(function () {
+
+                    if ($(this).data('index') == pre_selected_item) {
+
+                        $("#purchase-items-blind").show();
+                        $(this).trigger('click');
+                        return true;
+                    }
+                });
+            }
+        });
+
+        // 시/도 리스트
+        $('#areas').change(function () {
+            var area = $('#areas option:selected').text();
+
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/order/get-section',
+                data: {
+                    'garage_area': area
+                },
+                success: function (data) {
+                    //select box 초기화
+                    $('#sections').html("");
+                    $('#garages').html('<option disabled="true">선택하세요.</option>');
+                    $('#sections').append('<option >선택하세요.</option>');
+                    // $('#sel_area').val(garage_area);
+                    $.each(data, function (key, value) {
+                        $('#sections').append($('<option/>', {
+                            value: value,
+                            text: value
+                        }));
+                    });
+                },
+                error: function (data) {
+                    alert(JSON.stringify(data));
+                    // alert('error');
+                }
+            })
+
+        });
+        // 구/군 리스트
+        $('#sections').change(function () {
+            var garage_area = $('#areas option:selected').text();
+            var garage_section = $('#sections option:selected').text();
+
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/order/get-address/',
+                data: {
+                    'sel_area': garage_area,
+                    'sel_section': garage_section
+                },
+                success: function (data) {
+                    $('#garages').html("");
+                    $('#garages').append('<option >선택하세요.</option>');
+                    $.each(data, function (key, value) {
+                        $('#garages').append($('<option/>', {
+                            //                            value: value.id,
+                            value: key,
+                            text: value
+                        }))
+                    });
+                },
+                error: function (data) {
+                    alert('error');
+                }
+            });
+        });
+    </script>
 @endpush

@@ -61,7 +61,8 @@
                         </colgroup>
                         <thead>
                         <tr class="active">
-                            <th class="text-center"><i class="fa fa-sort" aria-hidden="true"></i> <a href="#" id="sort">상태</a></th>
+                            <th class="text-center"><i class="fa fa-sort" aria-hidden="true"></i> <a href="#" id="sort">상태</a>
+                            </th>
                             <th class="text-center">주문번호</th>
                             <th class="text-center">주문자정보</th>
                             <th class="text-center">결제정보</th>
@@ -105,7 +106,8 @@
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="/user/{{ $data->orderer_id }}/edit">{{ $data->orderer_name }} <span class="text-muted">{{ $data->orderer->email }}</span></a>
+                                    <a href="/user/{{ $data->orderer_id }}/edit">{{ $data->orderer_name }} <span
+                                                class="text-muted">{{ $data->orderer->email }}</span></a>
                                     <br/>
                                     <small class="text-warning">{{ $data->orderer_mobile }}</small>
                                 </td>

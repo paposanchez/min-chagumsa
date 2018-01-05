@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\SendSms;
+use App\Models\Brand;
 use App\Models\Certificate;
+use App\Models\Detail;
 use App\Models\Diagnosis;
+use App\Models\Grade;
+use App\Models\Models;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Reservation;
@@ -183,138 +187,67 @@ class OrderController extends Controller
 
     public function create(Request $request, $page = 1)
     {
+        $user = Auth::user();
+
         $users = Role::find(2)->users->pluck('name', 'id');
-        $garages = Role::find(4)->users->pluck('name', 'id');
+        $brands = Brand::select('id', 'name')
+            ->orderByRaw('CASE WHEN id = 5 THEN 8 WHEN id = 6 THEN 9 WHEN id = 4 OR id = 19 OR id = 38 OR id = 74 OR id = 44 THEN 5 WHEN id = 1 OR id = 28 OR id = 45 THEN 1 ELSE 3 END ASC, name ASC')
+            ->get();
+        $areas = UserExtra::whereNotIn('users_id', [4])
+            ->join('users', function ($join) {
+                $join->on('user_extras.users_id', 'users.id')
+                    ->where('users.status_cd', 1);
+            })
+            ->orderBy(DB::raw('field(area, "서울시")'), 'desc')->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->get();
+        $sel_hours = [
+            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
+        ];
 
-        return view('admin.order.create', compact('users', 'garages'));
+        return view('admin.order.create', compact('user', 'users', 'areas', 'brands', 'sel_hours'));
     }
 
+    public function store(Request $request){
 
-    /**
-     * @param Request $request
-     * 주문 예약 변경
-     * 예약날짜 및 상태 변경
-     * 고객에게 메일, 문자 전송
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function reservationChange(Request $request)
-    {
-        try {
-            $order_id = $request->get('order_id');
-            $date = $request->get('date');
-            $time = $request->get('time');
-
-            //예약날짜 변경
-            $reservation_date = new DateTime($date . ' ' . $time . ':00:00');
-            $reservation = Reservation::where('orders_id', $order_id)->first();
-            $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
-            $reservation->save();
-
-            //주문의 상태를 예약 확인으로 변경
-            $order = Order::find($order_id);
-            $order->status_cd = 103;
-            $order->save();
-
-            //문자, 메일 송부하기
-            $user_info = User::find($order->orderer_id);
-            $enter_date = $reservation->reservation_at;
-            $daily = array('일', '월', '화', '수', '목', '금', '토');
-            $week_day = $daily[date('w', strtotime($enter_date))];
-            $garage_info = User::find($order->garage_id);
-            $garage = $garage_info->name;
-            $garage_extra = UserExtra::where('users_id', $garage_info->id)->first();
-            $address = $garage_extra->address;
-            $tel = $garage_extra->phone;
-            $price = $order->item->price;
-
-            try {
-                //메일전송
-                $mail_message = [
-                    'enter_date' => $enter_date, 'garage' => $garage, 'price' => $price
-                ];
-                Mail::send(new \App\Mail\Ordering($user_info->email, "차검사 차량입고 예약시간이 변경되었습니다.", $mail_message, 'message.email.change-reservation-user'));
-            } catch (\Exception $e) {
-                //                return response()->json($e->getMessage());
-            }
-
-            try {
-                // SMS전송
-                $user_message = view('message.sms.change-reservation-user', compact('enter_date', 'week_day', 'garage', 'address', 'tel', 'price'));
-                event(new SendSms($order->orderer_mobile, '', $user_message));
-            } catch (\Exception $e) {
-                //                return response()->json($e->getMessage());
-            }
-            //발송 끝
-
-
-            return response()->json('success');
-        } catch (Exception $ex) {
-            return response()->json($ex->getMessage());
+        if($request->get('diagnosis')){
+            $this->validate($request, [
+                'orderer_mobile' => 'required|min:9',
+                'car_number' => 'required',
+                'vin_number' => 'required',
+                'brands' => 'required',
+                'models' => 'required',
+                'details' => 'required',
+                'grades' => 'required',
+                'areas' => 'required',
+                'sections' => 'required',
+                'garages' => 'required',
+                'reservation_at' => 'required',
+                'sel_time' => 'required'
+            ], [],
+                [
+                    'orderer_mobile' => '주문자 휴대폰번호',
+                    'car_number' => '차량번호',
+                    'vin_number' => '차대번호',
+                    'grades' => '차량 정보',
+                    'garages' => '대리점 정보',
+                    'reservation_at' => '예약날짜',
+                    'sel_time' => '예약시간'
+                ]);
+        }else{
+            $this->validate($request, [
+                'orderer_id' => 'required|min:2',
+                'orderer_mobile' => 'required|min:9',
+                'order_number' => 'required'
+            ], [],
+                [
+                    'orderer_id' => '주문자',
+                    'orderer_mobile' => '주문자 휴대폰번호',
+                    'order_number' => '주문번호'
+                ]);
         }
 
-    }
-
-    /**
-     * @param Int $order_id
-     * 주문 예약 확정
-     * 고객에게 예약 확정에 대한 메일, 문자 전송
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function confirmation($order_id)
-    {
-        try {
-            $reservation = Reservation::where('orders_id', $order_id)->first();
-            $reservation->update([
-                'updated_id' => Auth::user()->id,
-                'updated_at' => Carbon::now()
-            ]);
-
-            $order = Order::find($order_id);
-            $order->status_cd = 104;
-            $order->save();
-
-            //기존 진단데이터 삭제
-            Diagnosis::where('orders_id', $order->id)->delete();
-
-            $diagnosis = new DiagnosisRepository();
-            $diagnosis->prepare($order->id)->create($order->id);
-
-            //문자, 메일 송부하기
-            $user_info = User::find($order->orderer_id);
-            $enter_date = $reservation->reservation_at;
-            $daily = array('일', '월', '화', '수', '목', '금', '토');
-            $week_day = $daily[date('w', strtotime($enter_date))];
-            $garage_info = User::find($order->garage_id);
-            $garage = $garage_info->name;
-            $garage_extra = UserExtra::where('users_id', $garage_info->id)->first();
-            $address = $garage_extra->address;
-            $tel = $garage_extra->phone;
-
-            try {
-                //메일전송
-                $mail_message = [
-                    'enter_date' => $enter_date, 'week_day' => $week_day, 'garage' => $garage, 'address' => $address, 'tel' => $tel
-                ];
-                Mail::send(new \App\Mail\Ordering($user_info->email, "고객님의 차량입고 예약시간이 확정되었습니다.", $mail_message, 'message.email.confirmation-ordering-user'));
-            } catch (\Exception $e) {
-                return response()->json($e->getMessage());
-            }
-
-            try {
-                // SMS전송
-                $user_message = view('message.sms.confirmation-ordering-user', compact('enter_date', 'week_day', 'garage', 'address', 'tel'));
-                event(new SendSms($order->orderer_mobile, '', $user_message));
-            } catch (\Exception $e) {
-                return response()->json($e->getMessage());
-            }
-            //발송 끝
-
-            return response()->json(true);
-        } catch (Exception $ex) {
-            return response()->json(false);
-        }
 
     }
+
 
     /**
      * @param Request $request
@@ -364,77 +297,7 @@ class OrderController extends Controller
         return redirect()->back()->with('success', '차정보가 수정되었습니다.');
     }
 
-    /**
-     * @param Request $request
-     * 주문에 대한 정비소 및 정비사 변경
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function bcsUpdate(Request $request)
-    {
-        $order = Order::findOrFail($request->get('id'));
-        $order->garage_id = $request->get('garages');
-        $order->engineer_id = $request->get('engineer');
-        $order->status_cd = 103;
-        $order->save();
 
-        $reservation_date = new DateTime($request->get('date') . ' ' . $request->get('time') . ':00:00');
-        $reservation = Reservation::where('orders_id', $order->id)->first();
-        $reservation->garage_id = $request->get('garages');
-        $reservation->reservation_at = $reservation_date->format('Y-m-d H:i:s');
-        $reservation->save();
-
-        //문자, 메일 송부하기
-        $user_info = User::find($order->orderer_id);
-        $enter_date = $reservation->reservation_at;
-        $daily = array('일', '월', '화', '수', '목', '금', '토');
-        $week_day = $daily[date('w', strtotime($enter_date))];
-        $garage_info = User::find($order->garage_id);
-        $garage = $garage_info->name;
-        $garage_extra = UserExtra::where('users_id', $garage_info->id)->first();
-        $address = $garage_extra->address;
-        $tel = $garage_extra->phone;
-        $price = $order->item->price;
-
-        try {
-            //메일전송
-            $mail_message = [
-                'enter_date' => $enter_date, 'garage' => $garage, 'price' => $price
-            ];
-            Mail::send(new \App\Mail\Ordering($user_info->email, "차검사 차량입고 예약시간이 변경되었습니다.", $mail_message, 'message.email.change-reservation-user'));
-        } catch (\Exception $e) {
-        }
-
-        try {
-            // SMS전송
-            $user_message = view('message.sms.change-reservation-user', compact('enter_date', 'week_day', 'garage', 'address', 'tel', 'price'));
-            event(new SendSms($order->orderer_mobile, '', $user_message));
-        } catch (\Exception $e) {
-        }
-        //발송 끝
-
-        return redirect()->back()->with('success', 'BCS정보가 수정되었습니다.');
-    }
-
-    /**
-     * @param Request $request
-     * 주문에 대한 기술사 변경
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function techUpdate(Request $request)
-    {
-        $this->validate($request, [
-            'technician' => 'required',
-
-        ], [],
-            [
-                'technician' => '차량번php호',
-            ]);
-        $order = Order::findOrFail($request->get('id'));
-        $order->technist_id = $request->get('technician');
-        $order->save();
-
-        return redirect()->back()->with('success', '기술사정보가 수정되었습니다.');
-    }
 
     /**
      * @param Request $request
@@ -619,79 +482,39 @@ class OrderController extends Controller
     }
 
     /**
+     * 차량 모델 조회 메소드
      * @param Request $request
-     * 정비소 전체 주소 출력
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getFullAddress(Request $request)
+    public function getModels(Request $request)
     {
-        try {
-            $garage_id = $request->get('garage_id');
-            $full_address = UserExtra::where('users_id', $garage_id)->first()->address;
-            if (!$full_address) {
-                $full_address = new UserExtra();
-            }
-            return response()->json($full_address);
-        } catch (\Exception $ex) {
-            return response()->json('error');
-        }
+        $brand_id = $request->get('brand');
+        $models = Models::where('brands_id', $brand_id)->orderBy("name", 'ASC')->get();
+        return $models;
     }
 
     /**
+     * 차량 세부모델 조회 메소드
      * @param Request $request
-     * 엔지니어 리스트 출력
-     * 엔지니어 롤을 가지고있다면, BCS도 같이 노출
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getEngineer(Request $request)
+    public function getDetails(Request $request)
     {
-        try {
-            $users = Role::findOrFail(5)->users;
-            $engineers = [];
-
-            foreach ($users as $user) {
-                if (isset($user->user_extra->users_id)) {
-                    if ($user->user_extra->users_id == $request->get('garage_id')) {
-                        $engineers[$user->id] = $user->name;
-                    }
-                }
-
-                if (isset($user->user_extra->garage_id)) {
-                    if ($user->user_extra->garage_id == $request->get('garage_id')) {
-                        $engineers[$user->id] = $user->name;
-                    }
-                }
-            }
-
-            return response()->json(array_unique($engineers));
-        } catch (\Exception $ex) {
-            return response()->json($ex->getMessage());
-        }
-
+        $model_id = $request->get('model');
+        $details = Detail::where('models_id', $model_id)->orderBy("name", 'ASC')->get();
+        return $details;
     }
 
     /**
+     * 차량 등급 조회 메소드
      * @param Request $request
-     * 진단 시작
-     * 입고대기에 해당하는 주문을 진단 시작 할 수 있다.
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function diagnosing(Request $request)
+    public function getGrades(Request $request)
     {
-        try {
-            $order_id = $request->get('order_id');
-            $engineer_id = $request->get('engineer_id');
-
-            $order = Order::findOrFail($order_id);
-
-            $order->engineer_id = $engineer_id;
-            $order->diagnose_at = new DateTime('now');
-            $order->status_cd = 106;
-            $order->save();
-
-            return response()->json('success');
-        } catch (\Exception $ex) {
-            return response()->json($ex->getMessage());
-        }
+        $detail_id = $request->get('detail');
+        $grades = Grade::where('details_id', $detail_id)->where('items_id', '>', '0')->get();
+        return $grades;
     }
+
 }
