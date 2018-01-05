@@ -3,9 +3,10 @@
 
 @section( 'body-title', config("app.name") )
 
-@section('body-class') layout-normal  @endsection
+@section('body-class') layout-wide  @endsection
 
 @section( 'content-header-script' )
+
 
 <!-- Vendor CSS -->
 {!! Html::style('/assets/vendors/bower_components/animate.css/animate.min.css') !!}
@@ -23,45 +24,22 @@
 {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') !!}
 {!! Html::style('/assets/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css') !!}
 
-
 @stack('header-script')
 
 @endsection
 
 @section( 'content-header' )
 {{-- 헤더 메뉴 --}}
-@includeIf( 'web.partials.header' )
 @endsection
 
 @section( 'content-body' )
-<section id="main">
-
-        {{-- 본문의 사이드 --}}
-        @includeIf( 'web.partials.left' )
-
         @include('flash::message')
-
-        @hasSection('breadcrumbs')
-        <div class="container-wrapper">
-
-                <div class="container">
-
-                        @yield( 'breadcrumbs' )
-
-                </div>
-        </div>
-        @endif
-
         @yield( 'content' )
-
-</section>
-
 @endsection
 
 @section( 'content-footer' )
 
 {{-- 푸터 카피라이트 --}}
-@includeIf( 'web.partials.footer' )
 
 <!-- Page Loader -->
 <div class="page-loader">
@@ -70,7 +48,7 @@
                         <circle class="plc-path" cx="50" cy="50" r="20" />
                 </svg>
 
-                <p>로딩중...</p>
+                <p>Please wait...</p>
         </div>
 </div>
 
@@ -154,8 +132,9 @@
 {!! Html::script('/assets/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js') !!}
 <![endif]-->
 
+
 {{-- application script --}}
-{{ Html::script(mix( '/assets/js/app.front.js' )) }}
+{{ Html::script(mix( '/assets/js/app.admin.js' )) }}
 
 @stack( 'footer-script' )
 

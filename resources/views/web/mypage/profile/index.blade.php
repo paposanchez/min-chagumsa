@@ -1,193 +1,103 @@
 @extends( 'web.layouts.default' )
 
 @section( 'content' )
+<section id="content" class="content-alt">
 
-    <div id='sub_title_wrap'>
-        <h2>마이페이지
-            <div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> 마이페이지 <i
-                        class="fa fa-angle-right"></i> <span>회원정보 수정</span></div>
-        </h2>
-    </div>
+        <div class="container">
 
-    <div id='sub_wrap'>
+                <h1>회원정보변경</h1>
 
-        <ul class='menu_tab_wrap'>
-            <li><a class='' href='{{ route('mypage.order.index') }}'>주문목록</a></li>
-            <li><a class='' href='{{ route('mypage.certificate.index') }}'>MY 인증서</a></li>
-            <li><a class='select' href='{{ route('mypage.profile.index') }}'>회원정보수정</a></li>
+                <div class="row">
 
+                        <div class="col-sm-4">
+                                <h3 class="text-light m-t-0">안전한 비밀번호를 선택했는지 확인</h3>
+                                <h4 class="text-light">안전한 비밀번호는 숫자, 문자, 기호가 조합되어 있으며 예측하기가 어렵고 실제 단어와 비슷하지 않으며 이 계정에만 사용되는 비밀번호입니다.</h4>
+                        </div>
 
-            <li class=" pull-right">
-                <button class='btn btn-link btn-lg' id="leave" type="button"><span class=" text-danger">회원탈퇴</span>
-                </button>
-            </li>
-        </ul>
+                        <div class="col-sm-8">
 
-        <div class='br30'></div>
+                                <div class="card">
 
-        <div class='order-container' style="">
+                                        <img src="/assets/img/background.jpg" class="img-responsive" alt="" style="width:100%;height:200px;">
 
-            <div class="row">
+                                        <div class="card-body card-padding">
 
+                                                <div class="form-group fg-float m-b-30">
+                                                        <div class="fg-line">
+                                                                <input type="email" class="form-control input-sm" value="{{ Auth::user()->email }}">
+                                                                <label class="fg-label">Email address</label>
+                                                        </div>
+                                                </div>
 
-                <div class="col-md-6">
-                    {!! Form::open([ 'route' => ['mypage.profile.store'], 'class' =>'form-horizontal', 'method' => 'POST', 'role' => 'form', 'id' => 'user-form']) !!}
+                                                <div class="form-group fg-float m-b-30">
+                                                        <div class="fg-line">
+                                                                <input type="email" class="form-control input-sm">
+                                                                <label class="fg-label">사용자명</label>
+                                                        </div>
+                                                </div>
 
-                    <div class="form-group ">
-                        <label for="">회원정보변경</label>
+                                                <div class="form-group fg-float m-b-30">
+                                                        <div class="fg-line">
+                                                                <input type="email" class="form-control input-sm">
+                                                                <label class="fg-label">Contact Number</label>
+                                                        </div>
+                                                </div>
 
-                        <div class="block">
-
-                            <div class="form-group  form-group-lg ">
-                                <label class="control-label">{{ trans('web/register.email') }}</label>
-                                <p class="form-control-static">{{ $profile->email }}</p>
-                            </div>
-
-
-                            <div class="form-group  form-group-lg  {{ $errors->has('name') ? 'has-error' : '' }}">
-                                <label for="" class="control-label">{{ trans('web/register.name') }}</label>
-                                <div class="input-group ">
-                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input type="text" class="form-control " value="{{ $profile->name }}"
-                                           placeholder="{{ trans('web/register.name') }}" name="name" id="inputName">
+                                                <button class="btn btn-info waves-effect">Submit</button>
+                                                <button class="btn btn-link waves-effect">Cancel</button>
+                                        </div>
                                 </div>
 
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                                                {{ $errors->first('name') }}
-                                                        </span>
-                                @endif
-
-                            </div>
-
-                            <div class="form-group form-group-lg">
-                                <label class="control-label">가입일</label>
-                                <p class=" form-control-static">{{ $profile->created_at }}</p>
-                            </div>
-
                         </div>
-                    </div>
 
-
-                    <p class="text-center">
-                        <button class="btn btn-lg btn-success" data-loading-text="처리중..." type="submit">회원정보변경</button>
-                    </p>
-                    {!! Form::close() !!}
                 </div>
 
-                <div class="col-md-6">
 
-                    {!! Form::open([ 'route' => ['mypage.profile.store'], 'class' =>'form-horizontal', 'method' => 'POST', 'role' => 'form', 'id' => 'user-password-form']) !!}
-
-
-                    <div class="form-group ">
-                        <label for="">비밀번호 변경</label>
-                        <div class="block">
-                            <div class="form-group  form-group-lg {{ $errors->has('old_password') ? 'has-error' : '' }}">
-                                <label for="inputPasswordConfirmation" class="control-label">현재 비밀번호</label>
-                                <input type='password' name="old_password" class='form-control ' placeholder='현재 비밀번호'>
-                                @if ($errors->has('old_password'))
-                                    <span class="help-block">
-                                                                {{ $errors->first('old_password') }}
-                                                        </span>
-                                @endif
-                            </div>
+                <hr>
 
 
-                            <div class="form-group  form-group-lg {{ $errors->has('password') ? 'has-error' : '' }}">
-                                <label for="inputPassword" class="control-label">새 비밀번호</label>
-                                <input type="password" class="form-control " placeholder="새 비밀번호" name="password"
-                                       id="inputPassword">
+                <h1 class="m-b-10">서비스탈퇴</h1>
 
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                                                {{ $errors->first('password') }}
-                                                        </span>
-                                @endif
-                            </div>
+                <div class="row">
 
-                            <div class="form-group  no-margin form-group-lg {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
-                                <label for="inputPasswordConfirmation" class="control-label">새 비밀번호 확인</label>
-                                <input type="password" class="form-control " placeholder="새 비밀번호 확인"
-                                       name="password_confirmation" id="inputPasswordConfirmation">
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                                                {{ $errors->first('password_confirmation') }}
-                                                        </span>
-                                @endif
-                            </div>
+                        <div class="col-sm-4">
+                                <h3 class="text-light m-t-0">안전한 비밀번호를 선택했는지 확인</h3>
+                                <h4 class="text-light">안전한 비밀번호는 숫자, 문자, 기호가 조합되어 있으며 예측하기가 어렵고 실제 단어와 비슷하지 않으며 이 계정에만 사용되는 비밀번호입니다.</h4>
                         </div>
-                    </div>
+
+                        <div class="col-sm-8">
+
+                                <div class="card">
+                                        <!-- <div class="card-header ch-alt">
+                                        <h2>Sample Form
+                                        <small>Pellentesque ac lectus sed elit dictum vehicula</small>
+                                </h2>
+                        </div> -->
+
+                        <img src="/assets/img/background.jpg" class="img-responsive" alt="" style="width:100%;height:200px;">
+
+                        <div class="card-body card-padding">
 
 
-                    <p class="text-center">
-                        <button class="btn btn-lg btn-success" data-loading-text="처리중..." type="submit">비밀번호 변경</button>
-                    </p>
-                    {!! Form::close() !!}
+                                <div class="form-group fg-float">
+                                        <div class="fg-line">
+                                                <textarea class="form-control auto-size input-sm" style="overflow: hidden; word-wrap: break-word; height: 43px;"></textarea>
+                                                <label class="fg-label">Message</label>
+                                        </div>
+                                </div>
+
+                                <button class="btn btn-info waves-effect">Submit</button>
+                                <button class="btn btn-link waves-effect">Cancel</button>
+                        </div>
                 </div>
-
-            </div>
 
         </div>
-    </div>
 
+</div>
+
+
+
+
+</div>
+</section>
 @endsection
-
-
-@push( 'header-script' )
-@endpush
-
-@push( 'footer-script' )
-    <script type="text/javascript">
-        $(function () {
-            $("#user-form").validate({
-                rules: {
-                    name: {
-                        required: true
-                    }
-                },
-                messages: {
-                    name: "이름을 입력하세요.",
-                    old_password: {
-                        required: "현재 사용중인 비밀번호를 입력해 주세요.",
-                        old_password: "새 비밀번호는 8~16자리의 영문/숫자/특수문자 입니다.",
-                    },
-                    password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)",
-                    password_confirmation: "입력된 새 비밀번호 확인값이 틀립니다."
-                }
-            });
-
-            $("#user-password-form").validate({
-                rules: {
-
-                    old_password: {
-                        required: true
-                    },
-                    password: {
-                        required: true,
-                    },
-                    password_confirmation: {
-                        required: true,
-                        equalTo: "#inputPasswordConfirmation"
-                    },
-                },
-                messages: {
-                    name: "이름을 입력하세요.",
-                    old_password: {
-                        required: "현재 사용중인 비밀번호를 입력해 주세요.",
-                        old_password: "새 비밀번호는 8~16자리의 영문/숫자/특수문자 입니다.",
-                    },
-                    password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)",
-                    password_confirmation: "입력된 새 비밀번호 확인값이 틀립니다."
-                }
-            });
-
-            $('#leave').click(function () {
-                location.href = '/mypage/leave';
-            });
-        });
-    </script>
-
-
-@endpush

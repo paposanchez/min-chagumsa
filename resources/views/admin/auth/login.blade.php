@@ -1,14 +1,20 @@
-@extends( 'admin.layouts.blank' )
+@extends( 'admin.layouts.login' )
 
 @section('body-class') layout-login @endsection
 
 @section('content')
-<div class="login-content">
+<div class="login-content" style="
+background: url(assets/img/background-gray.jpg) no-repeat center center fixed; -webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;
+">
         <!-- Login -->
         <div class="lc-block toggled" id="l-login">
 
                 <!-- <div class="lcb-form"> -->
                 {!! Form::open(['url' => 'login', 'class' =>'lcb-form', 'method' => 'post', 'role' => 'form', 'id'=>'login-form']) !!}
+
+                <h3 class="m-b-25">CHAGUMSA ADMINISTRATION</h3>
+
+
                 <div class="input-group m-b-20">
                         <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
                         <div class="fg-line">
@@ -23,16 +29,13 @@
                         </div>
                 </div>
 
-                <!-- <div class="checkbox">
-                        <label>
-                                <input type="checkbox" value="">
-                                <i class="input-helper"></i>
-                                로그인 유지하기
-                        </label>
-                </div> -->
+
+                <p class="m-t-25">
+                        <small class="text-muted">COPYRIGHTS BY CHAGUMSA</small>
+                </p>
 
                 <button type="submit" class="btn btn-login btn-success btn-float"><i class="zmdi zmdi-arrow-forward"></i></button>
-                <!-- </div> -->
+
                 {!! Form::close() !!}
 
                 <div class="lcb-navigation">

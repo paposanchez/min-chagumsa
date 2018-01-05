@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\Community;
+namespace App\Http\Controllers\Web;
 
 use App\Models\File;
 use App\Models\Post;

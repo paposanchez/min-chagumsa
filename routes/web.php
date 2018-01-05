@@ -51,32 +51,35 @@ Route::get('agreement/privacy', function () {
 
 
 
-
-
-
-Route::resource('inquire', 'InquireController');
-
-
 // 마이페이지
 Route::group(['middleware' => ['auth']], function () {
+
+
+        // 주문
+        Route::resource('cart', 'CartController');
+
+
+
         Route::group(['namespace' => 'Mypage', 'prefix' => 'mypage', 'as' => 'mypage.'], function () {
-                Route::post('profile/chk-pwd', ['as' => 'profile.chk-pwd', 'uses' => 'ProfileController@chkPwd']);
+
+
                 Route::resource('profile', 'ProfileController');
+                // Route::resource('order', 'OrderController');
                 Route::resource('history', 'HistoryController');
-                Route::resource('order', 'OrderController');
+                Route::resource('inquire', 'InquireController');
+                Route::resource('myorder', 'MyorderController');
+
+
+                Route::post('profile/chk-pwd', ['as' => 'profile.chk-pwd', 'uses' => 'ProfileController@chkPwd']);
+
                 Route::resource('certificate', 'CertificateController', ['only' => 'index']);
-
                 Route::post('/order/cancel', 'OrderController@cancel')->name('order.cancel');
-
                 Route::get('/order/change-car/{order_id}', 'OrderController@changeCar');
                 Route::post('/order/change-car/{order_id}', 'OrderController@updateCar');
                 Route::get('/order/change-reservation/{order_id}', 'OrderController@changeReservation');
                 Route::post('/order/change-reservation/{order_id}', 'OrderController@updateReservation');
-
-
                 Route::get('/leave', 'ProfileController@leaveForm');
                 Route::post('/leave', 'ProfileController@leave')->name('profile.leave');
-
                 Route::get('certificate/change-open-cd', 'CertificateController@changeOpenCd');
         });
 
@@ -114,16 +117,10 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 /////////////////////////////////////////////////////////////
-Route::get('order', 'OrderController@index');
 Route::get('certificate', 'CertificateController@index');
 
-
-// 공통
-Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
-Route::get('avatar/{user_id?}', 'ImageController@avatar')->name("avatar");
 // Route::get('file/diagnosis-download/{id}', '\App\Http\Controllers\FileController@diagnosisDownload')->name("file.diagnosis-download");
 Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");
-
 
 //결제결과 수신
 Route::match(['GET', 'POST'], 'payment/pay-result', 'PaymentController@payCallback')->name('payment.pay-result');

@@ -14,7 +14,7 @@
         <div class="container">
 
                 <div class="card">
-                        <div class="card-header">
+                        <div class="card-header ch-alt">
                                 <h2>공지사항
                                         <small class="">총 12개의 게시물이 등록되어 있습니다.</small>
                                 </h2>

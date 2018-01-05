@@ -14,7 +14,7 @@
         <div class="container">
 
                 <div class="card">
-                        <div class="card-header">
+                        <div class="card-header ch-alt">
                             <h2>공지사항
                                 <small class="">총 12개의 게시물이 등록되어 있습니다.</small>
                             </h2>
@@ -48,7 +48,7 @@
                                         <tr>
                                                 <td class="text-center">{{ $start_num - $key }}</td>
                                                 <td>
-                                                        <a href="{{ route("notice.show", ["id" => $row->id]) }}">{{ mb_strimwidth($row->subject, 0, 50, '...') }}</a>
+                                                        <a href="{{ route("notice.show", ["id" => $row->id]) }}">{{ mb_strimwidth($row->subject, 0, 100, '...') }}</a>
                                                 </td>
                                                 <td class="text-center">{{ $row->updated_at ? $row->updated_at->format("Y-m-d") : $row->created_at->format("Y-m-d") }}</td>
                                                 <td class="text-center">{{ number_format($row->hit) }}</td>

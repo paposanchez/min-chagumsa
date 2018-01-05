@@ -13,7 +13,8 @@
 
                                 <div class="card">
                                         <div class="card-header text-center">
-                                                {{ Html::image('/assets/img/logo.png') }}
+                                                <!-- {{ Html::image('/assets/img/logo.png') }} -->
+                                                <h2>로그인</h2>
                                         </div>
 
                                         <div class="card-body card-padding">

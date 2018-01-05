@@ -669,136 +669,136 @@ $(document).ready(function(){
         NoUiSlider (Input Slider)
     -----------------------------------------------------------*/
     //Basic
-    if ($('#input-slider')[0]) {
-        var slider = document.getElementById ('input-slider');
-
-        noUiSlider.create (slider, {
-            start: [20],
-            connect: 'lower',
-            range: {
-                'min': 0,
-                'max': 100
-            }
-        });
-    }
+    // if ($('#input-slider')[0]) {
+    //     var slider = document.getElementById ('input-slider');
+    //
+    //     noUiSlider.create (slider, {
+    //         start: [20],
+    //         connect: 'lower',
+    //         range: {
+    //             'min': 0,
+    //             'max': 100
+    //         }
+    //     });
+    // }
 
     //Range
-    if ($('#input-slider-range')[0]) {
-        var sliderRange = document.getElementById ('input-slider-range');
-
-        noUiSlider.create (sliderRange, {
-            start: [40, 70],
-            connect: true,
-            range: {
-                'min': 0,
-                'max': 100
-            }
-        });
-    }
-
-    //Range with value
-    if($('#input-slider-value')[0]) {
-        var sliderRangeValue = document.getElementById('input-slider-value');
-
-        noUiSlider.create(sliderRangeValue, {
-            start: [10, 50],
-            connect: true,
-            range: {
-                'min': 0,
-                'max': 100
-            }
-        });
-
-        sliderRangeValue.noUiSlider.on('update', function( values, handle ) {
-            document.getElementById('input-slider-value-output').innerHTML = values[handle];
-        });
-    }
+    // if ($('#input-slider-range')[0]) {
+    //     var sliderRange = document.getElementById ('input-slider-range');
+    //
+    //     noUiSlider.create (sliderRange, {
+    //         start: [40, 70],
+    //         connect: true,
+    //         range: {
+    //             'min': 0,
+    //             'max': 100
+    //         }
+    //     });
+    // }
+    //
+    // //Range with value
+    // if($('#input-slider-value')[0]) {
+    //     var sliderRangeValue = document.getElementById('input-slider-value');
+    //
+    //     noUiSlider.create(sliderRangeValue, {
+    //         start: [10, 50],
+    //         connect: true,
+    //         range: {
+    //             'min': 0,
+    //             'max': 100
+    //         }
+    //     });
+    //
+    //     sliderRangeValue.noUiSlider.on('update', function( values, handle ) {
+    //         document.getElementById('input-slider-value-output').innerHTML = values[handle];
+    //     });
+    // }
 
 
     /*----------------------------------------------------------
         Farbtastic Color Picker
     -----------------------------------------------------------*/
-    if ($('.color-picker')[0]) {
-	    $('.color-picker').each(function(){
-            var colorOutput = $(this).closest('.cp-container').find('.cp-value');
-            $(this).farbtastic(colorOutput);
-        });
-    }
+    // if ($('.color-picker')[0]) {
+	//     $('.color-picker').each(function(){
+    //         var colorOutput = $(this).closest('.cp-container').find('.cp-value');
+    //         $(this).farbtastic(colorOutput);
+    //     });
+    // }
 
 
     /*-----------------------------------------------------------
         Summernote HTML Editor
     -----------------------------------------------------------*/
-    if ($('.html-editor')[0]) {
-	   $('.html-editor').summernote({
-            height: 150
-        });
-    }
+    // if ($('.html-editor')[0]) {
+	//    $('.html-editor').summernote({
+    //         height: 150
+    //     });
+    // }
 
-    if($('.html-editor-click')[0]) {
-        //Edit
-        $('body').on('click', '.hec-button', function(){
-            $('.html-editor-click').summernote({
-                focus: true
-            });
-            $('.hec-save').show();
-        })
-
-        //Save
-        $('body').on('click', '.hec-save', function(){
-            $('.html-editor-click').code();
-            $('.html-editor-click').destroy();
-            $('.hec-save').hide();
-            notify('Content Saved Successfully!', 'success');
-        });
-    }
-
-    //Air Mode
-    if($('.html-editor-airmod')[0]) {
-        $('.html-editor-airmod').summernote({
-            airMode: true
-        });
-    }
+    // if($('.html-editor-click')[0]) {
+    //     //Edit
+    //     $('body').on('click', '.hec-button', function(){
+    //         $('.html-editor-click').summernote({
+    //             focus: true
+    //         });
+    //         $('.hec-save').show();
+    //     })
+    //
+    //     //Save
+    //     $('body').on('click', '.hec-save', function(){
+    //         $('.html-editor-click').code();
+    //         $('.html-editor-click').destroy();
+    //         $('.hec-save').hide();
+    //         notify('Content Saved Successfully!', 'success');
+    //     });
+    // }
+    //
+    // //Air Mode
+    // if($('.html-editor-airmod')[0]) {
+    //     $('.html-editor-airmod').summernote({
+    //         airMode: true
+    //     });
+    // }
 
 
     /*-----------------------------------------------------------
         Date Time Picker
     -----------------------------------------------------------*/
     //Date Time Picker
-    if ($('.date-time-picker')[0]) {
-	   $('.date-time-picker').datetimepicker();
-    }
-
-    //Time
-    if ($('.time-picker')[0]) {
-    	$('.time-picker').datetimepicker({
-    	    format: 'LT'
-    	});
-    }
-
-    //Date
-    if ($('.date-picker')[0]) {
-    	$('.date-picker').datetimepicker({
-    	    format: 'DD/MM/YYYY'
-    	});
-    }
-
-    $('.date-picker').on('dp.hide', function(){
-        $(this).closest('.dtp-container').removeClass('fg-toggled');
-        $(this).blur();
-    })
+    // if ($('.date-time-picker')[0]) {
+	//    $('.date-time-picker').datetimepicker();
+    // }
+    //
+    // //Time
+    // if ($('.time-picker')[0]) {
+    // 	$('.time-picker').datetimepicker({
+    // 	    format: 'LT'
+    // 	});
+    // }
+    //
+    // //Date
+    // if ($('.date-picker')[0]) {
+    // 	$('.date-picker').datetimepicker({
+    // 	    format: 'YYYY년 MM월 DD일'
+    // 	});
+    // }
+    //
+    // $('.date-picker').on('dp.hide', function(){
+    //     $(this).closest('.dtp-container').removeClass('fg-toggled');
+    //     $(this).blur();
+    // })
 
 
     /*-----------------------------------------------------------
         Form Wizard
     -----------------------------------------------------------*/
-    if ($('.form-wizard-basic')[0]) {
-    	$('.form-wizard-basic').bootstrapWizard({
-    	    tabClass: 'fw-nav',
-            'nextSelector': '.next',
-            'previousSelector': '.previous'
-    	});
-    }
+    // if ($('.form-wizard-basic')[0]) {
+    // 	$('.form-wizard-basic').bootstrapWizard({
+    // 	    tabClass: 'fw-nav',
+    //         'nextSelector': '.next',
+    //         'previousSelector': '.previous'
+    // 	});
+    // }
 
 
     /*-----------------------------------------------------------
@@ -912,14 +912,14 @@ $(document).ready(function(){
     /*-----------------------------------------------------------
         Dropzone Uploader
     -----------------------------------------------------------*/
-    if($('.dropzone')[0]) {
-        Dropzone.autoDiscover = false;
-        $('#dropzone-upload').dropzone({
-            url: "/file/post",
-            addRemoveLinks: true
-
-        });
-    }
+    // if($('.dropzone')[0]) {
+    //     Dropzone.autoDiscover = false;
+    //     $('#dropzone-upload').dropzone({
+    //         url: "/file/post",
+    //         addRemoveLinks: true
+    //
+    //     });
+    // }
 
 });
 //

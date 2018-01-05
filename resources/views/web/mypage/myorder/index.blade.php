@@ -12,7 +12,7 @@
     <div id='sub_wrap'>
 
         <ul class='menu_tab_wrap'>
-            <li><a class='select' href='{{ route('mypage.order.index') }}'>주문목록</a></li>
+            <li><a class='select' href='{{ route('mypage.myorder.index') }}'>주문목록</a></li>
             <li><a class='' href='{{ route('mypage.certificate.index') }}'>MY 인증서</a></li>
             <li><a class='' href='{{ route('mypage.profile.index') }}'>회원정보수정</a></li>
 

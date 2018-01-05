@@ -4,23 +4,7 @@
                 <h2>
                         @foreach ($breadcrumbs as $breadcrumb)
 
-                                @if (!$breadcrumb->last)
-
-                                        @if (!$breadcrumb->first)
-                                        <span class="divider">/</span>
-                                        @endif
-
                                         <span><a href="{{ $breadcrumb->url }}">{{ $breadcrumb->title }}</a></span>
-
-                                @else
-
-                                        @if (!$breadcrumb->first)
-                                        <span class="divider">/</span>
-                                        @endif
-
-                                        <span class="active">{{ $breadcrumb->title }}</span>
-
-                                @endif
 
                         @endforeach
                 </h2>

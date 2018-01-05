@@ -21,7 +21,7 @@ use DB;
 use Illuminate\Support\Facades\Mail;
 
 
-class OrderController extends Controller
+class MyorderController extends Controller
 {
 
     protected $merchantKey;//상점키
@@ -50,7 +50,7 @@ class OrderController extends Controller
             ->orderBy(DB::raw('CASE status_cd WHEN 100 THEN 9999 ELSE status_cd END'), 'ASC')
             ->paginate(10);
 
-        return view('web.mypage.order.index', compact('my_orders'));
+        return view('web.mypage.myorder.index', compact('my_orders'));
     }
 
     /**
@@ -66,7 +66,7 @@ class OrderController extends Controller
             return $feature->feature->display();
         });
         $features = $order_features->toArray();
-        return view('web.mypage.order.show', compact('order', 'features'));
+        return view('web.mypage.myorder.show', compact('order', 'features'));
     }
 
     /**
@@ -104,7 +104,7 @@ class OrderController extends Controller
         $search_fields = [
             '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
         ];
-        return view('web.mypage.order.reservation', compact('order', 'search_fields', 'areas', 'sections', 'garages', 'my_garage'));
+        return view('web.mypage.myorder.reservation', compact('order', 'search_fields', 'areas', 'sections', 'garages', 'my_garage'));
     }
 
     /**
@@ -186,7 +186,7 @@ class OrderController extends Controller
         if ($order->status_cd > 104) {
             return redirect()->back()->with('error', '잘못된 접근입니다. 관리자에게 문의해주세요.');
         }
-        return view('web.mypage.order.car', compact('order'));
+        return view('web.mypage.myorder.car', compact('order'));
     }
 
     /**

@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
         // 알림
         Route::resource('notify', 'NotifyController');
-        
+
         //쿠폰
         Route::resource('coupon', 'CouponController', ['only' => ['index', 'store', 'create', 'destroy']]);
 
@@ -139,7 +139,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
 });
 
-Route::any('logout', 'Auth\LoginController@logout');
+Route::any('logout', 'Auth\LoginController@logout')->name('admin.logout');
 Route::group(['middleware' => ['guest.admin']], function () {
         Route::get('login', function () {
                 return redirect('/');
