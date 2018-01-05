@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use DB;
-use Illuminate\Support\Facades\Cache;
+use App\Abstracts\Model\Cache AS CacheModel;
 
 /**
 *
@@ -30,28 +28,46 @@ use Illuminate\Support\Facades\Cache;
 *     )
 *
 */
-class Code extends Model {
+class Code extends CacheModel {
 
         protected $fillable = [
                 'group',
                 'name'
         ];
 
+        // 코드의 디스플레이명 출력
         public function display() {
                 return trans('code.' . $this->group . '.' . $this->name);
         }
 
+        // 서브코드 조회
         public function children() {
-                return $this->hasMany(\App\Models\Code::class, "group", $this->name);
+                return $this->hasMany(self::class, "group", $this->name);
         }
 
+        // 부모코드 조회
         public function parents() {
-                return $this->hasMany(\App\Models\Code::class, "name", $this->group);
+                return $this->hasMany(self::class, "name", $this->group);
         }
 
-        public static function getSelectList($group = '') {
+        // 출력형식으로 변환시
+        public function toDesign() {
+                return [
+                        "id"            => $this->id,
+                        "group"         => $this->group,
+                        "name"          => $this->name,
+                        "display"       => $this->display()
 
-//                $where = DB::table('codes')->orderBy('id');
+                ];
+        }
+
+
+
+
+
+
+        //--------------------------------------------------- extra funcs
+        public static function getSelectList($group = '') {
                 $where = DB::table('codes')->orderBy('sort');
                 if ($group) {
                         $where->where("group", $group);
@@ -83,30 +99,21 @@ class Code extends Model {
 
                 $return = [];
                 foreach($entrys as $entry) {
-                        $return[] = self::getArray($entry);
+                        $return[] = $entry->toDesign();
                 }
-
                 return $return;
-        }
-
-        public static function getArray($code) {
-                return array(
-                        "id" => $code->id,
-                        "group" => $code->group,
-                        "name" => $code->name,
-                        "display" => trans('code.' . $code->group . '.' . $code->name)
-                );
         }
 
         //=======================
         public static function getCodesByGroup($group) {
-                $return = DB::table('codes')
+                return DB::table('codes')
                 ->where("group", $group)
                 ->orderBy('id')
                 ->pluck("name", 'id');
-                return $return;
         }
 
+
+        // 특정그룹을 특정 필드명으로 조회
         public static function getCodeFieldArray($group, $field = 'id') {
 
                 $return = DB::table('codes')
@@ -120,16 +127,16 @@ class Code extends Model {
         }
 
 
-        public function getName() {
-
-                $return = [];
-
-                $return[] = array(
-                        'id' => $this->id,
-                        'name' => $this->name,
-                        'display' => $this->display()
-                );
-
-                return $return[0];
-        }
+        // public function getName() {
+        //
+        //         $return = [];
+        //
+        //         $return[] = array(
+        //                 'id' => $this->id,
+        //                 'name' => $this->name,
+        //                 'display' => $this->display()
+        //         );
+        //
+        //         return $return[0];
+        // }
 }

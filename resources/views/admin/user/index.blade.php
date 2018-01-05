@@ -95,7 +95,7 @@
                                         @foreach($entrys as $entry)
                                         <div class="col-md-2 col-sm-4 col-xs-6">
                                                 <div class="c-item">
-                                                        <a href="" class="ci-avatar">
+                                                        <a href="{{ route('user.edit', ['id'=>$entry->id]) }}" class="ci-avatar">
 
                                                                 {!! Html::image('/avatar/'.$entry->id) !!}
                                                         </a>
@@ -110,7 +110,7 @@
                                                         </div>
                                                 </div>
                                         </div>
-                                         @endforeach
+                                        @endforeach
 
                                 </div>
 
