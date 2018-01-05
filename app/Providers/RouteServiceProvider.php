@@ -15,17 +15,20 @@ class RouteServiceProvider extends ServiceProvider {
 
         public function map() {
 
+                // require base_path('routes/common.php');
+
+                $this->mapManagerRoutes();
+
                 $this->mapCdnRoutes();
                 // $this->mapCertRoutes();
                 // $this->mapTechnicianRoutes();
                 // $this->mapBcsRoutes();
                 // $this->mapAllianceRoutes();
 
-                $this->mapAdminRoutes();
-                $this->mapWebRoutes();
                 $this->mapApiRoutes();
 
-
+                $this->mapAdminRoutes();
+                $this->mapWebRoutes();
 
         }
 
@@ -105,16 +108,17 @@ class RouteServiceProvider extends ServiceProvider {
                 });
         }
 
-        // protected function mapMobileRoutes() {
-        //         $namespace = $this->namespace . '\Mobile';
-        //         Route::group([
-        //                 'middleware' => 'web',
-        //                 'namespace' => $namespace,
-        //                 'domain' => 'm.' . config('app.domain'),
-        //         ], function ($router) {
-        //                 require base_path('routes/mobile.php');
-        //         });
-        // }
+
+
+        protected function mapManagerRoutes() {
+                Route::group([
+                        'middleware' => 'web',
+                        'namespace' =>$this->namespace . '\Admin',
+                        'domain' => 'manager.' . config('app.domain'),
+                ], function ($router) {
+                        require base_path('routes/manager.php');
+                });
+        }
 
         protected function mapWebRoutes() {
                 $namespace = $this->namespace . '\Web';

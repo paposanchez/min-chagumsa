@@ -15,7 +15,6 @@ class LoginSuccess {
      */
     public function handle(Login $login) {
         activity()->log('Login');
-//        Activity::log('Login', $login->user->id);
     }
 
 }

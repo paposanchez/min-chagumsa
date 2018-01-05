@@ -16,6 +16,8 @@ class UserAccess {
      * @return void
      */
     public function handle(UserAccessEvent $event) {
+
+
         Locale::setLocale();
 
         // logging
