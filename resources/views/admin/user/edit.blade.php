@@ -5,12 +5,51 @@
 @endsection
 
 @section( 'content' )
-    <div class="container-fluid">
+    <section id="content">
+        {{--<div class="container">--}}
+        {{--<div class="block-header">--}}
+        {{--<h2>신규주문 생성</h2>--}}
 
-        <div class="row">
+        {{--<ul class="actions">--}}
+        {{--<li>--}}
+        {{--<a href="">--}}
+        {{--<i class="zmdi zmdi-trending-up"></i>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--<li>--}}
+        {{--<a href="">--}}
+        {{--<i class="zmdi zmdi-check-all"></i>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--<li class="dropdown">--}}
+        {{--<a href="" data-toggle="dropdown">--}}
+        {{--<i class="zmdi zmdi-more-vert"></i>--}}
+        {{--</a>--}}
 
-            <div class="col-md-12">
+        {{--<ul class="dropdown-menu dropdown-menu-right">--}}
+        {{--<li>--}}
+        {{--<a href="">Refresh</a>--}}
+        {{--</li>--}}
+        {{--<li>--}}
+        {{--<a href="">Manage Widgets</a>--}}
+        {{--</li>--}}
+        {{--<li>--}}
+        {{--<a href="">Widgets Settings</a>--}}
+        {{--</li>--}}
+        {{--</ul>--}}
+        {{--</li>--}}
+        {{--</ul>--}}
 
+        {{--</div>--}}
+
+        <div class="card">
+            <div class="card-header">
+                <h2>회원 정보 수정
+                    <small>회원의 정보를 수정한다.</small>
+                </h2>
+            </div>
+
+            <div class="card-body">
                 {!! Form::model($user, ['method' => 'PATCH','route' => ['user.update', $user->id], 'class'=>'form-horizontal', 'id'=>'frm-user', 'enctype'=>"multipart/form-data"]) !!}
                 <fieldset>
                     <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
@@ -352,30 +391,30 @@
                             <p class='form-control-static'>{{ $user->created_at }}</p>
                         </div>
                     </div>
-                </fieldset>
 
 
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-3">
-                        <a href="{{ route('user.index') }}" class="btn btn-default"><i
-                                    class="fa fa-reply"></i> {{ trans('common.button.back') }}</a>
-                        <button class="btn btn-primary" data-loading-text="{{ trans('common.button.loading') }}"
-                                type="submit">{{ trans('common.button.save') }}</button>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                            <a href="{{ route('user.index') }}" class="btn btn-default"><i
+                                        class="fa fa-reply"></i> {{ trans('common.button.back') }}</a>
+                            <button class="btn btn-primary" data-loading-text="{{ trans('common.button.loading') }}"
+                                    type="submit">{{ trans('common.button.save') }}</button>
 
-                        @if ($user->id != 1)
-                            <button class="btn btn-danger pull-right" id="btn-user-destory"
-                                    data-loading-text="{{ trans('common.button.loading') }}">{{ trans('common.button.destroy') }}</button>
-                        @endif
+                            @if ($user->id != 1)
+                                <button class="btn btn-danger pull-right" id="btn-user-destory" type="button"
+                                        data-loading-text="{{ trans('common.button.loading') }}">{{ trans('common.button.destroy') }}</button>
+                            @endif
 
+                        </div>
                     </div>
-                </div>
+                </fieldset>
                 {!! Form::close() !!}
-
             </div>
-
         </div>
 
-    </div><!-- container -->
+    </section>
+
+
 
     {!! Form::open(['method' => 'DELETE', 'route' => ['user.destroy', $user->id], 'id'=>'frm-user-destroy']) !!}
     {!! Form::close() !!}
@@ -450,6 +489,10 @@
                 id="qq-template">@include("partials/files", ['files'=> $user->user_extra->bcs_files])</script>
     @endif
     <script type="text/javascript">
+        $('#btn-user-destory').click(function(){
+            $('#frm-user-destroy').submit();
+        });
+
         $(function () {
 
 

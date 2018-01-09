@@ -27,8 +27,8 @@ class PermissionController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $permissions = Permission::get();
-        return view('admin.permission.create', compact('permissions'));
+        $roles = Role::get();
+        return view('admin.permission.create', compact('roles'));
     }
 
     /**
@@ -58,7 +58,8 @@ class PermissionController extends Controller {
 
         if ($request->input('role')) {
             foreach ($request->input('role') as $value) {
-                $permission->attachPermission($value);
+                $role = Role::find($value);
+                $role->attachPermission($permission);
             }
         }
 
@@ -75,13 +76,14 @@ class PermissionController extends Controller {
     public function edit($id) {
 
         $permission = Permission::find($id);
+        $roles = Role::get();
         $permissions = Permission::get();
 
         $rolePermissions = DB::table("permission_role")
                 ->where("permission_role.role_id", $id)
                 ->pluck('permission_role.permission_id', 'permission_role.permission_id');
 
-        return view('admin.permission.edit', compact('permission', 'permissions', 'rolePermissions'));
+        return view('admin.permission.edit', compact('permission', 'roles', 'rolePermissions', 'permissions'));
     }
 
     /**
@@ -93,14 +95,12 @@ class PermissionController extends Controller {
      */
     public function update(Request $request, $id) {
         $this->validate($request, [
-//            'name' => 'required|min:3|unique:permissions,name',
             'display_name' => 'required',
-            'role' => 'required',
+            'description' => 'required'
                 ], [], [
-//            'name' => trans('admin/permission.name'),
             'display_name' => trans('admin/permission.display_name'),
             'description' => trans('admin/permission.description'),
-            'role' => trans('admin/permission.role')
+
         ]);
 
         $permission = Permission::find($id);
@@ -109,15 +109,14 @@ class PermissionController extends Controller {
         $permission->save();
 
 
-        if ($request->input('role')) {
-            DB::table("permission_role")->where("permission_role.role_id", $id)
-                    ->delete();
-
-            foreach ($request->input('permission') as $key => $value) {
-                $permission->attachPermission($value);
-            }
-        }
-
+//        if ($request->input('role')) {
+//            DB::table("permission_role")->where("permission_role.role_id", $id)
+//                    ->delete();
+//
+//            foreach ($request->input('permission') as $key => $value) {
+//                $permission->attachPermission($value);
+//            }
+//        }
         return redirect()->back()
                         ->with('success', 'Role updated successfully');
     }
@@ -129,8 +128,8 @@ class PermissionController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        DB::table("roles")->where('id', $id)->delete();
-        return redirect()->route('role.index')
+        DB::table("permissions")->where('id', $id)->delete();
+        return redirect()->route('permission.index')
                         ->with('success', 'Role deleted successfully');
     }
 

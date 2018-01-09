@@ -9,58 +9,61 @@ class Car Extends Model
 {
     protected $primaryKey = 'id';
     protected $fillable = [
-        'id', //'VIN Number, 기술사 입력전까지 차량번호',
-        'vin_number', //
+        'vin_number', // 차대번호
         'imported_vin_number', //'수입차 VIN 번호',
-        'kind_cd', //
-        'fueltype_cd', //'연료타입',
-        'engine_type', //'엔진타입',
-        'transmission_cd', //'변속기',
-        'drivetype_cd', //
-        'interior_color_cd', //'내장색',
-        'exterior_color_cd', //'외장색',
-        'year', //'출고연도',
-        'registration_date', //'최초등록일',
-        'type_cd', //'용도',
-        'usage_cd', //,
-        'passenger', //'승차정원',
-        'displacement', //'배기량',
-        'fuel_consumption', //'연비',
         'brands_id',
-        'models_id', //
+        'models_id',
         'details_id',
         'grades_id',
+        'registration_date', //'최초등록일',
+        'year', //'출고연도',
+        'kind_cd', // '용도'
+        'mileage', //'주행거리'
+        'displacement', //'배기량',
+        'exterior_color_cd', //'외장색',
         'exterior_color_etc',
-        'fueltype_etc'
+        'fuel_consumption', //'연비',
+        'engine_type', //'엔진타입',
+        'transmission_cd', //'변속기',
+        'fueltype_cd', //'연료타입',
+        'fueltype_etc',
+        'passenger' //'승차정원',
     ];
 
     protected $dates = [
         'created_at', 'updated_at'
     ];
 
-
+    /**
+     * 브랜드 출력
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function brand(){
         return $this->hasOne(\App\Models\Brand::class, 'id','brands_id');
     }
 
+    /**
+     * 모델 출력
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function models(){
         return $this->hasOne(\App\Models\Models::class, 'id','models_id');
     }
 
+    /**
+     * 디테일 출력
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function detail(){
         return $this->hasOne(\App\Models\Detail::class, 'id','details_id');
     }
 
-    public function grade(){
-        return $this->hasOne(\App\Models\Grade::class, 'id','grades_id');
-    }
-
     /**
-     * 내장색상 출력
+     * 세부 디테일 출력
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function getInteriorColor(){
-        return $this->hasOne(Code::class, 'id', 'interior_color_cd');
+    public function grade(){
+        return $this->hasOne(\App\Models\Grade::class, 'id','grades_id');
     }
 
     /**
@@ -80,14 +83,6 @@ class Car Extends Model
     }
 
     /**
-     * 엔진타입 출력
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function getEnginge(){
-        return $this->hasOne(Code::class, 'id', 'engine_cd');
-    }
-
-    /**
      * 변속기타입 출력
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -96,29 +91,9 @@ class Car Extends Model
     }
 
     /**
-     *
+     * 차종타입 출력
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function getDriveType(){
-        return $this->hasOne(Code::class, 'id', 'drivetype_cd');
-    }
-
-    /**
-     * 용도 출력
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function getType(){
-        return $this->hasOne(Code::class, 'id', 'type_cd');
-    }
-
-    /**
-     * 자가용/영업용
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function getUsage(){
-        return $this->hasOne(Code::class, 'id', 'usage_cd');
-    }
-
     public function getKind(){
         return $this->hasOne(Code::class, 'id', 'kind_cd');
     }

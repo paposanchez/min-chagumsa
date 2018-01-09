@@ -1,10 +1,4 @@
 <?php
-/**
-* Created by IntelliJ IDEA.
-* User: dev
-* Date: 2017. 4. 12.
-* Time: PM 2:58
-*/
 
 namespace App\Models;
 
@@ -13,29 +7,35 @@ use Illuminate\Database\Eloquent\Model;
 
 class DiagnosisFile extends Model
 {
-        protected $primaryKey = 'id';
-        protected $fillable = [
-                'diagnoses_id',
-                'original',
-                'source',
-                'path',
-                'mime',
-                'size'
-        ];
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        'diagnoses_id', //진단정보 id
+        'original',     //원본 파일명
+        'source',       //업로드 파일명
+        'path',         //저장 경로
+        'mime',         //파일형식
+        'size',         //파일 사이즈
+    ];
 
-        protected $dates = [
-                'created_at', 'updated_at'
-        ];
+    protected $dates = [
+        'created_at', 'updated_at'
+    ];
 
-        public function diagnosis(){
-                return $this->belongsTo(\App\Models\DiagnosisDetailItem::class, 'id', 'diagnoses_id');
-        }
+    //진단항목 조회
+    public function diagnoses()
+    {
+        return $this->belongsTo(Diagnoses::class, 'id', 'diagnoses_id');
+    }
 
-        public function getRealPath($prepath = ''){
-                return storage_path($prepath . $this->path . '/' . $this->source) ;
-        }
+    //실제 파일 경로
+    public function getRealPath($prepath = '')
+    {
+        return storage_path($prepath . $this->path . '/' . $this->source);
+    }
 
-        public function getPreviewPath(){
-                return 'http://cdn.chagumsa.com/diagnosis/'. $this->id;
-        }
+    //샘플 파일 경로
+    public function getPreviewPath()
+    {
+        return 'http://cdn.chagumsa.com/diagnosis/' . $this->id;
+    }
 }

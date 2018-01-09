@@ -5,13 +5,53 @@
 @endsection
 
 @section( 'content' )
-    <div class="container-fluid">
+    <section id="content">
+        {{--<div class="container">--}}
+        {{--<div class="block-header">--}}
+        {{--<h2>신규주문 생성</h2>--}}
 
-        <div class="row">
+        {{--<ul class="actions">--}}
+        {{--<li>--}}
+        {{--<a href="">--}}
+        {{--<i class="zmdi zmdi-trending-up"></i>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--<li>--}}
+        {{--<a href="">--}}
+        {{--<i class="zmdi zmdi-check-all"></i>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--<li class="dropdown">--}}
+        {{--<a href="" data-toggle="dropdown">--}}
+        {{--<i class="zmdi zmdi-more-vert"></i>--}}
+        {{--</a>--}}
 
-            <div class="col-md-12">
+        {{--<ul class="dropdown-menu dropdown-menu-right">--}}
+        {{--<li>--}}
+        {{--<a href="">Refresh</a>--}}
+        {{--</li>--}}
+        {{--<li>--}}
+        {{--<a href="">Manage Widgets</a>--}}
+        {{--</li>--}}
+        {{--<li>--}}
+        {{--<a href="">Widgets Settings</a>--}}
+        {{--</li>--}}
+        {{--</ul>--}}
+        {{--</li>--}}
+        {{--</ul>--}}
 
+        {{--</div>--}}
+
+        <div class="card">
+            <div class="card-header">
+                <h2>신규 회원 생성
+                    <small>새로운 회을 생성한다.</small>
+                </h2>
+            </div>
+
+            <div class="card-body">
                 {!! Form::open(['method' => 'POST','route' => ['user.store'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
+                <fieldset>
                 <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                     <label for="inputEmail" class="control-label col-md-3">{{ trans('admin/user.email') }}</label>
                     <div class="col-md-6">
@@ -308,64 +348,69 @@
                                 type="submit">{{ trans('common.button.save') }}</button>
                     </div>
                 </div>
-
+                </fieldset>
                 {!! Form::close() !!}
-
             </div>
         </div>
 
-    </div>
 
-
-    {{-- 정비소 선택  모달 --}}
-    <div class="modal fade bs-example-modal-lg in purchase-modal" id="garage-modal" tabindex="-1" role="dialog"
-         aria-labelledby="purchase-modal" aria-hidden="true">
-        <div class="modal-dialog modal-lg form-group">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title" id="myModalLabel">정비소 선택 정보</h4>
-                </div>
-                <div class="modal-body" style="overflow: auto;height: 600px;">
-                    <div class='ipt_line' style="margin-bottom: 10px;">
-                        <input type='text' id="content" class='' placeholder='대리점명으로 찾기' autocomplete="off"
-                               style="padding-top: 8px;padding-bottom: 8px;height: 37px;width: 200px;">
-                        <button type="button" class="btn btn-primary" id="search" style="padding-top: 9px;">검색</button>
+        {{-- 정비소 선택  모달 --}}
+        <div class="modal fade bs-example-modal-lg in purchase-modal" id="garage-modal" tabindex="-1" role="dialog"
+             aria-labelledby="purchase-modal" aria-hidden="true">
+            <div class="modal-dialog modal-lg form-group">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">정비소 선택 정보</h4>
                     </div>
-                    <table class="table text-middle text-center table-hover">
-                        <thead>
-                        <tr class="active">
-                            <th class="text-center">정비소 명</th>
-                        </tr>
-                        </thead>
+                    <div class="modal-body" style="overflow: auto;height: 600px;">
+                        <div class='ipt_line' style="margin-bottom: 10px;">
+                            <input type="text" id="search_con" class='' placeholder='대리점명으로 찾기'
+                                   style="padding-top: 8px;padding-bottom: 8px;height: 37px;width: 200px;padding-left: 0;">
+                            <button type="button" class="btn btn-primary" id="search" style="padding-top: 9px;">검색
+                            </button>
 
-                        <tbody id="tbody">
-
-                        @unless(count($garages) >0)
-                            <tr>
-                                <td colspan="6" class="no-result">{{ trans('common.no-result') }}</td>
+                        </div>
+                        <table class="table text-middle text-center table-hover">
+                            <thead>
+                            <tr class="active">
+                                <th class="text-center">정비소 명</th>
                             </tr>
-                        @endunless
+                            </thead>
 
-                        @foreach($garages as $garage)
-                            <tr>
-                                <td class="text-center">
-                                    <a class="select-garage" name="sel_garage" href="#">{{ $garage->name }}</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                            <tbody id="tbody">
 
-                </div>
-                <div class="modal-footer text-center">
-                    <button type="button" class="btn btn-primary order-close" data-dismiss="modal"
-                            id="purchase-modal-close">닫기
-                    </button>
+                            @unless(count($garages) >0)
+                                <tr>
+                                    <td colspan="6" class="no-result">{{ trans('common.no-result') }}</td>
+                                </tr>
+                            @endunless
+
+                            @foreach($garages as $garage)
+                                <tr>
+                                    <td class="text-center">
+                                        <a class="select-garage" name="sel_garage" href="#">{{ $garage->name }}</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-primary order-close" data-dismiss="modal"
+                                id="purchase-modal-close">닫기
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+
+
+
+
 
 @endsection
 
@@ -413,10 +458,10 @@
             });
 
             $('#search').click(function () {
-                if ($('#content').val() === '') {
+                if ($('#search_con').val() === '') {
                     alert('정비소명을 입력하세요.');
                 } else {
-                    var garage_name = $('#content').val();
+                    var garage_name = $('#search_con').val();
                     var html = '';
                     $.ajax({
                         type: 'get',

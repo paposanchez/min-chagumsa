@@ -24,6 +24,8 @@
         {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') !!}
         {!! Html::style('/assets/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css') !!}
 
+
+
         @stack('header-script')
 
 @endsection
