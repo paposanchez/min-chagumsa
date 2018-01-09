@@ -13,7 +13,7 @@
 
                                 <ul class='menu_tab_wrap'>
                                         <li><a class='select' href="{{ route('information.index') }}">중고차 성능기록과 실제 차이</a></li>
-                                        <li><a href="{{ route('information.price') }}">보증 기간 만료와 수리비 폭탄</a></li>
+                                        <li><a href="">보증 기간 만료와 수리비 폭탄</a></li>
                                         <li><a href="{{ route('information.guide') }}">제 값 받기 힘든 내 차 가격</a></li>
 
                                 </ul>

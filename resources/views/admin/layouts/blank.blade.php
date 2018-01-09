@@ -7,12 +7,22 @@
 
 @section( 'content-header-script' )
 
+
         <!-- Vendor CSS -->
-        {!! Html::style('/assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css') !!}
         {!! Html::style('/assets/vendors/bower_components/animate.css/animate.min.css') !!}
         {!! Html::style('/assets/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css') !!}
         {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') !!}
         {!! Html::style('/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css') !!}
+        {!! Html::style('/assets/vendors/summernote/dist/summernote.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/chosen/chosen.css') !!}
+        {!! Html::style('/assets/vendors/farbtastic/farbtastic.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/dropzone/dist/min/dropzone.min.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/nouislider/distribute/nouislider.min.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css') !!}
 
         @stack('header-script')
 
@@ -89,6 +99,7 @@
 
 @section( 'content-footer-script' )
 
+
         <!-- Javascript Libraries -->
         {!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.js') !!}
         {!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.resize.js') !!}
@@ -98,14 +109,27 @@
         {!! Html::script('/assets/vendors/bower_components/moment/min/moment.min.js') !!}
         {!! Html::script('/assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js') !!}
         {!! Html::script('/assets/vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js') !!}
+
+        {!! Html::script('/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') !!}
         {!! Html::script('/assets/vendors/bower_components/Waves/dist/waves.min.js') !!}
         {!! Html::script('/assets/vendors/bootstrap-growl/bootstrap-growl.min.js') !!}
         {!! Html::script('/assets/vendors/bower_components/sweetalert2/dist/sweetalert2.min.js') !!}
-        {!! Html::script('/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/nouislider/distribute/nouislider.min.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/typeahead.js/dist/typeahead.bundle.min.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/dropzone/dist/min/dropzone.min.js') !!}
+        {!! Html::script('/assets/vendors/summernote/dist/summernote-updated.min.js') !!}
+
+        {!! Html::script('/assets/vendors/bower_components/chosen/chosen.jquery.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/jquery-mask-plugin/dist/jquery.mask.min.js') !!}
+        {!! Html::script('/assets/vendors/fileinput/fileinput.min.js') !!}
+        {!! Html::script('/assets/vendors/farbtastic/farbtastic.min.js') !!}
+
 
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
-            <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+        {!! Html::script('/assets/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js') !!}
         <![endif]-->
 
 

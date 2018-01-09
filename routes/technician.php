@@ -16,7 +16,7 @@ Route::group(['middleware' => ['auth', 'role:technician']], function () {
 
     //주문 관련
     Route::resource('order', 'OrderController');
-    Route::resource('notice', 'NoticeController', ['only' => ['index', 'show']], ['as' => 'technician']);
+    // Route::resource('notice', 'NoticeController', ['only' => ['index', 'show']], ['as' => 'technician']);
     Route::get('user/edit', 'UserController@edit')->name('technician.user.edit');
     Route::post('user/update', 'UserController@update')->name('technician.user.update');
 

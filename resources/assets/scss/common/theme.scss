@@ -59,3 +59,26 @@
 
         }
 }
+
+
+.layout-login
+{
+        #main {
+                padding:0px !important;
+        }
+
+
+        #login-form
+        {
+                .has-error
+                {
+                        .input-group-addon
+                        {
+                                border-color:transparent;
+                                background-color: initial;
+                        }
+                }
+        }
+
+
+}

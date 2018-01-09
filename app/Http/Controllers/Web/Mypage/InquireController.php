@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+namespace App\Http\Controllers\Web\Mypage;
 
 use App\Models\File;
 use App\Models\Post;
