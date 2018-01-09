@@ -9,6 +9,7 @@ use App\Models\Code;
 use Carbon\Carbon;
 use DB;
 use Hash;
+use Illuminate\Support\Facades\Validator;
 use Image;
 use Laracasts\Flash\Flash;
 use App\Http\Controllers\Api\ApiController;
@@ -173,6 +174,43 @@ class UserController extends ApiController
         }
     }
 
+    public function update(Request $request){
+        try{
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required',
+                'password' => 'nullable|min:6|confirmed',
+                'name' => 'required|min:2',
+                'mobile' => 'min:2',
+                'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'
+            ]);
+
+            $input = $request->all();
+            // 비밀번호 변경
+            if (!empty($input['password'])) {
+                $input['password'] = bcrypt($input['password']);
+            } else {
+                $input = array_except($input, array('password'));
+            }
+
+            $user = User::findOrFail($request->get('user_id'));
+            $user->update($input);
+
+            // 아바타 변경
+            if ($request->file('avatar')) {
+                \Intervention\Image\Facades\Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
+
+                $user->avatar = 1;
+                $user->save();
+            }
+
+            return response()->json('success');
+        }catch (\Exception $e){
+            return response()->json('fail');
+        }
+
+
+    }
+
 
     /**
      * @SWG\POST(path="/password",
@@ -202,7 +240,6 @@ class UserController extends ApiController
                 $user = User::find($user_id);
 
                 if ($user->status->name != 'active') {
-
                     return response()->json('false');
                 }
 

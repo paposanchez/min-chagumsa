@@ -1,7 +1,7 @@
 @extends( 'admin.layouts.default' )
 
 @section('breadcrumbs')
-@include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.certificate')])
+@include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.config.role')])
 @endsection
 
 @section( 'content' )
@@ -57,12 +57,14 @@
                                             <col width="*" class=" ">
                                             <col width="10%" class="">
                                             <col width="10%">
+                                            <col width="10%">
                                         </colgroup>
 
                                         <thead>
                                         <tr class="active">
                                             <th class="text-center">#</th>
                                             <th class="text-center">{{ trans('admin/role.name') }}</th>
+                                            <th class="text-center">역할표현명</th>
                                             <th class="">{{ trans('admin/role.description') }}</th>
                                             <th class="text-center">{{ trans('admin/role.created_at') }}</th>
                                             <th class="text-center">{{ trans('admin/role.action') }}</th>
@@ -80,6 +82,8 @@
 
                                         @foreach ($entrys as $key => $data)
                                             <tr>
+                                                <td>{{ $data->id }}</td>
+
                                                 <td>{{ $data->name }}</td>
 
                                                 <td>{{ $data->display_name }}</td>

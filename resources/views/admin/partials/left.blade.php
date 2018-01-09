@@ -83,14 +83,14 @@
         </li>
 
 
-        <li class="sub-menu {{ Request::is('setting*') ? ' active':''}}">
+        <li class="sub-menu {{ Request::is('config*') ? ' active':''}}">
                 <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-settings"></i> 기타관리</a>
                 <ul>
 
-                        <li><a href="{{ route('code.index') }}">코드관리</a></li>
-                        <li><a href="{{ route('item.index') }}">상품관리</a></li>
+                        <li class="{{ Request::is('config/code*') ? ' active':''}}"><a href="{{ route('code.index') }}">코드관리</a></li>
+                        <li class="{{ Request::is('config/item*') ? ' active':''}}"><a href="{{ route('item.index') }}">상품관리</a></li>
 
-                        <li class="sub-menu">
+                        <li class="sub-menu {{ Request::is('config/role*') ? ' active':''}}">
                                 <a href="" data-ma-action="submenu-toggle">역활관리</a>
                                 <ul>
                                         <li><a href="{{ route('role.index') }}">전체목록</a></li>
@@ -98,7 +98,7 @@
                                 </ul>
                         </li>
 
-                        <li class="sub-menu">
+                        <li class="sub-menu {{ Request::is('config/permission*') ? ' active':''}}">
                                 <a href="" data-ma-action="submenu-toggle">권한관리</a>
                                 <ul>
                                         <li><a href="{{ route('permission.index') }}">전체목록</a></li>
@@ -106,7 +106,7 @@
                                 </ul>
                         </li>
 
-                        <li class="sub-menu">
+                        <li class="sub-menu {{ Request::is('config/board*') ? ' active':''}}">
                                 <a href="" data-ma-action="submenu-toggle">게시판관리</a>
                                 <ul>
                                         <li><a href="{{ route('board.index') }}">전체목록</a></li>

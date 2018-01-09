@@ -23,5 +23,7 @@ Homestead.yaml
 .npm-debug.log
 cargumsa.iml
 composer.lock
-/storage
+##/storage
 /manifest.json
+/package-lock.json
+/mix-manifest.json
