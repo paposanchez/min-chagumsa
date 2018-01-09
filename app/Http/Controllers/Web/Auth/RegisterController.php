@@ -2,205 +2,221 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
-use App\Models\RoleUser;
+// use App\Models\UserExtra;
+// use App\Models\RoleUser;
 use App\Models\User;
-use App\Models\UserExtra;
-use Illuminate\Http\Request;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
-
-// use Illuminate\Foundation\Auth\RegistersUsers;
-
-// use Illuminate\Support\Facades\Mail;
 use App\Notifications\ConfirmEmail;
 use App\Repositories\ActivationRepository;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
 
 
 class RegisterController extends Controller
 {
 
-    // use RegistersUsers;
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+        use RegistersUsers;
 
+        protected $redirectTo = '/';
 
-    /**
-     * 회원가입 동의 페이지
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function agreement()
-    {
-        return view('web.auth.agreement');
-    }
-
-
-    /**
-     * 회원가입폼 setter
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function showRegistrationForm()
-    {
-        return view('web.auth.join');
-    }
-
-    /**
-     * @param array $data
-     * Get a validator for an incoming registration request.
-     * @return mixed
-     */
-    protected function validator(array $data)
-    {
-
-        $validator = Validator::make($data, [
-            'email' => 'required|email|max:255|unique:users',
-            'name' => 'max:100',
-            'password' => 'required|min:6|confirmed',
-            'password_confirmation' => 'required|min:6|same:password',
-            // 'mobile' => 'confirmed',
-        ]);
-        $validator->setAttributeNames([
-            'email' => trans('web/register.email'),
-            'name' => trans('web/register.name'),
-            'password' => trans('web/register.password'),
-            'password_confirmation' => trans('web/register.confirm-password'),
-            'mobile' => trans('web/register.mobile'),
-        ]);
-
-        return $validator;
-    }
-
-    /**
-     * @param Request $request
-     * 회원가입 처리 메소드
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function postRegister(Request $request)
-    {
-        $validator = $this->validator($request->all());
-
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                $request, $validator
-            );
+        public function __construct()
+        {
+                $this->middleware('guest');
         }
 
-        try {
-
-            // 회원 생성
-            $input = $request->all();
-
-            // 비밀번호 생성
-            $input['password'] = bcrypt($input['password']);
-
-            // 이메일 비활성
-            $input['status_cd'] = 2;
-//                        $input['ip'] = Request::ip();
-
-            // 사용자 생성
-            $user = User::create($input);
-            // 사용자 역활 추가
-            $user->attachRole(2);
-
-            $input['users_id'] = $user->id;
-            $user_extra = $user->user_extra()->create($input);
-
-            $this->notify($user);
-
-            if ($request->file('avatar')) {
-                Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
-                $user->avatar = 1;
-                $user->save();
-            }
-
-            return redirect()->route('register.registered', ['user_id' => $user->id]);
-
-        } catch (Exception $e) {
-            return redirect('/login')->with("error", "회원가입을 진행할 수 없습니다. 다시 시도하세요.");
-        }
-    }
-
-    /**
-     * @param User $user
-     * 회원가입 이메일 전송
-     */
-    private function notify($user)
-    {
-        $activator = new ActivationRepository();
-        $token = $activator->createActivation($user);
-        $user->notify(new ConfirmEmail($token));
-    }
-
-    /**
-     * @param Request $request
-     * 회원가입 완료 페이지
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function registered(Request $request)
-    {
-        $user = User::where('id', $request->get('user_id'))->first();
-        return view('web.auth.registered', compact('user'));
-    }
-
-    /**
-     * @param Request $request
-     * @param $confirmation_code
-     * 인증 확인 처리
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function verify(Request $request, $confirmation_code)
-    {
-        $activator = new ActivationRepository();
-        $return = $activator->getActivationByToken($confirmation_code);
-        if ($return) {
-            //            return view('web.verify.success', compact());
-            return redirect('/')->with('success', trans('verification.success'));
-        } else {
-            return redirect('resend')->with('error', trans('verification.resend'));
+        /**
+        * 회원가입폼 setter
+        * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+        */
+        protected function showRegistrationForm()
+        {
+                return view('web.auth.register');
         }
 
-    }
+        /**
+        * @param array $data
+        * Get a validator for an incoming registration request.
+        * @return mixed
+        */
+        protected function validator(array $data) {
+                $validator = Validator::make($data, [
+                        'email' => 'required|email|max:255|unique:users',
+                        'name' => 'required|max:100',
+                        'password' => 'required|min:6|confirmed',
+                        'password_confirmation' => 'required|min:6|same:password',
+                        'mobile' => 'confirmed',
+                ]);
+                $validator->setAttributeNames([
+                        'email' => trans('register.email'),
+                        'name' => trans('register.name'),
+                        'password' => trans('register.password'),
+                        'password_confirmation' => trans('register.confirm-password'),
+                        'mobile' => trans('register.mobile'),
+                ]);
+                return $validator;
+        }
 
 
-    /**
-     * @param Request $request
-     * 회원가입 인증메일 재발송폼
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function resend(Request $request)
-    {
-        $email = $request->get('email');
-        return view('web.auth.resend', compact('email'));
-    }
+        /**
+        * Create a new user instance after a valid registration.
+        *
+        * @param  array  $data
+        * @return \App\User
+        */
+        protected function create(array $data)
+        {
+                $user = User::create([
+                        'name' => $data['name'],
+                        'email' => $data['email'],
+                        'password' => bcrypt($data['password']),
+                        'status_cd' => 2
+                ]);
 
-    /**
-     * @param Request $request
-     * 회원가입 인증메일 재발송처리
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function resent(Request $request)
-    {
+                // 사용자 추가데이터 생성
+                $user->user_extra()->create([
+                        'users_id'      => $user->id
+                ]);
 
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|max:255|unique:users',
-        ]);
+                // 일반회원 역활 추가
+                $user->attachRole(2);
 
-        $user = User::where('email', $request->get('email'))->first();
+                // 아바타 업로드
+                // if ($data->file('avatar')) {
+                //         Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
+                //         $user->avatar = 1;
+                //         $user->save();
+                // }
+                return $user;
+        }
 
-        $activator = new ActivationRepository();
-        $token = $activator->createActivation($user);
+        /**
+        * @param Request $request
+        * 회원가입 처리 메소드
+        * @return \Illuminate\Http\RedirectResponse
+        */
+        public function register(Request $request)
+        {
 
-        $user->notify(new ConfirmEmail($token));
+                $this->validator($request->all())->validate();
 
-        return redirect('/')->with('success', trans('verification.message'));
-    }
+                event(new Registered($user = $this->create($request->all())));
+
+                // 아바타 업로드
+                if ($request->file('avatar')) {
+                        Image::make($request->file('avatar'))->save($user->getFilesDirectory() . '/avatar.png');
+                        $user->avatar = 1;
+                        $user->save();
+                }
+
+                $activator = new ActivationRepository();
+                $token = $activator->createActivation($user);
+                $user->notify(new ConfirmEmail($token));
+
+                return $this->registered($request, $user);
+        }
+
+
+
+        // 회원가입 완료
+        // protected function registered(Request $request, $user) {
+        protected function registered(Request $request) {
+
+
+                return view('web.auth.registered');
+        }
+
+        /**
+        * @param Request $request
+        * 회원가입 인증메일 재발송폼
+        * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+        */
+        public function resend(Request $request)
+        {
+                return view('web.auth.resend');
+        }
+
+        /**
+        * @param Request $request
+        * 회원가입 인증메일 재발송처리
+        * @return \Illuminate\Http\RedirectResponse
+        */
+        public function resent(Request $request)
+        {
+
+                $validator = Validator::make($request->all(), [
+                        'email' => 'required|email|max:255|unique:users',
+                ]);
+
+                $user = User::where('email', $request->get('email'))->first();
+
+                $activator = new ActivationRepository();
+                $token = $activator->createActivation($user);
+                $user->notify(new ConfirmEmail($token));
+
+                return redirect('/')->with('success', trans('register.verify.resent_message'));
+        }
+
+
+        /**
+        * @param Request $request
+        * @param $confirmation_code
+        * 인증 확인 처리
+        * @return \Illuminate\Http\RedirectResponse
+        */
+        public function verify(Request $request, $confirmation_code)
+        {
+                $activator = new ActivationRepository();
+                $return = $activator->getActivationByToken($confirmation_code);
+                if ($return) {
+                        return redirect('/')->with('success', trans('verification.success'));
+                } else {
+                        return redirect('resend')->with('error', trans('verification.resend'));
+                }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**
+        * @param Request $request
+        * 회원가입 완료 페이지
+        * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+        */
+        // public function registered(Request $request)
+        // {
+        //         $user = User::where('id', $request->get('user_id'))->first();
+        //         return view('web.auth.registered', compact('user'));
+        // }
+
+
+
+        /**
+        * @param User $user
+        * 회원가입 이메일 전송
+        */
+        // private function notify($user)
+        // {
+        //         $activator = new ActivationRepository();
+        //         $token = $activator->createActivation($user);
+        //         $user->notify(new ConfirmEmail($token));
+        // }
 
 
 }

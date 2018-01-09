@@ -7176,7 +7176,7 @@ button.close {
 /*-------------------------
     Select BG
 --------------------------*/
-/* 
+/*
  * Load Font
  */
 /*--------------------
@@ -7628,8 +7628,8 @@ button.close {
 .waves-block {
   display: block;
 }
-/* 
- * Load Website related LESS files 
+/*
+ * Load Website related LESS files
  */
 /*---------------------------------------------------------------------------
     Generate Margin Class
@@ -12028,7 +12028,7 @@ html:not(.ie9) .select.fg-line:before {
 .login-content {
   min-height: 100vh;
   text-align: center;
-  background-color: #009688;
+  background-color: #2196F3;
 }
 .login-content:before {
   display: inline-block;

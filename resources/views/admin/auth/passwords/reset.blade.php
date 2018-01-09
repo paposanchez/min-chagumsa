@@ -3,92 +3,83 @@
 @section('body-class') layout-login @endsection
 
 @section('content')
-<div class="container">
+<div class="login-content">
 
-    <div class="row">
+        <!-- Login -->
+        <div class="lc-block lc-block-alt toggled" id="l-password">
 
-        <div class="col-sm-4 col-sm-offset-4">
+                <div class="lcb-form">
+                        {!! Form::open(['route' => 'admin.password.email', 'class' =>'form', 'method' => 'post', 'role' => 'form', 'id'=>'login-form']) !!}
 
 
-            <div class="tile tile-transparent shadow" style="margin-top:25%;">
-
-                <div class="tile-row">
-                    <div class="tile-col text-center">
-                        <h3 class="text-muted">{{ trans("passwords.title") }}</h3>
+                        <h3 class="m-b-25 text-light">CHAGUMSA <strong>{{ trans("passwords.title") }}</strong></h3>
                         <p class="text-muted">{{ trans("passwords.desc") }}</p>
-                    </div>
+
+
+                        <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                                        <div class="fg-line">
+                                                <input type="email" class="form-control" placeholder="{{ trans('login.email') }}" name="email" id="inputEmail">
+                                        </div>
+                                </div>
+
+                                @if ($errors->has('email'))
+                                <small class="help-block">이메일을 확인하세요.</small>
+                                @endif
+                        </div>
+
+
+
+
+                        <p class="text-center">
+                                <button data-loading-text="처리중..." type="submit" class="btn btn-success  btn-block btn-lg" >비밀번호 변경</button>                        </p>
+
+
+                        {!! Form::close() !!}
+
+
+                        <p class="m-t-25">
+                                <small class="text-muted text-light">COPYRIGHTS BY <strong>차검사</strong></small>
+                        </p>
                 </div>
 
-                {!! Form::open(['url' => 'password/reset', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form']) !!}   
+                <!-- <div class="lcb-navigation">
+                <a href="" data-ma-action="login-switch" data-ma-block="#l-register"><i class="zmdi zmdi-plus"></i> <span>회원</span></a>
+                <a href="{{ route('admin.password.reqeust') }}"><i>?</i> <span>비밀번호 변경하기</span></a>
+        </div> -->
+</div>
 
-                <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
-                    <label for="email" class="control-label">{{ trans("passwords.email") }}</label>
-
-                    <div class="">
-                        <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" autofocus>
-
-                        @if ($errors->has('email'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
-                    <label for="password" class="control-label">비밀번호</label>
-
-                    <div class="">
-                        <input id="password" type="password" class="form-control" name="password">
-
-                        @if ($errors->has('password'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                    <label for="password-confirm" class="control-label">비밀번호확인</label>
-                    <div class="">
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
-
-                        @if ($errors->has('password_confirmation'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('password_confirmation') }}</strong>
-                        </span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group">
-
-                    <button class="btn btn-block btn-primary" data-loading-text="처리중..." type="submit">패스워드 변경</button>
-
-                </div>
-
-                {!! Form::close() !!}
-
-
-                <p class="text-center">
-                    <small class="text-muted text-light">Copyrights by <a target="_blank" href="/about">mixapply.com</a> © 2015. All right reserved.</small>
-                </p>
-
-            </div>
-
-        </div>	
-
-    </div>
 </div>
 
 @endsection
 
 
-@section( 'footer-script' )
+@push( 'footer-script' )
 <script type="text/javascript">
-    $(function () {
+$(function () {
 
-    });
+        //form validation
+        // $("#login-form").validate({
+        //         rules: {
+        //                 email: {
+        //                         required: true,
+        //                         email: true
+        //                 },
+        //                 password: {
+        //                         required: true
+        //                 }
+        //         },
+        //         messages: {
+        //                 email: "정확한 이메일 주소를 입력해 주세요.",
+        //                 password: "비밀번호를 확인하세요."
+        //         },
+        //         submitHandler: function (form) {
+        //
+        //                 form.submit();
+        //         }
+        // });
+});
+
 </script>
-@endsection
+@endpush

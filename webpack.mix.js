@@ -15,7 +15,10 @@ mix.copyDirectory(baseDir + 'vendors/', targetDir + 'vendors');
 mix.copyDirectory(resourceDir + 'js/plugin/', targetDir + 'js/plugin');
 mix.copyDirectory(resourceDir + 'js/languages/', targetDir + 'js/languages');
 
+
+// mix.less(baseDir + 'less/app.less', baseDir + 'css/inc/app.css');
 mix.sass(resourceDir + 'scss/core.scss', 'assets/css/');
+
 mix.styles([
         targetDir + 'css/core.css',
         baseDir + 'css/inc/app.css',

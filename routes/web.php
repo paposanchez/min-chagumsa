@@ -27,7 +27,6 @@ Route::group(['namespace' => 'Community', 'prefix' => 'community'], function () 
 
 });
 
-
 // Agreement
 Route::get('agreement/usage', function () {
         return view('web.agreement.usage');
@@ -68,7 +67,7 @@ Route::match(['GET', 'POST'], 'order/pay-callback', 'OrderController@payResult')
 Route::match(['GET', 'POST'], 'order/payment-result', 'OrderController@paymentResult')->name("order.payment-result");
 
 // 회원가입폼
-Route::get('agreement', 'Auth\RegisterController@agreement')->name('register.agreement');
+// Route::get('agreement', 'Auth\RegisterController@agreement')->name('register.agreement');
 // 회원가입완료
 Route::get('register/registered', 'Auth\RegisterController@registered')->name('registered');
 // 회원가입시 이메일 인증 재발송폼
@@ -83,9 +82,9 @@ Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-
 Auth::routes();
 
+Route::any('logout', 'Auth\LoginController@logout');
 Route::any('/', 'WelcomeController');
 
 

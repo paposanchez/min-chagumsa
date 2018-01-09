@@ -29,11 +29,10 @@
 @endsection
 
 @section( 'content-header' )
+        @include('flash::message')
 @endsection
 
 @section( 'content-body' )
-
-                @include('flash::message')
 
                 @yield( 'content' )
 

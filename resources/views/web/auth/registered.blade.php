@@ -1,35 +1,29 @@
 @extends( 'web.layouts.blank' )
-@section( 'content' )
-    <div id="sub_full_wrap">
-        <div class="login_box_wrap" style="padding:20px;">
 
-            <div class="text-center" style="margin:20px 0px 20px;">
-                {{ Html::image('/assets/themes/v1/web/img/comm/head_logo.png') }}
-                <h3>회원가입완료</h3>
+@section('body-class') layout-login @endsection
 
-            </div>
+@section('content')
+<div class="login-content">
 
-            <h4 class="text-danger text-center" style="margin:30px 0px; font-size:18px;color:#ff6600;">
-                {{ $user->email }}
-            </h4>
+        <!-- Login -->
+        <div class="lc-block lc-block-alt toggled" id="l-password">
 
+                <div class="lcb-form">
 
-            <div class='ipt_line ipt_guide text-justify' style="margin:25px 0px;">
-                입력하신 이메일로 인증메일이 발송되었습니다.
-                메일을 확인하시고 [이메일 인증완료] 버튼을 눌러주시면 인증이 완료됩니다.
+                        <h3 class="m-b-25 text-light">차검사 <strong>{{ trans("register.verify.title") }}</strong></h3>
+                        <p class="text-muted">{!! trans("register.verify.send_message") !!}</p>
 
-            </div>
+                        <p class="m-t-25">
+                                <small class="text-muted text-light">COPYRIGHTS BY <strong>차검사</strong></small>
+                        </p>
+                </div>
 
-            <p class="text-center">
-                <a href="/" class='btn btn-lg btn-success  btns_green' style='display:inline-block;'>홈으로 이동</a>
-            </p>
         </div>
-    </div>
+
+</div>
+
 @endsection
 
-
-@push( 'header-script' )
-@endpush
 
 @push( 'footer-script' )
 @endpush

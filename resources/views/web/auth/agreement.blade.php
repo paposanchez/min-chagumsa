@@ -1,99 +1,92 @@
 @extends( 'web.layouts.blank' )
-@section( 'content' )
-<div id="sub_full_wrap">
-    <div class="login_box_wrap" style="padding:20px;">
 
+@section('body-class') layout-login @endsection
 
-            <div class="text-center" style="margin:20px 0px 20px;">
-                      {{ Html::image('/assets/themes/v1/web/img/comm/head_logo.png') }}
-                    <h3>회원가입</h3>
-            </div>
+@section('content')
+<div class="login-content">
 
+        <!-- Login -->
+        <div class="lc-block lc-block-alt toggled" id="l-login">
 
-		{!! Form::open(['method' => 'GET','route' => ['register'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data", "autocomplete" => "off", 'role' => 'form', 'id'=>'join-form']) !!}
+                <div class="lcb-form">
 
-		<div class='join_term_wrap'>
-			<label>이용약관</label>
-			<div class='term_area'>
-				<div class='term_cont'>
-					@include( 'web.partials.agreement.usage' )
-				</div>
-			</div>
-			<div class='ipt_line'>
-				<label>
-					<input type='checkbox' class='psk' name="term_use">
-					<span class='lbl' id="term_use-span"> 이용약관에 동의합니다.</span>
-					<div id='errorContainer'></div>
-				</label>
-			</div>
-		</div>
+                        <h3 class="m-b-25 text-light">차검사 <strong>{{ trans("register.title") }}</strong></h3>
 
-		<div class='br20'></div>
-		<div class='br20'></div>
-
-		<div class='join_term_wrap'>
-			<label>개인정보 수집/이용에 대한 안내</label>
-			<div class='term_area'>
-				<div class='term_cont'>
-					@include( 'web.partials.agreement.privacy' )
-				</div>
-			</div>
-			<div class='ipt_line'>
-				<label>
-					<input type='checkbox' class='psk' name="term_info">
-					<span class='lbl' id="term_info-span"> 개인정보 수집/이용에 동의합니다.</span>
-				</label>
-			</div>
-		</div>
+                        <p class="text-muted">{{ trans("register.desc") }}</p>
 
 
 
-         <div class='br30'></div>
+                        <div role="tabpanel">
+                                <ul class="tab-nav" role="tablist">
+                                        <li class="active"><a href="#home11" aria-controls="home11" role="tab" data-toggle="tab">이용약관</a></li>
+                                        <li><a href="#profile11" aria-controls="profile11" role="tab" data-toggle="tab">개인정보 수집/이용</a>
+                                        </li>
+                                </ul>
 
-            <p class="text-center">
+                                <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active text-left" id="home11" style="max-height:300px;overflow:scroll">
+                                                @include( 'web.partials.agreement.usage' )
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane text-left" id="profile11" style="max-height:300px;overflow:scroll">
+                                                @include( 'web.partials.agreement.privacy' )
+                                        </div>
 
-                <button class="btn btn-lg btn-success btns_green" data-loading-text="처리중..." type="submit">동의합니다</button>
-
-            </p>
-            {!! Form::close() !!}
+                                </div>
+                        </div>
 
 
 
-	</div>
 
+
+                        <p class="text-center m-t-25">
+                                <a href="{{ route('register') }}" class="btn btn-success  btn-block btn-lg" >동의합니다.</a>
+                        </p>
+
+
+                        {!! Form::close() !!}
+
+
+                        <p class="m-t-25">
+                                <small class="text-muted text-light">COPYRIGHTS BY <strong>차검사</strong></small>
+                        </p>
+                </div>
+
+                <!-- <div class="lcb-navigation">
+                <a href="" data-ma-action="login-switch" data-ma-block="#l-register"><i class="zmdi zmdi-plus"></i> <span>회원</span></a>
+                <a href="{{ route('admin.password.reqeust') }}"><i>?</i> <span>비밀번호 변경하기</span></a>
+        </div> -->
+</div>
 
 </div>
 
 @endsection
 
 
-@push( 'header-script' )
-@endpush
-
 @push( 'footer-script' )
 <script type="text/javascript">
-	$(function () {
-        $("#join-form").validate({
-            rules: {
-                term_use: "required",
-                term_info: "required"
-    		},
-			messages: {
-				term_use: "이용약관 동의를 체크해주세요.",
-				term_info: "개인정보 수집/이용 동의를 체크해 주세요."
-			},
-            errorPlacement: function(error, element) {
-			    var chk_name = element.attr("name");
-			    var checked = $("input[name="+chk_name+"]").is(":checked");
-			    if(checked == false){
-                    $('#'+chk_name+'-span').text(error.text()).css({'color': 'red'});
-				}
+$(function () {
 
-            },
-			submitHandler: function(form){
-				form.submit();
-			}
-    	});
-    });
+        //form validation
+        // $("#login-form").validate({
+        //         rules: {
+        //                 email: {
+        //                         required: true,
+        //                         email: true
+        //                 },
+        //                 password: {
+        //                         required: true
+        //                 }
+        //         },
+        //         messages: {
+        //                 email: "정확한 이메일 주소를 입력해 주세요.",
+        //                 password: "비밀번호를 확인하세요."
+        //         },
+        //         submitHandler: function (form) {
+        //
+        //                 form.submit();
+        //         }
+        // });
+});
+
 </script>
 @endpush

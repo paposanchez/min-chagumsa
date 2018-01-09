@@ -1,110 +1,109 @@
 @extends( 'web.layouts.blank' )
-@section( 'content' )
 
-    <div id="sub_full_wrap">
-        <div class="login_box_wrap" style="padding:20px;">
+@section('body-class') layout-login @endsection
 
-            <div class="text-center" style="margin:20px 0px 20px;">
-                {{ Html::image('/assets/themes/v1/web/img/comm/head_logo.png') }}
-                <h3>비밀번호변경</h3>
-            </div>
+@section('content')
+<div class="login-content">
 
-            {!! Form::open(['url' => 'password/reset', 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'form']) !!}
+        <!-- Login -->
+        <div class="lc-block lc-block-alt toggled" id="l-password">
 
-            <div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
-                <label for="inputEmail" class="control-label col-xs-3">{{ trans('web/register.email') }}</label>
+                <div class="lcb-form">
 
-                <div class=" col-xs-9">
-                    <input type="email" class="form-control  input-lg" placeholder="{{ trans('web/register.email') }}"
-                           name="email" id="inputEmail">
+                        {!! Form::open(['route' => 'password.request', 'class' =>'form', 'method' => 'post', 'role' => 'form', 'id'=>'login-form']) !!}
 
-                    @if ($errors->has('email'))
-                        <span class="help-block">
-                                        {{ $errors->first('email') }}
+                        <h3 class="m-b-25 text-light">차검사 <strong>{{ trans("passwords.verify.title") }}</strong></h3>
+                        <p class="text-muted">{{ trans("passwords.verify.desc") }}</p>
 
-                                </span>
-                    @endif
+
+                        <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                                        <div class="fg-line">
+                                                <input type="email" class="form-control" placeholder="{{ trans('register.email') }}" name="email" id="inputEmail">
+                                        </div>
+                                </div>
+
+                                @if ($errors->has('email'))
+                                <small class="help-block">{{ $errors->first('email')  }}</small>
+                                @endif
+                        </div>
+
+                        <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+                                        <div class="fg-line">
+                                                <input type="password" class="form-control" placeholder="{{ trans('register.password') }}" name="password" id="inputPassword">
+                                        </div>
+                                </div>
+
+                                @if ($errors->has('password'))
+                                <small class="help-block">{{ $errors->first('password')  }}</small>
+                                @endif
+                        </div>
+
+                        <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+                                        <div class="fg-line">
+                                                <input type="password" class="form-control" placeholder="{{ trans('register.password_confirmation') }}" name="password_confirmation" id="inputPassword">
+                                        </div>
+                                </div>
+
+                                @if ($errors->has('password_confirmation'))
+                                <small class="help-block">{{ $errors->first('password_confirmation')  }}</small>
+                                @endif
+                        </div>
+
+
+                        <p class="text-center">
+                                <button data-loading-text="처리중..." type="submit" class="btn btn-success  btn-block btn-lg" >비밀번호 변경</button>
+                        </p>
+
+
+                        {!! Form::close() !!}
+
+                        <p class="m-t-25">
+                                <small class="text-muted text-light">COPYRIGHTS BY <strong>차검사</strong></small>
+                        </p>
                 </div>
-            </div>
 
-            <div class="form-group  {{ $errors->has('password') ? 'has-error' : '' }}">
-                <label for="inputPassword" class="control-label col-xs-3">{{ trans('web/register.password') }}</label>
-                <div class=" col-xs-9">
-                    <input type="password" class="form-control  input-lg"
-                           placeholder="{{ trans('web/register.password') }}" name="password" id="inputPassword">
-
-                    @if ($errors->has('password'))
-                        <span class="help-block">
-                                        {{ $errors->first('password') }}
-                                </span>
-                    @endif
-                </div>
-            </div>
-
-            <div class="form-group  {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
-                <label for="inputPasswordConfirmation" class="control-label col-xs-3"></label>
-                <div class=" col-xs-9">
-                    <input type="password" class="form-control  input-lg"
-                           placeholder="{{ trans('web/register.confirm-password') }}" name="password_confirmation"
-                           id="inputPasswordConfirmation">
-
-                    @if ($errors->has('password'))
-                        <span class="help-block">
-                                        {{ $errors->first('password_confirmation') }}
-                                </span>
-                    @endif
-                </div>
-            </div>
-
-            <p class="text-center">
-                <button class="btn btn-lg btn-success btns_green" data-loading-text="처리중..." type="submit">확인</button>
-
-            </p>
-            {!! Form::close() !!}
-
-
+                <!-- <div class="lcb-navigation">
+                        <a href="" data-ma-action="login-switch" data-ma-block="#l-register"><i class="zmdi zmdi-plus"></i> <span>회원</span></a>
+                        <a href="{{ route('admin.password.reqeust') }}"><i>?</i> <span>비밀번호 변경하기</span></a>
+                </div> -->
         </div>
 
-
-    </div>
+</div>
 
 @endsection
 
 
-@push( 'header-script' )
-@endpush
-
 @push( 'footer-script' )
+<script type="text/javascript">
+$(function () {
 
-    <script type="text/javascript">
-        $(function () {
-            $("#form").validate({
-                debug: true,
-                rules: {
-                    email: {
-                        required: true
-                    },
-                    password: {
-                        required: true,
-                        minlength: 8,
-                        maxlength: 16
-                    },
-                    password_confirmation: {
-                        minlength: 8,
-                        maxlength: 16,
-                        equalTo: "[name='password']"
-                    },
-                },
-                messages: {
-                    email: "사용자의 이메일을 입력해주세요.",
-                    password: "비밀번호를 확인하세요.(8~16 자리의 영문/숫자/특수문자)",
-                    password_confirmation: "입력된 비밀번호 확인값이 틀립니다."
-                },
-                submitHandler: function (form) {
-                    form.submit();
-                }
-            });
-        });
+        //form validation
+        // $("#login-form").validate({
+        //         rules: {
+        //                 email: {
+        //                         required: true,
+        //                         email: true
+        //                 },
+        //                 password: {
+        //                         required: true
+        //                 }
+        //         },
+        //         messages: {
+        //                 email: "정확한 이메일 주소를 입력해 주세요.",
+        //                 password: "비밀번호를 확인하세요."
+        //         },
+        //         submitHandler: function (form) {
+        //
+        //                 form.submit();
+        //         }
+        // });
+});
 
-    </script>
+</script>
 @endpush
