@@ -16,91 +16,7 @@
                     </h2>
                 </div>
 
-<<<<<<< HEAD
-                <!-- Add button -->
-                <button class="btn btn-float btn-danger m-btn"><i class="zmdi zmdi-plus"></i></button>
 
-                <div class="card">
-                        <div class="action-header clearfix">
-                                <div class="ah-label hidden-xs">Some text here</div>
-
-                                <div class="ah-search">
-                                        <input type="text" placeholder="Start typing..." class="ahs-input">
-
-                                        <i class="ahs-close" data-ma-action="action-header-close">&times;</i>
-                                </div>
-
-                                <ul class="actions">
-                                        <li>
-                                                <a href="" data-ma-action="action-header-open">
-                                                        <i class="zmdi zmdi-search"></i>
-                                                </a>
-                                        </li>
-
-                                        <li>
-                                                <a href="">
-                                                        <i class="zmdi zmdi-time"></i>
-                                                </a>
-                                        </li>
-                                        <li class="dropdown">
-                                                <a href="" data-toggle="dropdown" aria-expanded="true">
-                                                        <i class="zmdi zmdi-sort"></i>
-                                                </a>
-
-                                                <ul class="dropdown-menu dropdown-menu-right">
-                                                        <li>
-                                                                <a href="">Last Modified</a>
-                                                        </li>
-                                                        <li>
-                                                                <a href="">Last Edited</a>
-                                                        </li>
-                                                        <li>
-                                                                <a href="">Name</a>
-                                                        </li>
-                                                        <li>
-                                                                <a href="">Date</a>
-                                                        </li>
-                                                </ul>
-                                        </li>
-                                        <li>
-                                                <a href="">
-                                                        <i class="zmdi zmdi-info"></i>
-                                                </a>
-                                        </li>
-                                </ul>
-                        </div>
-
-                        <div class="card-body card-padding">
-
-                                <div class="contacts clearfix row">
-
-                                        @foreach($entrys as $entry)
-                                        <div class="col-md-2 col-sm-4 col-xs-6">
-                                                <div class="c-item">
-                                                        <a href="{{ route('user.edit', ['id'=>$entry->id]) }}" class="ci-avatar">
-
-                                                                {!! Html::image('/avatar/'.$entry->id) !!}
-                                                        </a>
-
-                                                        <div class="c-info">
-                                                                <strong>{{ $entry->name }}</strong>
-                                                                <small>{{ $entry->email }}</small>
-                                                        </div>
-
-                                                        <div class="c-footer">
-                                                                <div class="text-center">{{ $entry->status->display() }}</div>
-                                                        </div>
-                                                </div>
-                                        </div>
-                                        @endforeach
-
-                                </div>
-
-                                <div class="load-more">
-                                        <a href=""><i class="zmdi zmdi-refresh-alt"></i> Load More...</a>
-                                </div>
-                        </div>
-=======
                 <div class="card-body">
                     <table class="table">
                         <colgroup>
@@ -169,7 +85,6 @@
                         @endforeach
                         </tbody>
                     </table>
->>>>>>> origin/migration
                 </div>
                 {{--page navigation--}}
                 {!! $entrys->render() !!}
