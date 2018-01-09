@@ -459,11 +459,20 @@ return [
         'certificated' => '인증발급완료'//109
     ],
 
+    'report_state' => [
+        'order' => '신청',
+        'confirm' => '예약확정',
+        'review' => '검토중',
+        'complete' => '발급완료',
+        'expire' => '만료'
+    ],
+
     'payment_cd' => [
         'card' => '신용/체크카드', //11
         'account' => '실시간 계좌이체', //12
         'coupon' => '쿠폰',   //21
-        'test' => '직권결제' //22
+        'admin' => '직권결제', //22
+        'manage' => '매니저 결제' //23
     ],
 
     'kind_cd' => [

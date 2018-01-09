@@ -1878,3 +1878,12 @@ $(document).ready(function () {
         });
     }
 });
+
+if ($('.alert-autoclose').length > 0) {
+    $('.alert-autoclose').each(function () {
+        var $alert = $(this);
+        $alert.fadeTo(5000, 500).slideUp(500, function (e) {
+            $alert.alert('close');
+        });
+    });
+}

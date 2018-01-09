@@ -4,13 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Events\SendSms;
 use App\Models\Brand;
+use App\Models\Car;
+use App\Models\CarNumber;
 use App\Models\Certificate;
 use App\Models\Detail;
 use App\Models\Diagnosis;
 use App\Models\Grade;
+use App\Models\Item;
 use App\Models\Models;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Payment;
+use App\Models\Permission;
 use App\Models\Reservation;
 use App\Models\Role;
 use App\Models\User;
@@ -18,6 +23,7 @@ use App\Models\UserExtra;
 use App\Models\Code;
 use App\Models\PaymentCancel;
 use App\Models\Purchase;
+use App\Models\Warranty;
 use App\Repositories\DiagnosisRepository;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -189,7 +195,7 @@ class OrderController extends Controller
     {
         $user = Auth::user();
 
-        $users = Role::find(2)->users->pluck('name', 'id');
+        $users = Role::find(2)->users->pluck('name', 'name');
         $brands = Brand::select('id', 'name')
             ->orderByRaw('CASE WHEN id = 5 THEN 8 WHEN id = 6 THEN 9 WHEN id = 4 OR id = 19 OR id = 38 OR id = 74 OR id = 44 THEN 5 WHEN id = 1 OR id = 28 OR id = 45 THEN 1 ELSE 3 END ASC, name ASC')
             ->get();
@@ -207,16 +213,16 @@ class OrderController extends Controller
     }
 
     public function store(Request $request){
-
-        if($request->get('diagnosis')){
+        if($request->get('diag_param')){
             $this->validate($request, [
+                'orderer_name' => 'required|min:2',
                 'orderer_mobile' => 'required|min:9',
                 'car_number' => 'required',
                 'vin_number' => 'required',
-                'brands' => 'required',
-                'models' => 'required',
-                'details' => 'required',
-                'grades' => 'required',
+                'brands_id' => 'required',
+                'models_id' => 'required',
+                'details_id' => 'required',
+                'grades_id' => 'required',
                 'areas' => 'required',
                 'sections' => 'required',
                 'garages' => 'required',
@@ -234,18 +240,169 @@ class OrderController extends Controller
                 ]);
         }else{
             $this->validate($request, [
-                'orderer_id' => 'required|min:2',
+                'orderer_name' => 'required|min:2',
                 'orderer_mobile' => 'required|min:9',
-                'order_number' => 'required'
+                'order_number' => 'required',
+                'order_number_confirm' => 'required'
             ], [],
                 [
                     'orderer_id' => '주문자',
                     'orderer_mobile' => '주문자 휴대폰번호',
                     'order_number' => '주문번호'
                 ]);
+
         }
 
+        try{
+            DB::beginTransaction();
+            $user = Auth::user();
+            $input = $request->all();
 
+            //car 생성
+            $car = Car::create($input);
+
+            //order 생성
+            $order = new Order();
+            $order->car_number = $request->get('car_number');
+            $order->orderer_id = $user->id;
+            $order->orderer_name = $request->get('orderer_name');
+            $order->orderer_mobile = $request->get('orderer_mobile');
+            $order->status_cd = 102;
+            $order->flooding_state_cd = $request->get('flood') ? 1 : 0;
+            $order->accident_state_cd = $request->get('accident') ? 1 : 0;
+            $order->save();
+
+            //car_number 생성
+            $car_number = new CarNumber();
+            $car_number->orders_id = $order->id;
+            $car_number->cars_id = $car->id;
+            $car_number->vin_number = $request->get('vin_number');
+            $car_number->car_number = $request->get('car_number');
+            $car_number->save();
+
+
+            //order_item 생성 및 가격 계산
+            $price = 0;
+            foreach ($request->get('items') as $item){
+                $order_item = new OrderItem();
+                $order_item->orders_id = $order->id;
+                $order_item->group_id = $order->id;
+                if($car->brand->car_type == 'n'){
+                    // 국산은 1, 3, 5
+                    if($item == 'diagnosis'){
+                        $order_item->items_id = 1;
+                        $order_item->price = Item::find(1)->price;
+                        $order_item->car_sort = 'N';
+                        $order_item->save();
+                        $diagno_item_id = $order_item->id;
+                    }else if($item == 'certificate'){
+                        $order_item->items_id = 3;
+                        $order_item->price = Item::find(3)->price;
+                        $order_item->car_sort = 'N';
+                        $order_item->save();
+                        $certi_item_id = $order_item->id;
+                    }else{
+                        $order_item->items_id = 5;
+                        $order_item->price = Item::find(5)->price;
+                        $order_item->car_sort = 'N';
+                        $order_item->save();
+                        $ew_item_id = $order_item->id;
+                    }
+
+                }else{
+                    // 외산은 2, 4, 7
+                    if($item == 'diagnosis'){
+                        $order_item->items_id = 2;
+                        $order_item->price = Item::find(2)->price;
+                        $order_item->car_sort = 'F';
+                        $order_item->save();
+                        $diagno_item_id = $order_item->id;
+                    }else if($item == 'certificate'){
+                        $order_item->items_id = 4;
+                        $order_item->price = Item::find(4)->price;
+                        $order_item->car_sort = 'F';
+                        $order_item->save();
+                        $certi_item_id = $order_item->id;
+                    }else{
+                        $order_item->items_id = 7;
+                        $order_item->price = Item::find(7)->price;
+                        $order_item->car_sort = 'F';
+                        $order_item->save();
+                        $ew_item_id = $order_item->id;
+                    }
+
+                }
+                $price = $price + $order_item->price;
+            }
+
+
+            //purchase 생성
+            $purchase = new Purchase();
+            $purchase->amount = $price;
+            if($user->hasRole("admin")){
+                $purchase->type = 22;
+            }else{
+                $purchase->type = 23;
+            }
+            $purchase->status_cd = 102;
+            $purchase->save();
+
+            //order 갱신
+            $order->update([
+                'car_numbers_id' => $car_number->id,
+                'group_id' => $order->id,
+                'purchase_id' => $purchase->id
+            ]);
+
+
+            //diagnosis 생성
+            if($request->get('diag_param')){
+                $reservation_date = new DateTime($request->get('reservation_at') . ' ' . $request->get('sel_time') . ':00:00');
+                $diagnosis = new Diagnosis();
+                $diagnosis->orders_id = $order->id;
+                $diagnosis->order_items_id = $diagno_item_id;
+                $diagnosis->car_numbers_id = $car_number->id;
+                $diagnosis->status_cd = 112;
+                $diagnosis->garage_id = $request->get('garages');
+                $diagnosis->reservation_at = $reservation_date->format('Y-m-d H:i:s');
+                $diagnosis->save();
+            }
+            if($request->get('order_number')){
+                list($car_number, $datekey) = explode("-", $request->get('order_number'));
+                $order_date = Carbon::createFromFormat('ymd', $datekey);
+                $diag_order = Order::where('car_number', $car_number)
+                    ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
+                    ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
+                    ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'))
+                    ->whereNotIn('status_cd', ['101', '100'])->first();
+            }
+
+            //certificate 생성
+            if($request->get('certi_param')){
+                $certificate = new Certificate();
+                $certificate->orders_id = $order->id;
+                $certificate->order_items_id = $certi_item_id;
+                $certificate->car_numbers_id = $car_number->id;
+                $certificate->status_cd = 112;
+                $certificate->diagnosis_id = $diagnosis ? $diagnosis->id : $diag_order->diagnosis->id;
+                $certificate->save();
+            }
+            //warranty 생성
+            if($request->get('ew_param')){
+                $warranty = new Warranty();
+                $warranty->orders_id = $order->id;
+                $warranty->order_items_id = $ew_item_id;
+                $warranty->car_numbers_id = $car_number->id;
+                $warranty->diagnosis_id = $diagnosis ? $diagnosis->id : $diag_order->diagnosis->id;
+                $warranty->status_cd = 112;
+            }
+            DB::commit();
+            return redirect()->back()->with('success', '주문정보가 수정되었습니다.');
+        }catch (\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error', '에러가 발생햇습니다.');
+
+        }
     }
 
 
@@ -515,6 +672,25 @@ class OrderController extends Controller
         $detail_id = $request->get('detail');
         $grades = Grade::where('details_id', $detail_id)->where('items_id', '>', '0')->get();
         return $grades;
+    }
+
+    public function orderNumberCheck(Request $request){
+        try{
+            list($car_number, $datekey) = explode("-", $request->get('order_number'));
+            $order_date = Carbon::createFromFormat('ymd', $datekey);
+            $order = Order::where('car_number', $car_number)
+                ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
+                ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
+                ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'))
+                ->whereNotIn('status_cd', ['101', '100'])->first();
+            return $order;
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
+
+
+
+
     }
 
 }

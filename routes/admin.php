@@ -103,8 +103,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::post('order/bcs-update', 'OrderController@bcsUpdate')->name('order.bcs-update');
         Route::post('order/tech-update', 'OrderController@techUpdate')->name('order.tech-update');
         Route::post('order/cancel', 'OrderController@orderCancel')->name('order.cancel');
-
         Route::post('/order/diagnosing', 'OrderController@diagnosing');
+        Route::get('/order/order-number-check', 'OrderController@orderNumberCheck');
 
         // 주문관리
         Route::resource('order', 'OrderController');

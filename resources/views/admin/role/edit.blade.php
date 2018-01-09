@@ -116,7 +116,7 @@
     {!! Form::close() !!}
 @endsection
 
-@section( 'footer-script' )
+@push( 'footer-script' )
     <script type="text/javascript">
         $(function () {
             var $frm = $('#frm-role-destroy');
@@ -126,7 +126,7 @@
 
                 e.preventDefault();
 
-                if (confirm("{{ trans('admin/role.destroy-warning') }}")) {
+                if (confirm("해당 역할을 정말 삭제하시겠습니까?")) {
                     $('#frm-user fieldset').prop("disabled", true);
                     $(this).button('loading');
                     $frm.submit();
@@ -137,4 +137,4 @@
 
 
     </script>
-@endsection
+@endpush

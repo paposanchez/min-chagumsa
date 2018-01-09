@@ -52,35 +52,30 @@
             <div class="card-body">
                 {!! Form::open(['route' => ["order.store"], 'class' => 'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'frm']) !!}
                 <fieldset>
+                    <input type="hidden" name="diag_param" id="diag_param" value="{{ old('diag_param') }}">
+                    <input type="hidden" name="certi_param" id="certi_param" value="">
+                    <input type="hidden" name="ew_param" id="ew_param" value="">
+                    <input type="hidden" name="order_number_confirm" id="order_number_confirm" value="">
                     <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                         <label for="" class="control-label col-md-3">상품선택</label>
                         <div class="col-md-3">
-                            <input type="checkbox" name="diagnosis" id="diagnosis" value="diagnosis"
-                                    @if(old('diagnosis'))
-                                    checked
-                                    @endif>진단
-                            <input type="checkbox" name="certificate" id="certificate" value="certificate"
-                                    @if(old('certificate'))
-                                    checked
-                                    @endif>평가
-                            <input type="checkbox" name="warranty" id="warranty" value="warranty"
-                                    @if(old('warranty'))
-                                    checked
-                                    @endif>보증
+                            <input type="checkbox" name="items[]" id="diagnosis" value="diagnosis"
+                                   @if(is_array(old('items')) && in_array('diagnosis', old('items'))) checked @endif>진단
+                            <input type="checkbox" name="items[]" id="certificate" value="certificate"
+                                   @if(is_array(old('items')) && in_array('certificate', old('items'))) checked @endif>평가
+                            <input type="checkbox" name="items[]" id="warranty" value="warranty"
+                                   @if(is_array(old('items')) && in_array('warranty', old('items'))) checked @endif>보증
                         </div>
                     </div>
                     <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                         <label for="" class="control-label col-md-3">주문자 성명</label>
                         <div class="col-md-3">
-                            @if($user->hasRole("admin"))
-                                {{--{!! Form::select('orderer_id', $users, null, ['class'=>'form-control', 'id'=>'orderer_id']) !!}--}}
-                                <input type="text" class="form-control" placeholder="ex) 010-0000-0000"
-                                       name="orderer_id"
-                                       id="orderer_id" value="">
+                            @if($user->can('order.user.show'))
+                                {!! Form::select('orderer_name', $users, null, ['class'=>'form-control', 'id'=>'orderer_name']) !!}
                             @else
-                                <input type="text" class="form-control" placeholder="ex) 010-0000-0000"
+                                <input type="text" class="form-control" placeholder="ex) 홍길동"
                                        name="orderer_name"
-                                       id="orderer_name" value="">
+                                       id="orderer_name" value="{{ old('orderer_name') }}">
                             @endif
                             <div id="error_div"></div>
                         </div>
@@ -103,12 +98,18 @@
                         <div class="col-md-3">
                             <input type="text" class="form-control" placeholder="ex) 12가1234-180101"
                                    name="order_number"
-                                   id="order_number" value="">
+                                   id="order_number" value="{{ old('order_number') }}">
                             @if ($errors->has('order_number'))
                                 <span class="text-danger">
                                         {{ $errors->first('order_number') }}
                                     </span>
                             @endif
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn btn-primary"
+                                    data-loading-text="{{ trans('common.button.loading') }}"
+                                    id="confirm_order" type="button">주문번호 확인
+                            </button>
                         </div>
                     </div>
 
@@ -118,7 +119,7 @@
                             <div class="col-md-3">
                                 <input type="text" class="form-control" placeholder="ex) 12가1234"
                                        name="car_number"
-                                       id="car_number" value="">
+                                       id="car_number" value="{{ old('car_number') }}">
                                 <span class="help-block">ex) 메뉴4 설명</span>
                                 @if ($errors->has('car_number'))
                                     <span class="text-danger">
@@ -130,7 +131,7 @@
                             <div class="col-md-3">
                                 <input type="text" class="form-control" placeholder="ex) sdjdmncvbdjkdk8391mn"
                                        name="vin_number"
-                                       id="vin_number" value="">
+                                       id="vin_number" value="{{ old('') }}">
                                 @if ($errors->has('vin_number'))
                                     <span class="text-danger">
                                         {{ $errors->first('vin_number') }}
@@ -142,7 +143,7 @@
                             <label for="" class="control-label col-md-3">차량모델</label>
                             <div class="col-md-2">
                                 <div class="select">
-                                    <select class="form-control" id="brands" name="brands" autocomplete="off">
+                                    <select class="form-control" id="brands" name="brands_id" autocomplete="off">
                                         <option value="">선택하세요.</option>
                                         @foreach($brands as $brand)
                                             <option value="{{ $brand->id }}">{{ $brand->name }}</option>
@@ -156,17 +157,17 @@
                                 @endif
                             </div>
                             <div class="col-md-2 select">
-                                <select class="form-control" id="models" name="models" autocomplete="off">
+                                <select class="form-control" id="models" name="models_id" autocomplete="off">
                                     <option value="">선택하세요.</option>
                                 </select>
                             </div>
                             <div class="col-md-2 select">
-                                <select class="form-control" id="details" name="details" autocomplete="off">
+                                <select class="form-control" id="details" name="details_id" autocomplete="off">
                                     <option value="">선택하세요.</option>
                                 </select>
                             </div>
                             <div class="col-md-2 select">
-                                <select class="form-control" id="grades" name="grades" autocomplete="off">
+                                <select class="form-control" id="grades" name="grades_id" autocomplete="off">
                                     <option value="">선택하세요.</option>
                                 </select>
                             </div>
@@ -175,8 +176,16 @@
                         <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                             <label for="" class="control-label col-md-3">사고/침수여부</label>
                             <div class="col-md-3">
-                                <input type="checkbox" name="accident" id="accident">사고여부
-                                <input type="checkbox" name="flood" id="flood">침수여부
+                                <input type="checkbox" name="accident" id="accident"
+                                       @if(old('accident'))
+                                       checked
+                                        @endif
+                                >사고여부
+                                <input type="checkbox" name="flood" id="flood"
+                                       @if(old('flood'))
+                                       checked
+                                        @endif
+                                >침수여부
                                 @if ($errors->has('orderer_name'))
                                     <span class="text-danger">
                                         {{ $errors->first('orderer_name') }}
@@ -189,7 +198,7 @@
                             <div class="col-md-2">
                                 <div class="select">
                                     <select class="form-control" id="areas" name="areas" autocomplete="off">
-                                        <option>선택하세요.</option>
+                                        <option value="">선택하세요.</option>
                                         @foreach($areas as $key => $area)
                                             <option value="{{ $area->area }}">{{ $area->area }}</option>
                                         @endforeach
@@ -240,7 +249,7 @@
                         <div class="col-md-9 col-md-offset-3">
                             <button class="btn btn-primary"
                                     data-loading-text="{{ trans('common.button.loading') }}"
-                                    id="create_order" type="button">주문 생성하기
+                                    id="create_order" type="submit">주문 생성하기
                             </button>
                         </div>
                     </div>
@@ -269,30 +278,57 @@
             }
         });
 
+        $('.date-picker').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+
         $('#diagnosis').change(function () {
             if ($(this).prop('checked')) {
                 $('#diagnosis_form').css('display', '');
                 $('.order_div').css('display', 'none');
-
+                $('#diag_param').val('1');
             } else {
                 $('#diagnosis_form').css('display', 'none');
                 $('.order_div').css('display', '');
+                $('#diag_param').val('');
             }
-
         });
 
-        $('#create_order').click(function(){
-            if(!$('#orderer_id').val() && !$('#orderer_name').val()){
-                alert('dddd');
-                $('#frm').submit();
+        $('#certificate').change(function(){
+            if ($(this).prop('checked')) {
+                $('#certi_param').val('1');
             }else{
-                var html = '<span class="text-danger">\n' +
-                    '주문자 성명 필드는 필수입니다.\n' +
-                    '</span>';
-                $('#error_div').append(html);
+                $('#certi_param').val('');
             }
         });
 
+        $('#warranty').change(function(){
+            if ($(this).prop('checked')) {
+                $('#ew_param').val('1');
+            }else{
+                $('#ew_param').val('');
+            }
+        });
+
+        $('#confirm_order').click(function(){
+            var order_number = $('#order_number').val();
+
+            $.ajax({
+                type : 'get',
+                dataType : 'json',
+                url : '/order/order-number-check',
+                data : {
+                    order_number : order_number
+                },
+                success : function(data){
+                    alert('확인되었습니다.');
+                    $('#order_number_confirm').val(1);
+                },
+                error : function(data) {
+                    alert('주문번호를 다시 확인해주세요.');
+                }
+            })
+        });
 
         // brands 선택 시
         $('#brands').on('change', function () {

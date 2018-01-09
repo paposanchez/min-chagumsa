@@ -25,6 +25,7 @@ class Reservation extends Model
         'created_at'
     ];
 
+    public $timestamps = false;
     //진단정보 조회
     public function diagnosis(){
         return $this->belongsTo(Diagnosis::class, 'diagnosis_id', 'id');

@@ -65,7 +65,7 @@
                                class="control-label col-md-3">{{ trans('admin/permission.role') }}</label>
                         <div class="col-md-6">
 
-                            {!! Form::select('role[]', $permissions->pluck("name","id"), [], ['class'=>'form-control', 'multiple', 'id'=>'inputRolePermission']) !!}
+                            {!! Form::select('role[]', $roles->pluck("name","id"), [], ['class'=>'form-control', 'multiple', 'id'=>'inputRolePermission']) !!}
 
                             @if ($errors->has('role'))
                                 <span class="help-block">
