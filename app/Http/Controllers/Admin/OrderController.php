@@ -643,12 +643,13 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getModels(Request $request)
-    {
-        $brand_id = $request->get('brand');
-        $models = Models::where('brands_id', $brand_id)->orderBy("name", 'ASC')->get();
-        return $models;
-    }
+    // public function getModels(Request $request)
+    // {
+    //     $brand_id = $request->get('brand');
+    //
+    //     $models = Models::where('brands_id', $brand_id)->orderBy("name", 'ASC')->get();
+    //     return $models;
+    // }
 
     /**
      * 차량 세부모델 조회 메소드
@@ -657,7 +658,7 @@ class OrderController extends Controller
      */
     public function getDetails(Request $request)
     {
-        $model_id = $request->get('model');
+        $model_id = $request->get('b');
         $details = Detail::where('models_id', $model_id)->orderBy("name", 'ASC')->get();
         return $details;
     }

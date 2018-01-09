@@ -2,7 +2,7 @@
 //@TODO  스태틱파일로의 전환여부는 추후 판단
 Route::get('codes', "CodeController");
 
-Route::post('user', "UserController@show");
+// Route::post('user', "UserController@show");
 Route::post('login', "UserController@login");
 Route::any('logout', "UserController@logout");
 Route::get('password', "UserController@changePassword");
@@ -53,12 +53,13 @@ Route::get('notify/send', "NotifyController@send");
 Route::get('notify/bedge', "NotifyController@bedge");
 
 
-
 // 전체주문 리스트
 Route::get('/diagnosis/get-diagnosis', 'DiagnosisController@getDiagnosis');
 // 예약변경
 Route::post('/diagnosis/change-reservation', 'DiagnosisController@changeReservation');
 // 예약확정
 Route::post('/diagnosis/confirm-reservation', 'DiagnosisController@confirmReservation');
+
 // 엔지니어관리
 Route::resource('member', 'MemberController');
+Route::resource('user', "UserController");
