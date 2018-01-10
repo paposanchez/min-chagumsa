@@ -1,55 +1,102 @@
 @extends( 'admin.layouts.default' )
 
-@section('breadcrumbs')
-@include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.order')])
-@endsection
-
 @section( 'content' )
 <section id="content">
+
         <div class="container">
-                <div class="block-header">
-                        <h2>Table</h2>
-
-                        <ul class="actions">
-                                <li>
-                                        <a href="">
-                                                <i class="zmdi zmdi-trending-up"></i>
-                                        </a>
-                                </li>
-                                <li>
-                                        <a href="">
-                                                <i class="zmdi zmdi-check-all"></i>
-                                        </a>
-                                </li>
-                                <li class="dropdown">
-                                        <a href="" data-toggle="dropdown">
-                                                <i class="zmdi zmdi-more-vert"></i>
-                                        </a>
-
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                                <li>
-                                                        <a href="">Refresh</a>
-                                                </li>
-                                                <li>
-                                                        <a href="">Manage Widgets</a>
-                                                </li>
-                                                <li>
-                                                        <a href="">Widgets Settings</a>
-                                                </li>
-                                        </ul>
-                                </li>
-                        </ul>
-
-                </div>
 
                 <div class="card">
                         <div class="card-header">
-                                <h2>Basic Table
-                                        <small>Basic example without any additional modification classes</small>
+                                <h2>주문관리
+                                        <small>총 <strong>{{ number_format($entrys->total()) }}</strong> 개의 검색결과가 있습니다.</small>
                                 </h2>
+
+                                <ul class="actions">
+                                        <li>
+                                                <a href="#collapseExample" class=" waves-effect" type="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                                                        <i class="zmdi zmdi-search"></i>
+                                                </a>
+                                        </li>
+                                </ul>
                         </div>
 
-                        <div class="card-body">
+
+                        <div class="card-body card-search" >
+
+                                <div class="jumbotron m-0">
+
+                                        <form class="form-horizontal" role="form">
+
+                                                <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-2 control-label">상태</label>
+
+                                                        <div class="col-sm-8">
+                                                                <div class="fg-line">
+                                                                        <select class="selectpicker" multiple>
+                                                                                <option>Mustard</option>
+                                                                                <option>Ketchup</option>
+                                                                                <option>Relish</option>
+                                                                                <option>Toasted</option>
+                                                                        </select>
+                                                                </div>
+
+
+                                                        </div>
+                                                </div>
+                                                <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-2 control-label">검색일자</label>
+                                                        <div class="col-sm-4">
+                                                                <select class="selectpicker">
+                                                                        <option>Mustard</option>
+                                                                        <option>Ketchup</option>
+                                                                        <option>Relish</option>
+                                                                        <option>Toasted</option>
+                                                                </select>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <div class="dtp-container">
+                                                                        <input type='text' name="" class="form-control date-time-picker"
+                                                                        placeholder="Click here...">
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-sm-4">
+                                                                <div class="dtp-container">
+                                                                        <input type='text' class="form-control date-time-picker"
+                                                                        placeholder="Click here...">
+                                                                </div>
+                                                        </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-2 control-label">검색어</label>
+                                                        <div class="col-sm-4">
+                                                                <select class="selectpicker">
+                                                                        <option>Mustard</option>
+                                                                        <option>Ketchup</option>
+                                                                        <option>Relish</option>
+                                                                        <option>Toasted</option>
+                                                                </select>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <div class="fg-line">
+                                                                        <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="검색어">
+                                                                </div>
+                                                        </div>
+                                                </div>
+
+                                                <div class="form-group m-b-0">
+                                                        <div class="col-sm-offset-2 col-sm-10">
+                                                                <button type="submit" class="btn btn-primary">검색</button>
+                                                        </div>
+                                                </div>
+
+
+                                        </form>
+                                </div>
+
+
                                 <table class="table">
                                         <colgroup>
                                                 <col width="8%">
