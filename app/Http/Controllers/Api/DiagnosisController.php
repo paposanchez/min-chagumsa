@@ -761,7 +761,7 @@ class DiagnosisController extends ApiController
      *     description="예약 전체목록",
      *     operationId="getDiagnosisWorking",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="bcs_id",in="query",description="bcs 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="query",description="bcs 번호",required=true,type="integer",format="int32"),
      *     @SWG\Parameter(name="date",in="query",description="날짜",required=false,type="string",format="varchar"),
      *     @SWG\Parameter(name="status_cd",in="query",description="상태값",required=false,type="integer",format="int32"),
      *     @SWG\Response(response=200,description="success",
@@ -780,14 +780,14 @@ class DiagnosisController extends ApiController
     public function getDiagnosis(Request $request){
         try{
             $validator = Validator::make($request->all(), [
-                'bcs_id' => 'required|exists:users,id',
+                'user_id' => 'required|exists:users,id',
                 'date' => 'nullable',
                 'status_cd' => 'nullable',
                 's' => 'nullable|min:3'
             ]);
 
             $date = $request->get('date');
-            $user_id = $request->get('bcs_id');
+            $user_id = $request->get('user_id');
             $status_cd = $request->get('status_cd');
             $s = $request->get('s');
 
@@ -800,9 +800,6 @@ class DiagnosisController extends ApiController
             }
 
             $entrys = Diagnosis::where('garage_id', $user_id);
-
-            //키워드 검색시
-            //todo 구현
 
             //날짜 검색시
             if($date){
@@ -818,8 +815,19 @@ class DiagnosisController extends ApiController
                 }
             }
 
+            //키워드 검색시
+            if($s){
+                $entrys->join('orders', function ($join) use($s){
+                    $join->on('orders.id', 'diagnosis.orders_id')
+                        ->where('orders.orderer_mobile', 'like', '%' . $s . '%')
+                        ->orWhere('orders.orderer_name', 'like', '%' . $s . '%')
+                        ->orWhere('orders.car_number', 'like', '%' . $s . '%');
+                });
+            }
+
             return $entrys->paginate(10);
         }catch(Exception $e){
+            return response()->json($e->getMessage());
             return response()->json('fail');
         }
     }
