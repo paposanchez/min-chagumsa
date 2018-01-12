@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Abstracts\Model\Cache AS CacheModel;
+use Illuminate\Support\Facades\DB;
 
 /**
 *

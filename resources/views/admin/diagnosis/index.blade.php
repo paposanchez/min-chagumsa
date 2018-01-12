@@ -7,56 +7,118 @@
 @section( 'content' )
     <section id="content">
         <div class="container">
-            <div class="block-header">
-                <h2>Table</h2>
-
-                <ul class="actions">
-                    <li>
-                        <a href="">
-                            <i class="zmdi zmdi-trending-up"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="zmdi zmdi-check-all"></i>
-                        </a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="" data-toggle="dropdown">
-                            <i class="zmdi zmdi-more-vert"></i>
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li>
-                                <a href="">Refresh</a>
-                            </li>
-                            <li>
-                                <a href="">Manage Widgets</a>
-                            </li>
-                            <li>
-                                <a href="">Widgets Settings</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
-            </div>
-
             <div class="card">
                 <div class="card-header">
-                    <h2>Basic Table
-                        <small>Basic example without any additional modification classes</small>
+                    <h2>진단관리
+                        <small>검색 섬머리</small>
                     </h2>
+                    <ul class="actions">
+                        <li>
+                            <a href="#collapseExample" class=" waves-effect" type="button" data-toggle="collapse"
+                               aria-expanded="false" aria-controls="collapseExample">
+                                <i class="zmdi zmdi-search"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body card-search">
+
+                    <div class="jumbotron m-0">
+
+                        <form method="GET" class="form-horizontal no-margin-bottom" role="form" id="frm">
+                            <input type="hidden" name="sort" id="sort_val" value="{{ old('sort_val') }}">
+                            <input type="hidden" name="sort_orderby" id="sort_orderby" value="{{ old('sort_orderby') ? old('sort_orderby') : 'asc' }}">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">상태</label>
+
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }}
+                                        전체
+                                    </label>
+                                    <label class="btn btn-default {{ $status_cd == 112 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('status_cd', 112, \App\Helpers\Helper::isCheckd(112, $status_cd), ['name' => 'status_cd']) }}
+                                        신청
+                                    </label>
+                                    <label class="btn btn-default {{ $status_cd == 113 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('status_cd', 113, \App\Helpers\Helper::isCheckd(113, $status_cd), ['name' => 'status_cd']) }}
+                                        예약확정
+                                    </label>
+                                    <label class="btn btn-default {{ $status_cd == 114 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('status_cd', 114, \App\Helpers\Helper::isCheckd(114, $status_cd), ['name' => 'status_cd']) }}
+                                        검토중
+                                    </label>
+                                    <label class="btn btn-default {{ $status_cd == 115 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('status_cd', 115, \App\Helpers\Helper::isCheckd(115, $status_cd), ['name' => 'status_cd']) }}
+                                        발급완료
+                                    </label>
+                                    <label class="btn btn-default {{ $status_cd == 116 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('status_cd', 117, \App\Helpers\Helper::isCheckd(117, $status_cd), ['name' => 'status_cd']) }}
+                                        인증만료
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">검색일자</label>
+                                <div class="col-sm-2">
+                                    {!! Form::select('df', $search_fields2, $df, ['class'=>'selectpicker']) !!}
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-calendar-alt"></i></span>
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control date-picker" name='trs' value='{{ $trs }}' placeholder="{{ trans('common.search.period_start') }}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control date-picker" name="tre" id="tre" value="{{ $tre }}" placeholder="{{ trans('common.search.period_end') }}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">검색어</label>
+                                <div class="col-sm-2">
+                                    {!! Form::select('sf', $search_fields, $sf, ['class'=>'selectpicker']) !!}
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-search-in-page"></i></span>
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control input-sm" id="s" name="s"
+                                                   placeholder="검색어" value="{{ $s }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group m-b-0">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary">검색</button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+
                     <table class="table">
                         <colgroup>
-
                             <col width="8%">
-                            <col width="13%">
-                            <col width="25%">
-                            <col width="15%">
+                            <col width="14%">
+                            <col width="10%">
+                            <col width="20%">
+                            <col width="16%">
+                            <col width="10%">
                             <col width="8%">
                             <col width="8%">
                             <col width="*">
@@ -64,12 +126,14 @@
 
                         <thead>
                         <tr class="active">
-                            <th class="text-center">상태</th>
+                            <th class="text-center"><a class="sort" href="#" id="status"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 상태</a></th>
                             <th class="text-center">주문번호</th>
+                            <th class="text-center">주문자명</th>
                             <th class="text-center">주문자정보</th>
                             <th class="text-center">예약정보</th>
-                            <th class="text-center">진단시작일</th>
-                            <th class="text-center">진단완료일</th>
+                            <th class="text-center">엔지니어</th>
+                            <th class="text-center"><a class="sort" href="#" id="start_at"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 진단시작일</a></th>
+                            <th class="text-center"><a class="sort" href="#" id="end_at"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 진단완료일</a></th>
                             <th class="text-center">Remarks</th>
 
                         </tr>
@@ -88,33 +152,32 @@
 
                             <tr>
 
-                                <td>
-                                                                <span
-                                                                        style="width:60px;display:inline-block;"
-                                                                        class="label
-                                                                @if($data->status_cd == 100)
-                                                                                label-default
-@elseif($data->status_cd == 106)
-                                                                                label-primary
-@elseif($data->status_cd == 109)
-                                                                                label-success
-@else
-                                                                                label-info
-@endif
-                                                                                ">
-                                                                {{ $data->status->display() }}
-                                                        </span>
+                                <td class="text-center">
+                                    @component('components.badge', [
+                                    'code' => $data->status_cd,
+                                    'color' =>[
+                                    '100' => 'default',
+                                    '102' => 'success',
+                                    '112' => 'success',
+                                    '113' => 'warning',
+                                    '114' => 'info',
+                                    '115' => 'primary',
+                                    '116' => 'danger'
+                                    ]])
+                                        {{ $data->status->display() }}
+                                    @endcomponent
                                 </td>
 
                                 <td class="text-center">
                                     {{ $data->order->getOrderNumber() }}
-                                    <br/>
-                                    {{--<small class="text-muted">{{ $data->carNumber->car_number }}</small>--}}
-                                    <small class="text-muted">{{ $data->order->car_number }}</small>
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="/user/{{ $data->order->orderer_id }}/edit">{{ $data->order->orderer_name }} <span class="text-muted">{{ $data->order->orderer ? $data->order->orderer->email : '-' }}</span></a>
+                                    {{ $data->order->orderer_name }}
+                                </td>
+
+                                <td class="text-center">
+                                    <a href="/user/{{ $data->order->orderer_id }}/edit">{{ $data->order->orderer ? $data->order->orderer->email : '-' }}</a>
                                     <br/>
                                     <small class="text-warning">{{ $data->order->orderer_mobile }}</small>
                                 </td>
@@ -125,6 +188,9 @@
                                     <small class="text-danger">{{ $data->reservation_at->format("m월 d일 H시") }}</small>
                                 </td>
 
+                                <td class="text-center">
+                                    {{ $data->engineer? $data->engineer->name : '-' }}
+                                </td>
 
                                 <td class="text-center">
                                     {{--{{ $data->start_at ? $data->start_at->format('m-d H:i') : '-' }}--}}
@@ -136,9 +202,9 @@
                                 </td>
 
 
-                                <td>
+                                <td class="text-center">
                                     {{--@if($data->status_cd == 107)--}}
-                                    @if($data->status_cd > 105 && $data->status_cd < 108 )
+                                    @if($data->status_cd > 113 && $data->status_cd < 115 )
                                         <a href="{{ url("diagnosis", [$data->id]) }}" class="btn btn-danger"
                                            data-toggle="tooltip" title="인증서 진단정보 수정">진단정보 수정</a>
                                     @endif
@@ -170,4 +236,20 @@
 
 
 @push( 'footer-script' )
+    <script type="text/javascript">
+        $('.sort').click(function () {
+            var sort_value = $(this).attr('id');
+            $('#sort_val').val(sort_value);
+            if($('#sort_orderby').val() == 'asc'){
+                $('#sort_orderby').val('desc')
+            }else {
+                $('#sort_orderby').val('asc')
+            }
+            $('#frm').submit();
+        });
+
+        $('.date-picker').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+    </script>
 @endpush

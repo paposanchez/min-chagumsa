@@ -123,6 +123,7 @@
         <!-- Javascript Libraries -->
         {!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.js') !!}
         {!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.resize.js') !!}
+        {!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.pie.js') !!}
         {!! Html::script('/assets/vendors/bower_components/flot.curvedlines/curvedLines.js') !!}
         {!! Html::script('/assets/vendors/sparklines/jquery.sparkline.min.js') !!}
         {!! Html::script('/assets/vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js') !!}

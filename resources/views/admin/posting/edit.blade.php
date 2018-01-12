@@ -1,9 +1,5 @@
 @extends( 'admin.layouts.default' )
 
-@section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.post')])
-@endsection
-
 @section( 'content' )
     <div class="container-fluid">
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Order;
 use App\Models\Role;
+use App\Models\RoleUser;
 use App\Models\User;
 use App\Models\Code;
 use App\Models\UserExtra;
@@ -114,10 +115,8 @@ class UserController extends Controller
         if (in_array(4, $request->get('roles')) || in_array(5, $request->get('roles'))) {
 
             if (in_array(4, $request->get('roles'))) {
-                if ($request->get('with_eng')) {
-                    $user->attachRole($request->get('with_eng'));
-                }
-
+                // 엔지니어 롤 추가
+                $user->attachRole($request->get('with_eng'));
                 // user_extra 데이터 저장 / BCS 저장
                 $user_extra = UserExtra::where('users_id', $user->id)->first();
                 if (!$user_extra) {
@@ -247,11 +246,8 @@ class UserController extends Controller
 
         if (in_array(4, $request->get('roles')) || in_array(5, $request->get('roles'))) {
             if (in_array(4, $request->get('roles'))) {
-
-                if ($request->get('with_eng')) {
-                    $eng_role = RoleUser::where('user_id', $id)->where('role_id', 5)->delete();
-                    $user->attachRole($request->get('with_eng'));
-                }
+                RoleUser::where('user_id', $id)->where('role_id', 5)->delete();
+                $user->attachRole(5);
 
                 // user_extra 데이터 저장 / BCS 저장
                 $user_extra = UserExtra::where('users_id', $user->id)->first();

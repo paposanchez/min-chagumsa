@@ -489,13 +489,7 @@
                 id="qq-template">@include("partials/files", ['files'=> $user->user_extra->bcs_files])</script>
     @endif
     <script type="text/javascript">
-        $('#btn-user-destory').click(function(){
-            $('#frm-user-destroy').submit();
-        });
-
         $(function () {
-
-
             $('#plugin-garage_imgs').fineUploader({
                 debug: true,
                 template: "garage_imgs-template",
@@ -578,96 +572,95 @@
                     }
                 }
             });
+        });
+        var load_role = $('#user-role').val();
 
-            var load_role = $('#user-role').val();
+        // garage 랑 engineer 부분 데이터 로드
+        if ($.inArray("5", load_role) >= 0 && $.inArray("4", load_role) >= 0) {
+            $('#garage_info').css('display', '');
+            $('.garage').css('display', 'none');
+            $('.with_eng').removeClass('hide');
+        }
+        else if ($.inArray("4", load_role) >= 0) {
+            $('#garage_info').css('display', '');
+            $('.garage').css('display', 'none');
+            $('.with_eng').removeClass('hide');
+        } else if ($.inArray("5", load_role) >= 0) {
+            $('#garage_info').css('display', 'none');
+            $('.garage').css('display', '');
+        }
 
-            // garage 랑 engineer 부분 데이터 로드
-            if ($.inArray("5", load_role) >= 0 && $.inArray("4", load_role) >= 0) {
-                $('#garage_info').css('display', '');
-                $('.garage').css('display', 'none');
-                $('.with_eng').removeClass('hide');
-            }
-            else if ($.inArray("4", load_role) >= 0) {
-                $('#garage_info').css('display', '');
-                $('.garage').css('display', 'none');
-                $('.with_eng').removeClass('hide');
-            } else if ($.inArray("5", load_role) >= 0) {
+
+        var $frm = $('#frm-user-destroy');
+
+        $('.roles').on("click", '.role_selector', function () {
+            var roles = $('#user-role').val();
+            alert(roles);
+            if ($.inArray("5", roles) >= 0) {
                 $('#garage_info').css('display', 'none');
-                $('.garage').css('display', '');
+                $("#garage-modal").modal();
+            }
+            else if ($.inArray("4", roles) >= 0) {
+                $('#garage_info').css('display', '');
+                $('.garage').css('display', 'none');
+                $('.attachment').css('display', '');
             }
 
+        });
 
-            var $frm = $('#frm-user-destroy');
+        $("#tbody").delegate(".select-garage", "click", function () {
+            $('#selected_garage').val($(this).text());
+            $('.garage').css('display', '');
+            $("#garage-modal").modal('hide');
+            $('.attachment').css('display', 'none');
+        });
 
-            $('.roles').on("click", '.role_selector', function () {
-                var roles = $('#user-role').val();
-
-                if ($.inArray("5", roles) >= 0) {
-                    $('#garage_info').css('display', 'none');
-                    $("#garage-modal").modal();
-                }
-                else if ($.inArray("4", roles) >= 0) {
-                    $('#garage_info').css('display', '');
-                    $('.garage').css('display', 'none');
-                    $('.attachment').css('display', '');
-                }
-
-            });
-
-            $("#tbody").delegate(".select-garage", "click", function () {
-                $('#selected_garage').val($(this).text());
-                $('.garage').css('display', '');
-                $("#garage-modal").modal('hide');
-                $('.attachment').css('display', 'none');
-            });
-
-            $('#search').click(function () {
-                if ($('#content').val() === '') {
-                    alert('정비소명을 입력하세요.');
-                } else {
-                    var garage_name = $('#content').val();
-                    var html = '';
-                    $.ajax({
-                        type: 'get',
-                        dataType: 'json',
-                        url: '/user/search_garage',
-                        data: {
-                            '_token': '{{ csrf_token() }}',
-                            'garage_name': garage_name,
-                        },
-                        success: function (data) {
-                            if (data.length == 0) {
-                                html += "<tr><td colspan='6' class='no-result'>{{ trans('common.no-result') }}</td></tr>";
-                                $('#tbody').html(html);
-                            } else {
-                                $.each(data, function (key, value) {
-                                    html += "<tr>";
-                                    html += "<td>";
-                                    html += "<a class='select-garage' name='sel_garage' href='#'>" + value.name + "</a>";
-                                    html += "</td>";
-                                    html += "</tr>";
-                                });
-                                $('#tbody').html(html);
-                            }
-                        },
-                        error: function () {
-                            alert('error');
+        $('#search').click(function () {
+            if ($('#content').val() === '') {
+                alert('정비소명을 입력하세요.');
+            } else {
+                var garage_name = $('#content').val();
+                var html = '';
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: '/user/search_garage',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        'garage_name': garage_name,
+                    },
+                    success: function (data) {
+                        if (data.length == 0) {
+                            html += "<tr><td colspan='6' class='no-result'>{{ trans('common.no-result') }}</td></tr>";
+                            $('#tbody').html(html);
+                        } else {
+                            $.each(data, function (key, value) {
+                                html += "<tr>";
+                                html += "<td>";
+                                html += "<a class='select-garage' name='sel_garage' href='#'>" + value.name + "</a>";
+                                html += "</td>";
+                                html += "</tr>";
+                            });
+                            $('#tbody').html(html);
                         }
-                    })
-                }
-            });
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                })
+            }
+        });
 
-            $(document).on("click", '#btn-user-destory', function (e) {
+        $(document).on("click", '#btn-user-destory', function (e) {
 
-                e.preventDefault();
+            e.preventDefault();
 
-                if (confirm("{{ trans('admin/user.destroy-warning') }}")) {
-                    $('#frm-user fieldset').prop("disabled", true);
-                    $(this).button('loading');
-                    $frm.submit();
-                }
+            if (confirm("{{ trans('admin/user.destroy-warning') }}")) {
+                $('#frm-user fieldset').prop("disabled", true);
+                $(this).button('loading');
+                $frm.submit();
+            }
 
-            });
         });
     </script>
 @endpush

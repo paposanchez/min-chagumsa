@@ -48,16 +48,19 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $where = Order::where('status_cd', ">=", 100)->whereNotIn('status_cd', [101]);
+        $where = Order::whereNotIn('status_cd', [101]);
 
         // 정렬옵션
-        if ($request->get('sort') == 'order_num') {
-            $where
-                ->orderBy('car_number', 'ASC')
-                ->orderBy('created_at', 'ASC');
-        } else {
-            $where->orderBy('id', 'DESC');
+        $sort = $request->get('sort');
+        $orderby = $request->get('sort_orderby');
+        if($sort){
+            if($sort == 'status'){
+                $where->orderBy('status_cd', $orderby);
+            }else{
+                $where->orderBy($sort, $orderby);
+            }
         }
+
 
         //주문상태
         $status_cd = $request->get('status_cd');
@@ -89,14 +92,11 @@ class OrderController extends Controller
         }
         //검색조건
         $search_fields = [
-            "order_id" => "주문아이디",
             "order_num" => "주문번호",
             "car_number" => "차량번호",
             'orderer_name' => '주문자 이름',
             "orderer_mobile" => "주문자 휴대전화번호",
-            "engineer_name" => "엔지니어명",
-            "bcs_name" => "BCS명",
-            "tech_name" => "기술사명"
+            "email" => '이메일'
         ];
 
 
@@ -213,47 +213,47 @@ class OrderController extends Controller
     }
 
     public function store(Request $request){
-        if($request->get('diag_param')){
-            $this->validate($request, [
-                'orderer_name' => 'required|min:2',
-                'orderer_mobile' => 'required|min:9',
-                'car_number' => 'required',
-                'vin_number' => 'required',
-                'brands_id' => 'required',
-                'models_id' => 'required',
-                'details_id' => 'required',
-                'grades_id' => 'required',
-                'areas' => 'required',
-                'sections' => 'required',
-                'garages' => 'required',
-                'reservation_at' => 'required',
-                'sel_time' => 'required'
-            ], [],
-                [
-                    'orderer_mobile' => '주문자 휴대폰번호',
-                    'car_number' => '차량번호',
-                    'vin_number' => '차대번호',
-                    'grades' => '차량 정보',
-                    'garages' => '대리점 정보',
-                    'reservation_at' => '예약날짜',
-                    'sel_time' => '예약시간'
-                ]);
-        }else{
-            $this->validate($request, [
-                'orderer_name' => 'required|min:2',
-                'orderer_mobile' => 'required|min:9',
-                'order_number' => 'required',
-                'order_number_confirm' => 'required'
-            ], [],
-                [
-                    'orderer_id' => '주문자',
-                    'orderer_mobile' => '주문자 휴대폰번호',
-                    'order_number' => '주문번호'
-                ]);
-
-        }
-
         try{
+            if($request->get('diag_param')){
+                $this->validate($request, [
+                    'orderer_name' => 'required|min:2',
+                    'orderer_mobile' => 'required|min:9',
+                    'car_number' => 'required',
+                    'vin_number' => 'required',
+                    'brands_id' => 'required',
+                    'models_id' => 'required',
+                    'details_id' => 'required',
+                    'grades_id' => 'required',
+                    'areas' => 'required',
+                    'sections' => 'required',
+                    'garages' => 'required',
+                    'reservation_at' => 'required',
+                    'sel_time' => 'required'
+                ], [],
+                    [
+                        'orderer_mobile' => '주문자 휴대폰번호',
+                        'car_number' => '차량번호',
+                        'vin_number' => '차대번호',
+                        'grades' => '차량 정보',
+                        'garages' => '대리점 정보',
+                        'reservation_at' => '예약날짜',
+                        'sel_time' => '예약시간'
+                    ]);
+            }else{
+                $this->validate($request, [
+                    'orderer_name' => 'required|min:2',
+                    'orderer_mobile' => 'required|min:9',
+                    'order_number' => 'required',
+                    'order_number_confirm' => 'required'
+                ], [],
+                    [
+                        'orderer_id' => '주문자',
+                        'orderer_mobile' => '주문자 휴대폰번호',
+                        'order_number' => '주문번호'
+                    ]);
+
+            }
+
             DB::beginTransaction();
             $user = Auth::user();
             $input = $request->all();
@@ -262,24 +262,23 @@ class OrderController extends Controller
             $car = Car::create($input);
 
             //order 생성
-            $order = new Order();
-            $order->car_number = $request->get('car_number');
-            $order->orderer_id = $user->id;
-            $order->orderer_name = $request->get('orderer_name');
-            $order->orderer_mobile = $request->get('orderer_mobile');
-            $order->status_cd = 102;
-            $order->flooding_state_cd = $request->get('flood') ? 1 : 0;
-            $order->accident_state_cd = $request->get('accident') ? 1 : 0;
-            $order->save();
+            $order = Order::create([
+                'car_number' => $request->get('car_number'),
+                'orderer_id' => $user->id,
+                'orderer_name' => $request->get('orderer_name'),
+                'orderer_mobile' => $request->get('orderer_mobile'),
+                'status_cd' => '102',
+                'flooding_state_cd' => $request->get('flood') ? 1 : 0,
+                'accident_state_cd' => $request->get('accident') ? 1 : 0,
+            ]);
 
             //car_number 생성
-            $car_number = new CarNumber();
-            $car_number->orders_id = $order->id;
-            $car_number->cars_id = $car->id;
-            $car_number->vin_number = $request->get('vin_number');
-            $car_number->car_number = $request->get('car_number');
-            $car_number->save();
-
+            $car_number = CarNumber::create([
+                'orders_id'=> $order->id,
+                'cars_id'=> $car->id,
+                'vin_number'=> $request->get('vin_number'),
+                'car_number'=> $request->get('car_number')
+            ]);
 
             //order_item 생성 및 가격 계산
             $price = 0;
@@ -288,45 +287,40 @@ class OrderController extends Controller
                 $order_item->orders_id = $order->id;
                 $order_item->group_id = $order->id;
                 if($car->brand->car_type == 'n'){
+                    $order_item->car_sort = 'N';
                     // 국산은 1, 3, 5
                     if($item == 'diagnosis'){
                         $order_item->items_id = 1;
                         $order_item->price = Item::find(1)->price;
-                        $order_item->car_sort = 'N';
                         $order_item->save();
                         $diagno_item_id = $order_item->id;
                     }else if($item == 'certificate'){
                         $order_item->items_id = 3;
                         $order_item->price = Item::find(3)->price;
-                        $order_item->car_sort = 'N';
                         $order_item->save();
                         $certi_item_id = $order_item->id;
                     }else{
                         $order_item->items_id = 5;
                         $order_item->price = Item::find(5)->price;
-                        $order_item->car_sort = 'N';
                         $order_item->save();
                         $ew_item_id = $order_item->id;
                     }
-
                 }else{
+                    $order_item->car_sort = 'F';
                     // 외산은 2, 4, 7
                     if($item == 'diagnosis'){
                         $order_item->items_id = 2;
                         $order_item->price = Item::find(2)->price;
-                        $order_item->car_sort = 'F';
                         $order_item->save();
                         $diagno_item_id = $order_item->id;
                     }else if($item == 'certificate'){
                         $order_item->items_id = 4;
                         $order_item->price = Item::find(4)->price;
-                        $order_item->car_sort = 'F';
                         $order_item->save();
                         $certi_item_id = $order_item->id;
                     }else{
                         $order_item->items_id = 7;
                         $order_item->price = Item::find(7)->price;
-                        $order_item->car_sort = 'F';
                         $order_item->save();
                         $ew_item_id = $order_item->id;
                     }
@@ -378,24 +372,28 @@ class OrderController extends Controller
             }
 
             //certificate 생성
-            if($request->get('certi_param')){
-                $certificate = new Certificate();
-                $certificate->orders_id = $order->id;
-                $certificate->order_items_id = $certi_item_id;
-                $certificate->car_numbers_id = $car_number->id;
-                $certificate->status_cd = 112;
-                $certificate->diagnosis_id = $diagnosis ? $diagnosis->id : $diag_order->diagnosis->id;
-                $certificate->save();
+            if(!$request->get('diag_param')){
+                if($request->get('certi_param')){
+                    $certificate = Certificate::create([
+                       'orders_id' => $order->id,
+                       'order_items_id' => $certi_item_id,
+                       'car_numbers_id' => $car_number->id,
+                       'status_cd' => 112,
+                       'diagnosis_id' => $diag_order->diagnosis->id,
+                    ]);
+                }
+                //warranty 생성
+                if($request->get('ew_param')){
+                    $warranty = Warranty::create([
+                        'orders_id' => $order->id,
+                        'order_items_id' => $certi_item_id,
+                        'car_numbers_id' => $car_number->id,
+                        'status_cd' => 112,
+                        'diagnosis_id' => $diag_order->diagnosis->id,
+                    ]);
+                }
             }
-            //warranty 생성
-            if($request->get('ew_param')){
-                $warranty = new Warranty();
-                $warranty->orders_id = $order->id;
-                $warranty->order_items_id = $ew_item_id;
-                $warranty->car_numbers_id = $car_number->id;
-                $warranty->diagnosis_id = $diagnosis ? $diagnosis->id : $diag_order->diagnosis->id;
-                $warranty->status_cd = 112;
-            }
+
             DB::commit();
             return redirect()->back()->with('success', '주문정보가 수정되었습니다.');
         }catch (\Exception $e){

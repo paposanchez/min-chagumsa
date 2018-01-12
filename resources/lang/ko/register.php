@@ -22,8 +22,8 @@ return [
                 'send_message' => '이메일 인증메일이 발송되었습니다.<br/>입력하신 이메일을 확인하여 회원가입을 완료하세요.' .
                 '<br>이메일 인증메일을 다시 발송하시려면 <a href="' . url('resend') . '" class="">클릭하세요.</a>.',
 
-                'send_fail_message'     => '인증메일 발송이 실패했습니다.' +
-                '<br>이메일 인증메일을 다시 발송하시려면 <a href="' . url('resend') . '" class="">클릭하세요.</a>.',
+//                'send_fail_message'     => '인증메일 발송이 실패했습니다.' +
+//                '<br>이메일 인증메일을 다시 발송하시려면 <a href="' . url('resend') . '" class="">클릭하세요.</a>.',
 
                 'success_message' => '이메일 인증이 완료되었습니다. 로그인 하실 수 있습니다.',
                 'fail_message' => '이메일 인증이 실패했습니다. 다시 시도해주세요.',
