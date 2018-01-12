@@ -27,7 +27,7 @@ class MemberController extends Controller
      *     description="엔지니어 전체목록",
      *     operationId="index",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="bcs_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
      *     ),
@@ -45,12 +45,12 @@ class MemberController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'bcs_id' => 'required|exists:users,id',
+                'user_id' => 'required|exists:users,id',
             ]);
 
-            $bcs_id = $request->get('bcs_id');
+            $user_id = $request->get('user_id');
 
-            $bcs = User::findOrFail($bcs_id);
+            $bcs = User::findOrFail($user_id);
 
             if ($bcs->hasRole("garage")) {
                 $users = User::select('users.*')->join('user_extras', function ($extra_qry) {
@@ -59,7 +59,7 @@ class MemberController extends Controller
                     $role_user_qry->on('user_extras.users_id', 'role_user.user_id');
                 })->join('roles', function ($role_qry) {
                     $role_qry->on('role_user.role_id', 'roles.id');
-                })->where('role_user.role_id', 5)->where('user_extras.garage_id', $bcs_id)->orderBy('created_at', 'DESC');
+                })->where('role_user.role_id', 5)->where('user_extras.garage_id', $user_id)->orderBy('created_at', 'DESC');
 
                 $entrys = $users->paginate(25);
 
@@ -81,7 +81,7 @@ class MemberController extends Controller
     {
         try{
             $validator = Validator::make($request->all(), [
-                'bcs_id' => 'required',
+                'user_id' => 'required',
                 'email' => 'required|min:2',
                 'password' => 'required|min:6|confirmed',
                 'name' => 'required|min:2',
@@ -90,8 +90,8 @@ class MemberController extends Controller
             ]);
 
 
-            $bcs_id = $request->get('bcs_id');
-            $bcs = User::findOrFail($bcs_id);
+            $user_id = $request->get('user_id');
+            $bcs = User::findOrFail($user_id);
             if($bcs->hasRole("garage")){
                 DB::beginTransaction();
                 $user = new User();
@@ -147,7 +147,7 @@ class MemberController extends Controller
     public function edit(Request $request)
     {
         try {
-            $bcs = User::findOrFail($request->get('bcs_id'));
+            $bcs = User::findOrFail($request->get('user_id'));
             if($bcs->hasRole("garage")){
                 $user_id = $request->get('user_id');
                 $user = User::findorFail($user_id);
@@ -175,8 +175,8 @@ class MemberController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'bcs_id' => 'required',
                 'user_id' => 'required',
+                'eng_id' => 'required',
                 'email' => 'required|email|unique:users,email,' . $request->get('user_id'),
                 'password' => 'nullable|min:6|confirmed',
                 'name' => 'required|min:2',
@@ -184,7 +184,7 @@ class MemberController extends Controller
                 'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'
             ]);
 
-            $bcs = User::findOrFail($request->get('bcs_id'));
+            $bcs = User::findOrFail($request->get('user_id'));
             if($bcs->hasRole("garage")){
                 DB::beginTransaction();
                 $input = $request->all();
@@ -195,7 +195,7 @@ class MemberController extends Controller
                     $input = array_except($input, array('password'));
                 }
 
-                $user = User::findOrFail($request->get('user_id'));
+                $user = User::findOrFail($request->get('eng_id'));
                 $user->update($input);
 
                 // 아바타 변경
@@ -221,16 +221,20 @@ class MemberController extends Controller
     {
         try{
             $validator = Validator::make($request->all(), [
-                'bcs_id' => 'required',
-                'user_id' => 'required'
+                'user_id' => 'required',
+                'eng_id' => 'required'
             ]);
 
-            $bcs = User::findOrFail($request->get('bcs_id'));
+            $bcs = User::findOrFail($request->get('user_id'));
             if($bcs->hasRole("garage")){
-                $user_id = $request->get('user_id');
-                $user = User::findOrFail($request->get('user_id'));
-                $user->delete();
-                DB::table('role_user')->where('user_id', $user_id)->delete();
+                $user_id = $request->get('eng_id');
+                $user = User::findOrFail($user_id);
+                // todo soft delete 처리
+
+//                $user->delete();
+//                DB::table('role_user')->where('user_id', $user_id)->delete();
+
+
                 return response()->json('success');
             }else{
                 return response()->json('fail');

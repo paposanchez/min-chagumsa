@@ -781,11 +781,15 @@ class DiagnosisController extends ApiController
         try{
             $validator = Validator::make($request->all(), [
                 'bcs_id' => 'required|exists:users,id',
+                'date' => 'nullable',
+                'status_cd' => 'nullable',
+                's' => 'nullable|min:3'
             ]);
 
             $date = $request->get('date');
             $user_id = $request->get('bcs_id');
             $status_cd = $request->get('status_cd');
+            $s = $request->get('s');
 
             if ($validator->fails()) {
                 return response()->json(array(
@@ -796,6 +800,9 @@ class DiagnosisController extends ApiController
             }
 
             $entrys = Diagnosis::where('garage_id', $user_id);
+
+            //키워드 검색시
+            //todo 구현
 
             //날짜 검색시
             if($date){
@@ -825,7 +832,7 @@ class DiagnosisController extends ApiController
      *     description="예약 변경",
      *     operationId="changeReservation",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="bcs_id",in="query",description="정비소 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="query",description="정비소 번호",required=true,type="integer",format="int32"),
      *     @SWG\Parameter(name="diagnosis_id",in="query",description="진단 번호",required=true,type="integer",format="int32"),
      *     @SWG\Parameter(name="reservation_date",in="query",description="날짜",required=true,type="string",format="varchar"),
      *     @SWG\Parameter(name="sel_time",in="query",description="시간",required=true,type="string",format="varchar"),
@@ -845,12 +852,12 @@ class DiagnosisController extends ApiController
     public function changeReservation(Request $request){
         try{
             $validator = Validator::make($request->all(), [
-                'bcs_id' => 'required',
+                'user_id' => 'required',
                 'diagnosis_id' => 'required',
                 'reservation_date' => 'required',
                 'sel_time' => 'required'
             ]);
-            $user_id = $request->get('bcs_id');
+            $user_id = $request->get('user_id');
             $bcs = User::findOrFail($user_id);
             if($bcs->hasRole('garage')){
                 $diagnosis_id = $request->get('diagnosis_id');
@@ -887,7 +894,7 @@ class DiagnosisController extends ApiController
      *     description="예약 확정",
      *     operationId="confirmReservation",
      *     produces={"application/json"},
-     *     @SWG\Parameter(name="bcs_id",in="query",description="정비소 번호",required=true,type="integer",format="int32"),
+     *     @SWG\Parameter(name="user_id",in="query",description="정비소 번호",required=true,type="integer",format="int32"),
      *     @SWG\Parameter(name="diagnosis_id",in="query",description="진단 번호",required=true,type="integer",format="int32"),
      *     @SWG\Response(response=200,description="success",
      *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
@@ -905,11 +912,11 @@ class DiagnosisController extends ApiController
     public function confirmReservation(Request $request){
         try{
             $validator = Validator::make($request->all(), [
-                'bcs_id' => 'required',
+                'user_id' => 'required',
                 'diagnosis_id' => 'required'
             ]);
 
-            $bcs = User::findOrFail($request->get('bcs_id'));
+            $bcs = User::findOrFail($request->get('user_id'));
             if($bcs->hasRole('garage')){
                 $diagnosis = Diagnosis::findOrFail($request->get('diagnosis_id'));
                 $diagnosis->status_cd = 113;
