@@ -151,13 +151,17 @@
 
                     <div class="form-group {{ $errors->has('is_answered') ? 'has-error' : '' }}">
                         <label for="" class="control-label col-md-2">{{ trans('admin/post.is_answered') }}</label>
-                        <div class="col-md-4">
-                            {!! Form::select('is_answered', $yn_list, [], ['class'=>'form-control', 'id'=>'post-is_shown']) !!}
-
+                        <div class="col-md-6">
+                            <div class="checkbox checkbox-slider--b-flat" style="padding-top: 7px !important;">
+                                <div class="toggle-switch toggle-switch-demo" data-ts-color="blue">
+                                    <input id="ts4" name="is_answered" type="checkbox" hidden="hidden" value="1">
+                                    <label for="ts4" class="ts-helper"></label>
+                                </div>
+                            </div>
                             @if ($errors->has('is_answered'))
                                 <span class="help-block">
-                        {{ $errors->first('is_answered') }}
-                    </span>
+                                                                                                        {{ $errors->first('is_answered') }}
+                                                                                                </span>
                             @endif
                         </div>
                     </div>
@@ -171,20 +175,6 @@
                             @if ($errors->has('is_shown'))
                                 <span class="help-block">
                         {{ $errors->first('is_shown') }}
-                    </span>
-                            @endif
-                        </div>
-                    </div>
-
-
-                    <div class="form-group {{ $errors->has('tag') ? 'has-error' : '' }}">
-                        <label for="inputTag" class="control-label col-md-2">{{ trans('admin/post.tag') }}</label>
-                        <div class="col-md-4">
-                            <select name="tag" id="inputTag" multiple style="width: 100%"></select>
-
-                            @if ($errors->has('tag'))
-                                <span class="help-block">
-                        {{ $errors->first('tag') }}
                     </span>
                             @endif
                         </div>
@@ -205,6 +195,19 @@
                         </div>
                     </div>
 
+
+                    <div class="form-group {{ $errors->has('tag') ? 'has-error' : '' }}">
+                        <label for="inputTag" class="control-label col-md-2">{{ trans('admin/post.tag') }}</label>
+                        <div class="col-md-4">
+                            <select name="tag" id="inputTag" multiple style="width: 100%"></select>
+
+                            @if ($errors->has('tag'))
+                                <span class="help-block">
+                        {{ $errors->first('tag') }}
+                    </span>
+                            @endif
+                        </div>
+                    </div>
 
                     <div class="form-group {{ $errors->has('thumbnail') ? 'has-error' : '' }}">
                         <label for="" class="control-label col-md-2">{{ trans('admin/post.thumbnail') }}</label>

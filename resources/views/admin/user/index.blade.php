@@ -11,18 +11,95 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h2>Basic Table
-                        <small>Basic example without any additional modification classes</small>
+                    <h2>회원 관리
+                        <small>총 <strong>{{ number_format($entrys->total()) }}</strong> 개의 검색결과가 있습니다.</small>
                     </h2>
                 </div>
 
 
-                <div class="card-body">
+                <div class="card-body card-search">
+                    <div class="jumbotron m-0">
+
+                        <form method="GET" class="form-horizontal no-margin-bottom" role="form" id="frm">
+                            <input type="hidden" name="sort" id="sort_val" value="{{ $sort }}">
+                            <input type="hidden" name="sort_orderby" id="sort_orderby" value="{{ $sort_orderby }}">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">상태</label>
+
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-default {{ $role_cd == '' ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('role_cd', '', \App\Helpers\Helper::isCheckd('', $role_cd), ['name' => 'role_cd']) }} 전체
+                                    </label>
+                                    <label class="btn btn-default {{ $role_cd == 1 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('role_cd', 1, \App\Helpers\Helper::isCheckd(1, $role_cd), ['name' => 'role_cd']) }} 관리자
+                                    </label>
+                                    <label class="btn btn-default {{ $role_cd == 2 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('role_cd', 2, \App\Helpers\Helper::isCheckd(2, $role_cd), ['name' => 'role_cd']) }} 일반회원
+                                    </label>
+                                    <label class="btn btn-default {{ $role_cd == 3 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('role_cd', 3, \App\Helpers\Helper::isCheckd(3, $role_cd), ['name' => 'role_cd']) }} 얼라이언스
+                                    </label>
+                                    <label class="btn btn-default {{ $role_cd == 4 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('role_cd', 4, \App\Helpers\Helper::isCheckd(4, $role_cd), ['name' => 'role_cd']) }} 정비소
+                                    </label>
+                                    <label class="btn btn-default {{ $role_cd == 5 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('role_cd', 5, \App\Helpers\Helper::isCheckd(5, $role_cd), ['name' => 'role_cd']) }} 엔지니어
+                                    </label>
+                                    <label class="btn btn-default {{ $role_cd == 6 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('role_cd', 6, \App\Helpers\Helper::isCheckd(6, $role_cd), ['name' => 'role_cd']) }} 기술사
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">검색일자</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-calendar-alt"></i></span>
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control date-picker" name='trs' value='{{ $trs }}' placeholder="{{ trans('common.search.period_start') }}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control date-picker" name="tre" id="tre" value="{{ $tre }}" placeholder="{{ trans('common.search.period_end') }}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">검색어</label>
+                                <div class="col-sm-3">
+                                    {!! Form::select('sf', $search_fields, $sf, ['class'=>'selectpicker']) !!}
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="fg-line">
+                                        <input type="text" class="form-control input-sm" id="s" name="s"
+                                               placeholder="검색어" value="{{ $s }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group m-b-0">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary">검색</button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
                     <table class="table">
                         <colgroup>
                             <col width="8%">
-                            <col width="*">
                             <col width="15%">
+                            <col width="*">
                             <col width="8%">
                             <col width="8%">
                             <col width="10%">
@@ -30,11 +107,11 @@
                         </colgroup>
                         <thead>
                         <tr class="active">
-                            <th class="text-center">#</th>
-                            <th class="text-center">이메일</th>
+                            <th class="text-center"><a class="sort" href="#" id="id"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 회원번호</a></th>
                             <th class="text-center">이름</th>
+                            <th class="text-center">회원정보</th>
                             <th class="text-center">역할</th>
-                            <th class="text-center">상태</th>
+                            <th class="text-center"><a class="sort" href="#" id="status"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 상태</a></th>
                             <th class="text-center">등록일</th>
                             <th class="text-center">Remarks</th>
                         </tr>
@@ -56,14 +133,15 @@
                                 </td>
 
                                 <td class="text-center">
-                                    {{ $data->email }}
+                                    {{ $data->name }}
                                 </td>
 
                                 <td class="text-center">
-                                    {{ $data->name }}
+                                    {{ $data->email }}
                                     <br/>
                                     <small class="text-warning">{{ $data->mobile ? $data->mobile : '-' }}</small>
                                 </td>
+
 
                                 <td class="text-center">
                                     <span class="label label-default">{!! $data->roles->implode('display_name', '</span> <span class="label label-default">') !!}</span>
@@ -87,7 +165,7 @@
                     </table>
                 </div>
                 {{--page navigation--}}
-                {!! $entrys->render() !!}
+                {!! $entrys->appends([$sf => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
             </div>
         </div>
 
@@ -96,8 +174,21 @@
 
 
 
-@section( 'footer-script' )
+@push( 'footer-script' )
     <script type="text/javascript">
+        $('.sort').click(function () {
+            var sort_value = $(this).attr('id');
+            $('#sort_val').val(sort_value);
+            if($('#sort_orderby').val() == 'asc'){
+                $('#sort_orderby').val('desc')
+            }else {
+                $('#sort_orderby').val('asc')
+            }
+            $('#frm').submit();
+        });
 
+        $('.date-picker').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
     </script>
-@endsection
+@endpush

@@ -36,12 +36,12 @@ class PostingController extends Controller
 
         // 정렬옵션
         $sort = $request->get('sort');
-        $orderby = $request->get('sort_orderby');
+        $sort_orderby = $request->get('sort_orderby');
         if($sort){
             if($sort == 'status'){
-                $where->orderBy('status_cd', $orderby);
+                $where->orderBy('status_cd', $sort_orderby);
             }else{
-                $where->orderBy($sort, $orderby);
+                $where->orderBy($sort, $sort_orderby);
             }
         }
 
@@ -84,7 +84,7 @@ class PostingController extends Controller
 
         $entrys = $where->paginate(10);
 //        $entrys = Post::where('id', 72)->paginate(10);
-        return view('admin.posting.index', compact('entrys', 'board_list', 'request', 'search_fields', 'board_id', 's', 'sf', 'trs', 'tre', 'user_roles'));
+        return view('admin.posting.index', compact('entrys', 'board_list', 'request', 'search_fields', 'board_id', 's', 'sf', 'trs', 'tre', 'user_roles', 'sort', 'sort_orderby'));
     }
 
     /**
@@ -99,7 +99,7 @@ class PostingController extends Controller
         $shown_role_list = Helper::getCodeSelectArray(Code::getCodesByGroup('post_shown_role'), 'post_shown_role', '공개여부를 선택해주세요.');
 
         $categorys = Code::where('group', 'category_id')->get();
-        $roles = Role::getArrayByNameNotMember();
+        $roles = Role::getArrayByName();
 
         return view('admin.posting.create', compact('board_list', 'shown_role_list', 'yn_list', 'categorys', 'roles'));
     }
@@ -119,10 +119,7 @@ class PostingController extends Controller
                 'required',
                 Rule::in(Code::getCodeFieldArray('post_shown_role')->toArray()),
             ],
-            'is_answered' => [
-                'required',
-                Rule::in(Code::getCodeFieldArray('yn')->toArray()),
-            ],
+            'is_answered' => 'boolean',
             'thumbnail' => 'exists:files,id',
             'name' => 'min:1',
             'email' => 'email',
@@ -158,7 +155,7 @@ class PostingController extends Controller
             $post->category_id = $request->get('category_id');
         }
         $post->is_shown = $request->get('is_shown');
-        $post->is_answered = $request->get('is_answerd');
+        $post->is_answered = $request->get('is_answered') ? $request->get('is_answered') : 0;
         $post->name = $request->get('name');
         $post->is_shown = $request->get('is_shown');
         $post->ip = $request->ip();
@@ -185,7 +182,15 @@ class PostingController extends Controller
         $shown_role_list = Helper::getCodeSelectArray(Code::getCodesByGroup('post_shown_role'), 'post_shown_role', '공개여부를 선택해주세요.');
         $categorys = Code::where('group', 'category_id')->get();
 
-        return view('admin.posting.edit', compact('post', 'board_list', 'shown_role_list', 'yn_list', 'categorys'));
+        $roles = Role::getArrayByName();
+        if($post->roles){
+            $user_roles = \GuzzleHttp\json_decode($post->roles);
+        }else{
+            $user_roles = [];
+        }
+
+
+        return view('admin.posting.edit', compact('post', 'board_list', 'shown_role_list', 'yn_list', 'categorys', 'roles', 'user_roles'));
     }
 
     /**

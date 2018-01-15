@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-header">
                     <h2>진단관리
-                        <small>검색 섬머리</small>
+                        <small>총 <strong>{{ number_format($entrys->total()) }}</strong> 개의 검색결과가 있습니다.</small>
                     </h2>
                     <ul class="actions">
                         <li>
@@ -27,8 +27,8 @@
                     <div class="jumbotron m-0">
 
                         <form method="GET" class="form-horizontal no-margin-bottom" role="form" id="frm">
-                            <input type="hidden" name="sort" id="sort_val" value="{{ old('sort_val') }}">
-                            <input type="hidden" name="sort_orderby" id="sort_orderby" value="{{ old('sort_orderby') ? old('sort_orderby') : 'asc' }}">
+                            <input type="hidden" name="sort" id="sort_val" value="{{ $sort }}">
+                            <input type="hidden" name="sort_orderby" id="sort_orderby" value="{{ $sort_orderby }}">
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">상태</label>
 
@@ -222,7 +222,7 @@
                 </div>
 
                 {{--page navigation--}}
-                {!! $entrys->render() !!}
+                {!! $entrys->appends([$sf => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
 
             </div>
 

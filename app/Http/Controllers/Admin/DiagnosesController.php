@@ -42,24 +42,14 @@ class DiagnosesController extends Controller
 
         // 정렬옵션
         $sort = $request->get('sort');
-        $order_by = $request->get('sort_orderby');
-        if ($sort) {
-            if ($sort == 'status') {
-                $where->orderBy('status_cd', $order_by);
-            }
-            /*elseif ($sort == 'car_number'){
-                $where->join('orders', function ($join) use($order_by){
-                    $join->on('orders.id', 'diagnosis.orders_id')
-                        ->orderBy('orders.car_number', $order_by);
-                });
-            }*/
-            else {
-                $where->orderBy($sort, $order_by);
+        $sort_orderby = $request->get('sort_orderby');
+        if($sort){
+            if($sort == 'status'){
+                $where->orderBy('status_cd', $sort_orderby);
+            }else{
+                $where->orderBy($sort, $sort_orderby);
             }
         }
-
-
-
 
         //주문상태
         $status_cd = $request->get('status_cd');
@@ -163,7 +153,7 @@ class DiagnosesController extends Controller
 
         $entrys = $where->paginate(25);
 
-        return view('admin.diagnosis.index', compact('search_fields', 'search_fields2', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 's', 'sf', 'trs', 'tre', 'date_fields', 'request', 'df'));
+        return view('admin.diagnosis.index', compact('search_fields', 'search_fields2', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 'df', 'sort', 'sort_orderby'));
     }
 
     /**

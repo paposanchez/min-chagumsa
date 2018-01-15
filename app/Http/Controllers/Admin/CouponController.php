@@ -21,10 +21,37 @@ class CouponController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request){
-        $where = Coupon::orderBy('id', 'DESC');
+        $sort = $request->get('sort');
+        $sort_orderby = $request->get('sort_orderby');
+
+        if($sort_orderby){
+            $where = Coupon::select();
+        }else{
+            $where = Coupon::orderBy('id', 'DESC');
+        }
+
+
+
         $sf = $request->get('sf');
         $s = $request->get('s');
         $search_fields = ["coupon_number" => "쿠폰번호", "coupon_kind" => "쿠폰종류"];
+
+
+        // 정렬옵션
+        if($sort){
+            if($sort == 'status'){
+                $where->orderBy('status_cd', $sort_orderby);
+            }else{
+                $where->orderBy($sort, $sort_orderby);
+            }
+        }
+
+
+        //사용상태
+        $is_use = $request->get('is_use');
+        if ($is_use) {
+            $where->where('is_use', $is_use);
+        }
 
         if($sf){
             $where->where($sf, 'like',  '%' .$s . '%');
@@ -55,7 +82,7 @@ class CouponController extends Controller
 
         $entrys = $where->paginate(25);
 
-        return view('admin.coupon.index', compact('entrys', 'search_fields', 's', 'sf', 'tre', 'trs'));
+        return view('admin.coupon.index', compact('entrys', 'search_fields', 's', 'sf', 'tre', 'trs', 'is_use' , 'sort', 'sort_orderby'));
     }
 
 

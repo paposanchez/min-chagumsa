@@ -22,12 +22,12 @@ class WarrantyController extends Controller
 
         // 정렬옵션
         $sort = $request->get('sort');
-        $orderby = $request->get('sort_orderby');
-        if ($sort) {
-            if ($sort == 'status') {
-                $where->orderBy('status_cd', $orderby);
-            } else {
-                $where->orderBy($sort, $orderby);
+        $sort_orderby = $request->get('sort_orderby');
+        if($sort){
+            if($sort == 'status'){
+                $where->orderBy('status_cd', $sort_orderby);
+            }else{
+                $where->orderBy($sort, $sort_orderby);
             }
         }
 
@@ -99,7 +99,7 @@ class WarrantyController extends Controller
             }
         }
         $entrys = $where->paginate(25);
-        return view('admin.warranty.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'engineers', 'status_cd', 'sf', 's', 'tre', 'trs', 'status_cd'));
+        return view('admin.warranty.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'engineers', 'status_cd', 'sort', 'sort_orderby'));
     }
 
     /**

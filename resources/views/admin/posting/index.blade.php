@@ -148,60 +148,7 @@
                         @endunless
 
                         @foreach($entrys as $data)
-                            @if($data->roles)
-                                @if(count(\GuzzleHttp\json_decode($data->roles, true)) > count(array_diff($user_roles, \GuzzleHttp\json_decode($data->roles, true))))
-                                    <tr>
-                                        <td class="text-center">
-                                            @component('components.badge', [
-                                            'code' => $data->board_id,
-                                            'color' =>[
-                                            '1' => 'primary',
-                                            '2' => 'info',
-                                            '3' => 'success',
-                                            '4' => 'info',
-                                            '5' => 'warning',
-                                            '6' => 'default'
-                                            ]])
-                                                {{ $data->board->name }}
-                                            @endcomponent
-                                        </td>
-
-                                        <td class="text-center">
-                                            {{ $data->subject }}
-                                        </td>
-
-                                        <td class="text-center">
-                                            {{ $data->name}}
-                                        </td>
-
-                                        <td class="text-center">
-                                            @component('components.badge', [
-                                            'code' => $data->is_shown,
-                                            'color' =>[
-                                            '5' => 'success',
-                                            '6' => 'warning',
-                                            '7' => 'danger',
-                                            ]])
-                                                {{ $data->shown->display() }}
-                                            @endcomponent
-
-                                        </td>
-
-                                        <td class="text-center">
-                                            {{ $data->created_at->format('m-d H:i') }}
-                                        </td>
-
-                                        <td class="text-center">
-                                            <a href="{{ route("posting.edit", [$data->id]) }}" class="btn btn-default"
-                                               data-toggle="tooltip" title="주문상세보기">상세보기</a>
-                                        </td>
-                                    </tr>
-                                {{--@else--}}
-                                    {{--<tr>--}}
-                                        {{--<td colspan="6" class="no-result">{{ trans('common.no-result') }}</td>--}}
-                                    {{--</tr>--}}
-                                @endif
-                            @else
+                            @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || $user_roles == \GuzzleHttp\json_decode($data->roles, true) || count(\GuzzleHttp\json_decode($data->roles, true)) > count(array_diff($user_roles, \GuzzleHttp\json_decode($data->roles, true))))
                                 <tr>
                                     <td class="text-center">
                                         @component('components.badge', [
@@ -255,7 +202,7 @@
                 </div>
 
                 {{--page navigation--}}
-                {!! $entrys->render() !!}
+                {!! $entrys->appends([$sf => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
             </div>
 
         </div>

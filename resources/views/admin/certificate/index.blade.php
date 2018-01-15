@@ -9,7 +9,7 @@
         <div class="container">
             <div class="card">
                 <div class="card-header">
-                    <h2>인증관리
+                    <h2>인증 관리
                         <small>검색 섬머리</small>
                     </h2>
                     <ul class="actions">
@@ -27,8 +27,8 @@
                     <div class="jumbotron m-0">
 
                         <form method="GET" class="form-horizontal no-margin-bottom" role="form" id="frm">
-                            <input type="hidden" name="sort" id="sort_val" value="{{ old('sort_val') }}">
-                            <input type="hidden" name="sort_orderby" id="sort_orderby" value="{{ old('sort_orderby') ? old('sort_orderby') : 'asc' }}">
+                            <input type="hidden" name="sort" id="sort_val" value="{{ $sort }}">
+                            <input type="hidden" name="sort_orderby" id="sort_orderby" value="{{ $sort_orderby }}">
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">상태</label>
                                 <div class="btn-group" data-toggle="buttons">
@@ -227,7 +227,7 @@
                 </div>
 
                 {{--page navigation--}}
-                {!! $entrys->render() !!}
+                {!! $entrys->appends([$sf => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
 
             </div>
 

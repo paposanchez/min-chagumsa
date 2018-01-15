@@ -145,8 +145,6 @@
                                         <label for="ts4" class="ts-helper"></label>
                                     </div>
                                 </div>
-
-
                                 @if ($errors->has('is_answered'))
                                     <span class="help-block">
                                                                                                         {{ $errors->first('is_answered') }}
@@ -165,6 +163,21 @@
                                     <span class="help-block">
                                                                                                         {{ $errors->first('is_shown') }}
                                                                                                 </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group {{ $errors->has('roles') ? 'has-error' : 'roles' }}">
+                            <label for="inputRoles" class="control-label col-md-2">열람권한</label>
+                            <div class="col-md-4">
+
+
+                                {!! Form::select('roles[]', $roles, $user_roles, ['class'=>'form-control', 'multiple', 'id'=>'user-role']) !!}
+
+                                @if ($errors->has('roles'))
+                                    <span class="help-block">
+                                                {{ $errors->first('roles') }}
+                                        </span>
                                 @endif
                             </div>
                         </div>

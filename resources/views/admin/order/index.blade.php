@@ -27,8 +27,8 @@
                     <div class="jumbotron m-0">
 
                         <form method="GET" class="form-horizontal no-margin-bottom" role="form" id="frm">
-                            <input type="hidden" name="sort" id="sort_val" value="">
-                            <input type="hidden" name="sort_orderby" id="sort_orderby" value="{{ old('order_number') ? old('order_number') : 'asc' }}">
+                            <input type="hidden" name="sort" id="sort_val" value="{{ $sort }}">
+                            <input type="hidden" name="sort_orderby" id="sort_orderby" value="{{ $sort_orderby }}">
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">상태</label>
 
@@ -187,7 +187,7 @@
                 </div>
 
                 {{--page navigation--}}
-                {!! $entrys->render() !!}
+                {!! $entrys->appends([$sf => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
             </div>
 
         </div>

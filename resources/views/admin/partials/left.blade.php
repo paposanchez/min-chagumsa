@@ -80,7 +80,7 @@
             </ul>
         </li>
 
-        <li class="sub-menu {{ Request::is('notify*') ? ' active':''}}">
+        <li class="sub-menu {{ Request::is('coupon*') ? ' active':''}}">
             <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-local-activity"></i> 쿠폰관리</a>
             <ul>
                 <li><a href="{{ route('coupon.index') }}">전체목록</a></li>

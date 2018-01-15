@@ -31,13 +31,12 @@ class CertificateController extends Controller
 
         // 정렬옵션
         $sort = $request->get('sort');
-        $orderby = $request->get('sort_orderby');
+        $sort_orderby = $request->get('sort_orderby');
         if($sort){
             if($sort == 'status'){
-                $where->orderBy('status_cd', $orderby);
-            }
-            else{
-                $where->orderBy($sort, $orderby);
+                $where->orderBy('status_cd', $sort_orderby);
+            }else{
+                $where->orderBy($sort, $sort_orderby);
             }
         }
 
@@ -136,7 +135,7 @@ class CertificateController extends Controller
 
         $entrys = $where->paginate(25);
 
-        return view('admin.certificate.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd'));
+        return view('admin.certificate.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 'sort_orderby', 'sort'));
     }
 
     /**
