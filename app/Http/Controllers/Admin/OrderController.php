@@ -105,9 +105,6 @@ class OrderController extends Controller
         $s = $request->get('s'); //검색어
         if ($s) {
             switch ($sf) {
-                case 'order_id':
-                    $where->where('id', $s);
-                    break;
                 case 'car_number':
                     $where->where($sf, 'like', '%' . $s . '%');
                     break;
@@ -128,28 +125,6 @@ class OrderController extends Controller
                     break;
                 case 'orderer_mobile':
                     $where->where('orderer_mobile', 'like', '%' . $s . '%');
-                    break;
-                case 'engineer_name':
-                    $where->whereHas('engineer', function ($query) use ($s) {
-                        $query
-                            ->where('name', 'like', '%' . $s . '%');
-                    });
-                    break;
-                case 'bcs_name':
-                    $where->whereHas('garage', function ($query) use ($s) {
-                        $query
-                            ->where('name', 'like', '%' . $s . '%');
-                    });
-                    break;
-                case 'tech_name':
-                    $where->whereHas('technician', function ($query) use ($s) {
-                        $query->where('name', 'like', $s . '%');
-                    });
-                    break;
-                case 'tech_name':
-                    $where->whereHas('technician', function ($query) use ($s) {
-                        $query->where('name', 'like', $s . '%');
-                    });
                     break;
             }
         }

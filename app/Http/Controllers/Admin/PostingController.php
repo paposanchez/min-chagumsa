@@ -7,7 +7,9 @@ use App\Models\Post;
 use App\Models\Code;
 use App\Models\Board;
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
@@ -22,16 +24,32 @@ class PostingController extends Controller
      */
     public function index(Request $request, $page = 1)
     {
+
         $board_list = Board::orderBy('id', 'ASC')->pluck('name', 'id')->toArray();
-        $search_fields = Code::getSelectList('post_search_field');
         $where = Post::orderBy('id', 'desc');
+        $user = Auth::user();
+        $user_roles = $user->roles->pluck('id')->toArray();
+
+        $search_fields = [
+            'subject' => '제목', 'content' => '내용', 'name' => '작성자명'
+        ];
+
+        // 정렬옵션
+        $sort = $request->get('sort');
+        $orderby = $request->get('sort_orderby');
+        if($sort){
+            if($sort == 'status'){
+                $where->orderBy('status_cd', $orderby);
+            }else{
+                $where->orderBy($sort, $orderby);
+            }
+        }
 
         //카테고리 검색
         $board_id = $request->get('board_id');
         if ($board_id) {
             $where = $where->where('board_id', $board_id);
         }
-
 
         //기간 검색
         $trs = $request->get('trs');
@@ -61,18 +79,12 @@ class PostingController extends Controller
         $s = $request->get('s'); //검색어
 
         if ($sf && $s) {
-            if ($sf == 8) {
-                $where = $where->where('subject', 'like', '%' . $s . '%');
-            } elseif ($sf == 9) {
-                $where = $where->where('content', 'like', '%' . $s . '%');
-            } else {
-                $where = $where->where('name', 'like', '%' . $s . '%');
-            }
+            $where = $where->where($sf, 'like', '%' . $s . '%');
         }
 
         $entrys = $where->paginate(10);
-
-        return view('admin.posting.index', compact('entrys', 'board_list', 'request', 'search_fields', 'board_id', 's', 'sf', 'trs', 'tre'));
+//        $entrys = Post::where('id', 72)->paginate(10);
+        return view('admin.posting.index', compact('entrys', 'board_list', 'request', 'search_fields', 'board_id', 's', 'sf', 'trs', 'tre', 'user_roles'));
     }
 
     /**
@@ -87,9 +99,9 @@ class PostingController extends Controller
         $shown_role_list = Helper::getCodeSelectArray(Code::getCodesByGroup('post_shown_role'), 'post_shown_role', '공개여부를 선택해주세요.');
 
         $categorys = Code::where('group', 'category_id')->get();
+        $roles = Role::getArrayByNameNotMember();
 
-
-        return view('admin.posting.create', compact('board_list', 'shown_role_list', 'yn_list', 'categorys'));
+        return view('admin.posting.create', compact('board_list', 'shown_role_list', 'yn_list', 'categorys', 'roles'));
     }
 
     /**
@@ -114,7 +126,8 @@ class PostingController extends Controller
             'thumbnail' => 'exists:files,id',
             'name' => 'min:1',
             'email' => 'email',
-            'password' => 'nullable|min:4',
+//            'password' => 'nullable|min:4',
+            'roles' => 'required'
         ],
             [],
             [
@@ -125,7 +138,7 @@ class PostingController extends Controller
                 'thumbnail' => trans('admin/post.thumbnail'),
                 'name' => trans('admin/post.name'),
                 'email' => trans('admin/post.email'),
-                'password' => trans('admin/post.password'),
+//                'password' => trans('admin/post.password'),
                 'subject' => trans('admin/post.subject'),
                 'content' => trans('admin/post.content')
             ]);
@@ -140,7 +153,7 @@ class PostingController extends Controller
         }
 
         $post->user_id = $request->get('user_id');
-        $post->password = $request->get('password');
+//        $post->password = $request->get('password');
         if ($request->get('board_id') == 2) {
             $post->category_id = $request->get('category_id');
         }
@@ -149,6 +162,7 @@ class PostingController extends Controller
         $post->name = $request->get('name');
         $post->is_shown = $request->get('is_shown');
         $post->ip = $request->ip();
+        $post->roles = \GuzzleHttp\json_encode($request->get('roles'));
         $post->save();
 
         return redirect()
@@ -182,7 +196,6 @@ class PostingController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $this->validate($request, [
             'subject' => 'required|min:1',
             'content' => 'required|min:1',
@@ -195,7 +208,8 @@ class PostingController extends Controller
             'is_answered' => 'boolean',
             'thumbnail' => 'exists:files,id',
             'email' => 'email',
-            'password' => 'nullable|min:4',
+//            'password' => 'nullable|min:4',
+            'roles' => 'required'
         ], [], [
             'board_id' => trans('admin/post.board_id'),
             'user_id' => trans('admin/post.user_id'),
@@ -205,18 +219,18 @@ class PostingController extends Controller
             'thumbnail' => trans('admin/post.thumbnail'),
             'name' => trans('admin/post.name'),
             'email' => trans('admin/post.email'),
-            'password' => trans('admin/post.password'),
+//            'password' => trans('admin/post.password'),
             'subject' => trans('admin/post.subject'),
             'content' => trans('admin/post.content')
         ]);
 
 
         $input = $request->all();
-        if (!empty($input['password'])) {
-            $input['password'] = bcrypt($input['password']);
-        } else {
-            $input = array_except($input, array('password'));
-        }
+//        if (!empty($input['password'])) {
+//            $input['password'] = bcrypt($input['password']);
+//        } else {
+//            $input = array_except($input, array('password'));
+//        }
 
         $post = Post::findOrFail($id);
         $post->subject = $request->get('subject');
@@ -235,22 +249,20 @@ class PostingController extends Controller
         $post->is_shown = $request->get('is_shown');
         $post->ip = $request->ip();
         $post->updated_at = Carbon::now();
+        $post->roles = \GuzzleHttp\json_encode($request->get('roles'));
         $post->save();
 
         return redirect()
-            ->route('posting.index')
+            ->back()
             ->with('success', trans('admin/post.updated'));
     }
 
-    /**
-     * @param Int $id
-     * 게시글 삭제 메소드
-     * 현재는 비활성화로 대체 중
-     */
-    public function destory($id)
+    public function destroy(Request $request, $id)
     {
         $data = Post::findOrFail($id);
-        $data->destory();
+        $data->delete();
+
+        return redirect()->route('posting.index')->with('success', '게시물을 삭제하였습니다.');
     }
 
 }

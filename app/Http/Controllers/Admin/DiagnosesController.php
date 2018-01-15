@@ -11,6 +11,7 @@ use App\Models\UserExtra;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 use App\Repositories\DiagnosisRepository;
 use DB;
@@ -26,19 +27,39 @@ class DiagnosesController extends Controller
      */
     public function index(Request $request)
     {
-        $where = Diagnosis::whereNotIn('status_cd', [100]);
+        $user = Auth::user();
+        if($user->hasRole('admin')){
+            $where = Diagnosis::whereIn('status_cd', [100]);
+        }elseif($user->hasRole('garage')){
+            $where = Diagnosis::whereIn('board_id', 4);
+        }elseif($user->hasRole('technician')){
+            $where = Diagnosis::whereIn('board_id', 5);
+        }else{
+            $where = Diagnosis::whereIn('board_id', 6);
+        }
+
 
 
         // 정렬옵션
         $sort = $request->get('sort');
-        $orderby = $request->get('sort_orderby');
+        $order_by = $request->get('sort_orderby');
         if ($sort) {
             if ($sort == 'status') {
-                $where->orderBy('status_cd', $orderby);
-            } else {
-                $where->orderBy($sort, $orderby);
+                $where->orderBy('status_cd', $order_by);
+            }
+            /*elseif ($sort == 'car_number'){
+                $where->join('orders', function ($join) use($order_by){
+                    $join->on('orders.id', 'diagnosis.orders_id')
+                        ->orderBy('orders.car_number', $order_by);
+                });
+            }*/
+            else {
+                $where->orderBy($sort, $order_by);
             }
         }
+
+
+
 
         //주문상태
         $status_cd = $request->get('status_cd');

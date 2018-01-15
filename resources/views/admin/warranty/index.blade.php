@@ -1,176 +1,223 @@
 @extends( 'admin.layouts.default' )
 
 @section('breadcrumbs')
-@include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.certificate')])
+    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.certificate')])
 @endsection
 
 @section( 'content' )
-<section id="content">
+    <section id="content">
         <div class="container">
-                <div class="block-header">
-                        <h2>Table</h2>
+            <div class="card">
+                <div class="card-header">
+                    <h2>주문관리
+                        <small>총 <strong>{{ number_format($entrys->total()) }}</strong> 개의 검색결과가 있습니다.</small>
+                    </h2>
 
-                        <ul class="actions">
-                                <li>
-                                        <a href="">
-                                                <i class="zmdi zmdi-trending-up"></i>
-                                        </a>
-                                </li>
-                                <li>
-                                        <a href="">
-                                                <i class="zmdi zmdi-check-all"></i>
-                                        </a>
-                                </li>
-                                <li class="dropdown">
-                                        <a href="" data-toggle="dropdown">
-                                                <i class="zmdi zmdi-more-vert"></i>
-                                        </a>
-
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                                <li>
-                                                        <a href="">Refresh</a>
-                                                </li>
-                                                <li>
-                                                        <a href="">Manage Widgets</a>
-                                                </li>
-                                                <li>
-                                                        <a href="">Widgets Settings</a>
-                                                </li>
-                                        </ul>
-                                </li>
-                        </ul>
-
+                    <ul class="actions">
+                        <li>
+                            <a href="#collapseExample" class=" waves-effect" type="button" data-toggle="collapse"
+                               aria-expanded="false" aria-controls="collapseExample">
+                                <i class="zmdi zmdi-search"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="card">
-                        <div class="card-header">
-                                <h2>Basic Table
-                                        <small>Basic example without any additional modification classes</small>
-                                </h2>
-                        </div>
+                <div class="card-body card-search">
+                    <div class="jumbotron m-0">
 
-                        <div class="card-body">
-                                <table class="table text-center">
-                                        <colgroup>
-                                                <col width="8%">
-                                                <col width="15%">
-                                                <col width="20%">
-                                                <col width="12%">
-                                                <col width="12%">
-                                                <col width="12%">
-                                                <col width="*">
-                                        </colgroup>
+                        <form method="GET" class="form-horizontal no-margin-bottom" role="form" id="frm">
+                            <input type="hidden" name="sort" id="sort_val" value="">
+                            <input type="hidden" name="sort_orderby" id="sort_orderby"
+                                   value="{{ old('order_number') ? old('order_number') : 'asc' }}">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">상태</label>
 
-                                        <thead>
-                                                <tr class="active">
-                                                        <th class="text-center">상태</th>
-                                                        <th class="text-center">주문번호</th>
-                                                        <th class="text-center">BCS</th>
-                                                        <th class="text-center">기술사</th>
-                                                        <th class="text-center">발급일</th>
-                                                        <th class="text-center">만료일</th>
-                                                        <th class="text-center">Remarks</th>
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }}
+                                        전체
+                                    </label>
+                                    <label class="btn btn-default {{ $status_cd == 112 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('status_cd', 112, \App\Helpers\Helper::isCheckd(112, $status_cd), ['name' => 'status_cd']) }}
+                                        신청
+                                    </label>
+                                    <label class="btn btn-default {{ $status_cd == 114 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('status_cd', 114, \App\Helpers\Helper::isCheckd(114, $status_cd), ['name' => 'status_cd']) }}
+                                        검토중
+                                    </label>
+                                    <label class="btn btn-default {{ $status_cd == 115 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('status_cd', 115, \App\Helpers\Helper::isCheckd(115, $status_cd), ['name' => 'status_cd']) }}
+                                        발급완료
+                                    </label>
+                                    <label class="btn btn-default {{ $status_cd == 116 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('status_cd', 117, \App\Helpers\Helper::isCheckd(117, $status_cd), ['name' => 'status_cd']) }}
+                                        인증만료
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">검색일자</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-calendar-alt"></i></span>
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control date-picker" name='trs'
+                                                   value='{{ $trs }}'
+                                                   placeholder="{{ trans('common.search.period_start') }}">
+                                        </div>
+                                    </div>
+                                </div>
 
-                                                </tr>
-                                        </thead>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control date-picker" name="tre" id="tre"
+                                                   value="{{ $tre }}"
+                                                   placeholder="{{ trans('common.search.period_end') }}">
+                                        </div>
+                                    </div>
+                                </div>
 
-                                        <tbody>
-
-
-                                                @unless(count($entrys) >0)
-                                                <tr>
-                                                        <td colspan="6" class="no-result">{{ trans('common.no-result') }}</td>
-                                                </tr>
-                                                @endunless
-
-                                                @foreach($entrys as $data)
-
-                                                <tr>
-
-                                                        <td>
-                                                                @component('components.badge', [
-                                                                'code' => $data->status_cd,
-                                                                'color' =>[
-                                                                        '108' => 'info',
-                                                                        '109' => 'success'
-                                                                ]])
-                                                                {{ $data->status->display() }}
-                                                                @endcomponent
-
-                                                        </td>
-
-                                                        <td class="text-center">
-                                                                {{ $data->getOrderNumber() }}
-                                                                <br/>
-                                                                <small class="text-warning">{{ $data->id }}</small>
-                                                        </td>
-
-                                                        <td class="">
-                                                                <a href="/user/{{ $data->engineer_id }}/edit">{{ $data->engineer->name }}</a>
-                                                                <br/>
-                                                                <small class="text-warning">{{ $data->engineer->mobile }}</small>
-                                                        </td>
+                            </div>
 
 
-                                                        <td class="">
-                                                                @if($data->technician)
-                                                                <a href="/user/{{ $data->technician->id }}/edit">{{ $data->technician->name }}</a>
-                                                                <br/>
-                                                                <small class="text-warning">{{ $data->technician->mobile }}</small>
-                                                                @else
-                                                                -
-                                                                @endif
-                                                        </td>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">검색어</label>
+                                <div class="col-sm-3">
+                                    {!! Form::select('sf', $search_fields, $sf, ['class'=>'selectpicker']) !!}
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="fg-line">
+                                        <input type="text" class="form-control input-sm" id="s" name="s"
+                                               placeholder="검색어" value="{{ $s }}">
+                                    </div>
+                                </div>
+                            </div>
 
-                                                        <td>{{ $data->status_cd == 109 ? $data->certificates->updated_at->format('m-d H:i') : '-' }}</td>
-
-                                                        <td>
-                                                                {{ $data->status_cd == 109 ? $data->certificates->getExpireDate()->format('Y-m-d H:i') : '-'  }}
-
-                                                                @if($data->status_cd == 109)
-                                                                <br/>
-                                                                @if($data->certificates->isExpired())
-                                                                <small class="text-muted">만료됨</small>
-                                                                @else
-                                                                <small class="text-warning">
-                                                                        {{ number_format($data->certificates->getCountdown()) }}일 남음
-                                                                </small>
-                                                                @endif
-                                                                @endif
-
-                                                        </td>
+                            <div class="form-group m-b-0">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary">검색</button>
+                                </div>
+                            </div>
 
 
-                                                        <td class="text-right">
-                                                                @if($data->status_cd > 107)
-                                                                <a href="/certificate/{{ $data->id }}" target="_blank" class="btn btn-info" data-toggle="tooltip" title="인증서 미리보기"><i class="zmdi zmdi-search-in-page"></i></a>
-                                                                @endif
+                        </form>
+                    </div>
 
-                                                                @if($data->status_cd == 107)
-                                                                <button data-id="{{ $data->id }}" class="btn btn-danger certificate-assign" data-toggle="tooltip" title="인증서 발급시작">시작</button>
-                                                                @endif
+                    <table class="table text-center">
+                        <colgroup>
+                            <col width="8%">
+                            <col width="14%">
+                            <col width="10%">
+                            <col width="20%">
+                            <col width="10%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="*">
+                        </colgroup>
+
+                        <thead>
+                        <tr class="active">
+                            <th class="text-center"><a class="sort" href="#" id="status"><i
+                                            class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 상태</a></th>
+                            <th class="text-center">주문번호</th>
+                            <th class="text-center">주문자명</th>
+                            <th class="text-center">주문자정보</th>
+                            <th class="text-center">차량모델</th>
+                            <th class="text-center"><a class="sort" href="#" id="completed_at"><i
+                                            class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 발급일</a></th>
+                            <th class="text-center">만료일</th>
+                            <th class="text-center">Remarks</th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
 
 
-                                                                @if($data->status_cd == 108)
-                                                                <a href="/certificate/{{ $data->id }}/edit" class="btn btn-warning" data-toggle="tooltip" title="인증서 발급정보 수정">수정</a>
-                                                                @endif
+                        @unless(count($entrys) >0)
+                            <tr>
+                                <td colspan="8" class="no-result text-center">{{ trans('common.no-result') }}</td>
+                            </tr>
+                        @endunless
 
-                                                                <a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip" title="상세보기">상세보기</a>
+                        @foreach($entrys as $data)
+                            <tr>
+                                <td>
+                                    @component('components.badge', [
+                                    'code' => $data->status_cd,
+                                    'color' =>[
+                                    '100' => 'default',
+                                    '102' => 'success',
+                                    '112' => 'success',
+                                    '113' => 'warning',
+                                    '114' => 'info',
+                                    '115' => 'primary',
+                                    '116' => 'danger'
+                                    ]])
+                                        {{ $data->status->display() }}
+                                    @endcomponent
+                                </td>
 
-                                                        </td>
-                                                </tr>
-                                                @endforeach
-                                        </tbody>
-                                </table>
-                        </div>
+                                <td class="text-center">
+                                    {{ $data->order->getOrderNumber() }}
+                                </td>
 
-                        {{--page navigation--}}
-                        {!! $entrys->render() !!}
+                                <td>
+                                    {{ $data->order->orderer_name }}
+                                </td>
 
+                                <td class="text-center">
+                                    <a href="/user/{{ $data->order->orderer_id }}/edit">{{ $data->order->orderer ? $data->order->orderer->email : '-' }}</a>
+                                    <br/>
+                                    <small class="text-warning">{{ $data->order->orderer_mobile }}</small>
+                                </td>
+
+
+                                <td class="text-center">
+                                    {{ $data->order->getCarFullName() }}
+                                </td>
+
+                                <td class="text-center">{{ $data->completed_at ? $data->completed_at->format('m-d H:i') : '-' }}</td>
+
+                                <td class="text-center">
+                                    {{ $data->getExpireDate()->format('Y-m-d H:i')  }}
+
+                                    @if($data->status_cd == 116)
+                                        <br/>
+                                        @if($data->certificates->isExpired())
+                                            <small class="text-muted">만료됨</small>
+                                        @else
+                                            <small class="text-warning">
+                                                {{ number_format($data->certificates->getCountdown()) }}일 남음
+                                            </small>
+                                        @endif
+                                    @endif
+
+                                </td>
+
+
+                                <td class="text-center">
+
+                                    <a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip"
+                                       title="상세보기">상세보기</a>
+
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
+
+                {{--page navigation--}}
+                {!! $entrys->render() !!}
+
+            </div>
 
         </div>
-</section>
+    </section>
 @endsection
 
 
