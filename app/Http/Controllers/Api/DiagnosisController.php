@@ -788,6 +788,7 @@ class DiagnosisController extends ApiController
 
             $date = $request->get('date');
             $user_id = $request->get('user_id');
+            $user = User::findOrFail($user_id);
             $status_cd = $request->get('status_cd');
             $s = $request->get('s');
 
@@ -799,7 +800,11 @@ class DiagnosisController extends ApiController
                 ));
             }
 
-            $entrys = Diagnosis::where('garage_id', $user_id);
+            if($user->hasRole('garage')){
+                $entrys = Diagnosis::where('garage_id', $user_id);
+            }else{
+                $entrys = Diagnosis::where('garage_id', $user->user_extra->garage_id);
+            }
 
             //날짜 검색시
             if($date){
@@ -827,7 +832,7 @@ class DiagnosisController extends ApiController
 
             return $entrys->paginate(10);
         }catch(Exception $e){
-            return response()->json($e->getMessage());
+//            return response()->json($e->getMessage());
             return response()->json('fail');
         }
     }
