@@ -8,21 +8,24 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['role:admin']], function () {
         // 주문관리
         Route::post('order/history', 'OrderController@history')->name('order.history');
-        Route::post('order/reservation_change', 'OrderController@reservationChange');
-        Route::post('order/confirmation/{order_id}', 'OrderController@confirmation');
-        Route::get('order/get-section', 'OrderController@getSection');
-        Route::get('order/get-address', 'OrderController@getAddress');
-        Route::get('order/get-engineer', 'OrderController@getEngineer');
+        Route::post('order/reservation-change', 'OrderController@reservationChange')->name('order.reservation-change');
+        Route::post('order/confirmation/{order_id}', 'OrderController@confirmation')->name('order.confrimation');
+        Route::get('order/get-section', 'OrderController@getSection')->name('order.get-section');
+        Route::get('order/get-address', 'OrderController@getAddress')->name('order.get-address');
+        Route::get('order/get-engineer', 'OrderController@getEngineer')->name('order.get-engineer');
         Route::get('order/get_full_address', 'OrderController@getFullAddress')->name("order.get_full_address");
         Route::get('order/get-details', 'OrderController@getDetails')->name('order.get-models');
-        Route::get('order/get-grades', 'OrderController@getGrades');
+        Route::get('order/get-grades', 'OrderController@getGrades')->name('order.get-grades');
         Route::post('order/user-update', 'OrderController@userUpdate')->name('order.user-update');
         Route::post('order/car-update', 'OrderController@carUpdate')->name('order.car-update');
         Route::post('order/bcs-update', 'OrderController@bcsUpdate')->name('order.bcs-update');
         Route::post('order/tech-update', 'OrderController@techUpdate')->name('order.tech-update');
         Route::post('order/cancel', 'OrderController@orderCancel')->name('order.cancel');
-        Route::post('order/diagnosing', 'OrderController@diagnosing');
-        Route::get('order/order-number-check', 'OrderController@orderNumberCheck');
+        Route::post('order/diagnosing', 'OrderController@diagnosing')->name('order.diagnosing');
+        Route::get('order/order-number-check', 'OrderController@orderNumberCheck')->name('order.order-number-check');
+        Route::get('/order/get-models', 'OrderController@getModels')->name('order.get-models');
+        Route::get('/order/get-details', 'OrderController@getDetails')->name('order.get-details');
+        Route::get('/order/get-grades', 'OrderController@getGrades')->name('order.get-grades');
         Route::resource('order', 'OrderController');
 
         // 정산관리

@@ -331,7 +331,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get-models/',
+                url: '/order/get-models',
                 data: {'brand': brand},
                 success: function (data) {
                     $('#models').empty();
@@ -360,7 +360,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get-details/',
+                url: '/order/get-details',
                 data: {'model': model},
                 success: function (data) {
                     $('#details').empty();
@@ -387,7 +387,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get-grades/',
+                url: '/order/get-grades',
                 data: {'detail': detail},
                 success: function (data) {
 
@@ -461,7 +461,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: '/order/get-address/',
+                url: '/order/get-address',
                 data: {
                     'sel_area': garage_area,
                     'sel_section': garage_section

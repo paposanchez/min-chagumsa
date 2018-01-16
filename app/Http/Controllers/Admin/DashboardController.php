@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Certificate;
 use App\Models\Diagnosis;
 use App\Models\Order;
+use App\Models\Post;
 use App\Models\Warranty;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller {
@@ -18,6 +20,7 @@ class DashboardController extends Controller {
      */
     public function __invoke() {
         $today = date('Y-m-d');
+        $user = Auth::user();
 
         //주문관련
         $total_order = Order::whereNotIn('status_cd', [100])->get();
@@ -42,8 +45,16 @@ class DashboardController extends Controller {
         $ready_warranty = count(Warranty::whereIn('status_cd', [112])->get());
         $completed_warranty = count(Warranty::whereNotNull('completed_at')->get());
 
+        //게시판관련
+        if($user->hasRole('admin')){
+            $posts = Post::where('board_id', 3)->orderBy('created_at', 'DESC')->take(5)->get();
+        }else{
+            $posts = Post::where('board_id', 1)->orderBy('created_at', 'DESC')->take(5)->get();
+        }
 
-        return view('admin.dashboard.index', compact('total_order', 'today_order', 'cancel_order', 'json_array', 'total_diagnosis', 'today_diagnosis', 'ready_diagnosis', 'completed_diagnosis'));
+
+        return view('admin.dashboard.index',
+            compact('total_order', 'today_order', 'cancel_order', 'json_array', 'total_diagnosis', 'today_diagnosis', 'ready_diagnosis', 'completed_diagnosis', 'total_certificate', 'today_certificate', 'ready_certificate', 'completed_certificate', 'posts', 'user'));
     }
 
 }

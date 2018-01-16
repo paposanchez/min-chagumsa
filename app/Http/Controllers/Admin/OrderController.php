@@ -48,11 +48,18 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $where = Order::whereNotIn('status_cd', [101]);
+        $sort_orderby = $request->get('sort_orderby');
+        $sort = $request->get('sort');
+        if(!$sort){
+            $where = Order::whereNotIn('status_cd', [101])->orderBy('created_at', 'DESC');
+        }else{
+            $where = Order::whereNotIn('status_cd', [101]);
+        }
+
 
         // 정렬옵션
-        $sort = $request->get('sort');
-        $sort_orderby = $request->get('sort_orderby');
+
+
         if($sort){
             if($sort == 'status'){
                 $where->orderBy('status_cd', $sort_orderby);
@@ -616,13 +623,13 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    // public function getModels(Request $request)
-    // {
-    //     $brand_id = $request->get('brand');
-    //
-    //     $models = Models::where('brands_id', $brand_id)->orderBy("name", 'ASC')->get();
-    //     return $models;
-    // }
+     public function getModels(Request $request)
+     {
+         $brand_id = $request->get('brand');
+
+         $models = Models::where('brands_id', $brand_id)->orderBy("name", 'ASC')->get();
+         return $models;
+     }
 
     /**
      * 차량 세부모델 조회 메소드
@@ -631,7 +638,7 @@ class OrderController extends Controller
      */
     public function getDetails(Request $request)
     {
-        $model_id = $request->get('b');
+        $model_id = $request->get('model');
         $details = Detail::where('models_id', $model_id)->orderBy("name", 'ASC')->get();
         return $details;
     }
