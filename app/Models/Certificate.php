@@ -78,12 +78,18 @@ class Certificate Extends Model
 
 
     protected $dates = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at', 'completed_at'
     ];
 
     public function order()
     {
         return $this->belongsTo(\App\Models\Order::class, 'orders_id', 'id');
+    }
+
+    //상태 조회
+    public function status()
+    {
+        return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd');
     }
 
     //차량번호 조회

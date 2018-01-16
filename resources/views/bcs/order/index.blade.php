@@ -409,7 +409,7 @@
 
                 $.ajax({
                     type: 'post',
-                    url: '/order/reservation_change',
+                    url: '/order/reservation-change',
                     data: {
                         'order_id': order_id,
                         'date': date,

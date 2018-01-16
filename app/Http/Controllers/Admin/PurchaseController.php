@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Purchase;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
@@ -16,9 +17,9 @@ class PurchaseController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-        $entrys = Permission::orderBy('id', 'DESC')->paginate(5);
+        $entrys = Purchase::orderBy('id', 'DESC')->paginate(5);
 
-        return view('admin.permission.index', compact('entrys'));
+        return view('admin.purchase.index', compact('entrys'));
     }
 
     /**

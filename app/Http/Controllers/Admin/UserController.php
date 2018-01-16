@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Order;
 use App\Models\Role;
+use App\Models\RoleUser;
 use App\Models\User;
 use App\Models\Code;
 use App\Models\UserExtra;
@@ -25,12 +26,46 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $where = User::orderBy('id', 'DESC');
+        $where = User::select();
         $role_cd = $request->get('role_cd');
 
         $search_fields = [
             "name" => "이름", "email" => "이메일"
         ];
+
+        // 정렬옵션
+        $sort = $request->get('sort');
+        $sort_orderby = $request->get('sort_orderby');
+        if($sort){
+            if($sort == 'status'){
+                $where->orderBy('status_cd', $sort_orderby);
+            }else{
+                $where->orderBy($sort, $sort_orderby);
+            }
+        }
+
+        //기간 검색
+        $trs = $request->get('trs');
+        $tre = $request->get('tre');
+        if ($trs && $tre) {
+            //시작일, 종료일이 모두 있을때
+            $where->where(function ($qry) use ($trs, $tre) {
+                $qry->where("created_at", ">=", $trs)
+                    ->where("created_at", "<=", $tre)
+                    ->orWhere(function ($qry) use ($trs, $tre) {
+                        $qry->where("updated_at", ">=", $trs)
+                            ->where("updated_at", "<=", $tre);
+                    });
+            });
+        } elseif ($trs && !$tre) {
+            //시작일만 있을때
+            $where->where(function ($qry) use ($trs) {
+                $qry->where("created_at", ">=", $trs)
+                    ->orWhere(function ($qry) use ($trs) {
+                        $qry->where("updated_at", ">=", $trs);
+                    });
+            });
+        }
 
         if ($role_cd) {
             $where->join('role_user', 'role_user.user_id', '=', 'users.id')
@@ -46,7 +81,7 @@ class UserController extends Controller
         }
 
         $entrys = $where->paginate(24);
-        return view('admin.user.index', compact('entrys', 'search_fields', 'sf', 's', 'role_cd'));
+        return view('admin.user.index', compact('entrys', 'search_fields', 'sf', 's', 'role_cd', 'trs', 'tre', 'sort', 'sort_orderby'));
     }
 
     /**
@@ -114,10 +149,8 @@ class UserController extends Controller
         if (in_array(4, $request->get('roles')) || in_array(5, $request->get('roles'))) {
 
             if (in_array(4, $request->get('roles'))) {
-                if ($request->get('with_eng')) {
-                    $user->attachRole($request->get('with_eng'));
-                }
-
+                // 엔지니어 롤 추가
+                $user->attachRole($request->get('with_eng'));
                 // user_extra 데이터 저장 / BCS 저장
                 $user_extra = UserExtra::where('users_id', $user->id)->first();
                 if (!$user_extra) {
@@ -247,11 +280,8 @@ class UserController extends Controller
 
         if (in_array(4, $request->get('roles')) || in_array(5, $request->get('roles'))) {
             if (in_array(4, $request->get('roles'))) {
-
-                if ($request->get('with_eng')) {
-                    $eng_role = RoleUser::where('user_id', $id)->where('role_id', 5)->delete();
-                    $user->attachRole($request->get('with_eng'));
-                }
+                RoleUser::where('user_id', $id)->where('role_id', 5)->delete();
+                $user->attachRole(5);
 
                 // user_extra 데이터 저장 / BCS 저장
                 $user_extra = UserExtra::where('users_id', $user->id)->first();

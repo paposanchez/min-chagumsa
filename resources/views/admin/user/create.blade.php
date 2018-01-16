@@ -6,41 +6,6 @@
 
 @section( 'content' )
     <section id="content">
-        {{--<div class="container">--}}
-        {{--<div class="block-header">--}}
-        {{--<h2>신규주문 생성</h2>--}}
-
-        {{--<ul class="actions">--}}
-        {{--<li>--}}
-        {{--<a href="">--}}
-        {{--<i class="zmdi zmdi-trending-up"></i>--}}
-        {{--</a>--}}
-        {{--</li>--}}
-        {{--<li>--}}
-        {{--<a href="">--}}
-        {{--<i class="zmdi zmdi-check-all"></i>--}}
-        {{--</a>--}}
-        {{--</li>--}}
-        {{--<li class="dropdown">--}}
-        {{--<a href="" data-toggle="dropdown">--}}
-        {{--<i class="zmdi zmdi-more-vert"></i>--}}
-        {{--</a>--}}
-
-        {{--<ul class="dropdown-menu dropdown-menu-right">--}}
-        {{--<li>--}}
-        {{--<a href="">Refresh</a>--}}
-        {{--</li>--}}
-        {{--<li>--}}
-        {{--<a href="">Manage Widgets</a>--}}
-        {{--</li>--}}
-        {{--<li>--}}
-        {{--<a href="">Widgets Settings</a>--}}
-        {{--</li>--}}
-        {{--</ul>--}}
-        {{--</li>--}}
-        {{--</ul>--}}
-
-        {{--</div>--}}
 
         <div class="card">
             <div class="card-header">
@@ -260,27 +225,6 @@
 
                 </div>
 
-
-                <div class="form-group with_eng hide">
-                    <label for="inputUserEngineer" class="control-label col-md-3">정비사 선택</label>
-                    <div class="col-md-3">
-                        <div class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-default">
-                                <input type="checkbox" name="with_eng" autocomplete="off" value="5"><i
-                                        class="fa fa-check" aria-hidden="true"></i>
-                                정비사
-                            </label>
-                        </div>
-
-                        @if ($errors->has('with_eng'))
-                            <span class="help-block">
-                                                {{ $errors->first('with_eng') }}
-                                        </span>
-                        @endif
-                    </div>
-                </div>
-
-
                 <div class="form-group {{ $errors->has('status_cd') ? 'has-error' : '' }}">
                     <label for="inputUserStatus" class="control-label col-md-3">{{ trans('admin/user.status') }}</label>
                     <div class="col-md-3">
@@ -423,76 +367,6 @@
     <script type="text/template" id="qq-template">@include("partials/files")</script>
     <script type="text/javascript">
         $(function () {
-            $('.roles').on("click", '#user-role', function () {
-                var roles = $('#user-role').val();
-
-                if ($.inArray("4", roles) >= 0) {
-
-                    $('#garage_info').css('display', '');
-                    $('.garage').css('display', 'none');
-                    $('#garage_name').val('');
-                    $('#garage_tel').val('');
-                    $('#garage_zipcode').val('');
-                    $('#garage_area').val('');
-                    $('#garage_section').val('');
-                    $('#garage_address').val('');
-                    $('.with_eng').removeClass('hide');
-                    $('.attachment').css('display', '');
-                }
-                else if ($.inArray("5", roles) >= 0) {
-                    $('#garage_info').css('display', 'none');
-                    $("#garage-modal").modal();
-                }
-                else {
-                    $('.garage').css('display', 'none');
-                    $('#garage_info').css('display', 'none');
-                    $('#selected_garage').val('');
-                    $('.attachment').css('display', 'none');
-                }
-            });
-
-            $("#tbody").delegate(".select-garage", "click", function () {
-                $('#selected_garage').val($(this).text());
-                $('.garage').css('display', '');
-                $("#garage-modal").modal('hide');
-            });
-
-            $('#search').click(function () {
-                if ($('#search_con').val() === '') {
-                    alert('정비소명을 입력하세요.');
-                } else {
-                    var garage_name = $('#search_con').val();
-                    var html = '';
-                    $.ajax({
-                        type: 'get',
-                        dataType: 'json',
-                        url: '/user/search_garage',
-                        data: {
-                            '_token': '{{ csrf_token() }}',
-                            'garage_name': garage_name,
-                        },
-                        success: function (data) {
-                            if (data.length == 0) {
-                                html += "<tr><td colspan='6' class='no-result'>{{ trans('common.no-result') }}</td></tr>";
-                                $('#tbody').html(html);
-                            } else {
-                                $.each(data, function (key, value) {
-                                    html += "<tr>";
-                                    html += "<td>";
-                                    html += "<a class='select-garage' name='sel_garage' href='#'>" + value.name + "</a>";
-                                    html += "</td>";
-                                    html += "</tr>";
-                                });
-                                $('#tbody').html(html);
-                            }
-                        },
-                        error: function (data) {
-                            alert('오류가 발생했습니다. 관리자에게 문의하세요.');
-                        }
-                    })
-                }
-            });
-
             $('#plugin-attachment').fineUploader({
                 debug: true,
                 request: {
@@ -558,15 +432,85 @@
                 }
             });
 
-            $(document).on("click", '#btn-user-destory', function (e) {
-                e.preventDefault();
-                if (confirm("{{ trans('admin/user.destroy-warning') }}")) {
-                    $('#frm-user fieldset').prop("disabled", true);
-                    $(this).button('loading');
-                    $frm.submit();
-                }
+        });
+        $('.roles').on("click", '#user-role', function () {
+            var roles = $('#user-role').val();
 
-            });
+            if ($.inArray("4", roles) >= 0) {
+
+                $('#garage_info').css('display', '');
+                $('.garage').css('display', 'none');
+                $('#garage_name').val('');
+                $('#garage_tel').val('');
+                $('#garage_zipcode').val('');
+                $('#garage_area').val('');
+                $('#garage_section').val('');
+                $('#garage_address').val('');
+                // $('.with_eng').removeClass('hide');
+                $('.attachment').css('display', '');
+            }
+            else if ($.inArray("5", roles) >= 0) {
+                $('#garage_info').css('display', 'none');
+                $("#garage-modal").modal();
+            }
+            else {
+                $('.garage').css('display', 'none');
+                $('#garage_info').css('display', 'none');
+                $('#selected_garage').val('');
+                $('.attachment').css('display', 'none');
+            }
+        });
+
+        $("#tbody").delegate(".select-garage", "click", function () {
+            $('#selected_garage').val($(this).text());
+            $('.garage').css('display', '');
+            $("#garage-modal").modal('hide');
+        });
+
+        $('#search').click(function () {
+            if ($('#search_con').val() === '') {
+                alert('정비소명을 입력하세요.');
+            } else {
+                var garage_name = $('#search_con').val();
+                var html = '';
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: '/user/search_garage',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        'garage_name': garage_name,
+                    },
+                    success: function (data) {
+                        if (data.length == 0) {
+                            html += "<tr><td colspan='6' class='no-result'>{{ trans('common.no-result') }}</td></tr>";
+                            $('#tbody').html(html);
+                        } else {
+                            $.each(data, function (key, value) {
+                                html += "<tr>";
+                                html += "<td>";
+                                html += "<a class='select-garage' name='sel_garage' href='#'>" + value.name + "</a>";
+                                html += "</td>";
+                                html += "</tr>";
+                            });
+                            $('#tbody').html(html);
+                        }
+                    },
+                    error: function (data) {
+                        alert('오류가 발생했습니다. 관리자에게 문의하세요.');
+                    }
+                })
+            }
+        });
+
+        $(document).on("click", '#btn-user-destory', function (e) {
+            e.preventDefault();
+            if (confirm("{{ trans('admin/user.destroy-warning') }}")) {
+                $('#frm-user fieldset').prop("disabled", true);
+                $(this).button('loading');
+                $frm.submit();
+            }
+
         });
     </script>
 @endpush

@@ -187,7 +187,7 @@
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                     <label for="" class="control-label col-md-3">진단완료</label>
                                     <div class="col-md-6">
-                                        <span class="help-block">{{ $order->diagnosis->end_at }}</span>
+                                        <span class="help-block">{{ $order->diagnosis->completed_at }}</span>
                                     </div>
                                 </div>
                                 @endif

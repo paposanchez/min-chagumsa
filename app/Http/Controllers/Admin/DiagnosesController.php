@@ -11,6 +11,7 @@ use App\Models\UserExtra;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 use App\Repositories\DiagnosisRepository;
 use DB;
@@ -26,19 +27,29 @@ class DiagnosesController extends Controller
      */
     public function index(Request $request)
     {
-//        $d=Diagnosis::find(1);
-//        dd($d->order->orderer->email);
+        $user = Auth::user();
+        if($user->hasRole('admin')){
+            $where = Diagnosis::whereIn('status_cd', [100]);
+        }elseif($user->hasRole('garage')){
+            $where = Diagnosis::whereIn('board_id', 4);
+        }elseif($user->hasRole('technician')){
+            $where = Diagnosis::whereIn('board_id', 5);
+        }else{
+            $where = Diagnosis::whereIn('board_id', 6);
+        }
 
-        $where = Diagnosis::whereIn('status_cd', [106,107,108,109]);
+
 
         // 정렬옵션
-//        if ($request->get('sort') == 'order_num') {
-//            $where
-//                ->orderBy('car_number', 'ASC')
-//                ->orderBy('created_at', 'ASC');
-//        } else {
-//            $where->orderBy('id', 'DESC');
-//        }
+        $sort = $request->get('sort');
+        $sort_orderby = $request->get('sort_orderby');
+        if($sort){
+            if($sort == 'status'){
+                $where->orderBy('status_cd', $sort_orderby);
+            }else{
+                $where->orderBy($sort, $sort_orderby);
+            }
+        }
 
         //주문상태
         $status_cd = $request->get('status_cd');
@@ -51,23 +62,40 @@ class DiagnosesController extends Controller
         $trs = $request->get('trs');
         $tre = $request->get('tre');
 
+        if ($trs && $tre) {
+            //시작일, 종료일이 모두 있을때
+            $where->where(function ($qry) use ($trs, $tre, $df) {
+                $qry->where($df, ">=", $trs)
+                    ->where($df, "<=", $tre);
+            });
+        } elseif ($trs && !$tre) {
+            //시작일만 있을때
+            $where->where(function ($qry) use ($trs, $df) {
+                $qry->where($df, ">=", $trs)
+                    ->orWhere(function ($qry) use ($trs, $df) {
+                        $qry->where($df, ">=", $trs);
+                    });
+            });
+        }
+
 
         $search_fields = [
-            "order_id" => "주문아이디",
             "order_num" => "주문번호",
             "car_number" => "차량번호",
             'orderer_name' => '주문자 이름',
             "orderer_mobile" => "주문자 휴대전화번호",
             "engineer_name" => "엔지니어명",
             "bcs_name" => "BCS명",
-            "tech_name" => "기술사명"
+            "email" => '이메일'
         ];
 
-        $date_fields = [
-            "order" => "주문기간",
-//            "reservation" => "예약기간",
-//            "diagnosis" => "진단기간"
+        $search_fields2 = [
+            "created_at" => "신청일자",
+            "start_at" => "진단시작일자",
+            "completed_at" => "진단완료일자"
         ];
+
+
 
         //검색어 검색
         $sf = $request->get('sf'); //검색필드
@@ -125,29 +153,17 @@ class DiagnosesController extends Controller
 
         $entrys = $where->paginate(25);
 
-        return view('admin.diagnosis.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 's', 'sf', 'trs', 'tre', 'date_fields', 'request', 'df'));
+        return view('admin.diagnosis.index', compact('search_fields', 'search_fields2', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 'df', 'sort', 'sort_orderby'));
     }
 
-//    /**
-//     * @param Request $request
-//     * @param Int $id
-//     * 진단에 대한 정보 출력
-//     * 진단 데이터를 수정 가능하며 사진첨부가 가능
-//     * 진단완료 처리가 가능
-//     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-//     */
-//    public function show(Request $request, $id)
-//    {
-//        $order = Order::findOrFail($id);
-//
-//        //진단데이터를 레이아웃을 통해 생성
-//        $handler = new DiagnosisRepository();
-//        $diagnosis = $handler->prepare($id)->get(true);
-//
-//        return view('admin.diagnosis.detail', compact('diagnosis', 'order'));
-//    }
-
-
+    /**
+     * @param Request $request
+     * @param Int $id
+     * 진단에 대한 정보 출력
+     * 진단 데이터를 수정 가능하며 사진첨부가 가능
+     * 진단완료 처리가 가능
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show(Request $request, $id)
     {
 

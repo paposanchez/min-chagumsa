@@ -30,15 +30,15 @@ mix.scripts([
 ], targetDir + 'js/base.js');
 
 mix.scripts([
-        // resourceDir + 'js/theme.js',
+        resourceDir + 'js/theme.admin.js',
         resourceDir + 'js/app.js',
-        baseDir + 'js/app.js',
+        // baseDir + 'js/app.js',
 
 ], targetDir + 'js/app.admin.js');
 
 mix.scripts([
         resourceDir + 'js/app.js',
-        resourceDir + 'js/theme.js',
+        resourceDir + 'js/theme.front.js',
         // baseDir + 'js/app.js'
 ], targetDir + 'js/app.front.js');
 
