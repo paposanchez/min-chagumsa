@@ -801,9 +801,9 @@ class DiagnosisController extends ApiController
             }
 
             if($user->hasRole('garage')){
-                $entrys = Diagnosis::where('garage_id', $user_id);
+                $entrys = Diagnosis::where('garage_id', $user_id)->whereNotIn('status_cd', [100])->whereNotIn('car_numbers_id', [0]);
             }else{
-                $entrys = Diagnosis::where('garage_id', $user->user_extra->garage_id);
+                $entrys = Diagnosis::where('garage_id', $user->user_extra->garage_id)->whereNotIn('status_cd', [100])->whereNotIn('car_numbers_id', [0]);
             }
 
             //날짜 검색시
@@ -829,11 +829,35 @@ class DiagnosisController extends ApiController
                         ->orWhere('orders.car_number', 'like', '%' . $s . '%');
                 });
             }
+            $returns = [];
 
-            return $entrys->paginate(10);
+            $diagnoses = $entrys->get();
+
+            foreach ($diagnoses as $diagnosis){
+                $returns[] = array(
+                    "order_number" => $diagnosis->order->getOrderNumber(),
+                    "reservation_at" => $diagnosis->reservation_at,
+                    "status_cd" => $diagnosis->status->display(),
+                    "start_at" => $diagnosis->start_at,
+                    "completed_at" => $diagnosis->completed_at,
+                    "orderer" => [
+                        "name" => $diagnosis->order->orderer_name,
+                        "email" => $diagnosis->order->orderer ? $diagnosis->order->orderer->email : '-',
+                        "mobile" => $diagnosis->order->orderer_mobile
+                    ],
+                    "car" => [
+                        "car_model" => $diagnosis->order->getCarFullName(),
+                        "brand" => $diagnosis->carNumber->car->brand->name,
+                        "detail" => $diagnosis->carNumber->car->detail->name,
+                        "grade" => $diagnosis->carNumber->car->grade->name
+                    ]
+                );
+            }
+
+            return $returns;
         }catch(Exception $e){
-//            return response()->json($e->getMessage());
-            return response()->json('fail');
+            return response()->json($e->getMessage());
+//            return response()->json('fail');
         }
     }
 
