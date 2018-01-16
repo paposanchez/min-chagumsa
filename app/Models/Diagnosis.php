@@ -20,13 +20,13 @@ class Diagnosis extends Model
         'garage_id',    //정비소 번호
         'engineer_id',  //엔지니어 번호
         'start_at',     //진단시작시간
-        'end_at',       //진단완료시간
+        'completed_at',       //진단완료시간
         'reservation_at',   //예약날짜
         'confirm_at'        //예약확정날
     ];
 
     protected $dates = [
-        'created_at', 'updated_at','start_at', 'end_at', 'confirm_at', 'reservation_at'
+        'created_at', 'updated_at','start_at', 'completed_at', 'confirm_at', 'reservation_at'
     ];
 
     // 인증서 만료여부

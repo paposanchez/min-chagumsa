@@ -133,7 +133,7 @@
                             <th class="text-center">예약정보</th>
                             <th class="text-center">엔지니어</th>
                             <th class="text-center"><a class="sort" href="#" id="start_at"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 진단시작일</a></th>
-                            <th class="text-center"><a class="sort" href="#" id="end_at"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 진단완료일</a></th>
+                            <th class="text-center"><a class="sort" href="#" id="completed_at"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 진단완료일</a></th>
                             <th class="text-center">Remarks</th>
 
                         </tr>
@@ -198,7 +198,7 @@
                                 </td>
 
                                 <td class="text-center">
-                                    {{ $data->end_at ? $data->end_at->format('m-d H:i') : '-' }}
+                                    {{ $data->completed_at ? $data->completed->format('m-d H:i') : '-' }}
                                 </td>
 
 
@@ -248,8 +248,8 @@
             $('#frm').submit();
         });
 
-        $('.date-picker').datetimepicker({
-            format: 'YYYY-MM-DD'
-        });
+        // $('.date-picker').datetimepicker({
+        //     format: 'YYYY-MM-DD'
+        // });
     </script>
 @endpush

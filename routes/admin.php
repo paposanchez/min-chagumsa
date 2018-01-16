@@ -168,3 +168,15 @@ Route::group(['middleware' => ['guest.admin']], function () {
 Route::any('/', function () {
     return view('admin.auth.login');
 });
+
+Route::get('dashboard/get-json', function (\Illuminate\Http\Request $request) {
+    $ordersListCount = \App\Models\Order::select([
+        \Illuminate\Support\Facades\DB::raw('COUNT(DISTINCT id) as count'),
+        \Illuminate\Support\Facades\DB::raw('DATE(`created_at`) as date')
+    ])->groupBy('date')->take($request->get('count'))->orderBy('date', 'DESC')->pluck('count')->toArray();
+
+    $json_array = json_encode(array_reverse($ordersListCount));
+
+    return $json_array;
+
+});

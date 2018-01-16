@@ -92,7 +92,7 @@ class DiagnosesController extends Controller
         $search_fields2 = [
             "created_at" => "신청일자",
             "start_at" => "진단시작일자",
-            "end_at" => "진단완료일자"
+            "completed_at" => "진단완료일자"
         ];
 
 

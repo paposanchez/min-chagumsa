@@ -1,9 +1,5 @@
 @extends( 'admin.layouts.default' )
 
-@section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.certificate')])
-@endsection
-
 @section( 'content' )
     <section id="content">
         <div class="container">
@@ -253,8 +249,8 @@
             $('#frm').submit();
         });
 
-        $('.date-picker').datetimepicker({
-            format: 'YYYY-MM-DD'
-        });
+        // $('.date-picker').datetimepicker({
+        //     format: 'YYYY-MM-DD'
+        // });
     </script>
 @endpush

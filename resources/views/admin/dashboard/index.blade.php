@@ -21,7 +21,7 @@
                                 </div>
                                 <div class="media-body">
                                     <small>총 주문 개수</small>
-                                    <h3>47,896,536</h3>
+                                    <h3>{{ count($total_order) }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="media-body">
                                     <small>신규 주문 개수</small>
-                                    <h3>47,896,536</h3>
+                                    <h3>{{ count($today_order) }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -43,9 +43,100 @@
                                 </div>
                                 <div class="media-body">
                                     <small>취소 주문 개수</small>
-                                    <h3>47,896,536</h3>
+                                    <h3>{{ count($cancel_order) }}</h3>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- 진단 --}}
+            <div class="mini-charts">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="mini-charts-item bgm-green">
+                            <div class="clearfix">
+                                <div class="chart chart-pie stats-pie"></div>
+                                <div class="count">
+                                    <small>총진단</small>
+                                    <h2>{{ $total_diagnosis }} 건</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="mini-charts-item bgm-green">
+                            <div class="clearfix">
+                                <div class="chart stats-line"></div>
+                                <div class="count">
+                                    <small>신규진단</small>
+                                    <h2>{{ $today_diagnosis }} 건</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="mini-charts-item bgm-green">
+                            <div class="clearfix">
+                                <div class="chart chart-pie stats-pie"></div>
+                                <div class="count">
+                                    <small>검토전</small>
+                                    <h2>{{ $ready_diagnosis }} 건</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="mini-charts-item bgm-green">
+                            <div class="clearfix">
+                                <div class="chart stats-bar"></div>
+                                <div class="count">
+                                    <small>발급완료</small>
+                                    <h2>{{ $completed_diagnosis }} 건</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="epc-item bgm-green">
+                        <div class="easy-pie main-pie" data-percent="45">
+                            <div class="percent">45</div>
+                            <div class="pie-title">Total Emails Sent</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="epc-item bgm-green">
+                        <div class="easy-pie main-pie" data-percent="88">
+                            <div class="percent">88</div>
+                            <div class="pie-title">Sold Items</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="epc-item bgm-green">
+                        <div class="easy-pie main-pie" data-percent="25">
+                            <div class="percent">25</div>
+                            <div class="pie-title">Spam Mails</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="epc-item bgm-green">
+                        <div class="easy-pie main-pie" data-percent="89">
+                            <div class="percent">89</div>
+                            <div class="pie-title">Profit Rate</div>
                         </div>
                     </div>
                 </div>
@@ -58,8 +149,8 @@
                             <div class="clearfix">
                                 <div class="chart chart-pie stats-pie"></div>
                                 <div class="count">
-                                    <small>Percentage</small>
-                                    <h2>99.87%</h2>
+                                    <small>총진단</small>
+                                    <h2>{{ $total_diagnosis }} 건</h2>
                                 </div>
                             </div>
                         </div>
@@ -70,8 +161,8 @@
                             <div class="clearfix">
                                 <div class="chart stats-line"></div>
                                 <div class="count">
-                                    <small>Total Sales</small>
-                                    <h2>$ 458,778</h2>
+                                    <small>신규진단</small>
+                                    <h2>{{ $today_diagnosis }} 건</h2>
                                 </div>
                             </div>
                         </div>
@@ -82,8 +173,8 @@
                             <div class="clearfix">
                                 <div class="chart chart-pie stats-pie"></div>
                                 <div class="count">
-                                    <small>Percentage</small>
-                                    <h2>99.87%</h2>
+                                    <small>검토전</small>
+                                    <h2>{{ $ready_diagnosis }} 건</h2>
                                 </div>
                             </div>
                         </div>
@@ -94,8 +185,8 @@
                             <div class="clearfix">
                                 <div class="chart stats-bar"></div>
                                 <div class="count">
-                                    <small>Website Traffics</small>
-                                    <h2>987,459</h2>
+                                    <small>발급완료</small>
+                                    <h2>{{ $completed_diagnosis }} 건</h2>
                                 </div>
                             </div>
                         </div>
@@ -139,34 +230,141 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <h2>Pie Chart</h2>
 
-                    <ul class="actions">
-                        <li class="dropdown action-show">
-                            <a href="" data-toggle="dropdown">
-                                <i class="zmdi zmdi-more-vert"></i>
-                            </a>
-
-                            <div class="dropdown-menu pull-right">
-                                <p class="p-20">
-                                    You can put anything here
-                                </p>
+            <div class="mini-charts">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="mini-charts-item bgm-teal">
+                            <div class="clearfix">
+                                <div class="chart chart-pie stats-pie"></div>
+                                <div class="count">
+                                    <small>총진단</small>
+                                    <h2>{{ $total_diagnosis }} 건</h2>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
-                </div>
+                        </div>
+                    </div>
 
-                <div class="card-body card-padding">
-                    <div id="pie-chart" class="flot-chart-pie" style="padding: 0px; position: relative;"><canvas class="flot-base" width="416" height="300" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 416px; height: 300px;"></canvas><canvas class="flot-overlay" width="416" height="300" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 416px; height: 300px;"></canvas></div>
-                    <div class="flc-pie hidden-xs"><table style="font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid #F44336;overflow:hidden"></div></div></td><td class="legendLabel">Toyota</td><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid #03A9F4;overflow:hidden"></div></div></td><td class="legendLabel">Nissan</td><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid #8BC34A;overflow:hidden"></div></div></td><td class="legendLabel">Hyundai</td><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid #FFEB3B;overflow:hidden"></div></div></td><td class="legendLabel">Scion</td><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid #009688;overflow:hidden"></div></div></td><td class="legendLabel">Daihatsu</td></tr></tbody></table></div>
+                    <div class="col-sm-3">
+                        <div class="mini-charts-item bgm-red">
+                            <div class="clearfix">
+                                <div class="chart stats-line"></div>
+                                <div class="count">
+                                    <small>신규진단</small>
+                                    <h2>{{ $today_diagnosis }} 건</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="mini-charts-item bgm-blue">
+                            <div class="clearfix">
+                                <div class="chart chart-pie stats-pie"></div>
+                                <div class="count">
+                                    <small>검토전</small>
+                                    <h2>{{ $ready_diagnosis }} 건</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="mini-charts-item bgm-pink">
+                            <div class="clearfix">
+                                <div class="chart stats-bar"></div>
+                                <div class="count">
+                                    <small>발급완료</small>
+                                    <h2>{{ $completed_diagnosis }} 건</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="epc-item bgm-pink">
+                        <div class="easy-pie main-pie" data-percent="45">
+                            <div class="percent">45</div>
+                            <div class="pie-title">Total Emails Sent</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="epc-item bgm-orange">
+                        <div class="easy-pie main-pie" data-percent="88">
+                            <div class="percent">88</div>
+                            <div class="pie-title">Sold Items</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="epc-item bgm-green">
+                        <div class="easy-pie main-pie" data-percent="25">
+                            <div class="percent">25</div>
+                            <div class="pie-title">Spam Mails</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="epc-item bgm-purple">
+                        <div class="easy-pie main-pie" data-percent="89">
+                            <div class="percent">89</div>
+                            <div class="pie-title">Profit Rate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
     </section>
 
 @endsection
+
+@push( 'footer-script' )
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function sparklineLine(id, values, width, height, lineColor, fillColor, lineWidth, maxSpotColor, minSpotColor, spotColor, spotRadius, hSpotColor, hLineColor) {
+                $('.' + id).sparkline(values, {
+                    type: 'line',
+                    width: width,
+                    height: height,
+                    lineColor: lineColor,
+                    fillColor: fillColor,
+                    lineWidth: lineWidth,
+                    maxSpotColor: maxSpotColor,
+                    minSpotColor: minSpotColor,
+                    spotColor: spotColor,
+                    spotRadius: spotRadius,
+                    highlightSpotColor: hSpotColor,
+                    highlightLineColor: hLineColor
+                });
+            }
+
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/dashboard/get-json',
+                data: {
+                    count: 30
+                },
+                success: function (data) {
+
+                    sparklineLine('dash-widget-visits', data, '100%', '70px', 'rgba(255,255,255,0.7)', 'rgba(0,0,0,0)', 2, '#fff', '#fff', '#fff', 5, 'rgba(255,255,255,0.4)', 'rgba(255,255,255,0.1)');
+                },
+                error: function (data) {
+                    alert(JSON.stringify(data));
+                }
+            })
+        });
+
+    </script>
+@endpush

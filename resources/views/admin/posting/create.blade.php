@@ -414,8 +414,8 @@
                 });
             });
         }
-        $('.date-picker').datetimepicker({
-            format: 'YYYY-MM-DD'
-        });
+        // $('.date-picker').datetimepicker({
+        //     format: 'YYYY-MM-DD'
+        // });
     </script>
 @endpush

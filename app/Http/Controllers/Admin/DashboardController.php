@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Certificate;
+use App\Models\Diagnosis;
 use App\Models\Order;
-use App\Models\Post;
+use App\Models\Warranty;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller {
 
@@ -14,12 +17,33 @@ class DashboardController extends Controller {
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function __invoke() {
-        // $lated_inquire = Post::where('board_id', '3')->orderBy('created_at', 'desc')->take(5)->get();   //최근 1:1 문의
-        // $lated_diagnosis = Order::where('status_cd', ">",  101)->orderBy('created_at', 'desc')->take(15)->get();    //최근 진단 항목
-        // $total_diagnosis = Order::where('status_cd', ">",  101)->count();   //전체 진단 갯수
-        // $certificates = Order::where('status_cd', 109)->orderBy('updated_at', 'desc')->take(10)->get();    //최근 인증서 항목
+        $today = date('Y-m-d');
 
-        return view('admin.dashboard.index');
+        //주문관련
+        $total_order = Order::whereNotIn('status_cd', [100])->get();
+        $today_order= Order::where("created_at", ">=", $today)->get();
+        $cancel_order = Order::where('status_cd', 100)->get();
+
+        //진단관련
+        $total_diagnosis = count(Diagnosis::whereNotIn('status_cd', [116])->get());
+        $today_diagnosis = count(Diagnosis::where('created_at', ">=", $today)->get());
+        $ready_diagnosis = count(Diagnosis::whereIn('status_cd', [112, 113])->get());
+        $completed_diagnosis = count(Diagnosis::whereNotNull('completed_at')->get());
+
+        //평가관련
+        $total_certificate = count(Certificate::whereNotIn('status_cd', [116])->get());
+        $today_certificate = count(Certificate::where('created_at', ">=", $today)->get());
+        $ready_certificate = count(Certificate::whereIn('status_cd', [112])->get());
+        $completed_certificate = count(Certificate::whereNotNull('completed_at')->get());
+
+        //보증관련
+        $total_warranty = count(Warranty::whereNotIn('status_cd', [116])->get());
+        $today_warranty = count(Warranty::where('created_at', ">=", $today)->get());
+        $ready_warranty = count(Warranty::whereIn('status_cd', [112])->get());
+        $completed_warranty = count(Warranty::whereNotNull('completed_at')->get());
+
+
+        return view('admin.dashboard.index', compact('total_order', 'today_order', 'cancel_order', 'json_array', 'total_diagnosis', 'today_diagnosis', 'ready_diagnosis', 'completed_diagnosis'));
     }
 
 }

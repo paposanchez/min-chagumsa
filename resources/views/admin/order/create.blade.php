@@ -272,9 +272,9 @@
             }
         });
 
-        $('.date-picker').datetimepicker({
-            format: 'YYYY-MM-DD'
-        });
+        // $('.date-picker').datetimepicker({
+        //     format: 'YYYY-MM-DD'
+        // });
 
         $('#diagnosis').change(function () {
             if ($(this).prop('checked')) {
