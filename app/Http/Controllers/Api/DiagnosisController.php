@@ -781,9 +781,9 @@ class DiagnosisController extends ApiController
         try{
             $validator = Validator::make($request->all(), [
                 'user_id' => 'required|exists:users,id',
-                'date' => 'nullable',
+                'date' => 'required',
                 'status_cd' => 'nullable',
-                's' => 'nullable|min:3'
+//                's' => 'nullable|min:3'
             ]);
 
             $date = $request->get('date');
@@ -795,8 +795,8 @@ class DiagnosisController extends ApiController
             if ($validator->fails()) {
                 return response()->json(array(
                     'date' => $date,
-                    'count' => 0,
-                    'orders' => []
+                    'user_id' => $user_id,
+                    'diagnosis' => []
                 ));
             }
 
@@ -814,8 +814,7 @@ class DiagnosisController extends ApiController
             //상태값 검색시
             if($status_cd){
                 $entrys->where('status_cd', $status_cd);
-
-                if($status_cd == 107){
+                if($status_cd == 115){
                     $entrys->orderBy("reservation_at", "desc");
                 }
             }
@@ -835,9 +834,13 @@ class DiagnosisController extends ApiController
 
             foreach ($diagnoses as $diagnosis){
                 $returns[] = array(
+                    "diagnosis_id" => $diagnosis->id,
                     "order_number" => $diagnosis->order->getOrderNumber(),
                     "reservation_at" => $diagnosis->reservation_at,
-                    "status_cd" => $diagnosis->status->display(),
+                    "status" => [
+                        "status_cd" => $diagnosis->status_cd,
+                        "display_name" => $diagnosis->status->display()
+                    ],
                     "start_at" => $diagnosis->start_at,
                     "completed_at" => $diagnosis->completed_at,
                     "orderer" => [
@@ -854,10 +857,195 @@ class DiagnosisController extends ApiController
                 );
             }
 
-            return $returns;
+            $total_count = count($entrys->get()->whereIn('status_cd', [112,113,114,115]));
+            $order_count = count($entrys->get()->where('status_cd', 112));
+            $confirm_count = count($entrys->get()->where('status_cd', 113));
+            $review_count = count($entrys->get()->where('status_cd', 114));
+            $complete_count = count($entrys->get()->where('status_cd', 115));
+            $issue_count = count($entrys->get()->whereIn('status_cd', [117, 118, 119]));
+
+
+            $count = array(
+                "total" => $total_count,
+                "issue_total" => $issue_count,
+                "order" => $order_count,
+                "confirm" => $confirm_count,
+                "review" => $review_count,
+                "complete" => $complete_count
+            );
+
+            return response()->json([
+                "count" => $count,
+                "diagnosis" => $returns
+            ]);
         }catch(Exception $e){
-            return response()->json($e->getMessage());
-//            return response()->json('fail');
+//            return response()->json($e->getMessage());
+            return response()->json('fail');
+        }
+    }
+
+    public function getIssue(Request $request){
+        try{
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|exists:users,id',
+                'issue_cd' => 'nullable',
+            ]);
+
+            $user_id = $request->get('user_id');
+            $user = User::findOrFail($user_id);
+            $issue_cd = $request->get('issue_cd');
+
+
+            if ($validator->fails()) {
+                return response()->json(array(
+                    'user_id' => $user_id,
+                    'issue_cd' => $issue_cd,
+                    'diagnosis' => []
+                ));
+            }
+
+            if($user->hasRole('garage')){
+                $entrys = Diagnosis::where('garage_id', $user_id)->whereNotIn('status_cd', [100])->whereNotIn('car_numbers_id', [0]);
+            }else{
+                $entrys = Diagnosis::where('garage_id', $user->user_extra->garage_id)->whereNotIn('status_cd', [100])->whereNotIn('car_numbers_id', [0]);
+            }
+
+            //상태값 검색시
+            if($issue_cd){
+                $entrys->where('status_cd', $issue_cd);
+            }
+
+            $returns = [];
+
+            $diagnoses = $entrys->get();
+
+            foreach ($diagnoses as $diagnosis){
+                $returns[] = array(
+                    "diagnosis_id" => $diagnosis->id,
+                    "order_number" => $diagnosis->order->getOrderNumber(),
+                    "reservation_at" => $diagnosis->reservation_at,
+                    "status" => [
+                        "status_cd" => $diagnosis->status_cd,
+                        "display_name" => $diagnosis->status->display()
+                    ],
+                    "start_at" => $diagnosis->start_at,
+                    "completed_at" => $diagnosis->completed_at,
+                    "orderer" => [
+                        "name" => $diagnosis->order->orderer_name,
+                        "email" => $diagnosis->order->orderer ? $diagnosis->order->orderer->email : '-',
+                        "mobile" => $diagnosis->order->orderer_mobile
+                    ],
+                    "car" => [
+                        "car_model" => $diagnosis->order->getCarFullName(),
+                        "brand" => $diagnosis->carNumber->car->brand->name,
+                        "detail" => $diagnosis->carNumber->car->detail->name,
+                        "grade" => $diagnosis->carNumber->car->grade->name
+                    ]
+                );
+            }
+
+            $issue_count = count($entrys->get()->whereIn('status_cd', [117, 118, 119]));
+            $not_confirm_count = count($entrys->get()->where('status_cd', 117));
+            $delay_count = count($entrys->get()->where('status_cd', 118));
+            $not_complete_count = count($entrys->get()->where('status_cd', 119));
+
+
+            $count = array(
+                "issue_total" => $issue_count,
+                "not_confirm" => $not_confirm_count,
+                "delay" => $delay_count,
+                "not_complete" => $not_complete_count,
+            );
+
+            return response()->json([
+                "count" => $count,
+                "diagnosis" => $returns
+            ]);
+        }catch (Exception $e){
+            return response()->json('fail');
+        }
+    }
+
+    public function search(Request $request){
+        try{
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|exists:users,id',
+                'status_cd' => 'nullable',
+                's' => 'nullable|min:3'
+            ]);
+
+
+            $user_id = $request->get('user_id');
+            $user = User::findOrFail($user_id);
+            $status_cd = $request->get('status_cd');
+            $s = $request->get('s');
+
+            if ($validator->fails()) {
+                return response()->json(array(
+                    'user_id' => $user_id,
+                    's' => $s,
+                    'diagnosis' => []
+                ));
+            }
+
+            if($user->hasRole('garage')){
+                $entrys = Diagnosis::where('garage_id', $user_id)->whereNotIn('status_cd', [100])->whereNotIn('car_numbers_id', [0]);
+            }else{
+                $entrys = Diagnosis::where('garage_id', $user->user_extra->garage_id)->whereNotIn('status_cd', [100])->whereNotIn('car_numbers_id', [0]);
+            }
+
+            //상태값 검색시
+            if($status_cd){
+                $entrys->where('status_cd', $status_cd);
+                if($status_cd == 115){
+                    $entrys->orderBy("reservation_at", "desc");
+                }
+            }
+
+            //키워드 검색시
+            if($s){
+                $entrys->join('orders', function ($join) use($s){
+                    $join->on('orders.id', 'diagnosis.orders_id')
+                        ->where('orders.orderer_mobile', 'like', '%' . $s . '%')
+                        ->orWhere('orders.orderer_name', 'like', '%' . $s . '%')
+                        ->orWhere('orders.car_number', 'like', '%' . $s . '%');
+                });
+            }
+            $returns = [];
+
+            $diagnoses = $entrys->get();
+
+            foreach ($diagnoses as $diagnosis){
+                $returns[] = array(
+                    "diagnosis_id" => $diagnosis->id,
+                    "order_number" => $diagnosis->order->getOrderNumber(),
+                    "reservation_at" => $diagnosis->reservation_at,
+                    "status" => [
+                        "status_cd" => $diagnosis->status_cd,
+                        "display_name" => $diagnosis->status->display()
+                    ],
+                    "start_at" => $diagnosis->start_at,
+                    "completed_at" => $diagnosis->completed_at,
+                    "orderer" => [
+                        "name" => $diagnosis->order->orderer_name,
+                        "email" => $diagnosis->order->orderer ? $diagnosis->order->orderer->email : '-',
+                        "mobile" => $diagnosis->order->orderer_mobile
+                    ],
+                    "car" => [
+                        "car_model" => $diagnosis->order->getCarFullName(),
+                        "brand" => $diagnosis->carNumber->car->brand->name,
+                        "detail" => $diagnosis->carNumber->car->detail->name,
+                        "grade" => $diagnosis->carNumber->car->grade->name
+                    ]
+                );
+            }
+
+            return response()->json([
+                "diagnosis" => $returns
+            ]);
+        }catch(Exception $e){
+//            return response()->json($e->getMessage());
+            return response()->json('fail');
         }
     }
 

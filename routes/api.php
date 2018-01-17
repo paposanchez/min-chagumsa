@@ -53,12 +53,16 @@ Route::get('notify/send', "NotifyController@send");
 Route::get('notify/bedge', "NotifyController@bedge");
 
 
-// 전체주문 리스트
-Route::get('/diagnosis/get-diagnosis', 'DiagnosisController@getDiagnosis');
+// 전체진단 리스트
+Route::get('diagnosis/get-diagnosis', 'DiagnosisController@getDiagnosis');
+// 이슈 진단리스트
+Route::get('diagnosis/get-issue', 'DiagnosisController@getIssue');
+// 검색
+Route::get('diagnosis/search', 'DiagnosisController@search');
 // 예약변경
-Route::post('/diagnosis/change-reservation', 'DiagnosisController@changeReservation');
+Route::post('diagnosis/change-reservation', 'DiagnosisController@changeReservation');
 // 예약확정
-Route::post('/diagnosis/confirm-reservation', 'DiagnosisController@confirmReservation');
+Route::post('diagnosis/confirm-reservation', 'DiagnosisController@confirmReservation');
 
 // 엔지니어관리
 Route::resource('member', 'MemberController');
