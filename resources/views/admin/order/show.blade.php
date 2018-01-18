@@ -282,68 +282,74 @@
                 </div>
             </div>
             <div class="col-xs-12">
-                <div class="col-sm-4">
-                    <div class="card pt-inner">
-                        <div class="pti-header bgm-cyan">
-                            <h2>주문번호</h2>
-                            <div class="ptih-title">차검사 진단</div>
-                        </div>
+                @foreach($order_items as $order_item)
+                    @if($order_item->order->diagnosis)
+                        <div class="col-sm-4">
+                            <div class="card pt-inner">
+                                <div class="pti-header bgm-cyan">
+                                    <h2>주문번호</h2>
+                                    <div class="ptih-title">차검사 진단</div>
+                                </div>
 
-                        <div class="pti-body">
-                            <div class="ptib-item">
+                                <div class="pti-body">
+                                    <div class="ptib-item">
 
-                            </div>
-                            <div class="ptib-item">
+                                    </div>
+                                    <div class="ptib-item">
 
-                            </div>
-                            <div class="ptib-item">
+                                    </div>
+                                    <div class="ptib-item">
 
-                            </div>
-                        </div>
+                                    </div>
+                                </div>
 
-                        <div class="pti-footer">
-                            <a href="" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card pt-inner">
-                        <div class="pti-header bgm-green">
-                            <h2>주문번호</h2>
-                            <div class="ptih-title">차검사 평가</div>
-                        </div>
-
-                        <div class="pti-body">
-                            <div class="ptib-item">
-                                Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris iaculis
-                                laoreet mattis piuminer lasethol and envy
+                                <div class="pti-footer">
+                                    <a href="" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
+                                </div>
                             </div>
                         </div>
+                    @elseif($order_item->order->certificates)
+                        <div class="col-sm-4">
+                            <div class="card pt-inner">
+                                <div class="pti-header bgm-green">
+                                    <h2>주문번호 {{ $order_item->orders_id }}</h2>
+                                    <div class="ptih-title">차검사 평가</div>
+                                </div>
 
-                        <div class="pti-footer">
-                            <a href="" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card pt-inner">
-                        <div class="pti-header bgm-amber">
-                            <h2>주문번호</h2>
-                            <div class="ptih-title">차검사 보증</div>
-                        </div>
+                                <div class="pti-body">
+                                    <div class="ptib-item">
+                                        Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris iaculis
+                                        laoreet mattis piuminer lasethol and envy
+                                    </div>
+                                </div>
 
-                        <div class="pti-body">
-                            <div class="ptib-item">
-                                Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris iaculis
-                                laoreet mattis piuminer lasethol and envy
+                                <div class="pti-footer">
+                                    <a href="" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
+                                </div>
                             </div>
                         </div>
+                    @elseif($order_item->order->warranty)
+                        <div class="col-sm-4">
+                            <div class="card pt-inner">
+                                <div class="pti-header bgm-amber">
+                                    <h2>주문번호 {{ $order_item->orders_id }}</h2>
+                                    <div class="ptih-title">차검사 보증</div>
+                                </div>
 
-                        <div class="pti-footer">
-                            <a href="" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
+                                <div class="pti-body">
+                                    <div class="ptib-item">
+                                        Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris iaculis
+                                        laoreet mattis piuminer lasethol and envy
+                                    </div>
+                                </div>
+
+                                <div class="pti-footer">
+                                    <a href="" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    @endif
+                @endforeach
             </div>
         </div>
     </section>

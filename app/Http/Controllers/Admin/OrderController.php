@@ -166,7 +166,7 @@ class OrderController extends Controller
             ->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->get();
         $order_items = OrderItem::where('group_id', $order->id)->get();
 
-//        dd($order->id);
+        dd($order_items);
         return view('admin.order.show', compact('order', 'payment', 'payment_cancel', 'car', 'garages', 'engineers', 'technicians', 'order_items'));
     }
 
