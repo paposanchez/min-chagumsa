@@ -783,14 +783,12 @@ class DiagnosisController extends ApiController
                 'user_id' => 'required|exists:users,id',
                 'date' => 'required',
                 'status_cd' => 'nullable',
-//                's' => 'nullable|min:3'
             ]);
 
             $date = $request->get('date');
             $user_id = $request->get('user_id');
             $user = User::findOrFail($user_id);
             $status_cd = $request->get('status_cd');
-            $s = $request->get('s');
 
             if ($validator->fails()) {
                 return response()->json(array(
@@ -827,7 +825,10 @@ class DiagnosisController extends ApiController
                 $returns[] = array(
                     "diagnosis_id" => $diagnosis->id,
                     "order_number" => $diagnosis->order->getOrderNumber(),
-                    "reservation_at" => $diagnosis->reservation_at->format('Y-m-d'),
+                    "reservation_at" => [
+                        "date" => $diagnosis->reservation_at->format('Y-m-d'),
+                        "time" => $diagnosis->reservation_at->format('H')
+                    ],
                     "status" => [
                         "status_cd" => $diagnosis->status_cd,
                         "display_name" => $diagnosis->status->display()
@@ -914,7 +915,10 @@ class DiagnosisController extends ApiController
                 $returns[] = array(
                     "diagnosis_id" => $diagnosis->id,
                     "order_number" => $diagnosis->order->getOrderNumber(),
-                    "reservation_at" => $diagnosis->reservation_at->format('Y-m-d'),
+                    "reservation_at" => [
+                        "date" => $diagnosis->reservation_at->format('Y-m-d'),
+                        "time" => $diagnosis->reservation_at->format('H')
+                    ],
                     "status" => [
                         "status_cd" => $diagnosis->status_cd,
                         "display_name" => $diagnosis->status->display()
@@ -1010,7 +1014,10 @@ class DiagnosisController extends ApiController
                 $returns[] = array(
                     "diagnosis_id" => $diagnosis->id,
                     "order_number" => $diagnosis->order->getOrderNumber(),
-                    "reservation_at" => $diagnosis->reservation_at->format('Y-m-d'),
+                    "reservation_at" => [
+                        "date" => $diagnosis->reservation_at->format('Y-m-d'),
+                        "time" => $diagnosis->reservation_at->format('H')
+                    ],
                     "status" => [
                         "status_cd" => $diagnosis->status_cd,
                         "display_name" => $diagnosis->status->display()
