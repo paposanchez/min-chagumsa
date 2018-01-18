@@ -464,7 +464,10 @@ return [
         'confirm' => '예약확정',
         'review' => '검토중',
         'complete' => '발급완료',
-        'expire' => '만료'
+        'expire' => '만료',
+        'not_confirm' => '주문미확정',
+        'delay' => '입고지연',
+        'not_complete' => '장기검토',
     ],
 
     'payment_cd' => [

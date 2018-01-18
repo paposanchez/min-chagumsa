@@ -19,6 +19,7 @@ use App\Models\S3Tran;
 // use App\Exceptions\ApiHandler AS ApiException;
 use Exception;
 use DateTime;
+use function foo\func;
 use Illuminate\Http\Request;
 use App\Traits\Uploader;
 use Validator;
@@ -799,9 +800,9 @@ class DiagnosisController extends ApiController
             }
 
             if($user->hasRole('garage')){
-                $entrys = Diagnosis::where('garage_id', $user_id)->whereNotIn('status_cd', [100])->whereNotIn('car_numbers_id', [0]);
+                $entrys = Diagnosis::where('garage_id', $user_id)->whereNotIn('status_cd', [100, 120])->whereNotIn('car_numbers_id', [0]);
             }else{
-                $entrys = Diagnosis::where('garage_id', $user->user_extra->garage_id)->whereNotIn('status_cd', [100])->whereNotIn('car_numbers_id', [0]);
+                $entrys = Diagnosis::where('garage_id', $user->user_extra->garage_id)->whereNotIn('status_cd', [100, 120])->whereNotIn('car_numbers_id', [0]);
             }
 
             //날짜 검색시
@@ -833,6 +834,7 @@ class DiagnosisController extends ApiController
                         "status_cd" => $diagnosis->status_cd,
                         "display_name" => $diagnosis->status->display()
                     ],
+                    "issue" => $diagnosis->getIssued(),
                     "start_at" => $diagnosis->start_at ? $diagnosis->start_at->format('Y-m-d') : '',
                     "completed_at" => $diagnosis->completed_at ? $diagnosis->completed_at->format('Y-m-d') : '',
                     "orderer" => [
@@ -855,6 +857,11 @@ class DiagnosisController extends ApiController
             $review_count = count($entrys->get()->where('status_cd', 114));
             $complete_count = count($entrys->get()->where('status_cd', 115));
             $issue_count = count($entrys->get()->whereIn('status_cd', [117, 118, 119]));
+
+//            dd(DB::raw('select count(id) from diagnosis where DATE_ADD(reservation_at, INTERVAL 1 HOUR) < now()'));
+
+//            dd($entrys->get());
+
 
 
             $count = array(
@@ -897,14 +904,18 @@ class DiagnosisController extends ApiController
             }
 
             if($user->hasRole('garage')){
-                $entrys = Diagnosis::where('garage_id', $user_id)->whereNotIn('status_cd', [100])->whereNotIn('car_numbers_id', [0]);
+                $entrys = Diagnosis::where('garage_id', $user_id)->whereNotIn('status_cd', [100, 120])->whereNotIn('car_numbers_id', [0]);
             }else{
-                $entrys = Diagnosis::where('garage_id', $user->user_extra->garage_id)->whereNotIn('status_cd', [100])->whereNotIn('car_numbers_id', [0]);
+                $entrys = Diagnosis::where('garage_id', $user->user_extra->garage_id)->whereNotIn('status_cd', [100, 120])->whereNotIn('car_numbers_id', [0]);
             }
 
             //상태값 검색시
-            if($issue_cd){
-                $entrys->where('status_cd', $issue_cd);
+            if($issue_cd == 117){
+                $entrys->where('status_cd', 112);
+            }elseif ($issue_cd == 118){
+                $entrys->where('status_cd', 113);
+            }else{
+                $entrys->where('status_cd', 114);
             }
 
             $returns = [];
@@ -912,31 +923,34 @@ class DiagnosisController extends ApiController
             $diagnoses = $entrys->get();
 
             foreach ($diagnoses as $diagnosis){
-                $returns[] = array(
-                    "diagnosis_id" => $diagnosis->id,
-                    "order_number" => $diagnosis->order->getOrderNumber(),
-                    "reservation_at" => [
-                        "date" => $diagnosis->reservation_at->format('Y-m-d'),
-                        "time" => $diagnosis->reservation_at->format('H')
-                    ],
-                    "status" => [
-                        "status_cd" => $diagnosis->status_cd,
-                        "display_name" => $diagnosis->status->display()
-                    ],
-                    "start_at" => $diagnosis->start_at ? $diagnosis->start_at->format('Y-m-d') : '',
-                    "completed_at" => $diagnosis->completed_at ? $diagnosis->completed_at->format('Y-m-d') : '',
-                    "orderer" => [
-                        "name" => $diagnosis->order->orderer_name,
-                        "email" => $diagnosis->order->orderer ? $diagnosis->order->orderer->email : '-',
-                        "mobile" => $diagnosis->order->orderer_mobile
-                    ],
-                    "car" => [
-                        "car_model" => $diagnosis->order->getCarFullName(),
-                        "brand" => $diagnosis->carNumber->car->brand->name,
-                        "detail" => $diagnosis->carNumber->car->detail->name,
-                        "grade" => $diagnosis->carNumber->car->grade->name
-                    ]
-                );
+                if($diagnoses->isIssued()){
+                    $returns[] = array(
+                        "diagnosis_id" => $diagnosis->id,
+                        "order_number" => $diagnosis->order->getOrderNumber(),
+                        "reservation_at" => [
+                            "date" => $diagnosis->reservation_at->format('Y-m-d'),
+                            "time" => $diagnosis->reservation_at->format('H')
+                        ],
+                        "status" => [
+                            "status_cd" => $diagnosis->status_cd,
+                            "display_name" => $diagnosis->status->display()
+                        ],
+                        "issue" => $diagnosis->getIssued(),
+                        "start_at" => $diagnosis->start_at ? $diagnosis->start_at->format('Y-m-d') : '',
+                        "completed_at" => $diagnosis->completed_at ? $diagnosis->completed_at->format('Y-m-d') : '',
+                        "orderer" => [
+                            "name" => $diagnosis->order->orderer_name,
+                            "email" => $diagnosis->order->orderer ? $diagnosis->order->orderer->email : '-',
+                            "mobile" => $diagnosis->order->orderer_mobile
+                        ],
+                        "car" => [
+                            "car_model" => $diagnosis->order->getCarFullName(),
+                            "brand" => $diagnosis->carNumber->car->brand->name,
+                            "detail" => $diagnosis->carNumber->car->detail->name,
+                            "grade" => $diagnosis->carNumber->car->grade->name
+                        ]
+                    );
+                }
             }
 
             $issue_count = count($entrys->get()->whereIn('status_cd', [117, 118, 119]));
@@ -1022,6 +1036,7 @@ class DiagnosisController extends ApiController
                         "status_cd" => $diagnosis->status_cd,
                         "display_name" => $diagnosis->status->display()
                     ],
+                    "issue" => $diagnosis->getIssued(),
                     "start_at" => $diagnosis->start_at ? $diagnosis->start_at->format('Y-m-d') : '',
                     "completed_at" => $diagnosis->completed_at ? $diagnosis->completed_at->format('Y-m-d') : '',
                     "orderer" => [
