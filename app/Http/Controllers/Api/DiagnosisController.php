@@ -819,15 +819,6 @@ class DiagnosisController extends ApiController
                 }
             }
 
-            //키워드 검색시
-            if($s){
-                $entrys->join('orders', function ($join) use($s){
-                    $join->on('orders.id', 'diagnosis.orders_id')
-                        ->where('orders.orderer_mobile', 'like', '%' . $s . '%')
-                        ->orWhere('orders.orderer_name', 'like', '%' . $s . '%')
-                        ->orWhere('orders.car_number', 'like', '%' . $s . '%');
-                });
-            }
             $returns = [];
 
             $diagnoses = $entrys->get();
@@ -836,13 +827,13 @@ class DiagnosisController extends ApiController
                 $returns[] = array(
                     "diagnosis_id" => $diagnosis->id,
                     "order_number" => $diagnosis->order->getOrderNumber(),
-                    "reservation_at" => $diagnosis->reservation_at,
+                    "reservation_at" => $diagnosis->reservation_at->format('Y-m-d'),
                     "status" => [
                         "status_cd" => $diagnosis->status_cd,
                         "display_name" => $diagnosis->status->display()
                     ],
-                    "start_at" => $diagnosis->start_at,
-                    "completed_at" => $diagnosis->completed_at,
+                    "start_at" => $diagnosis->start_at ? $diagnosis->start_at->format('Y-m-d') : '',
+                    "completed_at" => $diagnosis->completed_at ? $diagnosis->completed_at->format('Y-m-d') : '',
                     "orderer" => [
                         "name" => $diagnosis->order->orderer_name,
                         "email" => $diagnosis->order->orderer ? $diagnosis->order->orderer->email : '-',
@@ -923,13 +914,13 @@ class DiagnosisController extends ApiController
                 $returns[] = array(
                     "diagnosis_id" => $diagnosis->id,
                     "order_number" => $diagnosis->order->getOrderNumber(),
-                    "reservation_at" => $diagnosis->reservation_at,
+                    "reservation_at" => $diagnosis->reservation_at->format('Y-m-d'),
                     "status" => [
                         "status_cd" => $diagnosis->status_cd,
                         "display_name" => $diagnosis->status->display()
                     ],
-                    "start_at" => $diagnosis->start_at,
-                    "completed_at" => $diagnosis->completed_at,
+                    "start_at" => $diagnosis->start_at ? $diagnosis->start_at->format('Y-m-d') : '',
+                    "completed_at" => $diagnosis->completed_at ? $diagnosis->completed_at->format('Y-m-d') : '',
                     "orderer" => [
                         "name" => $diagnosis->order->orderer_name,
                         "email" => $diagnosis->order->orderer ? $diagnosis->order->orderer->email : '-',
@@ -1019,13 +1010,13 @@ class DiagnosisController extends ApiController
                 $returns[] = array(
                     "diagnosis_id" => $diagnosis->id,
                     "order_number" => $diagnosis->order->getOrderNumber(),
-                    "reservation_at" => $diagnosis->reservation_at,
+                    "reservation_at" => $diagnosis->reservation_at->format('Y-m-d'),
                     "status" => [
                         "status_cd" => $diagnosis->status_cd,
                         "display_name" => $diagnosis->status->display()
                     ],
-                    "start_at" => $diagnosis->start_at,
-                    "completed_at" => $diagnosis->completed_at,
+                    "start_at" => $diagnosis->start_at ? $diagnosis->start_at->format('Y-m-d') : '',
+                    "completed_at" => $diagnosis->completed_at ? $diagnosis->completed_at->format('Y-m-d') : '',
                     "orderer" => [
                         "name" => $diagnosis->order->orderer_name,
                         "email" => $diagnosis->order->orderer ? $diagnosis->order->orderer->email : '-',
