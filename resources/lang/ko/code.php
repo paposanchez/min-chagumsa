@@ -464,7 +464,8 @@ return [
         'confirm' => '예약확정',
         'review' => '검토중',
         'complete' => '발급완료',
-        'expire' => '만료'
+        'expire' => '만료',
+        'cancel' => '취소'
     ],
 
     'payment_cd' => [

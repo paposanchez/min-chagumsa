@@ -87,6 +87,11 @@ class Order Extends Model
         return $handler->prepare($this->id)->get();
     }
 
+    //보증정보 조회
+    public function warranty(){
+        return $this->hasOne(Warranty::class, 'orders_id', 'id');
+    }
+
 
     // 인증서 발급여부
     public function isIssued()
@@ -146,10 +151,7 @@ class Order Extends Model
         return $this->hasMany(OrderItem::class, 'group', 'id');
     }
 
-    //보증정보 조회
-    public function warranty(){
-        return $this->hasOne(Warranty::class, 'orders_id', 'id');
-    }
+
 
 
 }

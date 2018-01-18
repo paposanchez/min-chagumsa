@@ -48,6 +48,10 @@
                                         {{ Form::radio('status_cd', 117, \App\Helpers\Helper::isCheckd(117, $status_cd), ['name' => 'status_cd']) }}
                                         인증만료
                                     </label>
+                                    <label class="btn btn-default {{ $status_cd == 120 ? 'active' : '' }} selected_cd">
+                                        {{ Form::radio('status_cd', 120, \App\Helpers\Helper::isCheckd(120, $status_cd), ['name' => 'status_cd']) }}
+                                        취소
+                                    </label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -139,7 +143,7 @@
                                     @component('components.badge', [
                                     'code' => $data->status_cd,
                                     'color' =>[
-                                    '100' => 'default',
+                                    '120' => 'default',
                                     '102' => 'success',
                                     '112' => 'success',
                                     '113' => 'warning',

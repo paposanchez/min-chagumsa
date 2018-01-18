@@ -51,9 +51,9 @@ class OrderController extends Controller
         $sort_orderby = $request->get('sort_orderby');
         $sort = $request->get('sort');
         if(!$sort){
-            $where = Order::whereNotIn('status_cd', [101])->orderBy('created_at', 'DESC');
+            $where = Order::whereNotIn('status_cd', [101])->whereNotIn('car_numbers_id', [0])->orderBy('created_at', 'DESC');
         }else{
-            $where = Order::whereNotIn('status_cd', [101]);
+            $where = Order::whereNotIn('status_cd', [101])->whereNotIn('car_numbers_id', [0]);
         }
 
 
@@ -164,12 +164,10 @@ class OrderController extends Controller
                     ->where('users.status_cd', 1);
             })
             ->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->get();
+        $order_items = OrderItem::where('group_id', $order->id)->get();
 
-        //전체 엔지니어 리스트
-        $engineers = Role::find(5)->users->pluck('name', 'id');
-        //전체 기술사 리스트
-        $technicians = Role::find(6)->users->pluck('name', 'id');
-        return view('admin.order.show', compact('order', 'payment', 'payment_cancel', 'car', 'garages', 'engineers', 'technicians'));
+//        dd($order->id);
+        return view('admin.order.show', compact('order', 'payment', 'payment_cancel', 'car', 'garages', 'engineers', 'technicians', 'order_items'));
     }
 
 
@@ -240,12 +238,25 @@ class OrderController extends Controller
             $user = Auth::user();
             $input = $request->all();
 
+
             //car 생성
-            $car = Car::create($input);
+            if($request->get('order_number')){
+                list($car_number, $datekey) = explode("-", $request->get('order_number'));
+                $order_date = Carbon::createFromFormat('ymd', $datekey);
+                $diag_order = Order::where('car_number', $car_number)
+                    ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
+                    ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
+                    ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'))
+                    ->whereNotIn('status_cd', ['101', '100'])->first();
+                $car = $diag_order->carNumber->car;
+            }else{
+                $car = Car::create($input);
+            }
+
 
             //order 생성
             $order = Order::create([
-                'car_number' => $request->get('car_number'),
+                'car_number' => $request->get('car_number') ? $request->get('car_number') : $diag_order->car_number,
                 'orderer_id' => $user->id,
                 'orderer_name' => $request->get('orderer_name'),
                 'orderer_mobile' => $request->get('orderer_mobile'),
@@ -258,8 +269,8 @@ class OrderController extends Controller
             $car_number = CarNumber::create([
                 'orders_id'=> $order->id,
                 'cars_id'=> $car->id,
-                'vin_number'=> $request->get('vin_number'),
-                'car_number'=> $request->get('car_number')
+                'vin_number'=> $request->get('vin_number') ? $request->get('vin_number') : $car->vin_number,
+                'car_number'=> $request->get('car_number') ? $request->get('car_number') : $diag_order->car_number
             ]);
 
             //order_item 생성 및 가격 계산
@@ -343,15 +354,7 @@ class OrderController extends Controller
                 $diagnosis->reservation_at = $reservation_date->format('Y-m-d H:i:s');
                 $diagnosis->save();
             }
-            if($request->get('order_number')){
-                list($car_number, $datekey) = explode("-", $request->get('order_number'));
-                $order_date = Carbon::createFromFormat('ymd', $datekey);
-                $diag_order = Order::where('car_number', $car_number)
-                    ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
-                    ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
-                    ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'))
-                    ->whereNotIn('status_cd', ['101', '100'])->first();
-            }
+
 
             //certificate 생성
             if(!$request->get('diag_param')){
@@ -380,6 +383,7 @@ class OrderController extends Controller
             return redirect()->back()->with('success', '주문정보가 수정되었습니다.');
         }catch (\Exception $e){
             DB::rollback();
+            dd($e->getMessage());
             return redirect()->back()->with('error', '에러가 발생햇습니다.');
 
         }

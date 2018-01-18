@@ -153,6 +153,8 @@
 
                                 <td class="text-center">
                                     {{ $data->getOrderNumber() }}
+                                    <br>
+                                    <small class="text-warning">{{ $data->id }}</small>
                                 </td>
 
                                 <td class="text-center">

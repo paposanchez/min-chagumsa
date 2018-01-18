@@ -11,25 +11,37 @@
             <div class="col-xs-6">
                 <div class="card">
                     <div class="card-header">
-                        <h2>주문 상세보기
+                        <h2>주문자정보
                             <small>설명</small>
                         </h2>
                     </div>
 
                     <div class="card-body">
-                        <form class="form-horizontal">
+                        {!! Form::open(['method' => 'POST','route' => ['order.user-update', 'id' => $order->id], 'class'=>'form-horizontal', 'id'=>'userForm', 'enctype'=>"multipart/form-data"]) !!}
                             <fieldset>
-                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">주문자 성명</label>
+                                <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">주문자명</label>
                                     <div class="col-md-6">
-                                        <span class="help-block">{{ $order->orderer_name }}</span>
+                                        <input type="text" class="form-control" placeholder="" name="name"
+                                               value="{{ $order->orderer_name }}">
+                                        @if ($errors->has('name'))
+                                            <span class="text-danger">
+                                                        {{ $errors->first('name') }}
+                                                </span>
+                                        @endif
                                     </div>
                                 </div>
 
-                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">주문자 휴대폰번호</label>
+                                <div class="form-group {{ $errors->has('mobile') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">주문자연락처</label>
                                     <div class="col-md-6">
-                                        <span class="help-block">{{ $order->orderer_mobile }}</span>
+                                        <input type="text" class="form-control" placeholder="" name="mobile"
+                                               value="{{ $order->orderer_mobile }}">
+                                        @if ($errors->has('mobile'))
+                                            <span class="text-danger">
+                                                        {{ $errors->first('mobile') }}
+                                                </span>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -40,14 +52,76 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group {{ $errors->has('car_number') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">차량번호</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="" name="car_number"
+                                               value="{{ $order->carNumber->car_number }}">
+                                        @if ($errors->has('car_number'))
+                                            <span class="text-danger">
+                                                        {{ $errors->first('car_number') }}
+                                                </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group {{ $errors->has('vin_number') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">차대번호</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="" name="vin_number"
+                                               value="{{ $order->carNumber->vin_number }}">
+                                        @if ($errors->has('vin_number'))
+                                            <span class="text-danger">
+                                                        {{ $errors->first('vin_number') }}
+                                                </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">차량 모델명</label>
+                                    <div class="col-md-6">
+                                        <span class="help-block">{{ $order->getCarFullName() }}</span>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <div class="col-md-9 col-md-offset-3">
                                         <button class="btn btn-primary"
                                                 data-loading-text="{{ trans('common.button.loading') }}"
-                                                id="" type="button">버튼
+                                                id="">주문정보 변경
                                         </button>
                                     </div>
                                 </div>
+                            </fieldset>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>상품 정보
+                            <small>설명</small>
+                        </h2>
+                    </div>
+
+                    <div class="card-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                @foreach($order_items as $order_item)
+                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">상품명</label>
+                                    <div class="col-md-6">
+                                        <span class="help-block">{{ $order_item->item->name }}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">상품가격</label>
+                                    <div class="col-md-6">
+                                        <span class="help-block">{{ $order_item->item->price }}</span>
+                                    </div>
+                                </div>
+                                @endforeach
                             </fieldset>
                         </form>
                     </div>
@@ -64,9 +138,15 @@
                         <form class="form-horizontal">
                             <fieldset>
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">상품명</label>
+                                    <label for="" class="control-label col-md-3">결제번호</label>
                                     <div class="col-md-6">
-                                        <span class="help-block">{{ $order->orderItem->item->name }}</span>
+                                        <span class="help-block">{{ $order->purchase_id }}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">결제방법</label>
+                                    <div class="col-md-6">
+                                        <span class="help-block">{{ $order->purchase->payment_type->display() }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
@@ -76,54 +156,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">결제방법</label>
-                                    <div class="col-md-6">
-                                        <span class="help-block">{{ $order->purchase->type }}</span>
-                                    </div>
-                                </div>
-                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                     <label for="" class="control-label col-md-3">결제일자</label>
                                     <div class="col-md-6">
                                         <span class="help-block">{{ $order->purchase->created_at->format('Y-m-d H시 m분 s초') }}</span>
-                                    </div>
-                                </div>
-                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">결제번호</label>
-                                    <div class="col-md-6">
-                                        <span class="help-block">{{ $order->purchase_id }}</span>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h2>차량 정보 보기
-                            <small>설명</small>
-                        </h2>
-                    </div>
-
-                    <div class="card-body">
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">차량번호</label>
-                                    <div class="col-md-6">
-                                        <span class="help-block">{{ $order->carNumber->car_number }}</span>
-                                    </div>
-                                </div>
-                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">차대번호</label>
-                                    <div class="col-md-6">
-                                        <span class="help-block">{{ $order->carNumber->vin_number }}</span>
-                                    </div>
-                                </div>
-                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">차량 모델명</label>
-                                    <div class="col-md-6">
-                                        <span class="help-block">{{ $order->getCarFullName() }}</span>
                                     </div>
                                 </div>
                             </fieldset>
@@ -157,7 +192,7 @@
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                     <label for="" class="control-label col-md-3">주문완료</label>
                                     <div class="col-md-6">
-                                        <span class="help-block">{{ $order->updated_at }}</span>
+                                        <span class="help-block">{{ $order->status_cd == 112 ? $order->updated_at : '-' }}</span>
                                     </div>
                                 </div>
                                 @if($order->diagnosis)
@@ -175,44 +210,44 @@
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                     <label for="" class="control-label col-md-3">예약확정</label>
                                     <div class="col-md-6">
-                                        <span class="help-block">{{ $order->diagnosis->confirm_at ? $order->diagnosis->confirm_at : '-' }}</span>
+                                        <span class="help-block">{{ $order->diagnosis->status_cd == 113 ? $order->diagnosis->confirm_at : '-' }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">진단시작</label>
+                                    <label for="" class="control-label col-md-3">검토중</label>
                                     <div class="col-md-6">
-                                        <span class="help-block">{{ $order->diagnosis->start_at }}</span>
+                                        <span class="help-block">{{ $order->diagnosis->status_cd == 114 ? $order->diagnosis->start_at : '-' }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">진단완료</label>
+                                    <label for="" class="control-label col-md-3">발급완료</label>
                                     <div class="col-md-6">
-                                        <span class="help-block">{{ $order->diagnosis->completed_at }}</span>
+                                        <span class="help-block">{{ $order->diagnosis->status_cd == 115 ? $order->diagnosis->completed_at : '-' }}</span>
                                     </div>
                                 </div>
                                 @endif
-                                @if($order->certificate)
+                                @if($order->certificates)
                                 <div class="card-header">
                                     <h2>
                                         <small>인증</small>
                                     </h2>
                                 </div>
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">인증서신</label>
+                                    <label for="" class="control-label col-md-3">인증서신청</label>
                                     <div class="col-md-6">
-                                        <span class="help-block">{{ $order->certificate->created_at }}</span>
+                                        <span class="help-block">{{ $order->certificates->created_at }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                     <label for="" class="control-label col-md-3">검토중</label>
                                     <div class="col-md-6">
-                                        <span class="help-block">{{ $order->certificate->updated_at }}</span>
+                                        <span class="help-block">{{ $order->certificates->status_cd == 114 ? $order->certificates->updated_at : '-' }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                     <label for="" class="control-label col-md-3">발급완료</label>
                                     <div class="col-md-6">
-                                        <span class="help-block"></span>
+                                        <span class="help-block">{{ $order->certificates->status_cd == 115 ? $order->certificates->completed_at : '-'}}</span>
                                     </div>
                                 </div>
                                 @endif
@@ -225,13 +260,19 @@
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                     <label for="" class="control-label col-md-3">보증신청</label>
                                     <div class="col-md-6">
-                                        <span class="help-block">{{ $order->warranty->created_at}}</span>
+                                        <span class="help-block">{{ $order->warranty->status_cd == 112 ? $order->warranty->created_at : '-'}}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">검토중</label>
+                                    <div class="col-md-6">
+                                        <span class="help-block">{{ $order->warranty->status_cd == 114 ? $order->warranty->updated_at : '-' }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                     <label for="" class="control-label col-md-3">발급완료</label>
                                     <div class="col-md-6">
-                                        <span class="help-block">{{ $order->warranty->updated_at}}</span>
+                                        <span class="help-block">{{ $order->warranty->status_cd == 115 ? $order->warranty->completed_at : '-' }}</span>
                                     </div>
                                 </div>
                                 @endif
