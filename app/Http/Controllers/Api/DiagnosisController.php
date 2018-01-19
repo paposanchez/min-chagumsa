@@ -63,7 +63,7 @@ class DiagnosisController extends ApiController
 
             $validator = Validator::make($request->all(), [
                 'user_id' => 'required|exists:orders,engineer_id',
-                'order_id' => 'required|exists:orders,id'
+                'diagnosis_id' => 'required|exists:diagnosis,id'
             ]);
 
             if ($validator->fails()) {
@@ -783,7 +783,7 @@ class DiagnosisController extends ApiController
             $validator = Validator::make($request->all(), [
                 'user_id' => 'required|exists:users,id',
                 'date' => 'required',
-                'status_cd' => 'nullable',
+                'status_cd' => 'required',
             ]);
 
             $date = $request->get('date');
@@ -852,22 +852,18 @@ class DiagnosisController extends ApiController
                 );
             }
 
-            $total_count = count($diagnoses->whereIn('status_cd', [112,113,114,115]));
-            $order_count = count($diagnoses->where('status_cd', 112));
-            $confirm_count = count($diagnoses->where('status_cd', 113));
-            $review_count = count($diagnoses->where('status_cd', 114));
-            $complete_count = count($diagnoses->where('status_cd', 115));
+            $order_count = count(Diagnosis::where('garage_id', $user_id)->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), $date)->where('status_cd', 112)->whereNotIn('car_numbers_id', [0])->get());
+            $confirm_count = count(Diagnosis::where('garage_id', $user_id)->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), $date)->where('status_cd', 113)->whereNotIn('car_numbers_id', [0])->get());
+            $review_count = count(Diagnosis::where('garage_id', $user_id)->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), $date)->where('status_cd', 114)->whereNotIn('car_numbers_id', [0])->get());
+            $complete_count = count(Diagnosis::where('garage_id', $user_id)->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), $date)->where('status_cd', 115)->whereNotIn('car_numbers_id', [0])->get());
 
-
-            $not_confirm_count = count($entrys->where("status_cd", 112)->where(DB::raw("updated_at + 3600"), "<=",now())->whereNull('confirm_at'));
-            $delay_count = count($entrys->where("status_cd", 113)->where(DB::raw("reservation_at + 3600"), "<=",now()));
-            $not_complete_count = count($entrys->where("status_cd", 114)->where(DB::raw("start_at + 3600"), "<=",now()));
-//            $entrys->where("status_cd", 112)->where(DB::raw("DATE_ADD(reservation_at, INTERVAL 1 HOUR) "), '<', DB::raw("NOW()"))->get();
-
+            $not_confirm_count = count(Diagnosis::where('garage_id', $user_id)->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), $date)->where("status_cd", 112)->where(DB::raw("updated_at + 3600"), "<=",DB::raw('NOW()'))->whereNull('confirm_at')->whereNotIn('car_numbers_id', [0])->get());
+            $delay_count = count(Diagnosis::where('garage_id', $user_id)->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), $date)->where("status_cd", 113)->where(DB::raw("reservation_at + 3600"), "<=",DB::raw('NOW()'))->whereNotIn('car_numbers_id', [0])->get());
+            $not_complete_count = count(Diagnosis::where('garage_id', $user_id)->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), $date)->where("status_cd", 114)->where(DB::raw("start_at + 3600"), "<=",DB::raw('NOW()'))->whereNotIn('car_numbers_id', [0])->get());
 
             $count = array(
-                "total" => $total_count,
-                "issue_total" => $not_confirm_count + $delay_count + $not_complete_count,
+                "total" => $order_count+$order_count+$review_count+$complete_count,
+                "issue_total" => $not_confirm_count+$delay_count+$not_complete_count,
                 "order" => $order_count,
                 "confirm" => $confirm_count,
                 "review" => $review_count,
@@ -879,7 +875,7 @@ class DiagnosisController extends ApiController
                 "diagnosis" => $returns
             ]);
         }catch(Exception $e){
-            return response()->json($e->getMessage());
+//            return response()->json($e->getMessage());
             return response()->json('fail');
         }
     }
@@ -913,11 +909,11 @@ class DiagnosisController extends ApiController
             //상태값 검색시
             if($issue_cd){
                 if($issue_cd == 117){
-                    $entrys->where("status_cd", 112)->where(DB::raw("updated_at + 3600"), "<=",now())->whereNull('confirm_at');
+                    $entrys->where("status_cd", 112)->where(DB::raw("updated_at + 3600"), "<=",DB::raw('NOW()'))->whereNull('confirm_at');
                 }elseif($issue_cd == 118){
-                    $entrys->where("status_cd", 113)->where(DB::raw("reservation + 3600"), "<=",now());
+                    $entrys->where("status_cd", 113)->where(DB::raw("reservation + 3600"), "<=",DB::raw('NOW()'));
                 }elseif($issue_cd == 119){
-                    $entrys->where("status_cd", 114)->where(DB::raw("start_at + 3600"), "<=",now());
+                    $entrys->where("status_cd", 114)->where(DB::raw("start_at + 3600"), "<=",DB::raw('NOW()'));
                 }
             }
 
@@ -927,7 +923,7 @@ class DiagnosisController extends ApiController
 
 
             foreach ($diagnoses as $diagnosis){
-                if($diagnosis->isIssued()){
+//                if($diagnosis->isIssued()){
                     $returns[] = array(
                         "diagnosis_id" => $diagnosis->id,
                         "order_number" => $diagnosis->order->getOrderNumber(),
@@ -954,13 +950,12 @@ class DiagnosisController extends ApiController
                             "grade" => $diagnosis->carNumber->car->grade->name
                         ]
                     );
-                }
+//                }
             }
 
-            $not_confirm_count = count($entrys->get()->where("status_cd", 112)->where(DB::raw("updated_at + 3600"), "<=",now())->whereNull('confirm_at'));
-
-            $delay_count = count($entrys->where("status_cd", 113)->where(DB::raw("reservation + 3600"), "<=",now()));
-            $not_complete_count = count($entrys->where("status_cd", 114)->where(DB::raw("start_at + 3600"), "<=",now()));
+            $not_confirm_count = count(Diagnosis::where('garage_id', $user_id)->where("status_cd", 112)->where(DB::raw("updated_at + 3600"), "<=",DB::raw('NOW()'))->whereNull('confirm_at')->whereNotIn('car_numbers_id', [0])->get());
+            $delay_count = count(Diagnosis::where('garage_id', $user_id)->where("status_cd", 113)->where(DB::raw("reservation_at + 3600"), "<=",DB::raw('NOW()'))->whereNotIn('car_numbers_id', [0])->get());
+            $not_complete_count = count(Diagnosis::where('garage_id', $user_id)->where("status_cd", 114)->where(DB::raw("start_at + 3600"), "<=",DB::raw('NOW()'))->whereNotIn('car_numbers_id', [0])->get());
 
             $count = array(
                 "issue_total" => $not_confirm_count + $delay_count + $not_complete_count,
@@ -975,7 +970,7 @@ class DiagnosisController extends ApiController
             ]);
         }catch (Exception $e){
             return response()->json($e->getMessage());
-            return response()->json('fail');
+//            return response()->json('fail');
         }
     }
 
@@ -1002,31 +997,34 @@ class DiagnosisController extends ApiController
             }
 
             if($user->hasRole('garage')){
-                $entrys = Diagnosis::where('garage_id', $user_id)->whereNotIn('status_cd', [100])->whereNotIn('car_numbers_id', [0]);
+                $entrys = Diagnosis::where('garage_id', $user_id)->whereNotIn('diagnosis.car_numbers_id', [0]);
             }else{
-                $entrys = Diagnosis::where('garage_id', $user->user_extra->garage_id)->whereNotIn('status_cd', [100])->whereNotIn('car_numbers_id', [0]);
+                $entrys = Diagnosis::where('garage_id', $user->user_extra->garage_id)->whereNotIn('diagnosis.car_numbers_id', [0]);
             }
 
             //상태값 검색시
             if($status_cd){
-                $entrys->where('status_cd', $status_cd);
+                $entrys->where('diagnosis.status_cd', $status_cd);
                 if($status_cd == 115){
                     $entrys->orderBy("reservation_at", "desc");
                 }
             }
 
+
             //키워드 검색시
-            if($s){
-                $entrys->join('orders', function ($join) use($s){
-                    $join->on('orders.id', 'diagnosis.orders_id')
-                        ->where('orders.orderer_mobile', 'like', '%' . $s . '%')
-                        ->orWhere('orders.orderer_name', 'like', '%' . $s . '%')
-                        ->orWhere('orders.car_number', 'like', '%' . $s . '%');
-                });
-            }
+//            if($s){
+//                $entrys->join('orders', function ($join) use($s){
+//                    $join->on('orders.id', 'diagnosis.orders_id')
+//                        ->where('orders.orderer_mobile', 'like', '%' . $s . '%')
+//                        ->orWhere('orders.orderer_name', 'like', '%' . $s . '%');
+////                        ->orWhere('orders.car_number', 'like', '%' . $s . '%');
+//                });
+//            }
+
             $returns = [];
 
             $diagnoses = $entrys->get();
+            dd($diagnoses);
 
             foreach ($diagnoses as $diagnosis){
                 $returns[] = array(
@@ -1057,12 +1055,14 @@ class DiagnosisController extends ApiController
                 );
             }
 
+
+
             return response()->json([
                 "diagnosis" => $returns
             ]);
         }catch(Exception $e){
-//            return response()->json($e->getMessage());
-            return response()->json('fail');
+            return response()->json($e->getMessage());
+//            return response()->json('fail');
         }
     }
 
