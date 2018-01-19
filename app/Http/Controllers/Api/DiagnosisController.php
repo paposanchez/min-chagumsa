@@ -1024,7 +1024,7 @@ class DiagnosisController extends ApiController
             $returns = [];
 
             $diagnoses = $entrys->get();
-            dd($diagnoses);
+//            dd($diagnoses);
 
             foreach ($diagnoses as $diagnosis){
                 $returns[] = array(
