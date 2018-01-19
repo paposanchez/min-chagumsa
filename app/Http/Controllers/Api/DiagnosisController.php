@@ -787,7 +787,6 @@ class DiagnosisController extends ApiController
             ]);
 
             $date = $request->get('date');
-//            dd(Diagnosis::where('garage_id', 4)->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), $date)->where('status_cd', 112)->where('status_cd', 112)->where(DB::raw("DATE_ADD(reservation_at, INTERVAL 1 HOUR) "), '<', DB::raw("NOW()"))->get());
             $user_id = $request->get('user_id');
             $user = User::findOrFail($user_id);
             $status_cd = $request->get('status_cd');
@@ -862,12 +861,19 @@ class DiagnosisController extends ApiController
             $not_complete_count = count(Diagnosis::where('garage_id', $user_id)->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), $date)->where("status_cd", 114)->where(DB::raw("start_at + 3600"), "<=",DB::raw('NOW()'))->whereNotIn('car_numbers_id', [0])->get());
 
             $count = array(
-                "total" => $order_count+$order_count+$review_count+$complete_count,
-                "issue_total" => $not_confirm_count+$delay_count+$not_complete_count,
-                "order" => $order_count,
-                "confirm" => $confirm_count,
-                "review" => $review_count,
-                "complete" => $complete_count
+                "status" => [
+                    "total" => $order_count+$order_count+$review_count+$complete_count,
+                    "order" => $order_count,
+                    "confirm" => $confirm_count,
+                    "review" => $review_count,
+                    "complete" => $complete_count
+                ],
+                "issue" => [
+                    "issue_total" => $not_confirm_count+$delay_count+$not_complete_count,
+                    "not_confirm" => $not_confirm_count,
+                    "delay" => $delay_count,
+                    "not_complete" => $not_complete_count
+                ]
             );
 
             return response()->json([
@@ -923,7 +929,7 @@ class DiagnosisController extends ApiController
 
 
             foreach ($diagnoses as $diagnosis){
-//                if($diagnosis->isIssued()){
+                if($diagnosis->isIssued()){
                     $returns[] = array(
                         "diagnosis_id" => $diagnosis->id,
                         "order_number" => $diagnosis->order->getOrderNumber(),
@@ -950,7 +956,7 @@ class DiagnosisController extends ApiController
                             "grade" => $diagnosis->carNumber->car->grade->name
                         ]
                     );
-//                }
+                }
             }
 
             $not_confirm_count = count(Diagnosis::where('garage_id', $user_id)->where("status_cd", 112)->where(DB::raw("updated_at + 3600"), "<=",DB::raw('NOW()'))->whereNull('confirm_at')->whereNotIn('car_numbers_id', [0])->get());
@@ -1012,19 +1018,17 @@ class DiagnosisController extends ApiController
 
 
             //키워드 검색시
-//            if($s){
-//                $entrys->join('orders', function ($join) use($s){
-//                    $join->on('orders.id', 'diagnosis.orders_id')
-//                        ->where('orders.orderer_mobile', 'like', '%' . $s . '%')
-//                        ->orWhere('orders.orderer_name', 'like', '%' . $s . '%');
-////                        ->orWhere('orders.car_number', 'like', '%' . $s . '%');
-//                });
-//            }
+            if($s){
+                $entrys->join('orders', function ($join) use($s){
+                    $join->on('diagnosis.orders_id','orders.id')
+                        ->where('orders.orderer_mobile', 'like', '%' . $s . '%')
+                        ->orWhere('orders.car_number', 'like', '%' . $s . '%');
+                });
+            }
 
             $returns = [];
 
-            $diagnoses = $entrys->get();
-//            dd($diagnoses);
+            $diagnoses = $entrys->select('diagnosis.id')->get();
 
             foreach ($diagnoses as $diagnosis){
                 $returns[] = array(
