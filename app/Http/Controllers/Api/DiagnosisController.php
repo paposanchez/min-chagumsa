@@ -787,6 +787,7 @@ class DiagnosisController extends ApiController
             ]);
 
             $date = $request->get('date');
+//            dd(Diagnosis::where('garage_id', 4)->where(DB::raw("DATE_FORMAT(reservation_at, '%Y-%m-%d')"), $date)->where('status_cd', 112)->where('status_cd', 112)->where(DB::raw("DATE_ADD(reservation_at, INTERVAL 1 HOUR) "), '<', DB::raw("NOW()"))->get());
             $user_id = $request->get('user_id');
             $user = User::findOrFail($user_id);
             $status_cd = $request->get('status_cd');
@@ -851,22 +852,22 @@ class DiagnosisController extends ApiController
                 );
             }
 
-            $total_count = count($entrys->get()->whereIn('status_cd', [112,113,114,115]));
-            $order_count = count($entrys->get()->where('status_cd', 112));
-            $confirm_count = count($entrys->get()->where('status_cd', 113));
-            $review_count = count($entrys->get()->where('status_cd', 114));
-            $complete_count = count($entrys->get()->where('status_cd', 115));
-            $issue_count = count($entrys->get()->whereIn('status_cd', [117, 118, 119]));
+            $total_count = count($diagnoses->whereIn('status_cd', [112,113,114,115]));
+            $order_count = count($diagnoses->where('status_cd', 112));
+            $confirm_count = count($diagnoses->where('status_cd', 113));
+            $review_count = count($diagnoses->where('status_cd', 114));
+            $complete_count = count($diagnoses->where('status_cd', 115));
 
-//            dd(DB::raw('select count(id) from diagnosis where DATE_ADD(reservation_at, INTERVAL 1 HOUR) < now()'));
 
-//            dd($entrys->get());
-
+            $not_confirm_count = count($entrys->where("status_cd", 112)->where(DB::raw("updated_at + 3600"), "<=",now())->whereNull('confirm_at'));
+            $delay_count = count($entrys->where("status_cd", 113)->where(DB::raw("reservation_at + 3600"), "<=",now()));
+            $not_complete_count = count($entrys->where("status_cd", 114)->where(DB::raw("start_at + 3600"), "<=",now()));
+//            $entrys->where("status_cd", 112)->where(DB::raw("DATE_ADD(reservation_at, INTERVAL 1 HOUR) "), '<', DB::raw("NOW()"))->get();
 
 
             $count = array(
                 "total" => $total_count,
-                "issue_total" => $issue_count,
+                "issue_total" => $not_confirm_count + $delay_count + $not_complete_count,
                 "order" => $order_count,
                 "confirm" => $confirm_count,
                 "review" => $review_count,
@@ -878,7 +879,7 @@ class DiagnosisController extends ApiController
                 "diagnosis" => $returns
             ]);
         }catch(Exception $e){
-//            return response()->json($e->getMessage());
+            return response()->json($e->getMessage());
             return response()->json('fail');
         }
     }
@@ -910,20 +911,23 @@ class DiagnosisController extends ApiController
             }
 
             //상태값 검색시
-            if($issue_cd == 117){
-                $entrys->where('status_cd', 112);
-            }elseif ($issue_cd == 118){
-                $entrys->where('status_cd', 113);
-            }else{
-                $entrys->where('status_cd', 114);
+            if($issue_cd){
+                if($issue_cd == 117){
+                    $entrys->where("status_cd", 112)->where(DB::raw("updated_at + 3600"), "<=",now())->whereNull('confirm_at');
+                }elseif($issue_cd == 118){
+                    $entrys->where("status_cd", 113)->where(DB::raw("reservation + 3600"), "<=",now());
+                }elseif($issue_cd == 119){
+                    $entrys->where("status_cd", 114)->where(DB::raw("start_at + 3600"), "<=",now());
+                }
             }
 
             $returns = [];
 
             $diagnoses = $entrys->get();
 
+
             foreach ($diagnoses as $diagnosis){
-                if($diagnoses->isIssued()){
+                if($diagnosis->isIssued()){
                     $returns[] = array(
                         "diagnosis_id" => $diagnosis->id,
                         "order_number" => $diagnosis->order->getOrderNumber(),
@@ -953,14 +957,13 @@ class DiagnosisController extends ApiController
                 }
             }
 
-            $issue_count = count($entrys->get()->whereIn('status_cd', [117, 118, 119]));
-            $not_confirm_count = count($entrys->get()->where('status_cd', 117));
-            $delay_count = count($entrys->get()->where('status_cd', 118));
-            $not_complete_count = count($entrys->get()->where('status_cd', 119));
+            $not_confirm_count = count($entrys->get()->where("status_cd", 112)->where(DB::raw("updated_at + 3600"), "<=",now())->whereNull('confirm_at'));
 
+            $delay_count = count($entrys->where("status_cd", 113)->where(DB::raw("reservation + 3600"), "<=",now()));
+            $not_complete_count = count($entrys->where("status_cd", 114)->where(DB::raw("start_at + 3600"), "<=",now()));
 
             $count = array(
-                "issue_total" => $issue_count,
+                "issue_total" => $not_confirm_count + $delay_count + $not_complete_count,
                 "not_confirm" => $not_confirm_count,
                 "delay" => $delay_count,
                 "not_complete" => $not_complete_count,
@@ -971,6 +974,7 @@ class DiagnosisController extends ApiController
                 "diagnosis" => $returns
             ]);
         }catch (Exception $e){
+            return response()->json($e->getMessage());
             return response()->json('fail');
         }
     }

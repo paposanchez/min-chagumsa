@@ -103,11 +103,11 @@ class Diagnosis extends Model
         $today = date('Y-m-d H:i:s');
         $issue_cd = '';
 
-        if($this->status_cd == 112 && $today > $this->reservation_at->addHour()){
+        if($this->status_cd == 112 && $today >= $this->reservation_at->addHour()){
             $issue_cd = 117;
-        }elseif ($this->status_cd == 113 && $today > $this->confirm_at->addHour()){
+        }elseif ($this->status_cd == 113 && $today >= $this->confirm_at->addHour()){
             $issue_cd = 118;
-        }elseif ($this->status_cd == 114 && $today > $this->start_at->addHour()){
+        }elseif ($this->status_cd == 114 && $today >= $this->start_at->addHour()){
             $issue_cd = 119;
         }
         return array(
@@ -119,15 +119,19 @@ class Diagnosis extends Model
     public function isIssued(){
         $today = date('Y-m-d H:i:s');
 
-        if($this->status_cd == 112 && $today > $this->reservation_at->addHour()){
+        if($this->status_cd == 112 && $today >= $this->reservation_at->addHour()){
             return true;
-        }elseif ($this->status_cd == 113 && $today > $this->confirm_at->addHour()){
+        }elseif ($this->status_cd == 113 && $today >= $this->confirm_at->addHour()){
             return true;
-        }elseif ($this->status_cd == 114 && $today > $this->start_at->addHour()){
+        }elseif ($this->status_cd == 114 && $today >= $this->start_at->addHour()){
             return true;
         }else{
             return false;
         }
+
+    }
+
+    public function issueTotalCount(){
 
     }
 
