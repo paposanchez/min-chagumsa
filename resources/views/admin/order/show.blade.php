@@ -54,7 +54,7 @@
                                                                 <label for="" class="control-label col-md-3">차량번호</label>
                                                                 <div class="col-md-6">
                                                                         <input type="text" class="form-control" placeholder="" name="car_number"
-                                                                        value="{{ $order->carNumber->car_number }}">
+                                                                        value="{{ $order->car_number }}">
                                                                         @if ($errors->has('car_number'))
                                                                         <span class="text-danger">
                                                                                 {{ $errors->first('car_number') }}
@@ -67,7 +67,7 @@
                                                                 <label for="" class="control-label col-md-3">차대번호</label>
                                                                 <div class="col-md-6">
                                                                         <input type="text" class="form-control" placeholder="" name="vin_number"
-                                                                        value="{{ $order->carNumber->vin_number }}">
+                                                                        value="{{ $order->vin_number }}">
                                                                         @if ($errors->has('vin_number'))
                                                                         <span class="text-danger">
                                                                                 {{ $errors->first('vin_number') }}
@@ -79,7 +79,7 @@
                                                         <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                                                 <label for="" class="control-label col-md-3">차량 모델명</label>
                                                                 <div class="col-md-6">
-                                                                        <span class="help-block">{{ $order->getCarFullName() }}</span>
+                                                                        <span class="help-block">{{ $order->carNumber->car->getFullName() }}</span>
                                                                 </div>
                                                         </div>
 

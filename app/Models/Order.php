@@ -35,112 +35,22 @@ class Order Extends Model
         ];
 
 
-        public function status()
-        {
-                return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd');
-        }
-
-        public function certificates()
-        {
-                return $this->hasOne(Certificate::class, 'orders_id', 'id');
-        }
 
         public function orderer()
         {
                 return $this->hasOne(User::class, 'id', 'orderer_id');
         }
-
         public function purchase()
         {
                 return $this->hasOne(\App\Models\Purchase::class, 'id', 'purchase_id');
         }
 
-        public function carNumber()
+        public function status()
         {
-                return $this->hasOne(CarNumber::class, 'id', 'car_numbers_id');
+                return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd');
         }
 
 
-        public function diagnosis()
-        {
-                return $this->hasOne(Diagnosis::class, 'orders_id', 'id');
-        }
-
-        public function getDiagnosis()
-        {
-                $handler = new DiagnosisRepository();
-                return $handler->prepare($this->id)->get();
-        }
-
-        //보증정보 조회
-        public function warranty(){
-                return $this->hasOne(Warranty::class, 'orders_id', 'id');
-        }
-
-
-        // 인증서 발급여부
-        public function isIssued()
-        {
-                return $this->status_cd == 109;
-        }
-
-        // 해당 주문의 차량 풀네임을 조회
-        public function getCarFullName()
-        {
-                return implode(" ", [
-                        $this->carNumber->car->brand->name,
-                        //                        $this->car->models->name,
-                        $this->carNumber->car->detail->name,
-                        $this->carNumber->car->grade->name
-                ]);
-        }
-
-        // public function createChaKey()
-        // {
-        //         return $this->car_number . "-" . $this->created_at->format('ymd');
-        // }
-
-        //========================== 정산관련
-        public function settlement_features()
-        {
-                return $this->hasMany(\App\Models\SettlementFeature::class, 'orders_id', 'id');
-        }
-
-        // PG 수수료
-        public function getSettlementPGCommission()
-        {
-                return $this->purchase->amount * $this->item->commission;
-        }
-
-        // 기본 수익
-        public function getSettlementDefaultIncome()
-        {
-                return ($this->purchase->amount * $this->item->commission) - $this->item->guarantee - $this->item->wage;
-        }
-
-        // 얼라이언스 수익
-        public function getSettlementAllianceCommission()
-        {
-                return $this->getSettlementDefaultIncome() * $this->item->commission;
-        }
-
-        // 기술사 수익
-        public function getSettlementTechCommission()
-        {
-                return $this->getSettlementDefaultIncome() * $this->item->commission;
-        }
-
-        // 회사수익
-        public function getSettlementIncome()
-        {
-                return $this->getSettlementDefaultIncome() * $this->item->commission;
-        }
-
-        // 결재정보
-        public function payment()
-        {
-                return $this->hasOne(\App\Models\Payment::class, 'moid', 'id');
-        }
 
         //주문아이템 조회
         public function orderItem(){
@@ -173,6 +83,93 @@ class Order Extends Model
                 $seed[] = mb_strtoupper(str_random(6)); // 대문자,숫자 총 6자리
 
                 return implode("-", $seed);     // 하이픈 포한 총 20자리
+        }
+
+
+
+
+
+        public function carNumber()
+        {
+                return $this->hasOne(CarNumber::class, 'id', 'car_numbers_id');
+        }
+
+
+        // public function certificates()
+        // {
+        //         return $this->hasOne(Certificate::class, 'orders_id', 'id');
+        // }
+        //
+        //
+        // public function diagnosis()
+        // {
+        //         return $this->hasOne(Diagnosis::class, 'orders_id', 'id');
+        // }
+        //보증정보 조회
+        // public function warranty(){
+        //         return $this->hasOne(Warranty::class, 'orders_id', 'id');
+        // }
+
+        // public function getDiagnosis()
+        // {
+        //         $handler = new DiagnosisRepository();
+        //         return $handler->prepare($this->id)->get();
+        // }
+
+
+
+
+        // 인증서 발급여부
+        public function isIssued()
+        {
+                return $this->status_cd == 109;
+        }
+
+        // public function createChaKey()
+        // {
+        //         return $this->car_number . "-" . $this->created_at->format('ymd');
+        // }
+
+        //========================== 정산관련
+        // public function settlement_features()
+        // {
+        //         return $this->hasMany(\App\Models\SettlementFeature::class, 'orders_id', 'id');
+        // }
+
+        // PG 수수료
+        // public function getSettlementPGCommission()
+        // {
+        //         return $this->purchase->amount * $this->item->commission;
+        // }
+        //
+        // // 기본 수익
+        // public function getSettlementDefaultIncome()
+        // {
+        //         return ($this->purchase->amount * $this->item->commission) - $this->item->guarantee - $this->item->wage;
+        // }
+        //
+        // // 얼라이언스 수익
+        // public function getSettlementAllianceCommission()
+        // {
+        //         return $this->getSettlementDefaultIncome() * $this->item->commission;
+        // }
+        //
+        // // 기술사 수익
+        // public function getSettlementTechCommission()
+        // {
+        //         return $this->getSettlementDefaultIncome() * $this->item->commission;
+        // }
+        //
+        // // 회사수익
+        // public function getSettlementIncome()
+        // {
+        //         return $this->getSettlementDefaultIncome() * $this->item->commission;
+        // }
+
+        // 결재정보
+        public function payment()
+        {
+                return $this->hasOne(\App\Models\Payment::class, 'moid', 'id');
         }
 
 
