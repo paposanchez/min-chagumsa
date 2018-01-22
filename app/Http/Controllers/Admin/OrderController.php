@@ -195,6 +195,7 @@ class OrderController extends Controller
         public function store(Request $request){
 
                 try{
+                        DB::beginTransaction();
 
                         if($request->get('diag_param')){
                                 $this->validate($request, [
@@ -236,14 +237,9 @@ class OrderController extends Controller
 
                         }
 
-                        DB::beginTransaction();
+
                         $user = Auth::user();
                         $input = $request->all();
-
-
-
-
-
 
                         // 차량조회
                         $diagnosis = null;
@@ -261,11 +257,10 @@ class OrderController extends Controller
 
                         }else{
                                 // 기존 주문이 있는 경우
-                                $old_order = Order::where('order_number' $request->get('order_number'))->get();
+                                $old_order = Order::where('order_number', $request->get('order_number'))->get();
 
                                 // 기존 주문이 있는경우 기존주문의 진단번호
                                 $diagnosis = $old_order->diagnosis;
-
                                 $car_number = $old_order->carNumber;
                                 $car = $car_number->car;
                         }
@@ -744,7 +739,7 @@ class OrderController extends Controller
                 if ($event == 'success') {
                         //문자, 메일 송부하기
                         $orderer_name = $order->orderer_name;
-                        $order_num = $order->getOrderNumber();
+                        $order_num = $order->chakey;
                         try {
                                 //메일전송=
                                 $mail_message = [

@@ -24,13 +24,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
-class CertificateRepository
-{
+class CertificateRepository  {
 
     protected $cache_extension = 'html';
     protected $order;
     protected $order_id;
     protected $url_prefix;
+
+
+
+            public function search() {
+
+            }
+            public function publish() {
+
+            }
 
     public function prepare($order_id)
     {

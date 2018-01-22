@@ -17,7 +17,7 @@ class Order Extends Model
 {
         protected $fillable = [
                 'id',
-                'car_number',   //차량번호
+                'chakey',               //주문번호
                 'car_numbers_id',   //차번호 테이블 id
                 'group_id', //주문 그룹키
                 'purchase_id',  //구매 테이블 id
@@ -34,21 +34,6 @@ class Order Extends Model
                 'created_at', 'updated_at'
         ];
 
-        // 해당 주문의 차량 풀네임을 조회
-        public function getCarFullName()
-        {
-                return implode(" ", [
-                        $this->carNumber->car->brand->name,
-                        //                        $this->car->models->name,
-                        $this->carNumber->car->detail->name,
-                        $this->carNumber->car->grade->name
-                ]);
-        }
-
-        public function getOrderNumber()
-        {
-                return $this->car_number . "-" . $this->created_at->format('ymd');
-        }
 
         public function status()
         {
@@ -99,6 +84,22 @@ class Order Extends Model
                 return $this->status_cd == 109;
         }
 
+        // 해당 주문의 차량 풀네임을 조회
+        public function getCarFullName()
+        {
+                return implode(" ", [
+                        $this->carNumber->car->brand->name,
+                        //                        $this->car->models->name,
+                        $this->carNumber->car->detail->name,
+                        $this->carNumber->car->grade->name
+                ]);
+        }
+
+        // public function createChaKey()
+        // {
+        //         return $this->car_number . "-" . $this->created_at->format('ymd');
+        // }
+
         //========================== 정산관련
         public function settlement_features()
         {
@@ -141,15 +142,6 @@ class Order Extends Model
                 return $this->hasOne(\App\Models\Payment::class, 'moid', 'id');
         }
 
-
-
-
-
-
-
-
-
-
         //주문아이템 조회
         public function orderItem(){
                 return $this->hasMany(OrderItem::class, 'orders_id', 'id');
@@ -162,6 +154,26 @@ class Order Extends Model
         }
 
 
+        // 주문번호 생성
+        public function createChakey($car_number) {
+
+                $seed   = [];
+
+                $seed[] = date("ymdHi");        // 시간포함 8자리
+
+                $n = substr($car_number, -4);   // 차량번호 4자리
+
+                if(is_numeric($n))
+                {
+                        $seed[] = $n;
+                }else{
+                        $seed[] = sprintf('%04d',rand(0001,9999));
+                }
+
+                $seed[] = mb_strtoupper(str_random(6)); // 대문자,숫자 총 6자리
+
+                return implode("-", $seed);     // 하이픈 포한 총 20자리
+        }
 
 
 }

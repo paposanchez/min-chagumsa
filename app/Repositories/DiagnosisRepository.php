@@ -23,9 +23,20 @@ use DB;
 
 use Illuminate\Support\Facades\Cache;
 
-class DiagnosisRepository {
+class DiagnosisRepository  {
 
         protected $obj;
+
+
+        static public function search() {
+
+        }
+        static public function publish() {
+
+        }
+
+
+        //===============================
 
 
         public function prepare($order_id) {
