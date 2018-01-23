@@ -1166,6 +1166,7 @@ class DiagnosisController extends ApiController
             if($bcs->hasRole('garage')){
                 $diagnosis = Diagnosis::findOrFail($request->get('diagnosis_id'));
                 $diagnosis->status_cd = 113;
+                $diagnosis->confrim_at = Carbon::now();
                 $diagnosis->save();
                 //todo noty 해야댐
                 return response()->json('success');
