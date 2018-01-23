@@ -468,6 +468,17 @@ return [
         'cancel' => '취소'
     ],
 
+    'report_type' => [
+        'diagnosis' => '차검사 진단',
+        'certificate' => '차검사 평가',
+        'warranty' => '차검사 보증'
+    ],
+
+    'car_sort' => [
+        'native' => '국산차',
+        'foriegn' => '수입차'
+    ],
+
     'payment_cd' => [
         'card' => '신용/체크카드', //11
         'account' => '실시간 계좌이체', //12
