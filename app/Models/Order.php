@@ -71,12 +71,11 @@ class Order Extends Model
 
         $seed = [];
 
-        $seed[] = date("ymdH");        // 시간포함 8자리
+        $seed[] = date("ymdHi");        // 시간포함 8자리
+
+        $seed[] = mb_strtoupper(str_random(6)); // 대문자,숫자 총 6자리
 
         $n = substr($car_number, -4);   // 차량번호 4자리
-
-
-        $seed[] = sprintf('%06d',mt_rand(0,999999));
 
         if (is_numeric($n)) {
             $seed[] = $n;
@@ -94,26 +93,26 @@ class Order Extends Model
     }
 
 
-//     public function certificates()
-//     {
-//             return $this->hasOne(Certificate::class, 'orders_id', 'id');
-//     }
-//
-//
-//     public function diagnosis()
-//     {
-//             return $this->hasOne(Diagnosis::class, 'orders_id', 'id');
-//     }
-//     //보증정보 조회
-//     public function warranty(){
-//             return $this->hasOne(Warranty::class, 'orders_id', 'id');
-//     }
+    // public function certificates()
+    // {
+    //         return $this->hasOne(Certificate::class, 'orders_id', 'id');
+    // }
+    //
+    //
+    // public function diagnosis()
+    // {
+    //         return $this->hasOne(Diagnosis::class, 'orders_id', 'id');
+    // }
+    //보증정보 조회
+    // public function warranty(){
+    //         return $this->hasOne(Warranty::class, 'orders_id', 'id');
+    // }
 
-//     public function getDiagnosis()
-//     {
-//             $handler = new DiagnosisRepository();
-//             return $handler->prepare($this->id)->get();
-//     }
+    // public function getDiagnosis()
+    // {
+    //         $handler = new DiagnosisRepository();
+    //         return $handler->prepare($this->id)->get();
+    // }
 
 
     // 인증서 발급여부

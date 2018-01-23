@@ -3,20 +3,46 @@
 @section( 'content' )
 
 <section id="content">
+
         <div class="container">
 
                 <div class="row">
-                        <div class="col-xs-6">
+
+                        <div class="col-md-6">
+
                                 <div class="card">
                                         <div class="card-header">
-                                                <h2>주문자정보
-                                                        <small>설명</small>
+                                                <h2>주문정보
+                                                        <!-- <small>설명</small> -->
                                                 </h2>
                                         </div>
 
-                                        <div class="card-body">
+                                        <div class="card-body card-padding">
+
                                                 {!! Form::open(['method' => 'POST','route' => ['order.user-update', 'id' => $order->id], 'class'=>'form-horizontal', 'id'=>'userForm', 'enctype'=>"multipart/form-data"]) !!}
                                                 <fieldset>
+
+                                                        <div class="form-group">
+                                                                <label for="" class="control-label col-md-3">주문번호</label>
+                                                                <div class="col-md-6">
+                                                                        <p class="form-control-static">{{ $order->chakey }}</p>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                                <label for="" class="control-label col-md-3">주문seq</label>
+                                                                <div class="col-md-6">
+                                                                        <p class="form-control-static">{{ $order->id }}</p>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                                <label for="" class="control-label col-md-3">회원</label>
+                                                                <div class="col-md-6">
+                                                                        <p class="form-control-static"><a href="">{{ $order->orderer->name }}</a></p>
+                                                                </div>
+                                                        </div>
+
+
                                                         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                                                                 <label for="" class="control-label col-md-3">주문자명</label>
                                                                 <div class="col-md-6">
@@ -43,12 +69,6 @@
                                                                 </div>
                                                         </div>
 
-                                                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                                                <label for="" class="control-label col-md-3">이메일</label>
-                                                                <div class="col-md-6">
-                                                                        <span class="help-block">{{ $order->orderer? $order->orderer->email : '-' }}</span>
-                                                                </div>
-                                                        </div>
 
                                                         <div class="form-group {{ $errors->has('car_number') ? 'has-error' : '' }}">
                                                                 <label for="" class="control-label col-md-3">차량번호</label>
@@ -79,7 +99,10 @@
                                                         <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                                                 <label for="" class="control-label col-md-3">차량 모델명</label>
                                                                 <div class="col-md-6">
-                                                                        <span class="help-block">{{ $order->carNumber->car->getFullName() }}</span>
+                                                                        <p class="form-control-static">{{ $order->carNumber->car->getFullName() }}
+
+                                                                                <a href="pull-right">차량변경</a>
+                                                                        </p>
                                                                 </div>
                                                         </div>
 
@@ -98,36 +121,42 @@
 
                         <div class="card">
                                 <div class="card-header">
-                                        <h2>결제 정보 보기
-                                                <small>설명</small>
+                                        <h2>결제정보
+                                                <!-- <small>설명</small> -->
                                         </h2>
                                 </div>
 
-                                <div class="card-body">
+                                <div class="card-body card-padding">
                                         <form class="form-horizontal">
                                                 <fieldset>
-                                                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                                                        <div class="form-group">
                                                                 <label for="" class="control-label col-md-3">결제번호</label>
                                                                 <div class="col-md-6">
-                                                                        <span class="help-block">{{ $order->purchase_id }}</span>
+                                                                        <p class="form-control-static">{{ $order->purchase_id }}</p>
                                                                 </div>
                                                         </div>
-                                                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                                                        <div class="form-group">
+                                                                <label for="" class="control-label col-md-3">PG결제번호</label>
+                                                                <div class="col-md-6">
+                                                                        <p class="form-control-static">{{ $order->purchase_id }}</p>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
                                                                 <label for="" class="control-label col-md-3">결제방법</label>
                                                                 <div class="col-md-6">
-                                                                        <span class="help-block">{{ $order->purchase->payment_type->display() }}</span>
+                                                                        <p class="form-control-static">{{ $order->purchase->payment_type->display() }}</p>
                                                                 </div>
                                                         </div>
-                                                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                                                        <div class="form-group">
                                                                 <label for="" class="control-label col-md-3">결제금액</label>
                                                                 <div class="col-md-6">
-                                                                        <span class="help-block">{{ $order->price }}</span>
+                                                                        <p class="form-control-static">{{ $order->amount }}</p>
                                                                 </div>
                                                         </div>
-                                                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                                                        <div class="form-group">
                                                                 <label for="" class="control-label col-md-3">결제일자</label>
                                                                 <div class="col-md-6">
-                                                                        <span class="help-block">{{ $order->purchase->created_at->format('Y-m-d H시 m분 s초') }}</span>
+                                                                        <p class="form-control-static">{{ $order->purchase->created_at }}</p>
                                                                 </div>
                                                         </div>
                                                 </fieldset>
@@ -140,16 +169,38 @@
 
 
 
-                <div class="col-xs-6">
+                <div class="col-md-6">
                         <div class="card">
                                 <div class="card-header">
-                                        <h2>전체 타임라인
-                                                <small>설명</small>
+                                        <h2>타임라인
+                                                <!-- <small>설명</small> -->
                                         </h2>
                                 </div>
 
-                                <div class="card-body">
-                                        <form class="form-horizontal">
+                                <div class="card-body card-padding">
+
+
+                                        <div class="pmo-contact">
+                                                <ul>
+                                                        <li class="ng-binding"><i class="zmdi zmdi-phone"></i> 00971123456789</li>
+                                                        <li class="ng-binding"><i class="zmdi zmdi-email"></i> malinda.h@gmail.com</li>
+                                                        <li class="ng-binding"><i class="zmdi zmdi-facebook-box"></i> malinda.hollaway
+                                                        </li>
+                                                        <li class="ng-binding"><i class="zmdi zmdi-twitter"></i> @malinda
+                                                                (twitter.com/malinda)
+                                                        </li>
+                                                        <li>
+                                                                <i class="zmdi zmdi-pin"></i>
+                                                                <address class="m-b-0 ng-binding">
+                                                                        44-46 Morningside Road <br>
+                                                                        Edinburgh <br>
+                                                                        Scotland
+                                                                </address>
+                                                        </li>
+                                                </ul>
+                                        </div>
+
+                                        <!-- <form class="form-horizontal">
                                                 <fieldset>
                                                         <div class="card-header">
                                                                 <h2>
@@ -250,7 +301,7 @@
                                                         </div>
                                                         @endif
                                                 </fieldset>
-                                        </form>
+                                        </form> -->
                                 </div>
                         </div>
                 </div>
@@ -265,19 +316,19 @@
 
                 @unless($order->orderItem)
 
-                        <div class="no-result">
-                                검색결과가 없습니다.
-                        </div>
+                <div class="no-result">
+                        검색결과가 없습니다.
+                </div>
 
                 @endunless
 
                 @foreach($order->orderItem as $order_item)
                 <div class="col-sm-4">
 
-                            @component('components.order_item', [
-                            'order_item' => $order_item
-                            ])
-                            @endcomponent
+                        @component('components.order_item', [
+                        'order_item' => $order_item
+                        ])
+                        @endcomponent
                 </div>
                 @endforeach
 
@@ -295,27 +346,27 @@
 
 
                 @foreach($order->orderGroup as $group_order)
-                        @foreach($group_order->orderItem as $order_item)
-                        <div class="col-sm-3">
-                                <div class="card pt-inner">
-                                        <div class="pti-header bgm-green">
-                                                <h2>주문상품번호 {{ $order_item->id }}</h2>
-                                                <div class="ptih-title">{{ $order_item->item->name }}</div>
-                                        </div>
+                @foreach($group_order->orderItem as $order_item)
+                <div class="col-sm-3">
+                        <div class="card pt-inner">
+                                <div class="pti-header bgm-green">
+                                        <h2>{{ $order_item->id }}</h2>
+                                        <div class="ptih-title">{{ $order_item->item->name }}</div>
+                                </div>
 
-                                        <div class="pti-body">
-                                                <div class="ptib-item">
-                                                        Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris iaculis
-                                                        laoreet mattis piuminer lasethol and envy
-                                                </div>
-                                        </div>
-
-                                        <div class="pti-footer">
-                                                <a href="" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
+                                <div class="pti-body">
+                                        <div class="ptib-item">
+                                                Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris iaculis
+                                                laoreet mattis piuminer lasethol and envy
                                         </div>
                                 </div>
+
+                                <div class="pti-footer">
+                                        <a href="" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
+                                </div>
                         </div>
-                        @endforeach
+                </div>
+                @endforeach
                 @endforeach
 
         </div>

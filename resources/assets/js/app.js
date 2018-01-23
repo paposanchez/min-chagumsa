@@ -155,6 +155,18 @@ var ZFOOP = {
 
                         return key in search;
                 },
+
+                number_format : function(val){
+                        if(val==0) return 0;
+
+                        var reg = /(^[+-]?\d+)(\d{3})/;
+                        var n = (val + '');
+
+                        while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
+
+                        return n;
+                },
+
                 str_pad: function (input, pad_length, pad_string, pad_type) {
                         //  discuss at: http://phpjs.org/functions/str_pad/
                         // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)

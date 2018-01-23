@@ -97,6 +97,7 @@ class OrderController extends Controller
                     });
             });
         }
+
         //검색조건
         $search_fields = [
             "order_num" => "주문번호",
@@ -135,6 +136,7 @@ class OrderController extends Controller
                     break;
             }
         }
+
         $entrys = $where->paginate(25);
 
         //엔지니어 목록
@@ -192,6 +194,7 @@ class OrderController extends Controller
         return view('admin.order.create', compact('user', 'users', 'areas', 'brands', 'sel_hours'));
     }
 
+
     public function store(Request $request)
     {
 
@@ -239,126 +242,126 @@ class OrderController extends Controller
             }
 
 
-            $user = Auth::user();
-            $input = $request->all();
-
-            // 차량조회
-            $diagnosis = null;
-            // 신규 진단일 경우
-            if ($request->get('vin_number')) {
-
-
-                $car = Car::firstOrNew($input);
-                $car_number = CarNumber::create([
-                    'cars_id' => $car->id,
-                    'vin_number' => $request->get('vin_number'),
-                    'car_number' => $request->get('car_number')
-                ]);
-
-
-            } else {
-                // 기존 주문이 있는 경우
-                $old_order = Order::where('order_number', $request->get('order_number'))->get();
-
-                // 기존 주문이 있는경우 기존주문의 진단번호
-                $diagnosis = $old_order->diagnosis;
-                $car_number = $old_order->carNumber;
-                $car = $car_number->car;
-            }
-
-            // 차량정보 입력
-
-            // 주문생성
-            //order 생성
-            $order = Order::create([
-                'car_numbers_id' => $car_number->car_number,
-                'orderer_id' => $user->id,
-                'orderer_name' => $request->get('orderer_name'),
-                'orderer_mobile' => $request->get('orderer_mobile'),
-                'status_cd' => '102'
-                // 'flooding_state_cd' => $request->get('flood') ? 1 : 0,
-                // 'accident_state_cd' => $request->get('accident') ? 1 : 0,
-            ]);
-
-
-            // 주문상품생성
-            $items = Item::whereIn("id", $request->get('items'))->get();
-            $price = 0;
-            foreach ($items as $item) {
-
-                // 선택한 차종의 수입차 여부에 따라 선택된 상품의 수입차 여부를 판단
-                if ($item->car_sort != $car->car_sort) {
-                    return;
-                }
-                $order_item = new OrderItem();
-                $order_item->orders_id = $order->id;
-                $order_item->type_cd = '진단,인증,평가';
-                $order_item->items_id = $item->id;
-                $order_item->price = $item->price;
-                // 수수료등 추가로 입력해야 함
-                $order_item->save();
-
-
-                //diagnosis 생성
-                if ($order_item->type_cd == '진단코드번호') {
-                    $reservation_date = new DateTime($request->get('reservation_at') . ' ' . $request->get('sel_time') . ':00:00');
-                    $diagnosis = new Diagnosis();
-                    $diagnosis->orders_id = $order->id;
-                    $diagnosis->order_items_id = $diagno_item_id;
-                    $diagnosis->car_numbers_id = $car_number->id;
-                    $diagnosis->status_cd = 112;
-                    $diagnosis->garage_id = $request->get('garages');
-                    $diagnosis->reservation_at = $reservation_date->format('Y-m-d H:i:s');
-                    $diagnosis->save();
-                }
-
-
-                //certificate 생성
-                if ($order_item->type == '인증코드번호') {
-
-                    $certificate = Certificate::create([
-                        'orders_id' => $order->id,
-                        // 'order_items_id' => $certi_item_id,
-                        'car_numbers_id' => $car_number->id,
-                        'status_cd' => 112,
-                        'diagnosis_id' => $diagnosis->id,
-                    ]);
-                }
-
-                //warranty 생성
-                if ($request->get('ew_param')) {
-                    $warranty = Warranty::create([
-                        'orders_id' => $order->id,
-                        // 'order_items_id' => $certi_item_id,
-                        'car_numbers_id' => $car_number->id,
-                        'status_cd' => 112,
-                        'diagnosis_id' => $diagnosis->id,
-                    ]);
-                }
-
-
-                $price += $item->price;
-            }
-
-
-            // 결제생성
-            $purchase = new Purchase();
-            $purchase->amount = $price;
-
-            //결제타입
-            if ($user->hasRole("admin")) {
-                $purchase->type = 22;
-            } else {
-                $purchase->type = 23;
-            }
-            $purchase->status_cd = 102;
-            $purchase->save();
-
-            //order 갱신
-            $order->update([
-                'group_id' => $old_order ? $old_order->id : $order->id,
-                'purchase_id' => $purchase->id
-            ]);
+//            $user = Auth::user();
+//            $input = $request->all();
+//
+//            // 차량조회
+//            $diagnosis = null;
+//            // 신규 진단일 경우
+//            if ($request->get('vin_number')) {
+//
+//
+//                $car = Car::firstOrNew($input);
+//                $car_number = CarNumber::create([
+//                    'cars_id' => $car->id,
+//                    'vin_number' => $request->get('vin_number'),
+//                    'car_number' => $request->get('car_number')
+//                ]);
+//
+//
+//            } else {
+//                // 기존 주문이 있는 경우
+//                $old_order = Order::where('order_number', $request->get('order_number'))->get();
+//
+//                // 기존 주문이 있는경우 기존주문의 진단번호
+//                $diagnosis = $old_order->diagnosis;
+//                $car_number = $old_order->carNumber;
+//                $car = $car_number->car;
+//            }
+//
+//            // 차량정보 입력
+//
+//            // 주문생성
+//            //order 생성
+//            $order = Order::create([
+//                'car_numbers_id' => $car_number->car_number,
+//                'orderer_id' => $user->id,
+//                'orderer_name' => $request->get('orderer_name'),
+//                'orderer_mobile' => $request->get('orderer_mobile'),
+//                'status_cd' => '102'
+//                // 'flooding_state_cd' => $request->get('flood') ? 1 : 0,
+//                // 'accident_state_cd' => $request->get('accident') ? 1 : 0,
+//            ]);
+//
+//
+//            // 주문상품생성
+//            $items = Item::whereIn("id", $request->get('items'))->get();
+//            $price = 0;
+//            foreach ($items as $item) {
+//
+//                // 선택한 차종의 수입차 여부에 따라 선택된 상품의 수입차 여부를 판단
+//                if ($item->car_sort != $car->car_sort) {
+//                    return;
+//                }
+//                $order_item = new OrderItem();
+//                $order_item->orders_id = $order->id;
+//                $order_item->type_cd = '진단,인증,평가';
+//                $order_item->items_id = $item->id;
+//                $order_item->price = $item->price;
+//                // 수수료등 추가로 입력해야 함
+//                $order_item->save();
+//
+//
+//                //diagnosis 생성
+//                if ($order_item->type_cd == '진단코드번호') {
+//                    $reservation_date = new DateTime($request->get('reservation_at') . ' ' . $request->get('sel_time') . ':00:00');
+//                    $diagnosis = new Diagnosis();
+//                    $diagnosis->orders_id = $order->id;
+//                    $diagnosis->order_items_id = $diagno_item_id;
+//                    $diagnosis->car_numbers_id = $car_number->id;
+//                    $diagnosis->status_cd = 112;
+//                    $diagnosis->garage_id = $request->get('garages');
+//                    $diagnosis->reservation_at = $reservation_date->format('Y-m-d H:i:s');
+//                    $diagnosis->save();
+//                }
+//
+//
+//                //certificate 생성
+//                if ($order_item->type == '인증코드번호') {
+//
+//                    $certificate = Certificate::create([
+//                        'orders_id' => $order->id,
+//                        // 'order_items_id' => $certi_item_id,
+//                        'car_numbers_id' => $car_number->id,
+//                        'status_cd' => 112,
+//                        'diagnosis_id' => $diagnosis->id,
+//                    ]);
+//                }
+//
+//                //warranty 생성
+//                if ($request->get('ew_param')) {
+//                    $warranty = Warranty::create([
+//                        'orders_id' => $order->id,
+//                        // 'order_items_id' => $certi_item_id,
+//                        'car_numbers_id' => $car_number->id,
+//                        'status_cd' => 112,
+//                        'diagnosis_id' => $diagnosis->id,
+//                    ]);
+//                }
+//
+//
+//                $price += $item->price;
+//            }
+//
+//
+//            // 결제생성
+//            $purchase = new Purchase();
+//            $purchase->amount = $price;
+//
+//            //결제타입
+//            if ($user->hasRole("admin")) {
+//                $purchase->type = 22;
+//            } else {
+//                $purchase->type = 23;
+//            }
+//            $purchase->status_cd = 102;
+//            $purchase->save();
+//
+//            //order 갱신
+//            $order->update([
+//                'group_id' => $old_order ? $old_order->id : $order->id,
+//                'purchase_id' => $purchase->id
+//            ]);
 
 
             //car_number 생성
@@ -505,8 +508,8 @@ class OrderController extends Controller
             //         }
             // }
 
-            DB::commit();
-            return redirect()->route('order.show', $order->id)->with('success', '주문생성 되었습니다.');
+//            DB::commit();
+//            return redirect()->route('order.show', $order->id)->with('success', '주문생성 되었습니다.');
         } catch (\Exception $e) {
             DB::rollback();
             dd($e->getMessage());

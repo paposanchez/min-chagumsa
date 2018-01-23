@@ -7,7 +7,6 @@ let publicDir = 'public/';
 let targetDir = 'public/assets/';
 
 //################# 이미지
-// mix.copyDirectory(assetsDir + 'img/', distDir + 'img');
 mix.copyDirectory(baseDir + 'fonts/', targetDir + 'fonts');
 mix.copyDirectory(baseDir + 'img/', targetDir + 'img');
 mix.copyDirectory(resourceDir + 'img/', targetDir + 'img');
@@ -15,9 +14,7 @@ mix.copyDirectory(baseDir + 'vendors/', targetDir + 'vendors');
 mix.copyDirectory(resourceDir + 'js/plugin/', targetDir + 'js/plugin');
 mix.copyDirectory(resourceDir + 'js/languages/', targetDir + 'js/languages');
 
-
-// mix.less(baseDir + 'less/app.less', baseDir + 'css/inc/app.css');
-mix.sass(resourceDir + 'scss/core.scss', 'assets/css/');
+mix.sass(resourceDir + 'scss/core.scss', targetDir +'css/');
 
 mix.styles([
         targetDir + 'css/core.css',
@@ -44,6 +41,6 @@ mix.scripts([
 
 
 if (mix.config.inProduction) {
-        mix.sourceMaps();
+        // mix.sourceMaps();
         // mix.version();
 }
