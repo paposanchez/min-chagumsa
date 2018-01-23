@@ -71,6 +71,8 @@ class Order Extends Model
 
                 $seed[] = date("ymdHi");        // 시간포함 8자리
 
+                $seed[] = mb_strtoupper(str_random(6)); // 대문자,숫자 총 6자리
+
                 $n = substr($car_number, -4);   // 차량번호 4자리
 
                 if(is_numeric($n))
@@ -79,8 +81,6 @@ class Order Extends Model
                 }else{
                         $seed[] = sprintf('%04d',rand(0001,9999));
                 }
-
-                $seed[] = mb_strtoupper(str_random(6)); // 대문자,숫자 총 6자리
 
                 return implode("-", $seed);     // 하이픈 포한 총 20자리
         }

@@ -1,4 +1,4 @@
-<ul class="pagination lg-pagination">
+<ul class="pagination lg-pagination p-0">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
         <li class="disabled"><a href="#" rel="prev"><i class="zmdi zmdi-chevron-left"></i></a></li>

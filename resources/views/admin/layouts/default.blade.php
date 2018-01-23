@@ -135,6 +135,7 @@
         {!! Html::script('/assets/vendors/bower_components/Waves/dist/waves.min.js') !!}
         {!! Html::script('/assets/vendors/bootstrap-growl/bootstrap-growl.min.js') !!}
         {!! Html::script('/assets/vendors/bower_components/sweetalert2/dist/sweetalert2.min.js') !!}
+        {!! Html::script('/assets/vendors/bootstrap-wizard/jquery.bootstrap.wizard.min.js') !!}
         {!! Html::script('/assets/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js') !!}
         {!! Html::script('/assets/vendors/bower_components/nouislider/distribute/nouislider.min.js') !!}
         {!! Html::script('/assets/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') !!}
@@ -146,6 +147,13 @@
         {!! Html::script('/assets/vendors/bower_components/jquery-mask-plugin/dist/jquery.mask.min.js') !!}
         {!! Html::script('/assets/vendors/fileinput/fileinput.min.js') !!}
         {!! Html::script('/assets/vendors/farbtastic/farbtastic.min.js') !!}
+
+
+
+
+        <!-- Placeholder for IE9 -->
+
+
 
 
         <!-- Placeholder for IE9 -->

@@ -175,9 +175,7 @@ class OrderController extends Controller
                 $user = Auth::user();
 
                 $users = Role::find(2)->users->pluck('name', 'name');
-                $brands = Brand::select('id', 'name')
-                ->orderByRaw('CASE WHEN id = 5 THEN 8 WHEN id = 6 THEN 9 WHEN id = 4 OR id = 19 OR id = 38 OR id = 74 OR id = 44 THEN 5 WHEN id = 1 OR id = 28 OR id = 45 THEN 1 ELSE 3 END ASC, name ASC')
-                ->get();
+                $brands = Brand::getList();
                 $areas = UserExtra::whereNotIn('users_id', [4])
                 ->join('users', function ($join) {
                         $join->on('user_extras.users_id', 'users.id')
@@ -188,8 +186,12 @@ class OrderController extends Controller
                         '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
                 ];
 
+                // $item = new Item;
+                // $item->disableCache()->all();
 
-                return view('admin.order.create', compact('user', 'users', 'areas', 'brands', 'sel_hours'));
+                $items = Item::where('is_use', 1)->get();
+
+                return view('admin.order.create', compact('user', 'users', 'areas', 'brands', 'sel_hours', 'items'));
         }
 
         public function store(Request $request){

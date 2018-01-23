@@ -1,24 +1,21 @@
 .table {
-    thead {
-        tr {
-            th {
-                border-bottom-width: 1px;
-            }
+        thead {
+                tr {
+                        th {
+                                border-top-width: 1px;
+                        }
+                }
         }
-    }
 
-    tbody {
-        tr:last-child {
-            th,td {
+        tbody {
+                tr:last-child {
+                        th,td {
 
-                border-bottom:solid 1px $table-border-color;
-            }
+                                border-bottom:solid 1px $table-border-color;
+                        }
+                }
         }
-    }
 
-
-    margin-bottom:0px;
-
-
+        // margin-bottom:0px;
 
 }
