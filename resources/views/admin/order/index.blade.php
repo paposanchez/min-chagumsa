@@ -55,8 +55,7 @@
                                 <tr class="">
                                     <th class="text-center"><a class="sort" href="#" id="status"><i
                                                     class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 상태</a></th>
-                                    <th class="text-center"><a class="sort" href="#" id="car_number"><i
-                                                    class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 주문번호</a></th>
+                                    <th class="text-center">주문번호</th>
                                     <th class="text-center">주문자정보</th>
                                     <th class="text-center">결제정보</th>
                                     <th class="text-center">주문상품</th>
@@ -105,7 +104,6 @@
                                         </td>
 
                                         <td>
-
                                             {{ $data->purchase_id }}
                                             <br/>
                                             <small class="text-warning">{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
@@ -114,7 +112,7 @@
                                         <td>
 
                                             @foreach($data->orderItem as $order_item)
-                                                <a href="">{{ $order_item->item->type }}</a>
+                                                <a href="">* {{ $order_item->item->type->display() }}</a>
                                             @endforeach
                                         </td>
 
