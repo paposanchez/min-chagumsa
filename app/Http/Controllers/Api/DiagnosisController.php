@@ -1018,22 +1018,33 @@ class DiagnosisController extends ApiController
 
 
             //키워드 검색시
+//            if($s){
+//                $entrys->join('orders', function ($join) use($s){
+//                    $join->on('diagnosis.orders_id','orders.id')
+//                        ->where('orders.orderer_mobile', 'like', '%' . $s . '%')
+//                        ->orWhere('orders.car_number', 'like', '%' . $s . '%');
+//                });
+//            }
+
+
             if($s){
-                $entrys->join('orders', function ($join) use($s){
-                    $join->on('diagnosis.orders_id','orders.id')
-                        ->where('orders.orderer_mobile', 'like', '%' . $s . '%')
-                        ->orWhere('orders.car_number', 'like', '%' . $s . '%');
+                $entrys->join('car_numbers', function($join) use($s){
+                    $join->on('diagnosis.car_numbers_id', 'car_numbers.id')
+                    ->where('car_numbers.car_number', 'like', '%'.$s.'%');
                 });
             }
 
+
             $returns = [];
 
-            $diagnoses = $entrys->select('diagnosis.id')->get();
+            $diagnoses = $entrys->get();
+
+
 
             foreach ($diagnoses as $diagnosis){
                 $returns[] = array(
                     "diagnosis_id" => $diagnosis->id,
-                    "order_number" => $diagnosis->order->getOrderNumber(),
+                    "chakey" => $diagnosis->chakey ? $diagnosis->chakey : '',
                     "reservation_at" => [
                         "date" => $diagnosis->reservation_at->format('Y-m-d'),
                         "time" => $diagnosis->reservation_at->format('H')
@@ -1045,21 +1056,19 @@ class DiagnosisController extends ApiController
                     "issue" => $diagnosis->getIssued(),
                     "start_at" => $diagnosis->start_at ? $diagnosis->start_at->format('Y-m-d') : '',
                     "completed_at" => $diagnosis->completed_at ? $diagnosis->completed_at->format('Y-m-d') : '',
-                    "orderer" => [
-                        "name" => $diagnosis->order->orderer_name,
-                        "email" => $diagnosis->order->orderer ? $diagnosis->order->orderer->email : '-',
-                        "mobile" => $diagnosis->order->orderer_mobile
-                    ],
+//                    "orderer" => [
+//                        "name" => $diagnosis->order->orderer_name,
+//                        "email" => $diagnosis->order->orderer ? $diagnosis->order->orderer->email : '-',
+//                        "mobile" => $diagnosis->order->orderer_mobile
+//                    ],
                     "car" => [
-                        "car_model" => $diagnosis->order->getCarFullName(),
+//                        "car_model" => $diagnosis->order->getCarFullName(),
                         "brand" => $diagnosis->carNumber->car->brand->name,
                         "detail" => $diagnosis->carNumber->car->detail->name,
                         "grade" => $diagnosis->carNumber->car->grade->name
                     ]
                 );
             }
-
-
 
             return response()->json([
                 "diagnosis" => $returns
