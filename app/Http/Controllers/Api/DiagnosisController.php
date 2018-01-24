@@ -1018,26 +1018,20 @@ class DiagnosisController extends ApiController
 
 
             //키워드 검색시
-//            if($s){
-//                $entrys->join('orders', function ($join) use($s){
-//                    $join->on('diagnosis.orders_id','orders.id')
-//                        ->where('orders.orderer_mobile', 'like', '%' . $s . '%')
-//                        ->orWhere('orders.car_number', 'like', '%' . $s . '%');
-//                });
-//            }
-
-
             if($s){
-                $entrys->join('car_numbers', function($join) use($s){
-                    $join->on('diagnosis.car_numbers_id', 'car_numbers.id')
-                    ->where('car_numbers.car_number', 'like', '%'.$s.'%');
-                });
+                $entrys->leftJoin('order_items', 'diagnosis.order_items_id', '=', 'order_items.id')
+                    ->leftJoin('orders', 'order_items.orders_id', '=', 'orders.id')
+                    ->leftJoin('car_numbers', 'diagnosis.car_numbers_id', '=', 'car_numbers.id')
+                    ->where('car_numbers.car_number', 'like', '%'.$s.'%')
+                    ->orWhere('orders.orderer_mobile', 'like', '%'.$s.'%')
+                    ->select('diagnosis.*');
             }
 
 
             $returns = [];
 
             $diagnoses = $entrys->get();
+
 
 
 
