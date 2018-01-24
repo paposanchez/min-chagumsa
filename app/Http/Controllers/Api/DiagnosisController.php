@@ -890,7 +890,7 @@ class DiagnosisController extends ApiController
         try{
             $validator = Validator::make($request->all(), [
                 'user_id' => 'required|exists:users,id',
-                'issue_cd' => 'nullable',
+                'issue_cd' => 'required',
             ]);
 
             $user_id = $request->get('user_id');
@@ -984,10 +984,8 @@ class DiagnosisController extends ApiController
         try{
             $validator = Validator::make($request->all(), [
                 'user_id' => 'required|exists:users,id',
-                'status_cd' => 'nullable',
-                's' => 'nullable|min:3'
+                's' => 'required|min:4'
             ]);
-
 
             $user_id = $request->get('user_id');
             $user = User::findOrFail($user_id);
@@ -1016,7 +1014,6 @@ class DiagnosisController extends ApiController
                 }
             }
 
-
             //키워드 검색시
             if($s){
                 $entrys->leftJoin('order_items', 'diagnosis.order_items_id', '=', 'order_items.id')
@@ -1027,13 +1024,9 @@ class DiagnosisController extends ApiController
                     ->select('diagnosis.*');
             }
 
-
             $returns = [];
 
             $diagnoses = $entrys->get();
-
-
-
 
             foreach ($diagnoses as $diagnosis){
                 $returns[] = array(
@@ -1068,8 +1061,8 @@ class DiagnosisController extends ApiController
                 "diagnosis" => $returns
             ]);
         }catch(Exception $e){
-            return response()->json($e->getMessage());
-//            return response()->json('fail');
+//            return response()->json($e->getMessage());
+            return response()->json('fail');
         }
     }
 
