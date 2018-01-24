@@ -1056,13 +1056,13 @@ class DiagnosisController extends ApiController
                     "issue" => $diagnosis->getIssued(),
                     "start_at" => $diagnosis->start_at ? $diagnosis->start_at->format('Y-m-d') : '',
                     "completed_at" => $diagnosis->completed_at ? $diagnosis->completed_at->format('Y-m-d') : '',
-//                    "orderer" => [
-//                        "name" => $diagnosis->order->orderer_name,
-//                        "email" => $diagnosis->order->orderer ? $diagnosis->order->orderer->email : '-',
-//                        "mobile" => $diagnosis->order->orderer_mobile
-//                    ],
+                    "orderer" => [
+                        "name" => $diagnosis->orderItem->order->orderer_name,
+                        "email" => $diagnosis->orderItem->order->orderer ? $diagnosis->orderItem->order->orderer->email : '-',
+                        "mobile" => $diagnosis->orderItem->order->orderer_mobile
+                    ],
                     "car" => [
-//                        "car_model" => $diagnosis->order->getCarFullName(),
+                        "car_model" => $diagnosis->orderItem->order->getCarFullName(),
                         "brand" => $diagnosis->carNumber->car->brand->name,
                         "detail" => $diagnosis->carNumber->car->detail->name,
                         "grade" => $diagnosis->carNumber->car->grade->name
