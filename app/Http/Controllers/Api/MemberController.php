@@ -71,7 +71,7 @@ class MemberController extends Controller
 
                 return response()->json([
                     "status" => 'success',
-                    "response" => $entrys
+                    "data" => $entrys
                 ]);
             }
             return response()->json([

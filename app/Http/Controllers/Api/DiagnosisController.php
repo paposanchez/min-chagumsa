@@ -77,7 +77,7 @@ class DiagnosisController extends ApiController
 
             return response()->json([
                 "status" => 'fail',
-                "response" => $return
+                "data" => $return
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -283,7 +283,7 @@ class DiagnosisController extends ApiController
 
             return response()->json([
                 "status" => 'fail',
-                "response" => json_decode($item->layout, true)
+                "data" => json_decode($item->layout, true)
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -328,7 +328,6 @@ class DiagnosisController extends ApiController
             if ($validator->fails()) {
                 return response()->json([
                     "status" => 'fail',
-                    "response" => []
                 ]);
             }
 
@@ -743,7 +742,7 @@ class DiagnosisController extends ApiController
 
         return response()->json([
             "status" => 'success',
-            "response" => $trans_info
+            "data" => $trans_info
         ]);
     }
 
@@ -833,7 +832,6 @@ class DiagnosisController extends ApiController
             if ($validator->fails()) {
                 return response()->json([
                     "status" => 'fail',
-                    "response" => []
                 ]);
             }
 
@@ -916,15 +914,14 @@ class DiagnosisController extends ApiController
 
             return response()->json([
                 "status" => 'success',
-                "response" => [
+                "data" => [
                     "count" => $count,
                     "diagnosis" => $returns
                 ]
             ]);
         } catch (Exception $e) {
             return response()->json([
-                "status" => 'fail',
-                "response" => []
+                "status" => 'fail'
             ]);
         }
     }
@@ -940,7 +937,6 @@ class DiagnosisController extends ApiController
             if ($validator->fails()) {
                 return response()->json([
                     "status" => 'fail',
-                    "response" => []
                 ]);
             }
 
@@ -1014,15 +1010,14 @@ class DiagnosisController extends ApiController
 
             return response()->json([
                 "status" => 'success',
-                "response" => [
+                "data" => [
                     "count" => $count,
                     "diagnosis" => $returns
                 ]
             ]);
         } catch (Exception $e) {
             return response()->json([
-                "status" => 'fail',
-                "response" => []
+                "status" => 'fail'
             ]);
         }
     }
@@ -1042,8 +1037,7 @@ class DiagnosisController extends ApiController
 
             if ($validator->fails()) {
                 return response()->json([
-                    "status" => 'fail',
-                    "response" => []
+                    "status" => 'fail'
                 ]);
             }
 
@@ -1106,12 +1100,11 @@ class DiagnosisController extends ApiController
 
             return response()->json([
                 "status" => 'success',
-                "response" => $returns
+                "data" => $returns
             ]);
         } catch (Exception $e) {
             return response()->json([
-                "status" => 'fail',
-                "response" => []
+                "status" => 'fail'
             ]);
         }
     }

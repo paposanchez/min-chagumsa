@@ -42,7 +42,7 @@ class NoticeController extends ApiController {
             $entrys = $where->select('id', 'subject', 'content', 'created_at')->paginate($request->get('limit'));
             return response()->json([
                 "status" => 'success',
-                "response" => $entrys
+                "data" => $entrys
             ]);
         }catch (\Exception $e){
             return response()->json([
@@ -83,7 +83,7 @@ class NoticeController extends ApiController {
 
             return response()->json([
                 "status" => 'fail',
-                "response" => $post
+                "data" => $post
             ]);
         }catch (\Exception $e){
             return response()->json([
@@ -119,7 +119,7 @@ class NoticeController extends ApiController {
             $return = Post::where('board_id', $this->board_id)->where('created_at', ">=", Carbon::yesterday())->count();
             return response()->json([
                 "status" => 'fail',
-                "response" => $return
+                "data" => $return
             ]);
         }catch (\Exception $e){
             return response()->json([
