@@ -43,8 +43,10 @@ class NoticeController extends ApiController {
                         ->where('board_id', $this->board_id)
                         ->select('id', 'subject', 'content', 'created_at')
                         ->paginate($request->get('limit'));
-                        $entrys->status = 'success';
-                        return response()->json($entrys);
+
+                        $array = $entrys->toArray();
+                        $array['status'] = 'success';
+                        return response()->json($array);
                 }catch (\Exception $e){
                         return response()->json([
                                 "status" => 'fail'
