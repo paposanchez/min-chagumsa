@@ -144,10 +144,10 @@
                                         <div class="row">
                                             <div class="col-sm-3 m-b-25">
                                                 <div class="fg-line {{ $errors->has('') ? 'has-error' : '' }} ">
-                                                    <label for="" class=" fg-label">차량모델</label>
+                                                    <label for="" class=" fg-label">차량 브랜드</label>
                                                     <div class="select">
-                                                        <select class="form-control" id="brands" name="brands_id"
-                                                                autocomplete="off">
+                                                        <select class="form-control car-model" id="brands" name="brands_id"
+                                                                autocomplete="off" data-url="/order/get-models" data-target="models">
                                                             <option value="">선택하세요.</option>
                                                             @foreach($brands as $brand)
                                                                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
@@ -163,14 +163,11 @@
                                             </div>
                                             <div class="col-sm-3 m-b-25">
                                                 <div class="fg-line {{ $errors->has('') ? 'has-error' : '' }} ">
-                                                    <label for="" class=" fg-label">차량모델</label>
+                                                    <label for="" class=" fg-label">차량 모델</label>
                                                     <div class="select">
-                                                        <select class="form-control" id="brands" name="brands_id"
-                                                                autocomplete="off">
+                                                        <select class="form-control car-model" id="models" name="models_id"
+                                                                autocomplete="off" data-url="/order/get-details" data-target="details">
                                                             <option value="">선택하세요.</option>
-                                                            @foreach($brands as $brand)
-                                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                                            @endforeach
                                                         </select>
                                                     </div>
                                                     @if ($errors->has('grades'))
@@ -182,14 +179,11 @@
                                             </div>
                                             <div class="col-sm-3 m-b-25">
                                                 <div class="fg-line {{ $errors->has('') ? 'has-error' : '' }} ">
-                                                    <label for="" class=" fg-label">차량모델</label>
+                                                    <label for="" class=" fg-label">차량 디테일</label>
                                                     <div class="select">
-                                                        <select class="form-control" id="brands" name="brands_id"
-                                                                autocomplete="off">
+                                                        <select class="form-control car-model" id="details" name="details_id"
+                                                                autocomplete="off" data-url="/order/get-grades">
                                                             <option value="">선택하세요.</option>
-                                                            @foreach($brands as $brand)
-                                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                                            @endforeach
                                                         </select>
                                                     </div>
                                                     @if ($errors->has('grades'))
@@ -201,14 +195,11 @@
                                             </div>
                                             <div class="col-sm-3 m-b-25">
                                                 <div class="fg-line {{ $errors->has('') ? 'has-error' : '' }} ">
-                                                    <label for="" class=" fg-label">차량모델</label>
+                                                    <label for="" class=" fg-label">차량 세부모델</label>
                                                     <div class="select">
-                                                        <select class="form-control" id="brands" name="brands_id"
+                                                        <select class="form-control car-model" id="grades" name="grades_id"
                                                                 autocomplete="off">
                                                             <option value="">선택하세요.</option>
-                                                            @foreach($brands as $brand)
-                                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                                            @endforeach
                                                         </select>
                                                     </div>
                                                     @if ($errors->has('grades'))
@@ -492,24 +483,26 @@
             });
 
             // brands 선택 시
-            $(document).on('change', '#brands', function () {
-                var sel_id = $(this).data('sel_id');
+            $(document).on('change', '.car-model', function () {
+                var sel_id = $('option:selected', this).val();
                 var url = $(this).data('url');
 
-                $('#brand_id').val(brand);
                 $.ajax({
                     type: 'get',
                     dataType: 'json',
                     url: url,
                     data: {sel_id: sel_id},
                     success: function (data) {
-                        $.each(data, function (key, value) {
-                            $('#models').append($('<option/>', {
-                                value: value.id,
-                                text: value.name
-                            }));
-                        });
+                        // $.each(data, function (key, value) {
+                        //     $('#models').append($('<option/>', {
+                        //         value: value.id,
+                        //         text: value.name
+                        //     }));
+                        // });
 
+                        alert(JSON.stringify(data));
+
+                        $(this).data('target').empty()
                         // $('#select_car').val(1).trigger("change");
                     },
                     error: function (data) {
