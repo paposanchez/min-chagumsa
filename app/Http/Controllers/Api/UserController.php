@@ -92,7 +92,7 @@ class UserController extends ApiController
 
                 return response()->json([
                     "status" => 'success',
-                    "response" => $users
+                    "data" => $users
                 ]);
             }
 
@@ -171,7 +171,7 @@ class UserController extends ApiController
 
                 return response()->json([
                     "status" => 'success',
-                    "response" => $entry
+                    "data" => $entry
                 ]);
             }
 
