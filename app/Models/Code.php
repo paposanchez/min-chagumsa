@@ -62,10 +62,14 @@ class Code extends CacheModel {
                 ];
         }
 
+        public static function getId($group, $name) {
+                $entry = DB::table('codes')
+                ->where("group", $group)
+                ->where("name", $name)
+                ->first();
 
-
-
-
+                return $entry ? $entry->id : false;
+        }
 
         //--------------------------------------------------- extra funcs
         public static function getSelectList($group = '') {
