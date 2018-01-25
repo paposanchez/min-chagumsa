@@ -27,7 +27,9 @@ class Order Extends Model
         'refund_status',    //환불완료여부
         'status_cd',    //상태 코드
         'flooding_state_cd',    //침수여부
-        'accident_state_cd'     //사고여부
+        'accident_state_cd',     //사고여부
+        'car_sort_cd',
+        'type_cd'
     ];
 
     protected $dates = [
@@ -84,6 +86,19 @@ class Order Extends Model
         }
 
         return implode("-", $seed);     // 하이픈 포한 총 20자리
+    }
+
+    // 진단주문 여부
+    public function isDiagnosis(){
+        $order_items = $this->OrderItem;
+
+        foreach ($order_items as $order_item){
+            if($order_item->type_cd == 121){
+                return true;
+            }
+        }
+
+        return false;
     }
 
 

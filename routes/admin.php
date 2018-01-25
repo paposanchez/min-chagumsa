@@ -23,9 +23,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('order/cancel', 'OrderController@orderCancel')->name('order.cancel');
         Route::post('order/diagnosing', 'OrderController@diagnosing')->name('order.diagnosing');
         Route::get('order/order-number-check', 'OrderController@orderNumberCheck')->name('order.order-number-check');
-        Route::get('/order/get-models', 'OrderController@getModels')->name('order.get-models');
-        Route::get('/order/get-details', 'OrderController@getDetails')->name('order.get-details');
-        Route::get('/order/get-grades', 'OrderController@getGrades')->name('order.get-grades');
+        Route::get('order/get-car-type', 'OrderController@getCarType')->name('order.get-car-type');
+        Route::get('order/get-models', 'OrderController@getModels')->name('order.get-models');
+        Route::get('order/get-details', 'OrderController@getDetails')->name('order.get-details');
+        Route::get('order/get-grades', 'OrderController@getGrades')->name('order.get-grades');
+        Route::get('order/get-items', 'OrderController@getItems')->name('order.get-items');
+        Route::get('order/get-etc-items', 'OrderController@getEtcItems')->name('order.get-etc-items');
         Route::resource('order', 'OrderController');
 
         // 정산관리

@@ -186,12 +186,15 @@ class OrderController extends Controller
                     ->where('users.status_cd', 1);
             })
             ->orderBy(DB::raw('field(area, "서울시")'), 'desc')->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->get();
+
+        $items = Item::all();
+
         $sel_hours = [
             '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
         ];
 
 
-        return view('admin.order.create', compact('user', 'users', 'areas', 'brands', 'sel_hours'));
+        return view('admin.order.create', compact('user', 'users', 'areas', 'brands', 'sel_hours', 'items'));
     }
 
 
@@ -199,8 +202,6 @@ class OrderController extends Controller
     {
 
         try {
-            DB::beginTransaction();
-
             if ($request->get('diag_param')) {
                 $this->validate($request, [
                     'orderer_name' => 'required|min:2',
@@ -208,14 +209,14 @@ class OrderController extends Controller
                     'car_number' => 'required',
                     'vin_number' => 'required',
                     'brands_id' => 'required',
-                    'models_id' => 'required',
-                    'details_id' => 'required',
-                    'grades_id' => 'required',
+//                    'models_id' => 'required',
+//                    'details_id' => 'required',
+//                    'grades_id' => 'required',
                     'areas' => 'required',
-                    'sections' => 'required',
-                    'garages' => 'required',
+//                    'sections' => 'required',
+//                    'garages' => 'required',
                     'reservation_at' => 'required',
-                    'sel_time' => 'required'
+//                    'sel_time' => 'required'
                 ], [],
                     [
                         'orderer_mobile' => '주문자 휴대폰번호',
@@ -240,6 +241,14 @@ class OrderController extends Controller
                     ]);
 
             }
+
+            DB::beginTransaction();
+            dd($request->all());
+            // cars 생성
+            // car_numbers 생성
+            // orders 생성
+            // order_items 생성
+            // diagnosis 생성
 
 
 //            $user = Auth::user();
@@ -790,19 +799,53 @@ class OrderController extends Controller
     public function orderNumberCheck(Request $request)
     {
         try {
-            list($car_number, $datekey) = explode("-", $request->get('order_number'));
-            $order_date = Carbon::createFromFormat('ymd', $datekey);
-            $order = Order::where('car_number', $car_number)
-                ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
-                ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
-                ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'))
-                ->whereNotIn('status_cd', ['101', '100'])->first();
-            return $order;
+            $chakey = $request->get('order_number');
+            $order = Order::where('chakey', $chakey)->first();
+
+            if($order && $order->isDiagnosis($order)){
+                return response()->json($order->carNumber->car->brand->car_type);
+            }else{
+                throw new Exception('fail');
+            }
+
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-
-
     }
+
+    public function getCarType(Request $request){
+        $brand_id = $request->get('brand_id');
+        $brand = Brand::findOrFail($brand_id);
+
+        return response()->json($brand->car_type);
+    }
+
+    public function getItems(Request $request){
+        $type = $request->get('type');
+        $items = Item::whereIn('type_cd', [122, 123]);
+
+        if($type == 'f'){
+            $items->where('car_sort_cd', 125);
+        }else{
+            $items->where('car_sort_cd', 124);
+        }
+
+        return $items->get();
+    }
+
+    public function getEtcItems(Request $request){
+        $type = $request->get('type');
+        $items = Item::select();
+
+        if($type == 'f'){
+            $items->where('car_sort_cd', 125);
+        }else{
+            $items->where('car_sort_cd', 124);
+        }
+
+        return $items->get();
+    }
+
+
 
 }
