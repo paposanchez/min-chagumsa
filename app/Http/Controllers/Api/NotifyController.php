@@ -44,9 +44,13 @@ class NotifyController extends Controller {
             $user_device->device_id = $request->get('device_id');
             $user_device->save();
 
-            return response()->json('success');
+            return response()->json([
+                "status" => 'success'
+            ]);
         }catch (Exception $e){
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail'
+            ]);
         }
     }
 

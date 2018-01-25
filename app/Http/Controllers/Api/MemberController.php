@@ -48,6 +48,12 @@ class MemberController extends Controller
                 'user_id' => 'required|exists:users,id',
             ]);
 
+            if ($validator->fails()) {
+                return response()->json([
+                    "status" => 'fail'
+                ]);
+            }
+
             $user_id = $request->get('user_id');
 
             $bcs = User::findOrFail($user_id);
@@ -63,11 +69,18 @@ class MemberController extends Controller
 
                 $entrys = $users->paginate(25);
 
-                return $entrys;
+                return response()->json([
+                    "status" => 'success',
+                    "response" => $entrys
+                ]);
             }
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail',
+            ]);
         } catch (\Exception $e) {
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail'
+            ]);
         }
     }
 
@@ -83,6 +96,12 @@ class MemberController extends Controller
                 'mobile' => 'min:2',
                 'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'
             ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    "status" => 'fail'
+                ]);
+            }
 
 
             $user_id = $request->get('user_id');
@@ -128,19 +147,27 @@ class MemberController extends Controller
                     $user->save();
                 }
                 DB::commit();
-                return response()->json('success');
+                return response()->json([
+                    "status" => 'success'
+                ]);
             }else{
-                return response()->json('fail');
+                return response()->json([
+                    "status" => 'fail'
+                ]);
             }
         }catch(\Exception $e){
             DB::rollback();
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail'
+            ]);
         }
     }
 
+    // todo 회원 수정해야함
     public function edit(Request $request)
     {
         try {
+
             $bcs = User::findOrFail($request->get('user_id'));
             if($bcs->hasRole("garage")){
                 $user_id = $request->get('user_id');
@@ -178,6 +205,12 @@ class MemberController extends Controller
                 'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'
             ]);
 
+            if ($validator->fails()) {
+                return response()->json([
+                    "status" => 'fail'
+                ]);
+            }
+
             $bcs = User::findOrFail($request->get('user_id'));
             if($bcs->hasRole("garage")){
                 DB::beginTransaction();
@@ -200,13 +233,19 @@ class MemberController extends Controller
                     $user->save();
                 }
                 DB::commit();
-                return response()->json('success');
+                return response()->json([
+                    "status" => 'success'
+                ]);
             }else{
-                return response()->json('fail');
+                return response()->json([
+                    "status" => 'fail'
+                ]);
             }
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail'
+            ]);
         }
     }
 
@@ -219,6 +258,12 @@ class MemberController extends Controller
                 'eng_id' => 'required'
             ]);
 
+            if ($validator->fails()) {
+                return response()->json([
+                    "status" => 'fail'
+                ]);
+            }
+
             $bcs = User::findOrFail($request->get('user_id'));
             if($bcs->hasRole("garage")){
                 $user_id = $request->get('eng_id');
@@ -228,12 +273,18 @@ class MemberController extends Controller
 //                DB::table('role_user')->where('user_id', $user_id)->delete();
 
 
-                return response()->json('success');
+                return response()->json([
+                    "status" => 'success'
+                ]);
             }else{
-                return response()->json('fail');
+                return response()->json([
+                    "status" => 'fail'
+                ]);
             }
         }catch(\Exception $e){
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail'
+            ]);
         }
     }
 

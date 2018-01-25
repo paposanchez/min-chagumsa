@@ -44,9 +44,7 @@ class UserController extends ApiController
      */
     public function login(Request $request)
     {
-
         try {
-
             // 엔지니어 email
             $email = $request->get("email");
             // 엔지니어 패스워드
@@ -76,7 +74,7 @@ class UserController extends ApiController
                 // 정비소 정보
                 $garage = $user->user_extra->garage;
 
-                return response()->json([
+                $users = [
                     "id" => $user->id,
                     "name" => $user->name,
                     "email" => $user->email,
@@ -89,14 +87,23 @@ class UserController extends ApiController
                         "phone" => $garage->user_extra->phone,
                         //                        "profile_image" => $garage_src,
                         "address" => "(" . $garage->user_extra->zipcode . ")" . $garage->user_extra->address
-                    ],
+                    ]
+                ];
+
+                return response()->json([
+                    "status" => 'success',
+                    "response" => $users
                 ]);
             }
 
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail'
+            ]);
 
         } catch (Exception $ex) {
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail'
+            ]);
 
         }
     }
@@ -143,9 +150,7 @@ class UserController extends ApiController
      */
     public function show(Request $request)
     {
-
         try {
-
             $user_id = $request->get('user_id');
 
             $user = User::findOrFail($user_id);
@@ -153,7 +158,7 @@ class UserController extends ApiController
             if ($user->hasRole("engineer")) {
 
                 $garage = $user->user_extra->garage;
-                return response()->json([
+                $entry = array(
                     "id" => $user->id,
                     "name" => $user->name,
                     "mobile" => $user->mobile,
@@ -162,15 +167,22 @@ class UserController extends ApiController
                         "name" => $garage->name,
                         "phone" => $garage->user_extra->phone,
                         "address" => "(" . $garage->user_extra->zipcode . ")" . $garage->user_extra->address
-                    ]
-                ]);
+                    ]);
 
+                return response()->json([
+                    "status" => 'success',
+                    "response" => $entry
+                ]);
             }
 
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail'
+            ]);
             // 앱에서는 간단하게
         } catch (Exception $e) {
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail'
+            ]);
         }
     }
 
@@ -183,6 +195,12 @@ class UserController extends ApiController
                 'mobile' => 'min:2',
                 'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'
             ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    "status" => 'fail'
+                ]);
+            }
 
             $input = $request->all();
             // 비밀번호 변경
@@ -203,9 +221,13 @@ class UserController extends ApiController
                 $user->save();
             }
 
-            return response()->json('success');
+            return response()->json([
+                "status" => 'success'
+            ]);
         }catch (\Exception $e){
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail'
+            ]);
         }
 
 
@@ -248,13 +270,19 @@ class UserController extends ApiController
                     'password' => bcrypt($password_new),
                     'updated_at' => Carbon::now()
                 ]);
-                return response()->json('success');
+                return response()->json([
+                    "status" => 'success'
+                ]);
             }
 
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail'
+            ]);
 
         } catch (Exception $e) {
-            return response()->json('fail');
+            return response()->json([
+                "status" => 'fail'
+            ]);
         }
     }
 
