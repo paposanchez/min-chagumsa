@@ -45,20 +45,15 @@ class MemberController extends Controller
         public function index(Request $request)
         {
 
-                $validator = Validator::make($request->all(), [
-                        'user_id' => 'required|exists:users,id',
-                ]);
-
-                if ($validator->fails()) {
-                        return response()->json([
-                                "status" => 'fail'
-                        ]);
-                }
-
                 try {
 
+                        $requestData = $request->validate([
+                                'user_id'       => 'required|exists:users,id',
+                        ]);
+
+
                         // 조회를 요청한 사용자의 정보조회
-                        $bcs = User::withRole('garage')->findOrFail($request->get('user_id'));
+                        $bcs = User::withRole('garage')->findOrFail($requestData['user_id']);
 
                         // 사용자가 권한이 잇는 경우에만 결과 리턴
                         $entrys = User::leftJoin('user_extras', function ($extra_qry) {
@@ -71,13 +66,13 @@ class MemberController extends Controller
                         ->orderBy('users.name', 'ASC')
                         ->get();
 
-                        $result = [
+                        return response()->json([
                                 "status"        => 'success',
-                                "total"         => count($entrys),
-                                "data"          => $entrys
-                        ];
-
-                        return response()->json($result);
+                                "data"          => [
+                                        "total"         => count($entrys),
+                                        "entrys"        => $entrys
+                                ]
+                        ]);
 
                 } catch (\Exception $e) {
                         return response()->json([
@@ -91,36 +86,30 @@ class MemberController extends Controller
         public function store(Request $request)
         {
 
-                $validator = Validator::make($request->all(), [
-                        'user_id' => 'required',
-                        'email' => 'required|min:2',
-                        'name' => 'required|min:2',
-                        'mobile' => 'min:4|numeric',
-                        'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'
-                ]);
-
-                if ($validator->fails()) {
-                        return response()->json([
-                                "status" => 'fail'
-                        ]);
-                }
-
                 try{
+
+                        $requestData = $request->validate([
+                                'user_id'       => 'required|exists:users,id',
+                                'email'         => 'required|min:2',
+                                'name'          => 'required|min:2',
+                                'mobile'        => 'min:4|numeric',
+                                'avatar'        => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'
+                        ]);
+
+
+                        // 조회를 요청한 사용자의 정보조회
+                        $bcs = User::withRole('garage')->findOrFail($requestData['user_id']);
 
                         // 트랜젝션 시작
                         DB::beginTransaction();
 
-                        $bcs = User::withRole('garage')->findOrFail($request->get('user_id'));
-
-                        $input = $request->get();
-
                         // validate에서 처리
-                        // $mobile = preg_replace("/^[0-9]*/s", "", $input['mobile']);
+                        // $mobile = preg_replace("/^[0-9]*/s", "", $requestData['mobile']);
                         $user           = new User;
-                        $user->name     = $input['name'];
-                        $user->email    = $input['email'];
-                        $user->mobile   = $input['mobile'];
-                        $user->password = bcrypt(substr($input['mobile'], -4));
+                        $user->name     = $requestData['name'];
+                        $user->email    = $requestData['email'];
+                        $user->mobile   = $requestData['mobile'];
+                        $user->password = bcrypt(substr($requestData['mobile'], -4));
                         $user->status_cd = Code::getId('user_status','active');
                         $user->save();
 
@@ -156,39 +145,32 @@ class MemberController extends Controller
         public function update(Request $request)
         {
 
-
-                $validator = Validator::make($request->all(), [
-                        'user_id' => 'required',
-                        'eng_id' => 'required',
-                        'email' => 'required|min:2',
-                        'name' => 'required|min:2',
-                        'mobile' => 'min:4|numeric',
-                        'password' => 'nullable|min:6|confirmed',
-                        'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100'
-                ]);
-
-                if ($validator->fails()) {
-                        return response()->json([
-                                "status" => 'fail'
-                        ]);
-                }
-
                 try{
+
+                        $requestData = $request->validate([
+                                'user_id'       => 'required|exists:users,id',
+                                'eng_id'        => 'required|exists:users,id',
+                                'email'         => 'required|min:2',
+                                'name'          => 'required|min:2',
+                                'mobile'        => 'min:4|numeric',
+                                'avatar'        => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100',
+                                'password'      => 'nullable|min:6|confirmed',
+                        ]);
+
+
+                        // 조회를 요청한 사용자의 정보조회
+                        $bcs = User::withRole('garage')->findOrFail($requestData['user_id']);
 
                         // 트랜젝션 시작
                         DB::beginTransaction();
 
-                        $bcs = User::withRole('garage')->findOrFail($request->get('user_id'));
-
-                        $input = $request->get();
-
-                        $user = User::findOrFail($request->get('eng_id'));
-                        $user->name     = $input['name'];
-                        $user->email    = $input['email'];
-                        $user->mobile   = $input['mobile'];
+                        $user = User::findOrFail($requestData['eng_id']);
+                        $user->name     = $requestData['name'];
+                        $user->email    = $requestData['email'];
+                        $user->mobile   = $requestData['mobile'];
                         // 비밀번호 변경
-                        if (!empty($input['password'])) {
-                                $user->password = bcrypt($input['password']);
+                        if (!empty($requestData['password'])) {
+                                $user->password = bcrypt($requestData['password']);
                         }
                         $user->save();
 
@@ -217,21 +199,17 @@ class MemberController extends Controller
         public function destroy(Request $request)
         {
                 try{
-                        $validator = Validator::make($request->all(), [
-                                'user_id' => 'required',
-                                'eng_id' => 'required'
+
+                        $requestData = $request->validate([
+                                'user_id'       => 'required|exists:users,id',
+                                'eng_id'        => 'required|exists:users,id',
                         ]);
 
-                        if ($validator->fails()) {
-                                return response()->json([
-                                        "status" => 'fail'
-                                ]);
-                        }
 
-                        
-                        $bcs = User::withRole('garage')->findOrFail($request->get('user_id'));
+                        // 조회를 요청한 사용자의 정보조회
+                        $bcs = User::withRole('garage')->findOrFail($requestData['user_id']);
 
-                        User::destroy($request->get('eng_id'));
+                        User::destroy($requestData['eng_id']);
 
                         return response()->json([
                                 "status" => 'success'

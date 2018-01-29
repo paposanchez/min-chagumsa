@@ -36,18 +36,36 @@ class NoticeController extends ApiController {
         *     }
         * )
         */
-        public function index(Request $request) {
-                try{
+        public function index(Request $request)
+        {
+
+                try {
+
+                        // $requestData = $request->validate([
+                        //         'user_id'       => 'required|exists:users,id',
+                        //         'date'          => 'required|date_format:Y-m-d',
+                        //         'status_cd'     => 'required|in:112,113,114,115,116',
+                        // ]);
+
+
+
                         $entrys =  Post::orderBy('id', 'desc')
                         ->where('is_shown', 6)
                         ->where('board_id', $this->board_id)
                         ->select('id', 'subject', 'content', 'created_at')
-                        ->paginate($request->get('limit'));
+                        ->paginate(10);
 
-                        $array = $entrys->toArray();
-                        $array['status'] = 'success';
-                        return response()->json($array);
-                }catch (\Exception $e){
+                        return response()->json([
+                                "status"        => 'success',
+                                "data"          => [
+                                        "total"         => $entrys->total(),
+                                        "page"          => $entrys->currentPage(),
+                                        "hasNext"       => $entrys->hasMorePages(),
+                                        "entrys"        => $entrys->items()
+                                ]
+                        ]);
+
+                }catch (Exception $e){
                         return response()->json([
                                 "status" => 'fail'
                         ]);
@@ -79,6 +97,11 @@ class NoticeController extends ApiController {
         */
         public function show(Request $request) {
                 try{
+
+                        $requestData = $request->validate([
+                                'post_id'       => 'required|exists:posts,id',
+                        ]);
+
                         $post = Post::findOrFail($request->get('post_id'));
 
                         return response()->json([
@@ -123,13 +146,13 @@ class NoticeController extends ApiController {
         public function news(Request $request) {
 
                 try{
-                        $return = Post::where('board_id', $this->board_id)->where('created_at', ">=", Carbon::yesterday())->count();
+                        $count = Post::where('board_id', $this->board_id)->where('created_at', ">=", Carbon::yesterday())->count();
 
                         return response()->json([
                                 "status" => 'success',
-                                "total"  => $return
+                                "total"  => $count
                         ]);
-                }catch (\Exception $e){
+                }catch (Exception $e){
                         return response()->json([
                                 "status" => 'fail'
                         ]);
