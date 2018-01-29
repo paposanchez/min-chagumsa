@@ -7,16 +7,16 @@ use Activity;
 
 class RegisterSuccess {
 
-    /**
-     * Handle the event.
-     *
-     * @param  Login  $login
-     * @return void
-     */
-    public function handle(User $user) {
+        /**
+        * Handle the event.
+        *
+        * @param  Login  $login
+        * @return void
+        */
+        public function handle(Registered $event) {
 
-            
 
-    }
+
+        }
 
 }

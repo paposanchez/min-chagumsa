@@ -17,15 +17,14 @@ class EventServiceProvider extends ServiceProvider {
                 'Illuminate\Auth\Events\Login'          => ['App\Listeners\LoginSuccess'],
                 'Illuminate\Auth\Events\Logout'         => ['App\Listeners\LogoutSuccess'],
 
-
                 'App\Events\UserAccess'                 => ['App\Listeners\UserAccess'],
                 'Illuminate\Auth\Events\Register'       => ['App\Listeners\RegisterSuccess'],
 
-                'App\Events\Order\OnReservationChanged' => ['App\Listeners\Order\OnReservationChanged'],
-                'App\Events\Order\OnReservationConfirmed' => ['App\Listeners\Order\OnReservationConfirmed'],
                 'App\Events\Order\OnCompleted'          => ['App\Listeners\Order\OnCompleted'],
                 'App\Events\Order\OnCancled'            => ['App\Listeners\Order\OnCancled'],
 
+                'App\Events\Diagnosis\OnReservationChanged' => ['App\Listeners\Diagnosis\OnReservationChanged'],
+                'App\Events\Diagnosis\OnReservationConfirmed' => ['App\Listeners\Diagnosis\OnReservationConfirmed'],
                 'App\Events\Diagnosis\OnStart'          => ['App\Listeners\Diagnosis\OnStart'],
                 'App\Events\Diagnosis\OnCompleted'      => ['App\Listeners\Diagnosis\OnCompleted'],
                 'App\Events\Diagnosis\OnExpired'        => ['App\Listeners\Diagnosis\OnExpired'],

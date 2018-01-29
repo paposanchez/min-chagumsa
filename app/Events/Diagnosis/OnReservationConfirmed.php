@@ -1,12 +1,14 @@
 <?php
 
+
 namespace App\Events\Diagnosis;
+
 
 use App\Models\Diagnosis;
 use Illuminate\Queue\SerializesModels;
 
-// 인증서 만료
-class OnExpired extends Event {
+// 예약변경확정
+class OnReservationConfirmed extends Event {
 
         public $diagnosis;
 

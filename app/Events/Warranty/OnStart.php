@@ -2,11 +2,17 @@
 
 namespace App\Events\Warranty;
 
-// 인증서발급완료
+use App\Models\Warranty;
+use Illuminate\Queue\SerializesModels;
+
+//보증서 발급시작
 class OnStart extends Event {
 
-    public function __construct($request) {
+        public $warranty;
 
-    }
+        public function __construct(Warranty $warranty) {
+
+                $this->warranty = $warranty;
+        }
 
 }
