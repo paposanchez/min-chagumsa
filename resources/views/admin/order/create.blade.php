@@ -25,14 +25,15 @@
                     <input class="show_item" type="hidden" name="select_car" id="select_car" value=""
                            data-url="/order/get-etc-items">
 
+                    @if($user->hasRole('manage'))
                     <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
 
-                        <label for="" class="control-label col-md-3">회원선택</label>
+                        <label for="" class="control-label col-md-3">주문자 성명</label>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder="ajax로 구현할것"
-                                   name="orderer_id"
-                                   id="orderer_id" value="{{ old('orderer_id') }}">
-                            @if ($errors->has('orderer_id'))
+                            <input type="text" class="form-control" placeholder="주문자의 이름을 입력하세요."
+                                   name="orderer_name"
+                                   id="orderer_name" value="{{ old('orderer_name') }}">
+                            @if ($errors->has('orderer_name'))
                                 <span class="text-danger">
                                                         {{ $errors->first('orderer_id') }}
                                                 </span>
@@ -40,10 +41,10 @@
                         </div>
 
                     </div>
-
-
+                    @elseif($user->hasRole('admin'))
                     <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                        <label for="" class="control-label col-md-3">주문자 성명</label>
+
+                        <label for="" class="control-label col-md-3">회원선택</label>
                         <div class="col-md-3">
                             @if($user->can('order.user.show'))
                                 {!! Form::select('orderer_name', $users, null, ['class'=>'form-control chosen', 'id'=>'orderer_name']) !!}
@@ -52,11 +53,9 @@
                                        name="orderer_name"
                                        id="orderer_name" value="{{ old('orderer_name') }}">
                             @endif
-                            <div id="error_div"></div>
                         </div>
-
                     </div>
-
+                    @endif
 
                     <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
 
