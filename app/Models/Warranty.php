@@ -15,11 +15,13 @@ class Warranty extends Model
         'car_numbers_id',   //차량번호테이블 id
         'expire_period',    //만료기간
         'status_cd',        //상태코드
-        'open_cd'           //공개여부
+        'open_cd',          //공개여부
+        'chakey',
+        'diagnosis_id'
     ];
 
     protected $dates = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at', 'expired_at'
     ];
 
     // 인증서 만료여부

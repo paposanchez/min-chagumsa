@@ -22,7 +22,7 @@
         {!! Html::style('/assets/vendors/bower_components/nouislider/distribute/nouislider.min.css') !!}
         {!! Html::style('/assets/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css') !!}
         {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') !!}
-        {!! Html::style('/assets/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css') !!}
+
 
 
 

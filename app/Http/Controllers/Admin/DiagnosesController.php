@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Mixapply\Uploader\Receiver;
+use App\Models\Code;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisFile;
+use App\Models\Models;
 use App\Models\Order;
-use App\Models\Role;
+use App\Models\Reservation;
+use App\Models\User;
 use App\Models\UserExtra;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
-use App\Repositories\DiagnosisRepository;
 use DB;
 
 class DiagnosesController extends Controller
@@ -28,25 +32,20 @@ class DiagnosesController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        if($user->hasRole('admin')){
-            $where = Diagnosis::whereIn('status_cd', [100]);
-        }elseif($user->hasRole('garage')){
-            $where = Diagnosis::whereIn('board_id', 4);
-        }elseif($user->hasRole('technician')){
-            $where = Diagnosis::whereIn('board_id', 5);
-        }else{
-            $where = Diagnosis::whereIn('board_id', 6);
+
+        $sort = $request->get('sort');
+        if (!$sort) {
+            $where = Diagnosis::orderBy('created_at', 'DESC');
+        } else {
+            $where = Diagnosis::select();
         }
 
-
-
         // 정렬옵션
-        $sort = $request->get('sort');
         $sort_orderby = $request->get('sort_orderby');
-        if($sort){
-            if($sort == 'status'){
+        if ($sort) {
+            if ($sort == 'status') {
                 $where->orderBy('status_cd', $sort_orderby);
-            }else{
+            } else {
                 $where->orderBy($sort, $sort_orderby);
             }
         }
@@ -80,7 +79,7 @@ class DiagnosesController extends Controller
 
 
         $search_fields = [
-            "order_num" => "주문번호",
+            "chakey" => "주문번호",
             "car_number" => "차량번호",
             'orderer_name' => '주문자 이름',
             "orderer_mobile" => "주문자 휴대전화번호",
@@ -96,41 +95,38 @@ class DiagnosesController extends Controller
         ];
 
 
-
         //검색어 검색
         $sf = $request->get('sf'); //검색필드
         $s = $request->get('s'); //검색어
         if ($s) {
             switch ($sf) {
-                case 'order_id':
-                    $where->where('id', 'like', '%' . $s . '%');
-                    break;
                 case 'car_number':
-                    $where->where($sf, 'like', '%' . $s . '%');
+                    $where->leftJoin('car_numbers', 'diagnosis.car_numbers_id', '=', 'car_numbers.id')
+                        ->where('car_numbers.car_number', 'like', '%'.$s.'%')
+                        ->select('diagnosis.*');
                     break;
                 case 'order_num':
-                    list($car_number, $datekey) = explode("-", $s);
-
-                    if ($car_number && $datekey) {
-                        $order_date = Carbon::createFromFormat('ymd', $datekey);
-                        $where
-                            ->where('car_number', $car_number)
-                            ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
-                            ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
-                            ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'));
-                    }
+                    $where->where($sf, 'like', '%' . $s . '%');
                     break;
                 case 'orderer_name':
-                    $where->where('orderer_name', 'like', '%' . $s . '%');
+                    $where->leftJoin('order_items', 'diagnosis.order_items_id', '=', 'order_items.id')
+                        ->leftJoin('orders', 'order_items.orders_id', '=', 'orders.id')
+                        ->where('orders.orderer_name', 'like', '%'.$s.'%')
+                        ->select('diagnosis.*');
                     break;
                 case 'orderer_mobile':
-                    $where->where('orderer_mobile', 'like', '%' . $s . '%');
+                    $where->leftJoin('order_items', 'diagnosis.order_items_id', '=', 'order_items.id')
+                        ->leftJoin('orders', 'order_items.orders_id', '=', 'orders.id')
+                        ->where('orders.orderer_mobile', 'like', '%'.$s.'%')
+                        ->select('diagnosis.*');
                     break;
                 case 'engineer_name':
                     $where->whereHas('engineer', function ($query) use ($s) {
                         $query
                             ->where('name', 'like', '%' . $s . '%');
                     });
+
+
                     break;
                 case 'bcs_name':
                     $where->whereHas('garage', function ($query) use ($s) {
@@ -138,14 +134,10 @@ class DiagnosesController extends Controller
                             ->where('name', 'like', '%' . $s . '%');
                     });
                     break;
-                case 'tech_name':
-                    $where->whereHas('technician', function ($query) use ($s) {
-                        $query->where('name', 'like', $s . '%');
-                    });
-                    break;
-                case 'tech_name':
-                    $where->whereHas('technician', function ($query) use ($s) {
-                        $query->where('name', 'like', $s . '%');
+                case 'email':
+                    $where->whereHas('garage', function ($query) use ($s) {
+                        $query
+                            ->where('name', 'like', '%' . $s . '%');
                     });
                     break;
             }
@@ -153,7 +145,7 @@ class DiagnosesController extends Controller
 
         $entrys = $where->paginate(25);
 
-        return view('admin.diagnosis.index', compact('search_fields', 'search_fields2', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 'df', 'sort', 'sort_orderby'));
+        return view('admin.diagnosis.index', compact('search_fields', 'search_fields2', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 'df', 'sort', 'sort_orderby', 'user'));
     }
 
     /**
@@ -166,20 +158,24 @@ class DiagnosesController extends Controller
      */
     public function show(Request $request, $id)
     {
-
         $diagnosis = Diagnosis::find($id);
+
+        $car = $diagnosis->carNumber->car;
+        $my_brand = $car->brand;
+
+        $models = Models::where('brands_id', $my_brand->id)->orderBy("name", 'ASC')->pluck('name', 'id');
+
+        $sel_hours = [
+            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
+        ];
         //전체 정비소 리스트
         $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')
             ->join('users', function ($join) {
                 $join->on('user_extras.users_id', 'users.id')
                     ->where('users.status_cd', 1);
             })
-            ->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->get();
-        //전체 엔지니어 리스트
-        $engineers = Role::find(5)->users->pluck('name', 'id');
-
-
-        return view('admin.diagnosis.show', compact('diagnosis', 'garages', 'engineers'));
+            ->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->pluck('area', 'area');
+        return view('admin.diagnosis.show', compact('diagnosis', 'car', 'my_brand', 'models', 'sel_hours', 'garages'));
     }
 
     /**
@@ -347,4 +343,96 @@ class DiagnosesController extends Controller
         }
     }
 
+    public function changeReservation(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'id' => 'required',
+                'reservation_at' => 'required',
+                'sel_hour' => 'required'
+            ], [],
+                [
+                    'id' => '아이디',
+                    'reservation_at' => '예약날짜',
+                    'sel_hour' => '예약시간'
+                ]);
+
+            $reservation_date = new DateTime($request->get('reservation_date') . ' ' . $request->get('sel_hour') . ':00:00');
+
+            $diagnosis = Diagnosis::findOrFail($request->get('id'));
+            $diagnosis->reservation_at = $reservation_date;
+            $diagnosis->status_cd = Code::getId('report_state', 'order');
+            $diagnosis->confirm_at = null;
+            $diagnosis->save();
+
+            $reservation = new Reservation();
+            $reservation->diagnosis_id = $request->get('id');
+            $reservation->reservation_at = $diagnosis->reservation_at;
+            $reservation->garage_id = $diagnosis->garage_id;
+            $reservation->save();
+
+            //todo noty 해야댐
+
+            return redirect()->back()->with('success', '예약이 성공적으로 변경되었습니다.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', '오류가 발생하였습니다.');
+        }
+    }
+
+    public function confirmReservation(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'diagnosis_id' => 'required',
+            ], [],
+                [
+                    'diagnosis_id' => '아이디',
+                ]);
+
+            $diagnosis = Diagnosis::findOrFail($request->get('diagnosis_id'));
+            $diagnosis->status_cd = Code::getId('report_state', 'confirm');
+            $diagnosis->confirm_at = Carbon::now();
+            $diagnosis->save();
+            //todo noty 해야댐
+
+            return redirect()->back()->with('success', '예약이 확정되었습니다.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', '오류가 발생하였습니다.');
+        }
+    }
+
+    public function changeGarage(Request $request){
+        try{
+            $this->validate($request, [
+                'id' => 'required',
+                'areas' => 'required',
+                'sections' => 'required',
+                'garages' => 'required'
+            ], [],
+                [
+                    'id' => '아이디',
+                    'areas' => '시/도',
+                    'sections' => '구/군',
+                    'garages' => '정비소',
+                ]);
+
+            $garage = User::where('name', $request->get('garages'))->first();
+            $diagnosis = Diagnosis::findOrFail($request->get('id'));
+            $diagnosis->garage_id = $garage->id;
+            $diagnosis->status_cd = Code::getId('report_state', 'order');
+            $diagnosis->confirm_at = null;
+            $diagnosis->reservation_at = null;
+            $diagnosis->save();
+
+            $reservation = new Reservation();
+            $reservation->diagnosis_id = $diagnosis->id;
+            $reservation->reservation_at = $diagnosis->reservation_at;
+            $reservation->garage_id = $diagnosis->garage_id;
+            $reservation->save();
+
+            return redirect()->back()->with('success', '정비소가 정상적으로 변경되었습니다. ');
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', '오류가 발생하였습니다.');
+        }
+    }
 }

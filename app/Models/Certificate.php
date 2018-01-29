@@ -73,7 +73,8 @@ class Certificate Extends Model
         'valuation',
         'grade',
         'opinion',
-        'pictures'//대표사진
+        'pictures',//대표사진
+        'chakey'
     ];
 
 
@@ -121,8 +122,8 @@ class Certificate Extends Model
     // 인증서 만료일
     public function getExpireDate()
     {
-        if ($this->updated_at) {
-            return $this->updated_at->addDays($this->expire_period);
+        if ($this->completed_at) {
+            return $this->completed_at->addDays($this->expire_period);
         } else {
             return;
         }

@@ -8,8 +8,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['role:admin']], function () {
         // 주문관리
         Route::post('order/history', 'OrderController@history')->name('order.history');
-        Route::post('order/reservation-change', 'OrderController@reservationChange')->name('order.reservation-change');
-        Route::post('order/confirmation/{order_id}', 'OrderController@confirmation')->name('order.confrimation');
         Route::get('order/get-section', 'OrderController@getSection')->name('order.get-section');
         Route::get('order/get-address', 'OrderController@getAddress')->name('order.get-address');
         Route::get('order/get-engineer', 'OrderController@getEngineer')->name('order.get-engineer');
@@ -18,10 +16,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('order/get-grades', 'OrderController@getGrades')->name('order.get-grades');
         Route::post('order/user-update', 'OrderController@userUpdate')->name('order.user-update');
         Route::post('order/car-update', 'OrderController@carUpdate')->name('order.car-update');
-        Route::post('order/bcs-update', 'OrderController@bcsUpdate')->name('order.bcs-update');
-        Route::post('order/tech-update', 'OrderController@techUpdate')->name('order.tech-update');
         Route::post('order/cancel', 'OrderController@orderCancel')->name('order.cancel');
-        Route::post('order/diagnosing', 'OrderController@diagnosing')->name('order.diagnosing');
         Route::get('order/order-number-check', 'OrderController@orderNumberCheck')->name('order.order-number-check');
         Route::get('order/get-car-type', 'OrderController@getCarType')->name('order.get-car-type');
         Route::get('order/get-models', 'OrderController@getModels')->name('order.get-models');
@@ -35,11 +30,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('calculation', 'CalculationController');
 
         // 진단관리
-        Route::post('/diagnosis/delete-file/{id}', 'DiagnosesController@fileDelete');
-        Route::post('/diagnosis/upload-file', 'DiagnosesController@fileUpload');
-        Route::post('/diagnosis/update-comment', 'DiagnosesController@updateComment');
-        Route::post('diagnosis/update-code', 'DiagnosesController@updateCode');
-        Route::post('diagnosis/complete', 'DiagnosesController@complete');
+        Route::post('diagnosis/delete-file/{id}', 'DiagnosesController@fileDelete')->name('diagnosis.delete-file');
+        Route::post('diagnosis/upload-file', 'DiagnosesController@fileUpload')->name('upload-file');
+        Route::post('diagnosis/update-comment', 'DiagnosesController@updateComment')->name('diagnosis.update-comment');
+        Route::post('diagnosis/update-code', 'DiagnosesController@updateCode')->name('diagnosis.update-code');
+        Route::post('diagnosis/complete', 'DiagnosesController@complete')->name('diagnosis.complete');
+        Route::post('diagnosis/change-reservation', 'DiagnosesController@changeReservation')->name('diagnosis.change-reservation');
+        Route::post('diagnosis/confirm-reservation', 'DiagnosesController@confirmReservation')->name('diagnosis.confirm-reservation');
+        Route::post('diagnosis/change-garage', 'DiagnosesController@changeGarage')->name('diagnosis.change-garage');
         Route::resource('diagnosis', 'DiagnosesController');
 
         // 파일

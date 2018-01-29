@@ -15,8 +15,6 @@ use App\Models\Models;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
-use App\Models\Permission;
-use App\Models\Reservation;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserExtra;
@@ -24,11 +22,11 @@ use App\Models\Code;
 use App\Models\PaymentCancel;
 use App\Models\Purchase;
 use App\Models\Warranty;
-use App\Repositories\DiagnosisRepository;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,15 +49,12 @@ class OrderController extends Controller
         $sort_orderby = $request->get('sort_orderby');
         $sort = $request->get('sort');
         if (!$sort) {
-            $where = Order::whereNotIn('status_cd', [101])->whereNotIn('car_numbers_id', [0])->orderBy('created_at', 'DESC');
+            $where = Order::whereNotIn('status_cd', [101])->orderBy('created_at', 'DESC');
         } else {
-            $where = Order::whereNotIn('status_cd', [101])->whereNotIn('car_numbers_id', [0]);
+            $where = Order::whereNotIn('status_cd', [101]);
         }
 
-
         // 정렬옵션
-
-
         if ($sort) {
             if ($sort == 'status') {
                 $where->orderBy('status_cd', $sort_orderby);
@@ -100,40 +95,21 @@ class OrderController extends Controller
 
         //검색조건
         $search_fields = [
-            "order_num" => "주문번호",
+            "chakey" => "주문번호",
             "car_number" => "차량번호",
             'orderer_name' => '주문자 이름',
             "orderer_mobile" => "주문자 휴대전화번호",
             "email" => '이메일'
         ];
 
-
         //검색어 검색
         $sf = $request->get('sf'); //검색필드
         $s = $request->get('s'); //검색어
         if ($s) {
-            switch ($sf) {
-                case 'car_number':
-                    $where->where($sf, 'like', '%' . $s . '%');
-                    break;
-                case 'order_num':
-                    list($car_number, $datekey) = explode("-", $s);
-
-                    if ($car_number && $datekey) {
-                        $order_date = Carbon::createFromFormat('ymd', $datekey);
-                        $where
-                            ->where('car_number', $car_number)
-                            ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
-                            ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
-                            ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'));
-                    }
-                    break;
-                case 'orderer_name':
-                    $where->where('orderer_name', 'like', '%' . $s . '%');
-                    break;
-                case 'orderer_mobile':
-                    $where->where('orderer_mobile', 'like', '%' . $s . '%');
-                    break;
+            if($sf == 'car_number'){
+                $where->where('car_number', 'like', '%' . $s . '%');
+            }else{
+                $where->where($sf, 'like', '%' . $s . '%');
             }
         }
 
@@ -154,21 +130,22 @@ class OrderController extends Controller
     {
         //주문 seq번호에 의한 주문 검색
         $order = Order::findOrFail($id);
-        //결제정보
-        $payment = Payment::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
-        $payment_cancel = PaymentCancel::orderBy('id', 'DESC')->where('orders_id', $id)->paginate(25);
-        //주문에 대한 차량 정보
-        $car = $order->car;
         //전체 정비소 리스트
         $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')
             ->join('users', function ($join) {
                 $join->on('user_extras.users_id', 'users.id')
-                    ->where('users.status_cd', 1);
+                    ->where('users.status_cd', Code::getId('user_status', 'active'));
             })
-            ->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->get();
+            ->orderBy('area', 'asc')->groupBy('area')->get();
         $order_items = OrderItem::where('group_id', $order->id)->get();
 
-        return view('admin.order.show', compact('order', 'payment', 'payment_cancel', 'car', 'garages', 'engineers', 'technicians', 'order_items'));
+
+
+        $car = $order->carNumber->car;
+        $my_brand = $car->brand;
+        $models = Models::where('brands_id', $my_brand->id)->orderBy("name", 'ASC')->pluck('name', 'id');
+
+        return view('admin.order.show', compact('order', 'garages', 'order_items', 'my_brand', 'models'));
     }
 
 
@@ -180,12 +157,11 @@ class OrderController extends Controller
         $brands = Brand::select('id', 'name')
             ->orderByRaw('CASE WHEN id = 5 THEN 8 WHEN id = 6 THEN 9 WHEN id = 4 OR id = 19 OR id = 38 OR id = 74 OR id = 44 THEN 5 WHEN id = 1 OR id = 28 OR id = 45 THEN 1 ELSE 3 END ASC, name ASC')
             ->get();
-        $areas = UserExtra::whereNotIn('users_id', [4])
-            ->join('users', function ($join) {
-                $join->on('user_extras.users_id', 'users.id')
-                    ->where('users.status_cd', 1);
-            })
-            ->orderBy(DB::raw('field(area, "서울시")'), 'desc')->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->get();
+        $areas = UserExtra::select()->join('users', function ($join) {
+            $join->on('user_extras.users_id', 'users.id')
+                ->where('users.status_cd', Code::getId('user_status', 'active'));
+        })
+            ->orderBy(DB::raw('field(area, "서울시")'), 'desc')->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->get();
 
         $items = Item::all();
 
@@ -200,7 +176,6 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-
         try {
             if ($request->get('diag_param')) {
                 $this->validate($request, [
@@ -209,14 +184,15 @@ class OrderController extends Controller
                     'car_number' => 'required',
                     'vin_number' => 'required',
                     'brands_id' => 'required',
-//                    'models_id' => 'required',
-//                    'details_id' => 'required',
-//                    'grades_id' => 'required',
+                    'models_id' => 'required',
+                    'details_id' => 'required',
+                    'grades_id' => 'required',
                     'areas' => 'required',
-//                    'sections' => 'required',
-//                    'garages' => 'required',
+                    'sections' => 'required',
+                    'garages' => 'required',
+//                    'reservation_at' => 'date_format:"Y-m-d"|required',
                     'reservation_at' => 'required',
-//                    'sel_time' => 'required'
+                    'sel_time' => 'required'
                 ], [],
                     [
                         'orderer_mobile' => '주문자 휴대폰번호',
@@ -243,282 +219,134 @@ class OrderController extends Controller
             }
 
             DB::beginTransaction();
-            dd($request->all());
-            // cars 생성
-            // car_numbers 생성
-            // orders 생성
-            // order_items 생성
-            // diagnosis 생성
+            $user = Auth::user();
+
+            // 신규 진단일 경우
+            $old_order = null;
+            $old_diagnosis = null;
+            if ($request->get('vin_number')) {
+                $car = Car::create([
+                    'id' => $request->get('vin_number'),
+                    'brands_id' => $request->get('brands_id'),
+                    'models_id' => $request->get('models_id'),
+                    'details_id' => $request->get('details_id'),
+                    'grades_id' => $request->get('grades_id')
+                ]);
+                $car_number = CarNumber::create([
+                    'cars_id' => $car->id,
+                    'vin_number' => $request->get('vin_number'),
+                    'car_number' => $request->get('car_number')
+                ]);
+
+            } else {
+                // 기존 주문이 있는 경우
+                $old_order = Order::where('chakey', $request->get('order_number'))->first();
+
+                // 기존 주문이 있는경우 기존주문의 진단번호
+                $old_diagnosis = Diagnosis::where('chakey', $request->get('order_number'))->first();
+                $car_number = $old_order->carNumber;
+                $car = $car_number->car;
+            }
 
 
-//            $user = Auth::user();
-//            $input = $request->all();
-//
-//            // 차량조회
-//            $diagnosis = null;
-//            // 신규 진단일 경우
-//            if ($request->get('vin_number')) {
-//
-//
-//                $car = Car::firstOrNew($input);
-//                $car_number = CarNumber::create([
-//                    'cars_id' => $car->id,
-//                    'vin_number' => $request->get('vin_number'),
-//                    'car_number' => $request->get('car_number')
-//                ]);
-//
-//
-//            } else {
-//                // 기존 주문이 있는 경우
-//                $old_order = Order::where('order_number', $request->get('order_number'))->get();
-//
-//                // 기존 주문이 있는경우 기존주문의 진단번호
-//                $diagnosis = $old_order->diagnosis;
-//                $car_number = $old_order->carNumber;
-//                $car = $car_number->car;
-//            }
-//
-//            // 차량정보 입력
-//
-//            // 주문생성
-//            //order 생성
-//            $order = Order::create([
-//                'car_numbers_id' => $car_number->car_number,
-//                'orderer_id' => $user->id,
-//                'orderer_name' => $request->get('orderer_name'),
-//                'orderer_mobile' => $request->get('orderer_mobile'),
-//                'status_cd' => '102'
-//                // 'flooding_state_cd' => $request->get('flood') ? 1 : 0,
-//                // 'accident_state_cd' => $request->get('accident') ? 1 : 0,
-//            ]);
-//
-//
-//            // 주문상품생성
-//            $items = Item::whereIn("id", $request->get('items'))->get();
-//            $price = 0;
-//            foreach ($items as $item) {
-//
-//                // 선택한 차종의 수입차 여부에 따라 선택된 상품의 수입차 여부를 판단
-//                if ($item->car_sort != $car->car_sort) {
-//                    return;
-//                }
-//                $order_item = new OrderItem();
-//                $order_item->orders_id = $order->id;
-//                $order_item->type_cd = '진단,인증,평가';
-//                $order_item->items_id = $item->id;
-//                $order_item->price = $item->price;
-//                // 수수료등 추가로 입력해야 함
-//                $order_item->save();
-//
-//
-//                //diagnosis 생성
-//                if ($order_item->type_cd == '진단코드번호') {
-//                    $reservation_date = new DateTime($request->get('reservation_at') . ' ' . $request->get('sel_time') . ':00:00');
-//                    $diagnosis = new Diagnosis();
-//                    $diagnosis->orders_id = $order->id;
-//                    $diagnosis->order_items_id = $diagno_item_id;
-//                    $diagnosis->car_numbers_id = $car_number->id;
-//                    $diagnosis->status_cd = 112;
-//                    $diagnosis->garage_id = $request->get('garages');
-//                    $diagnosis->reservation_at = $reservation_date->format('Y-m-d H:i:s');
-//                    $diagnosis->save();
-//                }
-//
-//
-//                //certificate 생성
-//                if ($order_item->type == '인증코드번호') {
-//
-//                    $certificate = Certificate::create([
-//                        'orders_id' => $order->id,
-//                        // 'order_items_id' => $certi_item_id,
-//                        'car_numbers_id' => $car_number->id,
-//                        'status_cd' => 112,
-//                        'diagnosis_id' => $diagnosis->id,
-//                    ]);
-//                }
-//
-//                //warranty 생성
-//                if ($request->get('ew_param')) {
-//                    $warranty = Warranty::create([
-//                        'orders_id' => $order->id,
-//                        // 'order_items_id' => $certi_item_id,
-//                        'car_numbers_id' => $car_number->id,
-//                        'status_cd' => 112,
-//                        'diagnosis_id' => $diagnosis->id,
-//                    ]);
-//                }
-//
-//
-//                $price += $item->price;
-//            }
-//
-//
-//            // 결제생성
-//            $purchase = new Purchase();
-//            $purchase->amount = $price;
-//
-//            //결제타입
-//            if ($user->hasRole("admin")) {
-//                $purchase->type = 22;
-//            } else {
-//                $purchase->type = 23;
-//            }
-//            $purchase->status_cd = 102;
-//            $purchase->save();
-//
-//            //order 갱신
-//            $order->update([
-//                'group_id' => $old_order ? $old_order->id : $order->id,
-//                'purchase_id' => $purchase->id
-//            ]);
+            //order 생성
+            $order = Order::create([
+                'car_numbers_id' => $car_number->id,
+                'orderer_id' => $user->id,
+                'orderer_name' => $request->get('orderer_name'),
+                'orderer_mobile' => $request->get('orderer_mobile'),
+                'status_cd' => Code::getId('order_state', 'ordered')
+            ]);
+
+            $chakey = $order->createChakey($car_number->car_number);
+
+            // 주문상품생성
+            $item_ids = explode(',', $request->get('items'));
+            $items = Item::whereIn("id", $item_ids)->get();
+
+            foreach ($items as $item) {
+                $order_item = OrderItem::create([
+                    'orders_id' => $order->id,
+                    'group_id' => $old_order ? $old_order->id :   $order->id,
+                    'type_cd' => $item->type_cd,
+                    'car_sort_cd' => $item->car_sort_cd,
+                    'items_id' => $item->id,
+                    'price' => $item->price,
+                    'commission' => $item->commission,
+                    'wage' => $item->wage,
+                    'guarantee' => $item->guarantee,
+                    'alliance_ratio' => $item->alliance_ratio,
+                    'certi_ratio' => $item->certi_ratio,
+                    'self_ratio' => $item->self_ratio
+                ]);
+                //diagnosis 생성
+                if ($item->type_cd == Code::getId('report_type', 'diagnosis')) {
+
+                    $reservation_date = new DateTime($request->get('reservation_at') . ' ' . $request->get('sel_time') . ':00:00');
+                    $diagnosis = Diagnosis::create([
+                        'orders_id' => $order->id,
+                        'order_items_id' => $order_item->id,
+                        'car_numbers_id' => $car_number->id,
+                        'chakey' => $chakey,
+                        'status_cd' => Code::getId('report_state', 'order'),
+                        'garage_id' => User::where('name', $request->get('garages'))->first()->id,
+                        'reservation_at' => $reservation_date->format('Y-m-d H:i:s')
+                    ]);
+                }
+
+                //certificate 생성
+                if ($old_diagnosis && $item->type_cd == Code::getId('report_type', 'certificate')) {
+                    Certificate::create([
+                        'diagnosis_id' => $old_diagnosis->id,
+                        'car_numbers_id' => $car_number->id,
+                        'chakey' => $chakey,
+                        'technist_id' => 41, //윤대권 미리 지정
+                        'order_items_id' => $order_item->id,
+                        'status_cd' => Code::getId('report_state', 'order'),
+                    ]);
+                }
+
+                //warranty 생성
+                if ($old_diagnosis && $item->type_cd == Code::getId('report_type', 'warranty')) {
+                    $warranty = Warranty::where('diagnosis_id', $old_diagnosis->id)->orderBy('created_at', 'desc')->first();
+                    if($warranty && $warranty->expired_at > Carbon::now()){
+                        return redirect()->back()->with('error', '적용중인 보증프로그램이 존재합니다.');
+                    }
+
+                    Warranty::create([
+                        'diagnosis_id' => $old_diagnosis->id,
+                        'car_numbers_id' => $car_number->id,
+                        'order_items_id' => $order_item->id,
+                        'chakey' => $chakey,
+                        'status_cd' => Code::getId('report_state', 'order'),
+                    ]);
+
+                }
+            }
+
+            // 결제생성
+            $purchase = new Purchase();
+            $purchase->amount = $request->get('price');
+
+            // 결제타입
+            if ($user->hasRole("admin")) {
+                $purchase->type = 22;
+            } else {
+                $purchase->type = 23;
+            }
+            $purchase->status_cd = 102;
+            $purchase->save();
 
 
-            //car_number 생성
-            // $car_number = CarNumber::create([
-            //         'orders_id'=> $order->id,
-            //         'cars_id'=> $car->id,
-            //         'vin_number'=> $request->get('vin_number') ? $request->get('vin_number') : $car->vin_number,
-            //         'car_number'=> $request->get('car_number') ? $request->get('car_number') : $diag_order->car_number
-            // ]);
-            //
-            //
-            //
-            // //order 생성
-            // $order = Order::create([
-            //         'car_number' => $request->get('car_number') ? $request->get('car_number') : $diag_order->car_number,
-            //         'orderer_id' => $user->id,
-            //         'orderer_name' => $request->get('orderer_name'),
-            //         'orderer_mobile' => $request->get('orderer_mobile'),
-            //         'status_cd' => '102',
-            //         'flooding_state_cd' => $request->get('flood') ? 1 : 0,
-            //         'accident_state_cd' => $request->get('accident') ? 1 : 0,
-            // ]);
-            //
-            //
-            //
-            // //car 생성
-            // if($request->get('order_number')){
-            //         list($car_number, $datekey) = explode("-", $request->get('order_number'));
-            //         $order_date = Carbon::createFromFormat('ymd', $datekey);
-            //         $diag_order = Order::where('car_number', $car_number)
-            //         ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
-            //         ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
-            //         ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'))
-            //         ->whereNotIn('status_cd', ['101', '100'])->first();
-            //         $car = $diag_order->carNumber->car;
-            // }else{
-            //         $car = Car::create($input);
-            // }
+            // order 갱신
+            $order->update([
+                'chakey' => $chakey,
+                'group_id' => $old_order ? $old_order->id : $order->id,
+                'purchase_id' => $purchase->id
+            ]);
 
-
-            //order_item 생성 및 가격 계산
-            // $price = 0;
-            // foreach ($request->get('items') as $item){
-            //         $order_item = new OrderItem();
-            //         $order_item->orders_id = $order->id;
-            //         $order_item->group_id = $order->id;
-            //         if($car->brand->car_type == 'n'){
-            //                 $order_item->car_sort = 'N';
-            //                 // 국산은 1, 3, 5
-            //                 if($item == 'diagnosis'){
-            //                         $order_item->items_id = 1;
-            //                         $order_item->price = Item::find(1)->price;
-            //                         $order_item->save();
-            //                         $diagno_item_id = $order_item->id;
-            //                 }else if($item == 'certificate'){
-            //                         $order_item->items_id = 3;
-            //                         $order_item->price = Item::find(3)->price;
-            //                         $order_item->save();
-            //                         $certi_item_id = $order_item->id;
-            //                 }else{
-            //                         $order_item->items_id = 5;
-            //                         $order_item->price = Item::find(5)->price;
-            //                         $order_item->save();
-            //                         $ew_item_id = $order_item->id;
-            //                 }
-            //         }else{
-            //                 $order_item->car_sort = 'F';
-            //                 // 외산은 2, 4, 7
-            //                 if($item == 'diagnosis'){
-            //                         $order_item->items_id = 2;
-            //                         $order_item->price = Item::find(2)->price;
-            //                         $order_item->save();
-            //                         $diagno_item_id = $order_item->id;
-            //                 }else if($item == 'certificate'){
-            //                         $order_item->items_id = 4;
-            //                         $order_item->price = Item::find(4)->price;
-            //                         $order_item->save();
-            //                         $certi_item_id = $order_item->id;
-            //                 }else{
-            //                         $order_item->items_id = 7;
-            //                         $order_item->price = Item::find(7)->price;
-            //                         $order_item->save();
-            //                         $ew_item_id = $order_item->id;
-            //                 }
-            //
-            //         }
-            //         $price = $price + $order_item->price;
-            // }
-
-
-            //purchase 생성
-            // $purchase = new Purchase();
-            // $purchase->amount = $price;
-            // if($user->hasRole("admin")){
-            //         $purchase->type = 22;
-            // }else{
-            //         $purchase->type = 23;
-            // }
-            // $purchase->status_cd = 102;
-            // $purchase->save();
-            //
-            // //order 갱신
-            // $order->update([
-            //         'car_numbers_id' => $car_number->id,
-            //         'group_id' => $order->id,
-            //         'purchase_id' => $purchase->id
-            // ]);
-
-
-            //diagnosis 생성
-            // if($request->get('diag_param')){
-            //         $reservation_date = new DateTime($request->get('reservation_at') . ' ' . $request->get('sel_time') . ':00:00');
-            //         $diagnosis = new Diagnosis();
-            //         $diagnosis->orders_id = $order->id;
-            //         $diagnosis->order_items_id = $diagno_item_id;
-            //         $diagnosis->car_numbers_id = $car_number->id;
-            //         $diagnosis->status_cd = 112;
-            //         $diagnosis->garage_id = $request->get('garages');
-            //         $diagnosis->reservation_at = $reservation_date->format('Y-m-d H:i:s');
-            //         $diagnosis->save();
-            // }
-            //
-            //
-            // //certificate 생성
-            // if(!$request->get('diag_param')){
-            //         if($request->get('certi_param')){
-            //                 $certificate = Certificate::create([
-            //                         'orders_id' => $order->id,
-            //                         'order_items_id' => $certi_item_id,
-            //                         'car_numbers_id' => $car_number->id,
-            //                         'status_cd' => 112,
-            //                         'diagnosis_id' => $diag_order->diagnosis->id,
-            //                 ]);
-            //         }
-            //         //warranty 생성
-            //         if($request->get('ew_param')){
-            //                 $warranty = Warranty::create([
-            //                         'orders_id' => $order->id,
-            //                         'order_items_id' => $certi_item_id,
-            //                         'car_numbers_id' => $car_number->id,
-            //                         'status_cd' => 112,
-            //                         'diagnosis_id' => $diag_order->diagnosis->id,
-            //                 ]);
-            //         }
-            // }
-
-//            DB::commit();
-//            return redirect()->route('order.show', $order->id)->with('success', '주문생성 되었습니다.');
+            DB::commit();
+            return redirect()->route('order.show', $order->id)->with('success', '주문생성 되었습니다.');
         } catch (\Exception $e) {
             DB::rollback();
             dd($e->getMessage());
@@ -536,18 +364,25 @@ class OrderController extends Controller
      */
     public function userUpdate(Request $request)
     {
+        dd($request->all());
         $this->validate($request, [
             'name' => 'required',
-            'mobile' => 'required'
+            'mobile' => 'required',
+            'car_number' => 'required',
         ], [],
             [
                 'name' => '주문자명',
-                'mobile' => '주문자연락처'
+                'mobile' => '주문자연락처',
+                'car_number' => '차량번호',
             ]);
+
         $order = Order::findOrFail($request->get('id'));
         $order->orderer_name = $request->get('name');
         $order->orderer_mobile = $request->get('mobile');
+        $order->carNumber->car_number = $request->get('car_number');
         $order->save();
+
+
 
         return redirect()->back()->with('success', '주문정보가 수정되었습니다.');
 
@@ -560,20 +395,32 @@ class OrderController extends Controller
      */
     public function carUpdate(Request $request)
     {
-        $this->validate($request, [
-            'car_number' => 'required',
+        try{
+            $this->validate($request, [
+                'models_id' => 'required',
+                'details_id' => 'required',
+                'grades_id' => 'required'
+            ], [],
+                [
+                    'models_id' => '모델명',
+                    'details_id' => '세부모델명',
+                    'grades_id' => '등급명'
+                ]);
 
-        ], [],
-            [
-                'car_number' => '차량번호',
-            ]);
+            $order = Order::findOrFail($request->get('id'));
+            $car = $order->carNumber->car;
+            $car->models_id = $request->get('models_id');
+            $car->details_id = $request->get('details_id');
+            $car->grades_id = $request->get('grades_id');
+            $car->save();
 
-        $order = Order::findOrFail($request->get('id'));
-        $order->car_number = $request->get('car_number');
-        $order->flooding_state_cd = $request->get('flooding_state_cd');
-        $order->accident_state_cd = $request->get('accident_state_cd');
-        $order->save();
-        return redirect()->back()->with('success', '차정보가 수정되었습니다.');
+            return redirect()->back()->with('success', '차정보가 수정되었습니다.');
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', '오류가 발생하였습니다.');
+        }
+
+
+
     }
 
 
@@ -734,7 +581,7 @@ class OrderController extends Controller
         $users = \App\Models\Role::find(4)->users;
         $sections = [];
         foreach ($users as $user) {
-            if ($user->status_cd != 2 && $user->user_extra->area == $request->get('garage_area')) {
+            if ($user->status_cd != 2 && $user->user_extra->area == $request->get('sel_text')) {
                 $sections[$user->user_extra->section] = $user->user_extra->section;
             }
         }
@@ -751,7 +598,8 @@ class OrderController extends Controller
         $users = \App\Models\Role::find(4)->users;
         $garages = [];
         foreach ($users as $user) {
-            if ($user->status_cd != 2 && $user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
+//            if ($user->status_cd != 2 && $user->user_extra->area == $request->get('sel_area') && $user->user_extra->section == $request->get('sel_section')) {
+            if ($user->status_cd != 2 && $user->user_extra->section == $request->get('sel_text')) {
                 $garages[$user->id] = $user->name;
             }
         }
@@ -766,7 +614,7 @@ class OrderController extends Controller
      */
     public function getModels(Request $request)
     {
-        $brand_id = $request->get('brand');
+        $brand_id = $request->get('sel_id');
 
         $models = Models::where('brands_id', $brand_id)->orderBy("name", 'ASC')->get();
         return $models;
@@ -779,7 +627,7 @@ class OrderController extends Controller
      */
     public function getDetails(Request $request)
     {
-        $model_id = $request->get('model');
+        $model_id = $request->get('sel_id');
         $details = Detail::where('models_id', $model_id)->orderBy("name", 'ASC')->get();
         return $details;
     }
@@ -791,7 +639,7 @@ class OrderController extends Controller
      */
     public function getGrades(Request $request)
     {
-        $detail_id = $request->get('detail');
+        $detail_id = $request->get('sel_id');
         $grades = Grade::where('details_id', $detail_id)->where('items_id', '>', '0')->get();
         return $grades;
     }
@@ -802,9 +650,9 @@ class OrderController extends Controller
             $chakey = $request->get('order_number');
             $order = Order::where('chakey', $chakey)->first();
 
-            if($order && $order->isDiagnosis($order)){
+            if ($order && $order->isDiagnosis($order)) {
                 return response()->json($order->carNumber->car->brand->car_type);
-            }else{
+            } else {
                 throw new Exception('fail');
             }
 
@@ -813,39 +661,41 @@ class OrderController extends Controller
         }
     }
 
-    public function getCarType(Request $request){
+    public function getCarType(Request $request)
+    {
         $brand_id = $request->get('brand_id');
         $brand = Brand::findOrFail($brand_id);
 
         return response()->json($brand->car_type);
     }
 
-    public function getItems(Request $request){
+    public function getItems(Request $request)
+    {
         $type = $request->get('type');
         $items = Item::whereIn('type_cd', [122, 123]);
 
-        if($type == 'f'){
+        if ($type == 'f') {
             $items->where('car_sort_cd', 125);
-        }else{
+        } else {
             $items->where('car_sort_cd', 124);
         }
 
         return $items->get();
     }
 
-    public function getEtcItems(Request $request){
+    public function getEtcItems(Request $request)
+    {
         $type = $request->get('type');
         $items = Item::select();
 
-        if($type == 'f'){
+        if ($type == 'f') {
             $items->where('car_sort_cd', 125);
-        }else{
+        } else {
             $items->where('car_sort_cd', 124);
         }
 
         return $items->get();
     }
-
 
 
 }

@@ -19,6 +19,7 @@
                     {!! Form::open(['route' => ["order.store"], 'class' => 'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'frm']) !!}
                     <input type="hidden" name="diag_param" id="diag_param" value="{{ old('diag_param') }}">
                     <input type="hidden" name="price" id="price" value="">
+                    <input type="hidden" name="items" id="items" value="">
                     <input class="show_item" type="hidden" name="order_number_confirm" id="order_number_confirm"
                            value="" data-url="/order/get-items">
                     <input class="show_item" type="hidden" name="select_car" id="select_car" value=""
@@ -45,7 +46,7 @@
                         <label for="" class="control-label col-md-3">주문자 성명</label>
                         <div class="col-md-3">
                             @if($user->can('order.user.show'))
-                                {!! Form::select('orderer_name', $users, null, ['class'=>'form-control', 'id'=>'orderer_name']) !!}
+                                {!! Form::select('orderer_name', $users, null, ['class'=>'form-control chosen', 'id'=>'orderer_name']) !!}
                             @else
                                 <input type="text" class="form-control" placeholder="ex) 홍길동"
                                        name="orderer_name"
@@ -146,8 +147,10 @@
                                                 <div class="fg-line {{ $errors->has('') ? 'has-error' : '' }} ">
                                                     <label for="" class=" fg-label">차량 브랜드</label>
                                                     <div class="select">
-                                                        <select class="form-control car-model" id="brands" name="brands_id"
-                                                                autocomplete="off" data-url="/order/get-models" data-target="models">
+                                                        <select class="form-control car-model" id="brands"
+                                                                name="brands_id"
+                                                                autocomplete="off" data-url="/order/get-models"
+                                                                data-target="models">
                                                             <option value="">선택하세요.</option>
                                                             @foreach($brands as $brand)
                                                                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
@@ -165,8 +168,10 @@
                                                 <div class="fg-line {{ $errors->has('') ? 'has-error' : '' }} ">
                                                     <label for="" class=" fg-label">차량 모델</label>
                                                     <div class="select">
-                                                        <select class="form-control car-model" id="models" name="models_id"
-                                                                autocomplete="off" data-url="/order/get-details" data-target="details">
+                                                        <select class="form-control car-model" id="models"
+                                                                name="models_id"
+                                                                autocomplete="off" data-url="/order/get-details"
+                                                                data-target="details">
                                                             <option value="">선택하세요.</option>
                                                         </select>
                                                     </div>
@@ -181,8 +186,10 @@
                                                 <div class="fg-line {{ $errors->has('') ? 'has-error' : '' }} ">
                                                     <label for="" class=" fg-label">차량 디테일</label>
                                                     <div class="select">
-                                                        <select class="form-control car-model" id="details" name="details_id"
-                                                                autocomplete="off" data-url="/order/get-grades">
+                                                        <select class="form-control car-model" id="details"
+                                                                name="details_id"
+                                                                autocomplete="off" data-url="/order/get-grades"
+                                                                data-target="grades">
                                                             <option value="">선택하세요.</option>
                                                         </select>
                                                     </div>
@@ -197,7 +204,7 @@
                                                 <div class="fg-line {{ $errors->has('') ? 'has-error' : '' }} ">
                                                     <label for="" class=" fg-label">차량 세부모델</label>
                                                     <div class="select">
-                                                        <select class="form-control car-model" id="grades" name="grades_id"
+                                                        <select class="form-control" id="grades" name="grades_id"
                                                                 autocomplete="off">
                                                             <option value="">선택하세요.</option>
                                                         </select>
@@ -214,11 +221,11 @@
                                         <div class="row">
                                             <div class="col-sm-4 m-b-25">
                                                 <div class="fg-line {{ $errors->has('') ? 'has-error' : '' }}">
-                                                    <label for="" class=" fg-label">입고대리점</label>
-
+                                                    <label for="" class=" fg-label">시/도</label>
                                                     <div class="select">
-                                                        <select class="form-control" id="areas" name="areas"
-                                                                autocomplete="off">
+                                                        <select class="form-control garage" id="areas" name="areas"
+                                                                autocomplete="off" data-url="/order/get-section"
+                                                                data-target="sections">
                                                             <option value="">선택하세요.</option>
                                                             @foreach($areas as $key => $area)
                                                                 <option value="{{ $area->area }}">{{ $area->area }}</option>
@@ -226,9 +233,28 @@
                                                         </select>
                                                     </div>
 
-                                                    @if ($errors->has('garages'))
+                                                    @if ($errors->has('areas'))
                                                         <span class="text-danger">
-                                                                                        {{ $errors->first('garages') }}
+                                                                                        {{ $errors->first('areas') }}
+                                                                                </span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 m-b-25">
+                                                <div class="fg-line {{ $errors->has('') ? 'has-error' : '' }}">
+                                                    <label for="" class=" fg-label">구/군</label>
+                                                    <div class="select">
+                                                        <select class="form-control garage" id="sections"
+                                                                name="sections"
+                                                                autocomplete="off" data-url="/order/get-address"
+                                                                data-target="garages">
+                                                            <option value="">선택하세요.</option>
+                                                        </select>
+                                                    </div>
+
+                                                    @if ($errors->has('sections'))
+                                                        <span class="text-danger">
+                                                                                        {{ $errors->first('sections') }}
                                                                                 </span>
                                                     @endif
                                                 </div>
@@ -238,33 +264,9 @@
                                                     <label for="" class=" fg-label">입고대리점</label>
 
                                                     <div class="select">
-                                                        <select class="form-control" id="areas" name="areas"
+                                                        <select class="form-control" id="garages" name="garages"
                                                                 autocomplete="off">
                                                             <option value="">선택하세요.</option>
-                                                            @foreach($areas as $key => $area)
-                                                                <option value="{{ $area->area }}">{{ $area->area }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    @if ($errors->has('garages'))
-                                                        <span class="text-danger">
-                                                                                        {{ $errors->first('garages') }}
-                                                                                </span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4 m-b-25">
-                                                <div class="fg-line {{ $errors->has('') ? 'has-error' : '' }}">
-                                                    <label for="" class=" fg-label">입고대리점</label>
-
-                                                    <div class="select">
-                                                        <select class="form-control" id="areas" name="areas"
-                                                                autocomplete="off">
-                                                            <option value="">선택하세요.</option>
-                                                            @foreach($areas as $key => $area)
-                                                                <option value="{{ $area->area }}">{{ $area->area }}</option>
-                                                            @endforeach
                                                         </select>
                                                     </div>
 
@@ -309,20 +311,16 @@
 
                                 </div>
                             </div>
-
-
-
-
                         </div>
 
                     </div>
 
 
                     <div class="form-group {{ $errors->has('') ? 'has-error' : '' }} hidden" id="item-list-div">
-
                         <label for="" class="control-label col-md-3">주문상품</label>
                         <div class="col-md-9">
                             <div class="row" id="item_list">
+
                             </div>
                         </div>
                     </div>
@@ -344,7 +342,11 @@
                         </div>
                     </div>
 
-                    <button>생 성</button>
+                    <div class="text-center">
+                        <button class="btn btn-primary"
+                                data-loading-text="{{ trans('common.button.loading') }}">생 성
+                        </button>
+                    </div>
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -377,7 +379,6 @@
                     $('#item-list-div').addClass('hidden');
                 },
                 onNext: function (tab, navigation, index) {
-
                     // var $valid = $("#commentForm").valid();
                     // if(!$valid) {
                     //         $validator.focusInvalid();
@@ -390,13 +391,14 @@
             $(document).on('click', ".orderCreateItem", function () {
                 $(this).toggleClass('selected');
 
-                // alert($(this).data('price'));
                 var total = 0;
+                var items = '';
                 $('.orderCreateItem').each(function (i) {
                     if ($(this).hasClass('selected')) {
                         $(this).removeClass('bgm-gray');
                         $(this).addClass('bgm-pink');
                         total += parseInt($(this).data('price'));
+                        items = items.concat(',', $(this).data('item-id'));
                     } else {
                         $(this).removeClass('bgm-pink');
                         $(this).addClass('bgm-gray');
@@ -406,6 +408,7 @@
                 // $('#orderCreateTotalPrice').text(ZFOOP.Common.number_format(total));
                 $('#orderCreateTotalPrice').text(total);
                 $('#price').val(total);
+                $('#items').val(items.substr(1));
             });
 
             $(document).on('click', '#confirm_order', function () {
@@ -441,6 +444,7 @@
                         $('#select_car').val(data).trigger("change");
                     },
                     error: function (data) {
+                        alert(JSON.stringify(data));
                         alert('error');
                     }
                 });
@@ -467,7 +471,6 @@
                             html += 'data-item-car_sort="' + value.car_sort + '">';
                             html += '<div class="card-body card-padding">';
                             html += '<h3 class="c-white">' + value.name + '</h3>';
-                            // html+='<h5 class="c-white">'+value.type_cd+'</h5>';
                             html += '<h6 class="c-white">' + value.price + '원</h6>';
                             html += '</div>';
                             html += '</div>';
@@ -482,10 +485,17 @@
                 });
             });
 
-            // brands 선택 시
+            // 차량모델 선택 시
             $(document).on('change', '.car-model', function () {
                 var sel_id = $('option:selected', this).val();
                 var url = $(this).data('url');
+                var target = $(this).data('target');
+
+                if ($(this).attr('id') == 'brands') {
+                    $('#models').html('<option>선택하세요.</option>');
+                    $('#details').html('<option>선택하세요.</option>');
+                    $('#grades').html('<option>선택하세요.</option>');
+                }
 
                 $.ajax({
                     type: 'get',
@@ -493,77 +503,14 @@
                     url: url,
                     data: {sel_id: sel_id},
                     success: function (data) {
-                        // $.each(data, function (key, value) {
-                        //     $('#models').append($('<option/>', {
-                        //         value: value.id,
-                        //         text: value.name
-                        //     }));
-                        // });
-
-                        alert(JSON.stringify(data));
-
-                        $(this).data('target').empty()
-                        // $('#select_car').val(1).trigger("change");
-                    },
-                    error: function (data) {
-                        // alert('처리중 오류가 발생했습니다.');
-                        alert(JSON.stringify(data));
-                    }
-                });
-            });
-
-            // brands 선택 시
-            $(document).on('change', '#brands', function () {
-                var brand = $('#brands option:selected').val();
-
-                $('#brand_id').val(brand);
-                $.ajax({
-                    type: 'get',
-                    dataType: 'json',
-                    url: '/order/get-models',
-                    data: {'brand': brand},
-                    success: function (data) {
-                        $('#models').html('<option >선택하세요.</option>');
-                        $('#details').html('<option disabled="true">선택하세요.</option>');
-                        $('#grades').html('<option disabled="true">선택하세요.</option>');
-
+                        $('#' + target).html('<option>선택하세요.</option>');
                         $.each(data, function (key, value) {
-                            $('#models').append($('<option/>', {
+                            $('#' + target).append($('<option/>', {
                                 value: value.id,
                                 text: value.name
                             }));
                         });
-
-                        // $('#select_car').val(1).trigger("change");
-                    },
-                    error: function (data) {
-                        // alert('처리중 오류가 발생했습니다.');
-                        alert(JSON.stringify(data));
-                    }
-                });
-            });
-
-            // models 선택 시
-            $('#models').on('change', function () {
-
-                var model = $('#models option:selected').val();
-                $('#models_id').val(model);
-                $.ajax({
-                    type: 'get',
-                    dataType: 'json',
-                    url: '/order/get-details',
-                    data: {'model': model},
-                    success: function (data) {
-                        $('#details').empty();
-                        $('#grades').html('<option disabled="true">선택하세요.</option>');
-                        $('#details').append('<option >선택하세요.</option>');
-                        $.each(data, function (key, value) {
-                            $('#details').append($('<option/>', {
-                                value: value.id,
-                                text: value.name
-                            }));
-                        });
-
+                        $(this).data('target').empty('<option>선택하세요.</option>').trigger('change');
                     },
                     error: function (data) {
                         alert('처리중 오류가 발생했습니다.');
@@ -571,108 +518,41 @@
                 });
             });
 
-            // detail 선택 시
-            $('#details').on('change', function () {
-                var detail = $('#details option:selected').val();
-                $('#detail_id').val(detail);
-                $.ajax({
-                    type: 'get',
-                    dataType: 'json',
-                    url: '/order/get-grades',
-                    data: {'detail': detail},
-                    success: function (data) {
+            // 정비소 선택시
+            $(document).on('change', '.garage', function () {
+                var sel_text = $('option:selected', this).val();
+                var url = $(this).data('url');
+                var target = $(this).data('target');
 
-                        $('#grades').empty();
-                        $('#grades').append('<option >선택하세요.</option>');
-                        $.each(data, function (key, value) {
-                            $('#grades').append('<option data-item="' + value.items_id + '" value="' + value.id + '">' + value.name + '</option>');
-                        });
-
-                    },
-                    error: function (data) {
-                        alert('처리중 오류가 발생했습니다.');
-                    }
-                });
-            });
-
-            // grade 리스트
-            $('#grades').on('change', function (e) {
-
-                var pre_selected_item = $(e.target).find('option:selected').data('item');
-                if (pre_selected_item) {
-
-                    $('.purchase-item-product').each(function () {
-
-                        if ($(this).data('index') == pre_selected_item) {
-
-                            $("#purchase-items-blind").show();
-                            $(this).trigger('click');
-                            return true;
-                        }
-                    });
+                if ($(this).attr('id') == 'areas') {
+                    $('#sections').html('<option value="">선택하세요.</option>');
+                    $('#garages').html('<option value="">선택하세요.</option>');
                 }
-            });
-
-            // 시/도 리스트
-            $('#areas').change(function () {
-                var area = $('#areas option:selected').text();
 
                 $.ajax({
                     type: 'get',
                     dataType: 'json',
-                    url: '/order/get-section',
+                    url: url,
                     data: {
-                        'garage_area': area
+                        sel_text: sel_text
                     },
                     success: function (data) {
-                        //select box 초기화
-                        $('#sections').html("");
-                        $('#garages').html('<option disabled="true">선택하세요.</option>');
-                        $('#sections').append('<option >선택하세요.</option>');
-                        // $('#sel_area').val(garage_area);
+                        $('#' + target).html('<option value="">선택하세요.</option>');
                         $.each(data, function (key, value) {
-                            $('#sections').append($('<option/>', {
+                            $('#' + target).append($('<option/>', {
                                 value: value,
                                 text: value
                             }));
                         });
+                        $(this).data('target').empty('<option value="">선택하세요.</option>').trigger('change');
                     },
                     error: function (data) {
-                        alert(JSON.stringify(data));
-                        // alert('error');
-                    }
-                })
-
-            });
-            // 구/군 리스트
-            $('#sections').change(function () {
-                var garage_area = $('#areas option:selected').text();
-                var garage_section = $('#sections option:selected').text();
-
-                $.ajax({
-                    type: 'get',
-                    dataType: 'json',
-                    url: '/order/get-address',
-                    data: {
-                        'sel_area': garage_area,
-                        'sel_section': garage_section
-                    },
-                    success: function (data) {
-                        $('#garages').html("");
-                        $('#garages').append('<option >선택하세요.</option>');
-                        $.each(data, function (key, value) {
-                            $('#garages').append($('<option/>', {
-                                //                            value: value.id,
-                                value: key,
-                                text: value
-                            }))
-                        });
-                    },
-                    error: function (data) {
-                        alert('error');
+                        alert('처리중 오류가 발생했습니다.');
+                        // alert(JSON.stringify(data));
                     }
                 });
             });
+
         });
     </script>
 @endpush

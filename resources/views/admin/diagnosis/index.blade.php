@@ -119,10 +119,10 @@
                         <colgroup>
                             <col width="8%">
                             <col width="14%">
-                            <col width="10%">
-                            <col width="20%">
-                            <col width="16%">
-                            <col width="10%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="8%">
                             <col width="8%">
                             <col width="8%">
                             <col width="*">
@@ -132,10 +132,10 @@
                         <tr class="active">
                             <th class="text-center"><a class="sort" href="#" id="status"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 상태</a></th>
                             <th class="text-center">주문번호</th>
-                            <th class="text-center">주문자명</th>
                             <th class="text-center">주문자정보</th>
                             <th class="text-center">예약정보</th>
                             <th class="text-center">엔지니어</th>
+                            <th class="text-center"><a class="sort" href="#" id="created_at"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 진단생성일</a></th>
                             <th class="text-center"><a class="sort" href="#" id="start_at"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 진단시작일</a></th>
                             <th class="text-center"><a class="sort" href="#" id="completed_at"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 진단완료일</a></th>
                             <th class="text-center">Remarks</th>
@@ -173,21 +173,30 @@
                                 </td>
 
                                 <td class="text-center">
-                                    {{ $data->order->getOrderNumber() }}
+                                    {{ $data->chakey }}
+                                    <br>
+                                    <small class="text-warning">{{ $data->id }}</small>
                                 </td>
 
                                 <td class="text-center">
-                                    {{ $data->order->orderer_name }}
-                                </td>
+                                    @if($user->hasRole('admin'))
+                                    <a href="/user/{{ $data->orderItem->order->orderer_id }}/edit">
+                                        {{ $data->orderItem->order->orderer_name }}
+                                    </a>
+                                    @else
+                                        {{ $data->orderItem->order->orderer_name }}
+                                    @endif
 
-                                <td class="text-center">
-                                    <a href="/user/{{ $data->order->orderer_id }}/edit">{{ $data->order->orderer ? $data->order->orderer->email : '-' }}</a>
                                     <br/>
-                                    <small class="text-warning">{{ $data->order->orderer_mobile }}</small>
+                                    <small class="text-warning">{{ $data->orderItem->order->orderer_mobile }}</small>
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="/user/{{ $data->garage->id }}/edit">{{ $data->garage->name }}</a>
+                                    @if($user->hasRole('admin'))
+                                        <a href="/user/{{ $data->garage->id }}/edit">{{ $data->garage->name }}</a>
+                                    @else
+                                        {{ $date->garage->name }}
+                                    @endif
                                     <br/>
                                     <small class="text-danger">{{ $data->reservation_at->format("m월 d일 H시") }}</small>
                                 </td>
@@ -197,17 +206,19 @@
                                 </td>
 
                                 <td class="text-center">
-                                    {{--{{ $data->start_at ? $data->start_at->format('m-d H:i') : '-' }}--}}
+                                    {{ $data->created_at ? $data->created_at->format('m-d H:i') : '-' }}
+                                </td>
+
+                                <td class="text-center">
                                     {{ $data->start_at ? $data->start_at->format('m-d H:i') : '-' }}
                                 </td>
 
                                 <td class="text-center">
-                                    {{ $data->completed_at ? $data->completed->format('m-d H:i') : '-' }}
+                                    {{ $data->completed_at ? $data->completed_at->format('m-d H:i') : '-' }}
                                 </td>
 
 
                                 <td class="text-center">
-                                    {{--@if($data->status_cd == 107)--}}
                                     @if($data->status_cd > 113 && $data->status_cd < 115 )
                                         <a href="{{ url("diagnosis", [$data->id]) }}" class="btn btn-danger"
                                            data-toggle="tooltip" title="인증서 진단정보 수정">진단정보 수정</a>
@@ -226,7 +237,7 @@
                 </div>
 
                 {{--page navigation--}}
-                {!! $entrys->appends([$sf => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
+                {!! $entrys->appends(['sf' => $sf, 's' => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
 
             </div>
 
@@ -252,8 +263,5 @@
             $('#frm').submit();
         });
 
-        // $('.date-picker').datetimepicker({
-        //     format: 'YYYY-MM-DD'
-        // });
     </script>
 @endpush

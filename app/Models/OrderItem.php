@@ -13,14 +13,13 @@ class OrderItem extends Model
         'orders_id',        //주문 아이디
         'group_id',         //주문 그룹 아이디
         'price',            //가격
-        'car_sort',         //차량 종류. N- 국산, F-외산
+        'car_sort_cd',      //차량 종류
         'commission',       //수수료율
         'wage',             //공임
         'guarantee',        //보증료
         'alliance_ratio',   //보쉬/브랜드 수수료율
         'certi_ratio',      //기술사(H&T)수수료율
         'self_ratio',        //짐브로스 수수료율
-
         'type_cd',         //
     ];
 
@@ -53,7 +52,18 @@ class OrderItem extends Model
     }
 
     public function diagnosis(){
-        return $this->hasOne(Diagnosis::class, 'order_items_id', 'id');
+        return $this->hasOne(Diagnosis::class, 'order_items_id', 'id')->withDefault(['type_cd' => 121]);
+//        return $this->hasOne(Diagnosis::class, 'order_items_id', 'id');
     }
+
+    public function certificate(){
+        return $this->hasOne(Certificate::class, 'order_items_id', 'id')->withDefault(['type_cd' => 122]);
+    }
+
+    public function warranty(){
+        return $this->hasOne(Warranty::class, 'order_items_id', 'id')->withDefault(['type_cd' => 123]);
+    }
+
+
 
 }

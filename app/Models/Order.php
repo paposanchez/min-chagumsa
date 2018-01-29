@@ -73,9 +73,9 @@ class Order Extends Model
 
         $seed = [];
 
-        $seed[] = date("ymdHi");        // 시간포함 8자리
+        $seed[] = date("ymdH");        // 시간포함 8자리
 
-        $seed[] = mb_strtoupper(str_random(6)); // 대문자,숫자 총 6자리
+        $seed[] = sprintf('%06d',mt_rand(0,999999)); // 숫자 6자리
 
         $n = substr($car_number, -4);   // 차량번호 4자리
 
@@ -107,75 +107,11 @@ class Order Extends Model
         return $this->hasOne(CarNumber::class, 'id', 'car_numbers_id');
     }
 
-
-    // public function certificates()
-    // {
-    //         return $this->hasOne(Certificate::class, 'orders_id', 'id');
-    // }
-    //
-    //
-    // public function diagnosis()
-    // {
-    //         return $this->hasOne(Diagnosis::class, 'orders_id', 'id');
-    // }
-    //보증정보 조회
-    // public function warranty(){
-    //         return $this->hasOne(Warranty::class, 'orders_id', 'id');
-    // }
-
-    // public function getDiagnosis()
-    // {
-    //         $handler = new DiagnosisRepository();
-    //         return $handler->prepare($this->id)->get();
-    // }
-
-
     // 인증서 발급여부
     public function isIssued()
     {
         return $this->status_cd == 109;
     }
-
-    // public function createChaKey()
-    // {
-    //         return $this->car_number . "-" . $this->created_at->format('ymd');
-    // }
-
-    //========================== 정산관련
-    // public function settlement_features()
-    // {
-    //         return $this->hasMany(\App\Models\SettlementFeature::class, 'orders_id', 'id');
-    // }
-
-    // PG 수수료
-    // public function getSettlementPGCommission()
-    // {
-    //         return $this->purchase->amount * $this->item->commission;
-    // }
-    //
-    // // 기본 수익
-    // public function getSettlementDefaultIncome()
-    // {
-    //         return ($this->purchase->amount * $this->item->commission) - $this->item->guarantee - $this->item->wage;
-    // }
-    //
-    // // 얼라이언스 수익
-    // public function getSettlementAllianceCommission()
-    // {
-    //         return $this->getSettlementDefaultIncome() * $this->item->commission;
-    // }
-    //
-    // // 기술사 수익
-    // public function getSettlementTechCommission()
-    // {
-    //         return $this->getSettlementDefaultIncome() * $this->item->commission;
-    // }
-    //
-    // // 회사수익
-    // public function getSettlementIncome()
-    // {
-    //         return $this->getSettlementDefaultIncome() * $this->item->commission;
-    // }
 
     // 결재정보
     public function payment()

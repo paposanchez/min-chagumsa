@@ -1,506 +1,531 @@
 @extends( 'admin.layouts.default' )
 
-@section('breadcrumbs')
-    @include('/vendor/breadcrumbs/wide', ['breadcrumbs' => Breadcrumbs::generate('admin.order')])
-@endsection
-
 @section( 'content' )
-    <div class="container-fluid">
+    <section id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
 
-        <h3>
-                <span class="text-lg">
-                        <span class="text-danger text-lighter">{{ $diagnosis->status->display() }}</span>
-                        <span class="text-lighter">| </span>
-                    {{ $diagnosis->order->getOrderNumber() }}
-                </span>
-
-            @if($diagnosis->status_cd > 106)
-                <a href="{{ url("diagnosis", [$diagnosis->id]) }}" class="btn btn-danger pull-right"
-                   style="margin-left:10px;" data-toggle="tooltip" title="인증서 진단정보 보기">진단정보 보기</a>
-            @endif
-
-        </h3>
-
-
-        <div class="row">
-
-            <div class="col-xs-6">
-
-                <div class="block bg-white">
-
-                    <h4>주문정보
-
-                        @if($diagnosis->status_cd != 100 && $diagnosis->status_cd < 106)
-                            <a class='pull-right text-sm text-danger'
-                               href="#" id="cancel-click" data-cancel_order_id="{{ $order->id }}">주문취소</a>
-                        @endif
-
-                    </h4>
-
-
-                    {!! Form::open(['method' => 'POST','route' => ['order.user-update', 'id' => $diagnosis->id], 'class'=>'form-horizontal', 'id'=>'userForm', 'enctype'=>"multipart/form-data"]) !!}
-
-
-                    @if($diagnosis->status_cd < 106)
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">주문자 ID</label>
-                            <div class="col-md-9">
-                                <p class="form-control-static">{{ $diagnosis->orderer_id }}</p>
-                            </div>
-                        </div>
-                        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                            <label for="" class="control-label col-md-3">주문자명</label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" placeholder="" name="name"
-                                       value="{{ $diagnosis->orderer_name }}">
-                                @if ($errors->has('name'))
-                                    <span class="text-danger">
-                                                        {{ $errors->first('name') }}
-                                                </span>
-                                @endif
-                            </div>
-
-
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>주문정보
+                                <!-- <small>설명</small> -->
+                            </h2>
                         </div>
 
-                        <div class="form-group {{ $errors->has('mobile') ? 'has-error' : '' }}">
-                            <label for="" class="control-label col-md-3">주문자연락처</label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" placeholder="" name="mobile"
-                                       value="{{ $diagnosis->orderer_mobile }}">
-                                @if ($errors->has('mobile'))
-                                    <span class="text-danger">
-                                                        {{ $errors->first('mobile') }}
-                                                </span>
-                                @endif
-                            </div>
-                        </div>
+                        <div class="card-body card-padding">
 
-                        <div class="form-group">
-                            <div class="col-md-9 col-md-offset-3">
-                                <button class="btn btn-primary">주문정보 변경</button>
-                            </div>
-                        </div>
-
-                    @else
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">주문자 ID</label>
-                            <div class="col-md-9">
-                                <p class="form-control-static">{{ $diagnosis->order->orderer_id }}</p>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">주문자명</label>
-                            <div class="col-md-9">
-                                <p class="form-control-static">{{ $diagnosis->order->orderer_name }}</p>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">주문자연락처</label>
-                            <div class="col-md-9">
-                                <p class="form-control-static">{{ $diagnosis->order->orderer_mobile }}</p>
-                            </div>
-                        </div>
-                    @endif
-
-
-                    {!! Form::close() !!}
-
-
-                </div>
-
-
-
-
-                <div class="block bg-white" style="margin-bottom:10px;">
-
-                    <h4>차량정보</h4>
-                    {!! Form::open(['method' => 'POST','route' => ['order.car-update', 'id' => $diagnosis->id], 'class'=>'form-horizontal', 'id'=>'carForm', 'enctype'=>"multipart/form-data"]) !!}
-
-                    @if($diagnosis->status_cd < 106)
-
-                        <div class="form-group {{ $errors->has('car_number') ? 'has-error' : '' }}">
-                            <label for="" class="control-label col-md-3">
-                                차량번호
-                            </label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" name="car_number" placeholder=""
-                                       value="{{ $diagnosis->carNumber->car_number }}">
-                                @if ($errors->has('car_number'))
-                                    <span class="text-danger">
-                                                        {{ $errors->first('car_number') }}
-                                                </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="control-label col-md-3">차량명</label>
-                            <div class="col-sm-9">
-                                <p class="form-control-static">{{ $diagnosis->order->getCarFullName() }}</p>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">사고유무</label>
-                            <div class="col-md-6">
-                                <div class="checkbox checkbox-slider--b-flat">
-                                    <label>
-                                        <input type="checkbox" value="1"
-                                               name="accident_state_cd" {{ $diagnosis->order->accident_state_cd == 1 ? 'checked="checked"' : '' }}><span></span>
-                                    </label>
+                            {!! Form::open(['method' => 'POST','route' => ['order.user-update', 'id' => $diagnosis->orderItem->order->id], 'class'=>'form-horizontal', 'id'=>'userForm', 'enctype'=>"multipart/form-data"]) !!}
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="" class="control-label col-md-3">주문번호</label>
+                                    <div class="col-md-6">
+                                        <p class="form-control-static">{{ $diagnosis->chakey }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">침수여부</label>
-                            <div class="col-md-6">
-                                <div class="checkbox checkbox-slider--b-flat">
-                                    <label>
-                                        <input type="checkbox" value="1"
-                                               name="flooding_state_cd" {{ $diagnosis->order->flooding_state_cd == 1 ? 'checked="checked"' : '' }}><span></span>
-                                    </label>
+                                <div class="form-group">
+                                    <label for="" class="control-label col-md-3">회원</label>
+                                    <div class="col-md-6">
+                                        <p class="form-control-static">{{ $diagnosis->orderItem->order->orderer->name }}</p>
+                                    </div>
                                 </div>
-                            </div>
+
+
+                                <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">주문자명</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="" name="name"
+                                               value="{{ $diagnosis->orderItem->order->orderer_name }}">
+                                        @if ($errors->has('name'))
+                                            <span class="text-danger">
+                                                                                {{ $errors->first('name') }}
+                                                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group {{ $errors->has('mobile') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">주문자연락처</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="" name="mobile"
+                                               value="{{ $diagnosis->orderItem->order->orderer_mobile }}">
+                                        @if ($errors->has('mobile'))
+                                            <span class="text-danger">
+                                                                                {{ $errors->first('mobile') }}
+                                                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group {{ $errors->has('car_number') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">차량번호</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="" name="car_number"
+                                               value="{{ $diagnosis->carNumber->car_number }}">
+                                        @if ($errors->has('car_number'))
+                                            <span class="text-danger">
+                                                                                {{ $errors->first('car_number') }}
+                                                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group {{ $errors->has('vin_number') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">차대번호</label>
+                                    <div class="col-md-6">
+                                        <p class="form-control-static">{{ $diagnosis->carNumber->cars_id }}</p>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                                    <label for="" class="control-label col-md-3">차량 모델명</label>
+                                    <div class="col-md-6">
+                                        <p class="form-control-static">{{ $diagnosis->carNumber->car->getFullName() }}
+                                            <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
+                                               data-target="#carModal" id="ch_car">변경</a>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-9 col-md-offset-3">
+                                        <button class="btn btn-primary"
+                                                data-loading-text="{{ trans('common.button.loading') }}"
+                                                id="">주문정보 변경
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>예약정보
+                                <!-- <small>설명</small> -->
+                            </h2>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-9 col-md-offset-3">
-                                <button class="btn btn-primary">차량정보 변경</button>
-                            </div>
+                        <div class="card-body card-padding">
+                            <form class="form-horizontal">
+                                <fieldset>
+
+                                    <div class="form-group">
+                                        <label for="" class="control-label col-md-3">정비소</label>
+                                        <div class="col-md-6">
+                                            <p class="form-control-static">{{ $diagnosis->garage->name }}
+                                                <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
+                                                   data-target="#garageModal" id="ch_garage">변경</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label col-md-3">진단 상태</label>
+                                        <div class="col-md-6">
+                                            <p class="form-control-static">{{ $diagnosis->status->display() }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label col-md-3">예약 날자</label>
+                                        <div class="col-md-6">
+                                            <p class="form-control-static">{{ $diagnosis->reservation_at ? $diagnosis->reservation_at->format('Y-m-d H:m') : '-' }}
+                                                <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
+                                                   data-target="#reservationModal" id="ch_reservation">예약변경</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label col-md-3">확정일자</label>
+                                        <div class="col-md-6">
+                                            <p class="form-control-static">{{ $diagnosis->confirm_at ? $diagnosis->confirm_at->format('Y-m-d H:m') : '-' }}
+                                                <a class='pull-right text-sm text-danger' href="#"
+                                                   id="confirm_reservation">예약확정</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
                         </div>
-
-                    @else
-
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">차량번호</label>
-                            <div class="col-md-9">
-                                <p class="form-control-static">{{ $diagnosis->carNumber->car_number }}</p>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">차량명</label>
-                            <div class="col-md-9">
-                                <p class="form-control-static">{{ $diagnosis->order->getCarFullName() }}</p>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">사고유무</label>
-                            <div class="col-md-9">
-                                <p class="form-control-static">{{ $diagnosis->order->accident_state_cd == 1 ? '예' : '아니요' }}</p>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="" class="control-label col-md-3">침수여부</label>
-                            <div class="col-md-9">
-                                <p class="form-control-static">{{ $diagnosis->order->flooding_state_cd == 1 ? '예' : '아니요' }}</p>
-                            </div>
-                        </div>
-                    @endif
-
-
-                    {!! Form::close() !!}
-
+                    </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>타임라인
+                                <!-- <small>설명</small> -->
+                            </h2>
+                        </div>
 
-            </div>
+                        <div class="card-body card-padding">
 
 
-            <div class="col-xs-6">
+                            <div class="pmo-contact">
+                                <ul>
+                                    <li class="ng-binding"><i class="zmdi zmdi-phone"></i> 00971123456789</li>
+                                    <li class="ng-binding"><i class="zmdi zmdi-email"></i> malinda.h@gmail.com</li>
+                                    <li class="ng-binding"><i class="zmdi zmdi-facebook-box"></i> malinda.hollaway
+                                    </li>
+                                    <li class="ng-binding"><i class="zmdi zmdi-twitter"></i> @malinda
+                                        (twitter.com/malinda)
+                                    </li>
+                                    <li>
+                                        <i class="zmdi zmdi-pin"></i>
+                                        <address class="m-b-0 ng-binding">
+                                            44-46 Morningside Road <br>
+                                            Edinburgh <br>
+                                            Scotland
+                                        </address>
+                                    </li>
+                                </ul>
+                            </div>
 
-                <div class="block bg-white" style="margin-bottom:10px;">
-
-                    <h4 class="">BCS
-
-                        @if($diagnosis->status_cd != 100 && $diagnosis->status_cd < 108)
-                            <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
-                               data-target="#bcsModal" id="ch_garage">변경</a>
-                        @endif
-
-                    </h4>
-                    <ul class="list-group">
-                        <li class="list-group-item no-border"><span>대리점</span> <em
-                                    class="pull-right">{{ $diagnosis->garage->name }}</em></li>
-                        <li class="list-group-item no-border"><span>대리점 연락처</span> <em
-                                    class="pull-right">{{ $diagnosis->garage->user_extra->phone }}</em></li>
-                        <li class="list-group-item no-border"><span>엔지니어</span> <em
-                                    class="pull-right">{{ $diagnosis->engineer ? $diagnosis->engineer->name : '-' }}</em></li>
-                        <li class="list-group-item no-border"><span>엔지니어 연락처</span> <em
-                                    class="pull-right">{{ $diagnosis->engineer ? $diagnosis->engineer->mobile : '-' }}</em></li>
-                    </ul>
+                            <form class="form-horizontal">
+                                <fieldset>
+                                    @component('components.time_line', [
+                                        'order_item' => $diagnosis->orderItem
+                                        ])
+                                    @endcomponent
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-
-
-                {{--<div class="block bg-white">--}}
-
-                    {{--<h4>타임라인</h4>--}}
-
-                    {{--<ul class="list-group">--}}
-                        {{--<li class="list-group-item no-border">--}}
-                            {{--<span>결제완료</span> <em class="pull-right">{{ $order->created_at }}</em>--}}
-                        {{--</li>--}}
-                        {{--<li class="list-group-item no-border">--}}
-                            {{--<span>예약확정</span> <em--}}
-                                    {{--class="pull-right">{{ $order->reservation->updated_at ? $order->reservation->updated_at : '-' }}</em>--}}
-                        {{--</li>--}}
-                        {{--<li class="list-group-item no-border">--}}
-                            {{--<span>입고예약</span> <em--}}
-                                    {{--class="pull-right">{{ $order->reservation->reservation_at ? $order->reservation->reservation_at : '-' }}</em>--}}
-                        {{--</li>--}}
-                        {{--<li class="list-group-item no-border">--}}
-                            {{--<span>입고시작</span> <em class="pull-right">{{ $order->diagnose_at }}</em>--}}
-                        {{--</li>--}}
-                        {{--<li class="list-group-item no-border">--}}
-                            {{--<span>진단완료</span> <em class="pull-right">{{ $order->diagnosed_at }}</em>--}}
-                        {{--</li>--}}
-                        {{--<li class="list-group-item no-border">--}}
-                            {{--<span>인증시작</span> <em--}}
-                                    {{--class="pull-right">{{ $order->certificates ? $order->certificates->created_at : '-' }}</em>--}}
-                        {{--</li>--}}
-                        {{--<li class="list-group-item no-border">--}}
-                            {{--<span>인증완료</span> <em--}}
-                                    {{--class="pull-right">{{ $order->certificates ? $order->certificates->updated_at : '-' }}</em>--}}
-                        {{--</li>--}}
-                        {{--<li class="list-group-item no-border">--}}
-                            {{--<span>인증만료</span> <em--}}
-                                    {{--class="pull-right">{{ $order->certificates ? $order->certificates->getExpireDate() : '-' }}</em>--}}
-                        {{--</li>--}}
-                    {{--</ul>--}}
-                {{--</div>--}}
-
             </div>
-
         </div>
+    </section>
 
+    <!-- Car Modal -->
+    <div id="carModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header bgm-bluegray m-b-20">
+                        <h2>차량 모델 변경
+                            <small>변경하실 차량 모델을 선택하세요.</small>
+                        </h2>
+                        <ul class="actions actions-alt">
+                            <li class="dropdown">
+                                <a href="">
+                                    <i class="zmdi zmdi-close" data-dismiss="modal"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
-        <p class="text-center">
-            <a href="/order" class="btn btn-default">목록으로 돌아가기</a>
-        </p>
+                    <div class="card-body card-padding">
+                        {!! Form::open(['method' => 'POST','route' => ['order.car-update', 'id' => $diagnosis->orderItem->order->id], 'class'=>'form-horizontal', 'id'=>'carForm', 'enctype'=>"multipart/form-data"]) !!}
+                        <div class="modal-body">
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">차량 브랜드</label>
+                                <div class="select">
+                                    <select class="form-control car-model" id="brands"
+                                            name="brands_id"
+                                            autocomplete="off" data-url="/order/get-models"
+                                            data-target="models" disabled>
+                                        <option value="{{ $my_brand->id }}">{{ $my_brand->name }}</option>
+                                    </select>
+                                </div>
+                            </div>
 
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">차량 모델</label>
+                                <div class="select">
+                                    {!! Form::select('models_id', $models, $diagnosis->CarNumber->car->models->id, ['class'=>'form-control car-model', 'autocomplete'=>"off", 'data-url'=>"/order/get-details", 'data-target'=>"details"]) !!}
 
-        {{-- 결제정보 모달 --}}
-        {{--<div class="modal fade purchase-modal" id="purchase-modal" tabindex="-1" role="dialog"--}}
-             {{--aria-labelledby="purchase-modal" aria-hidden="true">--}}
-            {{--<div class="modal-dialog modal-lg form-group">--}}
-                {{--<div class="modal-content">--}}
-                    {{--<div class="modal-header">--}}
-                        {{--<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>--}}
-                        {{--<h4 class="modal-title" id="myModalLabel">주문 결제 정보</h4>--}}
-                    {{--</div>--}}
-                    {{--<div class="modal-body">--}}
-                        {{--<table class="table table-hover">--}}
-                            {{--<colgroup>--}}
-                                {{--<col width="15%">--}}
-                                {{--<col width="35%">--}}
-                                {{--<col width="15%">--}}
-                                {{--<col width="35%">--}}
-                            {{--</colgroup>--}}
-                            {{--<tbody>--}}
-                            {{--<tr>--}}
-                                {{--<th class="text-center">결제번호</th>--}}
-                                {{--<td>{{ $order->id }}</td>--}}
-                                {{--<th class="text-center">결제금액</th>--}}
-                                {{--<td>{{ number_format($order->purchase->amount) }}</td>--}}
-                            {{--</tr>--}}
-                            {{--<tr>--}}
-                                {{--<th class="text-center">결제방법</th>--}}
-                                {{--<td>{{ Helper::getCodeName($order->purchase->type) }}</td>--}}
-                                {{--<th class="text-center">상태</th>--}}
-                                {{--<td>{{ Helper::getCodeName($order->status_cd) }}</td>--}}
-                            {{--</tr>--}}
-                            {{--<tr>--}}
-                                {{--<th class="text-center">결제일</th>--}}
-                                {{--<td>{{ $order->purchase->created_at }}</td>--}}
-                                {{--<th class="text-center">환불완료 여부</th>--}}
-                                {{--<td>{{ ($order->refund_status == 1)? "환불완료": "환불미처리" }}</td>--}}
-                            {{--</tr>--}}
-                            {{--<tr style="background-color: #f1f1f1;">--}}
-                                {{--<th colspan="4" class="text-center">환불정보</th>--}}
-                            {{--</tr>--}}
-                            {{--<tr>--}}
-                                {{--<th class="text-center">환불자 성명</th>--}}
-                                {{--<td colspan="3">{{ $order->purchase->refund_name }}</td>--}}
-                            {{--</tr>--}}
-                            {{--<tr>--}}
-                                {{--<th class="text-center">환불 은행</th>--}}
-                                {{--<td>{{ $order->purchase->refund_bank }}</td>--}}
-                                {{--<th class="text-center">환불계좌</th>--}}
-                                {{--<td>{{ $order->purchase->refund_account }}</td>--}}
-                            {{--</tr>--}}
-                            {{--</tbody>--}}
-                        {{--</table>--}}
-                    {{--</div>--}}
+                                </div>
+                                @if ($errors->has('models_id'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('models_id') }}
+                                    </span>
+                                @endif
+                            </div>
 
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">차량 디테일</label>
+                                <div class="select">
+                                    <select class="form-control car-model" id="details"
+                                            name="details_id"
+                                            autocomplete="off" data-url="/order/get-grades"
+                                            data-target="grades">
+                                        <option value="{{ $diagnosis->carNumber->car->detail->id }}">{{ $diagnosis->carNumber->car->detail->name }}</option>
+                                    </select>
+                                </div>
+                                @if ($errors->has('details_id'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('details_id') }}
+                                    </span>
+                                @endif
+                            </div>
 
-                    {{--<div class="modal-footer">--}}
-                        {{--<button type="submit" class="btn btn-primary" id="">변경</button>--}}
-                        {{--<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>--}}
-                    {{--</div>--}}
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">차량 세부모델</label>
+                                <div class="select">
+                                    <select class="form-control" id="grades" name="grades_id"
+                                            autocomplete="off">
+                                        <option value="{{ $diagnosis->carNumber->car->grade->id }}">{{ $diagnosis->carNumber->car->grade->name }}</option>
+                                    </select>
+                                </div>
+                                @if ($errors->has('grades_id'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('grades_id') }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="">변경</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                        </div>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        {{-- PG정보 --}}
-        {{--<div class="modal fade bs-example-modal-lg in purchase-modal" id="payment-modal" tabindex="-1" role="dialog"--}}
-             {{--aria-labelledby="purchase-modal" aria-hidden="true">--}}
-            {{--<div class="modal-dialog modal-lg form-group">--}}
-                {{--<div class="modal-content">--}}
-                    {{--<div class="modal-header">--}}
-                        {{--<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>--}}
-                        {{--<h4 class="modal-title" id="paymentModalLabel">PG사 결제 정보</h4>--}}
-                    {{--</div>--}}
-                    {{--<div class="modal-body">--}}
+    <!-- reservation Modal -->
+    <div id="reservationModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header bgm-bluegray m-b-20">
+                        <h2>예약 정보 변경
+                            <small>변경하실 날짜를 선택해주세요.</small>
+                        </h2>
+                        <ul class="actions actions-alt">
+                            <li class="dropdown">
+                                <a href="">
+                                    <i class="zmdi zmdi-close" data-dismiss="modal"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
-                    {{--</div>--}}
-                    {{--<div class="modal-footer">--}}
-                        {{--<button type="submit" class="btn btn-primary" id="">변경</button>--}}
-                        {{--<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
+                    <div class="card-body card-padding">
+                        {!! Form::open(['method' => 'POST','route' => ['diagnosis.change-reservation', 'id' => $diagnosis->id], 'class'=>'form-horizontal', 'id'=>'reservationForm', 'enctype'=>"multipart/form-data"]) !!}
+                        <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                            <label for="" class=" fg-label">예약 날짜</label>
+                            <div class="select">
+                                <div class="dtp-container">
+                                    <input type='text' class="form-control date-picker"
+                                           id="reservation_at" name="reservation_at"
+                                           placeholder="Click here..."
+                                           value="{{ $diagnosis->reservation_at ? $diagnosis->reservation_at->format('Y-m-d') : '' }}">
+                                </div>
+                            </div>
+                            @if ($errors->has('reservation_at'))
+                                <span class="text-danger">
+                                        {{ $errors->first('reservation_at') }}
+                                    </span>
+                            @endif
+                        </div>
 
-    </div><!-- container -->
+                        <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                            <label for="" class=" fg-label">예약 시간</label>
+                            <div class="select">
+                                {!! Form::select('sel_hour', $sel_hours, $diagnosis->reservation_at ? $diagnosis->reservation_at->format('H') : '', ['class'=>'form-control', 'autocomplete'=>"off"]) !!}
+                            </div>
+                            @if ($errors->has('sel_hour'))
+                                <span class="text-danger">
+                                        {{ $errors->first('sel_hour') }}
+                                    </span>
+                            @endif
+                        </div>
 
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="">변경</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                        </div>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div id="garageModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header bgm-bluegray m-b-20">
+                        <h2>정비소 변경
+                            <small>변경하실 정비소를 선택해주세요.</small>
+                        </h2>
+                        <ul class="actions actions-alt">
+                            <li class="dropdown">
+                                <a href="">
+                                    <i class="zmdi zmdi-close" data-dismiss="modal"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
+                    <div class="card-body card-padding">
+                        {!! Form::open(['method' => 'POST','route' => ['diagnosis.change-garage', 'id' => $diagnosis->id], 'class'=>'form-horizontal', 'id'=>'garageForm', 'enctype'=>"multipart/form-data"]) !!}
+                        <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                            <label for="" class=" fg-label">시/도</label>
+                            <div class="select">
+                                {!! Form::select('areas', $garages, $diagnosis->garage->user_extra->area, ['class'=>'form-control garage','id' =>'areas', 'autocomplete'=>"off", 'data-url'=>'/order/get-section', 'data-target'=>'sections']) !!}
+                            </div>
+                            @if ($errors->has('area'))
+                                <span class="text-danger">
+                                        {{ $errors->first('area') }}
+                                    </span>
+                            @endif
+                        </div>
 
+                        <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                            <label for="" class=" fg-label">구/군</label>
+                            <div class="select">
+                                <select class="form-control garage" id="sections" name="sections" autocomplete="off" data-url="/order/get-address" data-target="garages">
+                                    <option value="{{ $diagnosis->garage->user_extra->section }}">{{ $diagnosis->garage->user_extra->section }}</option>
+                                </select>
+                            </div>
+                            @if ($errors->has('details_id'))
+                                <span class="text-danger">
+                                        {{ $errors->first('details_id') }}
+                                    </span>
+                            @endif
+                        </div>
 
+                        <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                            <label for="" class=" fg-label">정비소</label>
+                            <div class="select">
+                                <select class="form-control" id="garages" name="garages" autocomplete="off">
+                                    <option value="{{ $diagnosis->garage->name }}">{{ $diagnosis->garage->name }}</option>
+                                </select>
+                            </div>
+                            @if ($errors->has('details_id'))
+                                <span class="text-danger">
+                                        {{ $errors->first('details_id') }}
+                                    </span>
+                            @endif
+                        </div>
 
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="bcs_submit">변경</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                        </div>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {!! Form::open(['route' => ["order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
     <input type="hidden" name="order_id" id="cancel-order_id">
+    {!! Form::close() !!}
+
+    {!! Form::open(['route' => ["diagnosis.confirm-reservation"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'confirm-form']) !!}
+    <input type="hidden" name="diagnosis_id" id="diagnosis_id" value="{{ $diagnosis->id }}">
     {!! Form::close() !!}
 
 @endsection
 
 @push( 'footer-script' )
     <script type="text/javascript">
-        $(function () {
-
-
-            $('#areas').change(function () {
-                var garage_area = $('#areas option:selected').text();
-                $.ajax({
-                    type: 'get',
-                    dataType: 'json',
-                    url: '/order/get-section',
-                    data: {
-                        'garage_area': garage_area
-                    },
-                    success: function (data) {
-
-                        //select box 초기화
-                        $('#sections').html("");
-                        $('#garages').html('<option value="0">대리점을 선택하세요.</option>');
-                        $('#sections').append('<option value="0">구/군을 선택하세요.</option>');
-                        $.each(data, function (key, value) {
-                            $('#sections').append($('<option/>', {
-                                value: value,
-                                text: value
-                            }));
-                        });
-                    },
-                    error: function (data) {
-                        alert('error');
-                    }
-                })
-            });
-
-            $('#sections').change(function () {
-                var garage_area = $('#areas option:selected').text();
-                var garage_section = $('#sections option:selected').text();
-
-                $.ajax({
-                    type: 'get',
-                    dataType: 'json',
-                    url: '/order/get-address',
-                    data: {
-                        'sel_area': garage_area,
-                        'sel_section': garage_section
-                    },
-                    success: function (data) {
-                        $('#garages').html("");
-                        $('#garages').append('<option value="0">대리점을 선택하세요.</option>');
-                        $.each(data, function (key, value) {
-                            $('#garages').append($('<option/>', {
-                                value: key,
-                                text: value
-                            }))
-                        });
-                    },
-                    error: function (data) {
-                        alert('error');
-                    }
-                });
-            });
-
-            $('#garages').change(function () {
-                var garage_id = $('#garages option:selected').val();
-
-                $.ajax({
-                    type: 'get',
-                    dataType: 'json',
-                    url: '/order/get-engineer',
-                    data: {
-                        'garage_id': garage_id
-                    },
-                    success: function (data) {
-                        $('#engineer').html('');
-                        $.each(data, function (key, value) {
-                            $('#engineer').append($('<option/>', {
-                                value: key,
-                                text: value
-                            }))
-                        });
-                    },
-                    error: function (data) {
-                        alert(JSON.stringify(data));
-                    }
-                })
-            });
-
-            $('#bcs_submit').on('click', function () {
-                var garage = $('#garages').val();
-                var date = $('#date').val();
-                var time = $('#time').val();
-
-                if(garage == 0){
-                    alert('정비소를 선택해주세요.');
-                }else if (date.length == 0){
-                    alert('입고날짜를 입력하세요.');
-                }else if (time.length == 0){
-                    alert('입고시간을 입력하세요.');
-                }else{
-                    $('#bcsForm').submit();
+        $(document).on('click', '#cancel-clock', function () {
+            if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
+                var order_id = $(this).data("cancel_order_id");
+                if (order_id) {
+                    $("#cancel-order_id").val(order_id);
+                    $("#cancel-form").submit();
+                } else {
+                    alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
                 }
-            });
 
-            $("#cancel-click").on("click", function () {
-                if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
-                    var order_id = $(this).data("cancel_order_id");
-                    if (order_id) {
-                        $("#cancel-order_id").val(order_id);
-                        $("#cancel-form").submit();
-                    } else {
-                        alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
-                    }
-
-                }
-            });
-
-
+            }
         });
+
+        // 차량모델 선택 시
+        $(document).on('change', '.car-model', function () {
+            var sel_id = $('option:selected', this).val();
+            var url = $(this).data('url');
+            var target = $(this).data('target');
+
+            if ($(this).attr('id') == 'brands') {
+                $('#models').html('<option value="">선택하세요.</option>');
+                $('#details').html('<option value="">선택하세요.</option>');
+                $('#grades').html('<option value="">선택하세요.</option>');
+            }
+
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: url,
+                data: {sel_id: sel_id},
+                success: function (data) {
+                    $('#' + target).html('<option value="">선택하세요.</option>');
+                    $.each(data, function (key, value) {
+                        $('#' + target).append($('<option/>', {
+                            value: value.id,
+                            text: value.name
+                        }));
+                    });
+                    $(this).data('target').empty('<option value="">선택하세요.</option>').trigger('change');
+                },
+                error: function (data) {
+                    alert('처리중 오류가 발생했습니다.');
+                }
+            });
+        });
+
+        // 정비소 선택시
+        $(document).on('change', '.garage', function () {
+            var sel_text = $('option:selected', this).val();
+            var url = $(this).data('url');
+            var target = $(this).data('target');
+
+            if ($(this).attr('id') == 'areas') {
+                $('#sections').html('<option value="">선택하세요.</option>');
+                $('#garages').html('<option value="">선택하세요.</option>');
+            }
+
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: url,
+                data: {
+                    sel_text: sel_text
+                },
+                success: function (data) {
+                    $('#' + target).html('<option value="">선택하세요.</option>');
+                    $.each(data, function (key, value) {
+                        $('#' + target).append($('<option/>', {
+                            value: value,
+                            text: value
+                        }));
+                    });
+                    $(this).data('target').empty('<option value="">선택하세요.</option>').trigger('change');
+                },
+                error: function (data) {
+                    alert('처리중 오류가 발생했습니다.');
+                    // alert(JSON.stringify(data));
+                }
+            });
+        });
+
+
+        $(document).on('click', '#confirm_reservation', function () {
+            if (confirm('예약을 확정하시겠습니까?')) {
+                $('#confirm-form').submit();
+            }
+        });
+
+        $(document).on('click', '#bcs_submit', function(){
+            if(confirm("정비소를 변경하시겠습니까? \n정비소 변경시 예약상태가 '신청' 상태로 변경됩니다.")){
+                $('#garageForm').submit();
+            }
+        });
+
     </script>
 @endpush
