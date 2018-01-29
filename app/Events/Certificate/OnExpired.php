@@ -2,11 +2,17 @@
 
 namespace App\Events\Certificate;
 
-// 인증서 만료
+use App\Models\Certificate;
+use Illuminate\Queue\SerializesModels;
+
+// 평가서 만료
 class OnExpired extends Event {
 
-    public function __construct($request) {
+        public $certificate;
 
-    }
+        public function __construct(Certificate $certificate) {
+
+                $this->certificate = $certificate;
+        }
 
 }

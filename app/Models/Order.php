@@ -1,10 +1,10 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: dev
- * Date: 2017. 4. 12.
- * Time: PM 2:52
- */
+* Created by IntelliJ IDEA.
+* User: dev
+* Date: 2017. 4. 12.
+* Time: PM 2:52
+*/
 
 namespace App\Models;
 
@@ -15,6 +15,7 @@ use App\Repositories\DiagnosisRepository;
 
 class Order Extends Model
 {
+
     protected $fillable = [
         'id',
         'chakey',               //주문번호
@@ -52,7 +53,6 @@ class Order Extends Model
         return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd');
     }
 
-
     //주문아이템 조회
     public function orderItem()
     {
@@ -66,6 +66,15 @@ class Order Extends Model
         return $this->hasMany(Order::class, 'group_id', 'group_id')->where("id", "!=", $this->id);
     }
 
+    //그룹으로 주문 조회
+    public function getGroupOrder(){
+        return $this->hasMany(Order::class, 'group', 'id');
+    }
+
+    //그룹으로 주문아이템 조회
+    public function getGroupOrderItem(){
+        return $this->hasMany(OrderItem::class, 'id', 'orders_id');
+    }
 
     // 주문번호 생성
     public function createChakey($car_number)
@@ -118,6 +127,4 @@ class Order Extends Model
     {
         return $this->hasOne(\App\Models\Payment::class, 'moid', 'id');
     }
-
-
 }

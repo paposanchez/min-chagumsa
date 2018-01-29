@@ -119,4 +119,10 @@ class Car Extends Model
             $this->grade->name
         ]);
     }
+
+    // 진단 조회
+    public function diagnosis()
+    {
+        return $this->hasManyThrough(CarNumber::class, Diagnosis::class, 'cars_id', 'car_numbers_id');
+    }
 }

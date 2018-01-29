@@ -2,11 +2,17 @@
 
 namespace App\Events\Warranty;
 
-// 인증서 만료
+use App\Models\Warranty;
+use Illuminate\Queue\SerializesModels;
+
+//보증서 만료
 class OnExpired extends Event {
 
-    public function __construct($request) {
+        public $warranty;
 
-    }
+        public function __construct(Warranty $warranty) {
+
+                $this->warranty = $warranty;
+        }
 
 }

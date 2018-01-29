@@ -460,12 +460,15 @@ return [
     ],
 
     'report_state' => [
-        'order' => '신청',
-        'confirm' => '예약확정',
-        'review' => '검토중',
-        'complete' => '발급완료',
-        'expire' => '만료',
-        'cancel' => '취소'
+        'order' => '신청',            //112
+        'confirm' => '예약확정',       //113
+        'review' => '검토중',          //114
+        'complete' => '발급완료',      //115
+        'expire' => '만료',           //116
+        'not_confirm' => '주문미확정',   //117
+        'delay' => '입고지연',          //118
+        'not_complete' => '장기검토',   //119
+        'cancel' => '취소'            //120
     ],
 
     'report_type' => [
@@ -476,7 +479,7 @@ return [
 
     'car_sort' => [
         'native' => '국산차',
-        'foriegn' => '수입차'
+        'foreign' => '수입차'
     ],
 
     'payment_cd' => [

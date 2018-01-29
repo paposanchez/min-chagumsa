@@ -67,6 +67,15 @@ class Code extends CacheModel
         ];
     }
 
+    public static function getId($group, $name)
+    {
+        $entry = DB::table('codes')
+            ->where("group", $group)
+            ->where("name", $name)
+            ->first();
+
+        return $entry ? $entry->id : false;
+    }
 
     //--------------------------------------------------- extra funcs
     public static function getSelectList($group = '')
@@ -131,30 +140,5 @@ class Code extends CacheModel
         } else {
             return $return->orderBy('id')->pluck('id');
         }
-    }
-
-
-    // public function getName() {
-    //
-    //         $return = [];
-    //
-    //         $return[] = array(
-    //                 'id' => $this->id,
-    //                 'name' => $this->name,
-    //                 'display' => $this->display()
-    //         );
-    //
-    //         return $return[0];
-    // }
-
-
-    public static function getId($group, $name)
-    {
-        $entry = DB::table('codes')
-            ->where("group", $group)
-            ->where("name", $name)
-            ->first();
-
-        return $entry ? $entry->id : false;
     }
 }

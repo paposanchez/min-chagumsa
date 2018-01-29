@@ -3,14 +3,14 @@
 namespace App\Listeners\Order;
 
 
-use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Order\OnCompleted;
 use Activity;
 
 
 // 주문완료
 class OnCompleted  {
 
-        public function handle(Login $handler) {
+        public function handle(OnCompleted $handler) {
 
         }
 }

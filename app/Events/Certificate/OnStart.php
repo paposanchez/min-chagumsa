@@ -2,11 +2,17 @@
 
 namespace App\Events\Certificate;
 
-// 인증서발급완료
+use App\Models\Certificate;
+use Illuminate\Queue\SerializesModels;
+
+// 평가시작
 class OnStart extends Event {
 
-    public function __construct($request) {
+        public $certificate;
 
-    }
+        public function __construct(Certificate $certificate) {
+
+                $this->certificate = $certificate;
+        }
 
 }

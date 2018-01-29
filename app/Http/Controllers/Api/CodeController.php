@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\ApiController;
@@ -6,7 +7,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\Code;
 
-class CodeController extends ApiController {
+class CodeController extends ApiController
+{
 
         /**
         * @SWG\Get(
@@ -29,27 +31,36 @@ class CodeController extends ApiController {
         *     }
         * )
         */
-        public function __invoke(Request $request) {
+        public function __invoke(Request $request)
+        {
+                try {
+                        $where = Code::select('id', 'group', 'name');
 
-                $where = Code::select('id', 'group', 'name');
+                        if ($request->get('group')) {
+                                $where->where("group", $request->get('group'));
+                        }
 
-                if ($request->get('group')) {
-                        $where->where("group", $request->get('group'));
+                        $result = $where->get();
+                        $return = [];
+                        foreach ($result as $entry) {
+                                $return[] = [
+                                        'id' => $entry->id,
+                                        'name' => $entry->name,
+                                        'group' => $entry->group,
+                                        'display' => $entry->display(),
+                                ];
+                        }
+                        return response()->json([
+                                'status' => 'success',
+                                'response' => $return
+                        ]);
+                } catch (\Exception $e) {
+                        response()->json([
+                                'status' => 'fail',
+                                'response' => []
+                        ]);
                 }
-
-                $result = $where->get();
-                $return = [];
-                foreach ($result as $entry) {
-                        $return[] = [
-                                'id' => $entry->id,
-                                'name' => $entry->name,
-                                'group' => $entry->group,
-                                'display' => $entry->display(),
-                        ];
-                }
-                return response()->json($return);
         }
-
 
 
 }
