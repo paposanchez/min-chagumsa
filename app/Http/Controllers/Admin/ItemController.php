@@ -55,35 +55,116 @@ class ItemController extends Controller
 	    $entrys = $where->paginate(25);
 	    
     	return view('admin.item.index', compact('entrys', 'trs', 'tre', 's', 'sf', 'search_fields'));
-    	// return view('admin.item.index');
     }
 
-    public function show(Request $request, $id){
+
+    public function create(Request $request){
+        $car_sort_list = Code::getSelectList('car_sort');
+        $type_list = Code::getSelectList('report_type');
+
+        return view('admin.item.create', compact('car_sort_list', 'type_list'));
+    }
+
+    public function store(Request $request){
+        try{
+            $requestData = $this->validate($request, [
+                'name' => 'required',
+                'price' => 'required',
+                'commission' => 'required',
+                'guarantee' => 'required',
+                'wage' => 'required',
+                'alliance_ratio' => 'required',
+                'certi_ratio' => 'required',
+                'self_ratio' => 'required',
+                'car_sort_cd' => 'required',
+                'type_cd' => 'required'
+            ], [],
+                [
+                    'name' => '상품명',
+                    'price' => '가격',
+                    'commission' => 'PG 수수료',
+                    'guarantee' => '보증료',
+                    'wage' => '공임비용',
+                    'alliance_ratio' => '얼라이언스 Com',
+                    'certi_ratio' => '기술사 Com',
+                    'self_ratio' => '수익',
+                    'car_sort_cd' => '차량 분류',
+                    'type_cd' => '상품 분류'
+                ]);
+
+
+            $item = new Item();
+            $item->create($requestData);
+
+            return redirect()->route('item.index')->with('success', '저장되었습니다.');
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', '오류가 발생햇습니다.');
+        }
+    }
+
+    public function edit(Request $request, $id){
         $item = Item::findOrFail($id);
-        return view('admin.item.show', compact('item'));
+        $car_sort_list = Code::getSelectList('car_sort');
+        $type_list = Code::getSelectList('report_type');
+
+        return view('admin.item.edit', compact('item', 'car_sort_list', 'type_list'));
     }
 
-    public function update(Request $request){
-        $this->validate($request, [
-            'name' => 'required',
-            'price' => 'required',
-            'commission' => 'required',
-            'guarantee' => 'required',
-            'wage' => 'required',
-            'alliance_ratio' => 'required',
-            'certi_ratio' => 'required',
-            'self_ratio' => 'required',
-        ], [],
-        [
-            'name' => '상품명',
-            'price' => '가격',
-            'commission' => 'PG 수수료',
-            'guarantee' => '보증료',
-            'wage' => '공임비용',
-            'alliance_ratio' => '얼라이언스 Com',
-            'certi_ratio' => '기술사 Com',
-            'self_ratio' => '수익',
-        ]);
+    public function update(Request $request, $id)
+    {
+        try{
+            $this->validate($request, [
+                'name' => 'required',
+                'price' => 'required',
+                'commission' => 'required',
+                'guarantee' => 'required',
+                'wage' => 'required',
+                'alliance_ratio' => 'required',
+                'certi_ratio' => 'required',
+                'self_ratio' => 'required',
+                'is_use' => 'boolean'
+            ], [],
+                [
+                    'name' => '상품명',
+                    'price' => '가격',
+                    'commission' => 'PG 수수료',
+                    'guarantee' => '보증료',
+                    'wage' => '공임비용',
+                    'alliance_ratio' => '얼라이언스 Com',
+                    'certi_ratio' => '기술사 Com',
+                    'self_ratio' => '수익',
+                    'is_use' => '사용여부',
+                ]);
+            $item = Item::findOrFail($request->get('item_id'));
+            $item->update([
+                'name' => $request->get('name'),
+                'car_sort_cd' => $request->get('car_sort_cd'),
+                'type_cd' => $request->get('type_cd'),
+                'price' => $request->get('price'),
+                'commission' => $request->get('commission'),
+                'guarantee' => $request->get('guarantee'),
+                'wage' => $request->get('wage'),
+                'alliance_ratio' => $request->get('alliance_ratio'),
+                'certi_ratio' => $request->get('certi_ratio'),
+                'self_ratio' => $request->get('self_ratio'),
+                'is_use' => $request->get('is_use') ? $request->get('is_use') : 0
+            ]);
+
+            return redirect()->back()->with('success', '저장되었습니다.');
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', '오류가 발생햇습니다.');
+        }
+    }
+
+    public function destroy(Request $request, $id){
+        try{
+            $item = Item::findOrFail($id);
+            $item->delete();
+
+            return redirect()->route('item.index')->with('success', '정상적으로 삭제되었습니다.');
+        }catch(\Exception $e){
+            return redirect()->back()->with('erorr', '오류가 발생했습니다.');
+        }
 
 
     }
