@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Post;
 use App\Models\UrlShort;
 use App\Models\Warranty;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -23,7 +24,6 @@ class DashboardController extends Controller
      */
     public function __invoke()
     {
-//        $short = Helper::shortUrl('http://test.com', 5);
         $today = date('Y-m-d');
         $user = Auth::user();
 
@@ -60,6 +60,10 @@ class DashboardController extends Controller
 
         return view('admin.dashboard.index',
             compact('total_order', 'today_order', 'cancel_order', 'json_array', 'total_diagnosis', 'today_diagnosis', 'ready_diagnosis', 'completed_diagnosis', 'total_certificate', 'today_certificate', 'ready_certificate', 'completed_certificate', 'posts', 'user'));
+    }
+
+    public function test(Request $request){
+        dd($request->all());
     }
 
 }
