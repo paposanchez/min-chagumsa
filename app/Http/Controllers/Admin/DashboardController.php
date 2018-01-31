@@ -23,7 +23,7 @@ class DashboardController extends Controller
      */
     public function __invoke()
     {
-//        $short = Helper::shortUrl('http://test.com', 5);
+        $short = Helper::shortUrl('http://test.com', 5);
         $today = date('Y-m-d');
         $user = Auth::user();
 
