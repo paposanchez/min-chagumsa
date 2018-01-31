@@ -133,7 +133,7 @@
 
 
         {{-- application script --}}
-        {{ Html::script(mix( '/assets/js/app.front.js' )) }}
+        {{ Html::script(mix( '/assets/js/app.front.js'), array(), true) }}
 
         @stack( 'footer-script' )
 
