@@ -9,13 +9,13 @@
     <title>차검사 인증서</title>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    {!! Html::style(mix('/assets/css/app.css')) !!}
-    {{ Html::style(mix('/assets/css/vendor.css')) }}
-    {{ Html::script(mix( '/assets/js/app.js' )) }}
+    {!! Html::style(mix('/assets/css/app.css'), array(), true) !!}
+    {{ Html::style(mix('/assets/css/vendor.css'), array(), true) }}
+    {{ Html::script(mix( '/assets/js/app.js' ), array(), true) }}
 
-    {{ Html::style(Helper::assets( 'themes/v1/web/css/common.css' )) }}
-    {{ Html::style(Helper::assets( 'themes/v1/web/css/report.css' )) }}
-    {{ Html::script(Helper::assets( 'themes/v1/web/js/common.js' )) }}
+    {{ Html::style(Helper::assets( 'themes/v1/web/css/common.css' ), array(), true) }}
+    {{ Html::style(Helper::assets( 'themes/v1/web/css/report.css' ), array(), true) }}
+    {{ Html::script(Helper::assets( 'themes/v1/web/js/common.js' ), array(), true) }}
 
 
 </head>
