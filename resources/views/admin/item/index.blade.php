@@ -3,6 +3,8 @@
 @section( 'content' )
     <section id="content">
         <div class="container">
+            <a href="{{ route('item.create') }}" class="btn btn-float btn-primary m-btn"><i class="zmdi zmdi-plus"></i></a>
+
             <div class="card">
                 <div class="card-header">
                     <h2>상품 관리
@@ -63,7 +65,7 @@
                                 <td class="">{{ $data->self_ratio }}%</td>
 
                                 <td>
-                                    <a href="{{ route('item.show', ['id' => $data->id]) }}"
+                                    <a href="{{ route('item.edit', ['id' => $data->id]) }}"
                                        class="btn btn-default">상세보기</a>
                                 </td>
 

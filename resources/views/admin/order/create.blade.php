@@ -47,7 +47,9 @@
                         <label for="" class="control-label col-md-3">회원선택</label>
                         <div class="col-md-3">
                             @if($user->can('order.user.show'))
-                                {!! Form::select('orderer_name', $users, null, ['class'=>'form-control chosen', 'id'=>'orderer_name']) !!}
+                                <div class="select">
+                                    {!! Form::select('orderer_name', $users, [], ['class'=>'form-control chosen', 'id'=>'orderer_name']) !!}
+                                </div>
                             @else
                                 <input type="text" class="form-control" placeholder="ex) 홍길동"
                                        name="orderer_name"
