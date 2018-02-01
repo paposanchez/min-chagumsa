@@ -427,7 +427,7 @@
                         $('#order_number_confirm').val(data).trigger("change");
                     },
                     error: function (data) {
-                        alert('주문번호를 다시 확인해주세요.');
+                        alert('주문번호가 정확하지 않거나 발급완료 되지 않은 진단입니다. \n확인 후 다시 신청해주세요.');
                     }
                 })
             });
