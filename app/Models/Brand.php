@@ -9,9 +9,9 @@
 namespace App\Models;
 
 use DB;
-use Illuminate\Database\Eloquent\Model;
+use App\Abstracts\Model\Cache AS CacheModel;
 
-class Brand extends Model
+class Brand extends CacheModel
 {
     protected $primaryKey = 'id';
     protected $fillable = [

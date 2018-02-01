@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use DB;
-use Illuminate\Database\Eloquent\Model;
+use App\Abstracts\Model\Cache AS CacheModel;
 
-class Grade extends Model
+class Grade extends CacheModel
 {
+
     //
     protected $fillable = [
         'details_id',

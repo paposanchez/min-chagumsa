@@ -9,12 +9,11 @@
 namespace App\Models;
 
 use DB;
-use Illuminate\Database\Eloquent\Model;
-
 use App\Models\Models;
 use App\Models\Car;
+use App\Abstracts\Model\Cache AS CacheModel;
 
-class Detail Extends Model
+class Detail extends CacheModel
 {
     protected $primaryKey = 'id';
     protected $fillable = [
