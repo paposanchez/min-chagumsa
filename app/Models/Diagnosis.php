@@ -133,36 +133,6 @@ class Diagnosis extends Model
                 }
         }
 
-        // 진단관련 이슈처리
-        public static function getIssues($code, $garage_id = '', $is_count = false)
-        {
-                $where = Diagnosis::select();
-
-                if ($garage_id) {
-                        $where->where('garage_id', $garage_id);
-                }
-
-                switch ($code) {
-                        case 117:
-                        $where->where("status_cd", 112)->where('updated_at', ">", Carbon::now()->subHours(1));
-                        break;
-
-                        case 118:
-                        $where->where("status_cd", 113)->where('reservation_at', "<", Carbon::now());
-                        break;
-
-                        case 119: //장기검토
-                        $where->where("status_cd", 114)->where('start_at', "<", Carbon::now()->subHours(1));
-                        break;
-
-                }
-
-                if ($is_count) {
-                        return $where->count();
-                } else {
-                        return $where->get();
-                }
-        }
 
 
         // 이슈여부
