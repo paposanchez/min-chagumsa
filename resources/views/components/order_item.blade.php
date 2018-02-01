@@ -22,8 +22,7 @@
             생성일 : {{ $order_item->created_at->format('Y-m-d') }}
         </div>
     </div>
-
-    {{ dd($order_item->order) }}
+    
     <div class="pti-footer">
         @if($order_item->type_cd == '121')
             <a href="{{ url('diagnosis', [$order_item->diagnosis->id]) }}" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
