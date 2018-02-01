@@ -62,8 +62,4 @@ class DashboardController extends Controller
             compact('total_order', 'today_order', 'cancel_order', 'json_array', 'total_diagnosis', 'today_diagnosis', 'ready_diagnosis', 'completed_diagnosis', 'total_certificate', 'today_certificate', 'ready_certificate', 'completed_certificate', 'posts', 'user'));
     }
 
-    public function test(Request $request){
-        dd($request->all());
-    }
-
 }
