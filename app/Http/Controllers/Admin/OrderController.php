@@ -419,157 +419,10 @@ class OrderController extends Controller
             return redirect()->back()->with('error', '오류가 발생하였습니다.');
         }
 
-
-
     }
 
 
-    /**
-     * @param Request $request
-     * 주문취소
-     * 현재 주문이 입고 이후의 상태면 취소가 불가능하다.
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function orderCancel(Request $request)
-    {
-        $validate = Validator::make($request->all(), [
-            'order_id' => 'required'
-        ]);
 
-
-        if ($validate->fails()) {
-            return redirect()->back()->with('error', '주문번호가 누락되었습니다.');
-        }
-
-        $order_id = $request->get('order_id');
-
-
-        $order = Order::find($order_id);
-        $event = '';
-        if ($order) {
-
-            $purchase = Purchase::find($order->purchase_id);
-
-            if (in_array($order->status_cd, [101, 102, 103, 104])) {
-                $cancelAmt = $order->item->price;
-
-                $payment = Payment::OrderBy('id', 'DESC')->whereIn('resultCd', [3001, 4000, 4100])
-                    ->where('orders_id', $order_id)->first();
-                if ($payment) {
-                    $tid = $payment->tid;//거래아이디
-                    $cancelMsg = "고객요청";
-                    $partialCancelCode = 0; //전체취소
-                    $dataType = "json";
-
-                    $payment_cancel = PaymentCancel::OrderBy('id', 'DESC')->whereIn('resultCd', [2001, 2002])
-                        ->where('orders_id', $order_id)->first();
-                    if ($payment_cancel) {
-                        if (in_array($payment_cancel->resultCd, [2001, 2002])) {
-                            if ($order->status_cd != 100) {
-                                //결제취소 PG연동은 완료 되었으나, order 상태가 변경 안됨.
-                                $order->status_cd = 100;
-                                $order->refund_status = 1;
-                                $order->save();
-                            }
-                            $event = 'success';
-                            $message = trans('web/mypage.cancel_complete');
-                        }
-                    } else {
-                        $payment_cancel = new PaymentCancel();
-                        $cancel_process = $payment_cancel->paymentCancelProcess($order_id, $cancelAmt, $tid);
-
-                        if (in_array($cancel_process->result_cd, [2001, 2002])) {
-                            if (isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
-                            if (isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
-                            if (isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
-                            if (isset($cancel_process->result_cd)) $payment_cancel->resultCd = $cancel_process->result_cd;
-                            $payment_cancel->cancelAmt = $cancelAmt;
-                            $payment_cancel->orders_id = $order_id;
-                            $payment_cancel->save();
-
-                            //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
-                            $order->status_cd = 100;
-                            $order->refund_status = 1;
-                            $order->save();
-
-                            //purchases 업데이트
-                            if ($purchase) {
-                                $purchase->status_cd = 100;
-                                $purchase->save();
-                            }
-
-                            $message = trans('web/mypage.cancel_complete');
-                            $event = 'success';
-                        } else {
-                            //                            dd($cancel_process);
-                            $message = "해당 결제내역에 대한 결제취소를 진행할 수 없습니다.<br>";
-                            if (isset($cancel_process->result_msg)) $message .= "결제취소 거부 사유: " . $cancel_process->result_msg;
-                            $event = 'error';
-                        }
-                    }
-                } else {
-                    if (in_array($order->status_cd, [101, 102, 103, 104])) {
-                        //주문상태가 결제 완료가 아니며, 주문신청/예약확인/입고대기/입고 상태까지만 주문 취소를 함.
-                        $order->status_cd = 100;
-                        $order->refund_status = 1;
-                        $order->save();
-
-                        //purchases 업데이트
-                        if ($purchase) {
-                            $purchase->status_cd = 100;
-                            $purchase->save();
-                        }
-                        $message = trans('web/mypage.cancel_complete');
-                        $event = 'success';
-                    } else {
-                        $code = Code::find($order->status_cd);
-
-                        $message = "차량 입고 완료 및 차량 상태 점검의 경우 주문을 취소할수 없습니다.<br>입고 이전 주문이 취소 불가일경우 관리자에게 문의해 주세요.";
-                        if ($code) {
-                            $message .= "<br>현재 상태: " . trans('code.order_state.' . $code->name);
-                        }
-                        $event = 'error';
-                    }
-                }
-            }//주문취소가 가능한 상태코드값
-            else {
-                $message = "주문취소는 차량 입고 이후에는 취소 불가입니다.<br>자세한 사항은 관리자에게 문의해 주세요.";
-                $event = 'error';
-            }//주문 상태가 입고완료로 진행되어 처리못함을 표시함.
-
-        } else {
-            $message = "해당 주문을 확인할 수 없습니다.<br>관리자에게 문의해 주세요.";
-            $event = 'error';
-        }
-
-        if ($event == 'success') {
-            //문자, 메일 송부하기
-            $orderer_name = $order->orderer_name;
-            $order_num = $order->chakey;
-            try {
-                //메일전송=
-                $mail_message = [
-                    'enter_date' => $order->reservation->reservation_at, 'garage' => $order->garage->name, 'price' => $order->item->price
-                ];
-                Mail::send(new \App\Mail\Ordering($order->orderer->email, "[차검사 주문 취소]", $mail_message, 'message.email.cancel-ordering-user'));
-            } catch (\Exception $e) {
-                //                throw  new Exception($e->getMessage());
-            }
-
-            try {
-                // SMS전송
-                $bcs_message = view('message.sms.cancel-ordering-bcs', compact('orderer_name', 'order_num'));
-                $user_message = view('message.sms.cancel-ordering-user');
-                event(new SendSms($order->orderer_mobile, '[차검사 주문 취소]', $user_message));
-                event(new SendSms($order->garage->user_extra->ceo_mobile, '[차검사 주문 취소]', $bcs_message));
-            } catch (\Exception $e) {
-            }
-            //발송 끝
-        }
-
-        return redirect()->route('order.show', $order_id)
-            ->with($event, $message);
-    }
 
     /**
      * @param Request $request
@@ -648,10 +501,10 @@ class OrderController extends Controller
     {
         try {
             $chakey = $request->get('order_number');
-            $order = Order::where('chakey', $chakey)->first();
+            $diagnosis = Diagnosis::where('chakey', $chakey)->first();
 
-            if ($order && $order->isDiagnosis($order)) {
-                return response()->json($order->carNumber->car->brand->car_type);
+            if ($diagnosis && $diagnosis->status_cd == 115 ) {
+                return response()->json($diagnosis->carNumber->car->brand->car_type);
             } else {
                 throw new Exception('fail');
             }
@@ -697,5 +550,153 @@ class OrderController extends Controller
         return $items->get();
     }
 
+
+
+//    /**
+//     * @param Request $request
+//     * 주문취소
+//     * 현재 주문이 입고 이후의 상태면 취소가 불가능하다.
+//     * @return \Illuminate\Http\RedirectResponse
+//     */
+//    public function orderCancel(Request $request)
+//    {
+//        $validate = Validator::make($request->all(), [
+//            'order_id' => 'required'
+//        ]);
+//
+//
+//        if ($validate->fails()) {
+//            return redirect()->back()->with('error', '주문번호가 누락되었습니다.');
+//        }
+//
+//        $order_id = $request->get('order_id');
+//
+//
+//        $order = Order::find($order_id);
+//        $event = '';
+//        if ($order) {
+//
+//            $purchase = Purchase::find($order->purchase_id);
+//
+//            if (in_array($order->status_cd, [101, 102, 103, 104])) {
+//                $cancelAmt = $order->item->price;
+//
+//                $payment = Payment::OrderBy('id', 'DESC')->whereIn('resultCd', [3001, 4000, 4100])
+//                    ->where('orders_id', $order_id)->first();
+//                if ($payment) {
+//                    $tid = $payment->tid;//거래아이디
+//                    $cancelMsg = "고객요청";
+//                    $partialCancelCode = 0; //전체취소
+//                    $dataType = "json";
+//
+//                    $payment_cancel = PaymentCancel::OrderBy('id', 'DESC')->whereIn('resultCd', [2001, 2002])
+//                        ->where('orders_id', $order_id)->first();
+//                    if ($payment_cancel) {
+//                        if (in_array($payment_cancel->resultCd, [2001, 2002])) {
+//                            if ($order->status_cd != 100) {
+//                                //결제취소 PG연동은 완료 되었으나, order 상태가 변경 안됨.
+//                                $order->status_cd = 100;
+//                                $order->refund_status = 1;
+//                                $order->save();
+//                            }
+//                            $event = 'success';
+//                            $message = trans('web/mypage.cancel_complete');
+//                        }
+//                    } else {
+//                        $payment_cancel = new PaymentCancel();
+//                        $cancel_process = $payment_cancel->paymentCancelProcess($order_id, $cancelAmt, $tid);
+//
+//                        if (in_array($cancel_process->result_cd, [2001, 2002])) {
+//                            if (isset($cancel_process->PayMethod)) $payment_cancel->payMethod = $cancel_process->PayMethod;
+//                            if (isset($cancel_process->CancelDate)) $payment_cancel->cancelDate = $cancel_process->CancelDate;
+//                            if (isset($cancel_process->CancelTime)) $payment_cancel->cancelTime = $cancel_process->CancelTime;
+//                            if (isset($cancel_process->result_cd)) $payment_cancel->resultCd = $cancel_process->result_cd;
+//                            $payment_cancel->cancelAmt = $cancelAmt;
+//                            $payment_cancel->orders_id = $order_id;
+//                            $payment_cancel->save();
+//
+//                            //결제취소완료 또는 진행 중. 상태 업데이트 및 결제취소 로그 기록
+//                            $order->status_cd = 100;
+//                            $order->refund_status = 1;
+//                            $order->save();
+//
+//                            //purchases 업데이트
+//                            if ($purchase) {
+//                                $purchase->status_cd = 100;
+//                                $purchase->save();
+//                            }
+//
+//                            $message = trans('web/mypage.cancel_complete');
+//                            $event = 'success';
+//                        } else {
+//                            //                            dd($cancel_process);
+//                            $message = "해당 결제내역에 대한 결제취소를 진행할 수 없습니다.<br>";
+//                            if (isset($cancel_process->result_msg)) $message .= "결제취소 거부 사유: " . $cancel_process->result_msg;
+//                            $event = 'error';
+//                        }
+//                    }
+//                } else {
+//                    if (in_array($order->status_cd, [101, 102, 103, 104])) {
+//                        //주문상태가 결제 완료가 아니며, 주문신청/예약확인/입고대기/입고 상태까지만 주문 취소를 함.
+//                        $order->status_cd = 100;
+//                        $order->refund_status = 1;
+//                        $order->save();
+//
+//                        //purchases 업데이트
+//                        if ($purchase) {
+//                            $purchase->status_cd = 100;
+//                            $purchase->save();
+//                        }
+//                        $message = trans('web/mypage.cancel_complete');
+//                        $event = 'success';
+//                    } else {
+//                        $code = Code::find($order->status_cd);
+//
+//                        $message = "차량 입고 완료 및 차량 상태 점검의 경우 주문을 취소할수 없습니다.<br>입고 이전 주문이 취소 불가일경우 관리자에게 문의해 주세요.";
+//                        if ($code) {
+//                            $message .= "<br>현재 상태: " . trans('code.order_state.' . $code->name);
+//                        }
+//                        $event = 'error';
+//                    }
+//                }
+//            }//주문취소가 가능한 상태코드값
+//            else {
+//                $message = "주문취소는 차량 입고 이후에는 취소 불가입니다.<br>자세한 사항은 관리자에게 문의해 주세요.";
+//                $event = 'error';
+//            }//주문 상태가 입고완료로 진행되어 처리못함을 표시함.
+//
+//        } else {
+//            $message = "해당 주문을 확인할 수 없습니다.<br>관리자에게 문의해 주세요.";
+//            $event = 'error';
+//        }
+//
+//        if ($event == 'success') {
+//            //문자, 메일 송부하기
+//            $orderer_name = $order->orderer_name;
+//            $order_num = $order->chakey;
+//            try {
+//                //메일전송=
+//                $mail_message = [
+//                    'enter_date' => $order->reservation->reservation_at, 'garage' => $order->garage->name, 'price' => $order->item->price
+//                ];
+//                Mail::send(new \App\Mail\Ordering($order->orderer->email, "[차검사 주문 취소]", $mail_message, 'message.email.cancel-ordering-user'));
+//            } catch (\Exception $e) {
+//                //                throw  new Exception($e->getMessage());
+//            }
+//
+//            try {
+//                // SMS전송
+//                $bcs_message = view('message.sms.cancel-ordering-bcs', compact('orderer_name', 'order_num'));
+//                $user_message = view('message.sms.cancel-ordering-user');
+//                event(new SendSms($order->orderer_mobile, '[차검사 주문 취소]', $user_message));
+//                event(new SendSms($order->garage->user_extra->ceo_mobile, '[차검사 주문 취소]', $bcs_message));
+//            } catch (\Exception $e) {
+//            }
+//            //발송 끝
+//        }
+//
+//        return redirect()->route('order.show', $order_id)
+//            ->with($event, $message);
+//    }
 
 }
