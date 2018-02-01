@@ -180,15 +180,15 @@
 
                                 <td class="text-center">
                                     @if($user->hasRole('admin'))
-                                    <a href="/user/{{ $data->orderItem->order->orderer_id }}/edit">
+                                    <a href="/user/{{ $data->order->orderer_id }}/edit">
                                         {{ $data->orderItem->order->orderer_name }}
                                     </a>
                                     @else
-                                        {{ $data->orderItem->order->orderer_name }}
+                                        {{ $data->order->orderer_name }}
                                     @endif
 
                                     <br/>
-                                    <small class="text-warning">{{ $data->orderItem->order->orderer_mobile }}</small>
+                                    <small class="text-warning">{{ $data->order->orderer_mobile }}</small>
                                 </td>
 
                                 <td class="text-center">
