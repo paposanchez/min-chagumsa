@@ -5,14 +5,14 @@
 @section( 'content-header-script' )
 <script src="https://use.fontawesome.com/23c54b84b1.js"></script>
 
-{{ Html::style(Helper::assets( 'themes/v1/mobile/css/common.css' )) }}
-{{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub.css' )) }}
-{{ Html::style(Helper::assets( 'themes/v1/mobile/css/main.css' )) }}
-{{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' )) }}
+{{ Html::style(Helper::assets( 'themes/v1/mobile/css/common.css' ), array(),  env('APP_SECURE', 'true')) }}
+{{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub.css' ), array(),  env('APP_SECURE', 'true')) }}
+{{ Html::style(Helper::assets( 'themes/v1/mobile/css/main.css' ), array(),  env('APP_SECURE', 'true')) }}
+{{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' ), array(),  env('APP_SECURE', 'true')) }}
 
-{{ Html::style(Helper::assets('css/app.css')) }}
-{{ Html::style(Helper::assets('css/vendor.css')) }}
-{{ Html::style(Helper::assets('themes/v1/mobile/css/mobile.css')) }}
+{{ Html::style(Helper::assets('css/app.css'), array(),  env('APP_SECURE', 'true')) }}
+{{ Html::style(Helper::assets('css/vendor.css'), array(),  env('APP_SECURE', 'true')) }}
+{{ Html::style(Helper::assets('themes/v1/mobile/css/mobile.css'), array(),  env('APP_SECURE', 'true')) }}
 
 @stack('header-script')
 @endsection

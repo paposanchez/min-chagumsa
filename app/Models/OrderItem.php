@@ -30,7 +30,7 @@ class OrderItem extends Model
     //주문 조회
     public function order()
     {
-        return $this->belongsTo(Order::class, 'orders_id', 'id');
+        return $this->hasOne(Order::class, 'id', 'orders_id');
     }
 
     //아이템 조회

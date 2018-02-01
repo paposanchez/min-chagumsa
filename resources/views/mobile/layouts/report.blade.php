@@ -5,9 +5,9 @@
 @section( 'content-header-script' )
     <script src="https://use.fontawesome.com/23c54b84b1.js"></script>
 
-    {{ Html::style(Helper::assets( 'themes/v1/mobile/css/common.css' )) }}
-    {{ Html::style(Helper::assets( 'themes/v1/mobile/css/report.css' )) }}
-    {{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' )) }}
+    {{ Html::style(Helper::assets( 'themes/v1/mobile/css/common.css' ), array(),  env('APP_SECURE', 'true')) }}
+    {{ Html::style(Helper::assets( 'themes/v1/mobile/css/report.css' ), array(),  env('APP_SECURE', 'true')) }}
+    {{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' ), array(),  env('APP_SECURE', 'true')) }}
 
     {{--{{ Html::style(Helper::assets('css/app.css')) }}--}}
     {{--{{ Html::style(Helper::assets('css/vendor.css')) }}--}}
@@ -19,7 +19,7 @@
 @section( 'content-header' )
 
         <div class='report_head_wrap'>
-            <h1>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/report/report_logo.png"), "차검사", ['id' => 'top-logo']) }}</h1>
+            <h1>{{ Html::image(\App\Helpers\Helper::theme_mobile("/img/report/report_logo.png"), "차검사", ['id' => 'top-logo'], array(),  env('APP_SECURE', 'true')) }}</h1>
         </div>
 
 @endsection
