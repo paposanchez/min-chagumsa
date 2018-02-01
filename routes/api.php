@@ -22,7 +22,8 @@ Route::get('notice/news', "NoticeController@news");
 
 
 
-
+// 디바이스 등록
+Route::get('device', "DeviceController@index");
 
 
 

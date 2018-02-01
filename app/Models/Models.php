@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Abstracts\Model\Cache AS CacheModel;
 
-class Models extends Model {
+class Detail extends CacheModel
+{
 
         protected $table = 'models';
         protected $primaryKey = 'id';

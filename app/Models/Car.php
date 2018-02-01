@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use DB;
-use Illuminate\Database\Eloquent\Model;
+use App\Abstracts\Model\Cache AS CacheModel;
 
-
-class Car Extends Model
+class Car extends CacheModel
 {
     public $incrementing = false;
     protected $primaryKey = 'id';
