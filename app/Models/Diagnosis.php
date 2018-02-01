@@ -15,16 +15,18 @@ class Diagnosis extends Model
         protected $primaryKey = 'id';
         protected $fillable = [
                 'chakey',
-                'car_numbers_id',   //차람번호 테이블 id
-                'expire_period',    //만료기간
-                'status_cd',    //상태코드
-                'open_cd',  //공개여부
-                'garage_id',    //정비소 번호
-                'engineer_id',  //엔지니어 번호
-                'start_at',     //진단시작시간
-                'completed_at',       //진단완료시간
-                'reservation_at',   //예약날짜
-                'confirm_at'        //예약확정날
+                'car_numbers_id',       //차람번호 테이블 id
+                'expire_period',        //만료기간
+                'status_cd',            //상태코드
+                'open_cd',              //공개여부
+                'garage_id',            //정비소 번호
+                'engineer_id',          //엔지니어 번호
+                'reservation_user_id',  //예약자
+                'reservation_at',       //예약날짜
+                'confirm_at'            //예약확정날
+                'start_at',             //진단시작시간
+                'completed_at',         //진단완료시간
+
         ];
 
         protected $dates = [
@@ -147,7 +149,7 @@ class Diagnosis extends Model
                 {
                         return Code::where('id', $issue_cd)->first();
                 }else{
-                        return '';
+                        return false;
                 }
         }
 

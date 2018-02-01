@@ -23,28 +23,31 @@ class DiagnosisController extends ApiController
 {
 
         use Uploader;
+
         private function modelDiagnosis($diagnosis)
         {
                 return [
-                        "diagnosis_id"  => $diagnosis->id,
+                        "id"            => $diagnosis->id,
                         "chakey"        => $diagnosis->chakey,
                         "reservation_at"        => [
                                 "date" => $diagnosis->reservation_at->format('Y-m-d'),
-                                "time" => $diagnosis->reservation_at->format('H')
+                                "time" => $diagnosis->reservation_at->format('H'),
+                                "fulldate" => $diagnosis->reservation_at->format('Y-m-d H:i:s')
                         ],
                         "status"        => [
                                 'status_cd'     => $diagnosis->status_cd,
                                 'display_name'  => $diagnosis->status->display()
                         ],
                         "issue"         => $diagnosis->isIssue(),
-                        "start_at"      => $diagnosis->start_at,
-                        "completed_at"  => $diagnosis->completed_at,
+                        "start_at"      => $diagnosis->start_at ? $diagnosis->start_at->format('Y-m-d H:i:s') : '',
+                        "completed_at"  => $diagnosis->completed_at ? $diagnosis->completed_at->format('Y-m-d H:i:s') : '',
                         "orderer"       => [
                                 "name"          => $diagnosis->orderItem->order->orderer_name,
-                                "email"         => $diagnosis->orderItem->order->orderer ? $diagnosis->orderItem->order->orderer->email : '-',
                                 "mobile"        => $diagnosis->orderItem->order->orderer_mobile
                         ],
                         "car" => [
+                                "car_number"     => $diagnosis->carNumber->car_number,
+                                "vin_number"     => $diagnosis->carNumber->cars_id,
                                 "car_model"     => $diagnosis->carNumber->car->getFullName(),
                                 "brand"         => $diagnosis->carNumber->car->brand->name,
                                 "detail"        => $diagnosis->carNumber->car->detail->name,
@@ -53,93 +56,6 @@ class DiagnosisController extends ApiController
                 ];
         }
 
-        /**
-        * @SWG\Get(
-        *     path="/diagnosis/get-diagnosis",
-        *     tags={"Diagnosis"},
-        *     summary="전체 예약목록",
-        *     description="예약 전체목록",
-        *     operationId="getDiagnosisWorking",
-        *     produces={"application/json"},
-        *     @SWG\Parameter(name="user_id",in="query",description="bcs 번호",required=true,type="integer",format="int32"),
-        *     @SWG\Parameter(name="date",in="query",description="날짜",required=false,type="string",format="varchar"),
-        *     @SWG\Parameter(name="status_cd",in="query",description="상태값",required=false,type="integer",format="int32"),
-        *     @SWG\Response(response=200,description="success",
-        *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
-        *     ),
-        *     @SWG\Response(response=401, description="unauthorized"),
-        *     @SWG\Response(response=500, description="internal server error"),
-        *     @SWG\Response(response="default",description="error",
-        *          @SWG\Schema(ref="#/definitions/Error")
-        *     ),
-        *     security={
-        *       {"api_key": {}}
-        *     }
-        * )
-        */
-        public function getDiagnosis(Request $request)
-        {
-
-                try {
-
-                        $requestData = $request->validate([
-                                'user_id'       => 'required|exists:users,id',
-                                'date'          => 'required|date_format:Y-m-d',
-                                'status_cd'     => 'required|in:112,113,114,115,116',
-                        ]);
-
-
-                        // 조회를 요청한 사용자의 정보조회
-                        $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
-                        $garage_id      = $user->user_extra->garage_id;
-                        $status_cd      = $requestData['status_cd'];
-                        $date           = $requestData['date'];
-
-                        $where = Diagnosis::select();
-
-                        //상태값 검색시
-                        if ($status_cd) {
-                                $where->where('diagnosis.status_cd', $status_cd);
-                                // if ($status_cd == 115) {
-                                //         $where->orderBy("reservation_at", "desc");
-                                // }
-                        }
-
-                        //날짜 검색시
-                        if ($date) {
-                                $where->whereDate('reservation_at', '=', $date);
-                        }
-
-                        $result = $where->get();
-
-                        $entrys = [];
-                        $status =       [
-                                112     => 0,   // 신청
-                                113     => 0,   // 예약확정
-                                114     => 0,   // 검토중
-                                115     => 0,   // 발급완료
-                        ];     // 상태별 갯수
-                        foreach ($result as $diagnosis) {
-                                $status[$diagnosis->status_cd]  += 1;
-                                $entrys[] = $this->modelDiagnosis($diagnosis);
-
-
-                        }
-                        return response()->json([
-                                "status"        => 'success',
-                                'count'         => $status,
-                                "data"          => [
-                                        "total"         => count($entrys),
-                                        "entrys"        => $entrys
-                                ]
-                        ]);
-                } catch (Exception $e) {
-                        dd($e);
-                        return response()->json([
-                                "status" => 'fail'
-                        ]);
-                }
-        }
 
         public function getIssue(Request $request)
         {
@@ -158,12 +74,12 @@ class DiagnosisController extends ApiController
                         // 토탈
                         $count = [
                                 "total" => 0,
-                                117     => Diagnosis::getIssues(117, $garage_id, true),
-                                118     => Diagnosis::getIssues(118, $garage_id, true),
-                                119     => Diagnosis::getIssues(119, $garage_id, true),
+                                '117'   => Diagnosis::getIssues(117, $garage_id, true),
+                                '118'   => Diagnosis::getIssues(118, $garage_id, true),
+                                '119'   => Diagnosis::getIssues(119, $garage_id, true),
                         ];
                         // total
-                        $count['total'] = $count[117] + $count[118] + $count[119];
+                        $count['total'] = $count['117'] + $count['118'] + $count['119'];
 
                         // 현재상태 검색결과
                         $entrys = [];
@@ -224,6 +140,75 @@ class DiagnosisController extends ApiController
 
 
 
+        /**
+        * @SWG\Get(
+        *     path="/diagnosis/get-diagnosis",
+        *     tags={"Diagnosis"},
+        *     summary="전체 예약목록",
+        *     description="예약 전체목록",
+        *     operationId="getDiagnosisWorking",
+        *     produces={"application/json"},
+        *     @SWG\Parameter(name="user_id",in="query",description="bcs 번호",required=true,type="integer",format="int32"),
+        *     @SWG\Parameter(name="date",in="query",description="날짜",required=false,type="string",format="varchar"),
+        *     @SWG\Parameter(name="status_cd",in="query",description="상태값",required=false,type="integer",format="int32"),
+        *     @SWG\Response(response=200,description="success",
+        *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
+        *     ),
+        *     @SWG\Response(response=401, description="unauthorized"),
+        *     @SWG\Response(response=500, description="internal server error"),
+        *     @SWG\Response(response="default",description="error",
+        *          @SWG\Schema(ref="#/definitions/Error")
+        *     ),
+        *     security={
+        *       {"api_key": {}}
+        *     }
+        * )
+        */
+
+        public function getDiagnosis(Request $request)
+        {
+                try {
+
+                        $requestData = $request->validate([
+                                'user_id'       => 'required|exists:users,id',
+                                'date'          => 'required|date_format:Y-n-d',
+                                'status_cd'     => 'required|in:112,113,114,115,116',
+                        ]);
+
+
+                        // 조회를 요청한 사용자의 정보조회
+                        $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
+                        $garage_id      = $user->user_extra->garage_id;
+
+                        $status =       [
+                                '112'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 112)->count(),   // 신청
+                                '113'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 113)->count(),   // 예약확정
+                                '114'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 114)->count(),   // 검토중
+                                '115'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 115)->count(),   // 발급완료
+                        ];     // 상태별 갯수
+
+                        $result        = Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', $requestData['status_cd'])->get();
+                        $entrys = [];
+                        foreach ($result as $diagnosis) {
+                                $entrys[] = $this->modelDiagnosis($diagnosis);
+                        }
+
+                        return response()->json([
+                                "status"        => 'success',
+                                'count'         => $status,
+                                "data"          => [
+                                        "total"         => count($entrys),
+                                        "entrys"        => $entrys
+                                ]
+                        ]);
+
+                } catch (Exception $e) {
+                        dd($e);
+                        return response()->json([
+                                "status" => 'fail'
+                        ]);
+                }
+        }
 
         public function search(Request $request)
         {
@@ -262,16 +247,16 @@ class DiagnosisController extends ApiController
                                 ->orWhere('orders.orderer_mobile', 'like', '%' . $s)
                                 ->select('diagnosis.*');
                         }
-
-
                         $result = $where->get();
-
                         $entrys = [];
+
+
+                                //@TODO 상태별 카운트는 검색쿼리가 like 인관계로 일단 뺀다
                         $status =       [
-                                112     => 0,   // 신청
-                                113     => 0,   // 예약확정
-                                114     => 0,   // 검토중
-                                115     => 0,   // 발급완료
+                                // '112'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 112)->count(),   // 신청
+                                // '113'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 113)->count(),   // 예약확정
+                                // '114'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 114)->count(),   // 검토중
+                                // '115'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 115)->count(),   // 발급완료
                         ];     // 상태별 갯수
                         foreach ($result as $diagnosis) {
                                 $status[$diagnosis->status_cd]  += 1;
@@ -384,7 +369,6 @@ class DiagnosisController extends ApiController
         public function update(Request $request)
         {
 
-
                 try {
 
                         $requestData = $request->validate([
@@ -392,6 +376,9 @@ class DiagnosisController extends ApiController
                                 'diagnosis_id'  => 'required|exists:diagnosis,id',
                                 'diagnoses'     => 'required'
                         ]);
+
+
+
 
                         // 조회를 요청한 사용자의 정보조회
                         $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
@@ -729,60 +716,154 @@ class DiagnosisController extends ApiController
 
                 }
 
-                //
-                // try {
-                //         $order_id = $request->get('order_id');
-                //         $user_id = $request->get('user_id');
-                //
-                //         $validator = Validator::make($request->all(), [
-                //                 'user_id' => 'required|exists:users,id',
-                //                 'order_id' => 'required|exists:orders,id'
-                //         ]);
-                //         if ($validator->fails()) {
-                //                 return response()->json([
-                //                         "status" => 'fail'
-                //                 ]);
-                //         }
-                //
-                //         $order = Order::where('id', $order_id)->where('engineer_id', $user_id)->first();
-                //         $order->status_cd = 107;
-                //         $order->diagnosed_at = Carbon::now();
-                //         $order->save();
-                //
-                //
-                //         $order_number = $order->getOrderNumber();
-                //         $garage_info = User::find($order->garage_id);
-                //         $garage = $garage_info->name;
-                //         $orderer_name = $order->orderer_name;
-                //
-                //         try {
-                //                 //메일전송
-                //
-                //                 $mail_message = [
-                //                         'orderer_name' => $orderer_name, 'order_num' => $order_number, 'garage' => $garage
-                //                 ];
-                //                 Mail::send(new \App\Mail\Ordering($order->technician->email, "고객님[" . $order->getOrderNumber() . "]의 차량진단이 완료되었습니다.", $mail_message, 'message.email.fin-diagnosis-tech'));
-                //         } catch (\Exception $e) {
-                //         }
-                //         try {
-                //                 // SMS전송
-                //                 $user_message = view('message.sms.fin-diagnosis-user', compact('order_number'));
-                //                 event(new SendSms($order->orderer_mobile, '', $user_message));
-                //         } catch (\Exception $e) {
-                //         }
-                //
-                //         return response()->json([
-                //                 "status" => 'success'
-                //         ]);
-                //
-                //         // 앱에서는 간단하게
-                // } catch (Exception $e) {
-                //         return response()->json([
-                //                 "status" => 'fail'
-                //         ]);
-                // }
         }
 
+
+
+        /**
+        * @SWG\Get(
+        *     path="/diagnosis/change-reservation",
+        *     tags={"Diagnosis"},
+        *     summary="예약변경",
+        *     description="예약 변경",
+        *     operationId="changeReservation",
+        *     produces={"application/json"},
+        *     @SWG\Parameter(name="user_id",in="query",description="정비소 번호",required=true,type="integer",format="int32"),
+        *     @SWG\Parameter(name="diagnosis_id",in="query",description="진단 번호",required=true,type="integer",format="int32"),
+        *     @SWG\Parameter(name="reservation_date",in="query",description="날짜",required=true,type="string",format="varchar"),
+        *     @SWG\Parameter(name="sel_time",in="query",description="시간",required=true,type="string",format="varchar"),
+        *     @SWG\Response(response=200,description="success",
+        *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
+        *     ),
+        *     @SWG\Response(response=401, description="unauthorized"),
+        *     @SWG\Response(response=500, description="internal server error"),
+        *     @SWG\Response(response="default",description="error",
+        *          @SWG\Schema(ref="#/definitions/Error")
+        *     ),
+        *     security={
+        *       {"api_key": {}}
+        *     }
+        * )
+        */
+        public function changeReservation(Request $request)
+        {
+                try {
+
+
+                        $requestData = $request->validate([
+                                'user_id'       => 'required|exists:users,id',
+                                'diagnosis_id'  => 'required|exists:diagnosis,id',
+                                'date'          => 'required',
+                                'time'          => 'required'
+                        ]);
+
+                        // 조회를 요청한 사용자의 정보조회
+                        $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
+
+
+                        //
+                        // $validator = Validator::make($request->all(), [
+                        //         'user_id' => 'required',
+                        //         'diagnosis_id' => 'required',
+                        //         'reservation_date' => 'required',
+                        //         'sel_time' => 'required'
+                        // ]);
+                        //
+                        // if ($validator->fails()) {
+                        //         return response()->json([
+                        //                 "status" => 'fail'
+                        //         ]);
+                        // }
+                        // $user_id = $request->get('user_id');
+                        // $bcs = User::findOrFail($user_id);
+
+
+                        $diagnosis = Diagnosis::findOrFail($diagnosis_id);
+
+
+                        $reservation_date = new DateTime($requestData['date'] . ' ' . $requestData['time'] . ':00:00');
+                        $reservation_at = $reservation_date->format('Y-m-d H:i:s');
+
+
+
+                        $reservation = new Reservation();
+                        $reservation->diagnosis_id = $diagnosis_id;
+                        $reservation->reservation_at = $diagnosis->reservation_at;
+                        $reservation->garage_id = $user_id;
+                        $reservation->save();
+
+                        $diagnosis->reservation_at = $reservation_at;
+                        $diagnosis->save();
+
+
+
+
+                } catch (Exception $e) {
+                        return response()->json('fail');
+                }
+        }
+
+        /**
+        * @SWG\Post(
+        *     path="/diagnosis/confirm-reservation",
+        *     tags={"Diagnosis"},
+        *     summary="예약확정",
+        *     description="예약 확정",
+        *     operationId="confirmReservation",
+        *     produces={"application/json"},
+        *     @SWG\Parameter(name="user_id",in="query",description="정비소 번호",required=true,type="integer",format="int32"),
+        *     @SWG\Parameter(name="diagnosis_id",in="query",description="진단 번호",required=true,type="integer",format="int32"),
+        *     @SWG\Response(response=200,description="success",
+        *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
+        *     ),
+        *     @SWG\Response(response=401, description="unauthorized"),
+        *     @SWG\Response(response=500, description="internal server error"),
+        *     @SWG\Response(response="default",description="error",
+        *          @SWG\Schema(ref="#/definitions/Error")
+        *     ),
+        *     security={
+        *       {"api_key": {}}
+        *     }
+        * )
+        */
+        public function confirmReservation(Request $request)
+        {
+                try {
+                        $validator = Validator::make($request->all(), [
+                                'user_id' => 'required',
+                                'diagnosis_id' => 'required'
+                        ]);
+
+                        if ($validator->fails()) {
+                                return response()->json([
+                                        "status" => 'fail'
+                                ]);
+                        }
+
+                        $bcs = User::findOrFail($request->get('user_id'));
+                        if ($bcs->hasRole('garage')) {
+                                $diagnosis = Diagnosis::findOrFail($request->get('diagnosis_id'));
+                                $diagnosis->status_cd = 113;
+                                $diagnosis->confrim_at = Carbon::now();
+                                $diagnosis->save();
+                                //todo noty 해야댐
+                                return response()->json([
+                                        "status" => 'success'
+                                ]);
+                        } else {
+                                return response()->json([
+                                        "status" => 'fail'
+                                ]);
+                        }
+
+                } catch (Exception $e) {
+                        return response()->json([
+                                "status" => 'fail'
+                        ]);
+                }
+
+
+        }
 
 
         //    /**
@@ -1147,137 +1228,6 @@ class DiagnosisController extends ApiController
 
 
 
-
-        /**
-        * @SWG\Get(
-        *     path="/diagnosis/change-reservation",
-        *     tags={"Diagnosis"},
-        *     summary="예약변경",
-        *     description="예약 변경",
-        *     operationId="changeReservation",
-        *     produces={"application/json"},
-        *     @SWG\Parameter(name="user_id",in="query",description="정비소 번호",required=true,type="integer",format="int32"),
-        *     @SWG\Parameter(name="diagnosis_id",in="query",description="진단 번호",required=true,type="integer",format="int32"),
-        *     @SWG\Parameter(name="reservation_date",in="query",description="날짜",required=true,type="string",format="varchar"),
-        *     @SWG\Parameter(name="sel_time",in="query",description="시간",required=true,type="string",format="varchar"),
-        *     @SWG\Response(response=200,description="success",
-        *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
-        *     ),
-        *     @SWG\Response(response=401, description="unauthorized"),
-        *     @SWG\Response(response=500, description="internal server error"),
-        *     @SWG\Response(response="default",description="error",
-        *          @SWG\Schema(ref="#/definitions/Error")
-        *     ),
-        *     security={
-        *       {"api_key": {}}
-        *     }
-        * )
-        */
-        public function changeReservation(Request $request)
-        {
-                try {
-                        $validator = Validator::make($request->all(), [
-                                'user_id' => 'required',
-                                'diagnosis_id' => 'required',
-                                'reservation_date' => 'required',
-                                'sel_time' => 'required'
-                        ]);
-
-                        if ($validator->fails()) {
-                                return response()->json([
-                                        "status" => 'fail'
-                                ]);
-                        }
-                        $user_id = $request->get('user_id');
-                        $bcs = User::findOrFail($user_id);
-                        if ($bcs->hasRole('garage')) {
-                                $diagnosis_id = $request->get('diagnosis_id');
-                                $reservation_date = new DateTime($request->get('reservation_date') . ' ' . $request->get('sel_time') . ':00:00');
-                                $reservation_at = $reservation_date->format('Y-m-d H:i:s');
-
-                                $diagnosis = Diagnosis::findOrFail($diagnosis_id);
-
-                                $reservation = new Reservation();
-                                $reservation->diagnosis_id = $diagnosis_id;
-                                $reservation->reservation_at = $diagnosis->reservation_at;
-                                $reservation->garage_id = $user_id;
-                                $reservation->save();
-
-                                $diagnosis->reservation_at = $reservation_at;
-                                $diagnosis->save();
-
-
-                                return response()->json('success');
-                        } else {
-                                return response()->json('fail');
-                        }
-
-                } catch (Exception $e) {
-                        return response()->json('fail');
-                }
-        }
-
-        /**
-        * @SWG\Post(
-        *     path="/diagnosis/confirm-reservation",
-        *     tags={"Diagnosis"},
-        *     summary="예약확정",
-        *     description="예약 확정",
-        *     operationId="confirmReservation",
-        *     produces={"application/json"},
-        *     @SWG\Parameter(name="user_id",in="query",description="정비소 번호",required=true,type="integer",format="int32"),
-        *     @SWG\Parameter(name="diagnosis_id",in="query",description="진단 번호",required=true,type="integer",format="int32"),
-        *     @SWG\Response(response=200,description="success",
-        *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Post"))
-        *     ),
-        *     @SWG\Response(response=401, description="unauthorized"),
-        *     @SWG\Response(response=500, description="internal server error"),
-        *     @SWG\Response(response="default",description="error",
-        *          @SWG\Schema(ref="#/definitions/Error")
-        *     ),
-        *     security={
-        *       {"api_key": {}}
-        *     }
-        * )
-        */
-        public function confirmReservation(Request $request)
-        {
-                try {
-                        $validator = Validator::make($request->all(), [
-                                'user_id' => 'required',
-                                'diagnosis_id' => 'required'
-                        ]);
-
-                        if ($validator->fails()) {
-                                return response()->json([
-                                        "status" => 'fail'
-                                ]);
-                        }
-
-                        $bcs = User::findOrFail($request->get('user_id'));
-                        if ($bcs->hasRole('garage')) {
-                                $diagnosis = Diagnosis::findOrFail($request->get('diagnosis_id'));
-                                $diagnosis->status_cd = 113;
-                                $diagnosis->confrim_at = Carbon::now();
-                                $diagnosis->save();
-                                //todo noty 해야댐
-                                return response()->json([
-                                        "status" => 'success'
-                                ]);
-                        } else {
-                                return response()->json([
-                                        "status" => 'fail'
-                                ]);
-                        }
-
-                } catch (Exception $e) {
-                        return response()->json([
-                                "status" => 'fail'
-                        ]);
-                }
-
-
-        }
 
 
 }

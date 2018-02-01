@@ -16,7 +16,6 @@ use App\Repositories\DiagnosisRepository;
 class Order Extends Model
 {
         protected $fillable = [
-                'id',
                 'car_number',   //차량번호
                 'car_numbers_id',   //차번호 테이블 id
                 'group_id', //주문 그룹키
