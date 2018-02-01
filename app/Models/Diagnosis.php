@@ -11,8 +11,9 @@ class Diagnosis extends Model
     protected $table = 'diagnosis';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'chakey',
         'car_numbers_id',       //차람번호 테이블 id
+        'order_items_id',       //주문아이템 아이디
+        'chakey',               //주문번호
         'expire_period',        //만료기간
         'status_cd',            //상태코드
         'open_cd',              //공개여부
