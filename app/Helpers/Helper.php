@@ -93,15 +93,8 @@ class Helper
     }
 
     public static function shortUrl($url, $length = 4){
-        $possible = "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKMNPQRSTVWXYZ";
-        $str = '';
-        $i = 0;
-
         while(true){
-            while ($i < 4) {
-                $str .= substr( $possible, mt_rand( 0, strlen( $possible )-1 ), 1 );
-                $i++;
-            }
+            $str = str_random($length);
 
             $urls = UrlShort::where('short', $str)->get();
             if(count($urls) < 1){
