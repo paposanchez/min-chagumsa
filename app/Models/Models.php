@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Abstracts\Model\Cache AS CacheModel;
 
-class Detail extends CacheModel
+class Models extends CacheModel
 {
 
         protected $table = 'models';
