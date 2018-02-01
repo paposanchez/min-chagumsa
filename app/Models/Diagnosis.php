@@ -20,7 +20,7 @@ class Diagnosis extends Model
                 'engineer_id',          //엔지니어 번호
                 'reservation_user_id',  //예약자
                 'reservation_at',       //예약날짜
-                'confirm_at'            //예약확정날
+                'confirm_at',            //예약확정날
                 'start_at',             //진단시작시간
                 'completed_at',         //진단완료시간
 
