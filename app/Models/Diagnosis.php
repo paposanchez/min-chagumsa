@@ -20,7 +20,7 @@ class Diagnosis extends Model
                 'engineer_id',          //엔지니어 번호
                 'reservation_user_id',  //예약자
                 'reservation_at',       //예약날짜
-                'confirm_at'            //예약확정날
+                'confirm_at',            //예약확정날
                 'start_at',             //진단시작시간
                 'completed_at',         //진단완료시간
 
@@ -131,49 +131,26 @@ class Diagnosis extends Model
                 }
         }
 
-        <<<<<<< HEAD
+
         // 이슈여부
-        public function isIssue()
-        {
+        public function isIssue(){
 
                 $today = Carbon::now();
                 $issue_cd = '';
-                =======
-                // 이슈여부
-                public function isIssue(){
 
-                        $today = Carbon::now();
-                        $issue_cd = '';
-
-                        if($this->status_cd == 112 && $today >= $this->reservation_at->addHour()){
-                                $issue_cd = 117;
-                        }elseif ($this->status_cd == 113 && $today >= $this->confirm_at->addHour()){
-                                $issue_cd = 118;
-                        }elseif ($this->status_cd == 114 && $today >= $this->start_at->addHour()){
-                                $issue_cd = 119;
-                        }
-
-                        if($issue_cd)
-                        {
-                                return Code::where('id', $issue_cd)->first();
-                        }else{
-                                return false;
-                        }
-                }
-                >>>>>>> hotfix
-
-                if ($this->status_cd == 112 && $today >= $this->reservation_at->addHour()) {
+                if($this->status_cd == 112 && $today >= $this->reservation_at->addHour()){
                         $issue_cd = 117;
-                } elseif ($this->status_cd == 113 && $today >= $this->confirm_at->addHour()) {
+                }elseif ($this->status_cd == 113 && $today >= $this->confirm_at->addHour()){
                         $issue_cd = 118;
-                } elseif ($this->status_cd == 114 && $today >= $this->start_at->addHour()) {
+                }elseif ($this->status_cd == 114 && $today >= $this->start_at->addHour()){
                         $issue_cd = 119;
                 }
 
-                if ($issue_cd) {
+                if($issue_cd)
+                {
                         return Code::where('id', $issue_cd)->first();
-                } else {
-                        return '';
+                }else{
+                        return false;
                 }
         }
 
