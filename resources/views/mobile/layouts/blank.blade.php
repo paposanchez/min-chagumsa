@@ -4,9 +4,9 @@
     {{-- 헤더 스크립트 --}}
     @section( 'content-header-script' )
 
-        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/common.css' )) }}
-        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub.css' )) }}
-        {{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' )) }}
+        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/common.css' ), array(),  env('APP_SECURE', 'true')) }}
+        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub.css' ), array(),  env('APP_SECURE', 'true')) }}
+        {{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' ), array(),  env('APP_SECURE', 'true')) }}
 
         @stack('header-script')
     @endsection

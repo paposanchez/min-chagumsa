@@ -896,11 +896,11 @@
 @endsection
 
 @push( 'header-script' )
-    {{ Html::style(Helper::assets('vendor/tagsinput/bootstrap-tagsinput.css')) }}
+    {{ Html::style(Helper::assets('vendor/tagsinput/bootstrap-tagsinput.css'), array(),  env('APP_SECURE', 'true')) }}
 @endpush
 
 @push( 'footer-script' )
-    {{ Html::script(Helper::assets( 'vendor/tagsinput/bootstrap-tagsinput.min.js' )) }}
+    {{ Html::script(Helper::assets( 'vendor/tagsinput/bootstrap-tagsinput.min.js' ), array(),  env('APP_SECURE', 'true')) }}
 
     <script type="text/template" id="qq-template">
 @include("partials/files")

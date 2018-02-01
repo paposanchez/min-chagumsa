@@ -5,23 +5,23 @@
     @section( 'content-header-script' )
         <script src="https://use.fontawesome.com/23c54b84b1.js"></script>
 
-        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/common.css' )) }}
-        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub.css' )) }}
-        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/main.css' )) }}
-        {{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' )) }}
+        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/common.css' ), array(),  env('APP_SECURE', 'true')) }}
+        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub.css' ), array(),  env('APP_SECURE', 'true')) }}
+        {{ Html::style(Helper::assets( 'themes/v1/mobile/css/main.css' ), array(),  env('APP_SECURE', 'true')) }}
+        {{ Html::script(Helper::assets( 'themes/v1/mobile/js/common.js' ), array(),  env('APP_SECURE', 'true')) }}
 
 
-        {!! Html::style(mix('/assets/css/app.css')) !!}
-        {{ Html::style(mix('/assets/css/vendor.css')) }}
-        {{ Html::style(Helper::assets('themes/v1/mobile/css/mobile.css')) }}
+        {!! Html::style(mix('/assets/css/app.css'), array(),  env('APP_SECURE', 'true')) !!}
+        {{ Html::style(mix('/assets/css/vendor.css'), array(),  env('APP_SECURE', 'true')) }}
+        {{ Html::style(Helper::assets('themes/v1/mobile/css/mobile.css'), array(),  env('APP_SECURE', 'true')) }}
 
-        {{ Html::style(Helper::assets('themes/v1/mobile/css/common_new.css')) }}
+        {{ Html::style(Helper::assets('themes/v1/mobile/css/common_new.css'), array(),  env('APP_SECURE', 'true')) }}
 
 
         @if(Request::path() == '/')
-            {{ Html::style(Helper::assets( 'themes/v1/mobile/css/main_new.css' )) }}
+            {{ Html::style(Helper::assets( 'themes/v1/mobile/css/main_new.css' ), array(),  env('APP_SECURE', 'true')) }}
         @else
-            {{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub_new.css' )) }}
+            {{ Html::style(Helper::assets( 'themes/v1/mobile/css/sub_new.css' ), array(),  env('APP_SECURE', 'true')) }}
         @endif
 
         @stack('header-script')
