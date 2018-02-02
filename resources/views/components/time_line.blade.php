@@ -38,7 +38,7 @@
     <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
         <label for="" class="control-label col-md-3">인증서신청</label>
         <div class="col-md-6">
-            <span class="help-block">{{ $order_item->certificate->created_at }}</span>
+            <span class="help-block">{{ $order_item->certificate->created_at ? $order_item->certificate->created_at : '-' }}</span>
         </div>
     </div>
     <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">

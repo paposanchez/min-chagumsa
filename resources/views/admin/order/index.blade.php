@@ -110,9 +110,13 @@
                                         </td>
 
                                         <td>
-
                                             @foreach($data->orderItem as $order_item)
-                                                <a href="">* {{ $order_item->item->type->display() }}</a>
+                                                @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
+                                                    <a href="/config/item/{{ $order_item->item->id }}/edit">* {{ $order_item->item->type->display() }}</a>
+                                                @else
+                                                    * {{ $order_item->item->type->display() }}
+                                                @endif
+
                                             @endforeach
                                         </td>
 

@@ -363,7 +363,6 @@ class OrderController extends Controller
      */
     public function userUpdate(Request $request)
     {
-        dd($request->all());
         $this->validate($request, [
             'name' => 'required',
             'mobile' => 'required',
