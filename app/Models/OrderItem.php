@@ -53,7 +53,6 @@ class OrderItem extends Model
 
     public function diagnosis(){
         return $this->hasOne(Diagnosis::class, 'order_items_id', 'id')->withDefault(['type_cd' => 121]);
-//        return $this->hasOne(Diagnosis::class, 'order_items_id', 'id');
     }
 
     public function certificate(){

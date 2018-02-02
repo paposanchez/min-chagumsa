@@ -15,7 +15,7 @@
 
                         <div class="card-body card-padding">
 
-                            {!! Form::open(['method' => 'POST','route' => ['order.user-update', 'id' => $diagnosis->orderItem->order->id], 'class'=>'form-horizontal', 'id'=>'userForm', 'enctype'=>"multipart/form-data"]) !!}
+                            {!! Form::open(['method' => 'POST','route' => ['order.user-update', 'id' => $diagnosis->order->id], 'class'=>'form-horizontal', 'id'=>'userForm', 'enctype'=>"multipart/form-data"]) !!}
                             <fieldset>
                                 <div class="form-group">
                                     <label for="" class="control-label col-md-3">주문번호</label>
@@ -27,7 +27,7 @@
                                 <div class="form-group">
                                     <label for="" class="control-label col-md-3">회원</label>
                                     <div class="col-md-6">
-                                        <p class="form-control-static">{{ $diagnosis->orderItem->order->orderer->name }}</p>
+                                        <p class="form-control-static">{{ $diagnosis->order->orderer->name }}</p>
                                     </div>
                                 </div>
 
@@ -36,7 +36,7 @@
                                     <label for="" class="control-label col-md-3">주문자명</label>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control" placeholder="" name="name"
-                                               value="{{ $diagnosis->orderItem->order->orderer_name }}">
+                                               value="{{ $diagnosis->order->orderer_name }}">
                                         @if ($errors->has('name'))
                                             <span class="text-danger">
                                                                                 {{ $errors->first('name') }}
@@ -49,7 +49,7 @@
                                     <label for="" class="control-label col-md-3">주문자연락처</label>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control" placeholder="" name="mobile"
-                                               value="{{ $diagnosis->orderItem->order->orderer_mobile }}">
+                                               value="{{ $diagnosis->order->orderer_mobile }}">
                                         @if ($errors->has('mobile'))
                                             <span class="text-danger">
                                                                                 {{ $errors->first('mobile') }}
@@ -218,7 +218,7 @@
                     </div>
 
                     <div class="card-body card-padding">
-                        {!! Form::open(['method' => 'POST','route' => ['order.car-update', 'id' => $diagnosis->orderItem->order->id], 'class'=>'form-horizontal', 'id'=>'carForm', 'enctype'=>"multipart/form-data"]) !!}
+                        {!! Form::open(['method' => 'POST','route' => ['order.car-update', 'id' => $diagnosis->order->id], 'class'=>'form-horizontal', 'id'=>'carForm', 'enctype'=>"multipart/form-data"]) !!}
                         <div class="modal-body">
                             <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
                                 <label for="" class=" fg-label">차량 브랜드</label>

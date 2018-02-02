@@ -60,7 +60,9 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="zmdi zmdi-calendar-alt"></i></span>
                                         <div class="fg-line">
-                                            <input type="text" class="form-control date-picker" name='trs' value='{{ $trs }}' placeholder="{{ trans('common.search.period_start') }}">
+                                            <input type="text" class="form-control date-picker" name='trs'
+                                                   value='{{ $trs }}'
+                                                   placeholder="{{ trans('common.search.period_start') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -69,7 +71,9 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
                                         <div class="fg-line">
-                                            <input type="text" class="form-control date-picker" name="tre" id="tre" value="{{ $tre }}" placeholder="{{ trans('common.search.period_end') }}">
+                                            <input type="text" class="form-control date-picker" name="tre" id="tre"
+                                                   value="{{ $tre }}"
+                                                   placeholder="{{ trans('common.search.period_end') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -103,10 +107,10 @@
                     <table class="table text-center">
                         <colgroup>
                             <col width="8%">
-                            <col width="14%">
-                            <col width="10%">
+                            <col width="15%">
                             <col width="20%">
-                            <col width="10%">
+                            <col width="15%">
+                            <col width="8%">
                             <col width="8%">
                             <col width="8%">
                             <col width="*">
@@ -114,13 +118,17 @@
 
                         <thead>
                         <tr class="active">
-                            <th class="text-center"><a class="sort" href="#" id="status"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 상태</a></th>
+                            <th class="text-center"><a class="sort" href="#" id="status"><i
+                                            class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 상태</a></th>
                             <th class="text-center">주문번호</th>
                             <th class="text-center">주문자명</th>
-                            <th class="text-center">주문자정보</th>
                             <th class="text-center">기술사</th>
-                            <th class="text-center"><a class="sort" href="#" id="completed_at"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 발급일</a></th>
-                            <th class="text-center">만료일</th>
+                            <th class="text-center"><a class="sort" href="#" id="created_at"><i
+                                            class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 신청일</a></th>
+                            <th class="text-center"><a class="sort" href="#" id="completed_at"><i
+                                            class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 발급일</a></th>
+                            <th class="text-center"><a class="sort" href="#" id="expired_at"><i
+                                            class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 만료일</a></th>
                             <th class="text-center">Remarks</th>
 
                         </tr>
@@ -156,19 +164,21 @@
                                 </td>
 
                                 <td class="text-center">
-                                    {{ $data->order->getOrderNumber() }}
+                                    {{ $data->chakey }}
+                                    <br>
+                                    <small class="text-warning">{{ $data->id }}</small>
                                 </td>
 
                                 <td>
-                                    {{ $data->order->orderer_name }}
-                                </td>
-
-                                <td class="text-center">
-                                    <a href="/user/{{ $data->order->orderer_id }}/edit">{{ $data->order->orderer ? $data->order->orderer->email : '-' }}</a>
+                                    @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
+                                        <a href="/user/{{ $data->order->orderer_id }}/edit">{{ $data->order->orderer_name }}</a>
+                                    @else
+                                        {{ $data->order->orderer_name }}
+                                    @endif
+                                    <a href="/user/{{ $data->order->orderer_id }}/edit">{{ $data->order->orderer_name }}</a>
                                     <br/>
                                     <small class="text-warning">{{ $data->order->orderer_mobile }}</small>
                                 </td>
-
 
                                 <td class="text-center">
                                     @if($data->technist)
@@ -178,18 +188,22 @@
                                     @endif
                                 </td>
 
+                                <td class="text-center">
+                                    {{ $data->created_at->format('m-d H:i') }}
+                                </td>
+
                                 <td class="text-center">{{ $data->completed_at ? $data->completed_at->format('m-d H:i') : '-' }}</td>
 
                                 <td class="text-center">
-                                    {{ $data->getExpireDate()->format('Y-m-d H:i')  }}
+                                    {{ $data->getExpireDate() ? $data->getExpireDate()->format('Y-m-d H:i') : '-' }}
 
                                     @if($data->status_cd == 116)
                                         <br/>
-                                        @if($data->certificates->isExpired())
+                                        @if($data->isExpired())
                                             <small class="text-muted">만료됨</small>
                                         @else
                                             <small class="text-warning">
-                                                {{ number_format($data->certificates->getCountdown()) }}일 남음
+                                                {{ number_format($data->getCountdown()) }}일 남음
                                             </small>
                                         @endif
                                     @endif
@@ -198,20 +212,14 @@
 
 
                                 <td class="text-center">
-                                    @if($data->status_cd > 107)
-                                        <a href="/certificate/{{ $data->id }}" target="_blank" class="btn btn-info"
-                                           data-toggle="tooltip" title="인증서 미리보기"><i
-                                                    class="zmdi zmdi-search-in-page"></i></a>
-                                    @endif
-
-                                    @if($data->status_cd == 107)
+                                    @if($data->status_cd == 112)
                                         <button data-id="{{ $data->id }}" class="btn btn-danger certificate-assign"
-                                                data-toggle="tooltip" title="인증서 발급시작">시작
+                                                data-toggle="tooltip" title="인증서 발급시작">검토시작
                                         </button>
                                     @endif
 
 
-                                    @if($data->status_cd == 108)
+                                    @if($data->status_cd == 114)
                                         <a href="/certificate/{{ $data->id }}/edit" class="btn btn-warning"
                                            data-toggle="tooltip" title="인증서 발급정보 수정">수정</a>
                                     @endif
@@ -227,7 +235,7 @@
                 </div>
 
                 {{--page navigation--}}
-                {!! $entrys->appends([$sf => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
+                {!! $entrys->appends(['sf' => $sf, 's' => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
 
             </div>
 
@@ -245,16 +253,45 @@
         $('.sort').click(function () {
             var sort_value = $(this).attr('id');
             $('#sort_val').val(sort_value);
-            if($('#sort_orderby').val() == 'asc'){
+            if ($('#sort_orderby').val() == 'asc') {
                 $('#sort_orderby').val('desc')
-            }else {
+            } else {
                 $('#sort_orderby').val('asc')
             }
             $('#frm').submit();
         });
 
-        // $('.date-picker').datetimepicker({
-        //     format: 'YYYY-MM-DD'
-        // });
+        // 인증정보 승인처리 및 페이지 이동
+        $(document).on('click', '.certificate-assign', function () {
+
+            var id = $(this).data('id');
+            if (confirm("인증서 발급을 시작하시겠습니까?")) {
+
+                $('#loading').fadeIn();
+
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: '/certificate/' + id + '/assign',
+                    success: function (data) {
+                        if (data) {
+                            location.href = "/certificate/" + id + '/edit';
+                        } else {
+                            alert("인증서 발급절차를 시작할 수 없습니다.\n이미 발급된 인증서인지 확인하세요.");
+
+                        }
+
+                        return data;
+                    },
+                    error: function (data) {
+                        alert("인증서 발급절차를 시작할 수 없습니다.\n이미 발급된 인증서인지 확인하세요.");
+                    },
+                    complete: function () {
+                        $('#loading').fadeOut();
+                    }
+
+                })
+            }
+        });
     </script>
 @endpush

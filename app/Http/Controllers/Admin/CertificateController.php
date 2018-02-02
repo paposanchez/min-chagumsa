@@ -27,11 +27,15 @@ class CertificateController extends Controller
      */
     public function index(Request $request)
     {
-        $where = Certificate::whereIn('status_cd', [112, 114, 115, 116]);
-
-        // 정렬옵션
         $sort = $request->get('sort');
         $sort_orderby = $request->get('sort_orderby');
+        if (!$sort) {
+            $where = Certificate::select()->orderBy('created_at', 'desc');
+        }else{
+            $where = Certificate::select();
+        }
+
+        // 정렬옵션
         if($sort){
             if($sort == 'status'){
                 $where->orderBy('status_cd', $sort_orderby);
@@ -164,9 +168,11 @@ class CertificateController extends Controller
      * 인증서를 임시저장하거나 발급하는 페이지
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Request $reqeust, $order_id)
+    public function edit(Request $reqeust, $id)
     {
-        $order = Order::where("status_cd", 108)->findOrFail($order_id);
+
+        $certificate = Certificate::findOrFail($id);
+
 
         /**
          * 기본정보: 자동차등록증 / 차대번호 / 주행거리 / 색상 / 추가옵션
@@ -179,13 +185,7 @@ class CertificateController extends Controller
          * 차량 작동상태 점검2: 타이어 상태 / 엔진오일 상태 / 냉각수 상태 / 브레이크패드 상태 / 배터리 상태
          *
          */
-
-        if ($order->car) {
-            $car = $order->car;
-        } else {
-            $car = $order->orderCar;
-        }
-
+        $car = $certificate->CarNumber->car;
         $grades = Code::getSelectList('grade_state_cd');
         $select_color = Code::getSelectList('color_cd');
         $select_vin_yn = Code::getSelectList('yn');
@@ -197,7 +197,7 @@ class CertificateController extends Controller
         $standard_states = Code::getSelectList('standard_cd');
 
 
-        return view('admin.certificate.edit', compact('order', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'car', 'standard_states', 'operation_state_cd'));
+        return view('admin.certificate.edit', compact('certificate', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'car', 'standard_states', 'operation_state_cd'));
     }
 
 
@@ -398,15 +398,11 @@ class CertificateController extends Controller
         try {
             DB::beginTransaction();
 
-            $order = Order::where("status_cd", 107)->findOrFail($id);
-            $order->technist_id = Auth::id();
-            $order->status_cd = 108;
-            $order->save();
-
-            $certificate = new Certificate();
-            $certificate->orders_id = $order->id;
-            $certificate->save();
-
+            $certificate = Certificate::findOrFail($id);
+            $certificate->update([
+                'status_cd' => Code::getId('report_state', 'review'),
+                'technist_id' => Auth::user()->id
+            ]);
             DB::commit();
 
             return response()->json(true);

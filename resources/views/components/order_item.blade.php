@@ -27,16 +27,16 @@
         @if($order_item->type_cd == '121')
             <a href="{{ url('diagnosis', [$order_item->diagnosis->id]) }}" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
         @elseif($order_item->type_cd == '122')
-            @if($order_item->certificate)
+            @if($order_item->certificate->created_at)
                 <a href="{{ url('certifiate', [$order_item->certificate->id]) }}" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
             @else
-                <a href="#" class="bgm-cyan"><i class="zmdi zmdi-close"></i></a>
+                <a class="bgm-cyan"><i class="zmdi zmdi-close"></i></a>
             @endif
         @else
-            @if($order_item->warranty)
+            @if($order_item->warranty->created_at)
                 <a href="{{ url('warranty', [$order_item->warranty->id]) }}" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
             @else
-                <a href="#" class="bgm-cyan"><i class="zmdi zmdi-close"></i></a>
+                <a class="bgm-cyan"><i class="zmdi zmdi-close"></i></a>
             @endif
         @endif
 

@@ -118,6 +118,18 @@ class Order Extends Model
         return false;
     }
 
+    public function diagnosis(){
+        return $this->hasOne(Diagnosis::class, 'chakey', 'chakey');
+    }
+
+    public function certificate(){
+        return $this->hasOne(Certificate::class, 'chakey', 'chakey');
+    }
+
+    public function warranty(){
+        return $this->hasOne(Warranty::class, 'chakey', 'chakey');
+    }
+
 
     // 인증서 발급여부
     // public function isIssued()

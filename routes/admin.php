@@ -59,10 +59,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('order/insurance-file-view/{id}', 'OrderController@insuranceFileView')->name('order/insurance-file-view');
 
         // 인증서 관리
-        Route::post('certificate/{id?}/assign', 'CertificateController@assign');
+        Route::get('certificate/{id?}/assign', 'CertificateController@assign');
         Route::any('certificate/issue', 'CertificateController@issue');
-        Route::get('certificate/{order_id}/edit', 'CertificateController@edit');
-        Route::get('certificate/{order_id}/{page?}/{flush?}', 'CertificateController@show');
+        Route::get('certificate/{id}/edit', 'CertificateController@edit');
+        Route::get('certificate/{id}/{page?}/{flush?}', 'CertificateController@show');
         Route::resource('certificate', 'CertificateController', ['only' => ['index', 'update']]);
 
         // 보증관리

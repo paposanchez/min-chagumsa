@@ -82,9 +82,10 @@ class Certificate Extends Model
         'created_at', 'updated_at', 'completed_at'
     ];
 
+    // 주문 조회
     public function order()
     {
-        return $this->belongsTo(\App\Models\Order::class, 'orders_id', 'id');
+        return $this->hasOne(Order::class, 'chakey', 'chakey');
     }
 
     //상태 조회
