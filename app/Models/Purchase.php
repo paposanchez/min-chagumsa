@@ -39,5 +39,10 @@ class Purchase extends Model
                 return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd');
         }
 
+        public function payment()
+        {
+                return $this->hasOne(\App\Models\Payment::class, 'moid', 'id');
+        }
+
 
 }

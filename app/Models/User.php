@@ -13,11 +13,13 @@ use App\Notifications\ConfirmEmail as ConfirmEmailNotification;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Storage;
 use App\Models\UserExtra;
+
+
+use App\Notifications\Notifiable;
 
 class User extends Authenticatable
 {

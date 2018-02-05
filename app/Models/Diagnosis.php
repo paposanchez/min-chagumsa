@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Diagnosis extends Model
 {
+
         protected $table = 'diagnosis';
-        protected $primaryKey = 'id';
         protected $fillable = [
                 'chakey',
+                'order_items_id',
                 'car_numbers_id',       //차람번호 테이블 id
                 'expire_period',        //만료기간
                 'status_cd',            //상태코드
@@ -23,12 +24,12 @@ class Diagnosis extends Model
                 'confirm_at',            //예약확정날
                 'start_at',             //진단시작시간
                 'completed_at',         //진단완료시간
-
         ];
 
         protected $dates = [
                 'created_at', 'updated_at', 'start_at', 'completed_at', 'confirm_at', 'reservation_at'
         ];
+
 
         // 상태 조회
         public function status()

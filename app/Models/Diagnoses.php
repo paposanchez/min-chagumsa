@@ -10,7 +10,6 @@ class Diagnoses extends Model
 {
 
     protected $table = 'diagnoses';
-    protected $primaryKey = 'id';
     protected $fillable = [
         'diagnosis_id', //진단 id
         'group',    //진단 항목 그룹 코드
@@ -27,10 +26,6 @@ class Diagnoses extends Model
     protected $dates = [
         'created_at', 'updated_at'
     ];
-
-    public function diagnosis(){
-
-    }
 
 
     //진단 그룹 조회

@@ -36,23 +36,18 @@ class Helper
         return \Html::image($url . '?' . str_random(10), $alt, $params);
     }
 
-    /**
-     * 역할 이름을 문자열로 리턴한다
-     * @param type $roles
-     * @return type
-     */
-    public static function roles($roles)
-    {
-        $return = [];
 
-        foreach ($roles as $role) {
-            //            $return[] = $role->display_name;
-            $return[] = $role->description;
-        }
 
-        return implode(",", $return);
-    }
 
+
+
+
+
+
+
+
+
+    
     /**
      * Format bytes to kb, mb, gb, tb
      *

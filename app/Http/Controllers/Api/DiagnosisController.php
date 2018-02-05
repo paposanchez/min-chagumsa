@@ -31,11 +31,12 @@ class DiagnosisController extends ApiController
                         "chakey"        => $diagnosis->chakey,
                         "reservation_at"        => [
                                 "date" => $diagnosis->reservation_at->format('Y-m-d'),
-                                "time" => $diagnosis->reservation_at->format('H'),
+                                "time" => $diagnosis->reservation_at->format('H:i'),
                                 "fulldate" => $diagnosis->reservation_at->format('Y-m-d H:i:s')
                         ],
                         "status"        => [
                                 'status_cd'     => $diagnosis->status_cd,
+                                'namespace'     => $diagnosis->status->namespace(),
                                 'display_name'  => $diagnosis->status->display()
                         ],
                         "issue"         => $diagnosis->isIssue(),
