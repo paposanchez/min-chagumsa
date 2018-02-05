@@ -174,6 +174,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Edujugon\PushNotification\Providers\PushNotificationServiceProvider::class
 
 
 
@@ -241,6 +242,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Flash' => Laracasts\Flash\Flash::class,
+        'PushNotification' => Edujugon\PushNotification\Facades\PushNotification::class,
         // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         // 'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
         // 'Entrust' => Zizaco\Entrust\EntrustFacade::class,
