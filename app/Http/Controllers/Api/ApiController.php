@@ -24,14 +24,14 @@ use App\Http\Controllers\Controller;
  *         @SWG\Property(
  *             property="code",
  *             type="integer",
- *             format="int32"
+ *             format="int32"w
  *         ),
  *         @SWG\Property(
  *             property="data",
  *             type="array|object"
  *         )
  *     ),
- * 
+ *
  * )
  */
 use App\Exceptions\ApiHandler;

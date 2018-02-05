@@ -10,12 +10,12 @@ class UrlShort extends Model
 {
 
 
-    protected $table = 'urlshort';
-    protected $primaryKey = 'id';
-    protected $fillable = [
-        'url',
-        'short'
-    ];
-    protected $dates = ['created_at', 'updated_at'];
+        protected $table = 'urlshort';
+        protected $primaryKey = 'id';
+        protected $fillable = [
+                'url',
+                'short'
+        ];
+        protected $dates = ['created_at', 'updated_at'];
 
 }

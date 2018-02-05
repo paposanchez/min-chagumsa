@@ -42,9 +42,7 @@ class ApiHandler extends ExceptionHandler {
         * @return \Illuminate\Http\Response
         */
         public function render($request, Exception $e) {
-                return response()->json(
-                        $this->getJsonMessage($e), $this->getExceptionHTTPStatusCode($e)
-                );
+                return response()->json($this->getJsonMessage($e) , $this->getExceptionHTTPStatusCode($e));
         }
 
         /**
@@ -56,14 +54,16 @@ class ApiHandler extends ExceptionHandler {
         */
         protected function unauthenticated($request, AuthenticationException $exception) {
                 if ($request->expectsJson()) {
-                        return response()->json(['error' => 'Unauthenticated.'], 401);
+                        return response()->json([
+                                'status' => 'error',
+                                'message' => 'Unauthenticated.'
+                        ], 401);
                 }
 
                 return redirect()->guest('/');
         }
 
         protected function getJsonMessage($e) {
-                // You may add in the code, but it's duplication
                 return [
                         'status' => 'error',
                         'message' => $e->getMessage()

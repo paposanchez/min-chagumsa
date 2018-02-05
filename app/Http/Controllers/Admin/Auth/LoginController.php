@@ -8,48 +8,48 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller {
-    /*
-      |--------------------------------------------------------------------------
-      | Login Controller
-      |--------------------------------------------------------------------------
-      |
-      | This controller handles authenticating users for the application and
-      | redirecting them to your home screen. The controller uses a trait
-      | to conveniently provide its functionality to your applications.
-      |
-     */
+        /*
+        |--------------------------------------------------------------------------
+        | Login Controller
+        |--------------------------------------------------------------------------
+        |
+        | This controller handles authenticating users for the application and
+        | redirecting them to your home screen. The controller uses a trait
+        | to conveniently provide its functionality to your applications.
+        |
+        */
 
-use AuthenticatesUsers;
+        use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/dashboard';
+        /**
+        * Where to redirect users after login.
+        *
+        * @var string
+        */
+        protected $redirectTo = '/dashboard';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct() {
-        $this->middleware('guest', ['except' => 'logout']);
-    }
+        /**
+        * Create a new controller instance.
+        *
+        * @return void
+        */
+        public function __construct() {
+                $this->middleware('guest', ['except' => 'logout']);
+        }
 
-    public function showLoginForm() {
-        return view('admin.auth.login');
-    }
+        public function showLoginForm() {
+                return view('admin.auth.login');
+        }
 
-    protected function authenticated(Request $request, User $user) {
+        protected function authenticated(Request $request, User $user) {
 
-            if(!$user->hasRole("admin"))
-            {
-                    $this->guard()->logout();
-                    $request->session()->flush();
-                    $request->session()->regenerate();
-                    return redirect('/')->with('error', trans('auth.status.unauthorized'));
-            }
-    }
+                if(!$user->hasRole("admin"))
+                {
+                        $this->guard()->logout();
+                        $request->session()->flush();
+                        $request->session()->regenerate();
+                        return redirect('/')->with('error', trans('auth.status.unauthorized'));
+                }
+        }
 
 }
