@@ -32,23 +32,23 @@ class WelcomeController extends Controller {
         public function __invoke() {
 
 
-                try {
-
-                        $o = Order::findOrFail(1);
-                        $o->orderer_name = '차니:'.str_random(5);
-                        $o->status_cd = array_random([100,101,102]);
-                        $o->save();
-
-
-                        echo $o->status_cd;
-                        echo "<hr>";
-
-
-
-                }catch(\Exception $e) {
-
-                        dd($e);
-                }
+//                try {
+//
+//                        $o = Order::findOrFail(1);
+//                        $o->orderer_name = '차니:'.str_random(5);
+//                        $o->status_cd = array_random([100,101,102]);
+//                        $o->save();
+//
+//
+//                        echo $o->status_cd;
+//                        echo "<hr>";
+//
+//
+//
+//                }catch(\Exception $e) {
+//
+//                        dd($e);
+//                }
         }
 
 }
