@@ -60,6 +60,6 @@
 
 
 @push( 'header-script' )
-        {!! Html::style('/assets/vendors/bower_components/animate.css/animate.min.css') !!}
-        {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') !!}
+        {!! Html::style('/assets/vendors/bower_components/animate.css/animate.min.css', array(), env('APP_SECURE', 'true')) !!}
+        {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css', array(), env('APP_SECURE', 'true')) !!}
 @endpush

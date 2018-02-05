@@ -274,7 +274,7 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::any('logout', 'Auth\LoginController@logout')->name('admin.logout');
-Route::group(['middleware' => ['guest.admin']], function () {
+Route::group(array('https'),['middleware' => ['guest.admin']], function () {
         Route::get('login', function () {
                 return redirect('/');
         })->name('admin.login');
