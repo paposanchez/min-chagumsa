@@ -8,25 +8,25 @@ class DiagnosisObserver
 {
         use Notifiable;
 
-        public function retrieved(Diagnosis $obj)
-        {
-                //
-        }
-
-        public function creating(Diagnosis $obj)
-        {
-                //
-        }
-
-        public function created(Diagnosis $obj)
-        {
-                //
-        }
-
-        public function updating(Diagnosis $obj)
-        {
-                //
-        }
+        // public function retrieved(Diagnosis $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function creating(Diagnosis $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function created(Diagnosis $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function updating(Diagnosis $obj)
+        // {
+        //         //
+        // }
 
         public function updated(Diagnosis $obj)
         {
@@ -39,33 +39,33 @@ class DiagnosisObserver
                 // }
         }
 
-        public function saving(Diagnosis $obj)
-        {
-                //
-        }
-
-        public function saved(Diagnosis $obj)
-        {
-                //
-        }
-
-        public function deleting(Diagnosis $obj)
-        {
-                //
-        }
-
-        public function deleted(Diagnosis $obj)
-        {
-                //
-        }
-
-        public function restoring(Diagnosis $obj)
-        {
-                //
-        }
-
-        public function restored(Diagnosis $obj)
-        {
-                //
-        }
+        // public function saving(Diagnosis $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function saved(Diagnosis $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function deleting(Diagnosis $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function deleted(Diagnosis $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function restoring(Diagnosis $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function restored(Diagnosis $obj)
+        // {
+        //         //
+        // }
 }

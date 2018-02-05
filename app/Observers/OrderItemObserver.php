@@ -9,25 +9,25 @@ class OrderItemObserver
 {
         use Notifiable;
 
-        public function retrieved(OrderItem $obj)
-        {
-                //
-        }
-
-        public function creating(OrderItem $obj)
-        {
-                //
-        }
-
-        public function created(OrderItem $obj)
-        {
-                //
-        }
-
-        public function updating(OrderItem $obj)
-        {
-                //
-        }
+        // public function retrieved(OrderItem $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function creating(OrderItem $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function created(OrderItem $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function updating(OrderItem $obj)
+        // {
+        //         //
+        // }
 
         public function updated(OrderItem $obj)
         {
@@ -40,33 +40,33 @@ class OrderItemObserver
                 // }
         }
 
-        public function saving(OrderItem $obj)
-        {
-                //
-        }
-
-        public function saved(OrderItem $obj)
-        {
-                //
-        }
-
-        public function deleting(OrderItem $obj)
-        {
-                //
-        }
-
-        public function deleted(OrderItem $obj)
-        {
-                //
-        }
-
-        public function restoring(OrderItem $obj)
-        {
-                //
-        }
-
-        public function restored(OrderItem $obj)
-        {
-                //
-        }
+        // public function saving(OrderItem $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function saved(OrderItem $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function deleting(OrderItem $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function deleted(OrderItem $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function restoring(OrderItem $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function restored(OrderItem $obj)
+        // {
+        //         //
+        // }
 }

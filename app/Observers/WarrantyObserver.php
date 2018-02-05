@@ -10,25 +10,25 @@ class WarrantyObserver
 {
         use Notifiable;
 
-        public function retrieved(Warranty $obj)
-        {
-                //
-        }
-
-        public function creating(Warranty $obj)
-        {
-                //
-        }
-
-        public function created(Warranty $obj)
-        {
-                //
-        }
-
-        public function updating(Warranty $obj)
-        {
-                //
-        }
+        // public function retrieved(Warranty $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function creating(Warranty $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function created(Warranty $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function updating(Warranty $obj)
+        // {
+        //         //
+        // }
 
         public function updated(Warranty $obj)
         {
@@ -41,33 +41,33 @@ class WarrantyObserver
                 // }
         }
 
-        public function saving(Warranty $obj)
-        {
-                //
-        }
-
-        public function saved(Warranty $obj)
-        {
-                //
-        }
-
-        public function deleting(Warranty $obj)
-        {
-                //
-        }
-
-        public function deleted(Warranty $obj)
-        {
-                //
-        }
-
-        public function restoring(Warranty $obj)
-        {
-                //
-        }
-
-        public function restored(Warranty $obj)
-        {
-                //
-        }
+        // public function saving(Warranty $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function saved(Warranty $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function deleting(Warranty $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function deleted(Warranty $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function restoring(Warranty $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function restored(Warranty $obj)
+        // {
+        //         //
+        // }
 }
