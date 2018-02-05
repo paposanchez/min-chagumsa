@@ -9,25 +9,25 @@ class CertificateObserver
 {
         use Notifiable;
 
-        public function retrieved(Certificate $obj)
-        {
-                //
-        }
-
-        public function creating(Certificate $obj)
-        {
-                //
-        }
-
-        public function created(Certificate $obj)
-        {
-                //
-        }
-
-        public function updating(Certificate $obj)
-        {
-                //
-        }
+        // public function retrieved(Certificate $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function creating(Certificate $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function created(Certificate $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function updating(Certificate $obj)
+        // {
+        //         //
+        // }
 
         public function updated(Certificate $obj)
         {
@@ -40,33 +40,33 @@ class CertificateObserver
                 // }
         }
 
-        public function saving(Certificate $obj)
-        {
-                //
-        }
-
-        public function saved(Certificate $obj)
-        {
-                //
-        }
-
-        public function deleting(Certificate $obj)
-        {
-                //
-        }
-
-        public function deleted(Certificate $obj)
-        {
-                //
-        }
-
-        public function restoring(Certificate $obj)
-        {
-                //
-        }
-
-        public function restored(Certificate $obj)
-        {
-                //
-        }
+        // public function saving(Certificate $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function saved(Certificate $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function deleting(Certificate $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function deleted(Certificate $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function restoring(Certificate $obj)
+        // {
+        //         //
+        // }
+        //
+        // public function restored(Certificate $obj)
+        // {
+        //         //
+        // }
 }

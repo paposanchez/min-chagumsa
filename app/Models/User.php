@@ -18,13 +18,9 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Storage;
 use App\Models\UserExtra;
 
-
-use App\Notifications\Notifiable;
-
 class User extends Authenticatable
 {
 
-        use Notifiable;
         use EntrustUserTrait { restore as private restoreEntrust; }
         use SoftDeletes { restore as private restoreEloquent; }
 
