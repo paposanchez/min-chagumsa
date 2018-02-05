@@ -17,7 +17,7 @@ use App\Mail\Order as ChagumsaMailMessage;
 
 use App\Mail\Order as OrderMailable;
 
-class OrderCompleted extends Notification implements ShouldQueue {
+class OrderCompletedToOrder extends Notification implements ShouldQueue {
 
         use Queueable;
 

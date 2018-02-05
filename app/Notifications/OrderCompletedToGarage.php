@@ -11,7 +11,7 @@ use App\Notifications\Channels\LgSmsChannel;
 use App\Notifications\Messages\SmsMessage;
 use App\Mail\Order as OrderMailable;
 
-class OrderCompleted extends Notification implements ShouldQueue {
+class OrderCompletedToGarage extends Notification implements ShouldQueue {
 
         use Queueable;
 
