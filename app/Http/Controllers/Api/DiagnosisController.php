@@ -185,6 +185,7 @@ class DiagnosisController extends ApiController
                                 '112'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 112)->count(),   // 신청
                                 '113'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 113)->count(),   // 예약확정
                                 '114'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 114)->count(),   // 검토중
+                                '126'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 126)->count(),   // 검토완료
                                 '115'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 115)->count(),   // 발급완료
                         ];     // 상태별 갯수
 
@@ -628,30 +629,25 @@ class DiagnosisController extends ApiController
 
                         $requestData = $request->validate([
                                 'user_id'       => 'required|exists:users,id',
-                                'diagnosis_id'  => 'required|exists:diagnosis,id',
-                                'diagnoses'     => 'required'
+                                'diagnosis_id'  => 'required|exists:diagnosis,id'
                         ]);
 
                         // 조회를 요청한 사용자의 정보조회
                         $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
 
+
                         // 해당 진단 조회
                         $diagnosis              = Diagnosis::where('status_cd', 113)->findOrFail($requestData['diagnosis_id']);
                         $diagnosis->engineer_id = $user->id;
-                        $diagnosis->start_at = Carbon::now();
+                        $diagnosis->start_at    = Carbon::now();
+                        $diagnosis->status_cd   = 114;
                         $diagnosis->save();
-
-                        // 진단시작
-                        event(new OnStart($diagnosis));
 
                         return response()->json([
                                 "status" => 'success'
                         ]);
 
-
-                        // 앱에서는 간단하게
                 } catch (Exception $e) {
-
                         return response()->json([
                                 "status" => 'fail'
                         ]);

@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use Illuminate\Notifications\Notifiable;
+use App\Models\Diagnosis;
 
 class DiagnosisObserver
 {
