@@ -5,8 +5,8 @@
         <div class="container">
             <div class="card">
                 <div class="card-header ch-alt">
-                    <h2>포스팅 수정
-                        <!-- <small>새로운 주문을 생성한다..</small> -->
+                    <h2>인증서 수정
+                        <small>인증서를 수정합니다.</small>
                     </h2>
 
                     <ul class="actions">
@@ -77,22 +77,20 @@
                     {!! Form::model($certificate, ['method' => 'PATCH','route' => ['certificate.update', $certificate->id], 'class'=>'form-horizontal', 'id'=>'frm-basic', 'enctype'=>"multipart/form-data"]) !!}
                     <div class="bg-white">
                         <div class="row">
+                            <input type="hidden" name="certificate_id" value="{{ $certificate->id }}">
                             <div class="col-md-4">
-
                                 <div class="block">
                                     <h4 id="dia-top">기본정보</h4>
                                     <ul class="list-group">
                                         <li class="list-group-item">
                                             <small>자동차 등록번호</small>
-                                            <input type="text" class="form-control" name="orders_car_number"
+                                            <input type="text" class="form-control" name="car_number"
                                                    value="{{ $certificate->carNumber->car_number }}" required>
                                         </li>
 
                                         <li class="list-group-item">
                                             <small>차대번호</small>
-                                            <input type="text" class="form-control" name="cars_vin_number"
-                                                   placeholder="차대번호를 입력해 주세요."
-                                                   value="{{ $certificate->carNumber->car_id }}" required>
+                                            <p class="form-control-static">{{ $certificate->carNumber->cars_id }}</p>
                                         </li>
 
                                         {{--<li class="list-group-item">--}}
@@ -138,8 +136,7 @@
                                         <li class="list-group-item">
                                             <small>주행거리</small>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="orders_mileage"
-                                                       value="{{ $car->mileage }}" required>
+                                                <p class="form-control-static">{{ $certificate->diagnosis->mileage }}</p>
                                                 <span class="input-group-addon">km</span>
                                             </div>
 
@@ -897,19 +894,19 @@
 @endsection
 
 @push( 'header-script' )
-    {{ Html::style(Helper::assets('vendor/tagsinput/bootstrap-tagsinput.css'), array(),  env('APP_SECURE', 'true')) }}
+    {!! Html::style('/assets/vendor/tagsinput/bootstrap-tagsinput.css', array(), env('APP_SECURE', 'true')) !!}
 @endpush
 
 @push( 'footer-script' )
-    {{ Html::script(Helper::assets( 'vendor/tagsinput/bootstrap-tagsinput.min.js'), array(),  env('APP_SECURE', 'true')) }}
+    {{ Html::script('/assets/vendor/tagsinput/bootstrap-tagsinput.min.js', array(),  env('APP_SECURE', 'true')) }}
 
     <script type="text/template" id="qq-template">
 @include("partials/files")
     </script>
     <link rel="stylesheet"
-          href="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css' ) }}"/>
-    <script src="{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js' ) }}"></script>
-    <script src="{{ Helper::assets( 'js/plugin/uploader.js' ) }}"></script>
+          href="{{ Html::style('/assets/vendor/fine-uploader/jquery.fine-uploader/fine-uploader-new.css', array(),  env('APP_SECURE', 'true') ) }}"/>
+    <script src="{{ Html::script( '/assets/vendor/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js', array(),  env('APP_SECURE', 'true') ) }}"></script>
+    <script src="{{ Html::script('/assets/js/plugin/uploader.js', array(),  env('APP_SECURE', 'true')) }}"></script>
     <script type="text/template"
             id="insurance-template">@include("partials/files", ['files'=> $certificate->insurance_files])</script>
 
@@ -943,7 +940,7 @@
 
             $("#frm-basic").validate({
                 messages: {
-                    orders_car_number: "자동차 등록번호를 입력해 주세요.",
+                    car_number: "자동차 등록번호를 입력해 주세요.",
                     cars_vin_number: "차대번호를 입력해 주세요.",
 //                    certificates_vin_yn_cd: "차대번호 동일성확인을 선택해 주세요.",
 //                    cars_registration_date: "차량의 최초등록일을 입력해 주세요.",
@@ -1046,8 +1043,8 @@
                 },
                 thumbnails: {
                     placeholders: {
-                        waitingPath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/waiting-generic.png' ) }}",
-                        notAvailablePath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/not_available-generic.png' ) }}",
+                        waitingPath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/waiting-generic.png') }}",
+                        notAvailablePath: "{{ Helper::assets( 'vendor/fine-uploader/jquery.fine-uploader/placeholders/not_available-generic.png') }}",
                     }
                 },
                 validation: {

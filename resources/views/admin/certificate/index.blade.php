@@ -224,8 +224,8 @@
                                            data-toggle="tooltip" title="인증서 발급정보 수정">수정</a>
                                     @endif
 
-                                    <a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip"
-                                       title="상세보기">상세보기</a>
+                                    {{--<a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip"--}}
+                                       {{--title="상세보기">상세보기</a>--}}
 
                                 </td>
                             </tr>

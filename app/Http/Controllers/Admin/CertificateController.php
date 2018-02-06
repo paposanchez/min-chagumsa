@@ -31,15 +31,15 @@ class CertificateController extends Controller
         $sort_orderby = $request->get('sort_orderby');
         if (!$sort) {
             $where = Certificate::select()->orderBy('created_at', 'desc');
-        }else{
+        } else {
             $where = Certificate::select();
         }
 
         // 정렬옵션
-        if($sort){
-            if($sort == 'status'){
+        if ($sort) {
+            if ($sort == 'status') {
                 $where->orderBy('status_cd', $sort_orderby);
-            }else{
+            } else {
                 $where->orderBy($sort, $sort_orderby);
             }
         }
@@ -212,177 +212,109 @@ class CertificateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $order_where = Order::find($id);
-
-        if ($order_where->status_cd == 109) {
-            return redirect()->back()->with('error', '발급완료된 인증서입니다.');
-        }
-
-        $certificates_where = Certificate::where('orders_id', $order_where->id)->first();
-        if (!$certificates_where) {
-            return redirect()->back()->with('error', '잘못된 인증서입니다. 관리자에게 문의하세요.');
-        }
-
-        $order_data = [
-            "car_number" => $request->get('orders_car_number'),
-            "mileage" => $request->get('orders_mileage'),
-            "status_cd" => 108
-        ];
-
-
-        $car_data = [
-            "brands_id" => $order_where->car->brands_id,
-            "models_id" => $order_where->car->models_id,
-            "details_id" => $order_where->car->details_id,
-            "grades_id" => $order_where->car->grades_id,
-            "vin_number" => $request->get('cars_vin_number'),
-            "imported_vin_number" => $request->get('car_imported_vin_number'),
-            "registration_date" => $request->get('cars_registration_date'),
-            "exterior_color_cd" => $request->get('cars_exterior_color'),
-            "year" => $request->get('cars_year'),
-            "transmission_cd" => $request->get('cars_transmission_cd'),
-            "displacement" => $request->get('cars_displacement'),
-            "fuel_consumption" => $request->get('cars_fuel_consumption'),
-            "engine_type" => $request->get("cars_engine_type"),
-            "fueltype_cd" => $request->get("cars_fueltype_cd"),
-            "passenger" => $request->get("passenger"),
-            "kind_cd" => $request->get("kind_cd"),
-            "exterior_color_etc" => $request->get('car_exterior_color_etc') ? $request->get('car_exterior_color_etc') : '',
-            "fueltype_etc" => $request->get('car_fueltype_etc') ? $request->get('car_fueltype_etc') : ''
-        ];
-
-        $certificate_data = [
-            "orders_id" => $order_where->id,
-            "vin_yn_cd" => $request->get("certificates_vin_yn_cd"),
-            "history_owner" => $request->get('certificates_history_owner'),
-            "history_insurance" => $request->get("certificates_history_insurance"),
-            "history_purpose" => $request->get("certificates_history_purpose"),
-            "history_garage" => $request->get("certificates_history_garage"),
-            "price" => $request->get("pst"),
-            "new_car_price" => $request->get("certificates_new_car_price"),
-            "basic_registraion" => $request->get("certificates_basic_registraion"),
-            "basic_registraion_depreciation" => $request->get("basic_registraion_depreciation"),
-            "basic_etc" => $request->get("certificates_basic_etc"),
-            "usage_mileage_cd" => $request->get("certificates_usage_mileage_cd"),
-            "usage_mileage_depreciation" => $request->get("certificates_usage_mileage_depreciation"),
-            "usage_history_cd" => $request->get("certificates_usage_history_cd"),
-            "usage_history_depreciation" => $request->get("certificates_usage_history_depreciation"),
-            "performance_exterior_cd" => $request->get("performance_exterior_cd"),          //차량외부점검
-            "performance_interior_cd" => $request->get('performance_interior_cd'),          //차량내부점검
-            "performance_plugin_cd" => $request->get('performance_plugin_cd'),              //전장장착품작동상태
-            "performance_broken_cd" => $request->get("performance_broken_cd"),              //고잔진단
-            "performance_engine_cd" => $request->get('performance_engine_cd'),              //원동기
-            "performance_transmission_cd" => $request->get('performance_transmission_cd'),  //변속기
-            "performance_power_cd" => $request->get('performance_power_cd'),                //동력전달
-            "performance_steering_cd" => $request->get('performance_steering_cd'),          //조향장치 및 현가장치
-            "performance_braking_cd" => $request->get('performance_braking_cd'),            //제동장치
-            "performance_electronic_cd" => $request->get('performance_electronic_cd'),      //전기장치
-            "performance_tire_cd" => $request->get('performance_tire_cd'),                  //휠&타이어
-            "performance_driving_cd" => $request->get('performance_driving_cd'),            //주행테스트
-            "exterior_comment" => $request->get('exterior_comment'),
-            "interior_comment" => $request->get('interior_comment'),
-            "plugin_comment" => $request->get('plugin_comment'),
-            "broken_comment" => $request->get('broken_comment'),
-            "engine_comment" => $request->get('engine_comment'),
-            "transmission_comment" => $request->get('transmission_comment'),
-            "power_comment" => $request->get('power_comment'),
-            "steering_comment" => $request->get('steering_comment'),
-            "braking_comment" => $request->get('braking_comment'),
-            "electronic_comment" => $request->get('electronic_comment'),
-            "tire_comment" => $request->get('tire_comment'),
-            "driving_comment" => $request->get('driving_comment'),
-            "performance_depreciation" => $request->get("performance_depreciation"), // 차량성능상태 감가금액
-            "history_depreciation" => $request->get('history_depreciation'), // 사용이력 감가금액 ( 현재 없음 )
-            "basic_depreciation" => $request->get("basic_depreciation"), // 기본가격 감가금액 ( 현재없음 )
-            "special_flooded_cd" => $request->get("certificates_special_flooded_cd"),
-            "special_fire_cd" => $request->get("certificates_special_fire_cd"),
-            "special_fulllose_cd" => $request->get("certificates_special_fulllose_cd"),
-            "special_remodel_cd" => $request->get("certificates_special_remodel_cd"),
-            "special_etc_cd" => $request->get("certificates_special_etc_cd"),
-            "special_depreciation" => $request->get("special_depreciation"),
-            "valuation" => $request->get("certificates_valuation"),
-            "opinion" => $request->get("certificates_opinion"),
-            "grade" => $request->get('grade_state_cd'),
-            "usage_flood_cd" => $request->get('certificates_usage_flood_cd'),
-            "flood_comment" => $request->get('flood_comment'),
-            "history_comment" => $request->get('history_comment'),
-            "pictures" => $request->get('selecte_picture_id') ? $request->get('selecte_picture_id') : $order_where->getExteriorPicture()[0]->files[0]->id
-        ];
-
-
-        //DB처리
-        /**
-         * child table부터 처리 해야 하므로 car 또는 certificates 테이블 처리후 order를 처리해야 한다.
-         */
-
         try {
+            $certificate = Certificate::findOrFail($id);
+            $car = $certificate->carNumber->car;
+            $car_number = $certificate->carNumber;
+            $complete_state = Code::getId('report_state', 'complete');
+
+            if ($certificate->status_cd == $complete_state) {
+                return redirect()->back()->with('error', '발급완료된 인증서입니다.');
+            }
+
+            $car_number_data = [
+                "car_number" => $request->get('orders_car_number'),
+            ];
+
+            $car_data = [
+//                "imported_vin_number" => $request->get('car_imported_vin_number'),
+                "registration_date" => $request->get('cars_registration_date'),
+                "year" => $request->get('cars_year'),
+                "kind_cd" => $request->get("kind_cd"),
+                "displacement" => $request->get('cars_displacement'),
+                "exterior_color_cd" => $request->get('cars_exterior_color'),
+                "exterior_color_etc" => $request->get('car_exterior_color_etc') ? $request->get('car_exterior_color_etc') : '',
+                "fuel_consumption" => $request->get('cars_fuel_consumption'),
+                "fueltype_cd" => $request->get("cars_fueltype_cd"),
+                "fueltype_etc" => $request->get('car_fueltype_etc') ? $request->get('car_fueltype_etc') : '',
+                "transmission_cd" => $request->get('cars_transmission_cd'),
+                "engine_type" => $request->get("cars_engine_type"),
+                "passenger" => $request->get("passenger")
+            ];
+
+
+            $certificate_data = [
+                "vin_yn_cd" => $request->get("certificates_vin_yn_cd"),
+                "history_owner" => $request->get('certificates_history_owner'),
+                "history_insurance" => $request->get("certificates_history_insurance"),
+                "history_purpose" => $request->get("certificates_history_purpose"),
+                "history_garage" => $request->get("certificates_history_garage"),
+                "price" => $request->get("pst"),
+                "new_car_price" => $request->get("certificates_new_car_price"),
+                "basic_registraion" => $request->get("certificates_basic_registraion"),
+                "basic_registraion_depreciation" => $request->get("basic_registraion_depreciation"),
+                "basic_etc" => $request->get("certificates_basic_etc"),
+                "usage_mileage_cd" => $request->get("certificates_usage_mileage_cd"),
+                "usage_mileage_depreciation" => $request->get("certificates_usage_mileage_depreciation"),
+                "usage_history_cd" => $request->get("certificates_usage_history_cd"),
+                "usage_history_depreciation" => $request->get("certificates_usage_history_depreciation"),
+                "performance_exterior_cd" => $request->get("performance_exterior_cd"),          //차량외부점검
+                "performance_interior_cd" => $request->get('performance_interior_cd'),          //차량내부점검
+                "performance_plugin_cd" => $request->get('performance_plugin_cd'),              //전장장착품작동상태
+                "performance_broken_cd" => $request->get("performance_broken_cd"),              //고잔진단
+                "performance_engine_cd" => $request->get('performance_engine_cd'),              //원동기
+                "performance_transmission_cd" => $request->get('performance_transmission_cd'),  //변속기
+                "performance_power_cd" => $request->get('performance_power_cd'),                //동력전달
+                "performance_steering_cd" => $request->get('performance_steering_cd'),          //조향장치 및 현가장치
+                "performance_braking_cd" => $request->get('performance_braking_cd'),            //제동장치
+                "performance_electronic_cd" => $request->get('performance_electronic_cd'),      //전기장치
+                "performance_tire_cd" => $request->get('performance_tire_cd'),                  //휠&타이어
+                "performance_driving_cd" => $request->get('performance_driving_cd'),            //주행테스트
+                "exterior_comment" => $request->get('exterior_comment'),
+                "interior_comment" => $request->get('interior_comment'),
+                "plugin_comment" => $request->get('plugin_comment'),
+                "broken_comment" => $request->get('broken_comment'),
+                "engine_comment" => $request->get('engine_comment'),
+                "transmission_comment" => $request->get('transmission_comment'),
+                "power_comment" => $request->get('power_comment'),
+                "steering_comment" => $request->get('steering_comment'),
+                "braking_comment" => $request->get('braking_comment'),
+                "electronic_comment" => $request->get('electronic_comment'),
+                "tire_comment" => $request->get('tire_comment'),
+                "driving_comment" => $request->get('driving_comment'),
+                "performance_depreciation" => $request->get("performance_depreciation"), // 차량성능상태 감가금액
+                "history_depreciation" => $request->get('history_depreciation'), // 사용이력 감가금액 ( 현재 없음 )
+                "basic_depreciation" => $request->get("basic_depreciation"), // 기본가격 감가금액 ( 현재없음 )
+                "special_flooded_cd" => $request->get("certificates_special_flooded_cd"),
+                "special_fire_cd" => $request->get("certificates_special_fire_cd"),
+                "special_fulllose_cd" => $request->get("certificates_special_fulllose_cd"),
+                "special_remodel_cd" => $request->get("certificates_special_remodel_cd"),
+                "special_etc_cd" => $request->get("certificates_special_etc_cd"),
+                "special_depreciation" => $request->get("special_depreciation"),
+                "valuation" => $request->get("certificates_valuation"),
+                "opinion" => $request->get("certificates_opinion"),
+                "grade" => $request->get('grade_state_cd'),
+                "usage_flood_cd" => $request->get('certificates_usage_flood_cd'),
+                "flood_comment" => $request->get('flood_comment'),
+                "history_comment" => $request->get('history_comment'),
+                // todo 대표사진 가져오는거...
+//                "pictures" => $request->get('selecte_picture_id') ? $request->get('selecte_picture_id') : $order_where->getExteriorPicture()[0]->files[0]->id
+            ];
+
             DB::beginTransaction();
 
-            if (count($car_data) > 0) {
-                $cars_id = $order_where->cars_id;
-
-                $car_filter = array_filter($car_data, function ($value) {
-                    return ($value !== null && $value !== false && $value !== '');
-                });
-
-
-                if ($cars_id) {
-                    $car_where = Car::find($cars_id);
-                } else {
-                    $car_where = new Car();
-                }
-
-                foreach ($car_filter as $property => $value) {
-                    try {
-                        $car_where->$property = $value;
-                    } catch (\Exception $e) {
-                        return response()->json($e->getMessage());
-                    }
-                }
-
-                $car_where->save();
-
-                $order_data['cars_id'] = $car_where->id;
-            }
-
-            if (count($certificate_data) > 0) {
-
-                $certificates_filter = array_filter($certificate_data, function ($value) {
-                    return ($value !== null && $value !== false && $value !== '');
-                });
-
-
-                if (!$certificates_where) {
-                    $certificates_where = new Certificate();
-                }
-
-                foreach ($certificates_filter as $property => $value) {
-                    $certificates_where->$property = $value;
-                }
-
-                $certificates_where->save();
-
-            }
-            if (count($order_data) > 0) {
-
-                $order_filter = array_filter($order_data, function ($value) {
-                    return ($value !== null && $value !== false && $value !== '');
-                });
-                $order_where->update($order_filter);
-                $order_where->save();
-            }
+            $certificate->update($certificate_data);
+            $car->update($car_data);
+            $car_number->update($car_number_data);
 
             DB::commit();
 
-            return redirect()->back()->with('success', '인증서 정보가 갱신되었습니다');
-
+            return redirect()->back()->with('success', '정상적으로 인증서가 발급되었습니다.');
         } catch (\Exception $e) {
             DB::rollBack();
-
-            return redirect()->back()->with('error', '인증서 정보가 갱신이 실패하였습니다.<br>' . $e->getMessage());
+            return redirect()->back()->with('error', '처리중 오류가 발생했습니다.');
+//            return redirect()->back()->with('error', '인증서 정보가 갱신이 실패하였습니다.<br>' . $e->getMessage());
         }
-
-
     }
 
     /**
@@ -397,18 +329,18 @@ class CertificateController extends Controller
     {
         try {
             DB::beginTransaction();
-
             $certificate = Certificate::findOrFail($id);
             $certificate->update([
-                'status_cd' => Code::getId('report_state', 'review'),
-                'technist_id' => Auth::user()->id
+                "technist_id" => Auth::user()->id,
+                'status_cd' => Code::getId('report_state', 'review')
             ]);
             DB::commit();
 
             return response()->json(true);
         } catch (Exception $e) {
             DB::rollBack();
-            return response()->json($e->getMessage());
+            return response()->json(false);
+//            return response()->json($e->getMessage());
         }
     }
 
@@ -422,137 +354,139 @@ class CertificateController extends Controller
      */
     public function issue(Request $request)
     {
-
-        $obj = $request->get('params');
-        $params = [];
-        parse_str($obj, $params);
-
-        $validate = Validator::make($params, [
-            'cars_vin_number' => 'required',
-            'car_imported_vin_number' => 'nullable',
-            'cars_registration_date' => 'required',
-            'cars_exterior_color' => 'required',
-            'cars_year' => 'required',
-            'cars_transmission_cd' => 'required',
-            'cars_displacement' => 'required',
-            'cars_fuel_consumption' => 'required',
-            'cars_engine_type' => 'required',
-            'cars_fueltype_cd' => 'required',
-            'passenger' => 'required',
-            'kind_cd' => 'required',
-
-            'certificates_new_car_price' => 'required',
-            'pst' => 'required',
-            'basic_depreciation' => 'required',
-            'certificates_basic_registraion' => 'required',
-            'basic_registraion_depreciation' => 'required',
-            'certificates_basic_etc' => 'required',
-            'history_depreciation' => 'required',
-            'certificates_usage_mileage_cd' => 'required',
-            'certificates_usage_mileage_depreciation' => 'required',
-            'certificates_usage_history_cd' => 'required',
-            'certificates_usage_history_depreciation' => 'required',
-            'certificates_usage_flood_cd' => 'required',
-            'performance_depreciation' => 'required',
-            'performance_exterior_cd' => 'required',
-            'performance_interior_cd' => 'required',
-            'performance_plugin_cd' => 'required',
-            'performance_broken_cd' => 'required',
-            'performance_engine_cd' => 'required',
-            'performance_transmission_cd' => 'required',
-            'performance_power_cd' => 'required',
-            'performance_steering_cd' => 'required',
-            'performance_braking_cd' => 'required',
-            'performance_electronic_cd' => 'required',
-            'performance_tire_cd' => 'required',
-            'performance_driving_cd' => 'required',
-            'special_depreciation' => 'required',
-            'certificates_valuation' => 'required',
-            'grade_state_cd' => 'required',
-            'certificates_opinion' => 'required'
-        ], [], [
-            'cars_vin_number' => '차대번호',
-            'cars_registration_date' => '최초등록',
-            'cars_exterior_color' => '외부색상',
-            'cars_year' => '연식',
-            'cars_transmission_cd' => '변속기',
-            'cars_displacement' => '배기량',
-            'cars_fuel_consumption' => '연비',
-            'cars_engine_type' => '엔진타입',
-            'cars_fueltype_cd' => '사용연료',
-            'passenger' => '승차인원',
-            'kind_cd' => '차종',
-            'certificates_vin_yn_cd' => '차대번호 동일성확인',
-            'certificates_new_car_price' => '산차출고가격',
-            'pst' => '기준가격(P)',
-            'basic_depreciation' => '기본평가(A)',
-            'certificates_basic_registraion' => '등록일보정 옵션',
-            'basic_registraion_depreciation' => '등록일보정 감가금액',
-            'certificates_basic_etc' => '색상등 기타 감가금액',
-            'history_depreciation' => '주요이력평가(B)',
-            'certificates_usage_mileage_cd' => '주행거리 옵션',
-            'certificates_usage_mileage_depreciation' => '주행거리 감가금액',
-            'certificates_usage_history_cd' => '사고/수리이력 옵션',
-            'certificates_usage_history_depreciation' => '사고/수리이력 감가금액',
-            'certificates_usage_flood_cd' => '침수점검',
-            'performance_depreciation' => '종합진단결과(C) 감가금액',
-            'performance_exterior_cd' => '차량외부점검',
-            'performance_interior_cd' => '차량내부점검',
-            'performance_plugin_cd' => '전장장착품작동상태',
-            'performance_broken_cd' => '고장진단',
-            'performance_engine_cd' => '원동기',
-            'performance_transmission_cd' => '변속기',
-            'performance_power_cd' => '동력전달',
-            'performance_steering_cd' => '조향장치 및 현가장치',
-            'performance_braking_cd' => '제동장치',
-            'performance_electronic_cd' => '전기장치',
-            'performance_tire_cd' => '휠&타이어',
-            'performance_driving_cd' => '주행테스',
-            'special_depreciation' => '특별요인(S)',
-            'certificates_valuation' => '평가금액',
-            'grade_state_cd' => '등급평가',
-            'certificates_opinion' => '종합의견'
-        ]);
-
-        if ($validate->fails()) {
-            return response()->json($validate->errors());
-        }
-
         try {
+            $obj = $request->get('params');
+            $params = [];
+            parse_str($obj, $params);
+
+            $validate = Validator::make($params, [
+                'cars_vin_number' => 'required',
+                'car_imported_vin_number' => 'nullable',
+                'cars_registration_date' => 'required',
+                'cars_exterior_color' => 'required',
+                'cars_year' => 'required',
+                'cars_transmission_cd' => 'required',
+                'cars_displacement' => 'required',
+                'cars_fuel_consumption' => 'required',
+                'cars_engine_type' => 'required',
+                'cars_fueltype_cd' => 'required',
+                'passenger' => 'required',
+                'kind_cd' => 'required',
+
+                'certificates_new_car_price' => 'required',
+                'pst' => 'required',
+                'basic_depreciation' => 'required',
+                'certificates_basic_registraion' => 'required',
+                'basic_registraion_depreciation' => 'required',
+                'certificates_basic_etc' => 'required',
+                'history_depreciation' => 'required',
+                'certificates_usage_mileage_cd' => 'required',
+                'certificates_usage_mileage_depreciation' => 'required',
+                'certificates_usage_history_cd' => 'required',
+                'certificates_usage_history_depreciation' => 'required',
+                'certificates_usage_flood_cd' => 'required',
+                'performance_depreciation' => 'required',
+                'performance_exterior_cd' => 'required',
+                'performance_interior_cd' => 'required',
+                'performance_plugin_cd' => 'required',
+                'performance_broken_cd' => 'required',
+                'performance_engine_cd' => 'required',
+                'performance_transmission_cd' => 'required',
+                'performance_power_cd' => 'required',
+                'performance_steering_cd' => 'required',
+                'performance_braking_cd' => 'required',
+                'performance_electronic_cd' => 'required',
+                'performance_tire_cd' => 'required',
+                'performance_driving_cd' => 'required',
+                'special_depreciation' => 'required',
+                'certificates_valuation' => 'required',
+                'grade_state_cd' => 'required',
+                'certificates_opinion' => 'required'
+            ], [], [
+                'cars_vin_number' => '차대번호',
+                'cars_registration_date' => '최초등록',
+                'cars_exterior_color' => '외부색상',
+                'cars_year' => '연식',
+                'cars_transmission_cd' => '변속기',
+                'cars_displacement' => '배기량',
+                'cars_fuel_consumption' => '연비',
+                'cars_engine_type' => '엔진타입',
+                'cars_fueltype_cd' => '사용연료',
+                'passenger' => '승차인원',
+                'kind_cd' => '차종',
+                'certificates_vin_yn_cd' => '차대번호 동일성확인',
+                'certificates_new_car_price' => '산차출고가격',
+                'pst' => '기준가격(P)',
+                'basic_depreciation' => '기본평가(A)',
+                'certificates_basic_registraion' => '등록일보정 옵션',
+                'basic_registraion_depreciation' => '등록일보정 감가금액',
+                'certificates_basic_etc' => '색상등 기타 감가금액',
+                'history_depreciation' => '주요이력평가(B)',
+                'certificates_usage_mileage_cd' => '주행거리 옵션',
+                'certificates_usage_mileage_depreciation' => '주행거리 감가금액',
+                'certificates_usage_history_cd' => '사고/수리이력 옵션',
+                'certificates_usage_history_depreciation' => '사고/수리이력 감가금액',
+                'certificates_usage_flood_cd' => '침수점검',
+                'performance_depreciation' => '종합진단결과(C) 감가금액',
+                'performance_exterior_cd' => '차량외부점검',
+                'performance_interior_cd' => '차량내부점검',
+                'performance_plugin_cd' => '전장장착품작동상태',
+                'performance_broken_cd' => '고장진단',
+                'performance_engine_cd' => '원동기',
+                'performance_transmission_cd' => '변속기',
+                'performance_power_cd' => '동력전달',
+                'performance_steering_cd' => '조향장치 및 현가장치',
+                'performance_braking_cd' => '제동장치',
+                'performance_electronic_cd' => '전기장치',
+                'performance_tire_cd' => '휠&타이어',
+                'performance_driving_cd' => '주행테스',
+                'special_depreciation' => '특별요인(S)',
+                'certificates_valuation' => '평가금액',
+                'grade_state_cd' => '등급평가',
+                'certificates_opinion' => '종합의견'
+            ]);
+
+            if ($validate->fails()) {
+                return response()->json($validate->errors());
+            }
+
+
             DB::beginTransaction();
-            $order_id = $params['order_id'];
-            $order = Order::findOrFail($order_id);
-            $order->status_cd = 109;
-            $order->save();
+            $certificate = Certificate::findOrFail($params['certificate_id']);
+            $certificate->status_cd = Code::getId('report_state', 'complete');
+            $certificate->save();
 
-            //문자, 메일 송부하기
-            $user = User::find($order->orderer_id);
-            $order_number = $order->getOrderNumber();
-            $certificate_url = 'http://cert.chagumsa.com/' . $order_number;
 
-            try {
-                //메일전송
-                $mail_message = [
-                    'order_number' => $order_number, 'certificate_url' => $certificate_url
-                ];
-                Mail::send(new \App\Mail\Ordering($user->email, "차검사 인증서 발급이 완료되었습니다.", $mail_message, 'message.email.fin-certification-user'));
-            } catch (\Exception $e) {
-                return response()->json($e->getMessage());
-            }
+//            //문자, 메일 송부하기
+//            $user = User::find($order->orderer_id);
+//            $order_number = $order->getOrderNumber();
+//            $certificate_url = 'http://cert.chagumsa.com/' . $order_number;
+//
+//            try {
+//                //메일전송
+//                $mail_message = [
+//                    'order_number' => $order_number, 'certificate_url' => $certificate_url
+//                ];
+//                Mail::send(new \App\Mail\Ordering($user->email, "차검사 인증서 발급이 완료되었습니다.", $mail_message, 'message.email.fin-certification-user'));
+//            } catch (\Exception $e) {
+//                return response()->json($e->getMessage());
+//            }
+//
+//            try {
+//                // SMS전송
+//                $user_message = view('message.sms.fin-certification-user', compact('order_number', 'certificate_url'));
+//                event(new SendSms($order->orderer_mobile, '', $user_message));
+//            } catch (\Exception $e) {
+//                return response()->json($e->getMessage());
+//            }
+//            //발송 끝
 
-            try {
-                // SMS전송
-                $user_message = view('message.sms.fin-certification-user', compact('order_number', 'certificate_url'));
-                event(new SendSms($order->orderer_mobile, '', $user_message));
-            } catch (\Exception $e) {
-                return response()->json($e->getMessage());
-            }
-            //발송 끝
+
             DB::commit();
             return response()->json('success');
-        } catch (\Exception $ex) {
+        } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json($ex->getMessage());
+            return response()->json($e->getMessage());
         }
     }
 }
