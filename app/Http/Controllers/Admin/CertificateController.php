@@ -27,6 +27,7 @@ class CertificateController extends Controller
      */
     public function index(Request $request)
     {
+
         $sort = $request->get('sort');
         $sort_orderby = $request->get('sort_orderby');
         if (!$sort) {
@@ -355,12 +356,12 @@ class CertificateController extends Controller
     public function issue(Request $request)
     {
         try {
+
             $obj = $request->get('params');
             $params = [];
             parse_str($obj, $params);
 
             $validate = Validator::make($params, [
-                'cars_vin_number' => 'required',
                 'car_imported_vin_number' => 'nullable',
                 'cars_registration_date' => 'required',
                 'cars_exterior_color' => 'required',
@@ -454,8 +455,9 @@ class CertificateController extends Controller
             DB::beginTransaction();
             $certificate = Certificate::findOrFail($params['certificate_id']);
             $certificate->status_cd = Code::getId('report_state', 'complete');
+            $certificate->completed_at = Carbon::now();
+            $certificate->expired_at = $certificate->getExpireDate();
             $certificate->save();
-
 
 //            //문자, 메일 송부하기
 //            $user = User::find($order->orderer_id);

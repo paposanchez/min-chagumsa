@@ -920,108 +920,102 @@
             var V = Pst + (A + B + C + S);
             return V;
         };
+        $(document).on('click', '.picture', function () {
+            $(this).parent().find('img').css('opacity', '1');
+            $(this).css('opacity', '0.2');
 
-        $(function () {
-
-            $(document).on('click', '.picture', function () {
-                $(this).parent().find('img').css('opacity', '1');
-                $(this).css('opacity', '0.2');
-
-                $('#selecte_picture_id').val($(this).data('id'));
-            });
-
-
-            $(document).on('click', '#certificate-submit', function () {
-                if (confirm("인증서를 저장하시겠습니까?")) {
-                    $("#frm-basic").submit();
-                }
-            });
-
-
-            $("#frm-basic").validate({
-                messages: {
-                    car_number: "자동차 등록번호를 입력해 주세요.",
-                    cars_vin_number: "차대번호를 입력해 주세요.",
-//                    certificates_vin_yn_cd: "차대번호 동일성확인을 선택해 주세요.",
-//                    cars_registration_date: "차량의 최초등록일을 입력해 주세요.",
-//                    cars_year: "연식을 입력해 주세요.",
-//                    orders_mileage: "주행거리를 km단위로 입력해 주세요. (정수값)",
-//                    cars_displacement: "배기량을 입력해 주세요.",
-//                    cars_engine_type: "엔진타입을 입력해 주세요.",
-//                    cars_fuel_consumption: "연비를 선택해 주세요.",
-//                    passenger: "승차인원을 입력해 주세요."
-                },
-                submitHandler: function (form) {
-                    form.submit();
-                }
-            });
-
-            $("#valuation").on("click", function () {
-                if (confirm("평가금액을 계산하시겠습니까?")) {
-                    var valuation = sum_certificate_price();
-
-                    if (!isNaN(valuation)) {
-                        $("#valuation").val(valuation);
-                    } else {
-                        $("#valuation").val('');
-                        alert('평가금액 계산을 위해 금액을 정확히 입력해 주세요.')
-                    }
-                } else {
-                    $("#valuation").focus();
-                }
-
-            });
-
-            // 인증서 발급하기
-            $("#issue").click(function () {
-                var c = confirm("인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
-                var params = $("#frm-basic").serialize();
-
-                if (c == true) {
-                    $.ajax({
-                        type: 'post',
-                        url: '/certificate/issue',
-                        data: {
-                            'params': params
-                        },
-                        success: function (data) {
-                            if (data == 'success') {
-                                alert('인증서 발급이 완료되었습니다.');
-                                location.href = "/certificate";
-                            }
-                            else {
-                                $.each(data, function (key, value) {
-                                    alert(value + '\n항목을 선택 후 저장해주세요.\n저장 후 인증서를 발급하셔야 정상적으로 발급됩니다.');
-                                    $('input[name=' + key + ']').parent().css('color', 'red');
-                                    $('input[name=' + key + ']').focus();
-                                    return false;
-                                });
-                            }
-                        },
-                        error: function (data) {
-                            alert('문제가 발생하였습니다. 관리자에게 문의하세요.');
-                        }
-                    })
-                }
-            });
-
-            $('#cars_exterior_color').change(function () {
-                if ($('#cars_exterior_color').val() == 1132) {
-                    $('#exterior_color_etc').css('display', '')
-                } else {
-                    $('#exterior_color_etc').css('display', 'none')
-                }
-            });
-
-            $('#cars_fueltype_cd').change(function () {
-                if ($('#cars_fueltype_cd').val() == 1106) {
-                    $('#fueltype_etc').css('display', '')
-                } else {
-                    $('#fueltype_etc').css('display', 'none')
-                }
-            });
+            $('#selecte_picture_id').val($(this).data('id'));
         });
 
+
+        $(document).on('click', '#certificate-submit', function () {
+            if (confirm("인증서를 저장하시겠습니까?")) {
+                $("#frm-basic").submit();
+            }
+        });
+
+        $(document).on('click', '#valuation', function(){
+            if (confirm("평가금액을 계산하시겠습니까?")) {
+                var valuation = sum_certificate_price();
+
+                if (!isNaN(valuation)) {
+                    $("#valuation").val(valuation);
+                } else {
+                    $("#valuation").val('');
+                    alert('평가금액 계산을 위해 금액을 정확히 입력해 주세요.')
+                }
+            } else {
+                $("#valuation").focus();
+            }
+        });
+
+        // 인증서 발급하기
+        $(document).on('click', '#issue' ,function(){
+            var c = confirm("인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
+            var params = $("#frm-basic").serialize();
+
+            if (c == true) {
+                $.ajax({
+                    type: 'post',
+                    url: '/certificate/issue/',
+                    data: {
+                        'params': params
+                    },
+                    success: function (data) {
+                        if (data == 'success') {
+                            alert('인증서 발급이 완료되었습니다.');
+                            location.href = "/certificate";
+                        }
+                        else {
+                            $.each(data, function (key, value) {
+                                alert(value + '\n항목을 선택 후 저장해주세요.\n저장 후 인증서를 발급하셔야 정상적으로 발급됩니다.');
+                                $('input[name=' + key + ']').parent().css('color', 'red');
+                                $('input[name=' + key + ']').focus();
+                                return false;
+                            });
+                        }
+                    },
+                    error: function (data) {
+                        alert('문제가 발생하였습니다. 관리자에게 문의하세요.');
+                    }
+                })
+            }
+        });
+
+        $('#cars_exterior_color').change(function () {
+            if ($('#cars_exterior_color').val() == 1132) {
+                $('#exterior_color_etc').css('display', '')
+            } else {
+                $('#exterior_color_etc').css('display', 'none')
+            }
+        });
+
+        $('#cars_fueltype_cd').change(function () {
+            if ($('#cars_fueltype_cd').val() == 1106) {
+                $('#fueltype_etc').css('display', '')
+            } else {
+                $('#fueltype_etc').css('display', 'none')
+            }
+        });
+
+
+        // $("#frm-basic").validate({
+//             messages: {
+//                 car_number: "자동차 등록번호를 입력해 주세요.",
+//                 cars_vin_number: "차대번호를 입력해 주세요.",
+// //                    certificates_vin_yn_cd: "차대번호 동일성확인을 선택해 주세요.",
+// //                    cars_registration_date: "차량의 최초등록일을 입력해 주세요.",
+// //                    cars_year: "연식을 입력해 주세요.",
+// //                    orders_mileage: "주행거리를 km단위로 입력해 주세요. (정수값)",
+// //                    cars_displacement: "배기량을 입력해 주세요.",
+// //                    cars_engine_type: "엔진타입을 입력해 주세요.",
+// //                    cars_fuel_consumption: "연비를 선택해 주세요.",
+// //                    passenger: "승차인원을 입력해 주세요."
+//             },
+//             submitHandler: function (form) {
+//                 form.submit();
+//             }
+//         });
 
         $(document).ready(function () {
             $('#plugin-attachment').fineUploader({

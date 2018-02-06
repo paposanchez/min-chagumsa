@@ -270,7 +270,7 @@
                 $('#loading').fadeIn();
 
                 $.ajax({
-                    type: 'get',
+                    type: 'post',
                     dataType: 'json',
                     url: '/certificate/' + id + '/assign',
                     success: function (data) {
