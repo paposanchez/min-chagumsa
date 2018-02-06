@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -28,9 +29,7 @@ class AppServiceProvider extends ServiceProvider
         //https://laravel-news.com/laravel-5-4-key-too-long-error
         // Schema::defaultStringLength(191);
 
-        if (env('REDIRECT_HTTPS')) {
-            $url->forceSchema('https');
-        }
+        URL::forceScheme('https');
 
         // add observers
         Order::observe(OrderObserver::class);
