@@ -26,35 +26,8 @@ class DiagnosisController extends ApiController
 
         private function modelDiagnosis($diagnosis)
         {
-                return [
-                        "id"            => $diagnosis->id,
-                        "chakey"        => $diagnosis->chakey,
-                        "reservation_at"        => [
-                                "date" => $diagnosis->reservation_at->format('Y-m-d'),
-                                "time" => $diagnosis->reservation_at->format('H:i'),
-                                "fulldate" => $diagnosis->reservation_at->format('Y-m-d H:i:s')
-                        ],
-                        "status"        => [
-                                'status_cd'     => $diagnosis->status_cd,
-                                'namespace'     => $diagnosis->status->namespace(),
-                                'display_name'  => $diagnosis->status->display()
-                        ],
-                        "issue"         => $diagnosis->isIssue(),
-                        "start_at"      => $diagnosis->start_at ? $diagnosis->start_at->format('Y-m-d H:i:s') : '',
-                        "completed_at"  => $diagnosis->completed_at ? $diagnosis->completed_at->format('Y-m-d H:i:s') : '',
-                        "orderer"       => [
-                                "name"          => $diagnosis->orderItem->order->orderer_name,
-                                "mobile"        => $diagnosis->orderItem->order->orderer_mobile
-                        ],
-                        "car" => [
-                                "car_number"     => $diagnosis->carNumber->car_number,
-                                "vin_number"     => $diagnosis->carNumber->cars_id,
-                                "car_model"     => $diagnosis->carNumber->car->getFullName(),
-                                "brand"         => $diagnosis->carNumber->car->brand->name,
-                                "detail"        => $diagnosis->carNumber->car->detail->name,
-                                "grade"         => $diagnosis->carNumber->car->grade->name
-                        ]
-                ];
+                return DiagnosisRepository::getInstance()->order($diagnosis);
+
         }
 
 
@@ -75,16 +48,16 @@ class DiagnosisController extends ApiController
                         // 토탈
                         $count = [
                                 "total" => 0,
-                                '117'   => Diagnosis::getIssues(117, $garage_id, true),
-                                '118'   => Diagnosis::getIssues(118, $garage_id, true),
-                                '119'   => Diagnosis::getIssues(119, $garage_id, true),
+                                '117'   => Diagnosis::getExtraStatus(117, $garage_id, true),
+                                '118'   => Diagnosis::getExtraStatus(118, $garage_id, true),
+                                '119'   => Diagnosis::getExtraStatus(119, $garage_id, true),
                         ];
                         // total
                         $count['total'] = $count['117'] + $count['118'] + $count['119'];
 
                         // 현재상태 검색결과
                         $entrys = [];
-                        $result = Diagnosis::getIssues($request->get('issue_cd'), $garage_id);
+                        $result = Diagnosis::getExtraStatus($request->get('issue_cd'), $garage_id);
                         foreach ($result as $diagnosis) {
                                 $entrys[] = $this->modelDiagnosis($diagnosis);
                         }
@@ -121,9 +94,9 @@ class DiagnosisController extends ApiController
 
                         // 토탈
                         $result = [
-                                Diagnosis::getIssues(117, $garage_id, true),
-                                Diagnosis::getIssues(118, $garage_id, true),
-                                Diagnosis::getIssues(119, $garage_id, true)
+                                Diagnosis::getExtraStatus(117, $garage_id, true),
+                                Diagnosis::getExtraStatus(118, $garage_id, true),
+                                Diagnosis::getExtraStatus(119, $garage_id, true)
                         ];
 
                         return response()->json([
@@ -185,10 +158,11 @@ class DiagnosisController extends ApiController
                                 '112'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 112)->count(),   // 신청
                                 '113'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 113)->count(),   // 예약확정
                                 '114'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 114)->count(),   // 검토중
+                                '126'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 126)->count(),   // 검토완료
                                 '115'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 115)->count(),   // 발급완료
                         ];     // 상태별 갯수
 
-                        $result        = Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', $requestData['status_cd'])->get();
+                        $result        = Diagnosis::select()->whereIn('diagnosis.status_cd', [112,113,114,115,126])->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', $requestData['status_cd'])->get();
                         $entrys = [];
                         foreach ($result as $diagnosis) {
                                 $entrys[] = $this->modelDiagnosis($diagnosis);
@@ -229,7 +203,7 @@ class DiagnosisController extends ApiController
                         $status_cd = $requestData['status_cd'];
                         $s = $request->get('s');
 
-                        $where = Diagnosis::select();
+                        $where = Diagnosis::select()->whereIn('diagnosis.status_cd', [112,113,114,115,126]);
 
                         //상태값 검색시
                         if ($status_cd) {
@@ -240,31 +214,38 @@ class DiagnosisController extends ApiController
                         }
 
                         //키워드 검색시
-                        if ($s) {
-                                $where->leftJoin('order_items', 'diagnosis.order_items_id', '=', 'order_items.id')
-                                ->leftJoin('orders', 'order_items.orders_id', '=', 'orders.id')
-                                ->leftJoin('car_numbers', 'diagnosis.car_numbers_id', '=', 'car_numbers.id')
-                                ->where('car_numbers.car_number', 'like', '%' . $s)
-                                ->orWhere('orders.orderer_mobile', 'like', '%' . $s)
-                                ->select('diagnosis.*');
-                        }
+                        $where->leftJoin('order_items', 'diagnosis.order_items_id', '=', 'order_items.id')
+                        ->leftJoin('orders', 'order_items.orders_id', '=', 'orders.id')
+                        ->leftJoin('car_numbers', 'diagnosis.car_numbers_id', '=', 'car_numbers.id')
+                        ->where(function($query) use ($s){
+                                $query->where('car_numbers.car_number', 'like', '%' . $s)
+                                ->orWhere('orders.orderer_mobile', 'like', '%' . $s);
+                        })->select('diagnosis.*');
+
+
+
                         $result = $where->get();
                         $entrys = [];
 
-
-                                //@TODO 상태별 카운트는 검색쿼리가 like 인관계로 일단 뺀다
+                        //@TODO 상태별 카운트는 검색쿼리가 like 인관계로 일단 뺀다
                         $status =       [
+                                '112'     => 0,   // 신청
+                                '113'     => 0,   // 예약확정
+                                '114'     => 0,   // 검토중
+                                '126'     => 0,   // 검토완료
+                                '115'     => 0,   // 발급완료
                                 // '112'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 112)->count(),   // 신청
                                 // '113'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 113)->count(),   // 예약확정
                                 // '114'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 114)->count(),   // 검토중
+                                // '126'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 126)->count(),   // 검토완료
                                 // '115'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 115)->count(),   // 발급완료
+
                         ];     // 상태별 갯수
                         foreach ($result as $diagnosis) {
                                 $status[$diagnosis->status_cd]  += 1;
                                 $entrys[] = $this->modelDiagnosis($diagnosis);
-
-
                         }
+
                         return response()->json([
                                 "status"        => 'success',
                                 'count'        => $status,
@@ -274,6 +255,7 @@ class DiagnosisController extends ApiController
                                 ]
                         ]);
                 } catch (Exception $e) {
+                        dd($e);
                         return response()->json([
                                 "status" => 'fail'
                         ]);
@@ -331,14 +313,15 @@ class DiagnosisController extends ApiController
                         // 조회를 요청한 사용자의 정보조회
                         $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
 
-                        $diagnosisRepository = new DiagnosisRepository();
-                        $return = $diagnosisRepository->prepare($requestData['diagnosis_id'])->get();
+                        $return = DiagnosisRepository::getInstance()->load($requestData['diagnosis_id'])->get();
 
                         return response()->json([
                                 "status" => 'success',
                                 "data"  => $return
                         ]);
                 } catch (Exception $e) {
+
+                        dd($e);
                         return response()->json([
                                 "status" => 'fail'
                         ]);
@@ -628,8 +611,7 @@ class DiagnosisController extends ApiController
 
                         $requestData = $request->validate([
                                 'user_id'       => 'required|exists:users,id',
-                                'diagnosis_id'  => 'required|exists:diagnosis,id',
-                                'diagnoses'     => 'required'
+                                'diagnosis_id'  => 'required|exists:diagnosis,id'
                         ]);
 
                         // 조회를 요청한 사용자의 정보조회
@@ -638,20 +620,15 @@ class DiagnosisController extends ApiController
                         // 해당 진단 조회
                         $diagnosis              = Diagnosis::where('status_cd', 113)->findOrFail($requestData['diagnosis_id']);
                         $diagnosis->engineer_id = $user->id;
-                        $diagnosis->start_at = Carbon::now();
+                        $diagnosis->start_at    = Carbon::now();
+                        // $diagnosis->status_cd   = 114;
                         $diagnosis->save();
-
-                        // 진단시작
-                        event(new OnStart($diagnosis));
 
                         return response()->json([
                                 "status" => 'success'
                         ]);
 
-
-                        // 앱에서는 간단하게
                 } catch (Exception $e) {
-
                         return response()->json([
                                 "status" => 'fail'
                         ]);

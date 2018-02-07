@@ -16,54 +16,64 @@ use App\Observers\DiagnosisObserver;
 use App\Observers\CertificateObserver;
 use App\Observers\WarrantyObserver;
 
-class AppServiceProvider extends ServiceProvider
-{
-
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot(UrlGenerator $url)
-    {
-        //https://laravel-news.com/laravel-5-4-key-too-long-error
-        // Schema::defaultStringLength(191);
-
-        URL::forceScheme('https');
-
-        // add observers
-        Order::observe(OrderObserver::class);
-        OrderItem::observe(OrderItemObserver::class);
-        Diagnosis::observe(DiagnosisObserver::class);
-        Certificate::observe(CertificateObserver::class);
-        Warranty::observe(WarrantyObserver::class);
-
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
+use App\Repositories\DiagnosisRepository;
 
 
-        if ($this->app->environment() !== 'production') {
-            // $this->app->register(\Way\Generators\GeneratorsServiceProvider::class);
-            // $this->app->register(\Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);
-            // $this->app->register(\Orangehill\Iseed\IseedServiceProvider::class);
+class AppServiceProvider extends ServiceProvider {
 
-            // swagger load
-            //     $this->app->register(\L5Swagger\L5SwaggerServiceProvider::class);
+        /**
+        * Bootstrap any application services.
+        *
+        * @return void
+        */
+        public function boot(UrlGenerator $url)
+        {
+                //https://laravel-news.com/laravel-5-4-key-too-long-error
+                // Schema::defaultStringLength(191);
 
-            // if(config('app.debug'))
-            // {
-            //         $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-            // }
+                URL::forceScheme('https');
 
+                // add observers
+                Order::observe(OrderObserver::class);
+                OrderItem::observe(OrderItemObserver::class);
+                Diagnosis::observe(DiagnosisObserver::class);
+                Certificate::observe(CertificateObserver::class);
+                Warranty::observe(WarrantyObserver::class);
+
+                $this->app->singleton('Chagumsa\Diagnosis', function ($app) {
+                        return new App\Repositories\DiagnosisRepository();
+                });
+                // $this->app->singleton('Chagumsa\Diagnosis', function ($app) {
+                //         return new App\Repositories\DiagnosisRepository();
+                // });
+                // $this->app->singleton('Chagumsa\Diagnosis', function ($app) {
+                //         return new App\Repositories\DiagnosisRepository();
+                // });
+
+                /**
+                * Register any application services.
+                *
+                * @return void
+                */
+                public function register()
+                {
+
+
+                        if ($this->app->environment() !== 'production') {
+                                // $this->app->register(\Way\Generators\GeneratorsServiceProvider::class);
+                                // $this->app->register(\Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);
+                                // $this->app->register(\Orangehill\Iseed\IseedServiceProvider::class);
+
+                                // swagger load
+                                //     $this->app->register(\L5Swagger\L5SwaggerServiceProvider::class);
+
+                                // if(config('app.debug'))
+                                // {
+                                //         $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+                                // }
+
+                        }
+
+
+                }
         }
-
-
-    }
-}
