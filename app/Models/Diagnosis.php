@@ -43,7 +43,6 @@ class Diagnosis extends Model
         public function status()
         {
                 return $this->hasOne(Code::class, 'id', 'status_cd');
-
         }
 
         // 공개여부 조회
@@ -70,6 +69,11 @@ class Diagnosis extends Model
                 return $this->hasOne(User::class, 'id', 'garage_id');
         }
 
+        //예약로그 조회
+        public function reservation()
+        {
+            return $this->hasMany(Reservation::class, 'diagnosis_id', 'id');
+        }
 
         // 진단관련 이슈처리
         public static function getExtraStatus($code, $garage_id = '', $is_count = false)
