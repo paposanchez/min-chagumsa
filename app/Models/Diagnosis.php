@@ -27,7 +27,14 @@ class Diagnosis extends Model
         ];
 
         protected $dates = [
-                'created_at', 'updated_at', 'start_at', 'completed_at', 'confirm_at', 'reservation_at'
+                'created_at',
+                'updated_at',
+                'reservation_at',        // 예약일
+                'confirm_at',           // 예약확정일
+                'start_at',             // 진단시작일
+                'completed_at',         // 진단완료일
+                'issued_at',            // 발급일
+                'expired_at',           // 만료일
         ];
 
 
@@ -74,21 +81,8 @@ class Diagnosis extends Model
                 return $this->hasMany(Reservation::class, 'diagnosis_id', 'id');
         }
 
-
-
-        // 인증서 만료일 카운트다운
-        public function getCountdown()
-        {
-                if ($this->updated_at) {
-                        return $this->updated_at->addDays($this->expire_period)->diffInDays(Carbon::now());
-                } else {
-                        return 0;
-                }
-        }
-
-
         // 진단관련 이슈처리
-        public static function getIssues($code, $garage_id = '', $is_count = false)
+        public static function getExtraStatus($code, $garage_id = '', $is_count = false)
         {
                 $where = Diagnosis::select();
 
@@ -120,7 +114,7 @@ class Diagnosis extends Model
 
 
         // 이슈
-        public function isIssue()
+        public function extraStatus()
         {
 
                 $today = Carbon::now();
@@ -179,6 +173,19 @@ class Diagnosis extends Model
 
 
         //============
+
+
+                //
+                // // 인증서 만료일 카운트다운
+                // public function getCountdown()
+                // {
+                //         if ($this->updated_at) {
+                //                 return $this->updated_at->addDays($this->expire_period)->diffInDays(Carbon::now());
+                //         } else {
+                //                 return 0;
+                //         }
+                // }
+
 
         // // 인증서 만료여부
         // public function isExpired()

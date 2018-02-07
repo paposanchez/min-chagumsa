@@ -18,6 +18,9 @@ use App\Observers\DiagnosisObserver;
 use App\Observers\CertificateObserver;
 use App\Observers\WarrantyObserver;
 
+use App\Repositories\DiagnosisRepository;
+
+
 class AppServiceProvider extends ServiceProvider {
 
         /**
@@ -43,6 +46,16 @@ class AppServiceProvider extends ServiceProvider {
         * @return void
         */
         public function register() {
+
+                $this->app->singleton('Chagumsa\Diagnosis', function ($app) {
+                        return new App\Repositories\DiagnosisRepository();
+                });
+                // $this->app->singleton('Chagumsa\Diagnosis', function ($app) {
+                //         return new App\Repositories\DiagnosisRepository();
+                // });
+                // $this->app->singleton('Chagumsa\Diagnosis', function ($app) {
+                //         return new App\Repositories\DiagnosisRepository();
+                // });
 
 
                 if ($this->app->environment() !== 'production') {
