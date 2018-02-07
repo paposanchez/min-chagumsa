@@ -152,11 +152,11 @@ Route::group(['middleware' => ['auth']], function () {
                 Route::resource('diagnosis', 'DiagnosesController');
 
                 // 파일
-                Route::post('file/thumbnail', '\App\Http\Controllers\FileController@thumbnail')->name("file/thumbnail");
-                Route::post('file/upload', '\App\Http\Controllers\FileController@upload')->name("file/upload");
-                Route::post('file/image', '\App\Http\Controllers\FileController@image')->name("file/image");
-                Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file/download");
-                Route::delete('file/delete/{id}', '\App\Http\Controllers\FileController@delete')->name("file/delete");
+                Route::post('file/thumbnail', '\App\Http\Controllers\FileController@thumbnail')->name("file.thumbnail");
+                Route::post('file/upload', '\App\Http\Controllers\FileController@upload')->name("file.upload");
+                Route::post('file/image', '\App\Http\Controllers\FileController@image')->name("file.image");
+                Route::get('file/download/{id}', '\App\Http\Controllers\FileController@download')->name("file.download");
+                Route::delete('file/delete/{id}', '\App\Http\Controllers\FileController@delete')->name("file.delete");
 
                 // Avatar
                 Route::get('thumbnail/{id?}', 'ImageController@thumbnail')->name("thumbnail");
@@ -166,12 +166,12 @@ Route::group(['middleware' => ['auth']], function () {
                 Route::patch('order/update/{id}', 'OrderController@update')->name('order/update');
 
                 //보험이력파일처리
-                Route::post('order/insurance-file', 'OrderController@insuranceFile')->name('order/insurance-file');
-                Route::get('order/insurance-file-view/{id}', 'OrderController@insuranceFileView')->name('order/insurance-file-view');
+                Route::post('order/insurance-file', 'OrderController@insuranceFile')->name('order.insurance-file');
+                Route::get('order/insurance-file-view/{id}', 'OrderController@insuranceFileView')->name('order.insurance-file-view');
 
                 // 인증서 관리
                 Route::post('certificate/{id?}/assign', 'CertificateController@assign');
-                Route::any('certificate/issue', 'CertificateController@issue');
+                Route::any('certificate/issue', 'CertificateController@issue')->name('certificate.issue');
                 Route::get('certificate/{order_id}/edit', 'CertificateController@edit');
                 Route::get('certificate/{order_id}/{page?}/{flush?}', 'CertificateController@show');
                 Route::resource('certificate', 'CertificateController', ['only' => ['index', 'update']]);

@@ -19,7 +19,6 @@ class Car extends CacheModel
         'registration_date', //'최초등록일',
         'year', //'출고연도',
         'kind_cd', // '용도'
-        'mileage', //'주행거리'
         'displacement', //'배기량',
         'exterior_color_cd', //'외장색',
         'exterior_color_etc',
