@@ -493,9 +493,9 @@
                 var target = $(this).data('target');
 
                 if ($(this).attr('id') == 'brands') {
-                    $('#models').html('<option>선택하세요.</option>');
-                    $('#details').html('<option>선택하세요.</option>');
-                    $('#grades').html('<option>선택하세요.</option>');
+                    $('#models').html('<option value="">선택하세요.</option>');
+                    $('#details').html('<option value="">선택하세요.</option>');
+                    $('#grades').html('<option value="">선택하세요.</option>');
                 }
 
                 $.ajax({
@@ -504,14 +504,16 @@
                     url: url,
                     data: {sel_id: sel_id},
                     success: function (data) {
-                        $('#' + target).html('<option>선택하세요.</option>');
+                        $('#' + target).html('<option value="">선택하세요.</option>');
                         $.each(data, function (key, value) {
                             $('#' + target).append($('<option/>', {
                                 value: value.id,
                                 text: value.name
                             }));
                         });
-                        $(this).data('target').empty('<option>선택하세요.</option>').trigger('change');
+                        // $(this).data('target').html('<option value="">선택하세요.</option>').trigger('change');
+                        target.html('<option value="">선택하세요.</option>');
+                        target.trigger('change');
                     },
                     error: function (data) {
                         alert('처리중 오류가 발생했습니다.');
