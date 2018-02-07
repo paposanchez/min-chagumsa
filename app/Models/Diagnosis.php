@@ -64,11 +64,28 @@ class Diagnosis extends Model
                 return $this->hasOne(CarNumber::class, 'id', 'car_numbers_id');
         }
 
+        //주문상품 조회
+        public function orderItem(){
+                return $this->hasOne(OrderItem::class, 'id', 'order_items_id');
+        }
+
         // 정비소 조회
         public function garage()
         {
                 return $this->hasOne(User::class, 'id', 'garage_id');
         }
+
+        //
+        public function engineer()
+        {
+                return $this->hasOne(User::class, 'id', 'engineer_id');
+        }
+
+        public function diagnoses()
+        {
+                return $this->hasMany(Diagnoses::class, 'id', 'diagnosis_id');
+        }
+
 
 
         // 진단관련 이슈처리

@@ -118,13 +118,13 @@ final class DiagnosisRepository extends DocumentFactory implements IDocument
 
 
         // 진단내역중 $group(name_cd) 에 따른 항목을 조회된 진단리스트에서 추출
-        private function diagnoses($document, $group) {
+        private function diagnoses($entrys, $group) {
 
                 $return = [];
-                foreach($document as $diagnoses)
+                foreach($entrys as $entry)
                 {
-                        if($group == $diagnoses->group) {
-                                $return[] = $this->detail($diagnoses);
+                        if($group == $entry->group) {
+                                $return[] = $this->detail($entry);
                         }
                 }
 
