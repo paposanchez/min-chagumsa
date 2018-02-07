@@ -50,30 +50,33 @@ class AppServiceProvider extends ServiceProvider {
                 //         return new App\Repositories\DiagnosisRepository();
                 // });
 
-                /**
-                * Register any application services.
-                *
-                * @return void
-                */
-                public function register()
-                {
+        }
+
+        /**
+        * Register any application services.
+        *
+        * @return void
+        */
+        public function register()
+        {
 
 
-                        if ($this->app->environment() !== 'production') {
-                                // $this->app->register(\Way\Generators\GeneratorsServiceProvider::class);
-                                // $this->app->register(\Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);
-                                // $this->app->register(\Orangehill\Iseed\IseedServiceProvider::class);
+                if ($this->app->environment() !== 'production') {
+                        // $this->app->register(\Way\Generators\GeneratorsServiceProvider::class);
+                        // $this->app->register(\Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);
+                        // $this->app->register(\Orangehill\Iseed\IseedServiceProvider::class);
 
-                                // swagger load
-                                //     $this->app->register(\L5Swagger\L5SwaggerServiceProvider::class);
+                        // swagger load
+                        //     $this->app->register(\L5Swagger\L5SwaggerServiceProvider::class);
 
-                                // if(config('app.debug'))
-                                // {
-                                //         $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-                                // }
-
-                        }
-
+                        // if(config('app.debug'))
+                        // {
+                        //         $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+                        // }
 
                 }
+
+
         }
+
+}
