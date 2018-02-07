@@ -165,9 +165,7 @@ class DiagnosesController extends Controller
 
         $models = Models::where('brands_id', $my_brand->id)->orderBy("name", 'ASC')->pluck('name', 'id');
 
-        $sel_hours = [
-            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
-        ];
+        $sel_hours = config('chagumsa.sel_hour');
         //전체 정비소 리스트
         $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')
             ->join('users', function ($join) {

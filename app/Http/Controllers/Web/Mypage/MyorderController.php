@@ -101,9 +101,8 @@ class MyorderController extends Controller
             }
         }
 
-        $search_fields = [
-            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
-        ];
+        $search_fields = config('chagumsa.sel_hour');
+
         return view('web.mypage.myorder.reservation', compact('order', 'search_fields', 'areas', 'sections', 'garages', 'my_garage'));
     }
 

@@ -165,9 +165,8 @@ class OrderController extends Controller
 
         $items = Item::all();
 
-        $sel_hours = [
-            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
-        ];
+
+        $sel_hours = config('chagumsa.sel_hour');
 
 
         return view('admin.order.create', compact('user', 'users', 'areas', 'brands', 'sel_hours', 'items'));
@@ -176,6 +175,8 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
+
         try {
             if ($request->get('diag_param')) {
                 $this->validate($request, [
@@ -345,7 +346,7 @@ class OrderController extends Controller
                 'purchase_id' => $purchase->id
             ]);
 
-            DB::commit();
+//            DB::commit();
             return redirect()->route('order.show', $order->id)->with('success', '주문생성 되었습니다.');
         } catch (\Exception $e) {
             DB::rollback();

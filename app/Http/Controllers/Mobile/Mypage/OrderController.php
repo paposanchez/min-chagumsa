@@ -136,9 +136,8 @@ class OrderController extends Controller
         $chk_garage = UserExtra::find($order->garage_id);
 
 
-        $search_fields = [
-            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
-        ];
+        $search_fields = config('chagumsa.sel_hour');
+
         return view('mobile.mypage.order.reservation', compact('order', 'search_fields', 'my_garage', 'garage_list', 'chk_garage'));
     }
 

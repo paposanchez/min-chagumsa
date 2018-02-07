@@ -73,9 +73,7 @@ class OrderController extends Controller
 
         $items = Item::where("id", ">", "0")->get();
 
-        $search_fields = [
-            '09' => '9시', '10' => '10시', '11' => '11시', '12' => '12시', '13' => '13시', '14' => '14시', '15' => '15시', '16' => '16시', '17' => '17시'
-        ];
+        $search_fields = config('chagumsa.sel_hour');
 
 
         $garages = UserExtra::whereNotIn('users_id', [4])->orderBy(DB::raw('field(area, "서울시")'), 'desc')->groupBy('area')->whereNotNull('aliance_id')->get();
