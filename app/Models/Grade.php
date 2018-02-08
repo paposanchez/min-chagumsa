@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Abstracts\Model\Cache AS CacheModel;
+use App\Models\Abstracts\Cache AS CacheModel;
 
 class Grade extends CacheModel
 {

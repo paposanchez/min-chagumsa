@@ -1,5 +1,5 @@
 <?php
-namespace App\Abstracts;
+namespace App\Models\Abstracts;
 
 use App\Models\Code;
 use Carbon\Carbon;
@@ -48,15 +48,37 @@ abstract class Document
 
         public function code($name_cd)
         {
-                $code = Code::where("id", $name_cd)->first();
-                if($code) {
+                try{
+                        $code = Code::findOrFail($name_cd);
                         return  $code->toDesign();
+                }catch(Exception $e){
+                        return 'asdasdasd'.$name_cd;
                 }
-                return '';
+
         }
+
+
+
+        public function codeGroup($id)
+        {
+                try {
+                        if($id){
+                                $code = Code::findOrFail($id);
+                                return Code::getByGroupArray($code->name);
+                        }else{
+                                return [];
+                        }
+
+                }catch(Exception $e) {
+                        return [];
+                }
+        }
+
+
 
         public function order($document)
         {
+
                 $o      = $document->orderItem->order;
                 $dcn    = $document->carNumber;
                 $dc     = $document->carNumber->car;

@@ -77,7 +77,7 @@ class Diagnosis extends Model
         //예약로그 조회
         public function reservation()
         {
-            return $this->hasMany(Reservation::class, 'diagnosis_id', 'id');
+                return $this->hasMany(Reservation::class, 'diagnosis_id', 'id');
         }
 
         //
@@ -88,7 +88,7 @@ class Diagnosis extends Model
 
         public function diagnoses()
         {
-                return $this->hasMany(Diagnoses::class, 'id', 'diagnosis_id');
+                return $this->hasMany(Diagnoses::class, 'diagnosis_id', 'id');
         }
 
         // 진단관련 이슈처리

@@ -18,14 +18,18 @@ use App\Models\Diagnosis;
 use App\Models\Diagnoses;
 use App\Models\DiagnosisFile;
 use App\Models\Code;
-use App\Abstracts\Document as DocumentFactory;
-use App\Contracts\Document as IDocument;
+
+
 
 use Carbon\Carbon;
 use DB;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
+
+use App\Models\Abstracts\Diagnoses as DiagnosesFactory;
+use App\Models\Abstracts\Document as DocumentFactory;
+use App\Contracts\Document as IDocument;
 
 final class DiagnosisRepository extends DocumentFactory implements IDocument
 {
@@ -88,72 +92,101 @@ final class DiagnosisRepository extends DocumentFactory implements IDocument
 
                 //@TODO 진단레이아웃은 진단생성시 진단테이블 또는 주문상품 테이블에 들어가도록 변경해야 한다
                 // 진단레이아웃
-                $return = json_decode($document->orderItem->item->layout, true);
+                $layout = json_decode($document->orderItem->item->layout, true);
                 $entrys = $document->diagnoses;
 
-                foreach($return as &$details) {
 
-                        // 이름코드 데이터
-                        $details['name'] = $this->code($details['name_cd']);
+                // 페이지들
+                foreach($layout as &$page) {
 
-                        foreach($details['entrys'] as &$detail) {
+                        // 페이지명
+                        $page['name'] = $this->code($page['name_cd']);
+                        unset($page['name_cd']);
 
-                                // 이름코드 데이터
-                                $detail['name'] = $this->code($detail['name_cd']);
+                        // 그룹들
+                        foreach($page['entrys'] as &$groups) {
 
-                                // 레이아웃에 덮을 데이터가 있을지 말지 판단
-                                $detail['entrys'] = $this->diagnoses($entrys, $detail['name_cd']);
+                                // 그룹명
+                                $groups['name'] = $this->code($groups['name_cd']);
+                                unset($groups['name_cd']);
 
-                                foreach($detail['children'] as &$children) {
-                                        $children['name'] = $this->code($children['name_cd']);
-                                        $children['entrys'] = $this->diagnoses($entrys, $children['name_cd']);
+                                // 아이템들
+                                foreach($groups['entrys'] as &$item) {
+
+                                        if($item['name_cd'])
+                                        {
+
+                                                $item['name'] = $this->code($item['name_cd']);
+                                                unset($item['name_cd']);
+
+
+                                                foreach($item['entrys'] as &$i)
+                                                {
+                                                        // $i['name'] = $this->code($i['name_cd']);
+                                                        // unset($i['name_cd']);
+
+
+                                                }
+
+
+                                                // print_r($item);
+                                                // echo "<hr/>";
+
+
+                                                // foreach($item['entrys'] as &$i)
+                                                // {
+                                                //
+                                                //         foreach($entrys as $entry)
+                                                //         {
+                                                //                 if($entry->group == $i['name_cd']) {
+                                                //                         $i = $this->item($entry);
+                                                //                 }
+                                                //         }
+                                                //
+                                                // }
+
+
+                                                 // $item['entrys'] = $this->diagnoses($entrys, $item);
+                                        }
+
+
+                                        // if($item['name_cd'])
+                                        // {
+                                        //
+                                        //         // 아이템명
+                                        //         $item['name'] = $this->code($item['name_cd']);
+                                        //         $item['entrys'] = $this->diagnoses($entrys, $item);
+                                        //
+                                        // }
+
                                 }
+
 
                         }
 
                 }
 
-                return $return;
+                dd($layout);
+
+                return $layout;
         }
 
 
         // 진단내역중 $group(name_cd) 에 따른 항목을 조회된 진단리스트에서 추출
-        private function diagnoses($entrys, $group) {
+        private function diagnoses($entrys, $item) {
 
                 $return = [];
                 foreach($entrys as $entry)
                 {
-                        if($group == $entry->group) {
-                                $return[] = $this->detail($entry);
+                        if($entry->group == $item['name_cd']) {
+                                $return[] = DiagnosesFactory::build($entry)->toArray();
                         }
                 }
-
                 return $return;
 
         }
 
-        // 진단데이터 완성형
-        private function detail($entry) {
-                return [
-                        "id"            => ($entry->id ? $entry->id : ''),
-                        'diagnosis_id'  => $entry->diagnosis_id,
-                        'name'          => ($entry->name_cd ? $this->code($entry->name_cd) : ''),
-                        'group'         => $entry->group,
-                        'use_image'     => $entry->use_image,
-                        'use_voice'     => $entry->use_voice,
-                        'options_cd'    => $entry->options_cd,
-                        'options'       => $entry->getOptions($entry->options_cd),
-                        'selected'      => $entry->selected,
-                        'except_options'=> explode(",", $entry->except_options),
-                        'description'   => $entry->description,
-                        'comment'       => $entry->comment,
-                        'created_at'    => $entry->created_at->format("Y-m-d H:i:s"),
-                        'updated_at'    => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
-                        'files'         => $this->files($entry->files)
-                ];
-
-        }
-
+        //
         private function files($files) {
                 $return = [];
                 if($files) {

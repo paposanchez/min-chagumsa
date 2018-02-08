@@ -178,7 +178,6 @@ class DiagnosisController extends ApiController
                         ]);
 
                 } catch (Exception $e) {
-                        dd($e);
                         return response()->json([
                                 "status" => 'fail'
                         ]);

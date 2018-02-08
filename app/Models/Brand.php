@@ -9,7 +9,7 @@
 namespace App\Models;
 
 use DB;
-use App\Abstracts\Model\Cache AS CacheModel;
+use App\Models\Abstracts\Cache AS CacheModel;
 
 class Brand extends CacheModel
 {
