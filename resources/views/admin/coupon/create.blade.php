@@ -7,7 +7,7 @@
         <div class="container">
             <div class="card">
                 <div class="card-header ch-alt">
-                    <h2>포스팅 수정
+                    <h2>쿠폰 생성
                         <!-- <small>새로운 주문을 생성한다..</small> -->
                     </h2>
 
@@ -21,6 +21,51 @@
                 </div>
                 <div class="card-body card-padding">
                     {!! Form::open(['method' => 'POST','route' => ['coupon.store'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data", 'id' => 'coupon-form']) !!}
+                    <div class="form-group {{ $errors->has('coupon_kind') ? 'has-error' : '' }}">
+                        <label for="inputName" class="control-label col-md-3">쿠폰종류</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="쿠폰종류를 입력해주세요." name="coupon_kind"
+                                   id="coupon_kind" value="" required>
+
+                            @if ($errors->has('coupon_kind'))
+                                <span class="help-block">
+                        {{ $errors->first('coupon_kind') }}
+                    </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group {{ $errors->has('amount') ? 'has-error' : '' }}">
+                        <label for="inputPassword" class="control-label col-md-3">쿠폰번호 할인금액</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="쿠폰 할인금액을 입력해주세요."
+                                   name="amount" id="amount" required="required" >
+
+                            @if ($errors->has('amount'))
+                                <span class="help-block">
+                        {{ $errors->first('amount') }}
+                    </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group {{ $errors->has('publish_length') ? 'has-error' : '' }}">
+                        <label for="inputPassword" class="control-label col-md-3">쿠폰번호 자리수</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="쿠폰코드 길이수를 입력해주세요.(기본 10, 최대 20)"
+                                   name="publish_length" id="publish_length" value="10" required="required" >
+                            <small>쿠폰코드 길이수를 입력해주세요.(기본 10, 최대 20)</small>
+
+                            @if ($errors->has('publish_length'))
+                                <span class="help-block">
+                        {{ $errors->first('publish_length') }}
+                    </span>
+                            @endif
+                        </div>
+                    </div>
+
+
+
                     <div class="form-group {{ $errors->has('publish_num') ? 'has-error' : '' }}">
                         <label for="inputEmail" class="control-label col-md-3">발행 부수</label>
                         <div class="col-md-6">
@@ -34,35 +79,6 @@
                             @endif
                         </div>
                     </div>
-
-                    <div class="form-group {{ $errors->has('coupon_kind') ? 'has-error' : '' }}">
-                        <label for="inputName" class="control-label col-md-3">쿠폰종류</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="쿠폰종류 입력" name="coupon_kind"
-                                   id="coupon_kind" value="promotion" required readonly>
-
-                            @if ($errors->has('coupon_kind'))
-                                <span class="help-block">
-                        {{ $errors->first('coupon_kind') }}
-                    </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group {{ $errors->has('publish_length') ? 'has-error' : '' }}">
-                        <label for="inputPassword" class="control-label col-md-3">쿠폰번호 자리수</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="쿠폰코드 길이수를 입력해주세요.(기본 10, 최대 20)"
-                                   name="publish_length" id="publish_length" required="required">
-
-                            @if ($errors->has('publish_length'))
-                                <span class="help-block">
-                        {{ $errors->first('publish_length') }}
-                    </span>
-                            @endif
-                        </div>
-                    </div>
-
 
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">

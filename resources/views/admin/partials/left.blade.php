@@ -44,12 +44,19 @@
 
         <li class="{{ Request::is('diagnosis*') ? ' active':''}}"><a href="{{ route('diagnosis.index') }}"><i
                         class="zmdi zmdi-car"></i> 진단관리</a></li>
+
+        <li class="{{ Request::is('review*') ? ' active':''}}"><a href="{{ route('review.index') }}"><i
+                        class="zmdi zmdi-zoom-in"></i> 진단검토관리</a></li>
+
         <li class="{{ Request::is('certificate*') ? ' active':''}}"><a href="{{ route('certificate.index') }}"><i
                         class="zmdi zmdi-assignment-account"></i> 인증관리</a></li>
+
         <li class="{{ Request::is('warranty*') ? ' active':''}}"><a href="{{ route('warranty.index') }}"><i
                         class="zmdi zmdi-assignment-check"></i> 보증관리</a></li>
+
         <li class="{{ Request::is('purchase*') ? ' active':''}}"><a href="{{ route('purchase.index') }}"><i
                         class="zmdi zmdi-card"></i> 결제관리</a></li>
+
         <li class="{{ Request::is('calculation*') ? ' active':''}}"><a href="{{ route('calculation.index') }}"><i
                         class="zmdi zmdi-local-atm"></i> 정산관리</a></li>
 
@@ -68,7 +75,7 @@
                 <ul>
                     <li><a href="{{ route('posting.index') }}">전체목록</a></li>
                     <li><a href="{{ route('posting.create') }}">신규게시물</a></li>
-                    <li><a href="{{ route('comment.index') }}">전체코멘트</a></li>
+                    {{--<li><a href="{{ route('comment.index') }}">전체코멘트</a></li>--}}
                 </ul>
             </li>
         @endif

@@ -160,8 +160,7 @@ class DiagnosesController extends Controller
     {
         $diagnosis = Diagnosis::find($id);
 
-        $car = $diagnosis->carNumber->car;
-        $my_brand = $car->brand;
+        $my_brand = $diagnosis->order->brand;
 
         $models = Models::where('brands_id', $my_brand->id)->orderBy("name", 'ASC')->pluck('name', 'id');
 
@@ -173,7 +172,7 @@ class DiagnosesController extends Controller
                     ->where('users.status_cd', 1);
             })
             ->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->pluck('area', 'area');
-        return view('admin.diagnosis.show', compact('diagnosis', 'car', 'my_brand', 'models', 'sel_hours', 'garages'));
+        return view('admin.diagnosis.show', compact('diagnosis', 'my_brand', 'models', 'sel_hours', 'garages'));
     }
 
     /**

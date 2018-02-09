@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Events\SendSms;
 use App\Models\Car;
 use App\Models\Certificate;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Models\Code;
@@ -27,7 +28,6 @@ class CertificateController extends Controller
      */
     public function index(Request $request)
     {
-
         $sort = $request->get('sort');
         $sort_orderby = $request->get('sort_orderby');
         if (!$sort) {

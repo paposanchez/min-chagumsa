@@ -28,7 +28,14 @@ class Diagnosis extends Model
     ];
 
     protected $dates = [
-        'created_at', 'updated_at', 'start_at', 'completed_at', 'confirm_at', 'reservation_at'
+        'created_at',
+        'updated_at',
+        'reservation_at',        // 예약일
+        'confirm_at',           // 예약확정일
+        'start_at',             // 진단시작일
+        'completed_at',         // 진단완료일
+        'issued_at',            // 발급일
+        'expired_at',           // 만료일
     ];
 
 
@@ -155,6 +162,10 @@ class Diagnosis extends Model
     }
 
 
+    public function getExteriorPicture(){
+        $pictures = Diagnoses::where('diagnosis_id', $this->id)->where('group', 2003)->get();
+        return $pictures;
+    }
 
 
 

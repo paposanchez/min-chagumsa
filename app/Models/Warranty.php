@@ -52,7 +52,7 @@ class Warranty extends Model
 
     //주문 조회
     public function order(){
-        return $this->belongsTo(Order::class, 'orders_id', 'id');
+        return $this->belongsTo(Order::class, 'chakey', 'chakey');
     }
 
     //주문상품 조회
@@ -61,7 +61,7 @@ class Warranty extends Model
     }
 
     //차량번호 테이블 조회
-    public function carNumbers(){
+    public function carNumber(){
         return $this->hasOne(CarNumber::class, 'id', 'car_numbers_id');
     }
 

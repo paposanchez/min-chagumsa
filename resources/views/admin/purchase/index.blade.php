@@ -4,7 +4,7 @@
     <section id="content">
         <div class="container">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header ch-alt">
                     <h2>결제관리
                         <small>결제관리</small>
                     </h2>
@@ -68,8 +68,14 @@
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="/config/item/{{ $data->order->orderItem->item->id }}">{{ $data->order->orderItem->item->name }} <span class="text-muted">{{ number_format($data->order->orderItem->item->price) }}
-                                            원</span></a>
+                                    @foreach($data->order->orderItem as $order_item)
+                                        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
+                                            <a href="/config/item/{{ $order_item->item->id }}/edit">* {{ $order_item->item->type->display() }}</a>
+                                        @else
+                                            * {{ $order_item->item->type->display() }}
+                                        @endif
+
+                                    @endforeach
                                     <br/>
                                     <small class="text-warning">{{ $data->payment_type->display() }}</small>
                                 </td>

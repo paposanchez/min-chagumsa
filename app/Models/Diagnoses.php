@@ -53,4 +53,12 @@ class Diagnoses extends Model
         return $this->hasOne(Code::class, 'id', 'except_options');
     }
 
+    public function files(){
+        return $this->hasMany(DiagnosisFile::class, 'diagnoses_id', 'id');
+    }
+
+    public function file(){
+        return $this->hasOne(DiagnosisFile::class, 'diagnoses_id', 'id');
+    }
+
 }

@@ -468,7 +468,8 @@ return [
         'not_confirm' => '주문미확정',   //117
         'delay' => '입고지연',          //118
         'not_complete' => '장기검토',   //119
-        'cancel' => '취소'            //120
+        'cancel' => '취소',            //120
+        'review_complete' => '검토완료' //126
     ],
 
     'report_type' => [
