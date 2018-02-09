@@ -18,7 +18,8 @@ use App\Models\Diagnosis;
 use App\Models\Diagnoses;
 use App\Models\DiagnosisFile;
 use App\Models\Code;
-
+use App\Models\DiagnosesSection;
+use App\Models\DiagnosisBuilder;
 
 
 use Carbon\Carbon;
@@ -27,18 +28,21 @@ use DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 
+
+use App\Models\DocumentOrder;
 use App\Models\Abstracts\Diagnoses as DiagnosesFactory;
 use App\Models\Abstracts\Document as DocumentFactory;
+use App\Contracts\DocumentRepository as IDocumentRepository;
 use App\Contracts\Document as IDocument;
 
-final class DiagnosisRepository extends DocumentFactory implements IDocument
+final class DiagnosisRepository extends DocumentFactory implements IDocumentRepository
 {
 
         protected static $instance;
-        protected $document;
-        protected $data;
+
         protected $chakey_after = 'D';
         protected $view = 'document.diagnosis';
+        protected $diagnosis;
 
         public static function getInstance()
         {
@@ -49,165 +53,115 @@ final class DiagnosisRepository extends DocumentFactory implements IDocument
                 return static::$instance;
         }
 
-        public function load($document_id)
+        protected function loadDocument($document_id)
         {
                 $this->document = Diagnosis::findOrFail($document_id);
 
-                $this->data['order']     = $this->order($this->document);
-                $this->data['entrys']   = $this->diagnosis($this->document);
-
-                return $this;
         }
 
-        // 캐쉬삭제
-        public function purge()
+        protected function loadOrder()
         {
-                return true;
-        }
+                $this->order = new DocumentOrder($this->document,
+                [
+                        "reservation_at"        => [
+                                "date"          => $this->document->reservation_at->format('Y-m-d'),
+                                "time"          => $this->document->reservation_at->format('H:i'),
+                                "fulldate"      => $this->document->reservation_at->format('Y-m-d H:i:s')
+                        ],
+                        "extra_status"  => $this->document->extraStatus()
+                ]);
 
-        // 캐쉬생성
-        public function cache()
-        {
-                return true;
-        }
-
-        public function order($document) {
-
-                $return = parent::order($document);
-
-                $return["reservation_at"] = [
-                        "date" => $document->reservation_at->format('Y-m-d'),
-                        "time" => $document->reservation_at->format('H:i'),
-                        "fulldate" => $document->reservation_at->format('Y-m-d H:i:s')
-                ];
-
-                $return["extra_status"] = $document->extraStatus();
-
-                return $return;
         }
 
         // 진단데이터 데이터셋
-        public function diagnosis($document)
+        protected function loadDiagnosis()
         {
-
                 //@TODO 진단레이아웃은 진단생성시 진단테이블 또는 주문상품 테이블에 들어가도록 변경해야 한다
                 // 진단레이아웃
-                $layout = json_decode($document->orderItem->item->layout, true);
-                $entrys = $document->diagnoses;
+                $layout = json_decode($this->document->layout, true);
+
+                try{
+
+                        // 최초의 레이아웃 수만큼만 처리
+                        // 이하는 DiagnosisSection의 recursive로 처리
+                        foreach($layout as &$page)
+                        {
+                                $page = new DiagnosesSection($page);
+                        }
+
+                        $this->diagnosis = $layout;
+
+                }catch(Exception $e) {
+                        dd($e);
+                }
+        }
+
+        // 데이터 로드
+        public function load($document_id)
+        {
+                $this->loadDocument($document_id);
+                $this->loadOrder();
+                $this->loadDiagnosis();
+                return $this;
+        }
 
 
-                // 페이지들
-                foreach($layout as &$page) {
 
-                        // 페이지명
-                        $page['name'] = $this->code($page['name_cd']);
-                        unset($page['name_cd']);
+        public function toObject()
+        {
+                return [
+                        'order' => $this->order,
+                        'data' => $this->diagnosis
+                ];
+        }
 
-                        // 그룹들
-                        foreach($page['entrys'] as &$groups) {
+        public function toArray()
+        {
+                $return = [];
 
-                                // 그룹명
-                                $groups['name'] = $this->code($groups['name_cd']);
-                                unset($groups['name_cd']);
-
-                                // 아이템들
-                                foreach($groups['entrys'] as &$item) {
-
-                                        if($item['name_cd'])
-                                        {
-
-                                                $item['name'] = $this->code($item['name_cd']);
-                                                unset($item['name_cd']);
-
-
-                                                foreach($item['entrys'] as &$i)
-                                                {
-                                                        // $i['name'] = $this->code($i['name_cd']);
-                                                        // unset($i['name_cd']);
+                foreach($this->diagnosis as $diagnosis)
+                {
+                        $return[] = $diagnosis->toArray();
+                }
+                return [
+                        'order' => $this->order->toArray(),
+                        'data' => $return
+                ];
+        }
 
 
-                                                }
+        public function update($save_data) {
 
+                $json_save_data = $save_data;
 
-                                                // print_r($item);
-                                                // echo "<hr/>";
+                if($json_save_data) {
 
+                        // 주문데이터를 기준으로 가져간 형태로 보내진다
+                        // 따라서 loop의 depth에 유의하며 각 저장을 처리한다
+                        // 실제저장할 데이터를 모두 detail_item과 detail_file이다
 
-                                                // foreach($item['entrys'] as &$i)
-                                                // {
-                                                //
-                                                //         foreach($entrys as $entry)
-                                                //         {
-                                                //                 if($entry->group == $i['name_cd']) {
-                                                //                         $i = $this->item($entry);
-                                                //                 }
-                                                //         }
-                                                //
-                                                // }
+                        DB::beginTransaction();
 
+                        try{
 
-                                                 // $item['entrys'] = $this->diagnoses($entrys, $item);
-                                        }
-
-
-                                        // if($item['name_cd'])
-                                        // {
-                                        //
-                                        //         // 아이템명
-                                        //         $item['name'] = $this->code($item['name_cd']);
-                                        //         $item['entrys'] = $this->diagnoses($entrys, $item);
-                                        //
-                                        // }
-
+                                foreach($json_save_data as $item) {
+                                        $diagnosis = Diagnosis::find($item['id']);
+                                        $diagnosis->selected = $item['selected'];
+                                        $diagnosis->save();
                                 }
 
+                                return DB::commit();
+
+                        }catch(Exception $e) {
+
+                                DB::rollBack();
+                                return false;
 
                         }
 
                 }
 
-                dd($layout);
-
-                return $layout;
-        }
-
-
-        // 진단내역중 $group(name_cd) 에 따른 항목을 조회된 진단리스트에서 추출
-        private function diagnoses($entrys, $item) {
-
-                $return = [];
-                foreach($entrys as $entry)
-                {
-                        if($entry->group == $item['name_cd']) {
-                                $return[] = DiagnosesFactory::build($entry)->toArray();
-                        }
-                }
-                return $return;
-
-        }
-
-        //
-        private function files($files) {
-                $return = [];
-                if($files) {
-                        foreach ($files as $entry) {
-                                $return[] = array(
-                                        'id'            => $entry->id,
-                                        'diagnoses_id'  => $entry->diagnoses_id,
-                                        'original'      => $entry->original,
-                                        'source'        => $entry->source,
-                                        'path'          => $entry->path,
-                                        'mime'          => $entry->mime,
-                                        'size'          => $entry->size,
-                                        'fullpath'      => $entry->getRealPath('app/diagnosis'),
-                                        'preview'       => $entry->getPreviewPath(),
-                                        'created_at'    => $entry->created_at->format("Y-m-d H:i:s"),
-                                        'updated_at'    => ($entry->updated_at ? $entry->updated_at->format("Y-m-d H:i:s") : ''),
-                                );
-                        }
-                }
-
-                return $return;
+                return false;
         }
 
 }

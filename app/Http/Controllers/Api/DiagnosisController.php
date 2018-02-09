@@ -259,20 +259,7 @@ class DiagnosisController extends ApiController
                                 "status" => 'fail'
                         ]);
                 }
-
-
-
         }
-
-
-
-
-
-
-
-
-
-
 
 
         /**
@@ -312,7 +299,7 @@ class DiagnosisController extends ApiController
                         // 조회를 요청한 사용자의 정보조회
                         $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
 
-                        $return = DiagnosisRepository::getInstance()->load($requestData['diagnosis_id'])->get();
+                        $return = DiagnosisRepository::getInstance()->load($requestData['diagnosis_id'])->toArray();
 
                         return response()->json([
                                 "status" => 'success',
@@ -380,8 +367,10 @@ class DiagnosisController extends ApiController
                         //                 DiagnosisFile::whereIn('diagnoses_id', $diagnoses_ids)->delete();
                         //         }
 
-                        $diagnosisRepository = new DiagnosisRepository();
-                        $diagnosisRepository->prepare($requestData['diagnosis_id'])->update($requestData['diagnoses']);
+                        DiagnosisRepository::getInstance()->load($requestData['diagnosis_id'])->update($requestData['diagnoses']);
+
+                        // $diagnosisRepository = new DiagnosisRepository();
+                        // $diagnosisRepository->prepare($requestData['diagnosis_id'])->update($requestData['diagnoses']);
 
                         return response()->json([
                                 "status" => 'success'

@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Contracts\Document as IDocument;
 
-class Warranty extends Model
+class Warranty extends Model implements IDocument
 {
         protected $table = 'warranties';
         protected $primaryKey = 'id';

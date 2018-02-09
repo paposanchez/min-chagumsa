@@ -6,8 +6,9 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Order;
+use App\Contracts\Document as IDocument;
 
-class Certificate Extends Model
+class Certificate Extends Model implements IDocument
 {
         protected $table = 'certificates';
         protected $primaryKey = 'id';

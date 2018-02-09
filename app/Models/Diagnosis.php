@@ -5,8 +5,9 @@ namespace App\Models;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use App\Contracts\Document as IDocument;
 
-class Diagnosis extends Model
+class Diagnosis extends Model implements IDocument
 {
 
         protected $table = 'diagnosis';
@@ -21,8 +22,10 @@ class Diagnosis extends Model
                 'engineer_id',          //엔지니어 번호
                 'technist_id',          //기술사 회원번호, 진단서 최종및 발급자
                 'reservation_user_id',  //예약자
+
+                'layout',               //진단레이아웃
                 'reservation_at',       //예약날짜
-                'confirm_at',            //예약확정날
+                'confirm_at',           //예약확정날
                 'start_at',             //진단시작시간
                 'completed_at',         //진단완료시간
         ];
@@ -137,9 +140,9 @@ class Diagnosis extends Model
                 }
 
                 if ($issue_cd) {
-                        return Code::where('id', $issue_cd)->first();
+                        return Code::where('id', $issue_cd)->first()->toDesign();
                 } else {
-                        return false;
+                        return [];
                 }
 
         }
