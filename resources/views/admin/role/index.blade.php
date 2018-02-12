@@ -3,8 +3,9 @@
 @section( 'content' )
     <section id="content">
         <div class="container">
+            <a href="{{ route('role.create') }}" class="btn btn-float btn-primary m-btn"><i class="zmdi zmdi-plus"></i></a>
             <div class="card">
-                <div class="card-header">
+                <div class="card-header ch-alt">
                     <h2>역할 관리
                         <small>총 <strong>{{ number_format($entrys->total()) }}</strong> 개의 검색결과가 있습니다.</small>
                     </h2>

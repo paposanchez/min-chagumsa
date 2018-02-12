@@ -103,7 +103,8 @@ class CouponController extends Controller
     public function store(Request $request){
         $validate = Validator::make($request->all(), [
             'publish_num' => 'required|int',
-            'coupon_kind' => 'required'
+            'coupon_kind' => 'required',
+            'amount' => 'required'
         ]);
 
         if ($validate->fails())
@@ -111,29 +112,18 @@ class CouponController extends Controller
             return redirect()->back()->with('error', "필수파라미터가 입력되지 않았습니다.");
         }
 
-        $c_len = $request->get('publish_length', 10);
-
-        $success_cnt = 0; //중복개수
-        $insert_array = []; // 쿠폰데이터
-
-        for($i=0;$i<$request->get('publish_num');$i++){
-            $coupon_number = $this->get_coupon_number($c_len);
-
-            $data = [
-                'coupon_number' => $coupon_number, 'coupon_kind' => $request->get('coupon_kind')
-            ];
-
-            $insert_array[] = $data;
-        }
-
-        $model = new Coupon();
-        DB::beginTransaction();
         try{
-            $model->insert($insert_array);
-            DB::commit();
+            DB::beginTransaction();
 
+            Coupon::create([
+                'coupon_kind' => $request->get('coupon_kind'),
+                'coupon_number' => $this->get_coupon_number($request->get('publish_length')),
+                'amount' => $request->get('amount'),
+                'publish_num' => $request->get('publish_num')
+            ]);
+            DB::commit();
             return redirect()->route('coupon.index')->with('success', '쿠폰발행이 완료 되었습니다.');
-        }catch (\Exception $e){
+        }catch(\Exception $e){
             DB::rollback();
             return redirect()->back()->with('error', '데이터부하로 쿠폰발행을 실패하였습니다.<br>Exception: '. $e->getMessage());
         }

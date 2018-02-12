@@ -63,7 +63,7 @@
                                     <label for="" class="control-label col-md-3">차량번호</label>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control" placeholder="" name="car_number"
-                                               value="{{ $diagnosis->carNumber->car_number }}">
+                                               value="{{ $diagnosis->order->car_number }}">
                                         @if ($errors->has('car_number'))
                                             <span class="text-danger">
                                                                                 {{ $errors->first('car_number') }}
@@ -75,7 +75,7 @@
                                 <div class="form-group {{ $errors->has('vin_number') ? 'has-error' : '' }}">
                                     <label for="" class="control-label col-md-3">차대번호</label>
                                     <div class="col-md-6">
-                                        <p class="form-control-static">{{ $diagnosis->carNumber->cars_id }}</p>
+                                        <p class="form-control-static">{{ $diagnosis->carNumber ? $diagnosis->carNumber->cars_id : '-' }}</p>
                                     </div>
 
                                 </div>
@@ -83,9 +83,11 @@
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                     <label for="" class="control-label col-md-3">차량 모델명</label>
                                     <div class="col-md-6">
-                                        <p class="form-control-static">{{ $diagnosis->carNumber->car->getFullName() }}
-                                            <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
-                                               data-target="#carModal" id="ch_car">변경</a>
+                                        <p class="form-control-static">{{ $diagnosis->order->getCarFullName() }}
+                                            @if($diagnosis->status_cd == 126 || $diagnosis->status_cd < 115 )
+                                                <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
+                                                   data-target="#carModal" id="ch_car">변경</a>
+                                            @endif
                                         </p>
                                     </div>
                                 </div>
@@ -118,8 +120,10 @@
                                         <label for="" class="control-label col-md-3">정비소</label>
                                         <div class="col-md-6">
                                             <p class="form-control-static">{{ $diagnosis->garage->name }}
+                                                @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || ($diagnosis->status_cd == 126 || $diagnosis->status_cd < 115) )
                                                 <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
                                                    data-target="#garageModal" id="ch_garage">변경</a>
+                                                @endif
                                             </p>
                                         </div>
                                     </div>
@@ -130,11 +134,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="" class="control-label col-md-3">예약 날자</label>
+                                        <label for="" class="control-label col-md-3">예약 날짜</label>
                                         <div class="col-md-6">
                                             <p class="form-control-static">{{ $diagnosis->reservation_at ? $diagnosis->reservation_at->format('Y-m-d H:m') : '-' }}
+                                                @if( $diagnosis->status_cd > 111 && $diagnosis->status_cd < 114 )
                                                 <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
                                                    data-target="#reservationModal" id="ch_reservation">예약변경</a>
+                                                @endif
                                             </p>
                                         </div>
                                     </div>
@@ -142,8 +148,10 @@
                                         <label for="" class="control-label col-md-3">확정일자</label>
                                         <div class="col-md-6">
                                             <p class="form-control-static">{{ $diagnosis->confirm_at ? $diagnosis->confirm_at->format('Y-m-d H:m') : '-' }}
+                                                @if($diagnosis->status_cd == 112 )
                                                 <a class='pull-right text-sm text-danger' href="#"
                                                    id="confirm_reservation">예약확정</a>
+                                                @endif
                                             </p>
                                         </div>
                                     </div>
@@ -235,7 +243,7 @@
                             <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
                                 <label for="" class=" fg-label">차량 모델</label>
                                 <div class="select">
-                                    {!! Form::select('models_id', $models, $diagnosis->CarNumber->car->models->id, ['class'=>'form-control car-model', 'autocomplete'=>"off", 'data-url'=>"/order/get-details", 'data-target'=>"details"]) !!}
+                                    {!! Form::select('models_id', $models, $diagnosis->order->models->id, ['class'=>'form-control car-model', 'autocomplete'=>"off", 'data-url'=>"/order/get-details", 'data-target'=>"details"]) !!}
 
                                 </div>
                                 @if ($errors->has('models_id'))
@@ -252,7 +260,7 @@
                                             name="details_id"
                                             autocomplete="off" data-url="/order/get-grades"
                                             data-target="grades">
-                                        <option value="{{ $diagnosis->carNumber->car->detail->id }}">{{ $diagnosis->carNumber->car->detail->name }}</option>
+                                        <option value="{{ $diagnosis->order->detail->id }}">{{ $diagnosis->order->detail->name }}</option>
                                     </select>
                                 </div>
                                 @if ($errors->has('details_id'))
@@ -267,7 +275,7 @@
                                 <div class="select">
                                     <select class="form-control" id="grades" name="grades_id"
                                             autocomplete="off">
-                                        <option value="{{ $diagnosis->carNumber->car->grade->id }}">{{ $diagnosis->carNumber->car->grade->name }}</option>
+                                        <option value="{{ $diagnosis->order->grade->id }}">{{ $diagnosis->order->grade->name }}</option>
                                     </select>
                                 </div>
                                 @if ($errors->has('grades_id'))

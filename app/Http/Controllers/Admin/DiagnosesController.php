@@ -160,8 +160,7 @@ class DiagnosesController extends Controller
     {
         $diagnosis = Diagnosis::find($id);
 
-        $car = $diagnosis->carNumber->car;
-        $my_brand = $car->brand;
+        $my_brand = $diagnosis->order->brand;
 
         $models = Models::where('brands_id', $my_brand->id)->orderBy("name", 'ASC')->pluck('name', 'id');
 
@@ -173,7 +172,7 @@ class DiagnosesController extends Controller
                     ->where('users.status_cd', 1);
             })
             ->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->whereNotNull('area')->pluck('area', 'area');
-        return view('admin.diagnosis.show', compact('diagnosis', 'car', 'my_brand', 'models', 'sel_hours', 'garages'));
+        return view('admin.diagnosis.show', compact('diagnosis', 'my_brand', 'models', 'sel_hours', 'garages'));
     }
 
     /**
@@ -360,6 +359,7 @@ class DiagnosesController extends Controller
             $diagnosis = Diagnosis::findOrFail($request->get('id'));
             $diagnosis->reservation_at = $reservation_date;
             $diagnosis->status_cd = Code::getId('report_state', 'order');
+            $diagnosis->reservation_user_id = Auth::user()->id;
             $diagnosis->confirm_at = null;
             $diagnosis->save();
 
@@ -390,8 +390,8 @@ class DiagnosesController extends Controller
             $diagnosis = Diagnosis::findOrFail($request->get('diagnosis_id'));
             $diagnosis->status_cd = Code::getId('report_state', 'confirm');
             $diagnosis->confirm_at = Carbon::now();
+            $diagnosis->reservation_user_id = Auth::user()->id;
             $diagnosis->save();
-            //todo noty 해야댐
 
             return redirect()->back()->with('success', '예약이 확정되었습니다.');
         } catch (Exception $e) {
@@ -420,6 +420,7 @@ class DiagnosesController extends Controller
             $diagnosis->status_cd = Code::getId('report_state', 'order');
             $diagnosis->confirm_at = null;
             $diagnosis->reservation_at = null;
+            $diagnosis->reservation_user_id = Auth::user()->id;
             $diagnosis->save();
 
             $reservation = new Reservation();

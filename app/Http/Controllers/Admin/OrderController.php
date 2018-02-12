@@ -23,6 +23,7 @@ use App\Models\PaymentCancel;
 use App\Models\Purchase;
 use App\Models\Warranty;
 use App\Http\Controllers\Controller;
+use App\Traits\Template;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Mail;
@@ -38,6 +39,8 @@ use Mockery\Exception;
 
 class OrderController extends Controller
 {
+    use Template;
+
     /**
      * @param Request $request
      * 주문 인덱스 페이지
@@ -130,6 +133,9 @@ class OrderController extends Controller
     {
         //주문 seq번호에 의한 주문 검색
         $order = Order::findOrFail($id);
+        //부모 주문
+        $parent_order = $order->getParentOrder;
+
         //전체 정비소 리스트
         $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')
             ->join('users', function ($join) {
@@ -137,15 +143,11 @@ class OrderController extends Controller
                     ->where('users.status_cd', Code::getId('user_status', 'active'));
             })
             ->orderBy('area', 'asc')->groupBy('area')->get();
-        $order_items = OrderItem::where('group_id', $order->id)->get();
 
-
-
-        $car = $order->carNumber->car;
-        $my_brand = $car->brand;
+        $my_brand = $order->brand;
         $models = Models::where('brands_id', $my_brand->id)->orderBy("name", 'ASC')->pluck('name', 'id');
 
-        return view('admin.order.show', compact('order', 'garages', 'order_items', 'my_brand', 'models'));
+        return view('admin.order.show', compact('order', 'garages', 'order_items', 'my_brand', 'models', 'parent_order'));
     }
 
 
@@ -175,15 +177,14 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
-
         try {
             if ($request->get('diag_param')) {
                 $this->validate($request, [
                     'orderer_name' => 'required|min:2',
+                    'orderer_email' => 'required|min:2',
                     'orderer_mobile' => 'required|min:9',
                     'car_number' => 'required',
-                    'vin_number' => 'required',
+//                    'vin_number' => 'required',
                     'brands_id' => 'required',
                     'models_id' => 'required',
                     'details_id' => 'required',
@@ -191,30 +192,38 @@ class OrderController extends Controller
                     'areas' => 'required',
                     'sections' => 'required',
                     'garages' => 'required',
-//                    'reservation_at' => 'date_format:"Y-m-d"|required',
                     'reservation_at' => 'required',
-                    'sel_time' => 'required'
+                    'sel_time' => 'required',
+                    'diagnosis' => 'required',
+                    'items' => 'required'
                 ], [],
                     [
                         'orderer_mobile' => '주문자 휴대폰번호',
+                        'orderer_email' => '주문자 이메일',
                         'car_number' => '차량번호',
                         'vin_number' => '차대번호',
                         'grades' => '차량 정보',
                         'garages' => '대리점 정보',
                         'reservation_at' => '예약날짜',
-                        'sel_time' => '예약시간'
+                        'sel_time' => '예약시간',
+                        'diagnosis' => '진단상품',
+                        'items' => '상품'
                     ]);
             } else {
                 $this->validate($request, [
                     'orderer_name' => 'required|min:2',
+                    'orderer_email' => 'required|min:2',
                     'orderer_mobile' => 'required|min:9',
                     'order_number' => 'required',
-                    'order_number_confirm' => 'required'
+                    'order_number_confirm' => 'required',
+                    'items' => 'required'
                 ], [],
                     [
                         'orderer_id' => '주문자',
+                        'orderer_email' => '주문자이메일',
                         'orderer_mobile' => '주문자 휴대폰번호',
-                        'order_number' => '주문번호'
+                        'order_number' => '주문번호',
+                        'items' => '상품'
                     ]);
 
             }
@@ -225,21 +234,7 @@ class OrderController extends Controller
             // 신규 진단일 경우
             $old_order = null;
             $old_diagnosis = null;
-            if ($request->get('vin_number')) {
-                $car = Car::create([
-                    'id' => $request->get('vin_number'),
-                    'brands_id' => $request->get('brands_id'),
-                    'models_id' => $request->get('models_id'),
-                    'details_id' => $request->get('details_id'),
-                    'grades_id' => $request->get('grades_id')
-                ]);
-                $car_number = CarNumber::create([
-                    'cars_id' => $car->id,
-                    'vin_number' => $request->get('vin_number'),
-                    'car_number' => $request->get('car_number')
-                ]);
-
-            } else {
+            if (!$request->get('diag_param')) {
                 // 기존 주문이 있는 경우
                 $old_order = Order::where('chakey', $request->get('order_number'))->first();
 
@@ -249,17 +244,21 @@ class OrderController extends Controller
                 $car = $car_number->car;
             }
 
-
             //order 생성
             $order = Order::create([
-                'car_numbers_id' => $car_number->id,
                 'orderer_id' => $user->id,
                 'orderer_name' => $request->get('orderer_name'),
                 'orderer_mobile' => $request->get('orderer_mobile'),
-                'status_cd' => Code::getId('order_state', 'ordered')
+                'orderer_email' => $request->get('orcerer_email') ? $request->get('orcerer_email') : $user->email,
+                'status_cd' => Code::getId('order_state', 'ordered'),
+                'car_number' => $old_order ? $old_order->car_number : $request->get('car_number'),
+                'brands_id' => $old_order ? $old_order->brands_id : $request->get('brands_id'),
+                'models_id' => $old_order ? $old_order->models_id : $request->get('models_id'),
+                'details_id' => $old_order ? $old_order->details_id : $request->get('details_id'),
+                'grades_id' => $old_order ? $old_order->grades_id : $request->get('grades_id')
             ]);
 
-            $chakey = $order->createChakey($car_number->car_number);
+            $chakey = $order->createChakey($request->get('car_number'));
 
             // 주문상품생성
             $item_ids = explode(',', $request->get('items'));
@@ -284,10 +283,9 @@ class OrderController extends Controller
                 if ($item->type_cd == Code::getId('report_type', 'diagnosis')) {
 
                     $reservation_date = new DateTime($request->get('reservation_at') . ' ' . $request->get('sel_time') . ':00:00');
-                    $diagnosis = Diagnosis::create([
+                    Diagnosis::create([
                         'orders_id' => $order->id,
                         'order_items_id' => $order_item->id,
-                        'car_numbers_id' => $car_number->id,
                         'chakey' => $chakey,
                         'status_cd' => Code::getId('report_state', 'order'),
                         'garage_id' => User::where('name', $request->get('garages'))->first()->id,
@@ -346,10 +344,11 @@ class OrderController extends Controller
                 'purchase_id' => $purchase->id
             ]);
 
-//            DB::commit();
+            DB::commit();
             return redirect()->route('order.show', $order->id)->with('success', '주문생성 되었습니다.');
         } catch (\Exception $e) {
             DB::rollback();
+
             return redirect()->back()->with('error', '에러가 발생햇습니다.');
 
         }
@@ -378,10 +377,8 @@ class OrderController extends Controller
         $order = Order::findOrFail($request->get('id'));
         $order->orderer_name = $request->get('name');
         $order->orderer_mobile = $request->get('mobile');
-        $order->carNumber->car_number = $request->get('car_number');
+        $order->car_number = $request->get('car_number');
         $order->save();
-
-
 
         return redirect()->back()->with('success', '주문정보가 수정되었습니다.');
 
@@ -407,11 +404,10 @@ class OrderController extends Controller
                 ]);
 
             $order = Order::findOrFail($request->get('id'));
-            $car = $order->carNumber->car;
-            $car->models_id = $request->get('models_id');
-            $car->details_id = $request->get('details_id');
-            $car->grades_id = $request->get('grades_id');
-            $car->save();
+            $order->models_id = $request->get('models_id');
+            $order->details_id = $request->get('details_id');
+            $order->grades_id = $request->get('grades_id');
+            $order->save();
 
             return redirect()->back()->with('success', '차정보가 수정되었습니다.');
         }catch(\Exception $e){
@@ -539,14 +535,25 @@ class OrderController extends Controller
     {
         $type = $request->get('type');
         $items = Item::select();
-
+        $list = [];
         if ($type == 'f') {
             $items->where('car_sort_cd', 125);
         } else {
             $items->where('car_sort_cd', 124);
         }
 
-        return $items->get();
+        foreach ($items->get() as $item){
+            $list[] = array(
+                'id' => $item->id,
+                'name' => $item->name,
+                'type_cd' => $item->type_cd,
+                'display_name' => $item->type->name,
+                'price' => $item->price
+            );
+        }
+
+        return $list;
+//        return $items->get();
     }
 
 

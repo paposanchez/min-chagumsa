@@ -26,7 +26,7 @@
                            data-url="/order/get-etc-items">
 
                     @if($user->hasRole('manage'))
-                    <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                    <div class="form-group {{ $errors->has('orderer_name') ? 'has-error' : '' }}">
 
                         <label for="" class="control-label col-md-3">주문자 성명</label>
                         <div class="col-md-3">
@@ -39,10 +39,10 @@
                                                 </span>
                             @endif
                         </div>
-
                     </div>
+
                     @elseif($user->hasRole('admin'))
-                    <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                    <div class="form-group {{ $errors->has('orderer_name') ? 'has-error' : '' }}">
 
                         <label for="" class="control-label col-md-3">회원선택</label>
                         <div class="col-md-3">
@@ -58,9 +58,21 @@
                         </div>
                     </div>
                     @endif
+                    <div class="form-group {{ $errors->has('orderer_email') ? 'has-error' : '' }}">
+                        <label for="" class="control-label col-md-3">주문자 이메일</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="이메일을 입력하세요."
+                                   name="orderer_email"
+                                   id="orderer_email" value="">
+                            @if ($errors->has('orderer_email'))
+                                <span class="text-danger">
+                                        {{ $errors->first('orderer_email') }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
 
-                    <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-
+                    <div class="form-group {{ $errors->has('orderer_mobile') ? 'has-error' : '' }}">
                         <label for="" class="control-label col-md-3">주문자 휴대폰번호</label>
                         <div class="col-md-3">
                             <input type="text" class="form-control" placeholder="ex) 010-0000-0000"
@@ -130,19 +142,6 @@
 
                                         </div>
 
-                                        <div class="m-b-25 fg-line {{ $errors->has('') ? 'has-error' : '' }}">
-                                            <label for="" class="fg-label">차대번호</label>
-                                            <input type="text" class="form-control"
-                                                   placeholder="ex) sdjdmncvbdjkdk8391mn"
-                                                   name="vin_number"
-                                                   id="vin_number" value="{{ old('') }}">
-                                            @if ($errors->has('vin_number'))
-                                                <span class="text-danger">
-                                                                                        {{ $errors->first('vin_number') }}
-                                                                                </span>
-                                            @endif
-
-                                        </div>
                                         <div class="row">
                                             <div class="col-sm-3 m-b-25">
                                                 <div class="fg-line {{ $errors->has('') ? 'has-error' : '' }} ">
@@ -316,14 +315,18 @@
 
                     </div>
 
-
-                    <div class="form-group {{ $errors->has('') ? 'has-error' : '' }} hidden" id="item-list-div">
+                    <div class="form-group {{ $errors->has('items') ? 'has-error' : '' }} hidden" id="item-list-div">
                         <label for="" class="control-label col-md-3">주문상품</label>
                         <div class="col-md-9">
                             <div class="row" id="item_list">
-
                             </div>
+                            @if ($errors->has('items'))
+                                <span class="text-danger">
+                                                                                        {{ $errors->first('items') }}
+                                                                                </span>
+                            @endif
                         </div>
+
                     </div>
 
                     <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
@@ -364,6 +367,7 @@
 @push( 'footer-script' )
     <script type="text/javascript">
         $(document).ready(function () {
+
             // 위자드
             $('#orderWizard').bootstrapWizard({
                 tabClass: 'fw-nav',
@@ -390,23 +394,16 @@
 
 
             $(document).on('click', ".orderCreateItem", function () {
-                $(this).toggleClass('selected');
+                // $(this).toggleClass('selected');
 
                 var total = 0;
                 var items = '';
-                $('.orderCreateItem').each(function (i) {
-                    if ($(this).hasClass('selected')) {
-                        $(this).removeClass('bgm-gray');
-                        $(this).addClass('bgm-pink');
-                        total += parseInt($(this).data('price'));
-                        items = items.concat(',', $(this).data('item-id'));
-                    } else {
-                        $(this).removeClass('bgm-pink');
-                        $(this).addClass('bgm-gray');
-                    }
+
+                $('.orderCreateItem:checked').each(function () {
+                    total += parseInt($(this).data('price'));
+                    items = items.concat(',', $(this).data('item-id'));
                 });
 
-                // $('#orderCreateTotalPrice').text(ZFOOP.Common.number_format(total));
                 $('#orderCreateTotalPrice').text(total);
                 $('#price').val(total);
                 $('#items').val(items.substr(1));
@@ -463,19 +460,11 @@
                         type: type
                     },
                     success: function (data) {
+                        $('#orderCreateTotalPrice').text(0);
                         var html = '';
                         $('#item_list').empty();
                         $.each(data, function (key, value) {
-                            html += '<div class="col-sm-4">';
-                            html += '<div class="card orderCreateItem bgm-gray" data-item-id="' + value.id + '"';
-                            html += 'data-price="' + value.price + '" data-item-type_cd="' + value.type_cd + '"';
-                            html += 'data-item-car_sort="' + value.car_sort + '">';
-                            html += '<div class="card-body card-padding">';
-                            html += '<h3 class="c-white">' + value.name + '</h3>';
-                            html += '<h6 class="c-white">' + value.price + '원</h6>';
-                            html += '</div>';
-                            html += '</div>';
-                            html += '</div>';
+                            html += '<input class="orderCreateItem" type="radio" name="'+value.display_name+'" value="'+value.id+'" data-price="'+value.price+'" data-item-id="'+value.id+'"> '+value.name+'';
                         });
                         $('#item-list-div').removeClass('hidden');
                         $('#item_list').append(html);
