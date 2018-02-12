@@ -63,7 +63,8 @@
 
                                 @unless(count($entrys) >0)
                                     <tr>
-                                        <td colspan="8" class="no-result text-center">{{ trans('common.no-result') }}</td>
+                                        <td colspan="8"
+                                            class="no-result text-center">{{ trans('common.no-result') }}</td>
                                     </tr>
                                 @endunless
 
@@ -107,7 +108,8 @@
                                         <td class="text-center">{{ $data->completed_at ? $data->completed_at->format('m-d H:i') : '-' }}</td>
 
                                         <td class="text-center">
-                                            {{ $data->getExpireDate()->format('Y-m-d H:i')  }}
+
+                                            {{ $data->completed_at ? $data->getExpireDate()->format('Y-m-d H:i') : '-' }}
 
                                             @if($data->status_cd == 116)
                                                 <br/>
@@ -125,7 +127,8 @@
 
                                         <td class="text-center">
 
-                                            <a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip"
+                                            <a href="/order/{{ $data->id }}" class="btn btn-default"
+                                               data-toggle="tooltip"
                                                title="상세보기">상세보기</a>
 
                                         </td>
@@ -175,7 +178,8 @@
                                     <label for="inputEmail3" class="col-sm-2 control-label">검색일자</label>
                                     <div class="col-sm-3">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="zmdi zmdi-calendar-alt"></i></span>
+                                            <span class="input-group-addon"><i
+                                                        class="zmdi zmdi-calendar-alt"></i></span>
                                             <div class="fg-line">
                                                 <input type="text" class="form-control date-picker" name='trs'
                                                        value='{{ $trs }}'

@@ -13,7 +13,6 @@ use App\Notifications\DiagnosisReservationChangeToUser;
 use App\Notifications\DiagnosisReviewComplete;
 use App\Notifications\OrderCanCeled;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Diagnosis;
 
 class DiagnosisObserver
 {

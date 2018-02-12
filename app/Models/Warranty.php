@@ -67,4 +67,13 @@ class Warranty extends Model
         return $this->hasMany(WarrantyHistory::class, 'warranties_id', 'id');
     }
 
+    public function getExpireDate()
+    {
+        if ($this->completed_at) {
+            return $this->completed_at->addDays($this->expire_period);
+        } else {
+            return;
+        }
+    }
+
 }
