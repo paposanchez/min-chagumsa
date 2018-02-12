@@ -20,7 +20,7 @@ class Diagnosis extends Model
         'engineer_id',          //엔지니어 번호
         'technist_id',          //기술사 회원번호, 진단서 최종및 발급자
         'mileage',              //주행거리
-        'reservation_user_id',  //예약자
+        'reservation_user_id',  //예약정보 변경자
         'reservation_at',       //예약날짜
         'confirm_at',            //예약확정날
         'start_at',             //진단시작시간
@@ -56,6 +56,11 @@ class Diagnosis extends Model
     public function garage()
     {
         return $this->hasOne(User::class, 'id', 'garage_id');
+    }
+
+    // 예약정보 변경자 조회
+    public function reservationUser(){
+        return $this->hasOne(User::class, 'id', 'reservation_user_id');
     }
 
     // 앤지니어 조회

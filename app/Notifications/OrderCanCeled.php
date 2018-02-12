@@ -1,29 +1,30 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: minseok
+ * Date: 2018. 2. 12.
+ * Time: PM 12:14
+ */
 
 namespace App\Notifications;
 
+
 use App\Traits\Template;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Mail\Mailable;
-
-
 use App\Notifications\Channels\LgSmsChannel;
 use App\Notifications\Messages\SmsMessage;
-use App\Mail\Order as OrderMailable;
 
-
-class OrderCompleted extends Notification implements ShouldQueue
+class OrderCanCeled extends Notification implements ShouldQueue
 {
-
     use Queueable;
     use Template;
 
     protected $order;
-    protected $event = 'order.OnComplete';
-
+    protected $event = 'order.OnCancled';
 
     public function __construct($order)
     {
@@ -64,7 +65,4 @@ class OrderCompleted extends Notification implements ShouldQueue
             ->from('1833-6889')
             ->to([$order->orderer_mobile]);
     }
-
-
-
 }

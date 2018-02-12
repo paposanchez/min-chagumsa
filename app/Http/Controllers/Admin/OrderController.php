@@ -23,6 +23,7 @@ use App\Models\PaymentCancel;
 use App\Models\Purchase;
 use App\Models\Warranty;
 use App\Http\Controllers\Controller;
+use App\Traits\Template;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Mail;
@@ -38,6 +39,8 @@ use Mockery\Exception;
 
 class OrderController extends Controller
 {
+    use Template;
+
     /**
      * @param Request $request
      * 주문 인덱스 페이지
@@ -130,6 +133,9 @@ class OrderController extends Controller
     {
         //주문 seq번호에 의한 주문 검색
         $order = Order::findOrFail($id);
+        //부모 주문
+        $parent_order = $order->getParentOrder;
+
         //전체 정비소 리스트
         $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')
             ->join('users', function ($join) {
@@ -137,12 +143,11 @@ class OrderController extends Controller
                     ->where('users.status_cd', Code::getId('user_status', 'active'));
             })
             ->orderBy('area', 'asc')->groupBy('area')->get();
-        $order_items = OrderItem::where('group_id', $order->id)->get();
 
         $my_brand = $order->brand;
         $models = Models::where('brands_id', $my_brand->id)->orderBy("name", 'ASC')->pluck('name', 'id');
 
-        return view('admin.order.show', compact('order', 'garages', 'order_items', 'my_brand', 'models'));
+        return view('admin.order.show', compact('order', 'garages', 'order_items', 'my_brand', 'models', 'parent_order'));
     }
 
 
@@ -244,13 +249,13 @@ class OrderController extends Controller
                 'orderer_id' => $user->id,
                 'orderer_name' => $request->get('orderer_name'),
                 'orderer_mobile' => $request->get('orderer_mobile'),
-                'orderer_email' => $request->get('orcerer_email'),
+                'orderer_email' => $request->get('orcerer_email') ? $request->get('orcerer_email') : $user->email,
                 'status_cd' => Code::getId('order_state', 'ordered'),
-                'car_number' => $request->get('car_number'),
-                'brands_id' => $request->get('brands_id'),
-                'models_id' => $request->get('models_id'),
-                'details_id' => $request->get('details_id'),
-                'grades_id' => $request->get('grades_id')
+                'car_number' => $old_order ? $old_order->car_number : $request->get('car_number'),
+                'brands_id' => $old_order ? $old_order->brands_id : $request->get('brands_id'),
+                'models_id' => $old_order ? $old_order->models_id : $request->get('models_id'),
+                'details_id' => $old_order ? $old_order->details_id : $request->get('details_id'),
+                'grades_id' => $old_order ? $old_order->grades_id : $request->get('grades_id')
             ]);
 
             $chakey = $order->createChakey($request->get('car_number'));
@@ -343,7 +348,7 @@ class OrderController extends Controller
             return redirect()->route('order.show', $order->id)->with('success', '주문생성 되었습니다.');
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e->getMessage());
+
             return redirect()->back()->with('error', '에러가 발생햇습니다.');
 
         }

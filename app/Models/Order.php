@@ -83,6 +83,11 @@ class Order Extends Model
         return $this->hasMany(OrderItem::class, 'id', 'orders_id');
     }
 
+    public function getParentOrder()
+    {
+        return $this->hasOne(Order::class, 'id', 'group_id');
+    }
+
     public function diagnosis(){
         return $this->hasOne(Diagnosis::class, 'chakey', 'chakey');
     }

@@ -359,6 +359,7 @@ class DiagnosesController extends Controller
             $diagnosis = Diagnosis::findOrFail($request->get('id'));
             $diagnosis->reservation_at = $reservation_date;
             $diagnosis->status_cd = Code::getId('report_state', 'order');
+            $diagnosis->reservation_user_id = Auth::user()->id;
             $diagnosis->confirm_at = null;
             $diagnosis->save();
 
@@ -389,8 +390,8 @@ class DiagnosesController extends Controller
             $diagnosis = Diagnosis::findOrFail($request->get('diagnosis_id'));
             $diagnosis->status_cd = Code::getId('report_state', 'confirm');
             $diagnosis->confirm_at = Carbon::now();
+            $diagnosis->reservation_user_id = Auth::user()->id;
             $diagnosis->save();
-            //todo noty 해야댐
 
             return redirect()->back()->with('success', '예약이 확정되었습니다.');
         } catch (Exception $e) {
@@ -419,6 +420,7 @@ class DiagnosesController extends Controller
             $diagnosis->status_cd = Code::getId('report_state', 'order');
             $diagnosis->confirm_at = null;
             $diagnosis->reservation_at = null;
+            $diagnosis->reservation_user_id = Auth::user()->id;
             $diagnosis->save();
 
             $reservation = new Reservation();

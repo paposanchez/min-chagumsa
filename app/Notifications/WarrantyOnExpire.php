@@ -15,19 +15,19 @@ use App\Notifications\Messages\SmsMessage;
 use App\Mail\Order as OrderMailable;
 
 
-class OrderCompleted extends Notification implements ShouldQueue
+class WarrantyOnExpire extends Notification implements ShouldQueue
 {
 
     use Queueable;
     use Template;
 
-    protected $order;
-    protected $event = 'order.OnComplete';
+    protected $warranty;
+    protected $event = 'warranty.OnExpire';
 
 
-    public function __construct($order)
+    public function __construct($warranty)
     {
-        $this->order = $order;
+        $this->warranty = $warranty;
     }
 
     public function via($notifiable)
@@ -37,25 +37,25 @@ class OrderCompleted extends Notification implements ShouldQueue
 
     public function toMail($notifiable)
     {
-        $type_cd = 127;
-        $order = $this->order;
-        $event = $this->event;
-
-        // 수신 대상
-        $notifiable->email = $this->order->orderer_email;
-
-
-        $return = (new MailMessage)
-            ->subject($this->order->orderer_name . "님 에게 보내는 테스트")
-            ->action($this->getTemplate($type_cd, $order, $event), 'http://www.chagumsa.com');
-
-        return $return;
+//        $type_cd = 127;
+//        $order = $this->order;
+//        $event = $this->event;
+//
+//        // 수신 대상
+//        $notifiable->email = $this->order->orderer_email;
+//
+//
+//        $return = (new MailMessage)
+//            ->subject($this->order->orderer_name . "님 에게 보내는 테스트")
+//            ->action($this->getTemplate($type_cd, $order, $event), 'http://www.chagumsa.com');
+//
+//        return $return;
     }
 
     public function toLgSms($notifiable)
     {
         $type_cd = 128;
-        $order = $this->order;
+        $order = $this->warranty->order;
         $event = $this->event;
 
 

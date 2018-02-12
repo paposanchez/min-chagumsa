@@ -96,7 +96,7 @@
                                     <label for="" class="control-label col-md-3">차량 모델명</label>
                                     <div class="col-md-6">
                                         <p class="form-control-static">{{ $order->getCarFullName() }}
-                                            @if($order->diagnosis->status_cd == 126 || $order->diagnosis->status_cd < 115)
+                                            @if($parent_order->diagnosis->status_cd == 126 || $parent_order->diagnosis->status_cd < 115)
                                             <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
                                                data-target="#carModal" id="ch_car">변경</a>
                                             @endif
@@ -208,7 +208,7 @@
                                             <span class="help-block">{{ $order->status_cd == 112 ? $order->updated_at : '-' }}</span>
                                         </div>
                                     </div>
-                                    @foreach($order_items as $order_item)
+                                    @foreach($order->orderItem as $order_item)
                                         @component('components.time_line', [
                                             'order_item' => $order_item
                                             ])
