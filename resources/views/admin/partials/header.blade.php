@@ -20,7 +20,8 @@
                 </li>
 
                 <li class="dropdown">
-                    <a data-toggle="dropdown" href="">
+                    {{--<a data-toggle="dropdown" href="/post/posting?board_id=3">--}}
+                    <a href="/post/posting?board_id=3">
                         <i class="him-icon zmdi zmdi-notifications"></i>
                         <i class="him-counts">9</i>
                     </a>
@@ -37,19 +38,19 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="lg-body">
-                                <a class="list-group-item media" href="">
-                                    <div class="pull-left">
-                                        <img class="lgi-img" src="/assets/img/profile-pics/1.jpg" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="lgi-heading">David Belle</div>
-                                        <small class="lgi-text">Cum sociis natoque penatibus et magnis dis parturient
-                                            montes
-                                        </small>
-                                    </div>
-                                </a>
-                            </div>
+                            {{--<div class="lg-body">--}}
+                                {{--<a class="list-group-item media" href="">--}}
+                                    {{--<div class="pull-left">--}}
+                                        {{--<img class="lgi-img" src="/assets/img/profile-pics/1.jpg" alt="">--}}
+                                    {{--</div>--}}
+                                    {{--<div class="media-body">--}}
+                                        {{--<div class="lgi-heading">David Belle</div>--}}
+                                        {{--<small class="lgi-text">Cum sociis natoque penatibus et magnis dis parturient--}}
+                                            {{--montes--}}
+                                        {{--</small>--}}
+                                    {{--</div>--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
 
                             {{--<a class="view-more" href="">View Previous</a>--}}
                         </div>
