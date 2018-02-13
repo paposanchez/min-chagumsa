@@ -264,29 +264,29 @@ $(function () {
 
 
     //############# form validator
-    $.validator.setDefaults({
-        ignore: [],
-        onkeyup: false,
-        onclick: false,
-        onfocusout: false,
-        errorElement: 'span',
-        errorClass: 'help-block',
-        highlight: function (element) {
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        unhighlight: function (element) {
-            $(element).closest('.form-group').removeClass('has-error');
-        },
-        errorPlacement: function (error, element) {
-            if (element.parent('.input-group').length) {
-                error.insertAfter(element.parent());
-            } else {
-                error.insertAfter(element);
-            }
-        },
-        success: function (label, element) {
-            $(element).parent().removeClass('has-error');
-        }
-    });
+    // $.validator.setDefaults({
+    //     ignore: [],
+    //     onkeyup: false,
+    //     onclick: false,
+    //     onfocusout: false,
+    //     errorElement: 'span',
+    //     errorClass: 'help-block',
+    //     highlight: function (element) {
+    //         $(element).closest('.form-group').addClass('has-error');
+    //     },
+    //     unhighlight: function (element) {
+    //         $(element).closest('.form-group').removeClass('has-error');
+    //     },
+    //     errorPlacement: function (error, element) {
+    //         if (element.parent('.input-group').length) {
+    //             error.insertAfter(element.parent());
+    //         } else {
+    //             error.insertAfter(element);
+    //         }
+    //     },
+    //     success: function (label, element) {
+    //         $(element).parent().removeClass('has-error');
+    //     }
+    // });
 
 });
