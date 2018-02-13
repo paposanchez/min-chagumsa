@@ -127,10 +127,9 @@
 
                                         <td class="text-center">
 
-                                            <a href="/order/{{ $data->id }}" class="btn btn-default"
+                                            <a href="/warranty/{{ $data->id }}" class="btn btn-default"
                                                data-toggle="tooltip"
                                                title="상세보기">상세보기</a>
-
                                         </td>
                                     </tr>
                                 @endforeach
