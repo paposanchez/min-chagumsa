@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call(DiagnosisDetailTableSeeder::class);
 		$this->call(DiagnosisDetailItemsTableSeeder::class);
 		$this->call(DiagnosisDetailsTableSeeder::class);
-		$this->call(DiagnosisFilesTableSeeder::class);
+		$this->call(DiagnosesFilesTableSeeder::class);
 		$this->call(EmailConfirmationsTableSeeder::class);
 		$this->call(FilesTableSeeder::class);
 		$this->call(ItemsTableSeeder::class);

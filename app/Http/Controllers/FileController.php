@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\DiagnosisFile;
+use App\Models\DiagnosesFile;
 use App\Models\File;
 use App\Models\Post;
 use App\Traits\Uploader;
@@ -76,7 +76,7 @@ class FileController extends Controller
 
                 try {
 
-                        $file = DiagnosisFile::findOrFail($id);
+                        $file = DiagnosesFile::findOrFail($id);
                         // 실제파일 위치
                         return response()->download($file->getRealPath('app/upload'), $file->original);
 

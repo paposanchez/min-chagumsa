@@ -14,7 +14,7 @@ namespace App\Repositories;
 
 namespace App\Repositories;
 
-use App\Models\DiagnosisFile;
+use App\Models\DiagnosesFile;
 use App\Models\Order;
 use App\Models\Code;
 use App\Models\Diagnosis;

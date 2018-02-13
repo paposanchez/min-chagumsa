@@ -5,10 +5,10 @@ namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-class DiagnosisFile extends Model
+class DiagnosesFile extends Model
 {
         protected $primaryKey = 'id';
-        protected $table = 'diagnosis_files';
+        protected $table = 'diagnoses_files';
         protected $fillable = [
                 'diagnoses_id', //진단정보 id
                 'original',     //원본 파일명

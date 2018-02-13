@@ -9,7 +9,7 @@ use Intervention\Image\ImageManagerStatic AS Image;
 use App\Helpers\Helper;
 use App\Repositories\CertificateRepository;
 use App\Models\File;
-use App\Models\DiagnosisFile;
+use App\Models\DiagnosesFile;
 
 // 인증서
 Route::group([

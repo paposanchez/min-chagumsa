@@ -4,7 +4,7 @@ namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\DiagnosisFile;
+use App\Models\DiagnosesFile;
 
 class Diagnoses extends Model
 {
@@ -41,7 +41,7 @@ class Diagnoses extends Model
         }
 
         public function diagnosesFiles(){
-                return $this->hasMany(DiagnosisFile::class, 'diagnoses_id', 'id');
+                return $this->hasMany(DiagnosesFile::class, 'diagnoses_id', 'id');
         }
 
 
@@ -59,7 +59,7 @@ class Diagnoses extends Model
                 $return['files'] = [];
 
                 //@TODO diagnosisFiles method로 조회되지 않음...
-                $files = DiagnosisFile::where('diagnoses_id', $this->id)->get();
+                $files = DiagnosesFile::where('diagnoses_id', $this->id)->get();
                 foreach($files as $file) {
                         $return['files'][] = $file->toDocumentArray();
                 }
