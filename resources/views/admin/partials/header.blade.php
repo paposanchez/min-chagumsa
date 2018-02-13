@@ -27,7 +27,7 @@
                     <div class="dropdown-menu dropdown-menu-lg pull-right">
                         <div class="list-group him-notification">
                             <div class="lg-header">
-                                Notification
+                                최근 1:1문의
 
                                 <ul class="actions">
                                     <li class="dropdown">
@@ -49,53 +49,9 @@
                                         </small>
                                     </div>
                                 </a>
-                                <a class="list-group-item media" href="">
-                                    <div class="pull-left">
-                                        <img class="lgi-img" src="/assets/img/profile-pics/2.jpg" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="lgi-heading">Jonathan Morris</div>
-                                        <small class="lgi-text">Nunc quis diam diamurabitur at dolor elementum, dictum
-                                            turpis vel
-                                        </small>
-                                    </div>
-                                </a>
-                                <a class="list-group-item media" href="">
-                                    <div class="pull-left">
-                                        <img class="lgi-img" src="/assets/img/profile-pics/3.jpg" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="lgi-heading">Fredric Mitchell Jr.</div>
-                                        <small class="lgi-text">Phasellus a ante et est ornare accumsan at vel magnauis
-                                            blandit turpis at augue ultricies
-                                        </small>
-                                    </div>
-                                </a>
-                                <a class="list-group-item media" href="">
-                                    <div class="pull-left">
-                                        <img class="lgi-img" src="/assets/img/profile-pics/4.jpg" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="lgi-heading">Glenn Jecobs</div>
-                                        <small class="lgi-text">Ut vitae lacus sem ellentesque maximus, nunc sit amet
-                                            varius dignissim, dui est consectetur neque
-                                        </small>
-                                    </div>
-                                </a>
-                                <a class="list-group-item media" href="">
-                                    <div class="pull-left">
-                                        <img class="lgi-img" src="/assets/img/profile-pics/4.jpg" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="lgi-heading">Bill Phillips</div>
-                                        <small class="lgi-text">Proin laoreet commodo eros id faucibus. Donec ligula
-                                            quam, imperdiet vel ante placerat
-                                        </small>
-                                    </div>
-                                </a>
                             </div>
 
-                            <a class="view-more" href="">View Previous</a>
+                            {{--<a class="view-more" href="">View Previous</a>--}}
                         </div>
                     </div>
                 </li>
@@ -139,7 +95,7 @@
     <div class="h-search-wrap">
         <div class="hsw-inner">
             <i class="hsw-close zmdi zmdi-arrow-left" data-ma-action="search-close"></i>
-            <input type="text">
+            <input type="text" placeholder="주문번호를 입력해주세요.">
         </div>
     </div>
 </header>

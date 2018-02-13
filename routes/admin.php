@@ -98,6 +98,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // 대시보드
     Route::get('dashboard', 'DashboardController')->name("dashboard");
+    Route::get('get-inquire-count', 'DashboardController@getInquireCount')->name('get-inquire-count');
 
     Route::group(['middleware' => ['role:admin']], function () {
         // 주문관리

@@ -28,7 +28,7 @@
                             <th class="text-center">주문자정보</th>
                             <th class="text-center">결제정보</th>
                             <th class="text-center">결제일</th>
-                            <th class="text-center">{{ trans('admin/role.action') }}</th>
+                            {{--<th class="text-center">{{ trans('admin/role.action') }}</th>--}}
                         </tr>
                         </thead>
 
@@ -82,11 +82,11 @@
 
                                 <td class="text-center">{{ $data->created_at->format('Y.m.d') }}</td>
 
-                                <td class="text-center">
-                                    <a href="{{ route('purchase.edit', $data->id) }}" class="btn btn-default"
-                                       data-tooltip="{pos:'top'}"
-                                       title="{{ trans('common.button.edit') }}">{{ trans('common.button.edit') }}</a>
-                                </td>
+                                {{--<td class="text-center">--}}
+                                    {{--<a href="{{ route('purchase.edit', $data->id) }}" class="btn btn-default"--}}
+                                       {{--data-tooltip="{pos:'top'}"--}}
+                                       {{--title="{{ trans('common.button.edit') }}">{{ trans('common.button.edit') }}</a>--}}
+                                {{--</td>--}}
                             </tr>
                         @endforeach
 

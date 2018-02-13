@@ -14,7 +14,7 @@
 
                 <div class="dash-widgets">
                     <div class="row" style="margin: 0 0 0 0">
-                        <div class="col-md-4 col-sm-6">
+                        <div class="col-md-3 col-sm-6">
                             <div class="list-group-item media sv-item">
                                 <div class="pull-right">
                                     <div class="stats-bar"></div>
@@ -25,7 +25,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6">
+                        <div class="col-md-3 col-sm-6">
                             <div class="list-group-item media sv-item">
                                 <div class="pull-right">
                                     <div class="stats-bar"></div>
@@ -36,7 +36,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>주문 완료 개수</small>
+                                    <h3>{{ count($total_order) }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
                             <div class="list-group-item media sv-item">
                                 <div class="pull-right">
                                     <div class="stats-bar"></div>
@@ -52,142 +63,118 @@
             </div>
 
             {{-- 진단 --}}
-            <div class="mini-charts">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="mini-charts-item bgm-green">
-                            <div class="clearfix">
-                                <div class="chart chart-pie stats-pie"></div>
-                                <div class="count">
-                                    <small>총진단</small>
-                                    <h2>{{ $total_diagnosis }} 건</h2>
+            <div id="site-visits" class="dw-item bgm-blue" style="min-height: 260px;">
+                <div class="dwi-header">
+                    <div class="p-30">
+                        <div class="dash-widget-visits"></div>
+                    </div>
+
+                    <div class="dwih-title">최근 30일간 주문 수량</div>
+                </div>
+
+                <div class="dash-widgets">
+                    <div class="row" style="margin: 0 0 0 0">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>총 주문 개수</small>
+                                    <h3>{{ count($total_order) }}</h3>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="mini-charts-item bgm-green">
-                            <div class="clearfix">
-                                <div class="chart stats-line"></div>
-                                <div class="count">
-                                    <small>신규진단</small>
-                                    <h2>{{ $today_diagnosis }} 건</h2>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>신규 주문 개수</small>
+                                    <h3>{{ count($today_order) }}</h3>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="mini-charts-item bgm-green">
-                            <div class="clearfix">
-                                <div class="chart chart-pie stats-pie"></div>
-                                <div class="count">
-                                    <small>검토전</small>
-                                    <h2>{{ $ready_diagnosis }} 건</h2>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>주문 완료 개수</small>
+                                    <h3>{{ count($total_order) }}</h3>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="mini-charts-item bgm-green">
-                            <div class="clearfix">
-                                <div class="chart stats-bar"></div>
-                                <div class="count">
-                                    <small>발급완료</small>
-                                    <h2>{{ $completed_diagnosis }} 건</h2>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>취소 주문 개수</small>
+                                    <h3>{{ count($cancel_order) }}</h3>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="epc-item bgm-green">
-                        <div class="easy-pie main-pie" data-percent="45">
-                            <div class="percent">45</div>
-                            <div class="pie-title">Total Emails Sent</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="epc-item bgm-green">
-                        <div class="easy-pie main-pie" data-percent="88">
-                            <div class="percent">88</div>
-                            <div class="pie-title">Sold Items</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="epc-item bgm-green">
-                        <div class="easy-pie main-pie" data-percent="25">
-                            <div class="percent">25</div>
-                            <div class="pie-title">Spam Mails</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="epc-item bgm-green">
-                        <div class="easy-pie main-pie" data-percent="89">
-                            <div class="percent">89</div>
-                            <div class="pie-title">Profit Rate</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             {{-- 평가 --}}
-            <div class="mini-charts">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="mini-charts-item bgm-blue">
-                            <div class="clearfix">
-                                <div class="chart chart-pie stats-pie"></div>
-                                <div class="count">
-                                    <small>총진단</small>
-                                    <h2>{{ $total_certificate }} 건</h2>
+            <div id="site-visits" class="dw-item bgm-green" style="min-height: 260px;">
+                <div class="dwi-header">
+                    <div class="p-30">
+                        <div class="dash-widget-visits"></div>
+                    </div>
+
+                    <div class="dwih-title">최근 30일간 주문 수량</div>
+                </div>
+
+                <div class="dash-widgets">
+                    <div class="row" style="margin: 0 0 0 0">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>총 주문 개수</small>
+                                    <h3>{{ count($total_order) }}</h3>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="mini-charts-item bgm-blue">
-                            <div class="clearfix">
-                                <div class="chart stats-line"></div>
-                                <div class="count">
-                                    <small>신규진단</small>
-                                    <h2>{{ $today_certificate }} 건</h2>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>신규 주문 개수</small>
+                                    <h3>{{ count($today_order) }}</h3>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="mini-charts-item bgm-blue">
-                            <div class="clearfix">
-                                <div class="chart chart-pie stats-pie"></div>
-                                <div class="count">
-                                    <small>검토전</small>
-                                    <h2>{{ $ready_certificate }} 건</h2>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>주문 완료 개수</small>
+                                    <h3>{{ count($total_order) }}</h3>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="mini-charts-item bgm-blue">
-                            <div class="clearfix">
-                                <div class="chart stats-bar"></div>
-                                <div class="count">
-                                    <small>발급완료</small>
-                                    <h2>{{ $completed_certificate }} 건</h2>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>취소 주문 개수</small>
+                                    <h3>{{ count($cancel_order) }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -195,44 +182,65 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="epc-item bgm-blue">
-                        <div class="easy-pie main-pie" data-percent="45">
-                            <div class="percent">45</div>
-                            <div class="pie-title">Total Emails Sent</div>
-                        </div>
+            {{--  보증 --}}
+            <div id="site-visits" class="dw-item bgm-cyan" style="min-height: 260px;">
+                <div class="dwi-header">
+                    <div class="p-30">
+                        <div class="dash-widget-visits"></div>
                     </div>
+
+                    <div class="dwih-title">최근 30일간 주문 수량</div>
                 </div>
 
-                <div class="col-sm-3">
-                    <div class="epc-item bgm-blue">
-                        <div class="easy-pie main-pie" data-percent="88">
-                            <div class="percent">88</div>
-                            <div class="pie-title">Sold Items</div>
+                <div class="dash-widgets">
+                    <div class="row" style="margin: 0 0 0 0">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>총 주문 개수</small>
+                                    <h3>{{ count($total_order) }}</h3>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="epc-item bgm-blue">
-                        <div class="easy-pie main-pie" data-percent="25">
-                            <div class="percent">25</div>
-                            <div class="pie-title">Spam Mails</div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>신규 주문 개수</small>
+                                    <h3>{{ count($today_order) }}</h3>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="epc-item bgm-blue">
-                        <div class="easy-pie main-pie" data-percent="89">
-                            <div class="percent">89</div>
-                            <div class="pie-title">Profit Rate</div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>주문 완료 개수</small>
+                                    <h3>{{ count($total_order) }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="list-group-item media sv-item">
+                                <div class="pull-right">
+                                    <div class="stats-bar"></div>
+                                </div>
+                                <div class="media-body">
+                                    <small>취소 주문 개수</small>
+                                    <h3>{{ count($cancel_order) }}</h3>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
 
             <div class="card">
                 <div class="card-header">

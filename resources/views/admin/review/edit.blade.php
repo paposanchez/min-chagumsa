@@ -74,6 +74,17 @@
                                         {{--style="width:300px;height:200px;display:inline-block;" data-id="{{ $vin_number_picture->file->id }}">--}}
                             {{--</div>--}}
                         {{--</div>--}}
+                        <div class="form-group ">
+                            <label for="inputSubject"
+                                   class="control-label col-md-2">자동차 등록증</label>
+                            <div class="col-md-9">
+                                <img
+                                        name="picture"
+                                        src="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/1119"
+                                        class="img-responsive picture"
+                                        style="width:300px;height:200px;display:inline-block;" data-id="1119">
+                            </div>
+                        </div>
 
                         <div class="form-group {{ $errors->has('vin_number') ? 'has-error' : '' }}">
                             <label for="inputSubject"
@@ -100,6 +111,17 @@
                                         {{--style="width:300px;height:200px;display:inline-block;" data-id="{{ $mileage_picture->file->id }}">--}}
                             {{--</div>--}}
                         {{--</div>--}}
+                        <div class="form-group ">
+                            <label for="inputSubject"
+                                   class="control-label col-md-2">자동차 계기</label>
+                            <div class="col-md-9">
+                                <img
+                                        name="picture"
+                                        src="http://mme.chagumsa.com/resize?logo=1&r=1&width=400&qty=80&url=http://cdn.chagumsa.com/diagnosis/1120"
+                                        class="img-responsive picture"
+                                        style="width:300px;height:200px;display:inline-block;" data-id="1120">
+                            </div>
+                        </div>
 
                         <div class="form-group {{ $errors->has('mileage') ? 'has-error' : '' }}">
                             <label for="inputSubject"
@@ -129,6 +151,10 @@
             if(confirm('빌급 후에는 수정 할 수 없습니다.\n진단 발급을 진행하시겠습니까?')){
                 $('#frm').submit();
             }
+        });
+
+        $(document).on('click', '.picture', function () {
+            window.open('http://image.chagumsa.com/diagnosis/1120.png');
         });
     </script>
 @endpush
