@@ -25,7 +25,7 @@ class Diagnoses extends Model
                 'updated_at'
         ];
 
-        //선택 옵션 그룹 조회
+        //선택 옵션 그룹 코드조회
         public function option(){
                 return $this->hasOne(Code::class, 'id', 'options_cd');
         }
@@ -44,15 +44,23 @@ class Diagnoses extends Model
                 return $this->hasMany(DiagnosisFile::class, 'diagnoses_id', 'id');
         }
 
+
+
         public function toDocumentArray()
         {
                 $return = $this->toArray();
+                $return['options'] = [];
+                if($return['options_cd'])
+                {
+                        $code = Code::where('id', $return['options_cd'])->first();
+                        $return['options'] = Code::getByGroupArray($code->name);
+                }
+
                 $return['files'] = [];
 
                 //@TODO diagnosisFiles method로 조회되지 않음...
                 $files = DiagnosisFile::where('diagnoses_id', $this->id)->get();
                 foreach($files as $file) {
-
                         $return['files'][] = $file->toDocumentArray();
                 }
                 return $return;

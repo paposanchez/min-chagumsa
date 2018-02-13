@@ -11,13 +11,12 @@ use App\Models\Reservation;
 use DB;
 use Carbon\Carbon;
 use App\Mixapply\Uploader\Receiver;
-use App\Models\S3Tran;
+use App\Models\DocumentOrder;
+use App\Traits\Uploader;
+// use App\Models\S3Tran;
 use Exception;
 use Illuminate\Http\Request;
-use App\Traits\Uploader;
 use Validator;
-
-
 
 class DiagnosisController extends ApiController
 {
@@ -26,8 +25,15 @@ class DiagnosisController extends ApiController
 
         private function modelDiagnosis($diagnosis)
         {
-                return DiagnosisRepository::getInstance()->order($diagnosis);
-
+                return (new DocumentOrder($diagnosis,
+                [
+                        "reservation_at"        => [
+                                "date"          => $diagnosis->reservation_at->format('Y-m-d'),
+                                "time"          => $diagnosis->reservation_at->format('H:i'),
+                                "fulldate"      => $diagnosis->reservation_at->format('Y-m-d H:i:s')
+                        ],
+                        "extra_status"  => $diagnosis->extraStatus()
+                ]))->toArray();
         }
 
 
@@ -146,7 +152,7 @@ class DiagnosisController extends ApiController
                         $requestData = $request->validate([
                                 'user_id'       => 'required|exists:users,id',
                                 'date'          => 'required|date_format:Y-n-d',
-                                'status_cd'     => 'required|in:112,113,114,115,116',
+                                'status_cd'     => 'required|in:112,113,114,115,116,126',
                         ]);
 
 
@@ -191,7 +197,7 @@ class DiagnosisController extends ApiController
 
                         $requestData = $request->validate([
                                 'user_id'       => 'required|exists:users,id',
-                                'status_cd'     => 'nullable|in:112,113,114,115,116',
+                                'status_cd'     => 'nullable|in:112,113,114,115,116,126',
                                 's'             => 'required|min:4'
                         ]);
 
@@ -306,8 +312,6 @@ class DiagnosisController extends ApiController
                                 "data"  => $return
                         ]);
                 } catch (Exception $e) {
-
-                        dd($e);
                         return response()->json([
                                 "status" => 'fail'
                         ]);

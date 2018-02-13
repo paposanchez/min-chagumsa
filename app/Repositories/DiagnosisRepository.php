@@ -56,7 +56,6 @@ final class DiagnosisRepository extends DocumentFactory implements IDocumentRepo
         protected function loadDocument($document_id)
         {
                 $this->document = Diagnosis::findOrFail($document_id);
-
         }
 
         protected function loadOrder()
@@ -105,13 +104,11 @@ final class DiagnosisRepository extends DocumentFactory implements IDocumentRepo
                 return $this;
         }
 
-
-
         public function toObject()
         {
                 return [
                         'order' => $this->order,
-                        'data' => $this->diagnosis
+                        'diagnosis' => $this->diagnosis
                 ];
         }
 
@@ -125,7 +122,7 @@ final class DiagnosisRepository extends DocumentFactory implements IDocumentRepo
                 }
                 return [
                         'order' => $this->order->toArray(),
-                        'data' => $return
+                        'diagnosis' => $return
                 ];
         }
 

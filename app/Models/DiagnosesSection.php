@@ -54,15 +54,27 @@ class DiagnosesSection
 
         public function getDiagnoses()
         {
+
                 try{
+                        $return = $this->diagnoses;
+
+
+
                         if($this->diagnoses_id)
                         {
                                 return Diagnoses::find($this->diagnoses_id)->toDocumentArray();
                         }else{
-                                return $this->diagnoses;
+
+
+                                if($return['options_cd'])
+                                {
+                                        $code = Code::where('id', $return['options_cd'])->first();
+                                        $return['options'] = Code::getByGroupArray($code->name);
+                                }
+                                return $return;
                         }
                 }catch(Exception $e){
-                        return $this->diagnoses;
+                        return $return;
                 }
         }
 

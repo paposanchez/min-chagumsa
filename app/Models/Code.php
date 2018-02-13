@@ -120,9 +120,9 @@ class Code extends CacheModel
                 return $return;
         }
 
-        public static function getByGroupArray($group)
+        public static function getByGroupArray($name)
         {
-                $entrys = Code::where("group", $group)
+                $entrys = Code::where("group", $name)
                 ->orderBy('sort')
                 ->orderBy('id')
                 ->get();
