@@ -5,7 +5,7 @@
  * Date: 2017. 7. 14.
  * Time: PM 9:13
  */
-namespace App\Tpay;
+namespace App\Services\Tpay;
 
 class TpayLib{
     public $encKey;

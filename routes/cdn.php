@@ -8,7 +8,7 @@ use Intervention\Image\ImageManagerStatic AS Image;
 use App\Helpers\Helper;
 use App\Repositories\CertificateRepository;
 use App\Models\File;
-use App\Models\DiagnosisFile;
+use App\Models\DiagnosesFile;
 
 
 
@@ -72,7 +72,7 @@ Route::get('/diagnosis/{id?}', function($id){
         $image = public_path('assets/img/noimage.png');
         if ($id) {
 
-                $file = DiagnosisFile::findOrFail($id);
+                $file = DiagnosesFile::findOrFail($id);
 
                 if ($file) {
                         $binary = storage_path('app/diagnosis' . $file->path) . '/' . $file->source;

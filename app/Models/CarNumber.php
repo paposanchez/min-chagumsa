@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Abstracts\Model\Cache AS CacheModel;
+use App\Models\Abstracts\Cache AS CacheModel;
 use Illuminate\Database\Eloquent\Model;
 
 class CarNumber extends CacheModel

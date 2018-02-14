@@ -73,8 +73,8 @@ Route::post('diagnosis/upload', "DiagnosisController@upload");
 //
 // //주문 엔지니어에 할당
 // Route::post('diagnosis/grant', "DiagnosisController@setDiagnosisEngineer");
-// Route::any('diagnosis/get-file-info', 'DiagnosisController@getDiagnosisFileInfo');
-// Route::any('diagnosis/set-file-info', 'DiagnosisController@setTransDiagnosisFileInfo');
+// Route::any('diagnosis/get-file-info', 'DiagnosisController@getDiagnosesFileInfo');
+// Route::any('diagnosis/set-file-info', 'DiagnosisController@setTransDiagnosesFileInfo');
 
 // 디바이스 아이디 업데이트
 Route::post('notify/register', "NotifyController@register");

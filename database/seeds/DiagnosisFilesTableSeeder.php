@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class DiagnosisFilesTableSeeder extends Seeder
+class DiagnosesFilesTableSeeder extends Seeder
 {
 
     /**

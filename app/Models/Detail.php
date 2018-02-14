@@ -11,7 +11,7 @@ namespace App\Models;
 use DB;
 use App\Models\Models;
 use App\Models\Car;
-use App\Abstracts\Model\Cache AS CacheModel;
+use App\Models\Abstracts\Cache AS CacheModel;
 
 class Detail extends CacheModel
 {

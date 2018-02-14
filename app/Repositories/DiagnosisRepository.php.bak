@@ -15,7 +15,7 @@ namespace App\Repositories;
 use App\Services\Encrypter;
 use App\Models\Order;
 use App\Models\Diagnosis;
-use App\Models\DiagnosisFile;
+use App\Models\DiagnosesFile;
 use App\Models\Code;
 
 use Carbon\Carbon;

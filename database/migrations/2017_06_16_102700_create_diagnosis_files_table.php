@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateDiagnosisFilesTable extends Migration {
+class CreateDiagnosesFilesTable extends Migration {
 
 	/**
 	 * Run the migrations.

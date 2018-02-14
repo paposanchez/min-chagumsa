@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Helpers\Helper;
 use File AS FileHandler;
-use App\Models\DiagnosisFile;
+use App\Models\DiagnosesFile;
 use Intervention\Image\ImageManagerStatic AS Image;
 use App\Repositories\CertiRedisRepository;
 
@@ -18,7 +18,7 @@ Route::get('/thumbnail/{id?}', function ($id) {
         $image = public_path('assets/img/noimage.png');
         if ($id) {
 
-                $file = DiagnosisFile::findOrFail($id);
+                $file = DiagnosesFile::findOrFail($id);
 
                 if ($file) {
                         $allowedMimeTypes = ['image/jpeg', 'image/gif', 'image/png', 'image/bmp', 'image/svg+xml'];

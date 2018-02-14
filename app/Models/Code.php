@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Abstracts\Model\Cache AS CacheModel;
+use App\Models\Abstracts\Cache AS CacheModel;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -68,11 +68,24 @@ class Code extends CacheModel
                         "group" => $this->group,
                         "name" => $this->name,
                         "display" => $this->display()
-
                 ];
         }
 
-        public static function getId($group, $name)
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //--------------------------------------------------- extra funcs
+        public static function getIdByGroupAndName($group, $name)
         {
                 $entry = DB::table('codes')
                 ->where("group", $group)
@@ -82,7 +95,6 @@ class Code extends CacheModel
                 return $entry ? $entry->id : false;
         }
 
-        //--------------------------------------------------- extra funcs
         public static function getSelectList($group = '')
         {
                 $where = DB::table('codes')->orderBy('sort');
@@ -108,10 +120,9 @@ class Code extends CacheModel
                 return $return;
         }
 
-        public static function getByGroupArray($group)
+        public static function getByGroupArray($name)
         {
-                $entrys = DB::table('codes')
-                ->where("group", $group)
+                $entrys = Code::where("group", $name)
                 ->orderBy('sort')
                 ->orderBy('id')
                 ->get();
