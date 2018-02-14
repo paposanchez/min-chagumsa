@@ -1,22 +1,10 @@
-image: php:7-fpm
+image: phpunit/phpunit:5.0.3
+
 pipelines:
   default:
     - step:
-        script:
-          - apt-get update && apt-get install -qy git curl libmcrypt-dev mysql-client
-          - docker-php-ext-install mcrypt && docker-php-ext-install pdo_mysql
+        script: # Modify the commands below to build your repository.
+          - php -r "file_exists('.env') || copy('.env.example', '.env');"
           - composer install
-          - export CACHE_DRIVER=redis
-          - export SESSION_DRIVER=redis
-          - export DB_CONNECTION=mysql
-          
-definitions:
-  services:
-    mysql:
-      image: mysql
-      environment:
-        MYSQL_HOST: 'cargumsa.c4afr6fhjklv.ap-northeast-2.rds.amazonaws.com'
-        MYSQL_DATABASE: 'chagumsa'
-        MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-        MYSQL_USER: 'cargumsa'
-        MYSQL_PASSWORD: 'zkrjatk#1010'
+          - php artisan key:generate
+          - phpunit
