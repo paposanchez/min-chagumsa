@@ -175,6 +175,12 @@ class DiagnosesController extends Controller
         return view('admin.diagnosis.show', compact('diagnosis', 'my_brand', 'models', 'sel_hours', 'garages'));
     }
 
+    public function edit(Request $request){
+        dd('edit');
+    }
+
+
+
     /**
      * @param Request $request
      * 진단 항목에 대한 선택값 업데이트

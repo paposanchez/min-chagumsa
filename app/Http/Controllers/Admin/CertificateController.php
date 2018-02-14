@@ -189,9 +189,13 @@ class CertificateController extends Controller
         $car = $certificate->CarNumber->car;
         $grades = Code::getSelectList('grade_state_cd');
         $select_color = Code::getSelectList('color_cd');
-        $select_vin_yn = Code::getSelectList('yn');
+
         $select_transmission = Code::getSelectList("transmission");
         $select_fueltype = Code::getSelectList('fuel_type');
+
+
+        // todo 지울예정
+        $select_vin_yn = Code::getSelectList('yn');
         $kinds = Code::getSelectList('kind_cd');
         $certificate_states = Code::getSelectList('certificate_state_cd');
         $operation_state_cd = Code::getSelectList('operation_state_cd');

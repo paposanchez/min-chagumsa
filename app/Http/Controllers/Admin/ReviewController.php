@@ -23,7 +23,8 @@ use Illuminate\Support\Facades\DB;
 
 class ReviewController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $user = Auth::user();
 
         $sort = $request->get('sort');
@@ -93,7 +94,7 @@ class ReviewController extends Controller
             switch ($sf) {
                 case 'car_number':
                     $where->leftJoin('car_numbers', 'diagnosis.car_numbers_id', '=', 'car_numbers.id')
-                        ->where('car_numbers.car_number', 'like', '%'.$s.'%')
+                        ->where('car_numbers.car_number', 'like', '%' . $s . '%')
                         ->select('diagnosis.*');
                     break;
                 case 'order_num':
@@ -102,13 +103,13 @@ class ReviewController extends Controller
                 case 'orderer_name':
                     $where->leftJoin('order_items', 'diagnosis.order_items_id', '=', 'order_items.id')
                         ->leftJoin('orders', 'order_items.orders_id', '=', 'orders.id')
-                        ->where('orders.orderer_name', 'like', '%'.$s.'%')
+                        ->where('orders.orderer_name', 'like', '%' . $s . '%')
                         ->select('diagnosis.*');
                     break;
                 case 'orderer_mobile':
                     $where->leftJoin('order_items', 'diagnosis.order_items_id', '=', 'order_items.id')
                         ->leftJoin('orders', 'order_items.orders_id', '=', 'orders.id')
-                        ->where('orders.orderer_mobile', 'like', '%'.$s.'%')
+                        ->where('orders.orderer_mobile', 'like', '%' . $s . '%')
                         ->select('diagnosis.*');
                     break;
                 case 'engineer_name':
@@ -138,10 +139,11 @@ class ReviewController extends Controller
         return view('admin.review.index', compact('search_fields', 'search_fields2', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 'df', 'sort', 'sort_orderby', 'user'));
     }
 
-    public function edit(Request $request, $id){
+    public function edit(Request $request, $id)
+    {
         $diagnosis = Diagnosis::findOrFail($id);
 
-        if($diagnosis->status_cd != 126){
+        if ($diagnosis->status_cd != 126) {
             return redirect()->back()->with('error', '잘못된 접근입니다.');
         }
 
@@ -149,21 +151,44 @@ class ReviewController extends Controller
         $vin_number_picture = Diagnoses::where('diagnosis_id', $diagnosis->id)->where('group', 2001)->first();
         $mileage_picture = Diagnoses::where('diagnosis_id', $diagnosis->id)->where('group', 2002)->first();
 
-        return view('admin.review.edit', compact('diagnosis', 'order', 'vin_number_picture', 'mileage_picture'));
+        $select_vin_yn = Code::getSelectList('yn');
+        $kinds = Code::getSelectList('kind_cd');
+        $select_color = Code::getSelectList('color_cd');
+        $select_transmission = Code::getSelectList("transmission");
+        $select_fueltype = Code::getSelectList('fuel_type');
+
+        return view('admin.review.edit', compact('diagnosis', 'order', 'vin_number_picture', 'mileage_picture', 'kinds', 'select_color', 'select_transmission', 'select_fueltype', 'select_vin_yn'));
     }
 
-    public function update(Request $request, $id){
-
+    public function update(Request $request, $id)
+    {
+        dd($request->all());
         $this->validate($request, [
             'vin_number' => 'required',
-            'mileage' => 'required'
+            'mileage' => 'required',
+            'certificates_vin_yn_cd' => 'required',
+            'cars_registration_date' => 'required',
+            'cars_year' => 'required',
+            'kind_cd' => 'required',
+            'cars_displacement' => 'required',
+            'cars_exterior_color' => 'required',
+            'car_exterior_color_etc' => 'required',
+
+            'cars_transmission_cd' => 'required',
+            'cars_fueltype_cd' => 'required',
+            'car_fueltype_etc' => 'required',
+            'passenger' => 'required',
+            '' => 'required',
+            '' => 'required',
+
+
         ], [],
             [
                 'vin_number' => '차대번호',
                 'mileage' => '주행거리'
             ]);
 
-        try{
+        try {
 
             DB::beginTransaction();
             $diagnosis = Diagnosis::findOrFail($id);
@@ -191,7 +216,7 @@ class ReviewController extends Controller
 
             DB::commit();
             return redirect()->route('review.index')->with('success', '진단이 발급되었습니다.');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             DB::rollback();
             dd($e->getMessage());
             return redirect()->back()->with('error', '오류가 발생하였습니다.');

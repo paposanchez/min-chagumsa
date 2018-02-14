@@ -167,27 +167,25 @@
                         </div>
 
                         <div class="card-body card-padding">
-
-
-                            <div class="pmo-contact">
-                                <ul>
-                                    <li class="ng-binding"><i class="zmdi zmdi-phone"></i> 00971123456789</li>
-                                    <li class="ng-binding"><i class="zmdi zmdi-email"></i> malinda.h@gmail.com</li>
-                                    <li class="ng-binding"><i class="zmdi zmdi-facebook-box"></i> malinda.hollaway
-                                    </li>
-                                    <li class="ng-binding"><i class="zmdi zmdi-twitter"></i> @malinda
-                                        (twitter.com/malinda)
-                                    </li>
-                                    <li>
-                                        <i class="zmdi zmdi-pin"></i>
-                                        <address class="m-b-0 ng-binding">
-                                            44-46 Morningside Road <br>
-                                            Edinburgh <br>
-                                            Scotland
-                                        </address>
-                                    </li>
-                                </ul>
-                            </div>
+                            {{--<div class="pmo-contact">--}}
+                                {{--<ul>--}}
+                                    {{--<li class="ng-binding"><i class="zmdi zmdi-phone"></i> 00971123456789</li>--}}
+                                    {{--<li class="ng-binding"><i class="zmdi zmdi-email"></i> malinda.h@gmail.com</li>--}}
+                                    {{--<li class="ng-binding"><i class="zmdi zmdi-facebook-box"></i> malinda.hollaway--}}
+                                    {{--</li>--}}
+                                    {{--<li class="ng-binding"><i class="zmdi zmdi-twitter"></i> @malinda--}}
+                                        {{--(twitter.com/malinda)--}}
+                                    {{--</li>--}}
+                                    {{--<li>--}}
+                                        {{--<i class="zmdi zmdi-pin"></i>--}}
+                                        {{--<address class="m-b-0 ng-binding">--}}
+                                            {{--44-46 Morningside Road <br>--}}
+                                            {{--Edinburgh <br>--}}
+                                            {{--Scotland--}}
+                                        {{--</address>--}}
+                                    {{--</li>--}}
+                                {{--</ul>--}}
+                            {{--</div>--}}
 
                             <form class="form-horizontal">
                                 <fieldset>
