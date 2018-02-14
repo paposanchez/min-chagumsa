@@ -140,7 +140,7 @@ class OrderController extends Controller
         $garages = UserExtra::orderBy(DB::raw('field(area, "서울시")'), 'desc')
             ->join('users', function ($join) {
                 $join->on('user_extras.users_id', 'users.id')
-                    ->where('users.status_cd', Code::getId('user_status', 'active'));
+                    ->where('users.status_cd', Code::getIdByGroupAndName('user_status', 'active'));
             })
             ->orderBy('area', 'asc')->groupBy('area')->get();
 
@@ -161,7 +161,7 @@ class OrderController extends Controller
             ->get();
         $areas = UserExtra::select()->join('users', function ($join) {
             $join->on('user_extras.users_id', 'users.id')
-                ->where('users.status_cd', Code::getId('user_status', 'active'));
+                ->where('users.status_cd', Code::getIdByGroupAndName('user_status', 'active'));
         })
             ->orderBy(DB::raw('field(area, "서울시")'), 'desc')->orderBy('area', 'asc')->groupBy('area')->whereNotNull('aliance_id')->get();
 
@@ -250,7 +250,7 @@ class OrderController extends Controller
                 'orderer_name' => $request->get('orderer_name'),
                 'orderer_mobile' => $request->get('orderer_mobile'),
                 'orderer_email' => $request->get('orcerer_email') ? $request->get('orcerer_email') : $user->email,
-                'status_cd' => Code::getId('order_state', 'ordered'),
+                'status_cd' => Code::getIdByGroupAndName('order_state', 'ordered'),
                 'car_number' => $old_order ? $old_order->car_number : $request->get('car_number'),
                 'brands_id' => $old_order ? $old_order->brands_id : $request->get('brands_id'),
                 'models_id' => $old_order ? $old_order->models_id : $request->get('models_id'),
@@ -280,33 +280,33 @@ class OrderController extends Controller
                     'self_ratio' => $item->self_ratio
                 ]);
                 //diagnosis 생성
-                if ($item->type_cd == Code::getId('report_type', 'diagnosis')) {
+                if ($item->type_cd == Code::getIdByGroupAndName('report_type', 'diagnosis')) {
 
                     $reservation_date = new DateTime($request->get('reservation_at') . ' ' . $request->get('sel_time') . ':00:00');
                     Diagnosis::create([
                         'orders_id' => $order->id,
                         'order_items_id' => $order_item->id,
                         'chakey' => $chakey,
-                        'status_cd' => Code::getId('report_state', 'order'),
+                        'status_cd' => Code::getIdByGroupAndName('report_state', 'order'),
                         'garage_id' => User::where('name', $request->get('garages'))->first()->id,
                         'reservation_at' => $reservation_date->format('Y-m-d H:i:s')
                     ]);
                 }
 
                 //certificate 생성
-                if ($old_diagnosis && $item->type_cd == Code::getId('report_type', 'certificate')) {
+                if ($old_diagnosis && $item->type_cd == Code::getIdByGroupAndName('report_type', 'certificate')) {
                     Certificate::create([
                         'diagnosis_id' => $old_diagnosis->id,
                         'car_numbers_id' => $car_number->id,
                         'chakey' => $chakey,
                         'technist_id' => 41, //윤대권 미리 지정
                         'order_items_id' => $order_item->id,
-                        'status_cd' => Code::getId('report_state', 'order'),
+                        'status_cd' => Code::getIdByGroupAndName('report_state', 'order'),
                     ]);
                 }
 
                 //warranty 생성
-                if ($old_diagnosis && $item->type_cd == Code::getId('report_type', 'warranty')) {
+                if ($old_diagnosis && $item->type_cd == Code::getIdByGroupAndName('report_type', 'warranty')) {
                     $warranty = Warranty::where('diagnosis_id', $old_diagnosis->id)->orderBy('created_at', 'desc')->first();
                     if($warranty && $warranty->expired_at > Carbon::now()){
                         return redirect()->back()->with('error', '적용중인 보증프로그램이 존재합니다.');
@@ -317,7 +317,7 @@ class OrderController extends Controller
                         'car_numbers_id' => $car_number->id,
                         'order_items_id' => $order_item->id,
                         'chakey' => $chakey,
-                        'status_cd' => Code::getId('report_state', 'order'),
+                        'status_cd' => Code::getIdByGroupAndName('report_state', 'order'),
                     ]);
 
                 }

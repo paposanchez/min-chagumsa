@@ -110,7 +110,7 @@ class MemberController extends Controller
                         $user->email    = $requestData['email'];
                         $user->mobile   = $requestData['mobile'];
                         $user->password = bcrypt(substr($requestData['mobile'], -4));
-                        $user->status_cd = Code::getId('user_status','active');
+                        $user->status_cd = Code::getIdByGroupAndName('user_status','active');
                         $user->save();
 
                         // 사용자 역활 추가, role_user 테이블

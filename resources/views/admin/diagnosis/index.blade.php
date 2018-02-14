@@ -137,14 +137,16 @@
 
 
                                         <td class="text-center">
-                                            @if($data->status_cd > 112 && $data->status_cd < 115 )
+                                            @if($data->status_cd > 112 && $data->status_cd != 120)
                                                 <a href="{{ route("diagnosis.edit", [$data->id]) }}" class="btn btn-danger"
-                                                   data-toggle="tooltip" title="인증서 진단정보 수정">진단정보 수정</a>
+                                                   data-toggle="tooltip" title="인증서 진단정보 수정">진단정보 수정/보기</a>
                                             @endif
 
-                                            <a href="{{ url("diagnosis", [$data->id]) }}" class="btn btn-default"
+                                            @if($data->status_cd != 115 && $data->status_cd != 120)
+                                            <a href="{{ url("diagnosis", [$data->id]) }}" class="btn btn-warning"
                                                data-toggle="tooltip"
                                                title="주문상세보기">예약관리</a>
+                                            @endif
                                         </td>
 
 

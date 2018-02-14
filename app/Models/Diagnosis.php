@@ -95,6 +95,11 @@ class Diagnosis extends Model implements IDocument
         return $this->hasMany(Diagnoses::class, 'diagnosis_id', 'id');
     }
 
+    public function reservationUser()
+    {
+        return $this->hasOne(User::class, 'id', 'reservation_user_id');
+    }
+
     // 진단관련 이슈처리
     public static function getExtraStatus($code, $garage_id = '', $is_count = false)
     {

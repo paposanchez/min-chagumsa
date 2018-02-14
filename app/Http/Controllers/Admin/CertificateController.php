@@ -221,7 +221,7 @@ class CertificateController extends Controller
             $certificate = Certificate::findOrFail($id);
             $car = $certificate->carNumber->car;
             $car_number = $certificate->carNumber;
-            $complete_state = Code::getId('report_state', 'complete');
+            $complete_state = Code::getIdByGroupAndName('report_state', 'complete');
 
             if ($certificate->status_cd == $complete_state) {
                 return redirect()->back()->with('error', '발급완료된 인증서입니다.');
@@ -337,7 +337,7 @@ class CertificateController extends Controller
             $certificate = Certificate::findOrFail($id);
             $certificate->update([
                 "technist_id" => Auth::user()->id,
-                'status_cd' => Code::getId('report_state', 'review')
+                'status_cd' => Code::getIdByGroupAndName('report_state', 'review')
             ]);
             DB::commit();
 
@@ -458,7 +458,7 @@ class CertificateController extends Controller
 
             DB::beginTransaction();
             $certificate = Certificate::findOrFail($params['certificate_id']);
-            $certificate->status_cd = Code::getId('report_state', 'complete');
+            $certificate->status_cd = Code::gegetIdByGroupAndNametId('report_state', 'complete');
             $certificate->completed_at = Carbon::now();
             $certificate->expired_at = $certificate->getExpireDate();
             $certificate->save();

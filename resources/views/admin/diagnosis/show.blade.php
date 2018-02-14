@@ -3,169 +3,182 @@
 @section( 'content' )
     <section id="content">
         <div class="container">
-            <div class="row">
-                <div class="col-md-6">
+            <div class="card">
+                <div class="card-header ch-alt">
+                    <h2>진단검토 수정
+                        <!-- <small>새로운 주문을 생성한다..</small> -->
+                    </h2>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>주문정보
-                                <!-- <small>설명</small> -->
-                            </h2>
-                        </div>
+                    <ul class="actions">
+                        <li>
+                            <a href="/review" class="goback">
+                                <i class="zmdi zmdi-view-list"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body card-padding">
+                    <h3>
+                        <span class="text-lg">
+                                <span class="text-danger text-lighter">{{ $diagnosis->status->display() }}</span>
+                                <span class="text-lighter">| </span>
+                            {{ $diagnosis->chakey }}
+                        </span>
 
-                        <div class="card-body card-padding">
+                        <a class="btn btn-default pull-right" href="/diagnosis">뒤로가기</a>
 
-                            {!! Form::open(['method' => 'POST','route' => ['order.user-update', 'id' => $diagnosis->order->id], 'class'=>'form-horizontal', 'id'=>'userForm', 'enctype'=>"multipart/form-data"]) !!}
-                            <fieldset>
-                                <div class="form-group">
-                                    <label for="" class="control-label col-md-3">주문번호</label>
-                                    <div class="col-md-6">
-                                        <p class="form-control-static">{{ $diagnosis->chakey }}</p>
-                                    </div>
-                                </div>
+                    </h3>
 
-                                <div class="form-group">
-                                    <label for="" class="control-label col-md-3">회원</label>
-                                    <div class="col-md-6">
-                                        <p class="form-control-static">{{ $diagnosis->order->orderer->name }}</p>
-                                    </div>
-                                </div>
+                    <div class="bg-white">
+                        <hr>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="block">
+                                    <h4 id="dia-top">주문정보</h4>
+                                    {!! Form::open(['method' => 'POST','route' => ['order.user-update', 'id' => $diagnosis->order->id], 'class'=>'form-horizontal', 'id'=>'userForm', 'enctype'=>"multipart/form-data"]) !!}
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <label for="" class="control-label col-md-3">주문번호</label>
+                                            <div class="col-md-6">
+                                                <p class="form-control-static">{{ $diagnosis->chakey }}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="" class="control-label col-md-3">회원</label>
+                                            <div class="col-md-6">
+                                                <p class="form-control-static">{{ $diagnosis->order->orderer->name }}</p>
+                                            </div>
+                                        </div>
 
 
-                                <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">주문자명</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="" name="name"
-                                               value="{{ $diagnosis->order->orderer_name }}">
-                                        @if ($errors->has('name'))
-                                            <span class="text-danger">
+                                        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                                            <label for="" class="control-label col-md-3">주문자명</label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" placeholder="" name="name"
+                                                       value="{{ $diagnosis->order->orderer_name }}">
+                                                @if ($errors->has('name'))
+                                                    <span class="text-danger">
                                                                                 {{ $errors->first('name') }}
                                                                         </span>
-                                        @endif
-                                    </div>
-                                </div>
+                                                @endif
+                                            </div>
+                                        </div>
 
-                                <div class="form-group {{ $errors->has('mobile') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">주문자연락처</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="" name="mobile"
-                                               value="{{ $diagnosis->order->orderer_mobile }}">
-                                        @if ($errors->has('mobile'))
-                                            <span class="text-danger">
+                                        <div class="form-group {{ $errors->has('mobile') ? 'has-error' : '' }}">
+                                            <label for="" class="control-label col-md-3">주문자연락처</label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" placeholder="" name="mobile"
+                                                       value="{{ $diagnosis->order->orderer_mobile }}">
+                                                @if ($errors->has('mobile'))
+                                                    <span class="text-danger">
                                                                                 {{ $errors->first('mobile') }}
                                                                         </span>
-                                        @endif
-                                    </div>
-                                </div>
+                                                @endif
+                                            </div>
+                                        </div>
 
 
-                                <div class="form-group {{ $errors->has('car_number') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">차량번호</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="" name="car_number"
-                                               value="{{ $diagnosis->order->car_number }}">
-                                        @if ($errors->has('car_number'))
-                                            <span class="text-danger">
+                                        <div class="form-group {{ $errors->has('car_number') ? 'has-error' : '' }}">
+                                            <label for="" class="control-label col-md-3">차량번호</label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" placeholder="" name="car_number"
+                                                       value="{{ $diagnosis->order->car_number }}">
+                                                @if ($errors->has('car_number'))
+                                                    <span class="text-danger">
                                                                                 {{ $errors->first('car_number') }}
                                                                         </span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="form-group {{ $errors->has('vin_number') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">차대번호</label>
-                                    <div class="col-md-6">
-                                        <p class="form-control-static">{{ $diagnosis->carNumber ? $diagnosis->carNumber->cars_id : '-' }}</p>
-                                    </div>
-
-                                </div>
-
-                                <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
-                                    <label for="" class="control-label col-md-3">차량 모델명</label>
-                                    <div class="col-md-6">
-                                        <p class="form-control-static">{{ $diagnosis->order->getCarFullName() }}
-                                            @if($diagnosis->status_cd == 126 || $diagnosis->status_cd < 115 )
-                                                <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
-                                                   data-target="#carModal" id="ch_car">변경</a>
-                                            @endif
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-9 col-md-offset-3">
-                                        <button class="btn btn-primary"
-                                                data-loading-text="{{ trans('common.button.loading') }}"
-                                                id="">주문정보 변경
-                                        </button>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            {!! Form::close() !!}
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>예약정보
-                                <!-- <small>설명</small> -->
-                            </h2>
-                        </div>
-
-                        <div class="card-body card-padding">
-                            <form class="form-horizontal">
-                                <fieldset>
-
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-md-3">정비소</label>
-                                        <div class="col-md-6">
-                                            <p class="form-control-static">{{ $diagnosis->garage->name }}
-                                                @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || ($diagnosis->status_cd == 126 || $diagnosis->status_cd < 115) )
-                                                    <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
-                                                       data-target="#garageModal" id="ch_garage">변경</a>
                                                 @endif
-                                            </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-md-3">진단 상태</label>
-                                        <div class="col-md-6">
-                                            <p class="form-control-static">{{ $diagnosis->status->display() }}</p>
+
+                                        <div class="form-group {{ $errors->has('vin_number') ? 'has-error' : '' }}">
+                                            <label for="" class="control-label col-md-3">차대번호</label>
+                                            <div class="col-md-6">
+                                                <p class="form-control-static">{{ $diagnosis->carNumber ? $diagnosis->carNumber->cars_id : '-' }}</p>
+                                            </div>
+
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-md-3">예약 날짜</label>
-                                        <div class="col-md-6">
-                                            <p class="form-control-static">{{ $diagnosis->reservation_at ? $diagnosis->reservation_at->format('Y-m-d H:m') : '-' }}
-                                                @if( $diagnosis->status_cd > 111 && $diagnosis->status_cd < 114 )
-                                                    <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
-                                                       data-target="#reservationModal" id="ch_reservation">예약변경</a>
-                                                @endif
-                                            </p>
+
+                                        <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+                                            <label for="" class="control-label col-md-3">차량 모델명</label>
+                                            <div class="col-md-6">
+                                                <p class="form-control-static">{{ $diagnosis->order->getCarFullName() }}
+                                                    @if($diagnosis->status_cd == 126 || $diagnosis->status_cd < 115 )
+                                                        <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
+                                                           data-target="#carModal" id="ch_car">변경</a>
+                                                    @endif
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-md-3">확정일자</label>
-                                        <div class="col-md-6">
-                                            <p class="form-control-static">{{ $diagnosis->confirm_at ? $diagnosis->confirm_at->format('Y-m-d H:m') : '-' }}
-                                                @if($diagnosis->status_cd == 112 )
-                                                    <a class='pull-right text-sm text-danger' href="#"
-                                                       id="confirm_reservation">예약확정</a>
-                                                @endif
-                                            </p>
+
+                                        <div class="form-group">
+                                            <div class="col-md-9 col-md-offset-3">
+                                                <button class="btn btn-primary"
+                                                        data-loading-text="{{ trans('common.button.loading') }}"
+                                                        id="">주문정보 변경
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </fieldset>
-                            </form>
+                                    </fieldset>
+                                    {!! Form::close() !!}
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="block">
+                                    <h4 id="dia-top">예약정보</h4>
+                                    <form class="form-horizontal">
+                                        <fieldset>
+
+                                            <div class="form-group">
+                                                <label for="" class="control-label col-md-3">정비소</label>
+                                                <div class="col-md-6">
+                                                    <p class="form-control-static">{{ $diagnosis->garage->name }}
+                                                        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || ($diagnosis->status_cd == 126 || $diagnosis->status_cd < 115) )
+                                                            <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
+                                                               data-target="#garageModal" id="ch_garage">변경</a>
+                                                        @endif
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="control-label col-md-3">진단 상태</label>
+                                                <div class="col-md-6">
+                                                    <p class="form-control-static">{{ $diagnosis->status->display() }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="control-label col-md-3">예약 날짜</label>
+                                                <div class="col-md-6">
+                                                    <p class="form-control-static">{{ $diagnosis->reservation_at ? $diagnosis->reservation_at->format('Y-m-d H:m') : '-' }}
+                                                        @if( $diagnosis->status_cd > 111 && $diagnosis->status_cd < 114 )
+                                                            <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
+                                                               data-target="#reservationModal" id="ch_reservation">예약변경</a>
+                                                        @endif
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="control-label col-md-3">확정일자</label>
+                                                <div class="col-md-6">
+                                                    <p class="form-control-static">{{ $diagnosis->confirm_at ? $diagnosis->confirm_at->format('Y-m-d H:m') : '-' }}
+                                                        @if($diagnosis->status_cd == 112 )
+                                                            <a class='pull-right text-sm text-danger' href="#"
+                                                               id="confirm_reservation">예약확정</a>
+                                                        @endif
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="text-center">
-                <a class="btn btn-default" href="/diagnosis">뒤로가기</a>
             </div>
         </div>
     </section>
@@ -393,15 +406,11 @@
         </div>
     </div>
 
-    {!! Form::open(['route' => ["order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
-    <input type="hidden" name="order_id" id="cancel-order_id">
-    {!! Form::close() !!}
-
     {!! Form::open(['route' => ["diagnosis.confirm-reservation"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'confirm-form']) !!}
     <input type="hidden" name="diagnosis_id" id="diagnosis_id" value="{{ $diagnosis->id }}">
     {!! Form::close() !!}
-
 @endsection
+
 
 @push( 'footer-script' )
     <script type="text/javascript">

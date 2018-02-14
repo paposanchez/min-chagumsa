@@ -360,11 +360,11 @@ class DiagnosesController extends Controller
                     'sel_hour' => '예약시간'
                 ]);
 
-            $reservation_date = new DateTime($request->get('reservation_date') . ' ' . $request->get('sel_hour') . ':00:00');
+            $reservation_date = new DateTime($request->get('reservation_at') . ' ' . $request->get('sel_hour') . ':00:00');
 
             $diagnosis = Diagnosis::findOrFail($request->get('id'));
             $diagnosis->reservation_at = $reservation_date;
-            $diagnosis->status_cd = Code::getId('report_state', 'order');
+            $diagnosis->status_cd = Code::getIdByGroupAndName('report_state', 'order');
             $diagnosis->reservation_user_id = Auth::user()->id;
             $diagnosis->confirm_at = null;
             $diagnosis->save();
@@ -394,7 +394,7 @@ class DiagnosesController extends Controller
                 ]);
 
             $diagnosis = Diagnosis::findOrFail($request->get('diagnosis_id'));
-            $diagnosis->status_cd = Code::getId('report_state', 'confirm');
+            $diagnosis->status_cd = Code::getIdByGroupAndName('report_state', 'confirm');
             $diagnosis->confirm_at = Carbon::now();
             $diagnosis->reservation_user_id = Auth::user()->id;
             $diagnosis->save();
@@ -423,7 +423,7 @@ class DiagnosesController extends Controller
             $garage = User::where('name', $request->get('garages'))->first();
             $diagnosis = Diagnosis::findOrFail($request->get('id'));
             $diagnosis->garage_id = $garage->id;
-            $diagnosis->status_cd = Code::getId('report_state', 'order');
+            $diagnosis->status_cd = Code::getIdByGroupAndName('report_state', 'order');
             $diagnosis->confirm_at = null;
             $diagnosis->reservation_at = null;
             $diagnosis->reservation_user_id = Auth::user()->id;

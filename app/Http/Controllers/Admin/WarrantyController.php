@@ -103,7 +103,7 @@ class WarrantyController extends Controller
     }
 
     public function show(Request $request, $id){
-        dd($id);
+        return view('admin.warranty.edit');
     }
 
     /**

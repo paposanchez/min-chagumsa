@@ -28,7 +28,7 @@ class ReviewController extends Controller
         $user = Auth::user();
 
         $sort = $request->get('sort');
-        $where = Diagnosis::whereIn('status_cd', [Code::getId('report_state', 'review_complete'), Code::getId('report_state', 'complete')]);
+        $where = Diagnosis::whereIn('status_cd', [Code::getIdByGroupAndName('report_state', 'review_complete'), Code::getIdByGroupAndName('report_state', 'complete')]);
         if (!$sort) {
             $where->orderBy('created_at', 'DESC');
         }
@@ -162,7 +162,6 @@ class ReviewController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd($request->all());
         $this->validate($request, [
             'vin_number' => 'required',
             'mileage' => 'required',
@@ -172,20 +171,26 @@ class ReviewController extends Controller
             'kind_cd' => 'required',
             'cars_displacement' => 'required',
             'cars_exterior_color' => 'required',
-            'car_exterior_color_etc' => 'required',
-
+//            'car_exterior_color_etc' => 'required',
             'cars_transmission_cd' => 'required',
             'cars_fueltype_cd' => 'required',
-            'car_fueltype_etc' => 'required',
+//            'car_fueltype_etc' => 'required',
             'passenger' => 'required',
-            '' => 'required',
-            '' => 'required',
-
-
         ], [],
             [
                 'vin_number' => '차대번호',
-                'mileage' => '주행거리'
+                'mileage' => '주행거리',
+                'certificates_vin_yn_cd' => '차대번호 동일성확인',
+                'cars_registration_date' => '최초등록일',
+                'cars_year' => '연식',
+                'kind_cd' => '차종',
+                'cars_displacement' => '배기량',
+                'cars_exterior_color' => '외부색상',
+//                'car_exterior_color_etc' => '외부색상 기타',
+                'cars_transmission_cd' => '변속기',
+                'cars_fueltype_cd' => '사용연료',
+//                'car_fueltype_etc' => '연료타입기타',
+                'passenger' => '승차인원'
             ]);
 
         try {
@@ -199,7 +204,18 @@ class ReviewController extends Controller
                 'brands_id' => $order->models_id,
                 'models_id' => $order->models_id,
                 'details_id' => $order->details_id,
-                'grades_id' => $order->grades_id
+                'grades_id' => $order->grades_id,
+                'certificates_vin_yn_cd' => $request->get('certificates_vin_yn_cd'),
+                'cars_registration_date' => $request->get('cars_registration_date'),
+                'cars_year' => $request->get('cars_year'),
+                'kind_cd' => $request->get('kind_cd'),
+                'cars_displacement' => $request->get('cars_displacement'),
+                'cars_exterior_color' => $request->get('cars_exterior_color'),
+                'car_exterior_color_etc' => $request->get('car_exterior_color_etc') ? $request->get('car_exterior_color_etc') : '',
+                'cars_transmission_cd' => $request->get('cars_transmission_cd'),
+                'cars_fueltype_cd' => $request->get('cars_fueltype_cd'),
+                'car_fueltype_etc' => $request->get('car_fueltype_etc') ? $request->get('car_fueltype_etc') : '',
+                'passenger' => $request->get('passenger')
             ]);
             $car_number = CarNumber::create([
                 'cars_id' => $car->id,
@@ -208,7 +224,7 @@ class ReviewController extends Controller
             ]);
 
             $diagnosis->car_numbers_id = $car_number->id;
-            $diagnosis->status_cd = Code::getId('report_state', 'complete');
+            $diagnosis->status_cd = Code::getIdByGroupAndName('report_state', 'complete');
             $diagnosis->mileage = $request->get('mileage');
             $diagnosis->issued_at = Carbon::now();
             $diagnosis->expired_at = Carbon::now()->addDays($diagnosis->expire_period);

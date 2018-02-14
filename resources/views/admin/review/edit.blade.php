@@ -68,22 +68,25 @@
                             <div class="col-md-6">
                                 <div class="block">
                                     <h4 id="dia-top">기본정보</h4>
-                                    <ul class="list-group">
-                                        {{--<li class="list-group-item">--}}
-                                            {{--<small>수입차 차대번호</small>--}}
-                                            {{--<input type="text" class="form-control" placeholder="수입차 차대번호를 입력해 주세요."--}}
-                                                   {{--name="car_imported_vin_number"--}}
-                                                   {{--value="{{ $car->imported_vin_number ? $car->imported_vin_number : '' }}">--}}
-                                        {{--</li>--}}
 
-                                        <li class="list-group-item">
-                                            <small>차대번호 동일성확인</small>
+                                    <div class="form-group {{ $errors->has('certificates_vin_yn_cd') ? 'has-error' : '' }}">
+                                        <label for="inputSubject"
+                                               class="control-label col-md-2">차대번호 동일성확인</label>
+                                        <div class="col-md-9">
                                             {!! Form::select('certificates_vin_yn_cd', $select_vin_yn, [], ['class' =>'form-control']) !!}
 
-                                        </li>
+                                            @if ($errors->has('certificates_vin_yn_cd'))
+                                                <span class="help-block">
+                                                        {{ $errors->first('certificates_vin_yn_cd') }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
 
-                                        <li class="list-group-item">
-                                            <small>최초등록일</small>
+                                    <div class="form-group {{ $errors->has('cars_registration_date') ? 'has-error' : '' }}">
+                                        <label for="inputSubject"
+                                               class="control-label col-md-2">최초등록일</label>
+                                        <div class="col-md-9">
                                             <div class="input-group">
                                                 <input type="text" class="form-control datepicker"
                                                        data-format="YYYY-MM-DD"
@@ -92,80 +95,154 @@
                                                        required="required">
                                                 <span class="input-group-addon"><i class='fa fa-calendar'></i></span>
                                             </div>
-                                        </li>
 
+                                            @if ($errors->has('cars_registration_date'))
+                                                <span class="help-block">
+                                                        {{ $errors->first('cars_registration_date') }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
 
-                                        <li class="list-group-item">
-                                            <small>연식(형식)</small>
+                                    <div class="form-group {{ $errors->has('cars_year') ? 'has-error' : '' }}">
+                                        <label for="inputSubject"
+                                               class="control-label col-md-2">연식(형식)</label>
+                                        <div class="col-md-9">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" name="cars_year"
                                                        value="" required>
                                                 <span class="input-group-addon">년</span>
                                             </div>
 
-                                        </li>
+                                            @if ($errors->has('cars_year'))
+                                                <span class="help-block">
+                                                        {{ $errors->first('cars_year') }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
 
-                                        <li class="list-group-item">
-                                            <small>차종</small>
+                                    <div class="form-group {{ $errors->has('kind_cd') ? 'has-error' : '' }}">
+                                        <label for="inputSubject"
+                                               class="control-label col-md-2">차종</label>
+                                        <div class="col-md-9">
                                             {!! Form::select('kind_cd', $kinds, [], ['class'=>'form-control']) !!}
-                                        </li>
 
-                                        {{--<li class="list-group-item">--}}
-                                            {{--<small>주행거리</small>--}}
-                                            {{--<div class="input-group">--}}
-                                                {{--<p class="form-control-static"></p>--}}
-                                                {{--<span class="input-group-addon">km</span>--}}
-                                            {{--</div>--}}
+                                            @if ($errors->has('kind_cd'))
+                                                <span class="help-block">
+                                                        {{ $errors->first('kind_cd') }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
 
-                                        {{--</li>--}}
-
-                                        <li class="list-group-item">
-                                            <small>배기량</small>
+                                    <div class="form-group {{ $errors->has('cars_displacement') ? 'has-error' : '' }}">
+                                        <label for="inputSubject"
+                                               class="control-label col-md-2">배기량</label>
+                                        <div class="col-md-9">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" name="cars_displacement"
                                                        value="" required>
                                                 <span class="input-group-addon">cc</span>
                                             </div>
 
-                                        </li>
+                                            @if ($errors->has('cars_displacement'))
+                                                <span class="help-block">
+                                                        {{ $errors->first('cars_displacement') }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
 
-                                        <li class="list-group-item">
-                                            <small>외부색상</small>
+                                    <div class="form-group {{ $errors->has('cars_exterior_color') ? 'has-error' : '' }}">
+                                        <label for="inputSubject"
+                                               class="control-label col-md-2">외부색상</label>
+                                        <div class="col-md-9">
                                             {!! Form::select('cars_exterior_color', $select_color, [], ['class'=>'form-control', 'id'=>'cars_exterior_color', 'required']) !!}
-                                        </li>
 
-                                        <li class="list-group-item" id="exterior_color_etc" style="display: none;">
-                                            <small>외부 기타 색상</small>
-                                            <input type="text" class="form-control" name="car_exterior_color_etc"
-                                                   value="">
-                                        </li>
+                                            @if ($errors->has('cars_exterior_color'))
+                                                <span class="help-block">
+                                                        {{ $errors->first('cars_exterior_color') }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
 
-                                        <li class="list-group-item">
-                                            <small>변속기</small>
+                                    {{--<div class="form-group {{ $errors->has('car_exterior_color_etc') ? 'has-error' : '' }}">--}}
+                                        {{--<label for="inputSubject"--}}
+                                               {{--class="control-label col-md-2">외부 기타 색상</label>--}}
+                                        {{--<div class="col-md-9">--}}
+                                            {{--<input type="text" class="form-control" name="car_exterior_color_etc"--}}
+                                                       {{--value="">--}}
+                                            {{--@if ($errors->has('car_exterior_color_etc'))--}}
+                                                {{--<span class="help-block">--}}
+                                                        {{--{{ $errors->first('car_exterior_color_etc') }}--}}
+                                                {{--</span>--}}
+                                            {{--@endif--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                    <div class="form-group {{ $errors->has('cars_transmission_cd') ? 'has-error' : '' }}">
+                                        <label for="inputSubject"
+                                               class="control-label col-md-2">변속기</label>
+                                        <div class="col-md-9">
                                             {!! Form::select('cars_transmission_cd', $select_transmission, [], ['class'=>'form-control', 'required']) !!}
-                                        </li>
 
-                                        <li class="list-group-item">
-                                            <small>사용연료</small>
+                                            @if ($errors->has('cars_transmission_cd'))
+                                                <span class="help-block">
+                                                        {{ $errors->first('cars_transmission_cd') }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group {{ $errors->has('cars_fueltype_cd') ? 'has-error' : '' }}">
+                                        <label for="inputSubject"
+                                               class="control-label col-md-2">사용연료</label>
+                                        <div class="col-md-9">
+
                                             {!! Form::select('cars_fueltype_cd', $select_fueltype, [], ['class' => 'form-control', 'id' => 'cars_fueltype_cd', 'required']) !!}
-                                        </li>
 
-                                        <li class="list-group-item" id="fueltype_etc" style="display: none;">
-                                            <small>기타 연료</small>
-                                            <input type="text" class="form-control" name="car_fueltype_etc"
-                                                   value="">
-                                        </li>
+                                            @if ($errors->has('cars_fueltype_cd'))
+                                                <span class="help-block">
+                                                        {{ $errors->first('cars_fueltype_cd') }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
 
-                                        <li class="list-group-item">
-                                            <small>승차인원</small>
+                                    {{--<div class="form-group {{ $errors->has('car_fueltype_etc') ? 'has-error' : '' }}">--}}
+                                        {{--<label for="inputSubject"--}}
+                                               {{--class="control-label col-md-2">기타 연료</label>--}}
+                                        {{--<div class="col-md-9">--}}
+                                            {{--<input type="text" class="form-control" name="car_fueltype_etc"--}}
+                                                       {{--value="">--}}
+                                            {{--@if ($errors->has('car_fueltype_etc'))--}}
+                                                {{--<span class="help-block">--}}
+                                                        {{--{{ $errors->first('car_fueltype_etc') }}--}}
+                                                {{--</span>--}}
+                                            {{--@endif--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+
+                                    <div class="form-group {{ $errors->has('passenger') ? 'has-error' : '' }}">
+                                        <label for="inputSubject"
+                                               class="control-label col-md-2">승차인원</label>
+                                        <div class="col-md-9">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" name="passenger"
                                                        value="" placeholder="" required>
                                                 <span class="input-group-addon">명</span>
                                             </div>
+                                            @if ($errors->has('passenger'))
+                                                <span class="help-block">
+                                                        {{ $errors->first('passenger') }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
 
-                                        </li>
-                                    </ul>
                                 </div>
 
                             </div>
