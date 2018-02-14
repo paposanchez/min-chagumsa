@@ -105,6 +105,9 @@
                         </div>
                     </div>
 
+
+                </div>
+                <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
                             <h2>예약정보
@@ -121,8 +124,8 @@
                                         <div class="col-md-6">
                                             <p class="form-control-static">{{ $diagnosis->garage->name }}
                                                 @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || ($diagnosis->status_cd == 126 || $diagnosis->status_cd < 115) )
-                                                <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
-                                                   data-target="#garageModal" id="ch_garage">변경</a>
+                                                    <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
+                                                       data-target="#garageModal" id="ch_garage">변경</a>
                                                 @endif
                                             </p>
                                         </div>
@@ -138,8 +141,8 @@
                                         <div class="col-md-6">
                                             <p class="form-control-static">{{ $diagnosis->reservation_at ? $diagnosis->reservation_at->format('Y-m-d H:m') : '-' }}
                                                 @if( $diagnosis->status_cd > 111 && $diagnosis->status_cd < 114 )
-                                                <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
-                                                   data-target="#reservationModal" id="ch_reservation">예약변경</a>
+                                                    <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
+                                                       data-target="#reservationModal" id="ch_reservation">예약변경</a>
                                                 @endif
                                             </p>
                                         </div>
@@ -149,8 +152,8 @@
                                         <div class="col-md-6">
                                             <p class="form-control-static">{{ $diagnosis->confirm_at ? $diagnosis->confirm_at->format('Y-m-d H:m') : '-' }}
                                                 @if($diagnosis->status_cd == 112 )
-                                                <a class='pull-right text-sm text-danger' href="#"
-                                                   id="confirm_reservation">예약확정</a>
+                                                    <a class='pull-right text-sm text-danger' href="#"
+                                                       id="confirm_reservation">예약확정</a>
                                                 @endif
                                             </p>
                                         </div>
@@ -160,48 +163,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>타임라인
-                                <!-- <small>설명</small> -->
-                            </h2>
-                        </div>
-
-                        <div class="card-body card-padding">
-
-
-                            <div class="pmo-contact">
-                                <ul>
-                                    <li class="ng-binding"><i class="zmdi zmdi-phone"></i> 00971123456789</li>
-                                    <li class="ng-binding"><i class="zmdi zmdi-email"></i> malinda.h@gmail.com</li>
-                                    <li class="ng-binding"><i class="zmdi zmdi-facebook-box"></i> malinda.hollaway
-                                    </li>
-                                    <li class="ng-binding"><i class="zmdi zmdi-twitter"></i> @malinda
-                                        (twitter.com/malinda)
-                                    </li>
-                                    <li>
-                                        <i class="zmdi zmdi-pin"></i>
-                                        <address class="m-b-0 ng-binding">
-                                            44-46 Morningside Road <br>
-                                            Edinburgh <br>
-                                            Scotland
-                                        </address>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <form class="form-horizontal">
-                                <fieldset>
-                                    @component('components.time_line', [
-                                        'order_item' => $diagnosis->orderItem
-                                        ])
-                                    @endcomponent
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <div class="text-center">
+                <a class="btn btn-default" href="/diagnosis">뒤로가기</a>
             </div>
         </div>
     </section>
