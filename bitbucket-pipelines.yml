@@ -6,5 +6,4 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - php -r "file_exists('.env') || copy('.env.example', '.env');"
           - composer install
-          - php artisan key:generate
           - phpunit
