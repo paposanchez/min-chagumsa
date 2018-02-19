@@ -84,7 +84,7 @@
                         </div>
 
                         <div class="form-group {{ $errors->has('commission') ? 'has-error' : '' }}">
-                            <label for="inputEmail3" class="col-sm-2 control-label">PG수수료</label>
+                            <label for="inputEmail3" class="col-sm-2 control-label">PG 수수료</label>
                             <div class="col-sm-10">
                                 <div class="fg-line">
                                     <input type="number" step="0.01" name="commission" value="{{ $item->commission }}"
@@ -99,13 +99,44 @@
                             </div>
                         </div>
 
+                        <div class="form-group {{ $errors->has('cost') ? 'has-error' : '' }}">
+                            <label for="inputEmail3" class="col-sm-2 control-label">카히스토리 고정비용</label>
+                            <div class="col-sm-10">
+                                <div class="fg-line">
+                                    <input type="number" name="cost" value="{{ $item->cost }}" placeholder="키히스토리 고정비용"
+                                           autocomplete="off" class="form-control">
+                                </div>
+
+                                @if ($errors->has('cost'))
+                                    <span class="text-danger">
+                                                                {{ $errors->first('cost') }}
+                                                        </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group {{ $errors->has('wage') ? 'has-error' : '' }}">
+                            <label for="inputEmail3" class="col-sm-2 control-label">정비소 공임비용</label>
+                            <div class="col-sm-10">
+                                <div class="fg-line">
+                                    <input type="number" name="wage" value="{{ $item->wage }}" placeholder="정비소 공임비용"
+                                           autocomplete="off" class="form-control">
+                                </div>
+
+                                @if ($errors->has('price'))
+                                    <span class="text-danger">
+                                                                {{ $errors->first('price') }}
+                                                        </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group {{ $errors->has('guarantee') ? 'has-error' : '' }}">
-                            <label for="inputEmail3" class="col-sm-2 control-label">보증료</label>
+                            <label for="inputEmail3" class="col-sm-2 control-label">BNP 보증료</label>
                             <div class="col-sm-10">
                                 <div class="fg-line">
                                     <input type="number" name="guarantee" value="{{ $item->guarantee }}"
-                                           placeholder="보증료" autocomplete="off" class="form-control">
+                                           placeholder="BNP 보증료" autocomplete="off" class="form-control">
                                 </div>
 
                                 @if ($errors->has('guarantee'))
@@ -116,27 +147,11 @@
                             </div>
                         </div>
 
-                        <div class="form-group {{ $errors->has('wage') ? 'has-error' : '' }}">
-                            <label for="inputEmail3" class="col-sm-2 control-label">공임</label>
-                            <div class="col-sm-10">
-                                <div class="fg-line">
-                                    <input type="number" name="wage" value="{{ $item->wage }}" placeholder="가격"
-                                           autocomplete="off" class="form-control">
-                                </div>
-
-                                @if ($errors->has('wage'))
-                                    <span class="text-danger">
-                                                                {{ $errors->first('wage') }}
-                                                        </span>
-                                @endif
-                            </div>
-                        </div>
-
                         <div class="form-group {{ $errors->has('alliance_ratio') ? 'has-error' : '' }}">
                             <label for="inputEmail3" class="col-sm-2 control-label">얼라이언스 Com</label>
                             <div class="col-sm-10">
                                 <div class="fg-line">
-                                    <input type="number" step="0.01" name="alliance_ratio" value="{{ $item->alliance_ratio }}"
+                                    <input type="number" step="0.001" name="alliance_ratio" value="{{ $item->alliance_ratio }}"
                                            placeholder="가격" autocomplete="off" class="form-control">
                                 </div>
 
@@ -185,14 +200,14 @@
                             <div class="col-sm-10">
                                 <div class="checkbox checkbox-slider--b-flat" style="padding-top: 7px !important;">
                                     <div class="toggle-switch toggle-switch-demo" data-ts-color="blue">
-                                        <input id="ts4" name="is_use" type="checkbox" hidden="hidden" {{ $item->is_use == 1 ? 'checked="checked"' : '' }} value="1">
+                                        <input id="ts4" name="status_cd" type="checkbox" hidden="hidden" {{ $item->status_cd == 1 ? 'checked="checked"' : '' }} value="1">
                                         <label for="ts4" class="ts-helper"></label>
                                     </div>
                                 </div>
 
-                                @if ($errors->has('is_use'))
+                                @if ($errors->has('status_cd'))
                                     <span class="text-danger">
-                                                                {{ $errors->first('is_use') }}
+                                                                {{ $errors->first('status_cd') }}
                                                         </span>
                                 @endif
                             </div>

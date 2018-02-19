@@ -82,11 +82,11 @@
                         </div>
 
                         <div class="form-group {{ $errors->has('commission') ? 'has-error' : '' }}">
-                            <label for="inputEmail3" class="col-sm-2 control-label">PG수수료</label>
+                            <label for="inputEmail3" class="col-sm-2 control-label">PG 수수료</label>
                             <div class="col-sm-10">
                                 <div class="fg-line">
                                     <input type="number" step="0.01" name="commission" value="{{ old('commission') }}"
-                                           placeholder="PG수수료" autocomplete="off" class="form-control">
+                                           placeholder="PG 수수료" autocomplete="off" class="form-control">
                                 </div>
 
                                 @if ($errors->has('commission'))
@@ -97,28 +97,27 @@
                             </div>
                         </div>
 
-
-                        <div class="form-group {{ $errors->has('guarantee') ? 'has-error' : '' }}">
-                            <label for="inputEmail3" class="col-sm-2 control-label">보증료</label>
+                        <div class="form-group {{ $errors->has('cost') ? 'has-error' : '' }}">
+                            <label for="inputEmail3" class="col-sm-2 control-label">카히스토리 고정비용</label>
                             <div class="col-sm-10">
                                 <div class="fg-line">
-                                    <input type="number" name="guarantee" value="{{ old('guarantee') }}"
-                                           placeholder="보증료" autocomplete="off" class="form-control">
+                                    <input type="number" name="cost" value="{{ old('cost') }}" placeholder="키히스토리 고정비용"
+                                           autocomplete="off" class="form-control">
                                 </div>
 
-                                @if ($errors->has('guarantee'))
+                                @if ($errors->has('cost'))
                                     <span class="text-danger">
-                                                                {{ $errors->first('guarantee') }}
+                                                                {{ $errors->first('cost') }}
                                                         </span>
                                 @endif
                             </div>
                         </div>
 
                         <div class="form-group {{ $errors->has('wage') ? 'has-error' : '' }}">
-                            <label for="inputEmail3" class="col-sm-2 control-label">공임</label>
+                            <label for="inputEmail3" class="col-sm-2 control-label">정비소 공임비용</label>
                             <div class="col-sm-10">
                                 <div class="fg-line">
-                                    <input type="number" name="wage" value="{{ old('wage') }}" placeholder="공임"
+                                    <input type="number" name="wage" value="{{ old('wage') }}" placeholder="정비소 공임비용"
                                            autocomplete="off" class="form-control">
                                 </div>
 
@@ -130,11 +129,29 @@
                             </div>
                         </div>
 
+                        <div class="form-group {{ $errors->has('guarantee') ? 'has-error' : '' }}">
+                            <label for="inputEmail3" class="col-sm-2 control-label">BNP 보증료</label>
+                            <div class="col-sm-10">
+                                <div class="fg-line">
+                                    <input type="number" name="guarantee" value="{{ old('guarantee') }}"
+                                           placeholder="BNP 보증료" autocomplete="off" class="form-control">
+                                </div>
+
+                                @if ($errors->has('guarantee'))
+                                    <span class="text-danger">
+                                                                {{ $errors->first('guarantee') }}
+                                                        </span>
+                                @endif
+                            </div>
+                        </div>
+
+
                         <div class="form-group {{ $errors->has('alliance_ratio') ? 'has-error' : '' }}">
                             <label for="inputEmail3" class="col-sm-2 control-label">얼라이언스 Com</label>
                             <div class="col-sm-10">
                                 <div class="fg-line">
-                                    <input type="number" step="0.01" name="alliance_ratio" value="{{ old('alliance_ratio') }}"
+                                    <input type="number" step="0.001" name="alliance_ratio"
+                                           value="{{ old('alliance_ratio') }}"
                                            placeholder="얼라이언스 Com" autocomplete="off" class="form-control">
                                 </div>
 
@@ -150,7 +167,8 @@
                             <label for="inputEmail3" class="col-sm-2 control-label">기술사 Com</label>
                             <div class="col-sm-10">
                                 <div class="fg-line">
-                                    <input type="number" step="0.001" name="certi_ratio" value="{{ old('certi_ratio') }}"
+                                    <input type="number" step="0.001" name="certi_ratio"
+                                           value="{{ old('certi_ratio') }}"
                                            placeholder="기술사 Com" autocomplete="off" class="form-control">
                                 </div>
 
@@ -166,7 +184,8 @@
                             <label for="inputEmail3" class="col-sm-2 control-label">수익</label>
                             <div class="col-sm-10">
                                 <div class="fg-line">
-                                    <input type="number" step="0.001" name="self_ratio" value="{{ old('self_ratio') }}" placeholder="수익"
+                                    <input type="number" step="0.001" name="self_ratio" value="{{ old('self_ratio') }}"
+                                           placeholder="수익"
                                            autocomplete="off" class="form-control">
                                 </div>
 
