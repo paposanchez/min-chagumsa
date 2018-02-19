@@ -13,7 +13,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::group(['middleware' => ['role:admin','role:tech','role:alliance', 'role:bcs']], function () {
 
                 // 정산관리
-                Route::resource('calculation', 'CalculationController');
+                // Route::resource('calculation', 'CalculationController');
         });
 
         // 프로파일

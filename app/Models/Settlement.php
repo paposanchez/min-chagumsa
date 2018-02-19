@@ -16,7 +16,6 @@ use App\Models\SettlementFeature;
 class Settlement extends Model
 {
         protected $fillable = [
-                'id',
                 'user_id',
                 'amount',
                 'description',
@@ -26,6 +25,12 @@ class Settlement extends Model
         protected $dates = [
                 'created_at', 'updated_at'
         ];
+
+
+        public function status()
+        {
+                return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd');
+        }
 
         public function settlement_feature(){
                 return $this->hasOne(\App\Models\SettlementFeature::class);

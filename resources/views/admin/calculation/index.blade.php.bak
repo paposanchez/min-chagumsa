@@ -34,8 +34,10 @@
                 <div class="tab-content p-t-0 p-b-20 p-r-0 p-l-0">
 
                         <div role="tabpanel" class="tab-pane animated fadeIn active" id="tab-1">
-                                <table class="table text-center">
+                                <table class="table">
                                         <colgroup>
+                                                <col width="8%">
+                                                <col width="*">
                                                 <col width="8%">
                                                 <col width="15%">
                                                 <col width="10%">
@@ -43,20 +45,19 @@
                                                 <col width="10%">
                                                 <col width="10%">
                                                 <col width="10%">
-                                                <col width="*">
                                         </colgroup>
 
                                         <thead>
                                                 <tr class="active">
                                                         <th class="text-center">상태</th>
-                                                        <th class="text-center">정산번호</th>
-                                                        <th class="text-center">정산대상</th>
-                                                        <th class="text-center">정산가액</th>
-                                                        <th class="text-center">공제금액</th>
-                                                        <th class="text-center">정산금액</th>
-                                                        <th class="text-center">정산신청일</th>
-                                                        <th class="text-center">정산완료일</th>
-                                                        <th class="text-center">Remarks</th>
+                                                        <th class="text-center">주문번호</th>
+                                                        <th class="text-center">인증서</th>
+                                                        <th class="text-center">가격</th>
+                                                        <th class="text-center">정비소 공임비용</th>
+                                                        <th class="text-center">BNP 보증료</th>
+                                                        <th class="text-center">얼라이언스 Com</th>
+                                                        <th class="text-center">기술사 Com</th>
+                                                        <th class="text-center">정산일</th>
                                                 </tr>
                                         </thead>
 
@@ -70,19 +71,24 @@
 
                                                 @foreach($entrys as $data)
                                                 <tr>
-                                                        <td>{{ $data->status->display() }}</td>
-                                                        <td>{{ $data->id }}</td>
-                                                        <td>{{ $data->user->name }}</td>
-                                                        <td>{{ $data->subtotal }}</td>
-                                                        <td>{{ $data->deduction }}</td>
-                                                        <td>{{ $data->amount }}</td>
-                                                        <td>{{ $data->created_at }}</td>
-                                                        <td>{{ $data->updated_at }}</td>
-                                                        <td>
-                                                                <button class="btn btn-warning" data-toggle="tooltip" title="상세목록">상세목록</button>
-                                                                <button class="btn btn-warning" data-toggle="tooltip" title="정산취소">취소</button>
-                                                                <button class="btn btn-warning" data-toggle="tooltip" title="정산완료">완료</button>
+                                                        <td class="text-center">
+                                                                @component('components.badge', [
+                                                                'code' => $data->status_cd,
+                                                                'color' =>[
+                                                                'true' => 'success',
+                                                                'false' => 'default',
+                                                                ]])
+                                                                {{ $data->status->display() }}
+                                                                @endcomponent
                                                         </td>
+                                                        <td class="text-center">{{ $data->order->chakey }}</td>
+                                                        <td class="text-center"></td>
+                                                        <td class="text-center">{{ $data->price }}</td>
+                                                        <td class="text-center">{{ $data->wage }}</td>
+                                                        <td class="text-center">{{ $data->guarantee }}</td>
+                                                        <td class="text-center">{{ $data->certi_ratio }}%</td>
+                                                        <td class="text-center">{{ $data->alliance_ratio }}%</td>
+                                                        <td class="text-center">정산날짜</td>
                                                 </tr>
                                                 @endforeach
                                         </tbody>
