@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
         //https://laravel-news.com/laravel-5-4-key-too-long-error
         // Schema::defaultStringLength(191);
 
-        URL::forceScheme(env('APP_HTTPS', 'https'));
+        URL::forceScheme(env('APP_SECURE', false) === true ? 'https' : 'http');
 
         // add observers
         Order::observe(OrderObserver::class);
