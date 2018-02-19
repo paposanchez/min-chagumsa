@@ -128,6 +128,11 @@
                                         <td>
                                             <a href="{{ url("order", [$data->id]) }}" class="btn btn-default"
                                                data-toggle="tooltip" title="주문상세보기">상세보기</a>
+                                            @if($data->diagnosis && $data->diagnosis->status_cd != [115, 120])
+                                                <a href="{{ url("diagnosis", [$data->diagnosis->id]) }}" class="btn btn-warning"
+                                                   data-toggle="tooltip"
+                                                   title="주문상세보기">예약관리</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

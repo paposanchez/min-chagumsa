@@ -4,8 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\CertificateRepository;
 use Illuminate\Support\Facades\Storage;
-
-
 use App\Helpers\Helper;
 use File AS FileHandler;
 use App\Models\DiagnosesFile;
@@ -15,63 +13,67 @@ use App\Repositories\CertiRedisRepository;
 Route::get('/thumbnail/{id?}', function ($id) {
 
 
-        $image = public_path('assets/img/noimage.png');
-        if ($id) {
+    $image = public_path('assets/img/noimage.png');
+    if ($id) {
 
-                $file = DiagnosesFile::findOrFail($id);
+        $file = DiagnosesFile::findOrFail($id);
 
-                if ($file) {
-                        $allowedMimeTypes = ['image/jpeg', 'image/gif', 'image/png', 'image/bmp', 'image/svg+xml'];
-                        if (in_array($file->mime, $allowedMimeTypes)) {
-                                // 실제파일 위치
-                                $image = storage_path('app/diagnosis' . $file->path) . '/' . $file->source;
-                        } else {
-                                return $this->makeImageWithText($file->extension);
-                        }
-                }
+        if ($file) {
+            $allowedMimeTypes = ['image/jpeg', 'image/gif', 'image/png', 'image/bmp', 'image/svg+xml'];
+            if (in_array($file->mime, $allowedMimeTypes)) {
+                // 실제파일 위치
+                $image = storage_path('app/diagnosis' . $file->path) . '/' . $file->source;
+            } else {
+                return $this->makeImageWithText($file->extension);
+            }
         }
+    }
 
-        return response()->file($image);
+    return response()->file($image);
 
 });
 
 
 Route::any('/{fullkey}/{flush?}', function ($fullkey, $flush = '') {
 
-        $pattern = '/^([0-9],8)-([0-9],4)-([0-9A-Z],6)-([D|W|C],1)';
+    $pattern = '/^([0-9],8)-([0-9],4)-([0-9A-Z],6)-([D|W|C],1)';
 
-        if(preg_match($pattern, $fullkey) === true)
-        {
-                $chakeys = explode($pattern, '-');
-                $chakey = $chakeys[0] .'-'. $chakeys[1] .'-'. $chakeys[2];
-                $chakey_type = $chakeys[3];
+    if (preg_match($pattern, $fullkey) === true) {
+        $chakeys = explode($pattern, '-');
+        $chakey = $chakeys[0] . '-' . $chakeys[1] . '-' . $chakeys[2];
+        $chakey_type = $chakeys[3];
 
-                // $dia = Diagnosis::getInstance();
-                // $dia::publish();
+        // $dia = Diagnosis::getInstance();
+        // $dia::publish();
 
-                switch ($chakey_type) {
-                        case 'D':
-                                return Diagnosis::publish();
-                        break;
+        switch ($chakey_type) {
+            case 'D':
+                return \App\Models\Diagnosis::publish();
+                break;
 
-                        case 'W':
-                                return Warranty::publish();
-                        break;
+            case 'W':
+                return \App\Models\Warranty::publish();
+                break;
 
-                        case 'C':
-                                return Certificate::publish();
-                        break;
+            case 'C':
+                return \App\Models\Certificate::publish();
+                break;
 
-                        default:
-                                abort(404, '정보를 찾을 수 없습니다.');
-                        break;
-                }
-
+            default:
+                abort(404, '정보를 찾을 수 없습니다.');
+                break;
         }
 
+    }
 
 
 })->name('cert');
+
+Route::any( '/', function( ){
+    return response()->json([
+        "SERVICE"       => "CHAGUMSA CERT SERVICE"
+    ]);
+});
 
 
 

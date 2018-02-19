@@ -167,6 +167,10 @@ class Order Extends Model
         ]);
     }
 
+    public function payment(){
+        return $this->hasOne(\App\Models\Payment::class, 'moid', 'id');
+    }
+
     // 진단주문 여부
     // public function isDiagnosis()
     // {

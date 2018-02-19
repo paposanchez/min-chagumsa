@@ -11,7 +11,7 @@
         },
         "devDependencies": {
                 "angular": "^1.6.9",
-                "animate.css": "^3.5.2",
+                "animate.css": "^3.6.1",
                 "axios": "^0.17",
                 "babel-cli": "7.0.0-beta.2",
                 "babel-eslint": "^8.2.1",
@@ -41,7 +41,7 @@
                 "less-loader": "^4.0.5",
                 "lodash": "^4.17.5",
                 "material-design-icons": "^3.0.0",
-                "metrics-graphics": "^2.11.0",
+                "metrics-graphics": "^2.13.0",
                 "moment": "^2.18.1",
                 "particles.js": "^2.0.0",
                 "perfect-scrollbar": "^0.6.16",

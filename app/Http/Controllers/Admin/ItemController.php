@@ -71,11 +71,13 @@ class ItemController extends Controller
                 'name' => 'required',
                 'price' => 'required',
                 'commission' => 'required',
-                'guarantee' => 'required',
+                'cost' => 'required',
                 'wage' => 'required',
+                'guarantee' => 'required',
                 'alliance_ratio' => 'required',
                 'certi_ratio' => 'required',
                 'self_ratio' => 'required',
+                'status_cd' => 'boolean',
                 'car_sort_cd' => 'required',
                 'type_cd' => 'required'
             ], [],
@@ -83,8 +85,9 @@ class ItemController extends Controller
                     'name' => '상품명',
                     'price' => '가격',
                     'commission' => 'PG 수수료',
-                    'guarantee' => '보증료',
+                    'cost' => '카히스토리 고정비용',
                     'wage' => '공임비용',
+                    'guarantee' => 'BNP 보증료',
                     'alliance_ratio' => '얼라이언스 Com',
                     'certi_ratio' => '기술사 Com',
                     'self_ratio' => '수익',
@@ -117,23 +120,25 @@ class ItemController extends Controller
                 'name' => 'required',
                 'price' => 'required',
                 'commission' => 'required',
-                'guarantee' => 'required',
+                'cost' => 'required',
                 'wage' => 'required',
+                'guarantee' => 'required',
                 'alliance_ratio' => 'required',
                 'certi_ratio' => 'required',
                 'self_ratio' => 'required',
-                'is_use' => 'boolean'
+                'status_cd' => 'boolean'
             ], [],
                 [
                     'name' => '상품명',
                     'price' => '가격',
                     'commission' => 'PG 수수료',
-                    'guarantee' => '보증료',
-                    'wage' => '공임비용',
+                    'cost' => '카히스토리 고정비용',
+                    'wage' => '정비소 공임비용',
+                    'guarantee' => 'BNP 보증료',
                     'alliance_ratio' => '얼라이언스 Com',
                     'certi_ratio' => '기술사 Com',
                     'self_ratio' => '수익',
-                    'is_use' => '사용여부',
+                    'status_cd' => '사용여부',
                 ]);
             $item = Item::findOrFail($request->get('item_id'));
             $item->update([
@@ -142,12 +147,13 @@ class ItemController extends Controller
                 'type_cd' => $request->get('type_cd'),
                 'price' => $request->get('price'),
                 'commission' => $request->get('commission'),
-                'guarantee' => $request->get('guarantee'),
+                'cost' => $request->get('cost'),
                 'wage' => $request->get('wage'),
+                'guarantee' => $request->get('guarantee'),
                 'alliance_ratio' => $request->get('alliance_ratio'),
                 'certi_ratio' => $request->get('certi_ratio'),
                 'self_ratio' => $request->get('self_ratio'),
-                'is_use' => $request->get('is_use') ? $request->get('is_use') : 0
+                'status_cd' => $request->get('status_cd') ? $request->get('status_cd') : 2
             ]);
 
             return redirect()->back()->with('success', '저장되었습니다.');

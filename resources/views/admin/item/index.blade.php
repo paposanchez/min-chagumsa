@@ -15,9 +15,10 @@
                 <div class="card-body">
                     <table class="table text-center">
                         <colgroup>
-
                             <col width="8%">
                             <col width="*">
+                            <col width="8%">
+                            <col width="8%">
                             <col width="8%">
                             <col width="8%">
                             <col width="8%">
@@ -30,12 +31,13 @@
 
                         <thead>
                         <tr class="active">
-                            <th class="text-center">#</th>
-                            <th class="text-left">상품명</th>
+                            <th class="text-center">사용여부</th>
+                            <th class="text-center">상품명</th>
                             <th class="text-center">가격</th>
                             <th class="text-center">PG 수수료율</th>
-                            <th class="text-center">보증료</th>
+                            <th class="text-center">카히스토리 수수료</th>
                             <th class="text-center">공임비용</th>
+                            <th class="text-center">BNP 보증료</th>
                             <th class="text-center">얼라이언스 Com</th>
                             <th class="text-center">기술사 Com</th>
                             <th class="text-center">수익</th>
@@ -53,17 +55,23 @@
 
                         @foreach($entrys as $data)
                             <tr>
-                                <td class=""><a href="/item/{{ $data->id }}/show">{{ $data->id }}</a></td>
-                                <td class="text-left">{{ $data->name}}</td>
-                                <td class=""><i class="fa fa-won"></i>{{ number_format($data->price) }}</td>
-                                <td class="">{{ $data->commission}}%</td>
-                                <td class=""><i class="fa fa-won"></i>{{ number_format($data->guarantee) }}</td>
-                                <td class=""><i class="fa fa-won"></i>{{ number_format($data->wage) }}</td>
-
-                                <td class="">{{ $data->alliance_ratio }}%</td>
-                                <td class="">{{ $data->certi_ratio }}%</td>
-                                <td class="">{{ $data->self_ratio }}%</td>
-
+                                <td class="text-center">@component('components.badge', [
+                                            'code' => $data->status_cd,
+                                            'color' =>[
+                                            '2' => 'default',
+                                            '1' => 'success'
+                                            ]])
+                                        {{ $data->status->display() }}
+                                    @endcomponent</td>
+                                <td class="text-center">{{ $data->name}}</td>
+                                <td class="text-center"><i class="fa fa-won"></i>{{ number_format($data->price) }}</td>
+                                <td class="text-center">{{ $data->commission}}%</td>
+                                <td class="text-center">카히스토리</td>
+                                <td class="text-center">{{ number_format($data->wage) }}</td>
+                                <td class="text-center">{{ number_format($data->guarantee) }}</td>
+                                <td class="text-center">{{ $data->alliance_ratio }}%</td>
+                                <td class="text-center">{{ $data->certi_ratio }}%</td>
+                                <td class="text-center">{{ $data->self_ratio }}%</td>
                                 <td>
                                     <a href="{{ route('item.edit', ['id' => $data->id]) }}"
                                        class="btn btn-default">상세보기</a>

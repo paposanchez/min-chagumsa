@@ -128,6 +128,12 @@
                             <form class="form-horizontal">
                                 <fieldset>
                                     <div class="form-group">
+                                        <label for="" class="control-label col-md-3">결제 트랜젝션 번호</label>
+                                        <div class="col-md-6">
+                                            <p class="form-control-static">{{ $order->purchase_id }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="" class="control-label col-md-3">결제번호</label>
                                         <div class="col-md-6">
                                             <p class="form-control-static">{{ $order->purchase_id }}</p>

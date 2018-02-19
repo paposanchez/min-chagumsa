@@ -48,12 +48,14 @@ class DiagnosisObserver
             $this->notify(new DiagnosisOnStartToGarage($obj));
         }
 
-        if ($obj->reservationUser->hasRole('member') && $obj->status_cd == 113) {
-            $this->notify(new DiagnosisConfirm($obj));
-        }
+
 
         if ($obj->reservationUser->hasRole(['admin', 'garage'] && $obj->status_cd == 113)) {
             $this->notify(new DiagnosisConfirmFromUser($obj));
+        }
+
+        if ($obj->reservationUser->hasRole('member') && $obj->status_cd == 113) {
+            $this->notify(new DiagnosisConfirm($obj));
         }
 
         if ($obj->reservationUser->hasRole(['admin', 'garage']) && $obj->confirm_at == null) {
