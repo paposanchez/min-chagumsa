@@ -10,8 +10,6 @@ use App\Contracts\Document as IDocument;
 
 class Certificate Extends Model implements IDocument
 {
-        protected $table = 'certificates';
-        protected $primaryKey = 'id';
         protected $fillable = [
                 'orders_id',
                 'order_items_id',
@@ -97,8 +95,9 @@ class Certificate Extends Model implements IDocument
         //상태 조회
         public function status()
         {
-                return $this->hasOne(\App\Models\Code::class, 'id', 'status_cd');
+                return $this->hasOne(Code::class, 'id', 'status_cd');
         }
+
 
         //차량번호 조회
         public function carNumber(){
@@ -118,32 +117,6 @@ class Certificate Extends Model implements IDocument
         //기술사 조회
         public function technist(){
                 return $this->hasOne(User::class, 'id', 'technist_id');
-        }
-
-        // 인증서 만료여부
-        public function isExpired()
-        {
-                return Carbon::now() >= $this->updated_at->addDays($this->expire_period);
-        }
-
-        // 인증서 만료일
-        public function getExpireDate()
-        {
-                if ($this->completed_at) {
-                        return $this->completed_at->addDays($this->expire_period);
-                } else {
-                        return;
-                }
-        }
-
-        // 인증서 만료일 카운트다운
-        public function getCountdown()
-        {
-                if ($this->updated_at) {
-                        return $this->updated_at->addDays($this->expire_period)->diffInDays(Carbon::now());
-                } else {
-                        return 0;
-                }
         }
 
         // 설정된 대표이미지 목록화
@@ -288,5 +261,31 @@ class Certificate Extends Model implements IDocument
         public function insurance_files()
         {
                 return $this->hasMany(File::class, 'group_id', 'orders_id')->where('group', 'insurance');
+        }
+
+
+
+        // 만료여부
+        public function isExpired() {
+                return $this->status_cd == 126;
+        }
+        // 인증서 만료일 카운트다운
+        public function getCountdown()
+        {
+                if($this->isExpired()){
+                        return 0;
+                }
+                if(is_null($this->expired_at)){
+                        return -1;
+                }
+
+                return $this->expired_at->diffInSeconds(Carbon::now());
+        }
+
+        public function getDocumentKey() {
+                return $this->chakey.'C';
+        }
+        public function getDocumentLink() {
+                return config('chagumsa.') . $this->getDocumentKey();
         }
 }

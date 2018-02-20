@@ -15,9 +15,6 @@ interface DocumentRepository
         // 캐쉬생성
         public function cache();
 
-
-
-
         public function toJson();
         public function toHtml();
         public function toPdf();

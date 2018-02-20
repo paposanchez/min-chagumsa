@@ -14,7 +14,7 @@ abstract class Document implements IDocumentRepository
         protected $document;                    // 현재 도큐먼트
         protected $chakey_after;                // 도큐먼트 종류문자
         protected $view;                        // 뷰 템플릿
-        protected $expired_status_cd = 116;     // 만료상태코드
+        protected $expired_status_cd = 126;     // 만료상태코드
 
         protected $order;                       // 생성된 주문데이터
 
@@ -90,13 +90,13 @@ abstract class Document implements IDocumentRepository
 
         // 문서의 만료여부
         public function isExpired() {
-                return $this->document->status_cd == $this->expired_status_cd;
+                return $this->document->isExpired();
         }
 
         // 문서의 만료일까지 남은 시간
         public function getCountdown()
         {
-                return $this->document->expired_at->diffInSeconds(Carbon::now());
+                return $this->document->getCountdown();
         }
 
 
