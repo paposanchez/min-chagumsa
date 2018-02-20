@@ -38,6 +38,18 @@ class Item extends Model
         return $this->hasOne(Code::class, 'id', 'type_cd');
     }
 
+    public function typeString()
+    {
+        switch($this->type_cd) {
+                case 121:
+                return 'D';
+                case 122:
+                return 'V';
+                case 123:
+                return 'W';
+        }
+    }
+
     public function status()
     {
         return $this->hasOne(Code::class, 'id', 'status_cd');

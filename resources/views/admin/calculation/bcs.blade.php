@@ -30,8 +30,10 @@
                         <div class="tab-content p-t-0 p-b-20 p-r-0 p-l-0">
 
                                 <div role="tabpanel" class="tab-pane animated fadeIn active" id="tab-1">
+
                                         <table class="table text-center">
                                                 <colgroup>
+                                                        <col width="2%">
                                                         <col width="20%">
                                                         <col width="15%">
                                                         <col width="10%">
@@ -43,7 +45,8 @@
                                                 </colgroup>
 
                                                 <thead>
-                                                        <tr class="active">
+                                                        <tr class="">
+                                                                <th class="text-center"><input type="checkbox" name=""></th>
                                                                 <th class="text-center">주문번호</th>
                                                                 <th class="text-center">대상</th>
                                                                 <th class="text-center">발급완료일</th>
@@ -59,12 +62,15 @@
 
                                                         @unless(count($entrys) >0)
                                                         <tr>
-                                                                <td colspan="9" class="no-result">{{ trans('common.no-result') }}</td>
+                                                                <td colspan="10" class="no-result">{{ trans('common.no-result') }}</td>
                                                         </tr>
                                                         @endunless
 
                                                         @foreach($entrys as $data)
                                                         <tr>
+                                                                <td>
+                                                                        <input type="checkbox" name="">
+                                                                </td>
                                                                 <td>{{ $data->chakey }}</td>
                                                                 <td>{{ $data->garage->name }}</td>
                                                                 <td>{{ $data->issued_at }}</td>
@@ -74,13 +80,26 @@
                                                                 <td>고정</td>
 
                                                                 <td>
-                                                                        <input type="checkbox" name="">
                                                                         <button class="btn btn-warning" data-toggle="tooltip" title="정산완료">정산</button>
                                                                 </td>
                                                         </tr>
                                                         @endforeach
                                                 </tbody>
+
+
+                                                <tfoot>
+
+                                                        <tr class="active">
+                                                                <th colspan="3">총 <span>1</span>개</th>
+                                                                <th></th>
+                                                                <th></th>
+                                                                <th></th>
+                                                                <th></th>
+                                                                <th colspan="3"><span>{{ number_format(1000) }}</span>원</th>
+                                                        </tr>
+                                                </tfoot>
                                         </table>
+
                                         {{--page navigation--}}
                                         {!! $entrys->appends([$sf => $s, 'trs' => $trs, 'tre' => $tre])->render() !!}
                                 </div>
@@ -95,19 +114,19 @@
 
                                                         <div class="btn-group" data-toggle="buttons">
                                                                 <label class="btn btn-default {{ $type_cd == '' ? 'active' : '' }}">
-                                                                        {{ Form::radio('type_cd', '', \App\Helpers\Helper::isCheckd('', $type_cd)) }}
+                                                                        {{ Form::radio('type_cd', '', ('' == $type_cd)) }}
                                                                         전체
                                                                 </label>
                                                                 <label class="btn btn-default {{ $type_cd == 121 ? 'active' : '' }}">
-                                                                        {{ Form::radio('type_cd', 1, \App\Helpers\Helper::isCheckd(121, $type_cd), ['name' => 'type_cd']) }}
+                                                                        {{ Form::radio('type_cd', 1, (121 == $type_cd)) }}
                                                                         진단
                                                                 </label>
                                                                 <label class="btn btn-default {{ $type_cd == 122 ? 'active' : '' }}">
-                                                                        {{ Form::radio('type_cd', 2, \App\Helpers\Helper::isCheckd(122, $type_cd), ['name' => 'type_cd']) }}
+                                                                        {{ Form::radio('type_cd', 2, (122 == $type_cd)) }}
                                                                         평가
                                                                 </label>
                                                                 <label class="btn btn-default {{ $type_cd == 123 ? 'active' : '' }}">
-                                                                        {{ Form::radio('type_cd', 3, \App\Helpers\Helper::isCheckd(123, $type_cd), ['name' => 'type_cd']) }}
+                                                                        {{ Form::radio('type_cd', 3, (123 == $type_cd)) }}
                                                                         보증
                                                                 </label>
 

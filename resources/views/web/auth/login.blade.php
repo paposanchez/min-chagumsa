@@ -14,12 +14,10 @@
                         <h3 class="m-b-25 text-light">차검사 <strong>{{ trans("login.title") }}</strong></h3>
 
 
-                        <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
-                                <div class="input-group">
-                                        <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
-                                        <div class="fg-line">
-                                                <input type="email" class="form-control" placeholder="{{ trans('login.email') }}" name="email" id="inputEmail">
-                                        </div>
+                        <div class="form-group fg-float  {{ $errors->has('email') ? 'has-error' : '' }}">
+                                <div class="fg-line">
+                                        <input type="email" class="form-control fg-input" name="email" id="inputEmail">
+                                        <label class="fg-label">이메일</label>
                                 </div>
 
                                 @if ($errors->has('email'))
@@ -27,12 +25,10 @@
                                 @endif
                         </div>
 
-                        <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
-                                <div class="input-group">
-                                        <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
-                                        <div class="fg-line">
-                                                <input type="password" class="form-control" placeholder="{{ trans('login.password') }}" name="password" id="inputPassword">
-                                        </div>
+                        <div class="form-group fg-float  {{ $errors->has('email') ? 'has-error' : '' }}">
+                                <div class="fg-line">
+                                        <input type="password" class="form-control fg-input" name="password" id="inputPassword">
+                                        <label class="fg-label">비밀번호</label>
                                 </div>
 
                                 @if ($errors->has('password'))
@@ -40,20 +36,15 @@
                                 @endif
                         </div>
 
-
                         <p class="text-center">
                                 <button data-loading-text="처리중..." type="submit" class="btn btn-success  btn-block btn-lg" >로그인</button>
                         </p>
-
-
                         {!! Form::close() !!}
 
 
                         <p class="text-center">
                                 로그인 진행 시 차검사의 <a href="{{ route('agreement.privacy') }}">개인정보 수집/이용</a>에 동의하신 것으로 확인합니다
                         </p>
-
-
 
                         <hr>
 
@@ -72,10 +63,10 @@
                 </div>
 
                 <!-- <div class="lcb-navigation">
-                        <a href="" data-ma-action="login-switch" data-ma-block="#l-register"><i class="zmdi zmdi-plus"></i> <span>회원</span></a>
-                        <a href="{{ route('admin.password.reqeust') }}"><i>?</i> <span>비밀번호 변경하기</span></a>
-                </div> -->
-        </div>
+                <a href="" data-ma-action="login-switch" data-ma-block="#l-register"><i class="zmdi zmdi-plus"></i> <span>회원</span></a>
+                <a href="{{ route('admin.password.reqeust') }}"><i>?</i> <span>비밀번호 변경하기</span></a>
+        </div> -->
+</div>
 
 </div>
 

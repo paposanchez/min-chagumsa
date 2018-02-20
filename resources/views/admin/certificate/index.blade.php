@@ -43,7 +43,7 @@
                                 </colgroup>
 
                                 <thead>
-                                <tr class="active">
+                                <tr class="">
                                     <th class="text-center"><a class="sort" href="#" id="status"><i
                                                     class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 상태</a></th>
                                     <th class="text-center">주문번호</th>

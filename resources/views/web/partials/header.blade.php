@@ -91,12 +91,12 @@
         </ul>
 
         <!-- Top Search Content -->
-        <div class="h-search-wrap">
+        <!-- <div class="h-search-wrap">
                 <div class="hsw-inner">
                         <i class="hsw-close zmdi zmdi-arrow-left" data-ma-action="search-close"></i>
                         <input type="text">
                 </div>
-        </div>
+        </div> -->
 
 
 

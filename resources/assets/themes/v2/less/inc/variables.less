@@ -1,11 +1,11 @@
 /*-------------------------
-  Font Icon Family
+Font Icon Family
 --------------------------*/
 @font-icon-md:              'Material-Design-Iconic-Font';
 
 
 /*-------------------------
-  Grid System
+Grid System
 --------------------------*/
 @container-large-desktop:               100%;
 @container-tablet:                      100%;
@@ -13,19 +13,19 @@
 
 
 /*-------------------------
-  Typography
+Typography
 --------------------------*/
 @body-bg:                   #f3f3f3;
 @text-color:                #5E5E5E;
 @font-family-sans-serif:    roboto;
 @font-size-base:            13px;
 @link-hover-decoration:     none;
-@headings-color:			#333;
+@headings-color:            #333;
 @headings-small-color:      #AEAEAE;
 
 
 /*-------------------------
-  Border Radius
+Border Radius
 --------------------------*/
 @border-radius-base:        2px;
 @border-radius-large:       4px;
@@ -33,7 +33,7 @@
 
 
 /*-------------------------
-  Tabs
+Tabs
 --------------------------*/
 @nav-tabs-border-color:                     #fff;
 @nav-tabs-active-link-hover-border-color:   #fff;
@@ -41,7 +41,7 @@
 
 
 /*-------------------------
-  Form
+Form
 --------------------------*/
 @input-border:              #f0f0f0;
 @input-color:               #2e353b;
@@ -55,31 +55,31 @@
 
 
 /*-------------------------
-  Table
+Table
 --------------------------*/
 @table-bg:                      transparent;
-@table-border-color:            #F5F5F5;
+@table-border-color:            @border-color;
 @table-cell-padding:            15px;
 @table-condensed-cell-padding:  10px;
-@table-bg-accent:               #f9f9f9;
-@table-bg-active:               #FFFCBE;
+@table-bg-accent:               @brand-gray;
+@table-bg-active:               @brand-gray;
 @table-bg-hover:                @table-bg-accent;
 
 
 /*-------------------------
-  Input Group
+Input Group
 --------------------------*/
 @input-group-addon-bg: transparent;
 @input-group-addon-border-color: transparent;
 
 
 /*-------------------------
-  Pagination
+Pagination
 --------------------------*/
 @pagination-bg:                 #f1f1f1;
 @pagination-border:             #fff;
 @pagination-color:              #7E7E7E;
-@pagination-active-bg:          #58d6e6;
+@pagination-active-bg:          @m-blue;
 @pagination-active-border:      @pagination-border;
 @pagination-disabled-bg:        #E2E2E2;
 @pagination-disabled-border:    @pagination-border;
@@ -90,14 +90,14 @@
 
 
 /*-------------------------
-  Popover
+Popover
 --------------------------*/
 @popover-fallback-border-color: transparent;
 @popover-border-color:          transparent;
 
 
 /*-------------------------
-  Dropdown
+Dropdown
 --------------------------*/
 @dropdown-fallback-border:      transparent;
 @dropdown-border:               transparent;
@@ -114,7 +114,7 @@
 
 
 /*-------------------------
-  Thumbnail
+Thumbnail
 --------------------------*/
 @thumbnail-bg:                  #fff;
 @thumbnail-caption-padding:     10px 15px;
@@ -123,7 +123,7 @@
 
 
 /*-------------------------
-  Alerts
+Alerts
 --------------------------*/
 @alert-success-border:                  transparent;
 @alert-info-border:                     transparent;
@@ -132,7 +132,7 @@
 @alert-inverse-border:		 	        transparent;
 
 @alert-success-bg:                      @m-green;
-@alert-info-bg:		 		            @m-blue;
+@alert-info-bg:		 		@m-blue;
 @alert-warning-bg:                      @m-amber;
 @alert-danger-bg:                       @m-red;
 @alert-inverse-bg:                      #333;
@@ -145,7 +145,7 @@
 
 
 /*-------------------------
-  Form Validations
+Form Validations
 --------------------------*/
 @state-success-text:                    lighten(@m-green, 8%);
 @state-warning-text:                    lighten(@m-orange, 8%);
@@ -157,7 +157,7 @@
 
 
 /*-------------------------
-  Buttons
+Buttons
 --------------------------*/
 @border-radius-base:            2px;
 @border-radius-large:           2px;
@@ -166,13 +166,13 @@
 
 
 /*-------------------------
-  Carousel
+Carousel
 --------------------------*/
 @carousel-caption-color:        #fff;
 
 
 /*-------------------------
-  Modal
+Modal
 --------------------------*/
 @modal-content-fallback-border-color:	transparent;
 @modal-content-border-color:			transparent;
@@ -185,14 +185,14 @@
 
 
 /*-------------------------
-  Tooltips
+Tooltips
 --------------------------*/
 @tooltip-bg:                #737373;
 @tooltip-opacity:           1;
 
 
 /*-------------------------
-  Popover
+Popover
 --------------------------*/
 @zindex-popover:                9;
 @popover-title-bg:              #fff;
@@ -201,7 +201,7 @@
 
 
 /*-------------------------
-  Breadcrumbs
+Breadcrumbs
 --------------------------*/
 @breadcrumb-bg:            transparent;
 @breadcrumb-padding-horizontal: 20px;
@@ -209,18 +209,18 @@
 
 
 /*-------------------------
-  Jumbotron
+Jumbotron
 --------------------------*/
-@jumbotron-bg:              #F7F7F7;
+@jumbotron-bg:              @brand-gray;
 
 
 /* ------------------------
-    List Group
+List Group
 --------------------------*/
 @list-group-border:                 #E9E9E9;
 @list-group-active-color:           #000;
-@list-group-active-bg:              #f7f7f7;
-@list-group-active-border:          #f7f7f7;
+@list-group-active-bg:              @brand-gray;
+@list-group-active-border:          @brand-gray;
 @list-group-disabled-color:         #B5B4B4;
 @list-group-disabled-bg:            #fff;
 @list-group-disabled-text-color:    #B5B4B4;
@@ -229,7 +229,7 @@
 
 
 /*-------------------------
-  Badges
+Badges
 --------------------------*/
 @badge-color:               #fff;
 @badge-bg:                  @brand-primary;
@@ -240,15 +240,13 @@
 
 
 /*-------------------------
-  Material Colors
+Material Colors
 --------------------------*/
 @m-white:                  #ffffff;
 @m-black:                  #000000;
-@m-blue:                   #2196F3;
 @m-red:                    #F44336;
 @m-purple:                 #BA68C8;
 @m-deeppurple:             #673AB7;
-@m-lightblue:              #03A9F4;
 @m-cyan:                   #00BCD4;
 @m-teal:                   #009688;
 @m-green:                  #4CAF50;
@@ -259,31 +257,37 @@
 @m-orange:                 #FF9800;
 @m-deeporange:             #FF5722;
 @m-gray:                   #9E9E9E;
-@m-bluegray:               #607D8B;
+@m-bluegray:               #456172;
 @m-indigo:                 #3F51B5;
 @m-pink:                   #E91E63;
 @m-brown:                  #795548;
 
+@m-blue:                   #0b4777;
+@m-darkblue:               #203a4e;
+@m-lightblue:              #0093ff;
+
 
 /*-------------------------
-  Bootstrap Branding
+Bootstrap Branding
 --------------------------*/
-@brand-primary:             @m-blue;
-@brand-success:             @m-green;
-@brand-info:                @m-cyan;
+@brand-primary:             @m-darkblue;
+@brand-success:             @m-blue;
+@brand-info:                @m-lightblue;
 @brand-warning:             @m-orange;
 @brand-danger:              @m-red;
-@app-gray:                  #F7F7F7;
+@brand-gray:                #f7f7f7;
+@border-color:              #f3f3f3;
+@app-gray:                  #f7f7f7;
 
 
 /*-------------------------
-  Colors
+Colors
 --------------------------*/
-@ace:                      #F7F7F7;
+@ace:                      @brand-gray;
 
 
 /*-------------------------
-  Blocks
+Blocks
 --------------------------*/
 @sidebar-left-width: 268px;
 @sidebar-right-width: 280px;
@@ -292,6 +296,6 @@
 
 
 /*-------------------------
-  Card
+Card
 --------------------------*/
 @card-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);

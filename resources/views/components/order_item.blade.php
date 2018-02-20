@@ -1,46 +1,51 @@
-<div class="card pt-inner">
-    <div class="pti-header
+<div class="card">
+        <div class="card-header ch-alt">
+                <h2>
+                        {{ $order_item->id }}
+                        <small>{{ $order_item->item->type->display() }}</small>
+                        <!-- <small>{{ $order_item->order->chakey }}</small> -->
+                </h2>
 
-        @if($order_item->type_cd == '121')
-            bgm-blue
-@elseif($order_item->type_cd == '122')
-            bgm-pink
-@else
-            bgm-black
-@endif
+                <ul class="actions">
+                        <li>
+                                <a href="">
+                                        <i class="zmdi zmdi-delete"></i>
+                                </a>
+                        </li>
 
-            ">
-        <h2>주문상품번호 {{ $order_item->id }}</h2>
-        <div class="ptih-title">{{ $order_item->item->name }}</div>
-    </div>
+                        <!-- <li>
+                                <a href="">
+                                        <i class="zmdi zmdi-download"></i>
+                                </a>
+                        </li> -->
+                        <!-- <li class="dropdown">
+                                <a href="" data-toggle="dropdown">
+                                        <i class="zmdi zmdi-more-vert"></i>
+                                </a>
 
-    <div class="pti-body">
-        <div class="ptib-item">
-            주문번호 : {{ $order_item->order->chakey }}
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                        <li>
+                                                <a href="">Change Date Range</a>
+                                        </li>
+                                        <li>
+                                                <a href="">Change Graph Type</a>
+                                        </li>
+                                        <li>
+                                                <a href="">Other Settings</a>
+                                        </li>
+                                </ul>
+                        </li> -->
+                </ul>
+
+                <!-- <span class="btn bgm-red btn-float waves-effect">{{ $order_item->item->typeString() }}</span> -->
         </div>
-        <div class="ptib-item">
-            생성일 : {{ $order_item->created_at->format('Y-m-d') }}
+
+        <div class="card-body card-padding">
+                <ul class="clist clist-angle">
+                        <li><span>상품명</span> <a href="" target="_blank">{{ $order_item->item->name }}</a></li>
+                        <li><span>생성일</span> {{ $order_item->created_at->format('Y-m-d') }}</li>
+                        <li><span>수정일</span> {{ $order_item->updated_at->format('Y-m-d') }}</li>
+                </ul>
+
         </div>
-    </div>
-    
-    <div class="pti-footer">
-        @if($order_item->type_cd == '121')
-            <a href="{{ url('diagnosis', [$order_item->diagnosis->id]) }}" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
-        @elseif($order_item->type_cd == '122')
-            @if($order_item->certificate->created_at)
-                <a href="{{ url('certifiate', [$order_item->certificate->id]) }}" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
-            @else
-                <a class="bgm-cyan"><i class="zmdi zmdi-close"></i></a>
-            @endif
-        @else
-            @if($order_item->warranty->created_at)
-                <a href="{{ url('warranty', [$order_item->warranty->id]) }}" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
-            @else
-                <a class="bgm-cyan"><i class="zmdi zmdi-close"></i></a>
-            @endif
-        @endif
-
-
-
-    </div>
 </div>

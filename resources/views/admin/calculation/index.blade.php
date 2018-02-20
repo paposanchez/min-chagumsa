@@ -47,7 +47,7 @@
                                         </colgroup>
 
                                         <thead>
-                                                <tr class="active">
+                                                <tr class="">
                                                         <th class="text-center">상태</th>
                                                         <th class="text-center">정산번호</th>
                                                         <th class="text-center">정산대상</th>
@@ -101,19 +101,19 @@
 
                                                 <div class="btn-group" data-toggle="buttons">
                                                         <label class="btn btn-default {{ $type_cd == '' ? 'active' : '' }}">
-                                                                {{ Form::radio('type_cd', '', \App\Helpers\Helper::isCheckd('', $type_cd)) }}
+                                                                {{ Form::radio('type_cd', '', ('' == $type_cd)) }}
                                                                 전체
                                                         </label>
                                                         <label class="btn btn-default {{ $type_cd == 121 ? 'active' : '' }}">
-                                                                {{ Form::radio('type_cd', 1, \App\Helpers\Helper::isCheckd(121, $type_cd), ['name' => 'type_cd']) }}
+                                                                {{ Form::radio('type_cd', 1, (121 == $type_cd)) }}
                                                                 진단
                                                         </label>
                                                         <label class="btn btn-default {{ $type_cd == 122 ? 'active' : '' }}">
-                                                                {{ Form::radio('type_cd', 2, \App\Helpers\Helper::isCheckd(122, $type_cd), ['name' => 'type_cd']) }}
+                                                                {{ Form::radio('type_cd', 2, (122 == $type_cd)) }}
                                                                 평가
                                                         </label>
                                                         <label class="btn btn-default {{ $type_cd == 123 ? 'active' : '' }}">
-                                                                {{ Form::radio('type_cd', 3, \App\Helpers\Helper::isCheckd(123, $type_cd), ['name' => 'type_cd']) }}
+                                                                {{ Form::radio('type_cd', 3, (123 == $type_cd)) }}
                                                                 보증
                                                         </label>
 

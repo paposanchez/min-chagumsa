@@ -16,21 +16,16 @@
                         <p class="text-muted">{{ trans("passwords.desc") }}</p>
 
 
-                        <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
-                                <div class="input-group">
-                                        <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
-                                        <div class="fg-line">
-                                                <input type="email" class="form-control" placeholder="{{ trans('login.email') }}" name="email" id="inputEmail">
-                                        </div>
+                        <div class="form-group fg-float {{ $errors->has('email') ? 'has-error' : '' }}">
+                                <div class="fg-line">
+                                        <input type="email" class="form-control fg-input" name="email" id="inputEmail">
+                                        <label class="fg-label">이메일</label>
                                 </div>
 
                                 @if ($errors->has('email'))
                                 <small class="help-block">이메일을 확인하세요.</small>
                                 @endif
                         </div>
-
-
-
 
                         <p class="text-center">
                                 <button data-loading-text="처리중..." type="submit" class="btn btn-success  btn-block btn-lg" >비밀번호 변경</button>                        </p>

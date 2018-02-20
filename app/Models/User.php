@@ -24,7 +24,7 @@ class User extends Authenticatable
         use EntrustUserTrait { restore as private restoreEntrust; }
         use SoftDeletes { restore as private restoreEloquent; }
 
-        protected $primaryKey = 'id';
+        // protected $primaryKey = 'id';
         protected $fillable = [
                 'email',
                 'password',
@@ -38,7 +38,11 @@ class User extends Authenticatable
                 'password',
                 'remember_token',
         ];
-        protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+        protected $dates = [
+                'created_at',
+                'updated_at',
+                'deleted_at'
+        ];
 
 
         public function restore() {

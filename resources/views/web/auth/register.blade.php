@@ -33,7 +33,54 @@
                         </div>
 
 
-                        <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+
+                        <div class="form-group fg-float  {{ $errors->has('email') ? 'has-error' : '' }}">
+                                <div class="fg-line">
+                                        <input type="email" class="form-control fg-input" name="email" id="inputEmail">
+                                        <label class="fg-label">이메일</label>
+                                </div>
+
+                                @if ($errors->has('email'))
+                                <small class="help-block">이메일을 확인하세요.</small>
+                                @endif
+                        </div>
+
+
+                        <div class="form-group fg-float  {{ $errors->has('name') ? 'has-error' : '' }}">
+                                <div class="fg-line">
+                                        <input type="text" class="form-control fg-input" name="name" id="inputName">
+                                        <label class="fg-label">이름</label>
+                                </div>
+
+                                @if ($errors->has('name'))
+                                <small class="help-block">이름을 확인하세요.</small>
+                                @endif
+                        </div>
+
+                        <div class="form-group fg-float  {{ $errors->has('password') ? 'has-error' : '' }}">
+                                <div class="fg-line">
+                                        <input type="password" class="form-control fg-input" name="password" id="inputPassword">
+                                        <label class="fg-label">비밀번호</label>
+                                </div>
+
+                                @if ($errors->has('password'))
+                                <small class="help-block">비밀번호를 확인하세요.</small>
+                                @endif
+                        </div>
+
+                        <div class="form-group fg-float  {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
+                                <div class="fg-line">
+                                        <input type="password" class="form-control fg-input" name="password_confirmation" id="inputPassword">
+                                        <label class="fg-label">비밀번호 확인</label>
+                                </div>
+
+                                @if ($errors->has('password_confirmation'))
+                                <small class="help-block">비밀번호 확인을 확인하세요.</small>
+                                @endif
+                        </div>
+
+
+                        <!-- <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                                 <div class="input-group">
                                         <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
                                         <div class="fg-line">
@@ -84,7 +131,7 @@
                                 @if ($errors->has('password_confirmation'))
                                 <small class="help-block">비밀번호를 확인하세요.</small>
                                 @endif
-                        </div>
+                        </div> -->
 
 
                         <!-- <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
