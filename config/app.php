@@ -174,11 +174,11 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        Edujugon\PushNotification\Providers\PushNotificationServiceProvider::class
+        Edujugon\PushNotification\Providers\PushNotificationServiceProvider::class,
 
 
-
-        // Maatwebsite\Excel\ExcelServiceProvider::class,
+        //EXCEL
+        Maatwebsite\Excel\ExcelServiceProvider::class,
         //ACL
         // Zizaco\Entrust\EntrustServiceProvider::class,
         //Activity Log
@@ -243,7 +243,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Flash' => Laracasts\Flash\Flash::class,
         'PushNotification' => Edujugon\PushNotification\Facades\PushNotification::class,
-        // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         // 'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
         // 'Entrust' => Zizaco\Entrust\EntrustFacade::class,
 
