@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Post;
 use App\Models\UrlShort;
 use App\Models\Warranty;
+use App\Models\Code;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,57 +19,199 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
 
-    /**
-     * 대쉬보드 인덱스 페이지
-     * 최근 1:!문의, 최근 주문 항목, 전체 주문 항목, 인증서 발행 항목 노출
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function __invoke()
-    {
-        $today = date('Y-m-d');
-        $user = Auth::user();
 
-        //주문관련
-        $total_order = Order::whereNotIn('status_cd', [100])->get();
-        $today_order = Order::where("created_at", ">=", $today)->get();
-        $cancel_order = Order::where('status_cd', 100)->get();
 
-        //진단관련
-        $total_diagnosis = count(Diagnosis::whereNotIn('status_cd', [116])->get());
-        $today_diagnosis = count(Diagnosis::where('created_at', ">=", $today)->get());
-        $ready_diagnosis = count(Diagnosis::whereIn('status_cd', [112, 113])->get());
-        $completed_diagnosis = count(Diagnosis::whereNotNull('completed_at')->get());
-
-        //평가관련
-        $total_certificate = count(Certificate::whereNotIn('status_cd', [116])->get());
-        $today_certificate = count(Certificate::where('created_at', ">=", $today)->get());
-        $ready_certificate = count(Certificate::whereIn('status_cd', [112])->get());
-        $completed_certificate = count(Certificate::whereNotNull('completed_at')->get());
-
-        //보증관련
-        $total_warranty = count(Warranty::whereNotIn('status_cd', [116])->get());
-        $today_warranty = count(Warranty::where('created_at', ">=", $today)->get());
-        $ready_warranty = count(Warranty::whereIn('status_cd', [112])->get());
-        $completed_warranty = count(Warranty::whereNotNull('completed_at')->get());
-
-        //게시판관련
-        if ($user->hasRole('admin')) {
-            $posts = Post::where('board_id', 3)->orderBy('created_at', 'DESC')->take(5)->get();
-        } else {
-            $posts = Post::where('board_id', 1)->orderBy('created_at', 'DESC')->take(5)->get();
+        private function generateDateRange(Carbon $start_date, Carbon $end_date, $params = [])
+        {
+                $dates = [];
+                $i = 1;
+                for($date = $start_date; $date->lte($end_date); $date->addDay()) {
+                        $dates[$date->format('Y-m-d')] = [
+                                // 'date' => $date->format('Y-m-d'),
+                                // 'count' => 0
+                                $i,
+                                0
+                        ];
+                        $i++;
+                }
+                return $dates;
         }
 
+        private function setValuesByDate($olds, $news) {
 
-        return view('admin.dashboard.index',
-            compact('total_order', 'today_order', 'cancel_order', 'json_array', 'total_diagnosis', 'today_diagnosis', 'ready_diagnosis', 'completed_diagnosis', 'total_certificate', 'today_certificate', 'ready_certificate', 'completed_certificate', 'posts', 'user'));
-    }
+                foreach($olds as &$entry){
 
-    public function getInquireCount(){
-        $today = Carbon::now()->format('Y-m-d');
-        $inquire = Post::where('board_id', 3)->where('updated_at', '>=', $today)->get();
+                        foreach($news  as $new){
 
-        // todo 리스트 값 구현
-        return response()->json(count($inquire));
-    }
+
+
+                        }
+
+                }
+
+        }
+        public function __invoke()
+        {
+                // $today = date('Y-m-d');
+                $user = Auth::user();
+
+
+                $range_date = $this->generateDateRange(Carbon::now()->subDays(30), Carbon::now());
+                $range = [];
+                foreach([112,113,114,126,115] as $entry) {
+                        $range[$entry] = $range_date;
+                }
+                $diagnosis = $range;
+
+
+                $diagnosis_db[112] = DB::table('diagnosis')
+                ->select(DB::raw('count(*) as count'), DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"))
+                ->whereDate('created_at','>=', Carbon::now()->subDays(30))
+                ->where('status_cd',112)
+                ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))
+                // ->groupBy('status_cd')
+                ->get();
+                $diagnosis_db[113] = DB::table('diagnosis')
+                ->select(DB::raw('count(*) as count'), DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"))
+                ->whereDate('created_at','>=', Carbon::now()->subDays(30))
+                ->where('status_cd',113)
+                ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))
+                ->get();
+
+                $diagnosis_db[114] = DB::table('diagnosis')
+                ->select(DB::raw('count(*) as count'), DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"))
+                ->whereDate('created_at','>=', Carbon::now()->subDays(30))
+                ->where('status_cd',114)
+                ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))
+                ->get();
+
+                $diagnosis_db[115] = DB::table('diagnosis')
+                ->select(DB::raw('count(*) as count'), DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"))
+                ->whereDate('created_at','>=', Carbon::now()->subDays(30))
+                ->where('status_cd',115)
+                ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))
+                ->get();
+
+                $diagnosis_db[126] = DB::table('diagnosis')
+                ->select(DB::raw('count(*) as count'), DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"))
+                ->whereDate('created_at','>=', Carbon::now()->subDays(30))
+                ->where('status_cd',126)
+                ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))
+                ->get();
+
+
+                foreach($diagnosis_db as $key => $entry)
+                {
+
+                        foreach($entry as $k => $v)
+                        {
+
+                                // print_r($diagnosis[$key][$v->date]);
+                                // echo "<hr>";
+                                $diagnosis[$key][$v->date]['count'] = $v->count;
+                        }
+                }
+
+                $diagnosis_json= [];
+                foreach($diagnosis as $key => $entry){
+                        $std = new \stdClass();
+                        $std->label = $key;
+                        $std->data = $entry;
+                        $diagnosis_json[] = $std;
+                }
+
+                //게시판관련
+                if ($user->hasRole('admin')) {
+                        $posts = Post::where('board_id', 3)->orderBy('created_at', 'DESC')->take(10)->get();
+                } else {
+                        $posts = Post::where('board_id', 1)->orderBy('created_at', 'DESC')->take(10)->get();
+                }
+
+
+                return view('admin.dashboard.index',
+                compact('posts', 'user'));
+        }
+
+        public function getDiagnisisChart(){
+
+                // 조회할 날짜
+                $date_limit = 15;
+
+                $range_date = $this->generateDateRange(Carbon::now()->subDays($date_limit), Carbon::now());
+                $range = [];
+                foreach([112,113,114,126,115] as $entry) {
+                        $range[$entry] = $range_date;
+                }
+                $diagnosis = $range;
+
+
+                $diagnosis_db[112] = DB::table('diagnosis')
+                ->select(DB::raw('count(*) as count'), DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"))
+                ->whereDate('created_at','>=', Carbon::now()->subDays($date_limit))
+                ->where('status_cd',112)
+                ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))
+                // ->groupBy('status_cd')
+                ->get();
+                $diagnosis_db[113] = DB::table('diagnosis')
+                ->select(DB::raw('count(*) as count'), DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"))
+                ->whereDate('created_at','>=', Carbon::now()->subDays($date_limit))
+                ->where('status_cd',113)
+                ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))
+                ->get();
+
+                $diagnosis_db[114] = DB::table('diagnosis')
+                ->select(DB::raw('count(*) as count'), DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"))
+                ->whereDate('created_at','>=', Carbon::now()->subDays($date_limit))
+                ->where('status_cd',114)
+                ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))
+                ->get();
+
+                $diagnosis_db[115] = DB::table('diagnosis')
+                ->select(DB::raw('count(*) as count'), DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"))
+                ->whereDate('created_at','>=', Carbon::now()->subDays($date_limit))
+                ->where('status_cd',115)
+                ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))
+                ->get();
+
+                $diagnosis_db[126] = DB::table('diagnosis')
+                ->select(DB::raw('count(*) as count'), DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"))
+                ->whereDate('created_at','>=', Carbon::now()->subDays($date_limit))
+                ->where('status_cd',126)
+                ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))
+                ->get();
+
+                foreach($diagnosis_db as $key => $entry)
+                {
+                        foreach($entry as $k => $v)
+                        {
+                                $diagnosis[$key][$v->date][1] = $v->count;
+                        }
+                }
+
+                $diagnosis_json= [];
+                foreach($diagnosis as $key => $entry){
+                        $std = new \stdClass();
+                        $std->label = Code::find($key)->display();
+                        $std->data = array_values($entry);
+                        $diagnosis_json[] = $std;
+                }
+
+                $ticks = [];
+                foreach($range_date as $key => $entry){
+                        $ticks[] = [
+                                $entry[0],
+                                $key
+                        ];
+                }
+
+                return response()->json([
+                        'ticks' => $ticks,
+                        'data' => $diagnosis_json
+                ]);
+        }
+
+        public function getInquireCount(){
+                return response()->json();
+        }
 
 }
