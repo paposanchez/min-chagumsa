@@ -80,7 +80,9 @@
                                                                 <td>고정</td>
 
                                                                 <td>
-                                                                        <button class="btn btn-warning" data-toggle="tooltip" title="정산완료">정산</button>
+
+                                                                        <a href="{{ route("purchase.show", [$data->id]) }}" class="btn btn-default btn-icon waves-effect waves-float" data-toggle="tooltip" title="정산하기"><i class="zmdi zmdi-money-box"></i></a>
+
                                                                 </td>
                                                         </tr>
                                                         @endforeach

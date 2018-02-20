@@ -125,122 +125,118 @@
                                                                         </td>
 
                                                                         <td>
-                                                                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default"
-                                                                                        data-toggle="tooltip" title="주문상세보기">상세보기</a>
-                                                                                        @if($data->diagnosis && $data->diagnosis->status_cd != [115, 120])
-                                                                                        <a href="{{ url("diagnosis", [$data->diagnosis->id]) }}" class="btn btn-info"
-                                                                                                data-toggle="tooltip"
-                                                                                                title="주문상세보기">예약관리</a>
-                                                                                                @endif
-                                                                                        </td>
-                                                                                </tr>
-                                                                                @endforeach
-                                                                        </tbody>
-                                                                </table>
 
-                                                                {{--page navigation--}}
-                                                                {!! $entrys->appends(['sf' => $sf, 's' => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
+                                                                                <a href="{{ url("order", [$data->id]) }}" class="btn btn-default btn-icon waves-effect waves-float" data-toggle="tooltip" title="주문상세보기"><i class="zmdi zmdi-search-in-page"></i></a>
 
+                                                                        </td>
+                                                                </tr>
+                                                                @endforeach
+                                                        </tbody>
+                                                </table>
+
+                                                {{--page navigation--}}
+                                                {!! $entrys->appends(['sf' => $sf, 's' => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
+
+                                        </div>
+
+
+                                        <div role="tabpanel" class="tab-pane animated fadeIn m-t-20" id="tab-2">
+                                                <form method="GET" class="form-horizontal" role="form" id="searchFormCollapse">
+                                                        <input type="hidden" name="sort" id="sort_val" value="{{ $sort }}">
+                                                        <input type="hidden" name="sort_orderby" id="sort_orderby" value="{{ $sort_orderby }}">
+
+                                                        <div class="form-group">
+                                                                <label for="inputEmail3" class="col-sm-2 control-label">상태</label>
+
+                                                                <div class="col-sm-9">
+
+                                                                        <div class="btn-group" data-toggle="buttons">
+                                                                                <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }}">
+                                                                                        {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }}
+                                                                                        전체
+                                                                                </label>
+                                                                                <label class="btn btn-default {{ $status_cd == 100 ? 'active' : '' }}">
+                                                                                        {{ Form::radio('status_cd', 100, \App\Helpers\Helper::isCheckd(100, $status_cd), ['name' => 'status_cd']) }}
+                                                                                        주문취소
+                                                                                </label>
+                                                                                <label class="btn btn-default {{ $status_cd == 102 ? 'active' : '' }}">
+                                                                                        {{ Form::radio('status_cd', 102, \App\Helpers\Helper::isCheckd(102, $status_cd), ['name' => 'status_cd']) }}
+                                                                                        주문완료
+                                                                                </label>
+                                                                        </div>
+                                                                </div>
                                                         </div>
 
 
-                                                        <div role="tabpanel" class="tab-pane animated fadeIn m-t-20" id="tab-2">
-                                                                <form method="GET" class="form-horizontal" role="form" id="searchFormCollapse">
-                                                                        <input type="hidden" name="sort" id="sort_val" value="{{ $sort }}">
-                                                                        <input type="hidden" name="sort_orderby" id="sort_orderby" value="{{ $sort_orderby }}">
+                                                        <div class="form-group">
+                                                                <label for="inputEmail3" class="col-sm-2 control-label">검색일자</label>
 
-                                                                        <div class="form-group">
-                                                                                <label for="inputEmail3" class="col-sm-2 control-label">상태</label>
-
-                                                                                <div class="col-sm-9">
-
-                                                                                        <div class="btn-group" data-toggle="buttons">
-                                                                                                <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }}">
-                                                                                                        {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }}
-                                                                                                        전체
-                                                                                                </label>
-                                                                                                <label class="btn btn-default {{ $status_cd == 100 ? 'active' : '' }}">
-                                                                                                        {{ Form::radio('status_cd', 100, \App\Helpers\Helper::isCheckd(100, $status_cd), ['name' => 'status_cd']) }}
-                                                                                                        주문취소
-                                                                                                </label>
-                                                                                                <label class="btn btn-default {{ $status_cd == 102 ? 'active' : '' }}">
-                                                                                                        {{ Form::radio('status_cd', 102, \App\Helpers\Helper::isCheckd(102, $status_cd), ['name' => 'status_cd']) }}
-                                                                                                        주문완료
-                                                                                                </label>
-                                                                                        </div>
-                                                                                </div>
-                                                                        </div>
-
-
-                                                                        <div class="form-group">
-                                                                                <label for="inputEmail3" class="col-sm-2 control-label">검색일자</label>
-
-                                                                                <div class="col-sm-4">
-                                                                                        <input type="text" class="form-control input-mask date-picker" name='trs'
-                                                                                        value='{{ $trs }}' data-mask="0000-00-00" placeholder="시작일"
-                                                                                        autocomplete="off" maxlength="10">
-                                                                                </div>
-                                                                                <div class="col-sm-4">
-                                                                                        <input type="text" class="form-control input-mask date-picker" name='tre'
-                                                                                        value='{{ $tre }}' data-mask="0000-00-00" placeholder="종료일"
-                                                                                        autocomplete="off" maxlength="10">
-                                                                                </div>
-                                                                        </div>
-
-
-                                                                        <div class="form-group">
-                                                                                <label for="inputEmail3" class="col-sm-2 control-label">검색어</label>
-
-                                                                                <div class="col-sm-4">
-                                                                                        {!! Form::select('sf', $search_fields, $sf, ['class'=>'selectpicker']) !!}
-                                                                                </div>
-
-                                                                                <div class="col-sm-4">
-                                                                                        <input type="text" class="form-control" id="s" name="s"
-                                                                                        placeholder="검색어" value="{{ $s }}">
-                                                                                </div>
-                                                                        </div>
-
-                                                                        <div class="form-group m-b-0">
-                                                                                <div class="col-sm-offset-2 col-sm-10">
-                                                                                        <button type="submit" class="btn btn-primary">검색</button>
-                                                                                </div>
-                                                                        </div>
-
-
-                                                                </form>
+                                                                <div class="col-sm-4">
+                                                                        <input type="text" class="form-control input-mask date-picker" name='trs'
+                                                                        value='{{ $trs }}' data-mask="0000-00-00" placeholder="시작일"
+                                                                        autocomplete="off" maxlength="10">
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                        <input type="text" class="form-control input-mask date-picker" name='tre'
+                                                                        value='{{ $tre }}' data-mask="0000-00-00" placeholder="종료일"
+                                                                        autocomplete="off" maxlength="10">
+                                                                </div>
                                                         </div>
 
-                                                </div>
 
+                                                        <div class="form-group">
+                                                                <label for="inputEmail3" class="col-sm-2 control-label">검색어</label>
+
+                                                                <div class="col-sm-4">
+                                                                        {!! Form::select('sf', $search_fields, $sf, ['class'=>'selectpicker']) !!}
+                                                                </div>
+
+                                                                <div class="col-sm-4">
+                                                                        <input type="text" class="form-control" id="s" name="s"
+                                                                        placeholder="검색어" value="{{ $s }}">
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="form-group m-b-0">
+                                                                <div class="col-sm-offset-2 col-sm-10">
+                                                                        <button type="submit" class="btn btn-primary">검색</button>
+                                                                </div>
+                                                        </div>
+
+
+                                                </form>
                                         </div>
 
                                 </div>
 
                         </div>
-                </section>
-                @endsection
+
+                </div>
+
+        </div>
+</section>
+@endsection
 
 
-                @push( 'header-script' )
-                @endpush
+@push( 'header-script' )
+@endpush
 
 
-                @push( 'footer-script' )
-                <script type="text/javascript">
-                $('.sort').click(function () {
-                        var sort_value = $(this).attr('id');
-                        $('#sort_val').val(sort_value);
-                        if ($('#sort_orderby').val() == 'asc') {
-                                $('#sort_orderby').val('desc')
-                        } else {
-                                $('#sort_orderby').val('asc')
-                        }
-                        $('#frm').submit();
-                });
+@push( 'footer-script' )
+<script type="text/javascript">
+$('.sort').click(function () {
+        var sort_value = $(this).attr('id');
+        $('#sort_val').val(sort_value);
+        if ($('#sort_orderby').val() == 'asc') {
+                $('#sort_orderby').val('desc')
+        } else {
+                $('#sort_orderby').val('asc')
+        }
+        $('#frm').submit();
+});
 
-                // $('.date-picker').datetimepicker({
-                //     format: 'YYYY-MM-DD'
-                // });
-                </script>
-                @endpush
+// $('.date-picker').datetimepicker({
+//     format: 'YYYY-MM-DD'
+// });
+</script>
+@endpush

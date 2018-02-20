@@ -53,7 +53,6 @@ return [
     */
     'url' => env('APP_URL', 'http://admin.localhost:8000'),
     'domain' => env('APP_DOMAIN', 'localhost'),
-    'cdn' => env('APP_CDN_DOMAIN', 'cdn.chagumsa.com'),
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

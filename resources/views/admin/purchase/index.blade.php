@@ -14,9 +14,11 @@
                                 <table class="table text-center">
                                         <colgroup>
                                                 <col width="8%">
-                                                <col width="15%" class="">
-                                                <col width="15%" class="">
-                                                <col width="15%" class="">
+                                                <col width="10%" class="">
+                                                <col width="10%" class="">
+                                                <col width="10%" class="">
+                                                <col width="10%">
+                                                <col width="20%">
                                                 <col width="15%">
                                                 <col width="*">
                                         </colgroup>
@@ -31,7 +33,7 @@
                                                         <th class="text-center">PG</th>
                                                         <!-- <th class="text-center">결제내역</th> -->
                                                         <th class="text-center">결제일</th>
-                                                        {{--<th class="text-center">{{ trans('admin/role.action') }}</th>--}}
+                                                        <th class="text-center">Remarks</th>
                                                 </tr>
                                         </thead>
 
@@ -72,6 +74,9 @@
 
                                                         <td>{{ $data->pg }}</td>
 
+
+
+
                                                         <!-- <td class="text-center">
                                                                 <a href="/user/{{ $data->order->orderer_id }}/edit">{{ $data->order->orderer ? $data->order->orderer->email : '-' }}</a>
                                                                 <br/>
@@ -93,7 +98,15 @@
                                                                 <small class="text-warning">{{ $data->payment_type->display() }}</small>
                                                         </td> -->
 
-                                                        <td class="text-center">{{ $data->created_at->format('Y.m.d') }}</td>
+                                                        <td class="text-center">{{ $data->updated_at }}</td>
+
+                                                        <td class="text-center">
+
+                                                                <a href="{{ route("purchase.show", [$data->id]) }}" class="btn btn-default btn-icon waves-effect waves-float" data-toggle="tooltip" title="결제정보 상세보기"><i class="zmdi zmdi-search-in-page"></i></a>
+
+
+
+                                                        </td>
                                                 </tr>
                                                 @endforeach
 

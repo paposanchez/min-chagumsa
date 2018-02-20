@@ -98,6 +98,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         // 대시보드
         Route::get('dashboard', 'DashboardController')->name("dashboard");
+        Route::get('dashboard/get-diagnosis-chart', 'DashboardController@getDiagnisisChart');
         Route::get('get-inquire-count', 'DashboardController@getInquireCount')->name('get-inquire-count');
 
         Route::group(['middleware' => ['role:admin']], function () {
@@ -278,16 +279,17 @@ Route::group(['middleware' => ['guest.admin']], function () {
 // Route::any('/', function () {
 //     return view('admin.auth.login');
 // });
+
 Route::any('/', 'WelcomeController');
 
-Route::get('dashboard/get-json', function (\Illuminate\Http\Request $request) {
-        $ordersListCount = \App\Models\Order::select([
-                \Illuminate\Support\Facades\DB::raw('COUNT(DISTINCT id) as count'),
-                \Illuminate\Support\Facades\DB::raw('DATE(`created_at`) as date')
-                ])->groupBy('date')->take($request->get('count'))->orderBy('date', 'DESC')->pluck('count')->toArray();
-
-                $json_array = json_encode(array_reverse($ordersListCount));
-
-                return $json_array;
-
-        });
+// Route::get('dashboard/get-json', function (\Illuminate\Http\Request $request) {
+//         $ordersListCount = \App\Models\Order::select([
+//                 \Illuminate\Support\Facades\DB::raw('COUNT(DISTINCT id) as count'),
+//                 \Illuminate\Support\Facades\DB::raw('DATE(`created_at`) as date')
+//                 ])->groupBy('date')->take($request->get('count'))->orderBy('date', 'DESC')->pluck('count')->toArray();
+//
+//                 $json_array = json_encode(array_reverse($ordersListCount));
+//
+//                 return $json_array;
+//
+//         });

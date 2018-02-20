@@ -126,6 +126,7 @@ browsers to access this website.</p>
 {!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.js', array(), env('APP_SECURE', 'true')) !!}
 {!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.resize.js', array(), env('APP_SECURE', 'true')) !!}
 {!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.pie.js', array(), env('APP_SECURE', 'true')) !!}
+{!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.time.js', array(), env('APP_SECURE', 'true')) !!}
 {!! Html::script('/assets/vendors/bower_components/flot.curvedlines/curvedLines.js', array(), env('APP_SECURE', 'true')) !!}
 {!! Html::script('/assets/vendors/sparklines/jquery.sparkline.min.js', array(), env('APP_SECURE', 'true')) !!}
 {!! Html::script('/assets/vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js', array(), env('APP_SECURE', 'true')) !!}

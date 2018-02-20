@@ -251,7 +251,7 @@
 
                                                                 @foreach($order->orderGroup as $group_order)
                                                                 @foreach($group_order->orderItem as $order_item)
-                                                                <div class="col-sm-3">
+                                                                <div class="col-sm-4">
                                                                         @component('components.order_item', [
                                                                         'order_item' => $order_item
                                                                         ])

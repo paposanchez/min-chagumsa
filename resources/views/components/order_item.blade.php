@@ -7,10 +7,21 @@
                 </h2>
 
                 <ul class="actions">
+
                         <li>
-                                <a href="">
-                                        <i class="zmdi zmdi-delete"></i>
-                                </a>
+                                @component('components.badge', [
+                                'code' => $order_item->document->status_cd,
+                                'color' =>[
+                                '120' => 'default',
+                                '102' => 'success',
+                                '112' => 'success',
+                                '113' => 'warning',
+                                '114' => 'info',
+                                '115' => 'primary',
+                                '116' => 'danger'
+                                ]])
+                                {{ $order_item->document->status->display() }}
+                                @endcomponent
                         </li>
 
                         <!-- <li>

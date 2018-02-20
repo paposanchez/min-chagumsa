@@ -53,21 +53,20 @@ class OrderItem extends Model
         }
 
 
-        // public function document()
-        // {
-        //
-        //         switch($this->type_cd)
-        //         {
-        //                 case 121:
-        //                 return $this->hasOne(Diagnosis::class, 'order_items_id', 'id')->withDefault(['type_cd' => 121]);
-        //
-        //                 case 122:
-        //                 return $this->hasOne(Certificate::class, 'order_items_id', 'id')->withDefault(['type_cd' => 122]);
-        //
-        //                 case 123:
-        //                 return $this->hasOne(Warranty::class, 'order_items_id', 'id')->withDefault(['type_cd' => 123]);
-        //         }
-        // }
+        public function document()
+        {
+                switch($this->type_cd)
+                {
+                        case 121:
+                        return $this->hasOne(Diagnosis::class, 'order_items_id', 'id')->withDefault(['type_cd' => 121]);
+
+                        case 122:
+                        return $this->hasOne(Certificate::class, 'order_items_id', 'id')->withDefault(['type_cd' => 122]);
+
+                        case 123:
+                        return $this->hasOne(Warranty::class, 'order_items_id', 'id')->withDefault(['type_cd' => 123]);
+                }
+        }
 
 
         public function diagnosis()
