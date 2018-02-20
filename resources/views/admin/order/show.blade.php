@@ -24,6 +24,7 @@
                                                                         <p class="form-control-static">{{ $order->chakey }}</p>
                                                                 </div>
                                                         </div>
+
                                                         <div class="form-group">
                                                                 <label for="" class="control-label col-md-3">주문seq</label>
                                                                 <div class="col-md-6">
@@ -90,7 +91,7 @@
 
                                                         <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                                                 <label for="" class="control-label col-md-3">차량 모델명</label>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-9">
                                                                         <p class="form-control-static">{{ $order->getCarFullName() }}
                                                                                 @if($parent_order->diagnosis->status_cd == 126 || $parent_order->diagnosis->status_cd < 115)
                                                                                 <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
@@ -120,9 +121,9 @@
                                         <form class="form-horizontal">
                                                 <fieldset>
                                                         <div class="form-group">
-                                                                <label for="" class="control-label col-md-3">결제 트랜젝션 번호</label>
+                                                                <label for="" class="control-label col-md-3">트랜젝션 번호</label>
                                                                 <div class="col-md-6">
-                                                                        <p class="form-control-static">{{ $order->purchase_id }}</p>
+                                                                        <p class="form-control-static">{{ $order->transaction_id }}</p>
                                                                 </div>
                                                         </div>
                                                         <div class="form-group">
@@ -197,10 +198,10 @@
                                                                                                                 </div>
                                                                                                         </div>
                                                                                                         @foreach($order->orderItem as $order_item)
-                                                                                                                @component('components.time_line', [
-                                                                                                                'order_item' => $order_item
-                                                                                                                ])
-                                                                                                                @endcomponent
+                                                                                                        @component('components.time_line', [
+                                                                                                        'order_item' => $order_item
+                                                                                                        ])
+                                                                                                        @endcomponent
                                                                                                         @endforeach
                                                                                                 </fieldset>
                                                                                         </form>
@@ -364,16 +365,26 @@
                 <script type="text/javascript">
 
                 $("#cancel-click").on("click", function () {
-                        if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
-                                var order_id = $(this).data("cancel_order_id");
-                                if (order_id) {
-                                        $("#cancel-order_id").val(order_id);
-                                        $("#cancel-form").submit();
-                                } else {
-                                        alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
-                                }
+                        swal({
+                                title: "해당 주문을 취소하시겠습니까?",
+                                text: "취소된 주문은 복구할 수 없습니다.",
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: "네",
+                                cancelButtonText: "아니요",
+                        }).then(function(isConfirm){
+                                if (isConfirm) {
+                                        var order_id = $(this).data("cancel_order_id");
+                                        if (order_id) {
+                                                $("#cancel-order_id").val(order_id);
+                                                $("#cancel-form").submit();
+                                                swal("해당 주문을 취소했습니다.", "", "success");
+                                        }else{
+                                                swal("주문번호를 확인할 수 없습니다.", "새로고침 후 결제취소를 진행해 주세요.", "error");
+                                        }
 
-                        }
+                                }
+                        });
                 });
 
 
