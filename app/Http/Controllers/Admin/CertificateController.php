@@ -219,34 +219,11 @@ class CertificateController extends Controller
     {
         try {
             $certificate = Certificate::findOrFail($id);
-            $car = $certificate->carNumber->car;
-            $car_number = $certificate->carNumber;
             $complete_state = Code::getIdByGroupAndName('report_state', 'complete');
 
             if ($certificate->status_cd == $complete_state) {
                 return redirect()->back()->with('error', '발급완료된 인증서입니다.');
             }
-
-            $car_number_data = [
-                "car_number" => $request->get('orders_car_number'),
-            ];
-
-            $car_data = [
-//                "imported_vin_number" => $request->get('car_imported_vin_number'),
-                "registration_date" => $request->get('cars_registration_date'),
-                "year" => $request->get('cars_year'),
-                "kind_cd" => $request->get("kind_cd"),
-                "displacement" => $request->get('cars_displacement'),
-                "exterior_color_cd" => $request->get('cars_exterior_color'),
-                "exterior_color_etc" => $request->get('car_exterior_color_etc') ? $request->get('car_exterior_color_etc') : '',
-                "fuel_consumption" => $request->get('cars_fuel_consumption'),
-                "fueltype_cd" => $request->get("cars_fueltype_cd"),
-                "fueltype_etc" => $request->get('car_fueltype_etc') ? $request->get('car_fueltype_etc') : '',
-                "transmission_cd" => $request->get('cars_transmission_cd'),
-                "engine_type" => $request->get("cars_engine_type"),
-                "passenger" => $request->get("passenger")
-            ];
-
 
             $certificate_data = [
                 "vin_yn_cd" => $request->get("certificates_vin_yn_cd"),
@@ -309,16 +286,13 @@ class CertificateController extends Controller
             DB::beginTransaction();
 
             $certificate->update($certificate_data);
-            $car->update($car_data);
-            $car_number->update($car_number_data);
 
             DB::commit();
 
             return redirect()->back()->with('success', '정상적으로 인증서가 발급되었습니다.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', '처리중 오류가 발생했습니다.');
-//            return redirect()->back()->with('error', '인증서 정보가 갱신이 실패하였습니다.<br>' . $e->getMessage());
+            return redirect()->back()->with('error', '인증서 정보가 갱신이 실패하였습니다.<br>' . $e->getMessage());
         }
     }
 
