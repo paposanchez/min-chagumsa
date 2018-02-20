@@ -25,9 +25,22 @@
                                 <div class="form-group">
                                     <label for="" class="control-label col-md-3">주문번호</label>
                                     <div class="col-md-6">
-                                        <p class="form-control-static">{{ $order->chakey }}</p>
+                                        <p class="form-control-static">{{ $order->chakey }}
+                                            {{-- todo 생각이 필요한 부분.... --}}
+                                            @if($p_flag == 0)
+                                                <a class='pull-right text-sm text-danger' href="#" id="order_cancel" data-cancel_order_id="{{ $order->id }}">취소</a>
+                                            @endif
+                                        </p>
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="" class="control-label col-md-3">주문 상태</label>
+                                    <div class="col-md-6">
+                                        <p class="form-control-static">{{ $order->status->display() }}</p>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="" class="control-label col-md-3">주문seq</label>
                                     <div class="col-md-6">
@@ -367,12 +380,15 @@
         </div>
     </div>
 
+    {!! Form::open(['route' => ["order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
+    <input type="hidden" name="order_id" id="cancel-order_id">
+    {!! Form::close() !!}
 @endsection
 
 @push( 'footer-script' )
     <script type="text/javascript">
 
-        $("#cancel-click").on("click", function () {
+        $("#order_cancel").on("click", function () {
             if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
                 var order_id = $(this).data("cancel_order_id");
                 if (order_id) {

@@ -409,6 +409,7 @@
                 $('#items').val(items.substr(1));
             });
 
+            // 주문번호 채크
             $(document).on('click', '#confirm_order', function () {
                 var order_number = $('#order_number').val();
 

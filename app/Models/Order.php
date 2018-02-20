@@ -14,22 +14,24 @@ use Illuminate\Database\Eloquent\Model;
 class Order Extends Model
 {
     protected $fillable = [
-        'car_number',   //차량번호
+        'car_number',       //차량번호
         'car_numbers_id',   //차번호 테이블 id
-        'group_id', //주문 그룹키
-        'purchase_id',  //구매 테이블 id
-        'orderer_id',   //주문자 id
-        'orderer_name', //주문자 이름
+        'group_id',         //주문 그룹키
+        'purchase_id',      //구매 테이블 id
+        'refund_status',    //환불여부
+        'orderer_id',       //주문자 id
+        'orderer_name',     //주문자 이름
         'orderer_mobile',   //주문자 휴대폰번호
         'orderer_email',    //주문대상자 이메일
         'refund_status',    //환불완료여부
-        'status_cd',    //상태 코드
-        'car_number',
-        'brands_id',
-        'models_id',
-        'details_id',
-        'grades_id',
-        'chakey'
+        'status_cd',        //상태 코드
+        'car_number',       //차량번호
+        'brands_id',        //브랜드번호
+        'models_id',        //모델번호
+        'details_id',       //세부모델번호
+        'grades_id',        //등급번호
+        'chakey'            //주문번호
+
     ];
 
     protected $dates = [
@@ -169,6 +171,26 @@ class Order Extends Model
 
     public function payment(){
         return $this->hasOne(\App\Models\Payment::class, 'moid', 'id');
+    }
+
+    //인증서 리스트
+    public function getReportList(){
+        $list =  [];
+        $chakey = $this->chakey;
+
+        if($this->diagnosis){
+            $list['diagnosis'] = $this->diagnosis;
+        }
+        if($this->certificate){
+            $list['certificate'] = $this->certificate;
+        }
+        if($this->warranty){
+            $list['warranty'] = $this->warranty;
+        }
+
+        return $list;
+
+
     }
 
     // 진단주문 여부

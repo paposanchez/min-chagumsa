@@ -52,12 +52,30 @@ class OrderItem extends Model
         return $this->hasOne(\App\Models\Code::class, 'id', 12);
     }
 
+    // 인증서 타입별 반환
+    public function getReport(){
+        $type_cd = $this->type_cd;
+
+        switch ($type_cd) {
+            case 121:
+                // 진단
+                return ['diagnosis' => $this->diagnosis];
+            case 122:
+                // 평가
+                return ['certificate' => $this->certificate];
+            case 123:
+                // 보증
+                return ['warranty' => $this->warranty];
+        }
+    }
+
+
+
     public function diagnosis()
     {
         return $this->hasOne(Diagnosis::class, 'order_items_id', 'id')->withDefault(['type_cd' => 121]);
         //        return $this->hasOne(Diagnosis::class, 'order_items_id', 'id');
     }
-
 
     public function certificate()
     {
