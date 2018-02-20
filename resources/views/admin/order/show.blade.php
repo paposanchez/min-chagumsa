@@ -6,13 +6,11 @@
 
         <div class="container">
 
-
             <div class="row">
 
                 <div class="col-md-6">
 
                     <h4>주문정보</h4>
-                    
                     <div class="card">
 
                         <div class="card-body card-padding">
@@ -23,20 +21,7 @@
                                 <div class="form-group">
                                     <label for="" class="control-label col-md-3">주문번호</label>
                                     <div class="col-md-6">
-                                        <p class="form-control-static">{{ $order->chakey }}
-                                            {{-- todo 생각이 필요한 부분.... --}}
-                                            @if($p_flag == 0)
-                                                <a class='pull-right text-sm text-danger' href="#" id="order_cancel"
-                                                   data-cancel_order_id="{{ $order->id }}">취소</a>
-                                            @endif
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="" class="control-label col-md-3">주문 상태</label>
-                                    <div class="col-md-6">
-                                        <p class="form-control-static">{{ $order->status->display() }}</p>
+                                        <p class="form-control-static">{{ $order->chakey }}</p>
                                     </div>
                                 </div>
 
@@ -64,7 +49,6 @@
                                                value="{{ $order->orderer_name }}">
                                         @if ($errors->has('name'))
                                             <span class="text-danger">
-
                                                                                 {{ $errors->first('name') }}
                                                                         </span>
                                         @endif
@@ -107,7 +91,7 @@
 
                                 <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
                                     <label for="" class="control-label col-md-3">차량 모델명</label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-9">
                                         <p class="form-control-static">{{ $order->getCarFullName() }}
                                             @if($parent_order->diagnosis->status_cd == 126 || $parent_order->diagnosis->status_cd < 115)
                                                 <a class='pull-right text-sm text-danger' href="#" data-toggle="modal"
@@ -137,9 +121,9 @@
                             <form class="form-horizontal">
                                 <fieldset>
                                     <div class="form-group">
-                                        <label for="" class="control-label col-md-3">결제 트랜젝션 번호</label>
+                                        <label for="" class="control-label col-md-3">트랜젝션 번호</label>
                                         <div class="col-md-6">
-                                            <p class="form-control-static">{{ $order->purchase_id }}</p>
+                                            <p class="form-control-static">{{ $order->transaction_id }}</p>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -177,6 +161,26 @@
                     <h4>타임라인</h4>
                     <div class="card">
                         <div class="card-body card-padding">
+                            {{--<div class="pmo-contact">--}}
+                            {{--<ul>--}}
+                            {{--<li class="ng-binding"><i class="zmdi zmdi-phone"></i> 00971123456789</li>--}}
+                            {{--<li class="ng-binding"><i class="zmdi zmdi-email"></i> malinda.h@gmail.com</li>--}}
+                            {{--<li class="ng-binding"><i class="zmdi zmdi-facebook-box"></i> malinda.hollaway--}}
+                            {{--</li>--}}
+                            {{--<li class="ng-binding"><i class="zmdi zmdi-twitter"></i> @malinda--}}
+                            {{--(twitter.com/malinda)--}}
+                            {{--</li>--}}
+                            {{--<li>--}}
+                            {{--<i class="zmdi zmdi-pin"></i>--}}
+                            {{--<address class="m-b-0 ng-binding">--}}
+                            {{--44-46 Morningside Road <br>--}}
+                            {{--Edinburgh <br>--}}
+                            {{--Scotland--}}
+                            {{--</address>--}}
+                            {{--</li>--}}
+                            {{--</ul>--}}
+                            {{--</div>--}}
+
                             <form class="form-horizontal">
                                 <fieldset>
                                     <h5>주문</h5>
@@ -355,29 +359,32 @@
         </div>
     </div>
 
-    </div>
-    </div>
-    </div>
-
-    {!! Form::open(['route' => ["order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
-    <input type="hidden" name="order_id" id="cancel-order_id">
-    {!! Form::close() !!}
 @endsection
 
 @push( 'footer-script' )
     <script type="text/javascript">
 
-        $("#order_cancel").on("click", function () {
-            if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
-                var order_id = $(this).data("cancel_order_id");
-                if (order_id) {
-                    $("#cancel-order_id").val(order_id);
-                    $("#cancel-form").submit();
-                } else {
-                    alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
-                }
+        $("#cancel-click").on("click", function () {
+            swal({
+                title: "해당 주문을 취소하시겠습니까?",
+                text: "취소된 주문은 복구할 수 없습니다.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "네",
+                cancelButtonText: "아니요",
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    var order_id = $(this).data("cancel_order_id");
+                    if (order_id) {
+                        $("#cancel-order_id").val(order_id);
+                        $("#cancel-form").submit();
+                        swal("해당 주문을 취소했습니다.", "", "success");
+                    } else {
+                        swal("주문번호를 확인할 수 없습니다.", "새로고침 후 결제취소를 진행해 주세요.", "error");
+                    }
 
-            }
+                }
+            });
         });
 
 
@@ -415,4 +422,3 @@
         });
     </script>
 @endpush
-
