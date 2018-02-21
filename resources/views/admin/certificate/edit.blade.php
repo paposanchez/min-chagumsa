@@ -11,7 +11,7 @@
 
                     <ul class="actions">
                         <li>
-                            <a href="/posting" class="goback">
+                            <a href="/certificate" class="goback">
                                 <i class="zmdi zmdi-view-list"></i>
                             </a>
                         </li>
@@ -33,15 +33,20 @@
                            class="btn btn-default pull-right"
                            style="margin-left:10px;" data-toggle="tooltip" title="인증서 진단정보 보기">진단정보 보기</a>
 
+                        @if($certificate->status_cd == 114)
                         <button id="issue" class="btn btn-primary pull-right" data-toggle="tooltip" title="인증서 진단정보 보기"
                                 data-id="{{ $certificate->id }}" style="margin-left:10px;">인증서 발급하기
                         </button>
+                        @endif
 
-                        <button id="certificate-submit" class="btn btn-info pull-right" data-toggle="tooltip"
-                                title="인증서 저장하기"
-                                style="margin-left:10px;">인증서
-                            저장하기
-                        </button>
+                        @if(!in_array($certificate->status_cd, ['115', '116', '120']))
+                            <button id="certificate-submit" class="btn btn-info pull-right" data-toggle="tooltip"
+                                    title="인증서 저장하기"
+                                    style="margin-left:10px;">인증서
+                                저장하기
+                            </button>
+                        @endif
+
                     </h3>
 
                     <div class="row">
@@ -79,7 +84,7 @@
                         <div class="row">
                             <input type="hidden" name="certificate_id" value="{{ $certificate->id }}">
 
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <h4 style="margin-top:36px !important;">인증서 발급내역</h4>
 
                                 <div class="panel panel-default">
@@ -771,18 +776,27 @@
             var V = Pst + (A + B + C + S);
             return V;
         };
-        $(document).on('click', '.picture', function () {
-            $(this).parent().find('img').css('opacity', '1');
-            $(this).css('opacity', '0.2');
-
-            $('#selecte_picture_id').val($(this).data('id'));
-        });
+        // $(document).on('click', '.picture', function () {
+        //     $(this).parent().find('img').css('opacity', '1');
+        //     $(this).css('opacity', '0.2');
+        //
+        //     $('#selecte_picture_id').val($(this).data('id'));
+        // });
 
 
         $(document).on('click', '#certificate-submit', function () {
-            if (confirm("인증서를 저장하시겠습니까?")) {
-                $("#frm-basic").submit();
-            }
+            swal({
+                title: "인증서를 저장하시겠습니까?",
+                // text: "취소된 주문은 복구할 수 없습니다.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "네",
+                cancelButtonText: "아니요",
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $("#frm-basic").submit();
+                }
+            });
         });
 
         $(document).on('click', '#valuation', function(){
@@ -802,71 +816,72 @@
 
         // 인증서 발급하기
         $(document).on('click', '#issue' ,function(){
-            var c = confirm("인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
+            // var c = confirm("인증서가 발급되면 수정이 불가능합니다. \n인증서를 발급하시겠습니까?");
             var params = $("#frm-basic").serialize();
+            //
+            // if (c == true) {
+            //     $.ajax({
+            //         type: 'post',
+            //         url: '/certificate/issue/',
+            //         data: {
+            //             'params': params
+            //         },
+            //         success: function (data) {
+            //             if (data == 'success') {
+            //                 alert('인증서 발급이 완료되었습니다.');
+            //                 location.href = "/certificate";
+            //             }
+            //             else {
+            //                 $.each(data, function (key, value) {
+            //                     alert(value + '\n항목을 선택 후 저장해주세요.\n저장 후 인증서를 발급하셔야 정상적으로 발급됩니다.');
+            //                     $('input[name=' + key + ']').parent().css('color', 'red');
+            //                     $('input[name=' + key + ']').focus();
+            //                     return false;
+            //                 });
+            //             }
+            //         },
+            //         error: function (data) {
+            //             alert('문제가 발생하였습니다. 관리자에게 문의하세요.');
+            //         }
+            //     })
+            // }
 
-            if (c == true) {
-                $.ajax({
-                    type: 'post',
-                    url: '/certificate/issue/',
-                    data: {
-                        'params': params
-                    },
-                    success: function (data) {
-                        if (data == 'success') {
-                            alert('인증서 발급이 완료되었습니다.');
-                            location.href = "/certificate";
+            swal({
+                title: "인증서를 발급하시겠습니까?",
+                text: "인증서가 발급되면 수정이 불가능합니다.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "네",
+                cancelButtonText: "아니요",
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/certificate/issue/',
+                        data: {
+                            'params': params
+                        },
+                        success: function (data) {
+                            if (data == 'success') {
+                                swal("인증서 발급이 완료되었습니다.", "", "success");
+                                location.href = "/certificate";
+                            }
+                            else {
+                                $.each(data, function (key, value) {
+                                    swal(value + "항목을 선택 후 저장해주세요.\n저장 후 인증서를 발급하셔야 정상적으로 발급됩니다.", "", "error");
+                                    $('input[name=' + key + ']').parent().css('color', 'red');
+                                    $('input[name=' + key + ']').focus();
+                                    return false;
+                                });
+                            }
+                        },
+                        error: function (data) {
+                            swal("처리중 오류가 발생하였습니다.", "", "error");
                         }
-                        else {
-                            $.each(data, function (key, value) {
-                                alert(value + '\n항목을 선택 후 저장해주세요.\n저장 후 인증서를 발급하셔야 정상적으로 발급됩니다.');
-                                $('input[name=' + key + ']').parent().css('color', 'red');
-                                $('input[name=' + key + ']').focus();
-                                return false;
-                            });
-                        }
-                    },
-                    error: function (data) {
-                        alert('문제가 발생하였습니다. 관리자에게 문의하세요.');
-                    }
-                })
-            }
+                    })
+                }
+            });
         });
-
-        $('#cars_exterior_color').change(function () {
-            if ($('#cars_exterior_color').val() == 1132) {
-                $('#exterior_color_etc').css('display', '')
-            } else {
-                $('#exterior_color_etc').css('display', 'none')
-            }
-        });
-
-        $('#cars_fueltype_cd').change(function () {
-            if ($('#cars_fueltype_cd').val() == 1106) {
-                $('#fueltype_etc').css('display', '')
-            } else {
-                $('#fueltype_etc').css('display', 'none')
-            }
-        });
-
-
-        // $("#frm-basic").validate({
-//             messages: {
-//                 car_number: "자동차 등록번호를 입력해 주세요.",
-//                 cars_vin_number: "차대번호를 입력해 주세요.",
-// //                    certificates_vin_yn_cd: "차대번호 동일성확인을 선택해 주세요.",
-// //                    cars_registration_date: "차량의 최초등록일을 입력해 주세요.",
-// //                    cars_year: "연식을 입력해 주세요.",
-// //                    orders_mileage: "주행거리를 km단위로 입력해 주세요. (정수값)",
-// //                    cars_displacement: "배기량을 입력해 주세요.",
-// //                    cars_engine_type: "엔진타입을 입력해 주세요.",
-// //                    cars_fuel_consumption: "연비를 선택해 주세요.",
-// //                    passenger: "승차인원을 입력해 주세요."
-//             },
-//             submitHandler: function (form) {
-//                 form.submit();
-//             }
-//         });
 
         $(document).ready(function () {
             $('#plugin-attachment').fineUploader({

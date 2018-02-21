@@ -133,15 +133,14 @@
                                         <td class="text-center">
 
                                             @if(in_array($data->status_cd, [112,113,114]))
-                                                <a href="/certificate/{{ $data->id }}/edit"
+                                                <a href="{{ route('certificate.edit', [$data->id]) }}"
                                                    class="btn btn-default btn-icon waves-effect waves-float"
                                                    data-toggle="tooltip" title="인증서 발급 검토"><i
                                                             class="zmdi zmdi-assignment-check"></i></a>
                                             @endif
 
                                             @if($data->status_cd != 112 && $data->status_cd != 114)
-                                            <!-- <a href="/order/{{ $data->id }}" class="btn btn-default" data-toggle="tooltip" title="상세보기">상세보기</a> -->
-                                                <a href="/order/{{ $data->id }}" target="_blank"
+                                                <a href="{{ route('certificate.edit', [$data->id]) }}"
                                                    class="btn btn-default btn-icon waves-effect waves-float"
                                                    data-toggle="tooltip" title="상세보기"><i
                                                             class="zmdi zmdi-search-in-page"></i></a>

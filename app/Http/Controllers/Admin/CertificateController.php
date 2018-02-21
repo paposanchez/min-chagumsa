@@ -171,39 +171,28 @@ class CertificateController extends Controller
      */
     public function edit(Request $reqeust, $id)
     {
+        try{
+            $certificate = Certificate::findOrFail($id);
+
+            if($certificate->status_cd == Code::getIdByGroupAndName('report_state', 'order')){
+                $certificate->status_cd = Code::getIdByGroupAndName('report_state', 'review');
+                $certificate->technist_id = Auth::user()->id;
+                $certificate->start_at = Carbon::now();
+                $certificate->save();
+            }
+
+            $car = $certificate->CarNumber->car;
+            $grades = Code::getSelectList('grade_state_cd');
+            $operation_state_cd = Code::getSelectList('operation_state_cd');
+            $certificate_states = Code::getSelectList('certificate_state_cd');
+            $standard_states = Code::getSelectList('standard_cd');
+
+            return view('admin.certificate.edit', compact('certificate', 'grades',  'car', 'standard_states', 'operation_state_cd', 'certificate_states'));
+        }catch (\Exception $e){
+            return redirect()->back()->with('error', '처리중 오류가 발생하였습니다.');
+        }
 
 
-
-        $certificate = Certificate::findOrFail($id);
-
-        /**
-         * 기본정보: 자동차등록증 / 차대번호 / 주행거리 / 색상 / 추가옵션
-         * 주요외판: 전방 /    후방 / 좌측 / 우측 / 교환 / 부식
-         * 주요내판 및 골격: 차량하단 / 엔진 / 교환 / 용접/판금 수리
-         * 침수흔적: 실내악취 / 앞좌석 실내바닥 / 트런크 실내바닥 / 엔진 / 부식
-         * 차량내외부 점검: 차량외판 / 차량실내점검
-         * 주행테스트: 엔진작동상태 / 변속기 작동상태 / 브레이크작동상태 / 얼라인먼트 / 조향장치 작동상태 / 작동상태의견
-         * 차량 작동상태 점검: 엔진 작동상태 / 변속기작동상태 / 브레이크작동상태 / 조향장치 작동상태 / 오일 등 누유상태
-         * 차량 작동상태 점검2: 타이어 상태 / 엔진오일 상태 / 냉각수 상태 / 브레이크패드 상태 / 배터리 상태
-         *
-         */
-        $car = $certificate->CarNumber->car;
-        $grades = Code::getSelectList('grade_state_cd');
-        $select_color = Code::getSelectList('color_cd');
-
-        $select_transmission = Code::getSelectList("transmission");
-        $select_fueltype = Code::getSelectList('fuel_type');
-
-
-        // todo 지울예정
-        $select_vin_yn = Code::getSelectList('yn');
-        $kinds = Code::getSelectList('kind_cd');
-        $certificate_states = Code::getSelectList('certificate_state_cd');
-        $operation_state_cd = Code::getSelectList('operation_state_cd');
-        $standard_states = Code::getSelectList('standard_cd');
-
-
-        return view('admin.certificate.edit', compact('certificate', 'grades', 'kinds', 'certificate_states', 'select_color', 'select_vin_yn', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'car', 'standard_states', 'operation_state_cd'));
     }
 
 
@@ -328,7 +317,7 @@ class CertificateController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('success', '정상적으로 인증서가 발급되었습니다.');
+            return redirect()->back()->with('success', '정상적으로 인증서가 저장되었습니다.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', '인증서 정보가 갱신이 실패하였습니다.<br>' . $e->getMessage());
@@ -346,23 +335,23 @@ class CertificateController extends Controller
     public function issue(Request $request)
     {
         try {
-
             $obj = $request->get('params');
+
             $params = [];
             parse_str($obj, $params);
 
             $validate = Validator::make($params, [
-                'car_imported_vin_number' => 'nullable',
-                'cars_registration_date' => 'required',
-                'cars_exterior_color' => 'required',
-                'cars_year' => 'required',
-                'cars_transmission_cd' => 'required',
-                'cars_displacement' => 'required',
-                'cars_fuel_consumption' => 'required',
-                'cars_engine_type' => 'required',
-                'cars_fueltype_cd' => 'required',
-                'passenger' => 'required',
-                'kind_cd' => 'required',
+//                'car_imported_vin_number' => 'nullable',
+//                'cars_registration_date' => 'required',
+//                'cars_exterior_color' => 'required',
+//                'cars_year' => 'required',
+//                'cars_transmission_cd' => 'required',
+//                'cars_displacement' => 'required',
+//                'cars_fuel_consumption' => 'required',
+//                'cars_engine_type' => 'required',
+//                'cars_fueltype_cd' => 'required',
+//                'passenger' => 'required',
+//                'kind_cd' => 'required',
 
                 'certificates_new_car_price' => 'required',
                 'pst' => 'required',
@@ -394,18 +383,18 @@ class CertificateController extends Controller
                 'grade_state_cd' => 'required',
                 'certificates_opinion' => 'required'
             ], [], [
-                'cars_vin_number' => '차대번호',
-                'cars_registration_date' => '최초등록',
-                'cars_exterior_color' => '외부색상',
-                'cars_year' => '연식',
-                'cars_transmission_cd' => '변속기',
-                'cars_displacement' => '배기량',
-                'cars_fuel_consumption' => '연비',
-                'cars_engine_type' => '엔진타입',
-                'cars_fueltype_cd' => '사용연료',
-                'passenger' => '승차인원',
-                'kind_cd' => '차종',
-                'certificates_vin_yn_cd' => '차대번호 동일성확인',
+//                'cars_vin_number' => '차대번호',
+//                'cars_registration_date' => '최초등록',
+//                'cars_exterior_color' => '외부색상',
+//                'cars_year' => '연식',
+//                'cars_transmission_cd' => '변속기',
+//                'cars_displacement' => '배기량',
+//                'cars_fuel_consumption' => '연비',
+//                'cars_engine_type' => '엔진타입',
+//                'cars_fueltype_cd' => '사용연료',
+//                'passenger' => '승차인원',
+//                'kind_cd' => '차종',
+//                'certificates_vin_yn_cd' => '차대번호 동일성확인',
                 'certificates_new_car_price' => '산차출고가격',
                 'pst' => '기준가격(P)',
                 'basic_depreciation' => '기본평가(A)',
@@ -444,35 +433,10 @@ class CertificateController extends Controller
 
             DB::beginTransaction();
             $certificate = Certificate::findOrFail($params['certificate_id']);
-            $certificate->status_cd = Code::gegetIdByGroupAndNametId('report_state', 'complete');
+            $certificate->status_cd = Code::getIdByGroupAndName('report_state', 'complete');
             $certificate->completed_at = Carbon::now();
             $certificate->expired_at = $certificate->getExpireDate();
             $certificate->save();
-
-            //            //문자, 메일 송부하기
-            //            $user = User::find($order->orderer_id);
-            //            $order_number = $order->getOrderNumber();
-            //            $certificate_url = 'http://cert.chagumsa.com/' . $order_number;
-            //
-            //            try {
-            //                //메일전송
-            //                $mail_message = [
-            //                    'order_number' => $order_number, 'certificate_url' => $certificate_url
-            //                ];
-            //                Mail::send(new \App\Mail\Ordering($user->email, "차검사 인증서 발급이 완료되었습니다.", $mail_message, 'message.email.fin-certification-user'));
-            //            } catch (\Exception $e) {
-            //                return response()->json($e->getMessage());
-            //            }
-            //
-            //            try {
-            //                // SMS전송
-            //                $user_message = view('message.sms.fin-certification-user', compact('order_number', 'certificate_url'));
-            //                event(new SendSms($order->orderer_mobile, '', $user_message));
-            //            } catch (\Exception $e) {
-            //                return response()->json($e->getMessage());
-            //            }
-            //            //발송 끝
-
 
             DB::commit();
             return response()->json('success');
