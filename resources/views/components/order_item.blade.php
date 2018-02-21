@@ -20,7 +20,7 @@
                                 '115' => 'primary',
                                 '116' => 'danger'
                                 ]])
-                                {{ $order_item->document->status->display() }}
+                                {{ $order_item->document->status ? $order_item->document->status->display() : '미생성' }}
                                 @endcomponent
                         </li>
 

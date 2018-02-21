@@ -375,8 +375,6 @@ class DiagnosesController extends Controller
             $reservation->garage_id = $diagnosis->garage_id;
             $reservation->save();
 
-            //todo noty 해야댐
-
             return redirect()->back()->with('success', '예약이 성공적으로 변경되었습니다.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', '오류가 발생하였습니다.');
