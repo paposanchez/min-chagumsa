@@ -1853,3 +1853,35 @@ if ($('.alert-autoclose').length > 0) {
         });
     });
 }
+
+// 1:1 문의글 카운트
+$(document).ready(function(){
+    $.ajax({
+        type: 'get',
+        dataType: 'json',
+        url: '/get-inquire-count',
+        data: {},
+        success: function (data) {
+            if(data == ''){
+                $('.him-counts').html(0);
+            }else{
+                $('.him-counts').html(data);
+            }
+        },
+        error: function (data) {
+            // alert(JSON.stringify(data));
+            alert('최근 1:1문의를 로딩하지 못하였습니다.');
+        }
+    });
+});
+// 헤더 주문 검색
+$('#search_bar').keypress(function(e){
+    if (e.which == 13) {
+        var chakey = $(this).val();
+        if(chakey == ''){
+            alert('주문번호를 입력해주세요.');
+        }else{
+            location.href='/order?sf=chakey&s='+chakey;
+        }
+    }
+});
