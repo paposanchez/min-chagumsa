@@ -141,17 +141,17 @@
                                         <td class="text-center">
 
                                             @if(in_array($data->status_cd, [113, 114, 126]))
-                                            <a href="{{ route("diagnosis.show", [$data->id]) }}"
-                                               class="btn btn-default btn-icon waves-effect waves-float"
-                                               data-toggle="tooltip" title="진단정보 상세보기"><i
-                                                        class="zmdi zmdi-search-in-page"></i></a>
+                                                <a href="{{ route("diagnosis.edit", [$data->id]) }}"
+                                                   class="btn btn-default btn-icon waves-effect waves-float"
+                                                   data-toggle="tooltip" title="진단정보 상세보기"><i
+                                                            class="zmdi zmdi-search-in-page"></i></a>
                                             @endif
 
                                             @if(\Illuminate\Support\Facades\Auth::user()->hasRole(['admin', 'technician']) && $data->status_cd == 126)
-                                            <a href="{{ route("review.show", [$data->id]) }}"
-                                               class="btn btn-default btn-icon waves-effect waves-float"
-                                               data-toggle="tooltip" title="진단정보 검토하기"><i
-                                                        class="zmdi zmdi-assignment-check"></i></a>
+                                                <a href="{{ route("diagnosis.edit", [$data->id]) }}"
+                                                   class="btn btn-default btn-icon waves-effect waves-float"
+                                                   data-toggle="tooltip" title="진단정보 검토하기"><i
+                                                            class="zmdi zmdi-assignment-check"></i></a>
                                             @endif
                                             @if( !in_array($data->status_cd, [114, 115, 120]))
                                                 <a href="{{ url("diagnosis", [$data->id]) }}"
@@ -161,10 +161,10 @@
                                             @endif
 
                                             @if($data->status_cd == 115)
-                                            <a href="{{ $data->getDocumentLink() }}" target="_blank"
-                                               class="btn btn-info btn-icon waves-effect waves-float"
-                                               data-toggle="tooltip" title="인증서보기"><i
-                                                        class="zmdi zmdi-search-in-file"></i></a>
+                                                <a href="{{ $data->getDocumentLink() }}" target="_blank"
+                                                   class="btn btn-info btn-icon waves-effect waves-float"
+                                                   data-toggle="tooltip" title="인증서보기"><i
+                                                            class="zmdi zmdi-search-in-file"></i></a>
                                             @endif
 
                                         </td>
