@@ -14,9 +14,6 @@
 
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-        <!-- Styles -->
-        {!! Html::style(mix('/assets/css/app.css'), array(), env('APP_SECURE', 'true')) !!}
-
 
         <!-- Scripts -->
         <script>
@@ -27,7 +24,10 @@
 
         {{ Html::script(mix( '/assets/js/base.js' ), array(), env('APP_SECURE', 'true')) }}
 
+        <!-- Styles -->
         @yield('content-header-script')
+        {!! Html::style(mix('/assets/css/app.css'), array(), env('APP_SECURE', 'true')) !!}
+
 
 </head>
 

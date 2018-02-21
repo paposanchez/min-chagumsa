@@ -7,22 +7,19 @@
 
 @section( 'content-header-script' )
 
-
         <!-- Vendor CSS -->
         {!! Html::style('/assets/vendors/bower_components/animate.css/animate.min.css', array(), env('APP_SECURE', 'true')) !!}
         {!! Html::style('/assets/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css', array(), env('APP_SECURE', 'true')) !!}
         {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css', array(), env('APP_SECURE', 'true')) !!}
         {!! Html::style('/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') !!}
-        {!! Html::style('/assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css', array(), env('APP_SECURE', 'true')) !!}
-        {!! Html::style('/assets/vendors/summernote/dist/summernote.css', array(), env('APP_SECURE', 'true')) !!}
-        {!! Html::style('/assets/vendors/bower_components/chosen/chosen.css', array(), env('APP_SECURE', 'true')) !!}
-        {!! Html::style('/assets/vendors/farbtastic/farbtastic.css', array(), env('APP_SECURE', 'true')) !!}
+        <!-- {!! Html::style('/assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css', array(), env('APP_SECURE', 'true')) !!} -->
         {!! Html::style('/assets/vendors/bower_components/dropzone/dist/min/dropzone.min.css', array(), env('APP_SECURE', 'true')) !!}
         {!! Html::style('/assets/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css', array(), env('APP_SECURE', 'true')) !!}
         {!! Html::style('/assets/vendors/bower_components/nouislider/distribute/nouislider.min.css', array(), env('APP_SECURE', 'true')) !!}
         {!! Html::style('/assets/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css', array(), env('APP_SECURE', 'true')) !!}
-        {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css', array(), env('APP_SECURE', 'true')) !!}
-        {!! Html::style('/assets/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css', array(), env('APP_SECURE', 'true')) !!}
+        {!! Html::style('/assets/vendors/bower_components/chosen/chosen.css', array(), env('APP_SECURE', 'true')) !!}
+        {!! Html::style('/assets/vendors/summernote/dist/summernote.css', array(), env('APP_SECURE', 'true')) !!}
+        {!! Html::style('/assets/vendors/farbtastic/farbtastic.css', array(), env('APP_SECURE', 'true')) !!}
 
         @stack('header-script')
 
