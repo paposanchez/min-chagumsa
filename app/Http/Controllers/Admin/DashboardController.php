@@ -206,7 +206,7 @@ class DashboardController extends Controller
 
     public function getInquireCount()
     {
-        return response()->json();
+        return response()->json(0);
     }
 
 }

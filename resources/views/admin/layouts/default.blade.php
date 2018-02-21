@@ -122,7 +122,6 @@
 
 @section( 'content-footer-script' )
 
-<<<<<<< HEAD
 <!-- Javascript Libraries -->
 {!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.js', array(), env('APP_SECURE', 'true')) !!}
 {!! Html::script('/assets/vendors/bower_components/flot/jquery.flot.resize.js', array(), env('APP_SECURE', 'true')) !!}
