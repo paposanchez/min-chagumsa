@@ -172,8 +172,9 @@ class CertificateController extends Controller
     public function edit(Request $reqeust, $id)
     {
 
-        $certificate = Certificate::findOrFail($id);
 
+
+        $certificate = Certificate::findOrFail($id);
 
         /**
          * 기본정보: 자동차등록증 / 차대번호 / 주행거리 / 색상 / 추가옵션

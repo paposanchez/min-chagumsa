@@ -158,6 +158,8 @@ class Diagnosis extends Model implements IDocument
         public function isExpired() {
                 return $this->status_cd == 126;
         }
+
+
         // 인증서 만료일 카운트다운
         public function getCountdown()
         {
@@ -165,10 +167,10 @@ class Diagnosis extends Model implements IDocument
                         return 0;
                 }
                 if(is_null($this->expired_at)){
-                        return -1;
+                        return 0;
                 }
 
-                return $this->expired_at->diffInSeconds(Carbon::now());
+                return $this->expired_at->diffInDays(Carbon::now());
         }
         public function getDocumentKey() {
                 return $this->chakey.'D';
