@@ -23,56 +23,25 @@
                     {{ $order_item->document->status ? $order_item->document->status->display() : '미생성' }}
                 @endcomponent
             </li>
-
-            <!-- <li>
-                    <a href="">
-                            <i class="zmdi zmdi-download"></i>
-                    </a>
-            </li> -->
-            <!-- <li class="dropdown">
-                    <a href="" data-toggle="dropdown">
-                            <i class="zmdi zmdi-more-vert"></i>
-                    </a>
-
-                    <ul class="dropdown-menu dropdown-menu-right">
-                            <li>
-                                    <a href="">Change Date Range</a>
-                            </li>
-                            <li>
-                                    <a href="">Change Graph Type</a>
-                            </li>
-                            <li>
-                                    <a href="">Other Settings</a>
-                            </li>
-                    </ul>
-            </li> -->
         </ul>
 
         @if($order_item->document->status)
             @if($order_item->type_cd == '121')
-                <a class="btn bgm-blue btn-float waves-effect" href="{{ url('diagnosis', [$order_item->document->id]) }}">
+                {{--<a class="btn bgm-blue btn-float waves-effect" href="{{ url('diagnosis', [$order_item->document->id]) }}">--}}
+                <a class="btn bgm-blue btn-float waves-effect" href="{{ route('diagnosis.edit', [$order_item->document->id]) }}">
                     <i class="zmdi zmdi-mail-send"></i>
                 </a>
             @elseif($order_item->type_cd == '122')
-                <a class="btn bgm-blue btn-float waves-effect" href="/certificate/{{ $order_item->document->id }}/edit">
+                {{--<a class="btn bgm-blue btn-float waves-effect" href="/certificate/{{ $order_item->document->id }}/edit">--}}
+                <a class="btn bgm-blue btn-float waves-effect" href="{{ route('certificate.edit', [$order_item->document->id]) }}">
                     <i class="zmdi zmdi-mail-send"></i>
                 </a>
             @else
                 <a href="{{ url('warranty', [$order_item->warranty->id]) }}" class="bgm-cyan"><i class="zmdi zmdi-check"></i></a>
-                <a class="btn bgm-blue btn-float waves-effect" href="{{ url('warranty', [$order_item->document->id]) }}">
+                <a class="btn bgm-blue btn-float waves-effect" href="{{ route('warranty.edit', [$order_item->document->id]) }}">
                     <i class="zmdi zmdi-mail-send"></i>
                 </a>
             @endif
-
-
-
-
-
-
-
-        <a class="btn bgm-blue btn-float waves-effect" href="/">
-            <i class="zmdi zmdi-mail-send"></i>
-        </a>
         @endif
     </div>
 

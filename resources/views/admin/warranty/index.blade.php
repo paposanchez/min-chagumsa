@@ -141,10 +141,10 @@
                                             @endif
 
                                             @if($data->status_cd == 115)
-                                            <a href="{{ $data->getDocumentLink() }}" target="_blank"
-                                               class="btn btn-info btn-icon waves-effect waves-float"
-                                               data-toggle="tooltip" title="인증서보기"><i
-                                                        class="zmdi zmdi-search-in-file"></i></a>
+                                                <a href="{{ $data->getDocumentLink() }}" target="_blank"
+                                                   class="btn btn-info btn-icon waves-effect waves-float"
+                                                   data-toggle="tooltip" title="인증서보기"><i
+                                                            class="zmdi zmdi-search-in-file"></i></a>
                                             @endif
                                         </td>
                                     </tr>
