@@ -69,75 +69,83 @@
                                 @endunless
 
                                 @foreach($entrys as $data)
-                                <tr>
+                                    <tr>
 
                                         <td>
-                                                @component('components.badge', [
-                                                'code' => $data->status_cd,
-                                                'color' =>[
-                                                '120' => 'default',
-                                                '102' => 'success',
-                                                '112' => 'success',
-                                                '113' => 'warning',
-                                                '114' => 'info',
-                                                '115' => 'primary',
-                                                '116' => 'danger'
-                                                ]])
+                                            @component('components.badge', [
+                                            'code' => $data->status_cd,
+                                            'color' =>[
+                                            '120' => 'default',
+                                            '102' => 'success',
+                                            '112' => 'success',
+                                            '113' => 'warning',
+                                            '114' => 'info',
+                                            '115' => 'primary',
+                                            '116' => 'danger'
+                                            ]])
                                                 {{ $data->status->display() }}
-                                                @endcomponent
+                                            @endcomponent
                                         </td>
 
                                         <td class="text-center">
-                                                {{ $data->chakey }}
-                                                <br>
-                                                <small class="text-info">{{ $data->id }}</small>
+                                            {{ $data->chakey }}
+                                            <br>
+                                            <small class="text-info">{{ $data->id }}</small>
                                         </td>
 
                                         <td>
-                                                @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
+                                            @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
                                                 <a href="/user/{{ $data->order->orderer_id }}/edit">{{ $data->order->orderer_name }}</a>
-                                                @else
+                                            @else
                                                 {{ $data->order->orderer_name }}
-                                                @endif
-                                                <small class="text-info">{{ $data->order->orderer_mobile }}</small>
+                                            @endif
+                                            <small class="text-info">{{ $data->order->orderer_mobile }}</small>
                                         </td>
 
                                         <td class="text-center">
-                                                @if($data->technist)
+                                            @if($data->technist)
                                                 <a href="/user/{{ $data->technist_id }}/edit">{{ $data->technist->name }}</a>
-                                                @else
+                                            @else
                                                 -
-                                                @endif
+                                            @endif
                                         </td>
 
                                         <td class="text-center">
-                                                {{ $data->created_at->format('m-d H:i') }}
+                                            {{ $data->created_at->format('m-d H:i') }}
                                         </td>
 
                                         <td class="text-center">{{ $data->completed_at ? $data->completed_at->format('m-d H:i') : '-' }}</td>
 
                                         <td class="text-center">
-                                                @if($data->isExpired())
-                                                        {{ $data->expired_at->format('Y-m-d H:i') }}
-                                                @else
-                                                        <small class="text-danger">
-                                                                {{ number_format($data->getCountdown()) }}일 남음
-                                                        </small>
-                                                @endif
+                                            @if($data->isExpired())
+                                                {{ $data->expired_at->format('Y-m-d H:i') }}
+                                            @else
+                                                <small class="text-danger">
+                                                    {{ number_format($data->getCountdown()) }}일 남음
+                                                </small>
+                                            @endif
 
                                         </td>
 
                                         <td class="text-center">
 
-                                            <!-- <a href="/warranty/{{ $data->id }}" class="btn btn-default"
+                                        <!-- <a href="/warranty/{{ $data->id }}" class="btn btn-default"
                                                data-toggle="tooltip"
                                                title="상세보기">상세보기</a> -->
 
-                                               @if(in_array($data->status_cd, [112,113,114]))
-                                               <a href="/warranty/{{ $data->id }}/edit"  class="btn btn-default btn-icon waves-effect waves-float" data-toggle="tooltip" title="인증서 발급 검토"><i class="zmdi zmdi-assignment-check"></i></a>
-                                               @endif
+                                            @if(in_array($data->status_cd, [112,113,114]))
+                                                <a href="/warranty/{{ $data->id }}/edit"
+                                                   class="btn btn-default btn-icon waves-effect waves-float"
+                                                   data-toggle="tooltip" title="인증서 발급 검토"><i
+                                                            class="zmdi zmdi-assignment-check"></i></a>
+                                            @endif
 
-                                               <a href="{{ $data->getDocumentLink() }}" target="_blank" class="btn btn-info btn-icon waves-effect waves-float" data-toggle="tooltip" title="인증서보기"><i class="zmdi zmdi-search-in-file"></i></a>
+                                            @if($data->status_cd == 115)
+                                            <a href="{{ $data->getDocumentLink() }}" target="_blank"
+                                               class="btn btn-info btn-icon waves-effect waves-float"
+                                               data-toggle="tooltip" title="인증서보기"><i
+                                                        class="zmdi zmdi-search-in-file"></i></a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
