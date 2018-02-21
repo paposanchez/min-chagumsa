@@ -143,23 +143,23 @@ class CertificateController extends Controller
         return view('admin.certificate.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 'sort_orderby', 'sort'));
     }
 
-    /**
-     * @param Request $reqeust
-     * @param Int $order_id
-     * @param string $page
-     * 인증서 미리보기 페이지
-     * 해당 주문의 seq번호를 가져와 해당 인증서 미리보기 페이지를 노출
-     * @return string
-     */
-    public function show(Request $reqeust, $order_id, $page = 'summary')
-    {
-        if (!in_array($page, ['performance', 'price', 'history', 'summary'])) {
-            $page = 'summary';
-        }
-
-        $handler = new CertificateRepository();
-        return $handler->prepareWithId($order_id)->generate($page);
-    }
+//    /**
+//     * @param Request $reqeust
+//     * @param Int $order_id
+//     * @param string $page
+//     * 인증서 미리보기 페이지
+//     * 해당 주문의 seq번호를 가져와 해당 인증서 미리보기 페이지를 노출
+//     * @return string
+//     */
+//    public function show(Request $reqeust, $order_id, $page = 'summary')
+//    {
+//        if (!in_array($page, ['performance', 'price', 'history', 'summary'])) {
+//            $page = 'summary';
+//        }
+//
+//        $handler = new CertificateRepository();
+//        return $handler->prepareWithId($order_id)->generate($page);
+//    }
 
 
     /**
@@ -171,6 +171,7 @@ class CertificateController extends Controller
      */
     public function edit(Request $reqeust, $id)
     {
+
         try{
             $certificate = Certificate::findOrFail($id);
 
@@ -191,8 +192,6 @@ class CertificateController extends Controller
         }catch (\Exception $e){
             return redirect()->back()->with('error', '처리중 오류가 발생하였습니다.');
         }
-
-
     }
 
 

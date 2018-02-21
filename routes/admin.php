@@ -159,8 +159,6 @@ Route::group(['middleware' => ['auth']], function () {
                 // 인증서 관리
                 Route::post('certificate/{id?}/assign', 'CertificateController@assign');
                 Route::any('certificate/issue', 'CertificateController@issue')->name('certificate.issue');
-//                Route::get('certificate/{order_id}/edit', 'CertificateController@edit');
-//                Route::get('certificate/{order_id}/{page?}/{flush?}', 'CertificateController@show');
                 Route::resource('certificate', 'CertificateController');
 
                 // 보증관리
