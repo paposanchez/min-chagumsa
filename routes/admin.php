@@ -31,15 +31,15 @@ Route::group(['middleware' => ['auth']], function () {
         //        Route::resource('calculation', 'CalculationController');
         //
         //        // 진단관리
-        //        Route::post('diagnosis/delete-file/{id}', 'DiagnosesController@fileDelete')->name('diagnosis.delete-file');
-        //        Route::post('diagnosis/upload-file', 'DiagnosesController@fileUpload')->name('upload-file');
-        //        Route::post('diagnosis/update-comment', 'DiagnosesController@updateComment')->name('diagnosis.update-comment');
-        //        Route::post('diagnosis/update-code', 'DiagnosesController@updateCode')->name('diagnosis.update-code');
-        //        Route::post('diagnosis/complete', 'DiagnosesController@complete')->name('diagnosis.complete');
-        //        Route::post('diagnosis/change-reservation', 'DiagnosesController@changeReservation')->name('diagnosis.change-reservation');
-        //        Route::post('diagnosis/confirm-reservation', 'DiagnosesController@confirmReservation')->name('diagnosis.confirm-reservation');
-        //        Route::post('diagnosis/change-garage', 'DiagnosesController@changeGarage')->name('diagnosis.change-garage');
-        //        Route::resource('diagnosis', 'DiagnosesController');
+        //        Route::post('diagnosis/delete-file/{id}', 'DiagnosisController@fileDelete')->name('diagnosis.delete-file');
+        //        Route::post('diagnosis/upload-file', 'DiagnosisController@fileUpload')->name('upload-file');
+        //        Route::post('diagnosis/update-comment', 'DiagnosisController@updateComment')->name('diagnosis.update-comment');
+        //        Route::post('diagnosis/update-code', 'DiagnosisController@updateCode')->name('diagnosis.update-code');
+        //        Route::post('diagnosis/complete', 'DiagnosisController@complete')->name('diagnosis.complete');
+        //        Route::post('diagnosis/change-reservation', 'DiagnosisController@changeReservation')->name('diagnosis.change-reservation');
+        //        Route::post('diagnosis/confirm-reservation', 'DiagnosisController@confirmReservation')->name('diagnosis.confirm-reservation');
+        //        Route::post('diagnosis/change-garage', 'DiagnosisController@changeGarage')->name('diagnosis.change-garage');
+        //        Route::resource('diagnosis', 'DiagnosisController');
         //
         //        // 파일
         //        Route::post('file/thumbnail', '\App\Http\Controllers\FileController@thumbnail')->name("file/thumbnail");
@@ -124,15 +124,19 @@ Route::group(['middleware' => ['auth']], function () {
 
 
                 // 진단관리
-                Route::post('diagnosis/delete-file/{id}', 'DiagnosesController@fileDelete')->name('diagnosis.delete-file');
-                Route::post('diagnosis/upload-file', 'DiagnosesController@fileUpload')->name('upload-file');
-                Route::post('diagnosis/update-comment', 'DiagnosesController@updateComment')->name('diagnosis.update-comment');
-                Route::post('diagnosis/update-code', 'DiagnosesController@updateCode')->name('diagnosis.update-code');
-                Route::post('diagnosis/complete', 'DiagnosesController@complete')->name('diagnosis.complete');
-                Route::post('diagnosis/change-reservation', 'DiagnosesController@changeReservation')->name('diagnosis.change-reservation');
-                Route::post('diagnosis/confirm-reservation', 'DiagnosesController@confirmReservation')->name('diagnosis.confirm-reservation');
-                Route::post('diagnosis/change-garage', 'DiagnosesController@changeGarage')->name('diagnosis.change-garage');
-                Route::resource('diagnosis', 'DiagnosesController');
+                Route::post('diagnosis/delete-file/{id}', 'DiagnosisController@fileDelete')->name('diagnosis.delete-file');
+                Route::post('diagnosis/upload-file', 'DiagnosisController@fileUpload')->name('upload-file');
+                Route::post('diagnosis/update-comment', 'DiagnosisController@updateComment')->name('diagnosis.update-comment');
+                Route::post('diagnosis/update-code', 'DiagnosisController@updateCode')->name('diagnosis.update-code');
+//                Route::post('diagnosis/complete', 'DiagnosisController@complete')->name('diagnosis.complete');
+                Route::post('diagnosis/change-reservation', 'DiagnosisController@changeReservation')->name('diagnosis.change-reservation');
+                Route::post('diagnosis/confirm-reservation', 'DiagnosisController@confirmReservation')->name('diagnosis.confirm-reservation');
+                Route::post('diagnosis/change-garage', 'DiagnosisController@changeGarage')->name('diagnosis.change-garage');
+
+                Route::post('diagnosis/review-complete', 'DiagnosisController@reviewComplete')->name('diagnosis.review-complete');
+                Route::post('diagnosis/issue', 'DiagnosisController@issue')->name('diagnosis.issue');
+
+                Route::resource('diagnosis', 'DiagnosisController');
 
                 // 파일
                 Route::post('file/thumbnail', '\App\Http\Controllers\FileController@thumbnail')->name("file.thumbnail");

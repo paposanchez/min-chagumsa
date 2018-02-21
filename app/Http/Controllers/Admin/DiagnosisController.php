@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Mixapply\Uploader\Receiver;
+use App\Models\Car;
+use App\Models\CarNumber;
 use App\Models\Code;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisFile;
@@ -11,6 +13,7 @@ use App\Models\Order;
 use App\Models\Reservation;
 use App\Models\User;
 use App\Models\UserExtra;
+use App\Repositories\DiagnosisRepository;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -20,7 +23,7 @@ use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
 use DB;
 
-class DiagnosesController extends Controller
+class DiagnosisController extends Controller
 {
     /**
      * @param Request $request
@@ -175,8 +178,32 @@ class DiagnosesController extends Controller
         return view('admin.diagnosis.show', compact('diagnosis', 'my_brand', 'models', 'sel_hours', 'garages'));
     }
 
-    public function edit(Request $request){
-        dd('edit');
+    public function edit(Request $request, $id){
+        $user = Auth::user();
+        $diagnosis = Diagnosis::findOrFail($id);
+        $order = $diagnosis->order;
+
+        // 예약확정시 엔지니어와 시작날짜 변경
+        if($diagnosis->status_cd == 113){
+            $diagnosis->engineer_id = $user->id;
+            $diagnosis->status_cd = 114;
+            $diagnosis->start_at = Carbon::now();
+            $diagnosis->save();
+        }
+
+        // 차량 기본정보 관련
+        $select_vin_yn = Code::getSelectList('yn');
+        $kinds = Code::getSelectList('kind_cd');
+        $select_color = Code::getSelectList('color_cd');
+        $select_transmission = Code::getSelectList("transmission");
+        $select_fueltype = Code::getSelectList('fuel_type');
+
+        // todo 진단레이아웃 관련 이슈사항이 있음
+        $handler = new DiagnosisRepository();
+        // $diagnoses = $handler->prepare($id)->get(true);
+        $diagnoses = '';
+
+        return view('admin.diagnosis.edit', compact('user','diagnosis', 'order', 'diagnoses', 'select_vin_yn', 'kinds', 'select_color', 'select_transmission', 'select_fueltype'));
     }
 
 
@@ -327,22 +354,94 @@ class DiagnosesController extends Controller
         }
     }
 
+    public function reviewComplete(Request $request){
+//        dd($request->all());
+        dd('review-complete');
+
+    }
+
+
     /**
      * @param Request $request
      * 진단완료 처리
      * @return \Illuminate\Http\JsonResponse
      */
-    public function complete(Request $request)
+    public function issue(Request $request)
     {
+        $this->validate($request, [
+            'vin_number' => 'required',
+            'mileage' => 'required',
+            'certificates_vin_yn_cd' => 'required',
+            'cars_registration_date' => 'required',
+            'cars_year' => 'required',
+            'kind_cd' => 'required',
+            'cars_displacement' => 'required',
+            'cars_exterior_color' => 'required',
+            'car_exterior_color_etc' => 'nullable',
+            'cars_transmission_cd' => 'required',
+            'cars_fueltype_cd' => 'required',
+            'car_fueltype_etc' => 'nullable',
+            'passenger' => 'required',
+        ], [],
+            [
+                'vin_number' => '차대번호',
+                'mileage' => '주행거리',
+                'certificates_vin_yn_cd' => '차대번호 동일성확인',
+                'cars_registration_date' => '최초등록일',
+                'cars_year' => '연식',
+                'kind_cd' => '차종',
+                'cars_displacement' => '배기량',
+                'cars_exterior_color' => '외부색상',
+//                'car_exterior_color_etc' => '외부색상 기타',
+                'cars_transmission_cd' => '변속기',
+                'cars_fueltype_cd' => '사용연료',
+//                'car_fueltype_etc' => '연료타입기타',
+                'passenger' => '승차인원'
+            ]);
+
         try {
-            $order_id = $request->get('order_id');
-            $order = Order::findOrFail($order_id);
-            $order->status_cd = 107;
-            $order->diagnosed_at = Carbon::now();
-            $order->save();
-            return response()->json('success');
-        } catch (\Exception $ex) {
-            return response()->json($ex->getMessage());
+
+            DB::beginTransaction();
+            $diagnosis = Diagnosis::findOrFail($request->get('id'));
+            $order = $diagnosis->order;
+
+            $car = Car::create([
+                'id' => $request->get('vin_number'),
+                'brands_id' => $order->models_id,
+                'models_id' => $order->models_id,
+                'details_id' => $order->details_id,
+                'grades_id' => $order->grades_id,
+                'certificates_vin_yn_cd' => $request->get('certificates_vin_yn_cd'),
+                'cars_registration_date' => $request->get('cars_registration_date'),
+                'cars_year' => $request->get('cars_year'),
+                'kind_cd' => $request->get('kind_cd'),
+                'cars_displacement' => $request->get('cars_displacement'),
+                'cars_exterior_color' => $request->get('cars_exterior_color'),
+                'car_exterior_color_etc' => $request->get('car_exterior_color_etc') ? $request->get('car_exterior_color_etc') : '',
+                'cars_transmission_cd' => $request->get('cars_transmission_cd'),
+                'cars_fueltype_cd' => $request->get('cars_fueltype_cd'),
+                'car_fueltype_etc' => $request->get('car_fueltype_etc') ? $request->get('car_fueltype_etc') : '',
+                'passenger' => $request->get('passenger')
+            ]);
+            $car_number = CarNumber::create([
+                'cars_id' => $car->id,
+                'vin_number' => $request->get('vin_number'),
+                'car_number' => $order->car_number
+            ]);
+
+            $diagnosis->car_numbers_id = $car_number->id;
+            $diagnosis->status_cd = Code::getIdByGroupAndName('report_state', 'complete');
+            $diagnosis->mileage = $request->get('mileage');
+            $diagnosis->issued_at = Carbon::now();
+            $diagnosis->expired_at = Carbon::now()->addDays($diagnosis->expire_period);
+            $diagnosis->save();
+
+            DB::commit();
+            return redirect()->back()->with('success', '진단이 발급되었습니다.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e->getMessage());
+            return redirect()->back()->with('error', '오류가 발생하였습니다.');
         }
     }
 
