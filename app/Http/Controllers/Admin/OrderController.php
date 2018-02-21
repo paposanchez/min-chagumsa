@@ -138,6 +138,7 @@ class OrderController extends Controller
         }
 
         $order_items = OrderItem::where('orders_id', $order->id)->get();
+
         // 진행중인 상품 검색 후 플래그값 변경
         foreach ($order_items as $order_item) {
             //$list[key($order_item->getReport())] = $order_item->getReport()[key($order_item->getReport())];
