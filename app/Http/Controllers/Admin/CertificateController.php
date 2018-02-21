@@ -193,44 +193,34 @@ class CertificateController extends Controller
             return redirect()->back()->with('error', '처리중 오류가 발생하였습니다.');
         }
     }
-
-
-    /**
-     * @param Request $request
-     * @param Int $id
-     * 인증서 발행 시작 메소드
-     * 주문완료된 주문을 검토중 상태로 변경한다.
-     * 이후 인증서를 수정, 발행 할 수 있다.
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function assign(Request $request, $id)
-    {
-        try {
-            DB::beginTransaction();
-            $certificate = Certificate::findOrFail($id);
-            $certificate->update([
-                "technist_id" => Auth::user()->id,
-                'status_cd' => Code::getIdByGroupAndName('report_state', 'review')
-            ]);
-            DB::commit();
-
-            return response()->json(true);
-        } catch (Exception $e) {
-            DB::rollBack();
-            return response()->json(false);
-            //            return response()->json($e->getMessage());
-        }
-
-        $car = $certificate->CarNumber->car;
-        $grades = Code::getSelectList('grade_state_cd');
-        $select_color = Code::getSelectList('color_cd');
-
-        $select_transmission = Code::getSelectList("transmission");
-        $select_fueltype = Code::getSelectList('fuel_type');
-
-
-        return view('admin.certificate.edit', compact('certificate', 'grades', 'select_color', 'select_transmission', 'select_fueltype', 'vin_yn_cd', 'car'));
-    }
+//
+//
+//    /**
+//     * @param Request $request
+//     * @param Int $id
+//     * 인증서 발행 시작 메소드
+//     * 주문완료된 주문을 검토중 상태로 변경한다.
+//     * 이후 인증서를 수정, 발행 할 수 있다.
+//     * @return \Illuminate\Http\JsonResponse
+//     */
+//    public function assign(Request $request, $id)
+//    {
+//        try {
+//            DB::beginTransaction();
+//            $certificate = Certificate::findOrFail($id);
+//            $certificate->update([
+//                "technist_id" => Auth::user()->id,
+//                'status_cd' => Code::getIdByGroupAndName('report_state', 'review')
+//            ]);
+//            DB::commit();
+//
+//            return response()->json(true);
+//        } catch (Exception $e) {
+//            DB::rollBack();
+//            return response()->json(false);
+//            //            return response()->json($e->getMessage());
+//        }
+//    }
 
 
     /**
@@ -340,18 +330,6 @@ class CertificateController extends Controller
             parse_str($obj, $params);
 
             $validate = Validator::make($params, [
-//                'car_imported_vin_number' => 'nullable',
-//                'cars_registration_date' => 'required',
-//                'cars_exterior_color' => 'required',
-//                'cars_year' => 'required',
-//                'cars_transmission_cd' => 'required',
-//                'cars_displacement' => 'required',
-//                'cars_fuel_consumption' => 'required',
-//                'cars_engine_type' => 'required',
-//                'cars_fueltype_cd' => 'required',
-//                'passenger' => 'required',
-//                'kind_cd' => 'required',
-
                 'certificates_new_car_price' => 'required',
                 'pst' => 'required',
                 'basic_depreciation' => 'required',
@@ -382,18 +360,6 @@ class CertificateController extends Controller
                 'grade_state_cd' => 'required',
                 'certificates_opinion' => 'required'
             ], [], [
-//                'cars_vin_number' => '차대번호',
-//                'cars_registration_date' => '최초등록',
-//                'cars_exterior_color' => '외부색상',
-//                'cars_year' => '연식',
-//                'cars_transmission_cd' => '변속기',
-//                'cars_displacement' => '배기량',
-//                'cars_fuel_consumption' => '연비',
-//                'cars_engine_type' => '엔진타입',
-//                'cars_fueltype_cd' => '사용연료',
-//                'passenger' => '승차인원',
-//                'kind_cd' => '차종',
-//                'certificates_vin_yn_cd' => '차대번호 동일성확인',
                 'certificates_new_car_price' => '산차출고가격',
                 'pst' => '기준가격(P)',
                 'basic_depreciation' => '기본평가(A)',
@@ -428,8 +394,7 @@ class CertificateController extends Controller
             if ($validate->fails()) {
                 return response()->json($validate->errors());
             }
-
-
+            
             DB::beginTransaction();
             $certificate = Certificate::findOrFail($params['certificate_id']);
             $certificate->status_cd = Code::getIdByGroupAndName('report_state', 'complete');
