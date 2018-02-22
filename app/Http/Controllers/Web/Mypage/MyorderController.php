@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Mypage;
 
 use App\Events\SendSms;
 use App\Http\Controllers\Controller;
+use App\Models\Diagnosis;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Purchase;
@@ -21,7 +22,7 @@ use DB;
 use Illuminate\Support\Facades\Mail;
 
 
-class MyorderController extends Controller
+class MyOrderController extends Controller
 {
 
     protected $merchantKey;//상점키
@@ -374,6 +375,35 @@ class MyorderController extends Controller
 
         return redirect()->route('mypage.order.index')
             ->with($event, $message);
+    }
+
+    public function confirm(Request $request){
+        $diagnosis = Diagnosis::findOrFail($request->get('diagnosis_id') ? $request->get('diagnosis_id') : 1 );
+        $garage_name = $diagnosis->garage->name;
+        $reservation_at = $diagnosis->reservation_at->format('Y-m-d H:i');
+
+        return view('web.mypage.confirm', compact('diagnosis', 'garage_name', 'reservation_at'));
+    }
+
+    public function confirmCheck(Request $request){
+        try{
+            DB::beginTransaction();
+
+            $diagnosis = Diagnosis::findOrFail($request->get('diagnosis_id'));
+            $diagnosis->reservation_user_id = Auth::user()->id;
+            $diagnosis->status_cd = Code::getIdByGroupAndName('report_state', 'confirm');
+            $diagnosis->save();
+
+            DB::commit();
+
+            return redirect()->route('mypage.myorder.index')->with('success', '예약확정이 완료되었습니다.');
+        }catch(\Exception $e){
+            DB::rollback();
+
+            return redirect()->route('mypage.myorder.index')->with('error', '예약확정 처리중 오류가 발생하였습니다. 고객센터에 문의해주세요.');
+        }
+
+
     }
 
 }
