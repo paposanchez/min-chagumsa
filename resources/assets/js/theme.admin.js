@@ -1870,8 +1870,10 @@ $(document).ready(function(){
         },
         error: function (data) {
             // alert(JSON.stringify(data));
-            alert('최근 1:1문의를 로딩하지 못하였습니다.');
+            // alert('최근 1:1문의를 로딩하지 못하였습니다.');
+            $('.him-counts').html(0);
         }
+
     });
 });
 // 헤더 주문 검색
