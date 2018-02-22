@@ -95,7 +95,7 @@ class MmsTran extends Model
                 $this->type = $this->getMmsType($tr_msgtype);
 
                 $error = "";
-                $result = "";
+                $result = false;
 
                 try{
                         $result = $this->save();
