@@ -78,7 +78,7 @@
 
                                 <td class="text-center">
 
-                                    <a href="{{ route("purchase.show", [$data->id]) }}"
+                                    <a href="#"
                                        class="btn btn-default btn-icon waves-effect waves-float detail"
                                        data-toggle="modal"
                                        data-target="#detailModal" data-id="{{ $data->id }}"
@@ -100,9 +100,9 @@
         </div>
     </section>
 
-    <!-- Car Modal -->
+    <!-- Purchase Modal -->
     <div id="detailModal" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="card">
@@ -120,83 +120,54 @@
                     </div>
 
                     <div class="card-body card-padding">
+                        {!! Form::open(['method' => 'PATCH','route' => ['purchase.update', 'id' => 0], 'class'=>'form-horizontal', 'id'=>'carForm', 'enctype'=>"multipart/form-data"]) !!}
+                        <input type="hidden" name="purchase_id" id="purchase_id" value="">
                         <div class="modal-body">
-                            {!! Form::open(['method' => 'PATCH','route' => ['purchase.update', 'id' => 0], 'class'=>'form-horizontal', 'id'=>'carForm', 'enctype'=>"multipart/form-data"]) !!}
-                                <input type="hidden" name="purchase_id" id="purchase_id" value="">
-                                <div class="card-header ch-alt">
-                                    <h2>주문관리</h2>
-                                </div>
-                                <table class="table text-center">
-                                    <colgroup>
-                                        <col width="8%">
-                                        <col width="8%">
-                                        <col width="10%">
-                                        <col width="12%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="*">
-                                        <col width="10%">
-                                    </colgroup>
-                                    <thead>
-                                    <tr class="">
-                                        <th class="text-center">상태</th>
-                                        <th class="text-center">ID</th>
-                                        <th class="text-center">결제타입</th>
-                                        <th class="text-center">결제금액</th>
-                                        <th class="text-center">예금주</th>
-                                        <th class="text-center">은행</th>
-                                        <th class="text-center">계좌번호</th>
-                                        <th class="text-center">Remarks</th>
-                                    </tr>
-                                    </thead>
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">결제 상태</label>
+                                <br>
+                                <span class="label form-control-static" id="status_cd"></span>
+                            </div>
 
-                                    <tbody id="payment">
-                                    <tr>
-                                        <td>
-                                            1
-                                        </td>
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">결제 seq</label>
+                                <p class="form-control-static" id="id"></p>
+                            </div>
 
-                                        <td>
-                                            2
-                                        </td>
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">결제타입</label>
+                                <p class="form-control-static" id="type"></p>
+                            </div>
 
-                                        <td>
-                                            3
-                                        </td>
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">결제 금액</label>
+                                <input type="number" class="form-control" id="amount" name="amount" placeholder="결제 금액을 입력해주세요." required>
+                            </div>
 
-                                        <td>
-                                            4
-                                        </td>
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">예금주</label>
+                                <input type="text" class="form-control" id="refund_name" name="refund_name" placeholder="예금주를 입력해주세요." minlength="3" required>
+                            </div>
 
-                                        <td>
-                                            5
-                                        </td>
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">예금 은행</label>
+                                <input type="text" class="form-control" id="refund_bank" name="refund_bank" placeholder="ex) 국민, 우리, 카카오 등" required>
 
-                                        <td>
-                                            6
-                                        </td>
+                            </div>
 
-                                        <td>
-                                            7
-                                        </td>
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">예금 계좌번호</label>
+                                <input type="text" class="form-control" id="refund_account" name="refund_account" placeholder="ex) 1234-1234-1234" required>
+                                {{--<small></small>--}}
+                            </div>
 
-                                        <td>
-                                            <button
-                                               class="btn btn-default btn-icon waves-effect waves-float"
-                                               data-toggle="tooltip" title="변경하기"><i
-                                                        class="zmdi zmdi-refresh-sync"></i></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            {!! Form::close() !!}
                         </div>
 
                         <div class="modal-footer">
-                            {{--<button type="submit" class="btn btn-success" id="">변경</button>--}}
-                            {{--<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>--}}
+                            <button type="submit" class="btn btn-success" id="">변경</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
                         </div>
-
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
@@ -208,7 +179,7 @@
     <script type="text/javascript">
         $(document).on('click', '.detail', function () {
             var id = $(this).data('id');
-
+            var html = '';
             $.ajax({
                 type: 'get',
                 dataType: 'json',
@@ -217,9 +188,17 @@
                     'id': id
                 },
                 success: function (data) {
-                    $('#payment').html();
+                    $('#purchase_id').val(id);
                     $.each(data, function(key, value){
-
+                        if(key == 'status_cd'){
+                            if(value.code == 102){
+                                $('#'+key).addClass('label-success').text(value.display);
+                            }
+                        }else if (key == 'id' || key == 'type'){
+                            $('#'+key).text(value);
+                        }else{
+                            $('#'+key).val(value);
+                        }
                     });
 
                 },
@@ -228,6 +207,15 @@
                 }
             });
         });
+
+        $("#refund_name").keyup(function(event){
+            if (!(event.keyCode >=37 && event.keyCode<=40)) {
+                var inputVal = $(this).val();
+                $(this).val(inputVal.replace(/[a-z0-9]/gi,''));
+            }
+        });
+
+
 
     </script>
 
