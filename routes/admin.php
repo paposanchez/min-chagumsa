@@ -98,10 +98,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     // 대시보드
     Route::get('dashboard', 'DashboardController')->name("dashboard");
+
     Route::get('dashboard/get-order-chart', 'DashboardController@getOrderChart')->name('dashboard.get-order-chart');
     Route::get('dashboard/get-diagnosis-chart', 'DashboardController@getDiagnisisChart')->name('dashboard.get-diagnosis-chart');
     Route::get('dashboard/get-certificate-chart', 'DashboardController@getCertificateChart')->name('dashboard.get-certificate-chart');
     Route::get('dashboard/get-warranty-chart', 'DashboardController@getWarrantyChart')->name('dashboard.get-warranty-chart');
+    Route::get('dashboard/get-diagnosis-chart', 'DashboardController@getDiagnisisChart');
+    Route::get('get-inquire-count', 'DashboardController@getInquireCount')->name('get-inquire-count');
 
 
     Route::group(['middleware' => ['role:admin']], function () {
@@ -193,6 +196,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 
         // 결제관리
+
+        Route::get('purchase/get-detail', 'PurchaseController@getDetail')->name('purchase.get-detail');
         Route::resource('purchase', 'PurchaseController');
 
         // 게시물관리
