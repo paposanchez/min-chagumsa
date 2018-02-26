@@ -100,6 +100,9 @@
             </ul>
         </li>
 
+        <li class="{{ Request::is('sms*') ? ' active':''}}"><a href="{{ route('sms.index') }}"><i
+                        class="zmdi zmdi-smartphone-iphone"></i> SMS 전송</a></li>
+
         <li class="sub-menu {{ Request::is('coupon*') ? ' active':''}}">
             <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-local-activity"></i> 쿠폰관리</a>
             <ul>

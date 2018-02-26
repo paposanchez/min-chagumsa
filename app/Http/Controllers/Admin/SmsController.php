@@ -7,6 +7,7 @@ use App\Events\SendSms;
 use App\Http\Controllers\Controller;
 
 use App\Models\Role;
+use App\Notifications\Messages\SmsMessage;
 use Illuminate\Http\Request;
 
 class SmsController extends Controller
@@ -28,11 +29,10 @@ class SmsController extends Controller
         try{
             $content = $request->get('content');
 
-            if(intval(strlen($content)) < 80){
-                event(new SendSms($request->get('mobiles'), 0, $content));
-            }else{
-                event(new SendSms($request->get('mobiles'), $request->get('subject'), $content));
-            }
+            (new SmsMessage())
+                ->content($request->get('content'))
+                ->from('18336889')
+                ->to($request->get('mobiles'));
             return response()->json('success');
         }catch (\Exception $ex){
             return response()->json($ex->getMessage());
