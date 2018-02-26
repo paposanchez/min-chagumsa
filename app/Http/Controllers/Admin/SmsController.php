@@ -4,14 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Events\SendSms;
-use App\Http\Controllers\Controller;
-
+use App\Http\Controllers\Controller;=
 use App\Models\Role;
 use App\Notifications\Messages\SmsMessage;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
 
 class SmsController extends Controller
 {
+
+    use Notifiable;
     /**
      * sms 전송 인덱스 페이지
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -27,12 +29,18 @@ class SmsController extends Controller
      */
     public function sendSms(Request $request){
         try{
+
             $content = $request->get('content');
 
+//            (new SmsMessage())
+//                ->content($request->get('content'))
+//                ->from('18336889')
+//                ->to($request->get('mobiles'));
+
             (new SmsMessage())
-                ->content($request->get('content'))
+                ->content('내용')
                 ->from('18336889')
-                ->to($request->get('mobiles'));
+                ->to(['010-7554-3505']);
             return response()->json('success');
         }catch (\Exception $ex){
             return response()->json($ex->getMessage());
