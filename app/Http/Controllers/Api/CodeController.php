@@ -55,10 +55,7 @@ class CodeController extends ApiController
                                 'response' => $return
                         ]);
                 } catch (\Exception $e) {
-                        response()->json([
-                                'status' => 'fail',
-                                'response' => []
-                        ]);
+                        response()->json(['status' => 'fail']);
                 }
         }
 

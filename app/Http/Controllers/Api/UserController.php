@@ -94,7 +94,6 @@ class UserController extends ApiController
 
 
                 } catch (Exception $e) {
-                        dd($e);
                         return response()->json([
                                 "status" => 'fail'
                         ]);
@@ -228,7 +227,7 @@ class UserController extends ApiController
 
 
         }
-
+        
 
         /**
         * @SWG\POST(path="/password",
@@ -248,38 +247,40 @@ class UserController extends ApiController
         *     ),
         * )
         */
-        // public function changePassword(Request $request)
-        // {
-        //         try {
-        //                 $user_id = $request->get('user_id');
-        //                 $password = $request->get('password');
-        //                 $password_new = $request->get('password_new');
-        //                 if (Auth::attempt(['id' => $user_id, 'password' => $password])) {
-        //                         $user = User::find($user_id);
-        //
-        //                         if ($user->status->name != 'active') {
-        //                                 return response()->json('false');
-        //                         }
-        //
-        //                         // 앱에서 로그인 정보 갱신
-        //                         $user->update([
-        //                                 'password' => bcrypt($password_new),
-        //                                 'updated_at' => Carbon::now()
-        //                         ]);
-        //                         return response()->json([
-        //                                 "status" => 'success'
-        //                         ]);
-        //                 }
-        //
-        //                 return response()->json([
-        //                         "status" => 'fail'
-        //                 ]);
-        //
-        //         } catch (Exception $e) {
-        //                 return response()->json([
-        //                         "status" => 'fail'
-        //                 ]);
-        //         }
-        // }
+        public function changePassword(Request $request)
+        {
+                try {
+                        $user_id = $request->get('user_id');
+                        $password = $request->get('password');
+                        $password_new = $request->get('password_new');
+
+                        if (Auth::attempt(['id' => $user_id, 'password' => $password])) {
+                                $user = User::find($user_id);
+
+                                if ($user->status->name != 'active') {
+                                        return response()->json('false');
+                                }
+
+                                // 앱에서 로그인 정보 갱신
+                                $user->update([
+                                        'password' => bcrypt($password_new),
+                                        'updated_at' => Carbon::now()
+                                ]);
+                                return response()->json([
+                                        "status" => 'success'
+                                ]);
+                        }
+
+                        return response()->json([
+                                "status" => ['id' => $user_id, 'password' => $password]
+                        ]);
+
+                } catch (Exception $e) {
+
+                        return response()->json([
+                                "status" => 'fail'
+                        ]);
+                }
+        }
 
 }
