@@ -32,7 +32,7 @@
                                 <label for="inputContent" class="control-label col-md-3">내용</label>
                                 <div class="col-md-9">
                                     {{--<textarea  class="form-control wysiwyg" placeholder="{{ trans('admin/post.content') }}" name="content" id="inputContent">--}}
-                                    <textarea  class="form-control" placeholder="보내실 문자의 내용을 입력해주세요." name="content" id="content" style="height: 250px;"></textarea>
+                                    <textarea  class="form-control" placeholder="보내실 문자의 내용을 입력해주세요." name="contents" id="contents" style="height: 250px;"></textarea>
 
                                 </div>
                             </div>
@@ -60,8 +60,9 @@
         $(document).ready(function () {
             $('#send_email').click(function(){
                 var mobiles = $('#mobiles').val();
-                var content = $('#content').val();
+                var content = $('#contents').val();
                 var subject = $('#subject').val();
+
                 if(mobiles.length != 0 || content.length != 0){
                     $.ajax({
                         url : '/sms/send-sms',
