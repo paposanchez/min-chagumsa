@@ -362,7 +362,7 @@
                     <th colspan="3">기준가격</th>
                     <td>
                         <ul>
-                            <li>{{ number_format($data->price) }}</li>
+                            <li>{{ number_format($data->price) }}만원</li>
                         </ul>
                     </td>
                 </tr>
@@ -390,7 +390,7 @@
                     <th colspan="2">감가금액</th>
                     <td>
                         <ul>
-                            <li>{{ number_format($data->basic_depreciation) }}</li>
+                            <li>{{ number_format($data->basic_depreciation) }}만원</li>
                         </ul>
                     </td>
                 </tr>
@@ -424,7 +424,7 @@
                     <th colspan="2">감가금액</th>
                     <td>
                         <ul>
-                            <li>{{ number_format($data->history_depreciation) }}</li>
+                            <li>{{ number_format($data->history_depreciation) }}만원</li>
                         </ul>
                     </td>
                 </tr>
@@ -435,7 +435,7 @@
                     <td>
                         <ul>
                             @foreach($certificate_states as $key=>$val )
-                                <li class="{{ $certificate->performance_exterior_cd == $key ? 'on' : '' }}">{{ $val }}</li>
+                                <li class="{{ $data->performance_exterior_cd == $key ? 'on' : '' }}">{{ $val }}</li>
                             @endforeach
                         </ul>
                     </td>
@@ -445,7 +445,7 @@
                     <td>
                         <ul>
                             @foreach($certificate_states as $key=>$val )
-                                <li class="{{ $certificate->performance_interior_cd == $key ? 'on' : '' }}">{{ $val }}</li>
+                                <li class="{{ $data->performance_interior_cd == $key ? 'on' : '' }}">{{ $val }}</li>
                             @endforeach
                         </ul>
                     </td>
@@ -455,7 +455,7 @@
                     <td>
                         <ul>
                             @foreach($operation_state_cd as $key=>$val )
-                                <li class="{{ $certificate->performance_plugin_cd == $key ? 'on' : '' }}">{{ $val }}</li>
+                                <li class="{{ $data->performance_plugin_cd == $key ? 'on' : '' }}">{{ $val }}</li>
                             @endforeach
                         </ul>
                     </td>
@@ -465,7 +465,7 @@
                     <td>
                         <ul>
                             @foreach($certificate_states as $key=>$val )
-                                <li class="{{ $certificate->performance_broken_cd == $key ? 'on' : '' }}">{{ $val }}</li>
+                                <li class="{{ $data->performance_broken_cd == $key ? 'on' : '' }}">{{ $val }}</li>
                             @endforeach
                         </ul>
                     </td>
@@ -475,7 +475,7 @@
                     <td>
                         <ul>
                             @foreach($certificate_states as $key=>$val )
-                                <li class="{{ $certificate->performance_engine_cd == $key ? 'on' : '' }}">{{ $val }}</li>
+                                <li class="{{ $data->performance_engine_cd == $key ? 'on' : '' }}">{{ $val }}</li>
                             @endforeach
                         </ul>
                     </td>
@@ -485,7 +485,7 @@
                     <td>
                         <ul>
                             @foreach($certificate_states as $key=>$val )
-                                <li class="{{ $certificate->performance_transmission_cd == $key ? 'on' : '' }}">{{ $val }}</li>
+                                <li class="{{ $data->performance_transmission_cd == $key ? 'on' : '' }}">{{ $val }}</li>
                             @endforeach
                         </ul>
                     </td>
@@ -495,7 +495,7 @@
                     <td>
                         <ul>
                             @foreach($certificate_states as $key=>$val )
-                                <li class="{{ $certificate->performance_power_cd == $key ? 'on' : '' }}">{{ $val }}</li>
+                                <li class="{{ $data->performance_power_cd == $key ? 'on' : '' }}">{{ $val }}</li>
                             @endforeach
                         </ul>
                     </td>
@@ -505,7 +505,7 @@
                     <td>
                         <ul>
                             @foreach($certificate_states as $key=>$val )
-                                <li class="{{ $certificate->performance_steering_cd == $key ? 'on' : '' }}">{{ $val }}</li>
+                                <li class="{{ $data->performance_steering_cd == $key ? 'on' : '' }}">{{ $val }}</li>
                             @endforeach
                         </ul>
                     </td>
@@ -515,7 +515,7 @@
                     <td>
                         <ul>
                             @foreach($certificate_states as $key=>$val )
-                                <li class="{{ $certificate->performance_braking_cd == $key ? 'on' : '' }}">{{ $val }}</li>
+                                <li class="{{ $data->performance_braking_cd == $key ? 'on' : '' }}">{{ $val }}</li>
                             @endforeach
                         </ul>
                     </td>
@@ -525,7 +525,7 @@
                     <td>
                         <ul>
                             @foreach($certificate_states as $key=>$val )
-                                <li class="{{ $certificate->performance_electronic_cd == $key ? 'on' : '' }}">{{ $val }}</li>
+                                <li class="{{ $data->performance_electronic_cd == $key ? 'on' : '' }}">{{ $val }}</li>
                             @endforeach
                         </ul>
                     </td>
@@ -535,7 +535,7 @@
                     <td>
                         <ul>
                             @foreach($certificate_states as $key=>$val )
-                                <li class="{{ $certificate->performance_tire_cd == $key ? 'on' : '' }}">{{ $val }}</li>
+                                <li class="{{ $data->performance_tire_cd == $key ? 'on' : '' }}">{{ $val }}</li>
                             @endforeach
                         </ul>
                     </td>
@@ -545,7 +545,7 @@
                     <td>
                         <ul>
                             @foreach($certificate_states as $key=>$val )
-                                <li class="{{ $certificate->performance_driving_cd == $key ? 'on' : '' }}">{{ $val }}</li>
+                                <li class="{{ $data->performance_driving_cd == $key ? 'on' : '' }}">{{ $val }}</li>
                             @endforeach
                         </ul>
                     </td>
@@ -554,7 +554,7 @@
                     <th colspan="2">감가금액</th>
                     <td>
                         <ul>
-                            <li>{{ number_format($data->performance_depreciation) }}</li>
+                            <li>{{ number_format($data->performance_depreciation) }}만원</li>
                         </ul>
                     </td>
                 </tr>
@@ -563,7 +563,7 @@
                     <th colspan="2">감가금액</th>
                     <td>
                         <ul>
-                            <li>{{ number_format($data->special_depreciation) }}</li>
+                            <li>{{ number_format($data->special_depreciation) }}만원</li>
                         </ul>
                     </td>
                 </tr>

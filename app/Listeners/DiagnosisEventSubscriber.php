@@ -2,6 +2,9 @@
 
 namespace App\Listeners;
 
+use App\Models\Diagnoses;
+use App\Models\Diagnosis;
+
 class DiagnosisEventSubscriber {
 
         // 진단 예약
@@ -22,6 +25,13 @@ class DiagnosisEventSubscriber {
 
         //진단 발급
         public function onDiagnosisIssued($event) {
+            $data = Diagnosis::find($this->id);
+            $report_type = 'D';
+
+            // 진단관련
+            $total_opinion = Diagnoses::where('diagnosis_id', $data->id)->where('group', 2142)->first()->comment;
+
+            return view('document_layout.document', compact('data', 'report_type', 'total_opinion'));
         }
 
         // 진단만료

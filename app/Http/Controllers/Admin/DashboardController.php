@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Certificate;
+use App\Models\Diagnoses;
 use App\Models\Diagnosis;
 use App\Models\Order;
 use App\Models\Post;
@@ -399,4 +400,25 @@ class DashboardController extends Controller
         ]);
     }
 
+
+
+//    public function test(){
+////        $data = Certificate::find(1);
+////        $report_type = 'C';
+////        $data = Diagnosis::find(5);
+////        $report_type = 'D';
+//        $data = Warranty::find(5);
+//        $report_type = 'W';
+//
+//        // 평가관련
+//        $operation_state_cd = Code::getSelectList('operation_state_cd');
+//        $certificate_states = Code::getSelectList('certificate_state_cd');
+//
+//        // 진단관련
+////        $total_opinion = Diagnoses::where('diagnosis_id', $data->id)->where('group', 2142)->first()->comment;
+//
+//
+//
+//        return view('document_layout.document', compact('data', 'report_type', 'operation_state_cd', 'certificate_states'));
+//    }
 }

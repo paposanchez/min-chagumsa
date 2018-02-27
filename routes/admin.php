@@ -98,6 +98,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // 대시보드
     Route::get('dashboard', 'DashboardController')->name("dashboard");
+//    Route::get('dashboard/test', 'DashboardController@test')->name("dashboard.test");
 
     Route::get('dashboard/get-order-chart', 'DashboardController@getOrderChart')->name('dashboard.get-order-chart');
     Route::get('dashboard/get-diagnosis-chart', 'DashboardController@getDiagnisisChart')->name('dashboard.get-diagnosis-chart');

@@ -159,7 +159,7 @@
                     <div class="description">동력전달</div>
                 </li>
                 <li class="performance-item">
-                    <div class="status round">{{ $data->performance_braking->display(  }}</div>
+                    <div class="status round">{{ $data->performance_braking->display()  }}</div>
                     <div class="description">제동장치</div>
                 </li>
                 <li class="performance-item">
