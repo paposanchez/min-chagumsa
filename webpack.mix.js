@@ -14,6 +14,13 @@ mix.copyDirectory(baseDir + 'vendors/', targetDir + 'vendors');
 mix.copyDirectory(resourceDir + 'js/plugin/', targetDir + 'js/plugin');
 mix.copyDirectory(resourceDir + 'js/languages/', targetDir + 'js/languages');
 
+// file upload
+mix.copyDirectory(nodeDir + 'fine-uploader/', targetDir + 'vendor/fine-uploader');
+mix.copyDirectory(nodeDir + 'select2/dist/', targetDir + 'vendor/select2');
+mix.copyDirectory(nodeDir + 'select2/src/scss', targetDir + 'vendor/select2/scss');
+
+
+
 mix.sass(resourceDir + 'scss/core.scss', targetDir +'css/');
 
 mix.styles([

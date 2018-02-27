@@ -306,4 +306,12 @@ class Certificate Extends Model implements IDocument
             return;
         }
     }
+
+    public function registration(){
+        return $this->hasOne(Code::class, 'id', 'basic_registraion');
+    }
+
+    public function ex(){
+        return $this->hasOne(Code::class, 'id', 'basic_registraion');
+    }
 }

@@ -247,26 +247,43 @@ trait Uploader {
 
     // 파일삭제
     public function delete(Request $request, $id) {
+        try{
+            $file = File::findOrFail($id);
 
-        $file = File::findOrFail($id);
+            if ($file) {
 
-        if ($file) {
+                // 실제파일 위치
+                $real_file_path = storage_path('app/upload') . $file->path . '/' . $file->source;
 
-            // 실제파일 위치
-            $real_file_path = storage_path('app/upload') . $file->path . '/' . $file->source;
+                Storage::delete($real_file_path);
 
-            Storage::delete($real_file_path);
-
-            $file->delete();
-        }
-
-
-        // 리퀘스트를 체크해서 반환 method를 맞춰준다
-        if ($request->ajax()) {
+                $file->delete();
+            }
             return response()->json(['success' => true, 'msg' => trans("file.delete_success")]);
-        } else {
-            return redirect()->back();
+        }catch(Exception $e){
+            return response()->json(['success' => false, 'msg' => $e->getMessage()]);
         }
+
+
+//        $file = File::findOrFail($id);
+//
+//        if ($file) {
+//
+//            // 실제파일 위치
+//            $real_file_path = storage_path('app/upload') . $file->path . '/' . $file->source;
+//
+//            Storage::delete($real_file_path);
+//
+//            $file->delete();
+//        }
+//
+//
+//        // 리퀘스트를 체크해서 반환 method를 맞춰준다
+//        if ($request->ajax()) {
+//            return response()->json(['success' => true, 'msg' => trans("file.delete_success")]);
+//        } else {
+//            return redirect()->back();
+//        }
     }
 
 }

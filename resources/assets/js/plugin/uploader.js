@@ -12,7 +12,7 @@ $(document).ready(function () {
         var id = $(this).closest(".plugin-attach-file").data('id');
         $.fileDownload('/file/download/' + id, {
             error: function (e) {
-                $.notify(ZFOOP.Languages.can_not_process_retry, "danger");
+                // $.notify(ZFOOP.Languages.can_not_process_retry, "danger");
             }
         });
 
