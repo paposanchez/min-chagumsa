@@ -213,6 +213,11 @@ Route::group(['middleware' => ['auth']], function () {
         // 알림관리
         Route::resource('notify', 'NotifyController');
 
+        // sms 전송
+        Route::get('sms/send-sms', 'SmsController@sendSms')->name('sms.send-sms');
+        Route::get('sms/total-bcs', 'SmsController@totalBcs')->name('sms.total-bcs');
+        Route::resource('sms', 'SmsController', ['only' => ['index']]);
+
         // 쿠폰
         Route::resource('coupon', 'CouponController', ['only' => ['index', 'store', 'create', 'destroy']]);
 
