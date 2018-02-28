@@ -6,7 +6,9 @@
             <div class="card">
                 <div class="card-header ch-alt">
                     <h2>결제관리
-                        <small>결제관리</small>
+                        <small>총 <strong class="text-primary">{{ number_format($entrys->total()) }}</strong>개의 검색결과가
+                            있습니다.
+                        </small>
                     </h2>
                 </div>
 
@@ -72,7 +74,7 @@
 
                                 <td>{{ $data->amount }}</td>
 
-                                <td>{{ $data->pg }}</td>
+                                <td>{{ $data->pg ? $data->pg : '-' }}</td>
 
                                 <td class="text-center">{{ $data->updated_at }}</td>
 

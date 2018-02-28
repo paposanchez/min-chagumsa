@@ -30,10 +30,6 @@
 @endsection
 
 @section( 'content-body' )
-        @includeIf( 'admin.partials.left' )
-
-        @includeIf( 'admin.partials.right' )
-
         @include('flash::message')
         @yield( 'content' )
 @endsection

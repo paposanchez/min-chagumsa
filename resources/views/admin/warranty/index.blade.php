@@ -6,7 +6,9 @@
             <div class="card">
                 <div class="card-header ch-alt">
                     <h2>보증 관리
-                        <small>총 <strong>{{ number_format($entrys->total()) }}</strong> 개의 검색결과가 있습니다.</small>
+                        <small>총 <strong class="text-primary">{{ number_format($entrys->total()) }}</strong>개의 검색결과가
+                            있습니다.
+                        </small>
                     </h2>
                 </div>
 
@@ -47,7 +49,6 @@
                                     <th class="text-center"><a class="sort" href="#" id="status"><i
                                                     class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 상태</a></th>
                                     <th class="text-center">주문번호</th>
-                                    <th class="text-center">주문자명</th>
                                     <th class="text-center">주문자정보</th>
                                     <th class="text-center">차량모델</th>
                                     <th class="text-center"><a class="sort" href="#" id="completed_at"><i
@@ -99,19 +100,12 @@
                                             @else
                                                 {{ $data->order->orderer_name }}
                                             @endif
+                                            <br>
                                             <small class="text-info">{{ $data->order->orderer_mobile }}</small>
                                         </td>
 
                                         <td class="text-center">
-                                            @if($data->technist)
-                                                <a href="/user/{{ $data->technist_id }}/edit">{{ $data->technist->name }}</a>
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-
-                                        <td class="text-center">
-                                            {{ $data->created_at->format('m-d H:i') }}
+                                            {{ $data->carNumber->car->getFullName() }}
                                         </td>
 
                                         <td class="text-center">{{ $data->completed_at ? $data->completed_at->format('m-d H:i') : '-' }}</td>
@@ -119,6 +113,8 @@
                                         <td class="text-center">
                                             @if($data->isExpired())
                                                 {{ $data->expired_at->format('Y-m-d H:i') }}
+                                            @elseif($data->getCountdown() == -1)
+                                                <small class="">-</small>
                                             @else
                                                 <small class="text-danger">
                                                     {{ number_format($data->getCountdown()) }}일 남음
@@ -192,26 +188,24 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">검색일자</label>
                                     <div class="col-sm-3">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i
-                                                        class="zmdi zmdi-calendar-alt"></i></span>
-                                            <div class="fg-line">
-                                                <input type="text" class="form-control date-picker" name='trs'
-                                                       value='{{ $trs }}'
-                                                       placeholder="{{ trans('common.search.period_start') }}">
-                                            </div>
+
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control date-picker" name='trs'
+                                                   value='{{ $trs }}'
+                                                   placeholder="{{ trans('common.search.period_start') }}">
                                         </div>
+
                                     </div>
 
                                     <div class="col-sm-3">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-                                            <div class="fg-line">
-                                                <input type="text" class="form-control date-picker" name="tre" id="tre"
-                                                       value="{{ $tre }}"
-                                                       placeholder="{{ trans('common.search.period_end') }}">
-                                            </div>
+
+
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control date-picker" name="tre" id="tre"
+                                                   value="{{ $tre }}"
+                                                   placeholder="{{ trans('common.search.period_end') }}">
                                         </div>
+
                                     </div>
 
                                 </div>
