@@ -5,12 +5,15 @@
 
         <div class="container">
 
-            <a href="{{ route('posting.create') }}" class="btn btn-float btn-primary m-btn"><i class="zmdi zmdi-plus"></i></a>
+            <a href="{{ route('posting.create') }}" class="btn btn-float btn-primary m-btn"><i
+                        class="zmdi zmdi-plus"></i></a>
 
             <div class="card">
                 <div class="card-header ch-alt">
                     <h2>포스팅 관리
-                        <small>총 <strong>{{ number_format($entrys->total()) }}</strong> 개의 검색결과가 있습니다.</small>
+                        <small>총 <strong class="text-primary">{{ number_format($entrys->total()) }}</strong>개의 검색결과가
+                            있습니다.
+                        </small>
                     </h2>
                 </div>
 
@@ -99,7 +102,7 @@
                                                 'code' => $data->is_shown,
                                                 'color' =>[
                                                 '5' => 'success',
-                                                '6' => 'warning',
+                                                '6' => 'info',
                                                 '7' => 'danger',
                                                 ]])
                                                     {{ $data->shown->display() }}
@@ -159,26 +162,22 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">검색일자</label>
                                     <div class="col-sm-3">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i
-                                                        class="zmdi zmdi-calendar-alt"></i></span>
-                                            <div class="fg-line">
-                                                <input type="text" class="form-control date-picker" name='trs'
-                                                       value='{{ $trs }}'
-                                                       placeholder="{{ trans('common.search.period_start') }}">
-                                            </div>
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control date-picker" name='trs'
+                                                   value='{{ $trs }}'
+                                                   placeholder="{{ trans('common.search.period_start') }}">
                                         </div>
+
                                     </div>
 
                                     <div class="col-sm-3">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-                                            <div class="fg-line">
-                                                <input type="text" class="form-control date-picker" name="tre" id="tre"
-                                                       value="{{ $tre }}"
-                                                       placeholder="{{ trans('common.search.period_end') }}">
-                                            </div>
+
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control date-picker" name="tre" id="tre"
+                                                   value="{{ $tre }}"
+                                                   placeholder="{{ trans('common.search.period_end') }}">
                                         </div>
+
                                     </div>
 
                                 </div>

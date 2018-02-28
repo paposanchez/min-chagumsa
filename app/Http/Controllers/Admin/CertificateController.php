@@ -143,24 +143,6 @@ class CertificateController extends Controller
         return view('admin.certificate.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'status_cd', 'sort_orderby', 'sort'));
     }
 
-//    /**
-//     * @param Request $reqeust
-//     * @param Int $order_id
-//     * @param string $page
-//     * 인증서 미리보기 페이지
-//     * 해당 주문의 seq번호를 가져와 해당 인증서 미리보기 페이지를 노출
-//     * @return string
-//     */
-//    public function show(Request $reqeust, $order_id, $page = 'summary')
-//    {
-//        if (!in_array($page, ['performance', 'price', 'history', 'summary'])) {
-//            $page = 'summary';
-//        }
-//
-//        $handler = new CertificateRepository();
-//        return $handler->prepareWithId($order_id)->generate($page);
-//    }
-
 
     /**
      * @param Request $reqeust
@@ -193,35 +175,6 @@ class CertificateController extends Controller
             return redirect()->back()->with('error', '처리중 오류가 발생하였습니다.');
         }
     }
-//
-//
-//    /**
-//     * @param Request $request
-//     * @param Int $id
-//     * 인증서 발행 시작 메소드
-//     * 주문완료된 주문을 검토중 상태로 변경한다.
-//     * 이후 인증서를 수정, 발행 할 수 있다.
-//     * @return \Illuminate\Http\JsonResponse
-//     */
-//    public function assign(Request $request, $id)
-//    {
-//        try {
-//            DB::beginTransaction();
-//            $certificate = Certificate::findOrFail($id);
-//            $certificate->update([
-//                "technist_id" => Auth::user()->id,
-//                'status_cd' => Code::getIdByGroupAndName('report_state', 'review')
-//            ]);
-//            DB::commit();
-//
-//            return response()->json(true);
-//        } catch (Exception $e) {
-//            DB::rollBack();
-//            return response()->json(false);
-//            //            return response()->json($e->getMessage());
-//        }
-//    }
-
 
     /**
      * @param Request $request
