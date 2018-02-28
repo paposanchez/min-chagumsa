@@ -75,6 +75,7 @@ class CertificateController extends Controller
         }
 
         $search_fields = [
+            "id" => "seq 번호",
             "chakey" => "주문번호",
             "car_number" => "차량번호",
             'orderer_name' => '주문자 이름',
@@ -89,12 +90,15 @@ class CertificateController extends Controller
         $s = $request->get('s'); //검색어
         if ($s) {
             switch ($sf) {
+                case 'id':
+                    $where->where($sf, $s);
+                    break;
                 case 'car_number':
                     $where->leftJoin('car_numbers', 'certificates.car_numbers_id', '=', 'car_numbers.id')
                         ->where('car_numbers.car_number', 'like', '%' . $s . '%')
                         ->select('certificates.*');
                     break;
-                case 'order_num':
+                case 'chakey':
                     $where->where($sf, 'like', '%' . $s . '%');
                     break;
                 case 'orderer_name':

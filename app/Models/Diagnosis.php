@@ -176,7 +176,7 @@ class Diagnosis extends Model implements IDocument
                 return $this->chakey.'D';
         }
         public function getDocumentLink() {
-                return config('document_host') . $this->getDocumentKey();
+                return config('https://cert.chagumsa/') . $this->getDocumentKey();
         }
 
 }

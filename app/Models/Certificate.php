@@ -294,7 +294,7 @@ class Certificate Extends Model implements IDocument
 
     public function getDocumentLink()
     {
-        return config('chagumsa.') . $this->getDocumentKey();
+        return config('https://cert.chagumsa/') . $this->getDocumentKey();
     }
 
     // 인증서 만료일

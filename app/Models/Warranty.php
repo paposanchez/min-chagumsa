@@ -25,7 +25,7 @@ class Warranty extends Model implements IDocument
                 'created_at',
                 'updated_at',
                 'start_at',             // 진단시작일
-                'completed_at',         // 진단완료일
+                'completed_at',         // 진단완료일\
                 'issued_at',            // 발급일
                 'expired_at',           // 만료일
         ];
@@ -91,7 +91,7 @@ class Warranty extends Model implements IDocument
                 return $this->chakey.'W';
         }
         public function getDocumentLink() {
-                return config('document_host') . $this->getDocumentKey();
+            return config('https://cert.chagumsa/') . $this->getDocumentKey();
         }
 
 }

@@ -62,7 +62,8 @@ class WarrantyController extends Controller
         }
         //검색조건
         $search_fields = [
-            "order_num" => "주문번호",
+            "id" => "seq 번호",
+            "chakey" => "주문번호",
             "car_number" => "차량번호",
             'orderer_name' => '주문자 이름',
             "orderer_mobile" => "주문자 휴대전화번호",
@@ -75,20 +76,14 @@ class WarrantyController extends Controller
         $s = $request->get('s'); //검색어
         if ($s) {
             switch ($sf) {
+                case 'id':
+                    $where->where($sf, $s);
+                    break;
                 case 'car_number':
                     $where->where($sf, 'like', '%' . $s . '%');
                     break;
-                case 'order_num':
-                    list($car_number, $datekey) = explode("-", $s);
-
-                    if ($car_number && $datekey) {
-                        $order_date = Carbon::createFromFormat('ymd', $datekey);
-                        $where
-                            ->where('car_number', $car_number)
-                            ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
-                            ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
-                            ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'));
-                    }
+                case 'chakey':
+                    $where->where($sf, 'like', '%' . $s . '%');
                     break;
                 case 'orderer_name':
                     $where->where('orderer_name', 'like', '%' . $s . '%');
