@@ -108,10 +108,17 @@ class CertificateController extends Controller
                     }
                     break;
                 case 'orderer_name':
-                    $where->where('orderer_name', 'like', '%' . $s . '%');
+                    $where->leftJoin('order_items', 'certificates.order_items_id', '=', 'order_items.id')
+                        ->leftJoin('orders', 'order_items.orders_id', '=', 'orders.id')
+                        ->where('orders.orderer_name', 'like', '%'.$s.'%')
+                        ->select('certificates.*');
+
                     break;
                 case 'orderer_mobile':
-                    $where->where('orderer_mobile', 'like', '%' . $s . '%');
+                    $where->leftJoin('order_items', 'certificates.order_items_id', '=', 'order_items.id')
+                        ->leftJoin('orders', 'order_items.orders_id', '=', 'orders.id')
+                        ->where('orders.orderer_mobile', 'like', '%'.$s.'%')
+                        ->select('certificates.*');
                     break;
                 case 'engineer_name':
                     $where->whereHas('engineer', function ($query) use ($s) {
