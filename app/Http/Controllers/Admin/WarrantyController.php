@@ -119,4 +119,8 @@ class WarrantyController extends Controller
             ->with('success', 'Role deleted successfully');
     }
 
+    public function edit(Request $request, $id){
+        return view('admin.warranty.edit');
+    }
+
 }
