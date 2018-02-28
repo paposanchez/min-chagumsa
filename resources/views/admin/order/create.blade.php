@@ -98,9 +98,9 @@
                             <div class="fw-container" id="orderWizard">
 
                                 <ul class="tab-nav text-center fw-nav">
-                                    <li class="active"><a href="#tab1" data-toggle="tab" aria-expanded="true">진단미포함</a>
+                                    <li class="active"><a href="#tab1" data-toggle="tab" aria-expanded="true" class="tab" data-value="0">진단미포함</a>
                                     </li>
-                                    <li><a href="#tab2" data-toggle="tab">진단 포함</a></li>
+                                    <li><a href="#tab2" data-toggle="tab" class="tab"  data-value="1">진단 포함</a></li>
                                 </ul>
 
                                 <div class="tab-content">
@@ -377,30 +377,35 @@
 
 @push( 'footer-script' )
     <script type="text/javascript">
-        $(document).ready(function () {
+        // $(document).ready(function () {
 
-            // 위자드
-            $('#orderWizard').bootstrapWizard({
-                tabClass: 'fw-nav',
-                'nextSelector': '.next',
-                'previousSelector': '.previous',
-                onTabClick: function (tab, navigation, index) {
-                    if (index == 0) {
-                        $('#diag_param').val(1);
-                    } else {
-                        $('#diag_param').val('');
-                    }
-                    // return false;
-                    $('#item_list').empty();
-                    $('#item-list-div').addClass('hidden');
-                },
-                onNext: function (tab, navigation, index) {
-                    // var $valid = $("#commentForm").valid();
-                    // if(!$valid) {
-                    //         $validator.focusInvalid();
-                    //         return false;
-                    // }
-                }
+            // // 위자드
+            // $('#orderWizard').bootstrapWizard({
+            //     tabClass: 'fw-nav',
+            //     'nextSelector': '.next',
+            //     'previousSelector': '.previous',
+            //     onTabClick: function (tab, navigation, index) {
+            //         if (index == 0) {
+            //             $('#diag_param').val(1);
+            //         } else {
+            //             $('#diag_param').val('');
+            //         }
+            //         // return false;
+            //         $('#item_list').empty();
+            //         $('#item-list-div').addClass('hidden');
+            //     },
+            //     onNext: function (tab, navigation, index) {
+            //         // var $valid = $("#commentForm").valid();
+            //         // if(!$valid) {
+            //         //         $validator.focusInvalid();
+            //         //         return false;
+            //         // }
+            //     }
+            // });
+
+            $(document).on('click', '.tab', function(){
+               var val = $(this).data('value');
+               $('#diag_param').val(val);
             });
 
 
@@ -559,6 +564,6 @@
                 });
             });
 
-        });
+        // });
     </script>
 @endpush

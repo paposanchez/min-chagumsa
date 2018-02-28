@@ -192,7 +192,7 @@
                                         <h4>차량정보</h4>
                                         <ul class="list-group">
                                             <li class="list-group-item no-border"><span>차량명</span> <em
-                                                        class="pull-right">{{ $diagnosis->carNumber->car->getFullName()  }}</em>
+                                                        class="pull-right">{{ $diagnosis->order->getCarFullName()  }}</em>
                                             </li>
 
                                         </ul>

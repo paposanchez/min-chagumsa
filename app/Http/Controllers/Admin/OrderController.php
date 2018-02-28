@@ -191,6 +191,7 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+
         try {
             if ($request->get('diag_param')) {
                 $this->validate($request, [
@@ -362,7 +363,7 @@ class OrderController extends Controller
             return redirect()->route('order.show', $order->id)->with('success', '주문생성 되었습니다.');
         } catch (\Exception $e) {
             DB::rollback();
-
+            dd($e->getMessage());
             return redirect()->back()->with('error', '에러가 발생햇습니다.');
 
         }

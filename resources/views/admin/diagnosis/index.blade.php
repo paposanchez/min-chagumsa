@@ -132,6 +132,8 @@
                                         <td class="text-center">
                                             @if($data->isExpired())
                                                 {{ $data->expired_at->format('Y-m-d H:i') }}
+                                            @elseif($data->getCountdown() == -1)
+                                                <small class="">-</small>
                                             @else
                                                 <small class="text-danger">
                                                     {{ number_format($data->getCountdown()) }}일 남음

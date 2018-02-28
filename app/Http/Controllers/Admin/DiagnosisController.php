@@ -522,7 +522,7 @@ class DiagnosisController extends Controller
             $diagnosis->garage_id = $garage->id;
             $diagnosis->status_cd = Code::getIdByGroupAndName('report_state', 'order');
             $diagnosis->confirm_at = null;
-            $diagnosis->reservation_at = null;
+//            $diagnosis->reservation_at = null;
             $diagnosis->reservation_user_id = Auth::user()->id;
             $diagnosis->save();
 

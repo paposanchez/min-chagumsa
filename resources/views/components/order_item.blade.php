@@ -28,9 +28,15 @@
         @if($order_item->document->status)
             @if($order_item->type_cd == '121')
                 {{--<a class="btn bgm-blue btn-float waves-effect" href="{{ url('diagnosis', [$order_item->document->id]) }}">--}}
-                <a class="btn bgm-blue btn-float waves-effect" href="{{ route('diagnosis.edit', [$order_item->document->id]) }}">
-                    <i class="zmdi zmdi-mail-send"></i>
-                </a>
+                @if($order_item->document->status_cd == 112)
+                    <a class="btn bgm-blue btn-float waves-effect" href="{{ route('diagnosis.show', [$order_item->document->id]) }}">
+                        <i class="zmdi zmdi-mail-send"></i>
+                    </a>
+                @else
+                    <a class="btn bgm-blue btn-float waves-effect" href="{{ route('diagnosis.edit', [$order_item->document->id]) }}">
+                        <i class="zmdi zmdi-mail-send"></i>
+                    </a>
+                @endif
             @elseif($order_item->type_cd == '122')
                 {{--<a class="btn bgm-blue btn-float waves-effect" href="/certificate/{{ $order_item->document->id }}/edit">--}}
                 <a class="btn bgm-blue btn-float waves-effect" href="{{ route('certificate.edit', [$order_item->document->id]) }}">
