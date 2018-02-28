@@ -66,12 +66,12 @@ class Diagnoses extends Model
                 return $return;
         }
 
-    public function files(){
-        return $this->hasMany(DiagnosisFile::class, 'diagnoses_id', 'id');
-    }
+        public function files(){
+                return $this->hasMany(DiagnosisFile::class, 'diagnoses_id', 'id');
+        }
 
-    public function file(){
-        return $this->hasOne(DiagnosisFile::class, 'diagnoses_id', 'id');
-    }
+        public function file(){
+                return $this->hasOne(DiagnosisFile::class, 'diagnoses_id', 'id');
+        }
 
 }

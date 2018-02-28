@@ -52,7 +52,7 @@ return [
     |
     */
     'url' => env('APP_URL', 'http://admin.localhost:8000'),
-    'domain' => env('APP_DOMAIN', 'localhost'),
+    'domain' => env('APP_DOMAIN', 'www.chagumsa.com'),
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -179,6 +179,8 @@ return [
 
         //EXCEL
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        //PDF
+        Barryvdh\DomPDF\ServiceProvider::class,
         //ACL
         // Zizaco\Entrust\EntrustServiceProvider::class,
         //Activity Log
@@ -244,6 +246,7 @@ return [
         'Flash' => Laracasts\Flash\Flash::class,
         'PushNotification' => Edujugon\PushNotification\Facades\PushNotification::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
         // 'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
         // 'Entrust' => Zizaco\Entrust\EntrustFacade::class,
 

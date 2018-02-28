@@ -10,69 +10,94 @@ use App\Models\DiagnosesFile;
 use Intervention\Image\ImageManagerStatic AS Image;
 use App\Repositories\CertiRedisRepository;
 
-Route::get('/thumbnail/{id?}', function ($id) {
-
-
-    $image = public_path('assets/img/noimage.png');
-    if ($id) {
-
-        $file = DiagnosesFile::findOrFail($id);
-
-        if ($file) {
-            $allowedMimeTypes = ['image/jpeg', 'image/gif', 'image/png', 'image/bmp', 'image/svg+xml'];
-            if (in_array($file->mime, $allowedMimeTypes)) {
-                // 실제파일 위치
-                $image = storage_path('app/diagnosis' . $file->path) . '/' . $file->source;
-            } else {
-                return $this->makeImageWithText($file->extension);
-            }
-        }
-    }
-
-    return response()->file($image);
-
-});
-
+use App\Models\Code;
+use App\Models\Certificate;
+use App\Models\Diagnosis;
+use App\Models\Diagnoses;
+use App\Models\Warranty;
 
 Route::any('/{fullkey}/{flush?}', function ($fullkey, $flush = '') {
 
-    $pattern = '/^([0-9],8)-([0-9],4)-([0-9A-Z],6)-([D|W|C],1)';
+        $pattern = '/^([0-9]{8})-([0-9A-Za-z]{6})-([0-9]{4})([D|W|C]{1})/';
 
-    if (preg_match($pattern, $fullkey) === true) {
-        $chakeys = explode($pattern, '-');
-        $chakey = $chakeys[0] . '-' . $chakeys[1] . '-' . $chakeys[2];
-        $chakey_type = $chakeys[3];
 
-        // $dia = Diagnosis::getInstance();
-        // $dia::publish();
+        if (preg_match($pattern, $fullkey)) {
+                $chakeys = explode('-', $fullkey);
 
-        switch ($chakey_type) {
-            case 'D':
-                return \App\Models\Diagnosis::publish();
-                break;
+                $chakey = $chakeys[0] . '-' . $chakeys[1] . '-' . substr($chakeys[2], 0, 4);
+                $chakey_type = substr($chakeys[2], -1);
 
-            case 'W':
-                return \App\Models\Warranty::publish();
-                break;
+                // $pdf = \PDF::loadView('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states'));
+                // return $pdf->stream($data->getDocumentKey() .'.'. str_random(6) .'.'. '.pdf');
+                switch ($chakey_type) {
+                        case 'D':
 
-            case 'C':
-                return \App\Models\Certificate::publish();
-                break;
+                        $data = Diagnosis::whereChakey($chakey)->whereStatusCd(115)->first();
+                        if(!$data)
+                        {
+                                return abort(404, '해당 문서를 찾을 수 없습니다.');
+                        }
+                        $report_type = 'D';
+                        $document_type = 'diagnosis';
+                        $page_title     = '차검사 진단서';
+                        // 평가관련
+                        $operation_state_cd = Code::getSelectList('operation_state_cd');
+                        $certificate_states = Code::getSelectList('certificate_state_cd');
+                        $total_opinion = Diagnoses::where('diagnosis_id', $data->id)->where('group', 2142)->first()->comment;
+                        return view('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states', 'total_opinion'));
 
-            default:
-                abort(404, '정보를 찾을 수 없습니다.');
-                break;
+
+
+                        break;
+
+                        case 'W':
+                        $data = Warranty::whereChakey($chakey)->whereStatusCd(115)->first();
+                        if(!$data)
+                        {
+                                return abort(404, '해당 문서를 찾을 수 없습니다.');
+                        }
+                        $report_type = 'W';
+                        $document_type = 'warranty';
+                        $page_title     = '차검사 보증서';
+                        // 평가관련
+                        $operation_state_cd = Code::getSelectList('operation_state_cd');
+                        $certificate_states = Code::getSelectList('certificate_state_cd');
+
+                        return view('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states'));
+                        break;
+
+                        case 'C':
+
+                        $data = Certificate::whereChakey($chakey)->whereStatusCd(115)->first();
+                        if(!$data)
+                        {
+                                return abort(404, '해당 문서를 찾을 수 없습니다.');
+                        }
+                        $report_type = 'C';
+                        $document_type = 'certificate';
+                        $page_title     = '차검사 평가서';
+                        // 평가관련
+                        $operation_state_cd = Code::getSelectList('operation_state_cd');
+                        $certificate_states = Code::getSelectList('certificate_state_cd');
+                        return view('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states'));
+
+
+                        break;
+
+                        default:
+                        abort(404, '해당 문서를 찾을 수 없습니다.');
+                        break;
+                }
+
         }
-
-    }
 
 
 })->name('cert');
 
 Route::any( '/', function( ){
-    return response()->json([
-        "SERVICE"       => "CHAGUMSA CERT SERVICE"
-    ]);
+        return response()->json([
+                "SERVICE"       => "CHAGUMSA CERTIFICATION"
+        ]);
 });
 
 
