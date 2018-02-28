@@ -1,0 +1,626 @@
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
+* {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        font-family: 'Nanum Gothic', sans-serif;
+}
+/*
+* -- BASE STYLES --
+* Most of these are inherited from Base, but I want to change a few.
+*/
+body {
+        line-height: 1.33333em;
+        color: #212121;
+        font-size: .8rem;
+        width: 100%;
+}
+@page {
+        size: A4;
+        margin: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+        margin: 0px;
+        font-weight: 200;
+}
+h1 {
+        font-size: 2.6rem;
+        font-weight: 500;
+}
+h2 {
+        font-size: 2.2rem;
+}
+h3 {
+        font-size: 2rem;
+}
+h4 {
+        font-size: 1.8rem;
+}
+h5 {
+        font-size: 1.2rem;
+}
+h6 {
+        font-size: .9rem;
+}
+/* common */
+.text-left {
+        text-align: left;
+}
+.text-right {
+        text-align: right;
+}
+.text-center {
+        text-align: center;
+}
+.button-block {
+        display: block;
+        width: 100%;
+        padding: 2rem;
+        background: #fff;
+        border: solid 1px #e6e6e6;
+        margin: 2px 0px;
+}
+.text-muted {
+        color: #aaa;
+}
+.round {
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+}
+.container {
+        padding: 0rem;
+        margin: 0px auto;
+        position: relative;
+}
+.header {
+        background: #0b4777;
+        padding: 30px 25px;
+}
+.header h1,
+.header h2,
+.header h3,
+.header h4,
+.header h5,
+.header h6 {
+        color: #fff;
+}
+.header h4,
+.header h5,
+.header h6 {
+        font-weight: 200;
+}
+.header .container .document-title {
+        margin-top: 10px;
+}
+.header .container .document-number {
+        margin-bottom: 15px;
+}
+.body {
+        width: 100%;
+        padding: 25px;
+}
+.footer {
+        background: #fff;
+        width: 100%;
+        border-top: solid 1px #e6e6e6;
+        padding: 25px;
+}
+.footer .container {
+        color: #b2b2b2;
+}
+.footer .container .copyright {
+        font-size: .6rem;
+}
+.footer .container .logo-partner {
+        width: 120px;
+}
+.footer .container .logo-chagumsa {
+        width: 120px;
+}
+.document-information {
+        margin: 0px 0px 30px;
+}
+.document-information dt {
+        padding: 0px 0px 0px 10px;
+        border-left: solid 4px #999;
+}
+.document-information dt img {
+        width: 3px;
+        height: 20px;
+        vertical-align: bottom;
+        margin-right: 10px;
+}
+.document-information dd {
+        margin: 0px;
+        padding: 0px;
+}
+.document-information-basic table {
+        width: 100%;
+}
+.document-information-basic table th {
+        text-align: center;
+        font-weight: normal;
+        padding: .5rem;
+        font-size: .7rem;
+        color: #999;
+        border-bottom: solid 1px #020f1a;
+}
+.document-information-basic table td {
+        text-align: center;
+        font-size: .7rem;
+        padding: .5rem;
+        border-bottom: solid 1px #e6e6e6;
+}
+.document-information-info table {
+        width: 100%;
+        border-top: solid 1px #004f87;
+}
+.document-information-info table th {
+        text-align: center;
+        padding: .5rem;
+        font-size: .7rem;
+        color: #494a4a;
+        border-bottom: solid 1px #e6e6e6;
+        border-right: solid 1px #fff;
+        background: #e3f3ff;
+}
+.document-information-info table td {
+        text-align: left;
+        font-size: .7rem;
+        padding: .5rem;
+        color: #757575;
+        border-bottom: solid 1px #e6e6e6;
+        background: #fff;
+}
+.document-information-info small {
+        display: block;
+        color: #aaa;
+}
+.document-information-info ul {
+        padding: 0px;
+        margin: 0px;
+        list-style: none;
+}
+.document-information-info ul li {
+        display: inline-block;
+        padding: 0px 1rem;
+}
+.stamps {
+        padding-right: 80px;
+        position: relative;
+}
+.stamps div {
+        width: 120px;
+        height: 70px;
+        display: inline-block;
+        line-height: 70px;
+        vertical-align: middle;
+}
+.stamps .stamp-name {
+        font-size: 32px;
+        font-weight: 300;
+        text-align: right;
+}
+.stamps .stamp {
+        width: 70px;
+        height: 70px;
+        position: absolute;
+        top: 0;
+        right: 0;
+}
+.m-t-20 {
+        margin-top: 20px;
+}
+.m-t-40 {
+        margin-top: 40px;
+}
+@media print and (color) {
+        html,
+        body {
+                width: 210mm;
+                height: 297mm;
+        }
+        * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+        }
+        h1 {
+                background: none;
+        }
+        h2,
+        h3 {
+                page-break-after: avoid;
+        }
+        ul,
+        img {
+                page-break-inside: avoid;
+        }
+        article {
+                page-break-before: always;
+        }
+        img {
+                max-width: 100% !important;
+        }
+        nav,
+        aside {
+                display: none;
+        }
+        article {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+        }
+        .page-break {
+                page-break-after: always;
+        }
+        .document-information dt {
+                font-size: 13px;
+        }
+        .document-information-basic table th {
+                font-size: .6rem;
+        }
+        .stamps {
+                padding-right: 60px;
+        }
+        .stamps div {
+                width: 80px;
+                line-height: 50px;
+        }
+        .stamps .stamp-name {
+                font-size: 20px;
+        }
+        .stamps .stamp {
+                width: 50px;
+                height: 50px;
+        }
+}
+.diagnosis .diagnosis-summarys {
+        overflow: hidden;
+        margin: 0px 20px 0px 0px;
+}
+.diagnosis .diagnosis-cars {
+        position: relative;
+        width: 914px;
+        height: 1104px;
+        float: left;
+}
+.diagnosis .diagnosis-cars .diagnosis-car {
+        background-repeat: no-repeat;
+        background-position: center center;
+        position: absolute;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-a {
+        top: 0;
+        left: 0;
+        width: 457px;
+        height: 475px;
+        background-image: url('../img/diagnosis-car-left.png');
+}
+.diagnosis .diagnosis-cars .diagnosis-car-b {
+        top: 0;
+        right: 0;
+        width: 457px;
+        height: 475px;
+        background-image: url('../img/diagnosis-car-right.png');
+}
+.diagnosis .diagnosis-cars .diagnosis-car-c {
+        bottom: 40px;
+        left: 0;
+        width: 517px;
+        height: 589px;
+        background-image: url('../img/diagnosis-car-bottom.png');
+}
+.diagnosis .diagnosis-cars .diagnosis-car-d {
+        bottom: 40px;
+        right: 0;
+        width: 397px;
+        height: 589px;
+        background-image: url('../img/diagnosis-car-top.png');
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info {
+        position: absolute;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info .diagnosis-car-info-container {
+        background-repeat: no-repeat;
+        position: relative;
+        width: 160px;
+        padding: 0px 0px;
+        border-bottom: solid 1px #dfdfdf;
+        color: #999;
+        text-align: left;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info .diagnosis-car-info-container .diagnosis-car-status {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        background: #dfdfdf;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on .diagnosis-car-status {
+        color: #fff !important;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_x .diagnosis-car-info-container {
+        border-color: #005899;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_x span {
+        color: #005899;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_x .diagnosis-car-status {
+        background-color: #005899;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_w .diagnosis-car-info-container {
+        border-color: #546b7c;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_w span {
+        color: #546b7c;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_w .diagnosis-car-status {
+        background-color: #546b7c;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_s .diagnosis-car-info-container {
+        border-color: #0b4777;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_s span {
+        color: #0b4777;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_s .diagnosis-car-status {
+        background-color: #0b4777;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_v .diagnosis-car-info-container {
+        border-color: #172c3c;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_v span {
+        color: #172c3c;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_v .diagnosis-car-status {
+        background-color: #172c3c;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_r .diagnosis-car-info-container {
+        border-color: #0093ff;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_r span {
+        color: #0093ff;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.on.on_r .diagnosis-car-status {
+        background-color: #0093ff;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.right .diagnosis-car-info-container {
+        text-align: right;
+}
+.diagnosis .diagnosis-cars .diagnosis-car-info.right .diagnosis-car-status {
+        left: 0px;
+        right: none;
+}
+.diagnosis .diagnosis-summary {
+        width: 245px;
+        padding: 20px;
+        float: right;
+        background: #f7f7f7;
+}
+.diagnosis .diagnosis-summary .diagnosis-summary-item {
+        position: relative;
+        padding: 0px 0px 0px 74px;
+        height: 60px;
+        margin: 0px 0px 22px 0px;
+}
+.diagnosis .diagnosis-summary .diagnosis-summary-item:last-child {
+        margin-bottom: 0px;
+}
+.diagnosis .diagnosis-summary .diagnosis-summary-item .diagnosis-summary-item-number {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        background: #fff;
+        color: #999;
+}
+.diagnosis .diagnosis-summary .diagnosis-summary-item .diagnosis-summary-item-title {
+        line-height: 60px;
+        color: #999;
+}
+.diagnosis .diagnosis-summary .diagnosis-summary-item.on .diagnosis-summary-item-number {
+        color: #fff;
+        background: #0b4777;
+}
+.diagnosis .diagnosis-summary .diagnosis-summary-item.on .diagnosis-summary-item-title {
+        color: #0b4777;
+}
+.certificate .certificate-summary {
+        padding: 50px 20px;
+        margin: 20px 0px;
+        background-color: #f7f7f7;
+}
+.certificate .certificate-summary .certificate-summary-info {
+        margin-top: 30px;
+}
+.certificate .certificate-summary .certificate-summary-info .stamps {
+        width: 350px;
+        margin: 0 auto;
+}
+.certificate .certificate-summary .certificate-summary-circle {
+        padding-top: 80px;
+        background: #fff;
+        width: 280px;
+        height: 280px;
+        margin: 0 auto;
+        text-align: center;
+        color: #0b4777;
+}
+.certificate .certificate-summary .certificate-summary-circle h1 {
+        font-size: 60px;
+        line-height: 60px;
+}
+.certificate .certificate-summary .certificate-summary-circle h1 small {
+        color: #999;
+        font-size: 12px;
+}
+.certificate .certificate-summary .certificate-summary-circle h4 {
+        font-size: 18px;
+        color: #999;
+}
+.certificate .certificate-summary .certificate-summary-circle h4 span {
+        color: #0b4777;
+}
+.certificate .certificate-summary .certificate-summary-circle h6 {
+        font-size: 14px;
+}
+.certificate .report {
+        width: 95%;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+}
+.certificate .report .report-item {
+        position: relative;
+        padding: 30px 50px 30px 100px;
+}
+.certificate .report .report-item img {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        width: 70px;
+}
+.certificate .report .status span {
+        color: #999;
+}
+.certificate .report .status em {
+        color: #0b4777;
+}
+.certificate .report .description {
+        font-size: ;
+        color: #aaa;
+}
+.certificate .report .accident {
+        border-bottom: solid 1px #e6e6e6;
+}
+.certificate .depreciation {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+}
+.certificate .depreciation li {
+        width: 25%;
+        padding: 0;
+        margin: 0;
+        float: left;
+        text-align: center;
+}
+.certificate .depreciation li .depreciation-item {
+        width: 170px;
+        height: 200px;
+        margin: 0 auto;
+        display: block;
+}
+.certificate .depreciation li .depreciation-item .price {
+        width: 170px;
+        height: 170px;
+        background-image: url('../img/certificate-circle.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        line-height: 170px;
+        vertical-align: middle;
+        font-size: 32px;
+        font-weight: 100;
+        color: #aaa;
+}
+.certificate .depreciation li .depreciation-item .price small {
+        color: #aaa;
+        font-size: 10px;
+}
+.certificate .depreciation li .depreciation-item .description {
+        text-align: center;
+        bottom: 0px;
+        font-size: 12px;
+        font-weight: 100;
+}
+.certificate .depreciation li .depreciation-item.on .price {
+        color: #0b4777;
+}
+.certificate .depreciation li .depreciation-item.on .price small {
+        color: #0b4777;
+}
+.certificate .performance {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+}
+.certificate .performance .performance-item {
+        float: left;
+        width: 16.66666666666666%;
+        padding: 0px 0px 0px 60px;
+        position: relative;
+        margin-bottom: 10px;
+}
+.certificate .performance .performance-item .status {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 50px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: #f7f7f7;
+        color: #999;
+}
+.certificate .performance .performance-item .description {
+        height: 50px;
+        line-height: 50px;
+        color: #999;
+}
+.certificate .performance .performance-item.on .status {
+        color: #fff;
+        background-color: #0b4777;
+}
+.certificate .performance .performance-item.on .description {
+        color: #0b4777;
+}
+.warranty .warranty-warning {
+        padding: 50px 0 0 0;
+}
+.warranty .agreement {
+        margin-top: 10px;
+        padding: 25px;
+        background-color: #f7f7f7;
+        color: #aaa;
+}
+.warranty .agreement h6 {
+        color: #494a4a;
+        font-size: 14px;
+}
+.warranty .agreement .description {
+        margin-bottom: 20px;
+}
+.warranty .warning {
+        margin-top: 10px;
+        color: #aaa;
+        font-size: .8rem;
+}
+@media print and (color) {
+        .warranty .agreement {
+                font-size: 12px;
+        }
+        .warranty .agreement .description {
+                margin-bottom: 10px;
+        }
+        .warranty .warning {
+                margin-top: 8px;
+                font-size: .6rem;
+        }
+}

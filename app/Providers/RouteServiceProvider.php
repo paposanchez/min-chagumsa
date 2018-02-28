@@ -21,8 +21,8 @@ class RouteServiceProvider extends ServiceProvider
                 $this->mapApiRoutes();
                 $this->mapAdminRoutes();
                 $this->mapWebRoutes();
-                //        $this->mapCertRoutes();
-
+                $this->mapCertRoutes();
+                
         }
 
         protected function mapApiRoutes()
