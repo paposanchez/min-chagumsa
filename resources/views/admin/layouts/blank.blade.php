@@ -25,15 +25,32 @@
 
 @endsection
 
+
 @section( 'content-header' )
-        @include('flash::message')
+    {{-- 헤더 메뉴 --}}
 @endsection
 
 @section( 'content-body' )
 
-                @yield( 'content' )
+    <section id="main">
+
+        {{-- 본문의 사이드 --}}
+        @includeIf( 'admin.partials.left' )
+
+        @includeIf( 'admin.partials.right' )
+
+        @hasSection('breadcrumbs')
+            @yield( 'breadcrumbs' )
+        @endif
+
+        @include('flash::message')
+
+        @yield( 'content' )
+
+    </section>
 
 @endsection
+
 
 @section( 'content-footer' )
         <!-- Page Loader -->
