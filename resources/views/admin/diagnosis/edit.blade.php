@@ -5,28 +5,20 @@
         <div class="container">
             <div class="card">
                 <div class="card-header ch-alt">
-                    <h2>진단정보 수정
-                        <small>차검사 진단서를 수정합니다.</small>
+                    <h2>
+                        <span class="text-danger text-lighter">{{ $diagnosis->status->display() }}</span> {{ $diagnosis->chakey }}
+                        <small>번호 : <span class="text-info">{{ $diagnosis->id }}</span> / 최초생성일 : <span
+                                    class="text-info">{{ $diagnosis->created_at }}</span> / 최종수정일 : <span
+                                    class="text-info">{{ $diagnosis->updated_at or '-' }}</span></small>
                     </h2>
 
-                    <ul class="actions">
-                        <li>
-                            <a href="/diagnosis" class="goback">
-                                <i class="zmdi zmdi-view-list"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card-body card-padding">
-                    <h3>
-                <span class="text-lg">
-                        <span class="text-danger text-lighter">{{ $diagnosis->status->display() }}</span>
-                        <span class="text-lighter">| </span>
-                    {{ $diagnosis->chakey }}
-                </span>
-                        <a href="/order/{{ $order->id }}" target="_blank" class="btn btn-default pull-right"
-                           style="margin-left:10px;">주문보기</a>
 
+                    <ul class="actions">
+                        @if($user->hasRole('admin'))
+                            <button class="btn btn-default pull-right" id="orderBtn" data-url="/order/{{ $order->id }}"
+                                    data-toggle="tooltip" title="주문보기">주문보기
+                            </button>
+                        @endif
                         @if($user->hasRole(['admin', 'engineer']) && $diagnosis->status_cd == 114)
                             <button class="btn btn-primary pull-right status_button" data-toggle="tooltip" title="검토완료"
                                     data-target="#diagnosisForm" data-type="review_complete">검토완료
@@ -38,166 +30,188 @@
                                     data-target="#issueForm" data-type="issue">진단완료
                             </button>
                         @endif
-                    </h3>
+                    </ul>
+                </div>
 
-                    <div class="row">
+                <div class="card-body">
+                    <ul class="tab-nav" role="tablist">
+                        <li role="presentation" class="active">
+                            <a class="col-sx-4" href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab"
+                               aria-expanded="true">발급내역</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a class="col-xs-4" href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab"
+                               aria-expanded="false">주문정보</a>
+                        </li>
+                    </ul>
 
-                        <div class="col-xs-6">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane animated fadeIn active" id="tab-1">
 
-                            <div class="block">
+                            <div class="bg-white">
 
-                                <h4>주문정보</h4>
-                                <ul class="list-group">
+                                <div class="row" style="margin-left: 0; margin-right: 0;">
+                                    @if($user->hasRole(['admin', 'technician']))
+                                        {!! Form::model($diagnosis, ['method' => 'POST','route' => ['diagnosis.issue', 'id' => $diagnosis->id], 'class'=>'form-horizontal', 'id'=>'issueForm', 'enctype'=>"multipart/form-data"]) !!}
+                                        @component('components.car_basic_info', [
+                                            'select_vin_yn' => $select_vin_yn,
+                                            'kinds' => $kinds,
+                                            'select_color' => $select_color,
+                                            'select_transmission' => $select_transmission,
+                                            'select_fueltype' => $select_fueltype
+                                        ])
+                                        @endcomponent
+                                        {!! Form::close() !!}
+                                    @else
+                                        <div class="col-md-4">
+                                            <div class="block">
+                                                <h4 id="dia-top">진단레이아웃</h4>
+                                                <nav class="nav nav-sidebar inside_navigation">
+                                                    <ul class="list-unstyled main-menu">
+                                                        @foreach($diagnoses['entrys'] as $entrys)
+                                                            <li class="">
+                                                                <a href="#dia-{{ $entrys['name_cd'] }}">{{ $entrys['name']['display'] }}</a>
+                                                                <ul class="list-unstyled sub-menu">
+                                                                    @foreach($entrys['entrys'] as $entry)
+                                                                        <li class=""><a
+                                                                                    href="#dia-{{ $entry['name_cd'] }}">{{ $entry['name']['display'] }}</a>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    @endif
 
-                                    <li class="list-group-item no-border"><span>주문자명</span> <em
-                                                class="pull-right">{{ $order->orderer_name }}</em></li>
-                                    <li class="list-group-item no-border"><span>주문자연락처</span> <em
-                                                class="pull-right">{{ $order->orderer_mobile }}</em></li>
-                                    <li class="list-group-item no-border"><span>상품명</span> <em
-                                                class="pull-right">{{ $diagnosis->orderItem->item->name }}</em></li>
+                                    <div class="col-md-8">
+                                        {!! Form::model($diagnosis, ['method' => 'POST','route' => ['diagnosis.review-complete', 'id' => $diagnosis->id], 'class'=>'form-horizontal', 'id'=>'diagnosisForm', 'enctype'=>"multipart/form-data"]) !!}
+                                        <div class="panel panel-primary">
+                                            {{--@foreach($diagnoses['entrys'] as $entrys)--}}
+                                            {{--<div class="panel-heading" id="dia-{{ $entrys['name_cd'] }}">--}}
+                                            {{--<div class="row">--}}
+                                            {{--<label for=""--}}
+                                            {{--class="control-label col-sm-3">{{ $entrys['name']['display'] }}</label>--}}
+                                            {{--<div class="col-sm-9 text-right has-error dark">--}}
+                                            {{--<a href="#dia-top" class="btn btn-link" data-toggle="tooltip"--}}
+                                            {{--title="위로"><i class="fa fa-arrow-up"></i></a>--}}
+                                            {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--</div>--}}
 
-                                </ul>
+                                            {{--<div class="panel-body no-padding">--}}
+
+                                            {{--<table class="table-diagnosis">--}}
+
+                                            {{--<colgroup>--}}
+                                            {{--<col width="20%">--}}
+                                            {{--<col width="*">--}}
+                                            {{--</colgroup>--}}
+
+
+                                            {{--@foreach($entrys['entrys'] as $entry)--}}
+                                            {{--<tbody>--}}
+                                            {{--<tr id="dia-{{ $entry['name_cd'] }}">--}}
+                                            {{--<th class="text-right">{{ $entry['name']['display'] }}</th>--}}
+                                            {{--<td--}}
+                                            {{--class="--}}
+                                            {{--clearfix--}}
+                                            {{--@if(count($entry['children']))--}}
+                                            {{--no-padding--}}
+                                            {{--@endif--}}
+                                            {{--">--}}
+                                            {{--@each("partials.diagnosis", $entry['entrys'], 'entry')--}}
+
+
+                                            {{--@if(isset($entry['children']))--}}
+                                            {{--<table class="">--}}
+                                            {{--<col width="20%">--}}
+                                            {{--<col width="*">--}}
+                                            {{--<tbody class="no-border">--}}
+                                            {{--@foreach($entry['children'] as $children)--}}
+                                            {{--<tr>--}}
+                                            {{--<th class="">{{ $children['name']['display'] }}</th>--}}
+                                            {{--<td>--}}
+                                            {{--<ul class="list-unstyled no-margin">--}}
+                                            {{--@foreach($children['entrys'] as $child)--}}
+                                            {{--<li class="clearfix">--}}
+                                            {{--@includeIf('partials.diagnosis', ['entry' =>  $child])--}}
+                                            {{--</li>--}}
+                                            {{--@endforeach--}}
+                                            {{--</ul>--}}
+                                            {{--</td>--}}
+                                            {{--</tr>--}}
+                                            {{--@endforeach--}}
+                                            {{--</tbody>--}}
+                                            {{--</table>--}}
+                                            {{--@endif--}}
+
+                                            {{--</td>--}}
+                                            {{--</tr>--}}
+                                            {{--</tbody>--}}
+                                            {{--@endforeach--}}
+                                            {{--</table>--}}
+
+                                            {{--</div>--}}
+                                            {{--@endforeach--}}
+                                        </div>
+                                        {!! Form::close() !!}
+                                    </div>
+
+
+                                </div>
 
                             </div>
-
                         </div>
 
-                        <div class="col-xs-6">
+                        <div role="tabpanel" class="tab-pane animated fadeIn" id="tab-2">
+                            <div class="row" style="margin-right: 0; margin-left: 0;">
+                                <div class="col-xs-6">
 
-                            <div class="block ">
+                                    <div class="block bg-white" style="margin-bottom:10px;">
 
-                                <h4>차량정보</h4>
-                                <ul class="list-group">
-
-                                    <li class="list-group-item no-border"><span>차량명</span> <em
-                                                class="pull-right">{{ $order->getCarFullName()  }}</em></li>
-                                    {{--<li class="list-group-item no-border"><span>사고유무</span> <em--}}
-                                    {{--class="pull-right">{{ $order->accident_state_cd == 1 ? '예' : '아니요' }}</em></li>--}}
-                                    {{--<li class="list-group-item no-border"><span>침수여부</span> <em--}}
-                                    {{--class="pull-right">{{ $order->flooding_state_cd == 1 ? '예' : '아니요' }}</em></li>--}}
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white">
-                        <hr>
-                        <div class="row">
-                            @if($user->hasRole(['admin', 'technician']))
-                                {!! Form::model($diagnosis, ['method' => 'POST','route' => ['diagnosis.issue', 'id' => $diagnosis->id], 'class'=>'form-horizontal', 'id'=>'issueForm', 'enctype'=>"multipart/form-data"]) !!}
-                                @component('components.car_basic_info', [
-                                    'select_vin_yn' => $select_vin_yn,
-                                    'kinds' => $kinds,
-                                    'select_color' => $select_color,
-                                    'select_transmission' => $select_transmission,
-                                    'select_fueltype' => $select_fueltype
-                                ])
-                                @endcomponent
-                                {!! Form::close() !!}
-                            @else
-                                <div class="col-md-4">
-                                    <div class="block">
-                                        <h4 id="dia-top">진단레이아웃</h4>
-                                        <nav class="nav nav-sidebar inside_navigation">
-                                            <ul class="list-unstyled main-menu">
-                                                @foreach($diagnoses['entrys'] as $entrys)
-                                                    <li class="">
-                                                        <a href="#dia-{{ $entrys['name_cd'] }}">{{ $entrys['name']['display'] }}</a>
-                                                        <ul class="list-unstyled sub-menu">
-                                                            @foreach($entrys['entrys'] as $entry)
-                                                                <li class=""><a
-                                                                            href="#dia-{{ $entry['name_cd'] }}">{{ $entry['name']['display'] }}</a>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </nav>
+                                        <h4>주문정보</h4>
+                                        <ul class="list-group">
+                                            <li class="list-group-item no-border"><span>주문자명</span> <em
+                                                        class="pull-right">{{ $diagnosis->order->orderer_name }}</em>
+                                            </li>
+                                            <li class="list-group-item no-border"><span>주문자연락처</span> <em
+                                                        class="pull-right">{{ $diagnosis->order->orderer_mobile }}</em>
+                                            </li>
+                                            <li class="list-group-item no-border"><span>상품명</span> <em
+                                                        class="pull-right">{{ $diagnosis->orderItem->item->name }}</em>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            @endif
 
-                            <div class="col-md-8">
-                                {!! Form::model($diagnosis, ['method' => 'POST','route' => ['diagnosis.review-complete', 'id' => $diagnosis->id], 'class'=>'form-horizontal', 'id'=>'diagnosisForm', 'enctype'=>"multipart/form-data"]) !!}
-                                <div class="panel panel-primary">
-                                    {{--@foreach($diagnoses['entrys'] as $entrys)--}}
-                                    {{--<div class="panel-heading" id="dia-{{ $entrys['name_cd'] }}">--}}
-                                    {{--<div class="row">--}}
-                                    {{--<label for=""--}}
-                                    {{--class="control-label col-sm-3">{{ $entrys['name']['display'] }}</label>--}}
-                                    {{--<div class="col-sm-9 text-right has-error dark">--}}
-                                    {{--<a href="#dia-top" class="btn btn-link" data-toggle="tooltip"--}}
-                                    {{--title="위로"><i class="fa fa-arrow-up"></i></a>--}}
-                                    {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--</div>--}}
+                                <div class="col-xs-6">
+                                    <div class="block bg-white" style="margin-bottom:10px;">
+                                        <h4>차량정보</h4>
+                                        <ul class="list-group">
+                                            <li class="list-group-item no-border"><span>차량명</span> <em
+                                                        class="pull-right">{{ $diagnosis->carNumber->car->getFullName()  }}</em>
+                                            </li>
 
-                                    {{--<div class="panel-body no-padding">--}}
-
-                                    {{--<table class="table-diagnosis">--}}
-
-                                    {{--<colgroup>--}}
-                                    {{--<col width="20%">--}}
-                                    {{--<col width="*">--}}
-                                    {{--</colgroup>--}}
-
-
-                                    {{--@foreach($entrys['entrys'] as $entry)--}}
-                                    {{--<tbody>--}}
-                                    {{--<tr id="dia-{{ $entry['name_cd'] }}">--}}
-                                    {{--<th class="text-right">{{ $entry['name']['display'] }}</th>--}}
-                                    {{--<td--}}
-                                    {{--class="--}}
-                                    {{--clearfix--}}
-                                    {{--@if(count($entry['children']))--}}
-                                    {{--no-padding--}}
-                                    {{--@endif--}}
-                                    {{--">--}}
-                                    {{--@each("partials.diagnosis", $entry['entrys'], 'entry')--}}
-
-
-                                    {{--@if(isset($entry['children']))--}}
-                                    {{--<table class="">--}}
-                                    {{--<col width="20%">--}}
-                                    {{--<col width="*">--}}
-                                    {{--<tbody class="no-border">--}}
-                                    {{--@foreach($entry['children'] as $children)--}}
-                                    {{--<tr>--}}
-                                    {{--<th class="">{{ $children['name']['display'] }}</th>--}}
-                                    {{--<td>--}}
-                                    {{--<ul class="list-unstyled no-margin">--}}
-                                    {{--@foreach($children['entrys'] as $child)--}}
-                                    {{--<li class="clearfix">--}}
-                                    {{--@includeIf('partials.diagnosis', ['entry' =>  $child])--}}
-                                    {{--</li>--}}
-                                    {{--@endforeach--}}
-                                    {{--</ul>--}}
-                                    {{--</td>--}}
-                                    {{--</tr>--}}
-                                    {{--@endforeach--}}
-                                    {{--</tbody>--}}
-                                    {{--</table>--}}
-                                    {{--@endif--}}
-
-                                    {{--</td>--}}
-                                    {{--</tr>--}}
-                                    {{--</tbody>--}}
-                                    {{--@endforeach--}}
-                                    {{--</table>--}}
-
-                                    {{--</div>--}}
-                                    {{--@endforeach--}}
+                                        </ul>
+                                    </div>
                                 </div>
-                                {!! Form::close() !!}
                             </div>
-
-
                         </div>
-
                     </div>
-                    {!! Form::close() !!}
+                </div>
+
+
+
+                <div class="card-body card-padding">
+
+
+
+
+
+
                 </div>
             </div>
         </div>
@@ -448,11 +462,16 @@
         //     });
         // });
 
+        $(document).on('click', '#orderBtn', function(){
+            var url = $(this).data('url');
+            window.open(url, 'blank')
+        });
+
         $(document).on('click', '.status_button', function () {
             var type = $(this).data('type');
             var target_form = $(this).data('target');
 
-            if(type != 'issue'){
+            if (type != 'issue') {
                 swal({
                     title: "해당 진단을 검토완료 처리하시겠습니까?",
                     text: "완료된 진단은 복구할 수 없습니다.",
@@ -467,7 +486,7 @@
                         // swal("진단 검토완료가 처리되었습니다.", "", "success");
                     }
                 });
-            }else{
+            } else {
                 swal({
                     title: "해당 진단을 발급완료 처리하시겠습니까?",
                     text: "완료된 진단은 복구할 수 없습니다.",
@@ -486,12 +505,12 @@
         });
 
         //기타 색상 및 기타 연료
-        $(document).on('change', '.etc_sel', function(){
+        $(document).on('change', '.etc_sel', function () {
             var target = $(this).data('target');
 
-            if($(this).selected().val() == 1106 || $(this).selected().val() == 1132){
+            if ($(this).selected().val() == 1106 || $(this).selected().val() == 1132) {
                 $(target).removeClass('hidden');
-            }else{
+            } else {
                 $(target).addClass('hidden');
             }
         });
