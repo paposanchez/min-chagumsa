@@ -5,12 +5,14 @@ Route::get('codes', "CodeController");
 // 로그인
 Route::any('login', "UserController@login");
 Route::any('logout', "UserController@logout");
-// Route::get('password', "UserController@changePassword");
-Route::post('user/update', "UserController@update");
+Route::post('password', "UserController@changePassword");
 
 // 엔지니어관리
-Route::resource('member', 'MemberController');
-// Route::resource('user', "UserController");
+// Route::resource('member', 'MemberController',['except' => ['show']]);
+Route::get('member', 'MemberController@index');
+Route::post('member/create', 'MemberController@create');
+Route::post('member/update', 'MemberController@update');
+Route::post('member/deactive', 'MemberController@deactive');
 
 // 공지사항 목록
 Route::get('notice', "NoticeController@index");

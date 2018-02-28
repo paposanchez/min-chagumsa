@@ -62,7 +62,6 @@ class ScTran extends Model
         * INSERT INTO SC_TRAN (TR_SENDDATE, TR_SENDSTAT, TR_MSGTYPE, TR_PHONE, TR_CALLBACK, TR_MSG) VALUES (NOW(), '0', '1', '수신 번호', '발신 번호', 'http://wap.test.co.kr 테스트');
         */
         public function send($tr_phone, $tr_callback='1833-6889', $tr_msg, $tr_sendstat=0, $tr_msgtype=0, $tr_senddate=''){
-                
 
                 if($tr_senddate){
                         $this->TR_SENDDATE = $tr_senddate;

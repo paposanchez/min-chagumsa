@@ -127,4 +127,10 @@ class User extends Authenticatable
                 return $return->toArray();
         }
 
+
+        public function avatar()
+        {
+                return config('chagumsa.cdn').'/'.$this->id;
+        }
+
 }

@@ -55,7 +55,7 @@ class ApiHandler extends ExceptionHandler {
         protected function unauthenticated($request, AuthenticationException $exception) {
                 if ($request->expectsJson()) {
                         return response()->json([
-                                'status' => 'error',
+                                'status' => 'fail',
                                 'message' => 'Unauthenticated.'
                         ], 401);
                 }

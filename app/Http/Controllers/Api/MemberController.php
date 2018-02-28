@@ -66,11 +66,27 @@ class MemberController extends Controller
                         ->orderBy('users.name', 'ASC')
                         ->get();
 
+                        $result = [];
+
+                        foreach($entrys as $entry)
+                        {
+                                $result[] = [
+                                        'id'            => $entry->id,
+                                        'name'          => $entry->name,
+                                        'email'         => $entry->email,
+                                        'mobile'        => $entry->mobile,
+                                        'avatar'        => $entry->avatar(),
+                                        'status'        => $entry->status->toDesign(),
+                                        'roles'         => [],
+                                ];
+
+                        }
+
                         return response()->json([
                                 "status"        => 'success',
                                 "data"          => [
-                                        "total"         => count($entrys),
-                                        "entrys"        => $entrys
+                                        "total"         => count($result),
+                                        "entrys"        => $result
                                 ]
                         ]);
 
@@ -83,11 +99,10 @@ class MemberController extends Controller
 
 
         // 엔지니어 신규생성
-        public function store(Request $request)
+        public function create(Request $request)
         {
 
                 try{
-
                         $requestData = $request->validate([
                                 'user_id'       => 'required|exists:users,id',
                                 'email'         => 'required|min:2',
@@ -150,11 +165,11 @@ class MemberController extends Controller
                         $requestData = $request->validate([
                                 'user_id'       => 'required|exists:users,id',
                                 'eng_id'        => 'required|exists:users,id',
-                                'email'         => 'required|min:2',
                                 'name'          => 'required|min:2',
+                                'email'         => 'required|min:2',
                                 'mobile'        => 'min:4|numeric',
-                                'avatar'        => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100',
                                 'password'      => 'nullable|min:6|confirmed',
+                                'avatar'        => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:max_width=500,min_width=100,max_height=500,min_height=100',
                         ]);
 
 
@@ -196,7 +211,7 @@ class MemberController extends Controller
 
 
         // 엔지니어 삭제
-        public function destroy(Request $request)
+        public function deactive(Request $request)
         {
                 try{
 
@@ -209,7 +224,15 @@ class MemberController extends Controller
                         // 조회를 요청한 사용자의 정보조회
                         $bcs = User::withRole('garage')->findOrFail($requestData['user_id']);
 
-                        User::destroy($requestData['eng_id']);
+                        $user = User::findOrFail($requestData['eng_id']);
+
+                        if($user->status_cd == 1)
+                        {
+                                $user->status_cd = 2;
+                        }else{
+                                $user->status_cd = 1;
+                        }
+                        $user->save();
 
                         return response()->json([
                                 "status" => 'success'
