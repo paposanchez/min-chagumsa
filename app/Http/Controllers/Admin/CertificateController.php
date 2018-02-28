@@ -75,7 +75,7 @@ class CertificateController extends Controller
         }
 
         $search_fields = [
-            "order_num" => "주문번호",
+            "chakey" => "주문번호",
             "car_number" => "차량번호",
             'orderer_name' => '주문자 이름',
             "orderer_mobile" => "주문자 휴대전화번호",
@@ -89,58 +89,31 @@ class CertificateController extends Controller
         $s = $request->get('s'); //검색어
         if ($s) {
             switch ($sf) {
-                case 'order_id':
-                    $where->where('id', 'like', '%' . $s . '%');
-                    break;
                 case 'car_number':
-                    $where->where($sf, 'like', '%' . $s . '%');
+                    $where->leftJoin('car_numbers', 'certificates.car_numbers_id', '=', 'car_numbers.id')
+                        ->where('car_numbers.car_number', 'like', '%' . $s . '%')
+                        ->select('certificates.*');
                     break;
                 case 'order_num':
-                    list($car_number, $datekey) = explode("-", $s);
-
-                    if ($car_number && $datekey) {
-                        $order_date = Carbon::createFromFormat('ymd', $datekey);
-                        $where
-                            ->where('car_number', $car_number)
-                            ->whereYear('created_at', '=', Carbon::parse($order_date)->format('Y'))
-                            ->whereMonth('created_at', '=', Carbon::parse($order_date)->format('n'))
-                            ->whereDay('created_at', '=', Carbon::parse($order_date)->format('j'));
-                    }
+                    $where->where($sf, 'like', '%' . $s . '%');
                     break;
                 case 'orderer_name':
                     $where->leftJoin('order_items', 'certificates.order_items_id', '=', 'order_items.id')
                         ->leftJoin('orders', 'order_items.orders_id', '=', 'orders.id')
-                        ->where('orders.orderer_name', 'like', '%'.$s.'%')
+                        ->where('orders.orderer_name', 'like', '%' . $s . '%')
                         ->select('certificates.*');
 
                     break;
                 case 'orderer_mobile':
                     $where->leftJoin('order_items', 'certificates.order_items_id', '=', 'order_items.id')
                         ->leftJoin('orders', 'order_items.orders_id', '=', 'orders.id')
-                        ->where('orders.orderer_mobile', 'like', '%'.$s.'%')
+                        ->where('orders.orderer_mobile', 'like', '%' . $s . '%')
                         ->select('certificates.*');
                     break;
-                case 'engineer_name':
-                    $where->whereHas('engineer', function ($query) use ($s) {
-                        $query
-                            ->where('name', 'like', '%' . $s . '%');
-                    });
-                    break;
-                case 'bcs_name':
-                    $where->whereHas('garage', function ($query) use ($s) {
-                        $query
-                            ->where('name', 'like', '%' . $s . '%');
-                    });
-                    break;
                 case 'tech_name':
-                    $where->whereHas('technician', function ($query) use ($s) {
-                        $query->where('name', 'like', $s . '%');
-                    });
-                    break;
-                case 'tech_name':
-                    $where->whereHas('technician', function ($query) use ($s) {
-                        $query->where('name', 'like', $s . '%');
-                    });
+                    $where->leftJoin('users', 'certificates.technist_id', '=', 'users.id')
+                        ->where('users.name', 'like', '%' . $s . '%')
+                        ->select('certificates.*');
                     break;
             }
         }
@@ -161,10 +134,10 @@ class CertificateController extends Controller
     public function edit(Request $reqeust, $id)
     {
 
-        try{
+        try {
             $certificate = Certificate::findOrFail($id);
 
-            if($certificate->status_cd == Code::getIdByGroupAndName('report_state', 'order')){
+            if ($certificate->status_cd == Code::getIdByGroupAndName('report_state', 'order')) {
                 $certificate->status_cd = Code::getIdByGroupAndName('report_state', 'review');
                 $certificate->technist_id = Auth::user()->id;
                 $certificate->start_at = Carbon::now();
@@ -177,8 +150,8 @@ class CertificateController extends Controller
             $certificate_states = Code::getSelectList('certificate_state_cd');
             $standard_states = Code::getSelectList('standard_cd');
 
-            return view('admin.certificate.edit', compact('certificate', 'grades',  'car', 'standard_states', 'operation_state_cd', 'certificate_states'));
-        }catch (\Exception $e){
+            return view('admin.certificate.edit', compact('certificate', 'grades', 'car', 'standard_states', 'operation_state_cd', 'certificate_states'));
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', '처리중 오류가 발생하였습니다.');
         }
     }
@@ -354,7 +327,7 @@ class CertificateController extends Controller
             if ($validate->fails()) {
                 return response()->json($validate->errors());
             }
-            
+
             DB::beginTransaction();
             $certificate = Certificate::findOrFail($params['certificate_id']);
             $certificate->status_cd = Code::getIdByGroupAndName('report_state', 'complete');
