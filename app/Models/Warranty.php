@@ -85,7 +85,7 @@ class Warranty extends Model implements IDocument
                         return -1;
                 }
 
-                return $this->expired_at->diffInSeconds(Carbon::now());
+                return $this->expired_at->diffInDays(Carbon::now());
         }
         public function getDocumentKey() {
                 return $this->chakey.'W';

@@ -167,7 +167,7 @@ class Diagnosis extends Model implements IDocument
                         return 0;
                 }
                 if(is_null($this->expired_at)){
-                        return 0;
+                        return -1;
                 }
 
                 return $this->expired_at->diffInDays(Carbon::now());

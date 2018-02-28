@@ -35,10 +35,6 @@
     <section id="main">
 
         {{-- 본문의 사이드 --}}
-        @includeIf( 'admin.partials.left' )
-
-        @includeIf( 'admin.partials.right' )
-
         @hasSection('breadcrumbs')
             @yield( 'breadcrumbs' )
         @endif

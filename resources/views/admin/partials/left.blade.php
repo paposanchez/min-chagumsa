@@ -84,13 +84,13 @@
                                                         </li>
                                                         @endif
 
-                                                        <li class="sub-menu {{ Request::is('notify*') ? ' active':''}}">
-                                                                <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-notifications-active"></i> 알림관리</a>
-                                                                <ul>
-                                                                        <li><a href="{{ route('notify.index') }}">전체목록</a></li>
-                                                                        <li><a href="{{ route('notify.create') }}">신규알림</a></li>
-                                                                </ul>
-                                                        </li>
+                                                        {{--<li class="sub-menu {{ Request::is('notify*') ? ' active':''}}">--}}
+                                                                {{--<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-notifications-active"></i> 알림관리</a>--}}
+                                                                {{--<ul>--}}
+                                                                        {{--<li><a href="{{ route('notify.index') }}">전체목록</a></li>--}}
+                                                                        {{--<li><a href="{{ route('notify.create') }}">신규알림</a></li>--}}
+                                                                {{--</ul>--}}
+                                                        {{--</li>--}}
 
                                                         <li class="{{ Request::is('sms*') ? ' active':''}}"><a href="{{ route('sms.index') }}"><i
                                                                 class="zmdi zmdi-smartphone-iphone"></i> SMS 전송</a></li>
