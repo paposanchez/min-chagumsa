@@ -13,6 +13,7 @@ use App\Repositories\CertiRedisRepository;
 use App\Models\Code;
 use App\Models\Certificate;
 use App\Models\Diagnosis;
+use App\Models\Diagnoses;
 use App\Models\Warranty;
 
 Route::any('/{fullkey}/{flush?}', function ($fullkey, $flush = '') {
@@ -31,21 +32,30 @@ Route::any('/{fullkey}/{flush?}', function ($fullkey, $flush = '') {
                 switch ($chakey_type) {
                         case 'D':
 
-                        $data = Diagnosis::where('chakey', '=', $chakey)->first();
+                        $data = Diagnosis::whereChakey($chakey)->whereStatusCd(115)->first();
+                        if(!$data)
+                        {
+                                return abort(404, '해당 문서를 찾을 수 없습니다.');
+                        }
                         $report_type = 'D';
                         $document_type = 'diagnosis';
                         $page_title     = '차검사 진단서';
                         // 평가관련
                         $operation_state_cd = Code::getSelectList('operation_state_cd');
                         $certificate_states = Code::getSelectList('certificate_state_cd');
-                        return view('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states'));
+                        $total_opinion = Diagnoses::where('diagnosis_id', $data->id)->where('group', 2142)->first()->comment;
+                        return view('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states', 'total_opinion'));
 
 
 
                         break;
 
                         case 'W':
-                        $data = Warranty::whereChakey($chakey)->first();
+                        $data = Warranty::whereChakey($chakey)->whereStatusCd(115)->first();
+                        if(!$data)
+                        {
+                                return abort(404, '해당 문서를 찾을 수 없습니다.');
+                        }
                         $report_type = 'W';
                         $document_type = 'warranty';
                         $page_title     = '차검사 보증서';
@@ -58,7 +68,11 @@ Route::any('/{fullkey}/{flush?}', function ($fullkey, $flush = '') {
 
                         case 'C':
 
-                        $data = Certificate::whereChakey($chakey)->first();
+                        $data = Certificate::whereChakey($chakey)->whereStatusCd(115)->first();
+                        if(!$data)
+                        {
+                                return abort(404, '해당 문서를 찾을 수 없습니다.');
+                        }
                         $report_type = 'C';
                         $document_type = 'certificate';
                         $page_title     = '차검사 평가서';
