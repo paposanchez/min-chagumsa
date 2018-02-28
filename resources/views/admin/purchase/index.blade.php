@@ -13,89 +13,183 @@
                 </div>
 
                 <div class="card-body">
-                    <table class="table text-center">
-                        <colgroup>
-                            <col width="8%">
-                            <col width="10%" class="">
-                            <col width="10%" class="">
-                            <col width="10%" class="">
-                            <col width="10%">
-                            <col width="20%">
-                            <col width="15%">
-                            <col width="*">
-                        </colgroup>
 
-                        <thead>
-                        <tr class="">
-                            <th class="text-center">상태</th>
-                            <th class="text-center">주문번호</th>
-                            <th class="text-center">결제번호</th>
-                            <th class="text-center">결제방법</th>
-                            <th class="text-center">결제금액</th>
-                            <th class="text-center">PG</th>
-                            <!-- <th class="text-center">결제내역</th> -->
-                            <th class="text-center">결제일</th>
-                            <th class="text-center">Remarks</th>
-                        </tr>
-                        </thead>
+                    <ul class="tab-nav" role="tablist">
+                        <li role="presentation" class="active">
+                            <a class="col-sx-4" href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab"
+                               aria-expanded="true">
+                                검색목록
+                            </a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a class="col-xs-4" href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab"
+                               aria-expanded="false">
+                                검색하기
+                            </a>
+                        </li>
+                    </ul>
 
 
-                        <tbody>
+                    <div class="tab-content p-t-0 p-b-20 p-r-0 p-l-0">
 
-                        @unless(count($entrys) >0)
-                            <tr>
-                                <td colspan="5" class="no-result">{{ trans('common.no-result') }}</td>
-                            </tr>
-                        @endunless
+                        <div role="tabpanel" class="tab-pane animated fadeIn active" id="tab-1">
+                            <table class="table text-center">
+                                <colgroup>
+                                    <col width="8%">
+                                    <col width="20%" class="">
+                                    <col width="10%" class="">
+                                    <col width="10%" class="">
+                                    <col width="10%">
+                                    <col width="20%">
+                                    <col width="15%">
+                                    <col width="*">
+                                </colgroup>
 
-                        @foreach ($entrys as $key => $data)
-                            <tr>
-                                <td class="text-center">
-                                    @component('components.badge', [
-                                    'code' => $data->status_cd,
-                                    'color' =>[
-                                    '100' => 'default',
-                                    '102' => 'success',
-                                    '112' => 'success',
-                                    '113' => 'warning',
-                                    '114' => 'info',
-                                    '115' => 'primary',
-                                    '116' => 'danger'
-                                    ]])
-                                        {{ $data->status->display() }}
-                                    @endcomponent
-                                </td>
-
-                                <td>{{ $data->order->id }}</td>
-                                <td>{{ $data->id }}</td>
+                                <thead>
+                                <tr class="">
+                                    <th class="text-center">상태</th>
+                                    <th class="text-center">주문번호</th>
+                                    <th class="text-center">결제번호</th>
+                                    <th class="text-center">결제방법</th>
+                                    <th class="text-center">결제금액</th>
+                                    <th class="text-center">PG</th>
+                                    <th class="text-center">결제일</th>
+                                    <th class="text-center">Remarks</th>
+                                </tr>
+                                </thead>
 
 
-                                <td>{{ $data->payment_type->display() }}</td>
+                                <tbody>
 
-                                <td>{{ $data->amount }}</td>
+                                @unless(count($entrys) >0)
+                                    <tr>
+                                        <td colspan="8" class="no-result">{{ trans('common.no-result') }}</td>
+                                    </tr>
+                                @endunless
 
-                                <td>{{ $data->pg ? $data->pg : '-' }}</td>
+                                @foreach ($entrys as $key => $data)
+                                    <tr>
+                                        <td class="text-center">
+                                            @component('components.badge', [
+                                            'code' => $data->status_cd,
+                                            'color' =>[
+                                            '100' => 'default',
+                                            '102' => 'success',
+                                            '112' => 'success',
+                                            '113' => 'warning',
+                                            '114' => 'info',
+                                            '115' => 'primary',
+                                            '116' => 'danger'
+                                            ]])
+                                                {{ $data->status->display() }}
+                                            @endcomponent
+                                        </td>
 
-                                <td class="text-center">{{ $data->updated_at }}</td>
+                                        <td>
+                                            {{ $data->order->chakey }}
+                                            <br>
+                                            <small class="text-info">{{ $data->order->id }}</small>
+                                        </td>
+                                        <td>{{ $data->id }}</td>
 
-                                <td class="text-center">
 
-                                    <a href="#"
-                                       class="btn btn-default btn-icon waves-effect waves-float detail"
-                                       data-toggle="modal"
-                                       data-target="#detailModal" data-id="{{ $data->id }}"
-                                       title="결제정보 상세보기"><i class="zmdi zmdi-search-in-page"></i></a>
+                                        <td>{{ $data->payment_type->display() }}</td>
 
-                                </td>
-                            </tr>
-                        @endforeach
+                                        <td>{{ $data->amount }}</td>
 
-                        </tbody>
-                    </table>
+                                        <td>{{ $data->pg ? $data->pg : '-' }}</td>
+
+                                        <td class="text-center">{{ $data->updated_at }}</td>
+
+                                        <td class="text-center">
+
+                                            <a href="#"
+                                               class="btn btn-default btn-icon waves-effect waves-float detail"
+                                               data-toggle="modal"
+                                               data-target="#detailModal" data-id="{{ $data->id }}"
+                                               title="결제정보 상세보기"><i class="zmdi zmdi-search-in-page"></i></a>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+
+                            {{--page navigation--}}
+                            {!! $entrys->appends(['sf' => $sf, 's' => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane animated fadeIn m-t-20" id="tab-2">
+                            <form method="GET" class="form-horizontal" role="form" id="searchFormCollapse">
+                                <input type="hidden" name="sort" id="sort_val" value="{{ $sort }}">
+                                <input type="hidden" name="sort_orderby" id="sort_orderby" value="{{ $sort_orderby }}">
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">상태</label>
+
+                                    <div class="col-sm-9">
+
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }}">
+                                                {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }}
+                                                전체
+                                            </label>
+                                            <label class="btn btn-default {{ $status_cd == 100 ? 'active' : '' }}">
+                                                {{ Form::radio('status_cd', 100, \App\Helpers\Helper::isCheckd(100, $status_cd), ['name' => 'status_cd']) }}
+                                                주문취소
+                                            </label>
+                                            <label class="btn btn-default {{ $status_cd == 102 ? 'active' : '' }}">
+                                                {{ Form::radio('status_cd', 102, \App\Helpers\Helper::isCheckd(102, $status_cd), ['name' => 'status_cd']) }}
+                                                주문완료
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">검색일자</label>
+
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control input-mask date-picker" name='trs'
+                                               value='{{ $trs }}' data-mask="0000-00-00" placeholder="시작일"
+                                               autocomplete="off" maxlength="10">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control input-mask date-picker" name='tre'
+                                               value='{{ $tre }}' data-mask="0000-00-00" placeholder="종료일"
+                                               autocomplete="off" maxlength="10">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">검색어</label>
+
+                                    <div class="col-sm-4">
+                                        {!! Form::select('sf', $search_fields, $sf, ['class'=>'selectpicker']) !!}
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="s" name="s"
+                                               placeholder="검색어" value="{{ $s }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group m-b-0">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-primary">검색</button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+
+                    </div>
+
                 </div>
-
-                {{--page navigation--}}
-                {!! $entrys->render() !!}
 
             </div>
 

@@ -26,7 +26,7 @@ class Purchase extends Model
 
         public function order()
         {
-                return $this->hasOne(\App\Models\Order::class);
+                return $this->belongsTo(\App\Models\Order::class, 'id', 'purchase_id');
         }
 
         public function payment_type()

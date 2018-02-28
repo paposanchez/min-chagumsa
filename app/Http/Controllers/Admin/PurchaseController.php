@@ -19,13 +19,83 @@ class PurchaseController extends Controller
      */
     public function index(Request $request)
     {
-        $entrys = Purchase::orderBy('id', 'DESC')->paginate(25);
+        $sort_orderby = $request->get('sort_orderby');
+        $sort = $request->get('sort');
+        if (!$sort) {
+            $where = Purchase::orderBy('created_at', 'DESC');
+        } else {
+            $where = Purchase::select();
+        }
 
-        return view('admin.purchase.index', compact('entrys'));
+        // 정렬옵션
+        if ($sort) {
+            if ($sort == 'status') {
+                $where->orderBy('status_cd', $sort_orderby);
+            } else {
+                $where->orderBy($sort, $sort_orderby);
+            }
+        }
+
+
+        //주문상태
+        $status_cd = $request->get('status_cd');
+        if ($status_cd) {
+            $where->where('status_cd', $status_cd);
+        }
+
+        //기간 검색
+        $trs = $request->get('trs');
+        $tre = $request->get('tre');
+        if ($trs && $tre) {
+            //시작일, 종료일이 모두 있을때
+            $where->where(function ($qry) use ($trs, $tre) {
+                $qry->where("created_at", ">=", $trs)
+                    ->where("created_at", "<=", $tre)
+                    ->orWhere(function ($qry) use ($trs, $tre) {
+                        $qry->where("updated_at", ">=", $trs)
+                            ->where("updated_at", "<=", $tre);
+                    });
+            });
+        } elseif ($trs && !$tre) {
+            //시작일만 있을때
+            $where->where(function ($qry) use ($trs) {
+                $qry->where("created_at", ">=", $trs)
+                    ->orWhere(function ($qry) use ($trs) {
+                        $qry->where("updated_at", ">=", $trs);
+                    });
+            });
+        }
+
+        //검색조건
+        $search_fields = [
+            "chakey" => "주문번호",
+            "purchase_id" => "결제번호",
+        ];
+
+        //검색어 검색
+        $sf = $request->get('sf'); //검색필드
+        $s = $request->get('s'); //검색어
+        if ($s) {
+            switch ($sf){
+                case 'chakey':
+                    $where->leftJoin('orders', 'purchases.id', '=', 'orders.purchase_id')
+                        ->where('orders.chakey', 'like', '%'.$s.'%')
+                        ->select('purchases.*');
+                    break;
+                case 'purchase_id':
+                    $where->where('id', $s);
+                    break;
+            }
+        }
+
+
+        $entrys = $where->paginate(10);
+        return view('admin.purchase.index', compact('search_fields', 'sf', 's', 'trs', 'tre', 'entrys', 'sort_orderby', 'sort', 'status_cd'));
     }
 
-    public function update(Request $request){
-        try{
+    public function update(Request $request)
+    {
+        try {
             $this->validate($request, [
                 'amount' => 'required',
                 'refund_name' => 'required',
@@ -49,13 +119,14 @@ class PurchaseController extends Controller
             $purchase->save();
             DB::commit();
             return redirect()->back()->with('success', '정상적으로 저장되었습니다.');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->with('error', '처리중 오류가 발생하였습니다.');
         }
     }
 
-    public function getDetail(Request $request){
+    public function getDetail(Request $request)
+    {
         $id = $request->get('id');
         $purhcase = Purchase::findOrFail($id);
 
