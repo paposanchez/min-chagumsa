@@ -1,7 +1,14 @@
-.layout-default {
-
+.layout-normal {
+        color: #212121;
+        background: #f5f5f5;
+        background-image: url('/assets/img/bg.jpg');
+        background-repeat: repeat-x;
+        background-position: top;
+        background-attachment: fixed;
 }
 
+.layout-default {
+}
 .layout-wide {
 
 }
@@ -34,38 +41,6 @@
         }
 
 }
-
-.layout-background {
-
-        background-position: center center;
-        background-attachment: fixed;
-        background-repeat: no-repeat;
-
-
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        background-size: cover;
-        -o-background-size: cover;
-
-}
-
-// header {
-// }
-//
-// footer {
-//         padding:$line-height-computed 0px;
-//         background-color:$footer-bg-color;
-//
-//         .footer-menu {
-//                 font-size:13px;
-//         }
-//         .copyright {
-//                 font-size:11px;
-//                 color:$gray;
-//         }
-// }
-
-
 
 #zfp-overlay {
         position: fixed;

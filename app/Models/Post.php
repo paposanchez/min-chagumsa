@@ -57,9 +57,9 @@ class Post extends Model
                 return $this->belongsTo(User::class, 'id', 'user_id');
         }
 
-        //    public function tags() {
-        //        return $this->belongsToMany(Tag::class, 'id', 'user_id');
-        //    }
+        public function category() {
+                return $this->hasOne(Category::class, 'id', 'category_id');
+        }
 
         public function comments()
         {

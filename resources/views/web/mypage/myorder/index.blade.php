@@ -1,151 +1,149 @@
 @extends( 'web.layouts.default' )
 
 @section( 'content' )
+<section id="content" class="content-alt">
+        <div class="container">
 
-    <div id='sub_title_wrap'>
-        <h2>마이페이지
-            <div class='sub_title_shortCut'>Home <i class="fa fa-angle-right"></i> 마이페이지 <i
-                        class="fa fa-angle-right"></i> <span>주문목록</span></div>
-        </h2>
-    </div>
+                <div class="row">
+                        <div class="col-md-12">
+                                <div class="block  text-center m-t-10  m-b-20" >
+                                        <!-- <h5 class="c-white">서브텍스트</h5> -->
+                                        <h1 class="c-white">나의주문</h1>
+                                        <hr class="line dark">
+                                        <!-- <h3 class="c-white c-light">최종수정일 : 2018년 03월 01일</h3> -->
+                                        <h6 class="c-white c-light ">총  <strong class="">{{ number_format(12) }}</strong>개의 주문이 등록되어 있습니다.</h6>
+                                </div>
 
-    <div id='sub_wrap'>
-
-        <ul class='menu_tab_wrap'>
-            <li><a class='select' href='{{ route('mypage.myorder.index') }}'>주문목록</a></li>
-            <li><a class='' href='{{ route('mypage.certificate.index') }}'>MY 인증서</a></li>
-            <li><a class='' href='{{ route('mypage.profile.index') }}'>회원정보수정</a></li>
-
-            <li class="pull-right" style="font-size:18px;font-weight:200;margin-top:15px;">총
-                <strong>{{ number_format($my_orders->total()) }}</strong>개
-            </li>
-        </ul>
-
-        <div class='br30'></div>
-
-        @unless(count($my_orders))
-            <div class="no-result">
-                검색된 주문이 없습니다.
-            </div>
-        @endunless
-
-        @foreach($my_orders as $orders)
-            <div class='order_info_box'>
-                <div class='order_info_title clearfix '>
-
-                    <a class="text-lg text-light"
-                       href="{{ route('mypage.order.show', ['id'=>$orders->id]) }}">{{ $orders->getOrderNumber() }}</a>
-
-                    <small class="pull-right text-muted text-light" data-toggle="tooltip"
-                           title="주문일자">{{ $orders->created_at->format('Y년 m월 d일 H:i') }}</small>
+                        </div>
                 </div>
 
+                <div class="card subnavigation">
 
-                <div class='order_info_cont'>
+                        <div class="card-body card-padding">
 
-                    <div class='order_info_desc'>
-                        <span>주문자정보</span>
-                        <span>차량정보</span>
-                        <span>주문정보</span>
-                    </div>
+                                <div role="tabpanel">
 
-                    <div class='order_info_desc'>
-                        <span>{{ $orders->orderer_name }}</span>
-                        <span>{{ $orders->getCarFullName() }}</span>
-                        <span>{{ $orders->item->name }}
-                            <small class="text-muted">({{ number_format($orders->item->price) }}원)</small></span>
-                    </div>
+                                        <ul class="tab-nav text-center fw-nav" role="tablist">
+                                                <li class="active"><a href="{{ route('mypage.myorder.index') }}">나의주문</a></li>
+                                                <li><a href="{{ route('mypage.profile.index') }}">회원정보변경</a></li>
+                                                <li><a href="{{ route('mypage.leave.index') }}">회원탈퇴</a></li>
+                                        </ul>
 
-                    <div class='order_info_btn text-center'>
+                                        <div class="tab-content">
 
 
-                        @if($orders->status_cd >= 102 && $orders->status_cd < 109)
-                            <div class="label label-info">
-                                @elseif($orders->status_cd == 109)
-                                    <div class="label label-primary">
-                                        @else
-                                            <div class="label label-default">
-                                                @endif
-                                                {{ $orders->status->display() }}
-                                            </div>
+                                                <table class="table text-center">
+                                                    <colgroup>
+                                                        <col width="8%">
+                                                        <col width="20%">
+                                                        <col width="10%">
+                                                        <col width="12%">
+                                                        <col width="10%">
+                                                        <col width="10%">
+                                                        <col width="*">
+                                                    </colgroup>
+                                                    <thead>
+                                                    <tr class="">
+                                                        <th class="text-center"><a class="sort" href="#" id="status"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 상태</a></th>
+                                                        <th class="text-center">주문번호</th>
+                                                        <th class="text-center">주문자정보</th>
+                                                        <th class="text-center">결제정보</th>
+                                                        <th class="text-center">주문상품</th>
+                                                        <th class="text-center"><a class="sort" href="#" id="created_at"><i class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 결제일</a></th>
+                                                        <th class="text-center">Remarks</th>
+                                                    </tr>
+                                                    </thead>
 
-                                    </div>
+                                                    <tbody>
 
-                            </div>
+                                                    @unless(count($entrys) >0)
+                                                        <tr>
+                                                            <td colspan="7" class="no-result">{{ trans('common.no-result') }}</td>
+                                                        </tr>
+                                                    @endunless
+
+                                                    @foreach($entrys as $data)
+                                                        <tr>
+                                                            <td>
+                                                                @component('components.badge', [
+                                                                'code' => $data->status_cd,
+                                                                'color' =>[
+                                                                '100' => 'default',
+                                                                '102' => 'success',
+                                                                '112' => 'success',
+                                                                '113' => 'warning',
+                                                                '114' => 'info',
+                                                                '115' => 'primary',
+                                                                '116' => 'danger'
+                                                                ]])
+                                                                    {{ $data->status->display() }}
+                                                                @endcomponent
+                                                            </td>
+
+                                                            <td>
+                                                                {{ $data->chakey }}
+                                                                <br>
+                                                                <small class="text-info">{{ $data->id }}</small>
+                                                            </td>
+
+                                                            <td>
+                                                                <a href="/user/{{ $data->orderer_id }}/edit">{{ $data->orderer_name }}</a>
+                                                                <br/>
+                                                                <small class="text-info">{{ $data->orderer_mobile }}</small>
+                                                            </td>
+
+                                                            <td>
+                                                                {{ $data->purchase_id }}
+                                                                <br/>
+                                                                <small class="text-info">{{ $data->purchase ? $data->purchase->payment_type->display() : '' }}</small>
+                                                            </td>
+
+                                                            <td>
+                                                                @foreach($data->orderItem as $order_item)
+                                                                    @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
+                                                                        <a href="/config/item/{{ $order_item->item->id }}/edit"
+                                                                           data-toggle="tooltip"
+                                                                           title="{{ $order_item->item->type->display() }}"
+                                                                           class="badge">{{ $order_item->item->typeString() }}</a>
+                                                                    @else
+                                                                        <span data-toggle="tooltip"
+                                                                              title="{{ $order_item->item->type->display() }}"
+                                                                              class="badge">{{ $order_item->item->typeString() }}</span>
+                                                                    @endif
+
+                                                                @endforeach
+                                                            </td>
 
 
-                    </div>
-                    @endforeach
-                    <div class="br30"></div>
-                    {{-- 페이징 추가 --}}
-                    <div class='board_pagination_wrap'>
-                        @include('vendor.pagination.web-page', ['paginator' => $my_orders])
-                    </div>
+                                                            <td>
+                                                                {{ $data->created_at->format('m-d H:i') }}
+                                                            </td>
+
+                                                            <td>
+
+                                                                <a href="{{ url("order", [$data->id]) }}"
+                                                                   class="btn btn-default btn-icon waves-effect waves-float"
+                                                                   data-toggle="tooltip" title="주문상세보기"><i
+                                                                            class="zmdi zmdi-search-in-page"></i></a>
+
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                    </tbody>
+                                                </table>
+
+                                                {{--page navigation--}}
+                                                {!! $entrys->render() !!}
 
 
-                    <div class='order_info_box'>
-                        <div class='order_info_title'>
-                            <strong>주문상태 안내</strong>
-                            <a class="text-light text-sm pull-right no-margin" href='{{ route('faq.index') }}'>FAQ
-                                보러가기</a>
+                                        </div>
+
+                                </div>
+
                         </div>
-                        <div class='order_info_guide'>
-                            <ul style="padding-bottom: 20px;">
-                                <li>
-                                    <div>주문완료</div>
-                                    <span class="text-sm">결제 및 예약확인이<br>완료되었습니다.</span>
-                                    <strong style="margin-top:30px;" class="text-primary">입고정보변경 가능<br>주문취소 가능</strong>
-                                </li>
-                                <li>
-                                    <div>입고일 확정</div>
-                                    <span class="text-sm">예약한 정비소에서<br>입고일을 확정했습니다.</span>
-                                    <strong style="margin-top:30px;" class="text-primary">주문취소 가능</strong>
-                                </li>
-                                <li>
-                                    <div>진단 중</div>
-                                    <span class="text-sm">입고가 완료되어<br>정비사가 차량상태를<br>점검중입니다.</span>
-                                </li>
-                                <li>
-                                    <div>승인 중</div>
-                                    <span class="text-sm">점검이 완료되어<br>기술사가 최종 승인을<br>검토중입니다.</span>
-                                </li>
-                                <li>
-                                    <div>발급완료</div>
-                                    <span class="text-sm">인증서 발급이<br>완료되었습니다.</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class='br30'></div>
-
 
                 </div>
 
-                {!! Form::open(['route' => ["mypage.order.cancel"], 'class' =>'form-horizontal', 'method' => 'post', 'role' => 'form', 'id' => 'cancel-form']) !!}
-                <input type="hidden" name="order_id" id="cancel-order_id">
-                {!! Form::close() !!}
-
-                @endsection
-
-
-                @push( 'header-script' )
-                @endpush
-
-                @push( 'footer-script' )
-                    <script type="text/javascript">
-                        $(function () {
-                            $(".cancel-click").on("click", function () {
-                                if (confirm("해당 주문에 대한 결제를 취소하시겠습니까?")) {
-                                    var order_id = $(this).data("cancel_order_id");
-                                    if (order_id) {
-                                        $("#cancel-order_id").val(order_id);
-                                        $("#cancel-form").submit();
-                                    } else {
-                                        alert("해당 주문에 대한 주문번호 오류입니다.\n새로고침 후 결제취소를 진행해 주세요.");
-                                    }
-
-                                }
-                            });
-                        });
-                    </script>
-    @endpush
+        </div>
+</section>
+@endsection

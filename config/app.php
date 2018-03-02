@@ -176,7 +176,8 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Edujugon\PushNotification\Providers\PushNotificationServiceProvider::class,
 
-
+        //Baum
+        Baum\Providers\BaumServiceProvider::class,
         //EXCEL
         Maatwebsite\Excel\ExcelServiceProvider::class,
         //PDF

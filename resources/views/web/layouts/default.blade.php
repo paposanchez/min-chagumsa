@@ -21,8 +21,6 @@
         {!! Html::style('/assets/vendors/summernote/dist/summernote.css', array(), env('APP_SECURE', 'true')) !!}
         {!! Html::style('/assets/vendors/farbtastic/farbtastic.css', array(), env('APP_SECURE', 'true')) !!}
 
-
-
 @endsection
 
 @section( 'content-header' )

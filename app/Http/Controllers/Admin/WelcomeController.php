@@ -16,6 +16,14 @@ class WelcomeController extends Controller {
         */
         public function __invoke() {
 
+                // $root = \App\Models\Category::create(['name' => 'FAQ']);
+                // $child1 = $root->children()->create(['name' => '주문']);
+                // $child2 = $root->children()->create(['name' => '결제']);
+                // $child3 = $root->children()->create(['name' => '회원']);
+                // $child4 = $root->children()->create(['name' => '환불']);
+                // $child5 = $root->children()->create(['name' => '기타']);
+                // dd($child1,$child2,$child3,$child4,$child5);
+
                 // $diagnosis = DB::select('cargumsa.');
                 //
                 // $item = \App\Models\Item::findOrFail(2);

@@ -9,11 +9,11 @@
                         </div>
                 </li>
 
-                <li class="hi-logo">
+                <!-- <li class="hi-logo">
                         <a href="/" class="m-l-10">
-                                {{ Html::image('/assets/img/logo.png') }}
+                                {{ Html::image('/assets/img/logo-symbol.png') }}
                         </a>
-                </li>
+                </li> -->
 
                 <li class="pull-left hidden-xs">
                         <ul class="hi-menu hi-menu-lg">
@@ -39,13 +39,13 @@
                                         <a hreaf="" data-toggle="dropdown" aria-expanded="false" class="text-lg"><span class="him-label">고객센터</span></a>
                                         <ul class="dropdown-menu dm-icon pull-right">
                                                 <li>
-                                                        <a href="{{ route('notice.index') }}"><i class="zmdi zmdi-face"></i> 공지사항</a>
+                                                        <a href="{{ route('notice.index') }}">공지사항</a>
                                                 </li>
                                                 <li>
-                                                        <a href="{{ route('faq.index') }}"><i class="zmdi zmdi-settings"></i> FAQ</a>
+                                                        <a href="{{ route('faq.index') }}">FAQ</a>
                                                 </li>
                                                 <li>
-                                                        <a href="{{ route('contact.index') }}"><i class="zmdi zmdi-settings"></i> 문의하기</a>
+                                                        <a href="{{ route('contact.index') }}">문의하기</a>
                                                 </li>
                                         </ul>
                                 </li>
@@ -89,15 +89,5 @@
                         </ul>
                 </li>
         </ul>
-
-        <!-- Top Search Content -->
-        <!-- <div class="h-search-wrap">
-                <div class="hsw-inner">
-                        <i class="hsw-close zmdi zmdi-arrow-left" data-ma-action="search-close"></i>
-                        <input type="text">
-                </div>
-        </div> -->
-
-
 
 </header>
