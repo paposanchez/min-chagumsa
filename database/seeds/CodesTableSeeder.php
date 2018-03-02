@@ -5,52 +5,68 @@ use Illuminate\Database\Seeder;
 class CodesTableSeeder extends Seeder {
 
     /**
-     * Run the database seeds.
+     * 주의~~~~~~~~~~!!!! 모든 코드는 순서대로 들어가얌,
+     * 즉 기존의 코드테이블 중간에들어갈수 없음
      *
      * @return void
      */
     public function run() {
-        
+
+        DB::table('codes')->insert(['id'=>1, 'group' => 'user_status', 'name' => 'active']);
         DB::table('codes')->insert([
-            ['id'=>1, 'group' => 'user_status', 'name' => 'active'],
-            ['id'=>2, 'group' => 'user_status', 'name' => 'unactive'],
-            ['id'=>3, 'group' => 'yn', 'name' => 'yes'],
-            ['id'=>4, 'group' => 'yn', 'name' => 'no'],
-            ['id'=>5, 'group' => 'post_shown_role', 'name' => 'secret'],
-            ['id'=>6, 'group' => 'post_shown_role', 'name' => 'public'],
-            ['id'=>7, 'group' => 'post_shown_role', 'name' => 'private'],
-            ['id'=>8, 'group' => 'post_search_field', 'name' => 'subject'],
-            ['id'=>9, 'group' => 'post_search_field', 'name' => 'content'],
-            ['id'=>10, 'group' => 'post_search_field', 'name' => 'writer_name'],
-            ['id'=>11, 'group' => 'payment_cd', 'name' => 'card'],
-            ['id'=>12, 'group' => 'payment_cd', 'name' => 'account'],
-            ['id'=>13, 'group' => 'category_id', 'name' => 'join'],
-            ['id'=>14, 'group' => 'category_id', 'name' => 'login'],
-            ['id'=>15, 'group' => 'category_id', 'name' => 'find'],
-            ['id'=>16, 'group' => 'category_id', 'name' => 'member'],
-            ['id'=>17, 'group' => 'category_id', 'name' => 'payment'],
-            ['id'=>18, 'group' => 'category_id', 'name' => 'order'],
-            ['id'=>19, 'group' => 'category_id', 'name' => 'refund'],
-            ['id'=>20, 'group' => 'category_id', 'name' => 'guide'],
-            ['id'=>21, 'group' => 'payment_cd', 'name' => 'coupon'],
-            ['id'=>22, 'group' => 'payment_cd', 'name' => 'test'],
+            ['group' => 'user_status', 'name' => 'unactive'],
+            ['group' => 'yn', 'name' => 'yes'],
+            ['group' => 'yn', 'name' => 'no'],
+            ['group' => 'post_shown_role', 'name' => 'secret'],
+            ['group' => 'post_shown_role', 'name' => 'public'],
+            ['group' => 'post_shown_role', 'name' => 'private'],
+            ['group' => 'post_search_field', 'name' => 'subject'],
+            ['group' => 'post_search_field', 'name' => 'content'],
+            ['group' => 'post_search_field', 'name' => 'writer_name'],
+            ['group' => 'payment_cd', 'name' => 'card'],
+            ['group' => 'payment_cd', 'name' => 'account'],
+            ['group' => 'category_id', 'name' => 'join'],
+            ['group' => 'category_id', 'name' => 'login'],
+            ['group' => 'category_id', 'name' => 'find'],
+            ['group' => 'category_id', 'name' => 'member'],
+            ['group' => 'category_id', 'name' => 'payment'],
+            ['group' => 'category_id', 'name' => 'order'],
+            ['group' => 'category_id', 'name' => 'refund'],
+            ['group' => 'category_id', 'name' => 'guide'],
+            ['group' => 'payment_cd', 'name' => 'coupon'],
+            ['group' => 'payment_cd', 'name' => 'test']
         ]);
 
 
+        //주문
+        DB::table('codes')->insert(['id'=>100, 'group' => 'order_state', 'name' => 'canceled']);// 주문취소
         DB::table('codes')->insert([
-            ['id'=>100, 'group' => 'order_state', 'name' => 'canceled'],     // 주문취소
-            ['id'=>101, 'group' => 'order_state', 'name' => 'standby'],      // 주문신청
-            ['id'=>102, 'group' => 'order_state', 'name' => 'ordered'],      // 주문완료
-            ['id'=>103, 'group' => 'order_state', 'name' => 'request'],      // 예약확인
-            ['id'=>104, 'group' => 'order_state', 'name' => 'reserved'],     // 입고대기
-            ['id'=>105, 'group' => 'order_state', 'name' => 'arrived'],      // 입고
-            ['id'=>106, 'group' => 'order_state', 'name' => 'diagnosing'],   // 진단중
-            ['id'=>107, 'group' => 'order_state', 'name' => 'diagnosed'],    // 진단완료,발급요청
-            ['id'=>108, 'group' => 'order_state', 'name' => 'certificating'],// 검토중
-            ['id'=>109, 'group' => 'order_state', 'name' => 'certificated'], // 인증발급완료
-
-            ['id'=>110, 'group' => 'calculation_state', 'name' => 'wait'], // 정산대기
-            ['id'=>111, 'group' => 'calculation_state', 'name' => 'complete'], // 정산완료
+            ['group' => 'order_state', 'name' => 'standby'],      // 주문신청
+            ['group' => 'order_state', 'name' => 'ordered'],      // 주문완료
+            ['group' => 'order_state', 'name' => 'request'],      // 예약확인
+            ['group' => 'order_state', 'name' => 'reserved'],     // 입고대기
+            ['group' => 'order_state', 'name' => 'arrived'],      // 입고
+            ['group' => 'order_state', 'name' => 'diagnosing'],   // 진단중
+            ['group' => 'order_state', 'name' => 'diagnosed'],    // 진단완료,발급요청
+            ['group' => 'order_state', 'name' => 'certificating'],// 검토중
+            ['group' => 'order_state', 'name' => 'certificated'], // 인증발급완료
+            ['group' => 'calculation_state', 'name' => 'wait'],         // 정산대기
+            ['group' => 'calculation_state', 'name' => 'complete'],     // 정산완료
+            ['group' => 'report_state', 'name' => 'order'],            // 신청
+            ['group' => 'report_state', 'name' => 'confirm'],          // 예약확정
+            ['group' => 'report_state', 'name' => 'review'],           // 검토중
+            ['group' => 'report_state', 'name' => 'complete'],         // 발급완료
+            ['group' => 'report_state', 'name' => 'expire'],           // 만료
+            ['group' => 'report_state', 'name' => 'not_confirm'],      // 주문미확정
+            ['group' => 'report_state', 'name' => 'delay'],            // 입고지연
+            ['group' => 'report_state', 'name' => 'not_complete'],     // 장기검토
+            ['group' => 'report_state', 'name' => 'cancel'],           // 취소
+            ['group' => 'report_type', 'name' => 'diagnosis'],   // diagnosis
+            ['group' => 'report_type', 'name' => 'certificate'],   // certificate
+            ['group' => 'report_type', 'name' => 'warranty'],   // warranty
+            ['group' => 'car_sort', 'name' => 'native'],                // 국산차
+            ['group' => 'car_sort', 'name' => 'foreign'],                // 수입차
+            ['group' => 'report_state', 'name' => 'review_complete'],   // 검토완료
 
         ]);
 
@@ -630,9 +646,9 @@ class CodesTableSeeder extends Seeder {
                 ['group' => 'diagnosis_review', 'name' => 'diagnosis_review_opinion']
 
         ]);
-        
 
-        
+
+
     }
 
 }
