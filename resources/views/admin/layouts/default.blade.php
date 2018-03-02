@@ -141,6 +141,12 @@
         {!! Html::script('/assets/vendors/bower_components/dropzone/dist/min/dropzone.min.js', array(), env('APP_SECURE', 'true')) !!}
         {!! Html::script('/assets/vendors/summernote/dist/summernote-updated.min.js', array(), env('APP_SECURE', 'true')) !!}
 
+
+        {!! Html::script('/assets/vendors/lightgallery/lib/lightgallery-all.min.js', array(), env('APP_SECURE', 'true')) !!}
+        {!! Html::script('/assets/vendors/mediaelement/build/mediaelement-and-player.min.js', array(), env('APP_SECURE', 'true')) !!}
+
+
+
         {!! Html::script('/assets/vendors/bower_components/chosen/chosen.jquery.js', array(), env('APP_SECURE', 'true')) !!}
         {!! Html::script('/assets/vendors/bower_components/jquery-mask-plugin/dist/jquery.mask.min.js', array(), env('APP_SECURE', 'true')) !!}
         {!! Html::script('/assets/vendors/fileinput/fileinput.min.js', array(), env('APP_SECURE', 'true')) !!}
