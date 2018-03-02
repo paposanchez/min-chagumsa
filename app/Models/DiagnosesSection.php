@@ -56,23 +56,24 @@ class DiagnosesSection
         {
 
                 try{
-                        $return = $this->diagnoses;
-
-
 
                         if($this->diagnoses_id)
                         {
                                 return Diagnoses::find($this->diagnoses_id)->toDocumentArray();
-                        }else{
-
-
-                                if($return['options_cd'])
-                                {
-                                        $code = Code::where('id', $return['options_cd'])->first();
-                                        $return['options'] = Code::getByGroupArray($code->name);
-                                }
-                                return $return;
                         }
+
+                        $return = $this->diagnoses;
+
+                        //파일인덱스 초기화
+                        $return['files'] = [];
+
+                        if(isset($return['options_cd']))
+                        {
+                                $code = Code::where('id', $return['options_cd'])->first();
+                                $return['options'] = Code::getByGroupArray($code->name);
+                        }
+                        return $return;
+
                 }catch(Exception $e){
                         return $return;
                 }

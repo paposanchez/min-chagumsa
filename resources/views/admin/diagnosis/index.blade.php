@@ -34,12 +34,13 @@
                             <table class="table">
                                 <colgroup>
                                     <col width="8%">
-                                    <col width="20%">
-                                    <col width="12%">
-                                    <col width="12%">
-                                    <col width="12%">
+                                    <col width="17%">
                                     <col width="10%">
                                     <col width="10%">
+                                    <col width="10%">
+                                    <col width="9%">
+                                    <col width="9%">
+                                    <col width="9%">
                                     <col width="*">
                                 </colgroup>
 
@@ -145,7 +146,7 @@
 
                                         <td class="text-center">
 
-                                            @if(in_array($data->status_cd, [113, 114, 126]))
+                                            @if(!in_array($data->status_cd, [112]))
                                                 <a href="{{ route("diagnosis.edit", [$data->id]) }}"
                                                    class="btn btn-default btn-icon waves-effect waves-float"
                                                    data-toggle="tooltip" title="진단정보 상세보기"><i

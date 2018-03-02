@@ -27,8 +27,6 @@ Route::any('/{fullkey}/{flush?}', function ($fullkey, $flush = '') {
                 $chakey = $chakeys[0] . '-' . $chakeys[1] . '-' . substr($chakeys[2], 0, 4);
                 $chakey_type = substr($chakeys[2], -1);
 
-                // $pdf = \PDF::loadView('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states'));
-                // return $pdf->stream($data->getDocumentKey() .'.'. str_random(6) .'.'. '.pdf');
                 switch ($chakey_type) {
                         case 'D':
 
@@ -44,8 +42,10 @@ Route::any('/{fullkey}/{flush?}', function ($fullkey, $flush = '') {
                         $operation_state_cd = Code::getSelectList('operation_state_cd');
                         $certificate_states = Code::getSelectList('certificate_state_cd');
                         $total_opinion = Diagnoses::where('diagnosis_id', $data->id)->where('group', 2142)->first()->comment;
-                        return view('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states', 'total_opinion'));
+                        // return view('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states', 'total_opinion'));
 
+                        $pdf = \PDF::loadView('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states', 'total_opinion'));
+                        return $pdf->stream($data->getDocumentKey() .'.'. str_random(6) .'.'. '.pdf');
 
 
                         break;

@@ -38,9 +38,4 @@ class File extends Model {
                 // return "/assets".$prepath . $this->path . '/' . $this->source;
         }
 
-        // public function getPreviewPath(){
-        //         return URL::to('/thumbnail/'. $this->id);
-        //         // return "/assets".$prepath . $this->path . '/' . $this->source;
-        // }
-
 }

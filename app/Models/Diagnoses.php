@@ -50,9 +50,11 @@ class Diagnoses extends Model
         {
                 $return = $this->toArray();
                 $return['options'] = [];
-                if($return['options_cd'])
+                if(isset($return['options_cd']))
                 {
                         $code = Code::where('id', $return['options_cd'])->first();
+
+                        // $return['options'] = $code->children;
                         $return['options'] = Code::getByGroupArray($code->name);
                 }
 
