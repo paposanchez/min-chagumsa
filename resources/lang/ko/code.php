@@ -473,15 +473,17 @@ return [
     ],
 
     'report_type' => [
-        'diagnosis' => '차검사 진단',
-        'certificate' => '차검사 평가',
-        'warranty' => '차검사 보증'
+        'diagnosis' => '차검사 진단',        //121
+        'certificate' => '차검사 평가',      //122
+        'warranty' => '차검사 보증'          //123
     ],
 
     'car_sort' => [
-        'native' => '국산차',
-        'foreign' => '수입차'
+        'native' => '국산차',          //124
+        'foreign' => '수입차'          //125
     ],
+
+
 
     'payment_cd' => [
         'card' => '신용/체크카드', //11
