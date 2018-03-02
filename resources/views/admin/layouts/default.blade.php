@@ -14,6 +14,9 @@
     {!! Html::style('/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css', array(), env('APP_SECURE', 'true')) !!}
     <!-- {!! Html::style('/assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css', array(), env('APP_SECURE', 'true')) !!} -->
     {!! Html::style('/assets/vendors/summernote/dist/summernote.css', array(), env('APP_SECURE', 'true')) !!}
+    {!! Html::style('/assets/vendors/bower_components/lightgallery/dist/css/lightgallery.min.css', array(), env('APP_SECURE', 'true')) !!}
+    {!! Html::style('/assets/vendors/bower_components/mediaelement/build/mediaelementplayer.css', array(), env('APP_SECURE', 'true')) !!}
+
     {!! Html::style('/assets/vendors/bower_components/chosen/chosen.css', array(), env('APP_SECURE', 'true')) !!}
     {!! Html::style('/assets/vendors/farbtastic/farbtastic.css', array(), env('APP_SECURE', 'true')) !!}
     {!! Html::style('/assets/vendors/bower_components/dropzone/dist/min/dropzone.min.css', array(), env('APP_SECURE', 'true')) !!}
@@ -21,7 +24,6 @@
     {!! Html::style('/assets/vendors/bower_components/nouislider/distribute/nouislider.min.css', array(), env('APP_SECURE', 'true')) !!}
     {!! Html::style('/assets/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css', array(), env('APP_SECURE', 'true')) !!}
     {!! Html::style('/assets/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css', array(), env('APP_SECURE', 'true')) !!}
-
 
     @stack('header-script')
 
@@ -142,8 +144,8 @@
         {!! Html::script('/assets/vendors/summernote/dist/summernote-updated.min.js', array(), env('APP_SECURE', 'true')) !!}
 
 
-        {!! Html::script('/assets/vendors/lightgallery/lib/lightgallery-all.min.js', array(), env('APP_SECURE', 'true')) !!}
-        {!! Html::script('/assets/vendors/mediaelement/build/mediaelement-and-player.min.js', array(), env('APP_SECURE', 'true')) !!}
+        {!! Html::script('/assets/vendors/bower_components/lightgallery/dist/js/lightgallery-all.min.js', array(), env('APP_SECURE', 'true')) !!}
+        {!! Html::script('/assets/vendors/bower_components/mediaelement/build/mediaelement-and-player.min.js', array(), env('APP_SECURE', 'true')) !!}
 
 
 
