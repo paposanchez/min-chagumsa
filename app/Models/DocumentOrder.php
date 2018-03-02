@@ -36,7 +36,10 @@ final class DocumentOrder
                 $this->chakey        = $document->chakey;
                 $this->status        = $document->status->toDesign();
                 $this->orderer       = $this->getOrderer($document->orderItem->order);
-                $this->car           = $this->getCar($document->carNumber);
+
+                $this->car           = $document->carNumber ? $this->getCar($document->carNumber) : $this->getOrderCar($document->orderItem->order);
+
+
                 $this->created_at    = $document->created_at ? $document->created_at->format('Y-m-d H:i:s') : '';
                 $this->updated_at    = $document->updated_at ? $document->updated_at->format('Y-m-d H:i:s') : '';
                 $this->start_at      = $document->start_at ? $document->start_at->format('Y-m-d H:i:s') : ''; // 진단시작일
@@ -64,8 +67,6 @@ final class DocumentOrder
                         'expired_at'    => $this->expired_at,
                 ]);
         }
-
-
         private function getCar(CarNumber $dcn)
         {
                 $dc     = $dcn->car;
@@ -76,6 +77,17 @@ final class DocumentOrder
                         "brand"         => $dc->brand->name,
                         "detail"        => $dc->detail->name,
                         "grade"         => $dc->grade->name
+                ];
+        }
+        private function getOrderCar($order)
+        {
+                return [
+                        "car_number"    => $order->car_number,
+                        "vin_number"    => '',  // 주문데이터 시점에서는 없는 정보
+                        "car_model"     => $order->getCarFullName(),
+                        "brand"         => $order->brand->name,
+                        "detail"        => $order->detail->name,
+                        "grade"         => $order->grade->name
                 ];
         }
         private function getOrderer(Order $o) {
