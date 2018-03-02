@@ -643,7 +643,14 @@ class CodesTableSeeder extends Seeder {
                 ['group' => 'diagnosis_driving', 'name' => 'diagnosis_driving_opinion'],
 
             ['group' => 'diagnosis', 'name' => 'diagnosis_review'],
-                ['group' => 'diagnosis_review', 'name' => 'diagnosis_review_opinion']
+                ['group' => 'diagnosis_review', 'name' => 'diagnosis_review_opinion'],
+
+
+                ['group' => 'diagnosis_exterior_picture', 'name' => 'front'],
+                ['group' => 'diagnosis_exterior_picture', 'name' => 'rear'],
+                ['group' => 'diagnosis_exterior_picture', 'name' => 'left'],
+                ['group' => 'diagnosis_exterior_picture', 'name' => 'right']
+
 
         ]);
 
