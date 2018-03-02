@@ -481,6 +481,28 @@ class CodesTableSeeder extends Seeder {
             ['group' => 'grade_state_cd', 'name' => 'D'],
 
             ['group' => 'certificate_state_cd', 'name' => 'bad'],
+
+            ['group' => 'grade_state_cd', 'name' => 'AAA'],
+            ['group' => 'flood_state_cd', 'name' => 'none'],
+            ['group' => 'flood_state_cd', 'name' => 'suspiction'],
+            ['group' => 'flood_state_cd','name' => 'flooded'],
+            ['group' => 'fuel_type','name' => 'lpg'],
+            ['group' => 'wheel_damage_cd','name' => 'good'],
+            ['group' => 'wheel_damage_cd','name' => 'micro_damaged'],
+            ['group' => 'wheel_damage_cd','name' => 'crack'],
+            ['group' => 'abrasion_state_cd','name' => 'good'],
+            ['group' => 'abrasion_state_cd','name' => 'micro'],
+            ['group' => 'abrasion_state_cd','name' => 'damaged'],
+            ['group' => 'sipe_state_cd','name' => 'good'],
+            ['group' => 'sipe_state_cd','name' => 'abrasion'],
+            ['group' => 'sipe_state_cd','name' => 'over'],
+            ['group' => 'dot_state_cd','name' => '1year'],
+            ['group' => 'dot_state_cd','name' => '3year'],
+            ['group' => 'dot_state_cd','name' => 'over'],
+            ['group' => 'diagnosis_state_group','name' => 'wheel_damage_cd'],
+            ['group' => 'diagnosis_state_group','name' => 'abrasion_state_cd'],
+            ['group' => 'diagnosis_state_group','name' => 'sipe_state_cd'],
+            ['group' => 'diagnosis_state_group','name' => 'dot_state_cd']
         ]);
 
 
