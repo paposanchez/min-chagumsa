@@ -35,7 +35,7 @@ class DiagnosesFile extends Model
         }
 
 
-        public function toDocumentArray()
+        public function toDocument()
         {
                 return [
                         'id'            => $this->id,

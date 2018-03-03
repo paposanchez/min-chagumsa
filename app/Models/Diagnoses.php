@@ -44,27 +44,27 @@ class Diagnoses extends Model
                 return $this->hasMany(DiagnosesFile::class, 'diagnoses_id', 'id');
         }
 
-
-
-        public function toDocumentArray()
+        public function toDocument()
         {
                 $return = $this->toArray();
                 $return['options'] = [];
                 if(isset($return['options_cd']))
                 {
                         $code = Code::where('id', $return['options_cd'])->first();
-
-                        // $return['options'] = $code->children;
                         $return['options'] = Code::getByGroupArray($code->name);
                 }
 
                 $return['files'] = [];
 
                 //@TODO diagnosisFiles method로 조회되지 않음...
-                $files = DiagnosesFile::where('diagnoses_id', $this->id)->get();
-                foreach($files as $file) {
-                        $return['files'][] = $file->toDocumentArray();
+                if(isset($return['id']))
+                {
+                        $files = DiagnosesFile::where('diagnoses_id', $this->id)->get();
+                        foreach($files as $file) {
+                                $return['files'][] = $file->toDocument();
+                        }
                 }
+
                 return $return;
         }
 

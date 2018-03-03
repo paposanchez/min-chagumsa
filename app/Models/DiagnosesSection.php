@@ -5,39 +5,63 @@ use DB;
 
 class DiagnosesSection
 {
-        private $name_cd;
-        private $name;
-        private $entrys;
-        private $diagnoses;
-        private $diagnoses_id;
+        public $name_cd;
+        public $name;
+        public $entrys;
+        public $diagnoses;
+        public $diagnoses_id;
+        public $description;
 
-
-        private $description;
-        public function __construct($page)
+        // 레이아웃으로 초기화
+        public function __construct(Array $page, $create = false, $diagnosis_id = null)
         {
 
                 $this->name_cd        = $page['name_cd'];
+                $this->name     = $this->getNameByCode();
+
                 if(isset($page['entrys'])  && is_array($page['entrys']))
                 {
                         foreach($page['entrys'] as $entry)
                         {
-                                $this->entrys[] = (new self($entry))->toArray();
+                                $this->entrys[] = (new self($entry, $create, $diagnosis_id))->toArray();
                         }
                 }else{
-                        $this->entrys        = [];
+                        $this->entrys = [];
                 }
 
-                $this->diagnoses_id     = isset($page['diagnoses_id']) ? $page['diagnoses_id'] : null;
-                $this->diagnoses        = isset($page['diagnoses']) ? $page['diagnoses'] : null;
+                if(isset($page['diagnoses_id']))
+                {
+                        $this->diagnoses = Diagnoses::find($page['diagnoses_id'])->toDocument();
+                        $this->diagnoses_id = $page['diagnoses_id'];
+                }else{
+                        $this->diagnoses_id = null;
+                        $this->diagnoses = null;
 
+                        // 설정된 레이아웃이 있다면
+                        if(isset($page['diagnoses']))
+                        {
+                                // 생성이라면
+                                if($create)
+                                {
+                                        // 신규데이터를 생성하고 그 시퀀스를 저장한다
+                                        if(is_array($page['diagnoses']['except_options']))
+                                        {
+                                                $page['diagnoses']['except_options'] = implode(',',$page['diagnoses']['except_options']);
+                                        }
+                                        $page['diagnoses']['diagnosis_id'] = $diagnosis_id;
+                                        $d = Diagnoses::create($page['diagnoses']);
+                                        $this->diagnoses = $d->toDocument();
+                                        $this->diagnoses_id = $d->id;
+                                }else{
+                                        // 생성이 아니라면 데이터 스트럭쳐만 구성
+                                        $this->diagnoses = (new Diagnoses($page['diagnoses']))->toDocument();
+                                }
+                        }
+                }
         }
 
-        public function getNameCd()
-        {
-                return $this->name_cd;
-        }
 
-        public function getName()
+        public function getNameByCode()
         {
                 try{
                         $return = Code::findOrFail($this->name_cd);
@@ -46,52 +70,19 @@ class DiagnosesSection
                         return $this->name_cd;
                 }
         }
-
         public function getEntrys()
         {
                 return  $this->entrys;
         }
 
-        public function getDiagnoses()
-        {
-
-                try{
-
-                        if($this->diagnoses_id)
-                        {
-                                return Diagnoses::find($this->diagnoses_id)->toDocumentArray();
-                        }
-
-                        $return = $this->diagnoses;
-
-                        //파일인덱스 초기화
-                        $return['files'] = [];
-
-                        if(isset($return['options_cd']))
-                        {
-                                $code = Code::where('id', $return['options_cd'])->first();
-                                $return['options'] = Code::getByGroupArray($code->name);
-                        }
-                        return $return;
-
-                }catch(Exception $e){
-                        return $return;
-                }
-        }
-
-        public function getDiagnosesId()
-        {
-                return $this->diagnoses_id;
-        }
-
         public function toArray()
         {
                 return [
-                        'name_cd'       => $this->getNameCd(),
-                        'name'          => $this->getName(),
-                        'entrys'        => $this->getEntrys(),
-                        'diagnoses_id'  => $this->getDiagnosesId(),
-                        'diagnoses'     => $this->getDiagnoses(),
+                        'name_cd'       => $this->name_cd,
+                        'name'          => $this->name,
+                        'entrys'        => $this->entrys,
+                        'diagnoses_id'  => $this->diagnoses_id,
+                        'diagnoses'     => $this->diagnoses,
                 ];
         }
 

@@ -70,7 +70,6 @@ class Warranty extends Model implements IDocument
                 return $this->hasMany(WarrantyHistory::class, 'warranties_id', 'id');
         }
 
-
         // 만료여부
         public function isExpired() {
                 return $this->status_cd == 126;
@@ -87,11 +86,18 @@ class Warranty extends Model implements IDocument
 
                 return $this->expired_at->diffInDays(Carbon::now());
         }
-        public function getDocumentKey() {
-                return $this->chakey.'W';
+        public function getDocumentKey()
+        {
+                return 'W';
         }
-        public function getDocumentLink() {
-            return config('https://cert.chagumsa/') . $this->getDocumentKey();
+        public function getDocumentNumber()
+        {
+                return $this->chakey . $this->getDocumentKey();
+        }
+
+        public function getDocumentLink()
+        {
+            return config('chagumsa.document_host') . $this->getDocumentNumber();
         }
 
 }

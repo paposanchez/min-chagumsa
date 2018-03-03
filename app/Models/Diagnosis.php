@@ -159,7 +159,6 @@ class Diagnosis extends Model implements IDocument
                 return $this->status_cd == 126;
         }
 
-
         // 인증서 만료일 카운트다운
         public function getCountdown()
         {
@@ -172,11 +171,19 @@ class Diagnosis extends Model implements IDocument
 
                 return $this->expired_at->diffInDays(Carbon::now());
         }
-        public function getDocumentKey() {
-                return $this->chakey.'D';
+
+        public function getDocumentKey()
+        {
+                return 'D';
         }
-        public function getDocumentLink() {
-                return config('https://cert.chagumsa/') . $this->getDocumentKey();
+        public function getDocumentNumber()
+        {
+                return $this->chakey . $this->getDocumentKey();
+        }
+
+        public function getDocumentLink()
+        {
+            return config('chagumsa.document_host') . $this->getDocumentNumber();
         }
 
 }

@@ -267,7 +267,6 @@ class Certificate Extends Model implements IDocument
                 return $this->hasMany(File::class, 'group_id', 'orders_id')->where('group', 'insurance');
         }
 
-
         // 만료여부
         public function isExpired()
         {
@@ -287,24 +286,19 @@ class Certificate Extends Model implements IDocument
                 return $this->expired_at->diffInDays(Carbon::now());
         }
 
+
         public function getDocumentKey()
         {
-                return $this->chakey . 'C';
+                return 'C';
+        }
+        public function getDocumentNumber()
+        {
+                return $this->chakey . $this->getDocumentKey();
         }
 
         public function getDocumentLink()
         {
-            return config('https://cert.chagumsa/') . $this->getDocumentKey();
-        }
-
-        // 인증서 만료일
-        public function getExpireDate()
-        {
-                if ($this->completed_at) {
-                        return $this->completed_at->addDays($this->expire_period);
-                } else {
-                        return;
-                }
+            return config('chagumsa.document_host') . $this->getDocumentNumber();
         }
 
         public function registration(){

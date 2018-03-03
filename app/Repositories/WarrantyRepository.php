@@ -8,7 +8,7 @@ namespace App\Repositories;
 * @Copyright      leechanrin
 * @Created        2017-05-24 오후 5:17:35
 * @Filename       DiagnosisRepository.php
-* @Description
+* @Description    진단데이터에 대한 암호화 복호화 검증등을 진한하는 Diagnosis Repository
 *
 */
 
@@ -26,7 +26,7 @@ use App\Models\Diagnosis;
 use App\Models\Certificate;
 use App\Models\Code;
 
-final class CertificateRepository extends DocumentFactory implements IDocumentRepository
+final class WarrantyRepository extends DocumentFactory implements IDocumentRepository
 {
 
         protected static $instance;

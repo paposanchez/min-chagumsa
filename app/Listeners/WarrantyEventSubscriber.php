@@ -10,10 +10,10 @@ class WarrantyEventSubscriber {
 
         // 발급완료
         public function onWarrantyIssued($event) {
-            $data = Warranty::find($this->id);
-            $report_type = 'W';
-
-            return view('document_layout.document', compact('data', 'report_type'));
+            // $data = Warranty::find($this->id);
+            // $report_type = 'W';
+            //
+            // return view('document_layout.document', compact('data', 'report_type'));
         }
 
         // 발급거절

@@ -1,11 +1,10 @@
 <?php
 namespace App\Models\Abstracts;
 
-use App\Contracts\Diagnoses as IDiagnoses;
 use App\Models\Diagnoses;
 use Carbon\Carbon;
 
-abstract class Diagnoses implements IDiagnoses;
+abstract class Diagnoses;
 {
 
         public static function build(Diagnoses $diagnoses)

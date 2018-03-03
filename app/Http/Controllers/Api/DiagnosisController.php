@@ -240,12 +240,6 @@ class DiagnosisController extends ApiController
                                         '114'     => 0,   // 검토중
                                         '126'     => 0,   // 검토완료
                                         '115'     => 0,   // 발급완료
-                                        // '112'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 112)->count(),   // 신청
-                                        // '113'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 113)->count(),   // 예약확정
-                                        // '114'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 114)->count(),   // 검토중
-                                        // '126'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 126)->count(),   // 검토완료
-                                        // '115'     => Diagnosis::select()->whereDate('reservation_at', '=', $requestData['date'])->where('diagnosis.status_cd', 115)->count(),   // 발급완료
-
                                 ];     // 상태별 갯수
                                 foreach ($result as $diagnosis) {
                                         $status[$diagnosis->status_cd]  += 1;
@@ -305,11 +299,16 @@ class DiagnosisController extends ApiController
                                 // 조회를 요청한 사용자의 정보조회
                                 $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
 
-                                $return = DiagnosisRepository::getInstance()->load($requestData['diagnosis_id'])->toArray();
+                                // 진단레이아웃 구성
+                                // 진단정보가 예약확정요청
+                                $layout = DiagnosisRepository::getInstance()
+                                ->load($requestData['diagnosis_id'])
+                                ->triggerReview($user->id)
+                                ->layout();
 
                                 return response()->json([
                                         "status" => 'success',
-                                        "data"  => $return
+                                        "data"  => $layout
                                 ]);
                         } catch (Exception $e) {
                                 return response()->json([
@@ -344,6 +343,7 @@ class DiagnosisController extends ApiController
                 {
 
                         try {
+                                DB::beginTransaction();
 
                                 $requestData = $request->validate([
                                         'user_id'       => 'required|exists:users,id',
@@ -352,15 +352,18 @@ class DiagnosisController extends ApiController
                                 ]);
 
 
-
-
                                 // 조회를 요청한 사용자의 정보조회
                                 $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
 
                                 // 해당 진단 조회
-                                $diagnosis      = Diagnosis::where('engineer_id', $requestData['diagnosis_id'])->findOrFail($requestData['diagnosis_id']);
+                                // $diagnosis      = Diagnosis::where('engineer_id', $requestData['diagnosis_id'])->findOrFail($requestData['diagnosis_id']);
 
-
+                                foreach($requestData['diagnoses'] as $item)
+                                {
+                                        $diagnoses =  Diagnoses::where('diagnosis_id', '=', $requestData['diagnosis_id'])->find($item['id']);
+                                        $diagnoses->selected = $item['selected'];
+                                        $diagnoses->save();
+                                }
                                 //@TODO 업로드파일을 다 지워야된다
                                 //         $diagnoses_files = Diagnosis::where('orders_id', $request->get('order_id'))->get();
                                 //         if (count($diagnoses_files)) {
@@ -371,15 +374,17 @@ class DiagnosisController extends ApiController
                                 //                 DiagnosisFile::whereIn('diagnoses_id', $diagnoses_ids)->delete();
                                 //         }
 
-                                DiagnosisRepository::getInstance()->load($requestData['diagnosis_id'])->update($requestData['diagnoses']);
+                                // DiagnosisRepository::getInstance()->load($requestData['diagnosis_id'])->update($requestData['diagnoses']);
 
                                 // $diagnosisRepository = new DiagnosisRepository();
                                 // $diagnosisRepository->prepare($requestData['diagnosis_id'])->update($requestData['diagnoses']);
 
+                                DB::commit();
                                 return response()->json([
                                         "status" => 'success'
                                 ]);
                         } catch (Exception $e) {
+                                DB::rollBack();
                                 return response()->json([
                                         "status" => 'fail'
                                 ]);
@@ -418,22 +423,21 @@ class DiagnosisController extends ApiController
                 public function upload(Request $request)
                 {
                         try {
-                                $order_id = $request->get('order_id');
-                                $user_id = $request->get('user_id');
-                                $diagnoses_id = $request->get('diagnosis_id');
 
-                                if (!$diagnoses_id || !$order_id || !$user_id) {
-                                        throw new Exception('필수 파라미터가 없습니다.');
-                                }
+                                $requestData = $request->validate([
+                                        'user_id'       => 'required|exists:users,id',
+                                        'diagnosis_id'  => 'required|exists:diagnosis,id',
+                                ]);
 
-                                $engineer_check = Order::where('id', $order_id)->where('engineer_id', $request->get('user_id'))->count();
-                                if ($engineer_check != 1) {
-                                        throw new Exception('접근권한이 없습니다.');
-                                }
+
+                                // 조회를 요청한 사용자의 정보조회
+                                $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
+
+
 
                                 // validator
                                 $uploader_name = 'upfile';
-
+                                // 업로드 경로
                                 $diagnosis_upload_prifix = storage_path('app/diagnosis');
 
                                 $uploader = new Receiver($request, $diagnosis_upload_prifix);
@@ -478,11 +482,11 @@ class DiagnosisController extends ApiController
                                         return response()->json([
                                                 "status" => 'success'
                                         ]);
-                                } else {
-                                        return response()->json([
-                                                "status" => 'fail'
-                                        ]);
                                 }
+
+                                return response()->json([
+                                        "status" => 'fail'
+                                ]);
 
                         } catch (Exception $ex) {
                                 return response()->json([
@@ -512,37 +516,37 @@ class DiagnosisController extends ApiController
                 *     }
                 * )
                 */
-                public function setDiagnosisStart(Request $request)
-                {
-
-                        try {
-
-                                $requestData = $request->validate([
-                                        'user_id'       => 'required|exists:users,id',
-                                        'diagnosis_id'  => 'required|exists:diagnosis,id'
-                                ]);
-
-                                // 조회를 요청한 사용자의 정보조회
-                                $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
-
-                                // 해당 진단 조회
-                                $diagnosis              = Diagnosis::where('status_cd', 113)->findOrFail($requestData['diagnosis_id']);
-                                $diagnosis->engineer_id = $user->id;
-                                $diagnosis->start_at    = Carbon::now();
-                                // $diagnosis->status_cd   = 114;
-                                $diagnosis->save();
-
-                                return response()->json([
-                                        "status" => 'success'
-                                ]);
-
-                        } catch (Exception $e) {
-                                return response()->json([
-                                        "status" => 'fail'
-                                ]);
-
-                        }
-                }
+                // public function setDiagnosisStart(Request $request)
+                // {
+                //
+                //         try {
+                //
+                //                 $requestData = $request->validate([
+                //                         'user_id'       => 'required|exists:users,id',
+                //                         'diagnosis_id'  => 'required|exists:diagnosis,id'
+                //                 ]);
+                //
+                //                 // 조회를 요청한 사용자의 정보조회
+                //                 $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
+                //
+                //                 // 해당 진단 조회
+                //                 $diagnosis              = Diagnosis::where('status_cd', 113)->findOrFail($requestData['diagnosis_id']);
+                //                 $diagnosis->engineer_id = $user->id;
+                //                 $diagnosis->start_at    = Carbon::now();
+                //                 // $diagnosis->status_cd   = 114;
+                //                 $diagnosis->save();
+                //
+                //                 return response()->json([
+                //                         "status" => 'success'
+                //                 ]);
+                //
+                //         } catch (Exception $e) {
+                //                 return response()->json([
+                //                         "status" => 'fail'
+                //                 ]);
+                //
+                //         }
+                // }
 
                 /**
                 * @SWG\Post(
