@@ -3,7 +3,8 @@
 namespace App\Events\Certificate;
 
 use App\Models\Certificate;
-use Illuminate\Queue\SerializesModels;
+use Event;
+
 
 // 평가서 발급완료
 class OnCertificateIssued extends Event {

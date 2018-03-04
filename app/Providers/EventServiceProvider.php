@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Event;
+use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider {
@@ -16,22 +16,13 @@ class EventServiceProvider extends ServiceProvider {
         ];
 
         protected $subscribe = [
-                'App\Listeners\UserEventSubscriber',
-                'App\Listeners\OrderEventSubscriber',
+                // 'App\Listeners\UserEventSubscriber',
+                // 'App\Listeners\OrderEventSubscriber',
                 'App\Listeners\DiagnosisEventSubscriber',
-                'App\Listeners\CertificateEventSubscriber',
-                'App\Listeners\WarrantyEventSubscriber',
-
+                // 'App\Listeners\CertificateEventSubscriber',
+                // 'App\Listeners\WarrantyEventSubscriber',
         ];
 
-        /**
-        * Register any events for your application.
-        *
-        * @return void
-        */
-        public function boot() {
-                parent::boot();
-        }
 
 
 }

@@ -3,9 +3,8 @@
 namespace App\Events\Diagnosis;
 
 use App\Models\Diagnosis;
-use Illuminate\Queue\SerializesModels;
+use Event;
 
-// 진단시작
 class OnDiagnosisCompleted extends Event {
 
         public $diagnosis;

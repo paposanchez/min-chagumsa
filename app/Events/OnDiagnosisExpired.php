@@ -3,7 +3,8 @@
 namespace App\Events\Diagnosis;
 
 use App\Models\Diagnosis;
-use Illuminate\Queue\SerializesModels;
+use Event;
+
 
 // 인증서 만료
 class OnDiagnosisExpired extends Event {

@@ -3,7 +3,8 @@
 namespace App\Events\Warranty;
 
 use App\Models\Warranty;
-use Illuminate\Queue\SerializesModels;
+use Event;
+
 
 //보증서 발급완료
 class OnWarrantyRefused extends Event {

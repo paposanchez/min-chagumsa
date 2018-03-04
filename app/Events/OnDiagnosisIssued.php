@@ -3,7 +3,8 @@
 namespace App\Events\Diagnosis;
 
 use App\Models\Diagnosis;
-use Illuminate\Queue\SerializesModels;
+use Event;
+
 
 //인증서 발급시작
 class OnDiagnosisIssued extends Event {

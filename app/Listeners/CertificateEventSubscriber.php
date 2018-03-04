@@ -2,10 +2,12 @@
 
 namespace App\Listeners;
 
+use Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\Certificate;
 use App\Models\Code;
 
-class CertificateEventSubscriber {
+class CertificateEventSubscriber implements ShouldQueue {
 
         public function onCertificateStart($event) {
         }

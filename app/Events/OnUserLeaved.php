@@ -2,10 +2,9 @@
 
 namespace App\Events\Certificate;
 
-use App\Models\Certificate;
-use Illuminate\Queue\SerializesModels;
+use App\Models\User;
+use Event;
 
-// 평가서 만료
 class OnUserLeaved extends Event {
 
 

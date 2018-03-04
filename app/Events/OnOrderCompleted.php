@@ -3,7 +3,8 @@
 namespace App\Events\Order;
 
 use App\Models\Order;
-use Illuminate\Queue\SerializesModels;
+use Event;
+
 
 // 주문완료
 class OnOrderCompleted extends Event {

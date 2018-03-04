@@ -47,15 +47,13 @@ class Diagnoses extends Model
         public function toDocument()
         {
                 $return = $this->toArray();
+                $return['except_options'] = $return['except_options'] ? explode(',', $return['except_options']) : [];
                 $return['options'] = [];
                 if(isset($return['options_cd']))
                 {
                         $code = Code::where('id', $return['options_cd'])->first();
                         $return['options'] = Code::getByGroupArray($code->name);
                 }
-
-                $return['files'] = [];
-
                 //@TODO diagnosisFiles method로 조회되지 않음...
                 if(isset($return['id']))
                 {

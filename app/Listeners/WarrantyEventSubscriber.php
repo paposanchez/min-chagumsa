@@ -2,7 +2,12 @@
 
 namespace App\Listeners;
 
-class WarrantyEventSubscriber {
+use Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Warranty;
+use App\Models\Code;
+
+class WarrantyEventSubscriber implements ShouldQueue {
 
         //발급시작
         public function onWarrantyStart($event) {

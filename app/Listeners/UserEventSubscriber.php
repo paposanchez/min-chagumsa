@@ -2,10 +2,10 @@
 
 namespace App\Listeners;
 
-use Illuminate\Auth\Events\Login;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Activity;
 
-class UserEventSubscriber {
+class UserEventSubscriber implements ShouldQueue {
 
         /**
         * Handle user login events.

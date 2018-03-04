@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Events\Warranty;
+namespace App\Events\Diagnosis;
 
 use App\Models\Warranty;
 use Event;
 
-//보증서 만료
-class OnWarrantyExpired extends Event {
+class OnWarrantyIssued extends Event {
 
-        public $warranty;
+        public $diagnosis;
 
         public function __construct(Warranty $warranty) {
 

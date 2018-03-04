@@ -52,8 +52,8 @@ class ScTran extends Model
         /**
         * SMS 메일 전송
         * @param $tr_phone 발신번호
-        * @param $tr_callback 수신번호
         * @param $tr_msg 발신 메세지
+        * @param $tr_callback 수신번호
         * @param int $tr_sendstat 발송상태 0 - 발송대기 1 - 결과수신 대기 2 - 결과수신 완료
         * @param int $tr_msgtype 문자전송 형태 0 - 일반메세지, 1- 콜백 URL 메세지, 2 - 국제 SMS, 3 - PUSH
         * @param datetime $tr_senddate 발송일시
@@ -61,7 +61,7 @@ class ScTran extends Model
         *
         * INSERT INTO SC_TRAN (TR_SENDDATE, TR_SENDSTAT, TR_MSGTYPE, TR_PHONE, TR_CALLBACK, TR_MSG) VALUES (NOW(), '0', '1', '수신 번호', '발신 번호', 'http://wap.test.co.kr 테스트');
         */
-        public function send($tr_phone, $tr_callback='1833-6889', $tr_msg, $tr_sendstat=0, $tr_msgtype=0, $tr_senddate=''){
+        public function send($tr_phone, $tr_msg, $tr_callback='1833-6889', $tr_sendstat=0, $tr_msgtype=0, $tr_senddate=''){
 
                 if($tr_senddate){
                         $this->TR_SENDDATE = $tr_senddate;

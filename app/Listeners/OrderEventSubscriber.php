@@ -2,7 +2,12 @@
 
 namespace App\Listeners;
 
-class OrderEventSubscriber {
+use Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Order;
+use App\Models\Code;
+
+class OrderEventSubscriber implements ShouldQueue {
 
         //주문완료
         public function onOrderCompleted($event) {
@@ -27,7 +32,7 @@ class OrderEventSubscriber {
                         'App\Events\OnOrderPartCancled',
                         'App\Listeners\OrderEventSubscriber@onOrderPartCancled'
                 );
-                
+
                 $events->listen(
                         'App\Events\OnOrderCancled',
                         'App\Listeners\OrderEventSubscriber@onOrderCancled'

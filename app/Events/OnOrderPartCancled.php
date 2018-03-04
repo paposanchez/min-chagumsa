@@ -3,7 +3,7 @@
 namespace App\Events\Order;
 
 use App\Models\Order;
-use Illuminate\Queue\SerializesModels;
+use Event;
 
 // 주문취소
 class OnOrderPartCancled extends Event {

@@ -1,10 +1,8 @@
 <?php
-
 namespace App\Events\Diagnosis;
 
-
 use App\Models\Diagnosis;
-use Illuminate\Queue\SerializesModels;
+use Event;
 
 // 예약변경
 class OnDiagnosisStart  extends Event {
