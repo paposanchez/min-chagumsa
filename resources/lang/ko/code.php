@@ -214,6 +214,7 @@ return [
                 'good' => '전체 양호',
                 'history' => '상태 이력 있음'
         ],
+
         'exterior_position_left_cd' => [
                 'front_fender_left' => '프론트펜더 좌',
                 'front_door_left' => '프론트도어 좌',
@@ -617,10 +618,11 @@ return [
                 'diagnosis_info_opinion' => '점검의견'
         ],
         'diagnosis_exterior' => [
-                'diagnosis_exterior_picture' => '주요외판사진 [앞,뒤,좌,우]',
+                'diagnosis_exterior_picture' => '주요외판사진',
                 'diagnosis_exterior_state' => '주요외판상태',
-                'diagnosis_exterior_opinion' => '점검의견'
+                'diagnosis_exterior_opinion' => '점검의견',
         ],
+
         'diagnosis_exterior_state' => [
                 'diagnosis_exterior_left' => '좌측',
                 'diagnosis_exterior_center' => '중앙',

@@ -43,11 +43,10 @@ Route::post('diagnosis/change-reservation', 'DiagnosisController@changeReservati
 Route::post('diagnosis/confirm-reservation', 'DiagnosisController@confirmReservation');
 
 
-//개별주문조회
+//조회
 Route::get('diagnosis', "DiagnosisController@show");
-//개별주문저장
-Route::post('diagnosis', "DiagnosisController@update");
-
+//저장
+Route::post('diagnosis/update', "DiagnosisController@update");
 //진단시작
 Route::post('diagnosis/start', "DiagnosisController@setDiagnosisStart");
 //진단완료 상태 변경
@@ -56,19 +55,6 @@ Route::post('diagnosis/complete', "DiagnosisController@setDiagnosisComplete");
 Route::post('diagnosis/upload', "DiagnosisController@upload");
 
 
-
-
-
-//예약목록
-// Route::get('diagnosis/reservation', "DiagnosisController@getDiagnosisReservation");
-//
-// //예약카운트
-// Route::get('diagnosis/count', "DiagnosisController@getReservationCount");
-// //진단중목록
-// Route::get('diagnosis/working', "DiagnosisController@getDiagnosisWorking");
-// //진단완료목록
-// Route::get('diagnosis/completed', "DiagnosisController@getDiagnosisCompleted");
-//
 //
 // // 주문상품
 // Route::get('diagnosis/item', "DiagnosisController@getItem");
@@ -85,6 +71,15 @@ Route::get('notify/bedge', "NotifyController@bedge");
 
 
 Route::any( '/', function( ){
+
+        // $diagnosis = \App\Models\Diagnosis::find(1);
+        // event(new \App\Events\Diagnosis\OnDiagnosisCompleted($diagnosis));
+
+        // $e = new \App\Events\Diagnosis\OnDiagnosisCompleted($diagnosis);
+        // event($e);
+
+        // dd($diagnosis);
+        // dd(new \App\Events\Diagnosis\OnDiagnosisCompleted($diagnosis));
         return response()->json([
                 "SERVICE"       => "CHAGUMSA API SERVICE",
                 "HOST"          => config('zlara.api.domain'),
