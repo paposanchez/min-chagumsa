@@ -301,14 +301,17 @@ class DiagnosisController extends ApiController
 
                                 // 진단레이아웃 구성
                                 // 진단정보가 예약확정요청
-                                $layout = DiagnosisRepository::getInstance()
+                                $repository = DiagnosisRepository::getInstance()
                                 ->load($requestData['diagnosis_id'])
-                                ->triggerReview($user->id)
-                                ->layout();
+                                ->triggerReview($user->id);
+                                $layout = $repository->layout();
 
                                 return response()->json([
                                         "status" => 'success',
-                                        "data"  => $layout
+                                        "data"  => [
+                                                'order' => $repository->getOrder()->toArray(),
+                                                'layout' => $repository->layout()
+                                        ]
                                 ]);
                         } catch (Exception $e) {
                                 return response()->json([
