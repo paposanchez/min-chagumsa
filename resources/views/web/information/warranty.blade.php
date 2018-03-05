@@ -1,145 +1,207 @@
 @extends( 'web.layouts.default' )
 
 @section( 'content' )
-<section id="content" class="content-alt">
+    <section id="content" class="content-alt">
 
         <div class="container">
-                <div class="row">
-                        <div class="col-md-12">
-                                <div class="block  text-center m-t-10  m-b-20" >
-                                        <h5 class="c-white">서브텍스트</h5>
-                                        <h1 class="c-white">차검사 진단</h1>
-                                        <hr class="line dark">
-                                        <h3 class="c-white c-light">복잡한 서류없이 고객님 신용만으로 간편한 대출</h3>
-                                        <h6 class="c-white c-light">서브서브 테스트</h6>
-                                </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block  text-center m-t-10  m-b-20">
 
-                        </div>
-                </div>
-
-                <div class="card subnavigation">
-
-                        <div class="card-body card-padding">
-
-                                <div class="row">
-                                        <div class="col-md-4 text-center">
-                                                <p><img src="/assets/imgs/"></p>
-                                                <h5 class="c-gray">대상</h5>
-                                                <h3 class="c-blue">진단을 원하는 모든 차량</h3>
-                                        </div>
-                                        <div class="col-md-4 text-center">
-                                                <h5 class="c-gray">금액</h5>
-                                                <h3 class="c-blue">국산 10만원, 수입 15만원</h3>
-                                        </div>
-                                        <div class="col-md-4 text-center">
-                                                <h5 class="c-gray">유효</h5>
-                                                <h3 class="c-blue">발급일로부터 30일 이내</h3>
-                                        </div>
-                                </div>
-
-                        </div>
+                        <h1 class="c-white">차검사 보증</h1>
+                        <hr class="line dark">
+                        <h3 class="c-white c-light">제조사 수리 보증이 끝나도 계속 보증 받을 수 있는 방법!</h3>
+                        <h6 class="c-white c-light">자동차 진단서만 있다면 1년 동안 걱정 없이 수리 보증 받으세요.</h6>
+                    </div>
 
                 </div>
+            </div>
+
+            <div class="card subnavigation">
+
+                <div class="card-body card-padding">
+
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <p>
+                                {{ Html::image('/assets/img/sub_images/title-icon_01.png') }}
+                            </p>
+                            <h5 class="c-gray">대상</h5>
+                            <h3 class="c-blue">차검사 진단서 보유 차량</h3>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <p>
+                                {{ Html::image('/assets/img/sub_images/title-icon_01-02.png') }}
+                            </p>
+                            <h5 class="c-gray">금액</h5>
+                            <h3 class="c-blue">국산 15만원 / 수입 25만원</h3>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <p>
+                                {{ Html::image('/assets/img/sub_images/title-icon_01-03.png') }}
+                            </p>
+                            <h5 class="c-gray">유효</h5>
+                            <h3 class="c-blue">6개월 이내</h3>
+                        </div>
+                    </div>
+
+                </div>
+                <small class="pull-right c-gray">* 대상은 차검사 진단서 유효기간 내 모든차량, 유효는 발급일 기준입니다.</small>
+            </div>
 
 
-                <div class="card">
+            <div class="card">
 
-                        <div class="card-body card-padding">
+                <div class="card-body card-padding">
 
-                                <div role="tabpanel">
+                    <div role="tabpanel">
 
-                                        <ul class="tab-nav text-center fw-nav" role="tablist">
-                                                <li class="active"><a href="#home1" caria-controls="home1" role="tab" data-toggle="tab">상품소개</a></li>
-                                                <li><a href="#home2" aria-controls="home2" role="tab" data-toggle="tab">상품약관</a></li>
-                                                <li><a href="#home3" aria-controls="home3" role="tab" data-toggle="tab">진단항목</a></li>
+                        <ul class="tab-nav text-left fw-nav" role="tablist">
+                            <li class="active"><a href="#home1" caria-controls="home1" role="tab"
+                                                  data-toggle="tab">차검사 보증</a></li>
+                            <li><a href="#home2" aria-controls="home2" role="tab" data-toggle="tab">보증범위</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+
+                            <div role="tabpanel" class="tab-pane active" id="home1">
+
+                                <dl>
+                                    <dt><h4>특징</h4></dt>
+                                    <dd class="p-b-20">차검사 진단서에 기반해 보증서 발급 및 무상 수리 보증</dd>
+
+                                    <dt><h4>내용</h4></dt>
+                                    <dd class="p-b-20">
+                                        <ul class="clist clist-angle">
+                                            <li>차검사 진단서를 토대로 수리가 필요한 항목의 수리 비용을 지원</li>
+                                            <li>수리 비용 지원, 보증기간 내에서 수리 비용만큼 차감
+                                            </li>
+                                            <li>수리 보증은 전국의 차검사 지정 정비소(보취카서비스)에서 편리하게 이용 가능</li>
+                                            <li>해당 내용은 차검사 진단서를 기반으로 작성되므로 차검사 진단과 함께 신청하거나 발급 이후 추가 신청이 가능</li>
                                         </ul>
+                                    </dd>
 
-                                        <div class="tab-content">
+                                    <dt><h4>절차</h4></dt>
+                                    <dd class="p-b-20">
+                                        <div class="block bordered">
 
-                                                <div role="tabpanel" class="tab-pane active" id="home1">
+                                            <div class="">
+                                                {{ Html::image('/assets/img/sub_images/body-icon_01.png') }}
+                                                <h4>온라인 상품 구매</h4>
+                                            </div>
 
-                                                        <dl>
-                                                                <dt><h4>특징</h4></dt>
-                                                                <dd class="p-b-20">300개 이상의 보쉬 네트워크를 통한 130여개 항목 점검 및 진단서 발급</dd>
+                                            {{ Html::image('/assets/img/sub_images/arrow.png') }}
 
-                                                                <dt><h4>내용</h4></dt>
-                                                                <dd class="p-b-20">
-                                                                        <ul class="clist clist-angle">
-                                                                                <li>원하는 정비소와 시간을 온라인으로 간편하게 선택 및 예약</li>
-                                                                                <li>보쉬 인증 엔지니어가 130여개의 점검 항목을 정밀 진단(사고/침수 흔적 관련 점검 항목 포함, 부위별 사진 데이터 제공)</li>
-                                                                                <li>차량 입고 후 최대 2시간내 차검사 진단서 발급(온라인 발급 및 조회, 다운로드 가능)</li>
-                                                                                <li>발급된 차검사 진단서는 보증기간 내 보증프로그램에 의해 보호</li>
-                                                                        </ul>
-                                                                </dd>
-
-                                                                <dt><h4>절차</h4></dt>
-                                                                <dd class="p-b-20">
-                                                                        <div class="block bordered">
-
-                                                                                <div class="">
-                                                                                        <img src="">
-                                                                                        <h4>온라인 상품 구매 및 입고 예약</h4>
-                                                                                </div>
-
-                                                                        </div>
-                                                                </dd>
-
-                                                                <dt><h4>보증범위</h4></dt>
-                                                                <dd class="p-b-20">300개 이상의 보쉬 네트워크를 통한 130여개 항목 점검 및 진단서 발급</dd>
-
-                                                                <dt><h4>보증절차</h4></dt>
-                                                                <dd class="p-b-20">
-                                                                        <div class="block bordered">
-
-                                                                                <div class="">
-                                                                                        <img src="">
-                                                                                        <h4>고객센터 접수</h4>
-                                                                                </div>
-
-                                                                                <img src="" class="">
-
-
-
-
-                                                                        </div>
-                                                                </dd>
-
-                                                                <dt><h4>유의사항</h4></dt>
-                                                                <dd class="p-b-20">
-                                                                        <ul class="clist clist-angle">
-                                                                                <li>입고 1시간전 까지 주문 취소, 예약 변경 가능</li>
-                                                                                <li>예약 변경시 BCS 및 예약자에게 자동 알림</li>
-                                                                                <li>진단 중 정비 항목에 대한 수리는 해당 엔지니어를 통해 현장에서 즉시 가능</li>
-                                                                        </ul>
-                                                                </dd>
-
-                                                        </dl>
-
-
-                                                </div>
-
-                                                <div role="tabpanel" class="tab-pane" id="home2">
-
-                                                </div>
-
-                                                <div role="tabpanel" class="tab-pane" id="home3">
-
-                                                </div>
-
+                                            <div class="">
+                                                {{ Html::image('/assets/img/sub_images/body-icon_04.png') }}
+                                                <h4>차검사 보증프로그램<br>가입 및 차검사 보증서 발급<br>(업무시간 기준 10분 이내)</h4>
+                                            </div>
 
                                         </div>
-                                </div>
+                                    </dd>
+
+                                    <dt><h4>보증</h4></dt>
+                                    <dd class="p-b-20">차검사 진단서를 기반으로 해당 차량의 수리가 필요할 시</dd>
+
+                                    <dt><h4>보증범위</h4></dt>
+                                    <dd class="p-b-20">
+                                        <ul class="clist clist-angle">
+                                            <li class="c-blue">발급일로부터 1년 이내 유효</li>
+                                            <li class="c-blue">최대 200만원 한도 내 수리비용 지원(상세 내용은 차검사 보증 범위에 명시)</li>
+                                        </ul>
+                                    </dd>
 
 
+                                    <dt><h4>보증절차</h4></dt>
+                                    <dd class="p-b-20">
+                                        <div class="block bordered">
+
+                                            <div class="">
+                                                {{ Html::image('/assets/img/sub_images/body-icon_07.png') }}
+                                                <h4>고객센터에<br>접수</h4>
+                                            </div>
+
+                                            {{ Html::image('/assets/img/sub_images/arrow.png') }}
+
+                                            <div class="">
+                                                {{ Html::image('/assets/img/sub_images/body-icon_05.png') }}
+                                                <h4>수리보증 여부<br>검토</h4>
+                                            </div>
+
+                                            {{ Html::image('/assets/img/sub_images/arrow.png') }}
+
+                                            <div class="">
+                                                {{ Html::image('/assets/img/sub_images/body-icon_03.png') }}
+                                                <h4>정비소 입고</h4>
+                                            </div>
+
+                                            {{ Html::image('/assets/img/sub_images/arrow.png') }}
+
+                                            <div class="">
+                                                {{ Html::image('/assets/img/sub_images/body-icon_08.png') }}
+                                                <h4>차량 수리</h4>
+                                            </div>
+
+                                        </div>
+                                    </dd>
+
+                                    <dt>
+                                        <ul class="clist clist-angle">
+                                            <li class="c-gray">차검사 지정 정비소</li>
+                                        </ul>
+                                    </dt>
+                                    <dd class="p-b-20">
+                                        <div class="block bordered">
+
+                                            <div class="">
+                                                {{ Html::image('/assets/img/sub_images/logo_01.png') }}
+                                                <h4>1,300여 개</h4>
+                                            </div>
+
+                                            <div class="">
+                                                {{ Html::image('/assets/img/sub_images/logo_02.png') }}
+                                                <h4>800여 개</h4>
+                                            </div>
+
+                                            <div class="">
+                                                {{ Html::image('/assets/img/sub_images/logo_03.png') }}
+                                                <h4>500여 개</h4>
+                                            </div>
+
+                                            <div class="">
+                                                {{ Html::image('/assets/img/sub_images/logo_04.png') }}
+                                                <h4>300여 개</h4>
+                                            </div>
+
+                                        </div>
+                                    </dd>
+
+                                    <dt><h4>유의사항</h4></dt>
+                                    <dd class="p-b-20">
+                                        <ul class="clist clist-angle">
+                                            <li>해당 상품은 보증이력 최초 발생전까지 취소 가능</li>
+                                            <li>제조사 워런티가 진행중인 차량은 해당 워런티 종료 후 차검사 보증을 순차 적용(중복 적용 불가)</li>
+                                        </ul>
+                                    </dd>
+
+                                </dl>
 
 
+                            </div>
 
+                            <div role="tabpanel" class="tab-pane" id="home2">
+
+                            </div>
 
                         </div>
+                    </div>
+
 
                 </div>
+
+            </div>
 
         </div>
-</section>
+    </section>
 
 @endsection
