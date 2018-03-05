@@ -370,7 +370,7 @@ class DiagnosisController extends ApiController
                                 //         //                 foreach ($diagnoses_files as $diagnosis) {
                                 //         //                         $diagnoses_ids[] = $diagnosis->id;
                                 //         //                 }
-                                //         //                 DiagnosisFile::whereIn('diagnoses_id', $diagnoses_ids)->delete();
+                                //         //                 DiagnosesFile::whereIn('diagnoses_id', $diagnoses_ids)->delete();
                                 //         //         }
                                 //
 
@@ -459,7 +459,7 @@ class DiagnosisController extends ApiController
                                 if ($response['result']) {
 
                                         // Save the record to the db
-                                        $data = DiagnosisFile::create([
+                                        $data = DiagnosesFile::create([
                                                 'diagnoses_id' => $diagnoses_id,
                                                 'original' => $response['result']['original'],
                                                 'source' => $response['result']['source'],
@@ -734,7 +734,7 @@ class DiagnosisController extends ApiController
 
 
 
-                public function getDiagnosisFileInfo(Request $request)
+                public function getDiagnosesFileInfo(Request $request)
                 {
                         $validator = Validator::make($request->all(), [
                                 'div' => 'required'
@@ -749,10 +749,10 @@ class DiagnosisController extends ApiController
                         $log_where = S3Tran::orderBy('id', 'DESC')->where('div', $request->get('div'))->first();
 
                         if ($log_where) {
-                                $info = DiagnosisFile::where('id', '>', $log_where->trans_id)
+                                $info = DiagnosesFile::where('id', '>', $log_where->trans_id)
                                 ->where('mime', '<>', 'audio/mp3')->orderBy('id', 'ASC')->get();
                         } else {
-                                $info = DiagnosisFile::where('mime', '<>', 'audio/mp3')->get();
+                                $info = DiagnosesFile::where('mime', '<>', 'audio/mp3')->get();
                         }
 
                         $trans_info = [];
@@ -775,7 +775,7 @@ class DiagnosisController extends ApiController
                         ]);
                 }
 
-                public function setTransDiagnosisFileInfo(Request $request)
+                public function setTransDiagnosesFileInfo(Request $request)
                 {
                         $validator = Validator::make($request->all(), [
                                 'trans_id' => 'required|int',
