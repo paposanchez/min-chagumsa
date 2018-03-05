@@ -82,6 +82,7 @@ class UserController extends ApiController
                                         "email"         => $user->email,
                                         "mobile"        => $user->mobile,
                                         "avatar"        => $url,
+                                        'isGarage'      => ($user->id == $garage->id),  // BCS여부
                                         // "status"        => $user->status->display(),
                                         "garage"        => [
                                                 "seq"           => $garage->id,
@@ -227,7 +228,7 @@ class UserController extends ApiController
 
 
         }
-        
+
 
         /**
         * @SWG\POST(path="/password",

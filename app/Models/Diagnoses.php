@@ -55,6 +55,7 @@ class Diagnoses extends Model
                         $return['options'] = Code::getByGroupArray($code->name);
                 }
                 //@TODO diagnosisFiles method로 조회되지 않음...
+                $return['files'] = [];
                 if(isset($return['id']))
                 {
                         $files = DiagnosesFile::where('diagnoses_id', $this->id)->get();
