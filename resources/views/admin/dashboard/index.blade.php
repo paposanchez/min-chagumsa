@@ -118,98 +118,50 @@
         <script type="text/javascript">
 
         $(document).ready(function () {
-
-                $.ajax({
-                        type: 'get',
-                        dataType: 'json',
-                        url: '/dashboard/get-diagnosis-chart',
-                        success: function (response) {
-                                var options = {
-                                        series: {
-                                                stack: 0,
-                                                lines: {show: false, steps: false},
-                                                bars: {show: true, barWidth: 0.9, align: 'center'}
+                ['order','diagnosis','certificate','warranty'].forEach(function(k){
+                $.getJSON( '/dashboard/get-'+k+'-chart', function(response) {
+                        $.plot($("#current-monthly-"+k), response.data, {
+                                series: {
+                                        // shadowSize: 0,
+                                        stack: 0,
+                                        // lines: {show: false, steps: false},
+                                        bars: {show: true, barWidth: 0.6, align: 'center'}
+                                },
+                                grid : {
+                                        borderWidth: 1,
+                                        borderColor: '#f3f3f3',
+                                        show : true,
+                                        clickable : true,
+                                        hoverable: true,
+                                        mouseActiveRadius: 20,
+                                        labelMargin: 10
+                                },
+                                yaxis: {
+                                        ticks: 2,
+                                        color: "#f3f3f3",
+                                        tickDecimals: 0,
+                                        font :{
+                                                lineHeight: 13,
+                                                style: "normal",
+                                                color: "#9f9f9f"
                                         },
-                                        xaxis: {
-                                                ticks: response.ticks
-                                        },
-                                };
-
-                                $.plot($("#current-monthly-diagnosis"), response.data, options);
-                        },
-                        error: function (response) {
-                                alert(JSON.stringify(response));
-                        }
-                });
-
-                $.ajax({
-                        type: 'get',
-                        dataType: 'json',
-                        url: '/dashboard/get-order-chart',
-                        success: function (response) {
-                                var options = {
-                                        series: {
-                                                stack: 0,
-                                                lines: {show: false, steps: false},
-                                                bars: {show: true, barWidth: 0.9, align: 'center'}
-                                        },
-                                        xaxis: {
-                                                ticks: response.ticks
-                                        },
-                                };
-
-                                $.plot($("#current-monthly-order"), response.data, options);
-                        },
-                        error: function (response) {
-                                alert(JSON.stringify(response));
-                        }
-                });
-
-                $.ajax({
-                        type: 'get',
-                        dataType: 'json',
-                        url: '/dashboard/get-certificate-chart',
-                        success: function (response) {
-                                var options = {
-                                        series: {
-                                                stack: 0,
-                                                lines: {show: false, steps: false},
-                                                bars: {show: true, barWidth: 0.9, align: 'center'}
-                                        },
-                                        xaxis: {
-                                                ticks: response.ticks
-                                        },
-                                };
-
-                                $.plot($("#current-monthly-certificate"), response.data, options);
-                        },
-                        error: function (response) {
-                                alert(JSON.stringify(response));
-                        }
-                });
-
-                $.ajax({
-                        type: 'get',
-                        dataType: 'json',
-                        url: '/dashboard/get-warranty-chart',
-                        success: function (response) {
-                                var options = {
-                                        series: {
-                                                stack: 0,
-                                                lines: {show: false, steps: false},
-                                                bars: {show: true, barWidth: 0.9, align: 'center'}
-                                        },
-                                        xaxis: {
-                                                ticks: response.ticks
-                                        },
-                                };
-
-                                $.plot($("#current-monthly-warranty"), response.data, options);
-                        },
-                        error: function (response) {
-                                alert(JSON.stringify(response));
-                        }
+                                },
+                                // legend: {
+                                //         container: '.flc-visits',
+                                //         backgroundOpacity: 0.5,
+                                //         noColumns: 0,
+                                //         font :{
+                                //                 lineHeight: 13,
+                                //                 style: "normal",
+                                //                 color: "#9f9f9f"
+                                //         },
+                                // },
+                                xaxis : {
+                                        ticks : response.ticks
+                                }
+                        });
                 });
         });
-        </script>
-        @endpush
+});
+</script>
+@endpush
