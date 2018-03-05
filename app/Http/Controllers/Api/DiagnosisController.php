@@ -419,7 +419,7 @@ class DiagnosisController extends ApiController
 
                                 $requestData = $request->validate([
                                         'user_id'       => 'required|exists:users,id',
-                                        'diagnosis_id'  => 'required|exists:diagnosis,id',
+                                        'diagnoses_id'  => 'required|exists:diagnoses,id',
                                 ]);
 
 

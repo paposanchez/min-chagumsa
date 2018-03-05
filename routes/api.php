@@ -21,13 +21,8 @@ Route::get('notice/show', "NoticeController@show");
 // 공지사항 최신글수
 Route::get('notice/news', "NoticeController@news");
 
-
-
-
 // 디바이스 등록
 Route::get('device', "DeviceController@index");
-
-
 
 // 전체진단 리스트
 Route::get('diagnosis/get-issue-count', 'DiagnosisController@getIssueTotalCount');
