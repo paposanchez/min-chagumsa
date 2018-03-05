@@ -20,9 +20,10 @@ class NoticeController extends PostController {
     public function index(){
         $entrys = parent::index()->entrys;
 
+        $total_count = $entrys->total();
         $start_num = \App\Helpers\Helper::getStartNum($entrys);
 
-        return view($this->view_path . 'index', compact('entrys', 'board_namespace', 'start_num'));
+        return view($this->view_path . 'index', compact('entrys', 'board_namespace', 'total_count','start_num'));
     }
 
     /**

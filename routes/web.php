@@ -1,64 +1,65 @@
 <?php
 // Information
 Route::get('information/index', function () {
-    return view('web.information.index');
+        return view('web.information.index');
 })->name('information.index');
 Route::get('information/diagnosis', function () {
-    return view('web.information.diagnosis');
+        return view('web.information.diagnosis');
 })->name('information.diagnosis');
 Route::get('information/certificate', function () {
-    return view('web.information.certificate');
+        return view('web.information.certificate');
 })->name('information.certificate');
 Route::get('information/warranty', function () {
-    return view('web.information.warranty');
+        return view('web.information.warranty');
 })->name('information.warranty');
 Route::get('information/guide', function () {
-    return view('web.information.guide');
+        return view('web.information.guide');
 })->name('information.guide');
 
 // 커뮤니티
 Route::get('community', function () {
-    return redirect('community/notice');
+        return redirect('community/notice');
 })->name('community');
+
 Route::group(['namespace' => 'Community', 'prefix' => 'community'], function () {
-    Route::resource('notice', 'NoticeController');
-    Route::resource('faq', 'FaqController');
-    Route::resource('contact', 'ContactController');
+        Route::resource('notice', 'NoticeController');
+        Route::resource('faq', 'FaqController');
+        Route::resource('contact', 'ContactController');
 
 });
 
 // Agreement
 Route::get('agreement/usage', function () {
-    return view('web.agreement.usage');
+        return view('web.agreement.usage');
 })->name('agreement.usage');
 Route::get('agreement/term', function () {
-    return view('web.agreement.term');
+        return view('web.agreement.term');
 })->name('agreement.term');
 Route::get('agreement/privacy', function () {
-    return view('web.agreement.privacy');
+        return view('web.agreement.privacy');
 })->name('agreement.privacy');
 
 
 // 마이페이지
 Route::group(['middleware' => ['auth']], function () {
 
-    // 주문
-    Route::resource('cart', 'CartController');
+        // 주문
+        Route::resource('cart', 'CartController');
 
-    // 결제
+        // 결제
+        Route::group(['namespace' => 'Mypage', 'prefix' => 'mypage', 'as' => 'mypage.'], function () {
 
-    Route::group(['namespace' => 'Mypage', 'prefix' => 'mypage', 'as' => 'mypage.'], function () {
+                Route::resource('profile', 'ProfileController');
+                // Route::resource('order', 'OrderController');
+                // Route::resource('history', 'HistoryController');
+                // Route::resource('inquire', 'InquireController');
 
-        Route::resource('profile', 'ProfileController');
-        // Route::resource('order', 'OrderController');
-        Route::resource('history', 'HistoryController');
-        Route::resource('inquire', 'InquireController');
+                // Route::get('confirm', 'MyOrderController@confirm')->name('myorder.confirm');
+                // Route::post('confirm-check', 'MyOrderController@confirmCheck')->name('myorder.confirm-check');
+                Route::resource('myorder', 'MyOrderController');
+                Route::resource('leave', 'LeaveController');
 
-        Route::get('confirm', 'MyOrderController@confirm')->name('myorder.confirm');
-        Route::post('confirm-check', 'MyOrderController@confirmCheck')->name('myorder.confirm-check');
-        Route::resource('myorder', 'MyOrderController');
-
-    });
+        });
 });
 
 /////////////////////////////////////////////////////////////
@@ -85,13 +86,15 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Auth::routes();
 
+Route::get('search{s?}', 'SearchController@index')->name('search.index');
+
 Route::any('logout', 'Auth\LoginController@logout');
 Route::any('/', 'WelcomeController');
 
 
 // Route::post('register', 'Auth\RegisterController@postRegister');
 // Route::get('certificate', 'CertificateController@index');
-// Route::get('search{q?}', 'SearchController@index')->name('search.index');
+
 // Authentication
 // Route::get('logout', 'Auth\LoginController@logout');
 // Route::get('chagumsa-info', function () {
@@ -103,4 +106,3 @@ Route::any('/', 'WelcomeController');
 
 //email 관련
 // Route::post('/send-email', 'WelcomeController@sendEmail');
-

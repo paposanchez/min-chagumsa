@@ -28,7 +28,9 @@ mix.sass(resourceDir + 'scss/core.scss', targetDir +'css/');
 mix.styles([
         targetDir + 'css/core.css',
         baseDir + 'css/inc/app.css',
+        resourceDir + 'css/front.css',
 ], targetDir + 'css/app.css');
+
 
 mix.scripts([
         baseDir + 'vendors/bower_components/jquery/dist/jquery.js',
