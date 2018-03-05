@@ -22,7 +22,7 @@ class Diagnosis extends Model implements IDocument
                 'engineer_id',          //엔지니어 번호
                 'technist_id',          //기술사 회원번호, 진단서 최종및 발급자
                 'reservation_user_id',  //예약자
-
+                'opinion',              //종합의견
                 'layout',               //진단레이아웃
                 'reservation_at',       //예약날짜
                 'confirm_at',           //예약확정날
