@@ -38,7 +38,8 @@
                         <div role="tabpanel" class="tab-pane animated fadeIn active" id="tab-1">
                             <table class="table text-center">
                                 <colgroup>
-                                    <col width="15%">
+                                    <col width="8%">
+                                    <col width="8%">
                                     <col width="15%">
                                     <col width="*">
                                     <col width="15%">
@@ -49,8 +50,10 @@
 
                                 <thead>
                                 <tr class="active">
-                                    <th class="text-center"><a class="sort" href="#" id="is_use"><i
+                                    <th class="text-center"><a class="sort" href="#" id="status"><i
                                                     class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 상태</a></th>
+                                    <th class="text-center"><a class="sort" href="#" id="is_used"><i
+                                                    class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 사용여부</a></th>
                                     <th class="text-center">쿠폰종류</th>
                                     <th class="text-center">쿠폰번호</th>
                                     <th class="text-center">사용자</th>
@@ -59,6 +62,7 @@
                                                     class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 등록일</a></th>
                                     <th class="text-center"><a class="sort" href="#" id="updated_at"><i
                                                     class="zmdi zmdi-unfold-more" aria-hidden="true"></i> 사용일</a></th>
+                                    <th class="text-center">ReMark</th>
                                 </tr>
                                 </thead>
 
@@ -74,10 +78,21 @@
                                     <tr>
                                         <td class="text-center">
                                             @component('components.badge', [
+                                            'code' => $data->status_cd,
+                                            'color' =>[
+                                            '127' => 'success',
+                                            '128' => 'default',
+                                            '129' => 'danger',
+                                            ]])
+                                                {{ $data->status->display() }}
+                                            @endcomponent
+                                        </td>
+                                        <td class="text-center">
+                                            @component('components.badge', [
                                             'code' => $data->is_use,
                                             'color' =>[
                                             '0' => 'success',
-                                            '1' => 'default',
+                                            '1' => 'dange',
                                             ]])
                                                 {{ ($data->is_use === 0)? '미사용': '사용' }}
                                             @endcomponent
@@ -93,9 +108,16 @@
                                                 -
                                             @endif
                                         </td>
-                                        <td class="text-center">{{ $data->amount }}</td>
-                                        <td class="text-center">{{ $data->created_at }}</td>
-                                        <td class="text-center">{{ $data->updated_at }}</td>
+                                        <td class="text-center">{{ number_format($data->amount) }}원</td>
+                                        <td class="text-center">{{ $data->created_at->format('m-d H:i') }}</td>
+                                        <td class="text-center">{{ $data->updated_at->format('m-d H:i') }}</td>
+                                        <td>
+                                            <a href="#"
+                                               class="btn btn-default btn-icon waves-effect waves-float detail"
+                                               data-toggle="modal"
+                                               data-target="#couponModal" data-id="{{ $data->id }}"
+                                               title="결제정보 상세보기"><i class="zmdi zmdi-search-in-page"></i></a>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -114,21 +136,21 @@
                                     <label for="inputEmail3" class="col-sm-2 control-label">검색일자</label>
                                     <div class="col-sm-3">
 
-                                            <div class="fg-line">
-                                                <input type="text" class="form-control date-picker" name='trs'
-                                                       value='{{ $trs }}'
-                                                       placeholder="{{ trans('common.search.period_start') }}">
-                                            </div>
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control date-picker" name='trs'
+                                                   value='{{ $trs }}'
+                                                   placeholder="{{ trans('common.search.period_start') }}">
+                                        </div>
 
                                     </div>
 
                                     <div class="col-sm-3">
 
-                                            <div class="fg-line">
-                                                <input type="text" class="form-control date-picker" name="tre" id="tre"
-                                                       value="{{ $tre }}"
-                                                       placeholder="{{ trans('common.search.period_end') }}">
-                                            </div>
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control date-picker" name="tre" id="tre"
+                                                   value="{{ $tre }}"
+                                                   placeholder="{{ trans('common.search.period_end') }}">
+                                        </div>
 
                                     </div>
 
@@ -166,6 +188,67 @@
 
         </div>
     </section>
+
+    <!-- Coupon Modal -->
+    <div id="couponModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header bgm-blue m-b-20">
+                        <h2>결제 상세내용
+                            <small></small>
+                        </h2>
+                        <ul class="actions actions-alt">
+                            <li class="dropdown">
+                                <a href="#">
+                                    <i class="zmdi zmdi-close" data-dismiss="modal"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card-body card-padding">
+                        {!! Form::open(['method' => 'PATCH','route' => ['coupon.update', 'id' => 0], 'class'=>'form-horizontal', 'id'=>'couponForm', 'enctype'=>"multipart/form-data"]) !!}
+                        <input type="hidden" name="coupon_id" id="id" value="">
+                        <div class="modal-body">
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">상태</label>
+                                {!! Form::select('status_cd', $coupon_status, [], ['class'=>'form-control','id' =>'status_cd', 'autocomplete'=>"off"]) !!}
+                            </div>
+
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">사용여부</label>
+                                <br>
+                                <span class="label form-control-static" id="is_use"></span>
+                            </div>
+
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">쿠폰종류</label>
+                                <input type="text" class="form-control" id="coupon_kind" name="coupon_kind" placeholder="쿠폰이름을 입력해주세요." minlength="3" required>
+                            </div>
+
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">할인금액</label>
+                                <input type="text" class="form-control" id="amount" name="amount" placeholder="할인금액을 입력해주세요." minlength="1" required>
+                            </div>
+
+                            <div class="fg-line m-b-25 {{ $errors->has('') ? 'has-error' : '' }} ">
+                                <label for="" class=" fg-label">쿠폰번호</label>
+                                <p class="form-control-static" id="coupon_number"></p>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success" id="">변경</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                        </div>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -186,8 +269,37 @@
             $('#frm').submit();
         });
 
-        // $('.date-picker').datetimepicker({
-        //     format: 'YYYY-MM-DD'
-        // });
+        $(document).on('click', '.detail', function () {
+            var id = $(this).data('id');
+            var html = '';
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/coupon/get-detail',
+                data: {
+                    'id': id
+                },
+                success: function (data) {
+                    $('#purchase_id').val(id);
+                    $.each(data, function(key, value){
+                        if(key == 'is_use'){
+                            if(value.code == 1){
+                                $('#'+key).addClass('label-default').text('사용');
+                            }else{
+                                $('#'+key).addClass('label-success').text('미사용');
+                            }
+                        }else if (key == 'coupon_number'){
+                            $('#'+key).text(value);
+                        }else{
+                            $('#'+key).val(value);
+                        }
+                    });
+
+                },
+                error: function (data) {
+                    alert(JSON.stringify(data));
+                }
+            });
+        });
     </script>
 @endpush
