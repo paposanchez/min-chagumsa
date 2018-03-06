@@ -632,15 +632,18 @@ class DiagnosisController extends ApiController
                                         }
 
                                         //============= 이미지 리사이즈 엔 워터마크
-                                        $uploaded_file = $path_prefix . $path .'/'. $file_new_name;
-                                        $watermark = Image::make(public_path('/assets/img/logo.png'))->opacity(30);
-                                        $thumbnail = Image::make($uploaded_file)
-                                        ->resize(null, 300, function ($constraint) {
-                                                $constraint->aspectRatio();
-                                        })
-                                        ->insert($watermark, 'bottom-right', 10, 10)
-                                        ->encode('jpg', 80)
-                                        ->save($uploaded_file . '.thumbnail.jpg');
+                                        if(in_array($file->getClientOriginalExtension(), ['png', 'jpg', 'jpeg', 'gif'])) {
+                                                $uploaded_file = $path_prefix . $path .'/'. $file_new_name;
+                                                $watermark = Image::make(public_path('/assets/img/logo.png'))->opacity(30);
+                                                $thumbnail = Image::make($uploaded_file)
+                                                ->resize(null, 300, function ($constraint) {
+                                                        $constraint->aspectRatio();
+                                                })
+                                                ->insert($watermark, 'bottom-right', 10, 10)
+                                                ->encode('jpg', 80)
+                                                ->save($uploaded_file . '.thumbnail.jpg');
+                                        }
+
                                         return [
                                                 'original' => $file->getClientOriginalName(),
                                                 'source' => $file_new_name,
