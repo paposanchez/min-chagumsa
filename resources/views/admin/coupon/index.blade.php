@@ -285,9 +285,9 @@
     </div>
 
     {!! Form::open(['method' => 'get', 'route' => ['coupon.excel-download'], 'id'=>'excel-download']) !!}
-    <input type="text" name="ex_sf" id="" value="{{ $sf }}">
-    <input type="text" name="ex_s" id="" value="{{ $s }}">
-    <input type="text" name="ex_status_cd" id="" value="{{ $status_cd }}">
+    <input type="hidden" name="ex_sf" id="" value="{{ $sf }}">
+    <input type="hidden" name="ex_s" id="" value="{{ $s }}">
+    <input type="hidden" name="ex_status_cd" id="" value="{{ $status_cd }}">
     {!! Form::close() !!}
 
 @endsection

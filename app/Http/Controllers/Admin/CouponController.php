@@ -90,7 +90,7 @@ class CouponController extends Controller
 
         $coupon_status = Code::getSelectList('coupon_state');
 
-        $entrys = $where->paginate(5);
+        $entrys = $where->paginate(10);
 
         return view('admin.coupon.index', compact('entrys', 'search_fields', 's', 'sf', 'tre', 'trs', 'is_use', 'sort', 'sort_orderby', 'coupon_status', 'status_cd'));
     }
@@ -233,7 +233,7 @@ class CouponController extends Controller
                 });
             })->export('xls');
         }catch (\Exception $e){
-            dd($e->getMessage());
+            return redirect()->back()->with('error', '처리중 오류가 발생하였습니다.');
         }
 
     }
