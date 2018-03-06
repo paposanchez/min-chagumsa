@@ -10,7 +10,7 @@
                 <div class="col-sm-4 col-sm-offset-4">
 
 
-                        <form action="http://api.localhost:8000/diagnosis/upload" method="post" enctype="multipart/form-data">
+                        <form action="/diagnosis/upload" method="post" enctype="multipart/form-data">
 
                                 <p>Select image to upload:
                                 <input type="text" name="user_id" value="4" />
