@@ -51,8 +51,8 @@ return [
         | your application so that it is used when running Artisan tasks.
         |
         */
-        'url' => env('APP_URL', 'http://admin.localhost:8000'),
-        'domain' => env('APP_DOMAIN', 'www.chagumsa.com'),
+        'url' => env('APP_URL', 'http://localhost'),
+        'domain' => env('APP_DOMAIN', 'localhost'),
         /*
         |--------------------------------------------------------------------------
         | Application Timezone
@@ -175,12 +175,14 @@ return [
                 Laracasts\Flash\FlashServiceProvider::class,
                 Edujugon\PushNotification\Providers\PushNotificationServiceProvider::class,
 
-                //Baum
+                // Baum
                 Baum\Providers\BaumServiceProvider::class,
-                //EXCEL
+                // EXCEL
                 Maatwebsite\Excel\ExcelServiceProvider::class,
-                //PDF
+                // PDF
                 Barryvdh\Snappy\ServiceProvider::class,
+                // AWS
+                Aws\Laravel\AwsServiceProvider::class,
                 //ACL
                 // Zizaco\Entrust\EntrustServiceProvider::class,
                 //Activity Log
@@ -250,6 +252,8 @@ return [
                 'Debugbar' => Barryvdh\Debugbar\Facade::class,
                 'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
                 'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+
+                'AWS' => Aws\Laravel\AwsFacade::class,
                 // 'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
                 // 'Entrust' => Zizaco\Entrust\EntrustFacade::class,
 

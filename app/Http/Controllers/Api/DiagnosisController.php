@@ -20,6 +20,8 @@ use Illuminate\Http\Request;
 use Validator;
 
 use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Storage;
 
 class DiagnosisController extends ApiController
 {
@@ -611,11 +613,9 @@ class DiagnosisController extends ApiController
                                 // 조회를 요청한 사용자의 정보조회
                                 $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
 
-
-
-
                                 // validator
                                 $uploader_name = 'upfile';
+
                                 // 업로드 경로
                                 $diagnosis_upload_prifix = storage_path('app/diagnosis');
 
@@ -644,6 +644,7 @@ class DiagnosisController extends ApiController
                                                 ->save($uploaded_file . '.thumbnail.jpg');
                                         }
 
+
                                         return [
                                                 'original' => $file->getClientOriginalName(),
                                                 'source' => $file_new_name,
@@ -667,6 +668,22 @@ class DiagnosisController extends ApiController
                                                 'mime' => $response['result']['mime'],
                                         ]);
                                         $data->save();
+
+                                        //============= S3 upload
+                                        try {
+
+                                                $storage_file = $response['result']['path'] .'/'. $response['result']['source'];
+                                                Storage::move($diagnosis_upload_prifix . $storage_file, $storage_file);
+                                                Storage::move($diagnosis_upload_prifix . $storage_file'.thumbnail.jpg', $storage_file'.thumbnail.jpg');
+                                                // Storage::delete(['file.jpg', 'file2.jpg']);
+
+                                                // log
+                                                $data->synced_at = Carbon::now();
+                                                $data->save();
+
+                                        }catch(Exception $e) {
+
+                                        }
 
 
                                         //todo mme를 호출해서 이미지변환을 요청함

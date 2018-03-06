@@ -57,18 +57,20 @@ return [
 
                 's3' => [
                         'driver' => 's3',
-                        'key' => env('AWS_KEY', ''),
-                        'secret' => env('AWS_SECRET', ''),
-                        'region' => env('AWS_REGION', ''),
-                        'bucket' => env('AWS_BUCKET', 'chagumsa.com'),
+                        'key' => env('AWS_KEY_S3', ''),
+                        'secret' => env('AWS_SECRET_S3', ''),
+                        'region' => env('AWS_REGION_S3', ''),
+                        'bucket' => env('AWS_BUCKET_S3', ''),
+                        'visibility' => 'public',
                 ],
 
                 'document' => [
                         'driver' => 's3',
-                        'key' => env('AWS_KEY', 'AKIAJN5BKLU5MSOQEY7Q'),
-                        'secret' => env('AWS_SECRET', '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'),
-                        'region' => env('AWS_REGION', 'ap-northeast-2'),
-                        'bucket' => env('AWS_BUCKET', 'cert.chagumsa.com'),
+                        'key' => env('AWS_KEY_DOCUMENT', ''),
+                        'secret' => env('AWS_SECRET_DOCUMENT', ''),
+                        'region' => env('AWS_REGION_DOCUMENT', ''),
+                        'bucket' => env('AWS_BUCKET_DOCUMENT', ''),
+                        'visibility' => 'public',
                 ],
 
         ],

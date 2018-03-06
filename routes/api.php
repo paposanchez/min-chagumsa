@@ -64,9 +64,9 @@ Route::post('notify/register', "NotifyController@register");
 Route::get('notify/send', "NotifyController@send");
 Route::get('notify/bedge', "NotifyController@bedge");
 
-// Route::any( 'test', function( ){
-//         return view('api.index');
-// });
+Route::any( 'test', function( ){
+        return view('api.index');
+});
 Route::any( '/', function( ){
         // $diagnosis = \App\Models\Diagnosis::find(1);
         // event(new \App\Events\Diagnosis\OnDiagnosisCompleted($diagnosis));

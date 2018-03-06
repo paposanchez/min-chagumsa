@@ -19,7 +19,9 @@ class DiagnosesFile extends Model
         ];
 
         protected $dates = [
-                'created_at', 'updated_at'
+                'created_at',
+                'updated_at',
+                'synced_at'     // 동기화 일시
         ];
 
         //실제 파일 경로
@@ -31,7 +33,7 @@ class DiagnosesFile extends Model
         //샘플 파일 경로
         public function getPreviewPath()
         {
-                return config('app.cdn').'/'. $this->id;
+                return config('chagumsa.image_host').'/'. $this->id;
         }
 
 
