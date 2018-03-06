@@ -15,11 +15,14 @@ use App\Models\Certificate;
 use App\Models\Diagnosis;
 use App\Models\Diagnoses;
 use App\Models\Warranty;
+// use PDF;
+
+
+
 
 Route::any('/{fullkey}/{flush?}', function ($fullkey, $flush = '') {
 
         $pattern = '/^([0-9]{8})-([0-9A-Za-z]{6})-([0-9]{4})([D|W|C]{1})/';
-
 
         if (preg_match($pattern, $fullkey)) {
                 $chakeys = explode('-', $fullkey);
@@ -41,10 +44,13 @@ Route::any('/{fullkey}/{flush?}', function ($fullkey, $flush = '') {
                         // 평가관련
                         $operation_state_cd = Code::getSelectList('operation_state_cd');
                         $certificate_states = Code::getSelectList('certificate_state_cd');
-                        $total_opinion = Diagnoses::where('diagnosis_id', $data->id)->where('group', 2142)->first()->comment;
+                        // $total_opinion = Diagnoses::where('diagnosis_id', $data->id)->where('group', 2142)->first()->comment;
                         // return view('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states', 'total_opinion'));
 
-                        $pdf = \PDF::loadView('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states', 'total_opinion'));
+                        // $pdf = \PDF::loadView('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states', 'total_opinion'));
+                        // return $pdf->stream($data->getDocumentKey() .'.'. str_random(6) .'.'. '.pdf');
+
+                        $pdf = PDF::loadView('layouts.document', compact('data', 'document_type', 'page_title', 'report_type', 'operation_state_cd', 'certificate_states'));
                         return $pdf->stream($data->getDocumentKey() .'.'. str_random(6) .'.'. '.pdf');
 
 
