@@ -220,6 +220,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         // 쿠폰
         Route::get('coupon/get-detail', 'CouponController@getDetail')->name('coupon.get-detail');
+        Route::get('coupon/excel-download', 'CouponController@excelDownload')->name('coupon.excel-download');
         Route::resource('coupon', 'CouponController', ['only' => ['index', 'store', 'create', 'destroy', 'update']]);
 
         // 환경설정
