@@ -197,10 +197,10 @@ class DiagnosisController extends Controller
 
         // 진단레이아웃 구성
         // 진단정보가 예약확정요청
-//        $repository = DiagnosisRepository::getInstance()
-//            ->load($id)
-//            ->triggerReview($user->id);
-//        $diagnosis_layout = $repository->layout();
+        $repository = DiagnosisRepository::getInstance()
+            ->load($id)
+            ->triggerReview($user->id);
+        $diagnosis_layout = $repository->layout();
 
 
         return view('admin.diagnosis.edit', compact('user', 'diagnosis', 'order', 'diagnosis_layout', 'select_vin_yn', 'kinds', 'select_color', 'select_transmission', 'select_fueltype'));
