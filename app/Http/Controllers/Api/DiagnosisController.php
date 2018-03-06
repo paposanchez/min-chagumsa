@@ -656,7 +656,7 @@ class DiagnosisController extends ApiController
                                 if ($response['result']) {
                                         // Save the record to the db
                                         $data = DiagnosesFile::create([
-                                                'diagnoses_id' => $diagnoses_id,
+                                                'diagnoses_id' => $requestData['diagnoses_id'],
                                                 'original' => $response['result']['original'],
                                                 'source' => $response['result']['source'],
                                                 'path' => $response['result']['path'],
