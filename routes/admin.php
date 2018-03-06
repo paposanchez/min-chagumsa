@@ -219,7 +219,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('sms', 'SmsController', ['only' => ['index']]);
 
         // 쿠폰
-        Route::resource('coupon', 'CouponController', ['only' => ['index', 'store', 'create', 'destroy']]);
+        Route::get('coupon/get-detail', 'CouponController@getDetail')->name('coupon.get-detail');
+        Route::resource('coupon', 'CouponController', ['only' => ['index', 'store', 'create', 'destroy', 'update']]);
 
         // 환경설정
         Route::group(['prefix' => 'config'], function () {
