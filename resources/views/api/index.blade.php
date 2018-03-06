@@ -1,8 +1,3 @@
-@extends( 'web.layouts.blank' )
-
-@section('body-class') layout-login @endsection
-
-@section('content')
 <div class="container">
 
         <div class="row">
@@ -28,10 +23,3 @@
         </div>
 
 </div>
-
-@endsection
-
-@section( 'footer-script' )
-<script type="text/javascript">
-</script>
-@endsection
