@@ -50,7 +50,7 @@ Route::post('diagnosis/complete', "DiagnosisController@setDiagnosisComplete");
 Route::post('diagnosis/upload', "DiagnosisController@upload");
 
 
-//
+
 // // 주문상품
 // Route::get('diagnosis/item', "DiagnosisController@getItem");
 //

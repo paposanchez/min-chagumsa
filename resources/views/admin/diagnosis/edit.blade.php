@@ -77,7 +77,7 @@
                                     {!! Form::model($diagnosis, ['method' => 'POST','route' => ['diagnosis.review-complete', 'id' => $diagnosis->id], 'class'=>'form-horizontal', 'id'=>'diagnosisForm', 'enctype'=>"multipart/form-data"]) !!}
 
                                     <ul>
-{{--                                        @each('partials.diagnosis', $diagnosis_layout['diagnosis'], 'entry', 'partials.diagnoses-empty')--}}
+                                        @each('partials.diagnosis', $diagnosis_layout, 'entry', 'partials.diagnoses-empty')
 
 
                                     </ul>
