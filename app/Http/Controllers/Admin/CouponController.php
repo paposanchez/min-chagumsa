@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Coupon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CouponController extends Controller
 {
@@ -32,6 +33,10 @@ class CouponController extends Controller
             $where = Coupon::orderBy('id', 'DESC');
         }
 
+        $status_cd = $request->get('status_cd');
+        if($status_cd){
+            $where->where('status_cd', $status_cd);
+        }
 
         $sf = $request->get('sf');
         $s = $request->get('s');
@@ -85,9 +90,9 @@ class CouponController extends Controller
 
         $coupon_status = Code::getSelectList('coupon_state');
 
-        $entrys = $where->paginate(25);
+        $entrys = $where->paginate(5);
 
-        return view('admin.coupon.index', compact('entrys', 'search_fields', 's', 'sf', 'tre', 'trs', 'is_use', 'sort', 'sort_orderby', 'coupon_status'));
+        return view('admin.coupon.index', compact('entrys', 'search_fields', 's', 'sf', 'tre', 'trs', 'is_use', 'sort', 'sort_orderby', 'coupon_status', 'status_cd'));
     }
 
 
@@ -109,7 +114,7 @@ class CouponController extends Controller
     public function store(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'publish_num' => 'required|int',
+            'codes' => 'required',
             'coupon_kind' => 'required',
             'amount' => 'required'
         ]);
@@ -124,7 +129,7 @@ class CouponController extends Controller
             for ($i = 1; $i <= $request->get('publish_num'); $i++) {
                 Coupon::create([
                     'coupon_kind' => $request->get('coupon_kind'),
-                    'coupon_number' => $this->get_coupon_number($request->get('publish_length')),
+                    'coupon_number' => $this->get_coupon_number($request->get('codes')),
                     'amount' => $request->get('amount'),
                 ]);
             }
@@ -142,15 +147,18 @@ class CouponController extends Controller
      * @param $c_len int 쿠폰자리수
      * @return bool|string
      */
-    protected function get_coupon_number($c_len)
+    protected function get_coupon_number($codes)
     {
-        $coupon_number = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $c_len);
-        $where = Coupon::where('coupon_number', $coupon_number)->first();
-        if ($where) {
-            $this->get_coupon_number($c_len);
-        } else {
-            return $coupon_number;
+        $seed = [];
+
+        $seed[] = $codes;                         // 시간포함 8자리
+
+        for ($i=0; $i<2; $i++){
+            $seed[] = str_random(4);
         }
+        $seed[] = str_random(5);    // 숫자 6자리
+
+        return implode("-", $seed);     // 하이픈 포한 총 20자리
     }
 
     public function getDetail(Request $request)
@@ -201,6 +209,34 @@ class CouponController extends Controller
         }
     }
 
+    public function excelDownload(Request $request){
+        try{
+            $where = Coupon::select('coupon_kind', 'coupon_number', 'amount');
+
+            $sf = $request->get('ex_sf');
+            $s = $request->get('ex_s');
+            $status_cd = $request->get('ex_status_cd');
+
+            if($request->get('sf')){
+                $where->where($sf, 'like', '%' . $s . '%');
+            }
+
+            if($status_cd){
+                $where->where('status_cd', $status_cd);
+            }
+
+            $where = $where->get();
+
+            Excel::create('coupons', function($excel) use($where) {
+                $excel->sheet('Sheet 1', function($sheet) use($where) {
+                    $sheet->fromArray($where);
+                });
+            })->export('xls');
+        }catch (\Exception $e){
+            dd($e->getMessage());
+        }
+
+    }
 
 
 

@@ -14,6 +14,14 @@
                             있습니다.
                         </small>
                     </h2>
+                    <ul class="actions">
+                        <li>
+                            <a href="#" class="download" id="download">
+                                <i class="zmdi zmdi-download"></i>
+                            </a>
+
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="card-body">
@@ -124,7 +132,7 @@
 
                             </table>
                             {{--page navigation--}}
-                            {!! $entrys->appends([$sf => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
+                            {!! $entrys->appends(['status_cd' => $status_cd, $sf => $s, 'trs' => $trs, 'tre' => $tre, 'sort' => $sort, 'sort_orderby' => $sort_orderby])->render() !!}
 
                         </div>
 
@@ -132,6 +140,32 @@
                             <form method="GET" class="form-horizontal no-margin-bottom" role="form" id="frm">
                                 <input type="hidden" name="sort" id="sort_val" value="{{ $sort }}">
                                 <input type="hidden" name="sort_orderby" id="sort_orderby" value="{{ $sort_orderby }}">
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">상태</label>
+
+                                    <div class="col-sm-9">
+
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-default {{ $status_cd == '' ? 'active' : '' }}">
+                                                {{ Form::radio('status_cd', '', \App\Helpers\Helper::isCheckd('', $status_cd), ['name' => 'status_cd']) }}
+                                                전체
+                                            </label>
+                                            <label class="btn btn-default {{ $status_cd == 127 ? 'active' : '' }}">
+                                                {{ Form::radio('status_cd', 127, \App\Helpers\Helper::isCheckd(127, $status_cd), ['name' => 'status_cd']) }}
+                                                활성
+                                            </label>
+                                            <label class="btn btn-default {{ $status_cd == 128 ? 'active' : '' }}">
+                                                {{ Form::radio('status_cd', 128, \App\Helpers\Helper::isCheckd(128, $status_cd), ['name' => 'status_cd']) }}
+                                                비활성
+                                            </label>
+                                            <label class="btn btn-default {{ $status_cd == 129 ? 'active' : '' }}">
+                                                {{ Form::radio('status_cd', 129, \App\Helpers\Helper::isCheckd(129, $status_cd), ['name' => 'status_cd']) }}
+                                                만료
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">검색일자</label>
                                     <div class="col-sm-3">
@@ -249,6 +283,13 @@
             </div>
         </div>
     </div>
+
+    {!! Form::open(['method' => 'get', 'route' => ['coupon.excel-download'], 'id'=>'excel-download']) !!}
+    <input type="text" name="ex_sf" id="" value="{{ $sf }}">
+    <input type="text" name="ex_s" id="" value="{{ $s }}">
+    <input type="text" name="ex_status_cd" id="" value="{{ $status_cd }}">
+    {!! Form::close() !!}
+
 @endsection
 
 
@@ -300,6 +341,10 @@
                     alert(JSON.stringify(data));
                 }
             });
+        });
+
+        $(document).on('click', '#download', function(){
+            $('#excel-download').submit();
         });
     </script>
 @endpush
