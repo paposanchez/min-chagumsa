@@ -1,3 +1,48 @@
 #footer {
-        padding-left:0px !important;
+    padding-left: 0px !important;
+}
+
+.term_wrap {
+    overflow: hidden;
+    padding: 25px;
+}
+
+.term_wrap .term_title {
+    color: #0b4777;
+    font-size: 14px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.term_wrap .term_cont {
+    border-top: 1px solid #7f7f7f;
+    border-bottom: 1px solid #7f7f7f;
+    font-size: 12px;
+}
+
+.term_cont div {
+    display: block;
+    padding: 20px 15px;
+    color: #999;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.term_cont div:last-child {
+    border: 0;
+}
+
+.term_cont strong {
+    display: block;
+    color: #444;
+    padding-bottom: 5px;
+}
+
+.term_cont ol {
+    list-style: decimal inside none !important;
+    display: inline-block;
+}
+
+.term_cont ol li {
+    list-style: decimal inside none !important;
+    color: #999;
 }

@@ -31,7 +31,7 @@
 
                                 <li class="">
                                         <a href="{{ route('information.warranty') }}" class=" text-lg">
-                                                <span class="him-label">차검사인증서</span>
+                                                <span class="him-label">차검사보증서</span>
                                         </a>
                                 </li>
 
