@@ -20,7 +20,7 @@
 @if(isset($entry['options']))
 <div class="btn-group" data-toggle="buttons">
         @foreach($entry['options'] as $code)
-        <label class="btn btn-default {{ $entry['selected'] == $code['id'] ? 'active' : '' }} selected_cd" data-id="{{ $code['id'] }}">
+        <label class="btn btn-default {{ $entry['selected'] == $code['id'] ? 'active' : '' }} selected_cd" data-id="{{ $code['id'] }}" data-diagnoses_id="{{ $entry['id'] }}">
                 {{ $code['display'] }}
                 {{ Form::radio('selected[]', $code['id'], ($code['id'] == $entry['selected']), ['name' => 'cd']) }}
         </label>
