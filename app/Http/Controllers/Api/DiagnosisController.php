@@ -652,8 +652,6 @@ class DiagnosisController extends ApiController
                                         ];
                                 });
 
-                                return ;
-
                                 // 업로드 성공시
                                 if ($response['result']) {
                                         // Save the record to the db
