@@ -190,7 +190,62 @@
                             </div>
 
                             <div role="tabpanel" class="tab-pane" id="home2">
+                                <dl>
+                                    <table class="table table-bordered">
+                                        <colgroup>
+                                            <col width="20%">
+                                            <col width="20%">
+                                            <col width="*">
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">보장담보</th>
+                                            <th class="text-center" colspan="2">서비스 대상 부품</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="2" class="text-center">엔진</td>
+                                            <td class="text-center">주요부품</td>
+                                            <td class="">실린더 헤드와 그 내부 부품. 실린더 블록과 그 내부부품 및 그 구성부품 (커넥팅로드, 오일팬, 크랭크축, 피스톤 등), 크랭크 샤프트플리, 오일펌프, 워터펌프, 워터펌프플리, 캠샤프트, 로커암 샤프트, 로커암커버, 서모스 텟 및 가스켓, 흡기밸브, 배기밸브, 배기매니폴드, 플라이 휠, 엔진오일쿨러 및 각종 오일 제어 밸브, 타이밍벨트체인, 각종 엔진내부 가스켓 및 씰류 등
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center" style="padding-left: 15px;">일반부품</td>
+                                            <td class="">ECU,라디에이터, 팬, 팬모터</td>
+                                        </tr>
 
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="2" class="text-center">미션</td>
+                                            <td class="text-center">주요부품</td>
+                                            <td class="">변속기와 그 내부부품(유성기어, 킥다운스위치, 리어클러치, 엔드클러치, 원웨이클러치, 쏠레노이드 밸브, 펄스제너레이터, 트랜스퍼 케이스 등), 토크컨버터, 변속기 내부 가스켓 및 오일씰류 등 - 추진축과 관련 부품, 등속 조인트(단, 고무 부트는 제외), 드라이브 플레 이트, 차동기어, 변속기 내부 가스켓 및 씰류 등 - 차동장치와 액슬 하우징, 액슬 축, 차축 내부 개스킷 및 오일 씰류</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center" style="padding-left: 15px;">일반부</td>
+                                            <td class="">TCU, 미션 라디에이터</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-center">제동장치</td>
+                                            <td class="text-center">일반부품</td>
+                                            <td class="">레이크마스터실린더, 브레이크 부스터, 프로포셔닝밸브, ABS하이드로 닉 유니트, 휠실린더, 휠스피드센서, 브레이크 캘리퍼, 백플레이트, 리턴스 프링, 유압라인, 호스 등</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">조향장치</td>
+                                            <td class="text-center">일반부품</td>
+                                            <td class="">스티어링 기어 링키지, 스티어링 컬럼 샤프트, 유니버셜 조인트, 파워랙, 피니언 부품, 타이로드엔드, 파워스티어링 오일 펌프, 파워스티어링 리저 브, 스티어링 휠, 스티어링 리모트 컨럴, 파워호스 / EPS센서, 등</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">냉, 난방장치</td>
+                                            <td class="text-center">일반부품</td>
+                                            <td class="">에어컨 컴프레셔 & 풀리, 에어컨파이프&호스류, 에어컨콘덴서, 이베퍼 레이터, 리시버탱크, 익스팬션밸브, 히비터스위치, 전동식 파워스티어링, 히터모터, 히터팬, 히터컨트롤유니트, 히터코어 & 서미스터, 모드액추어에 이터, 워터템퍼레이터센서, 블로우모터 등</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </dl>
                             </div>
 
                         </div>

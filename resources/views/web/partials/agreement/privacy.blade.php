@@ -42,22 +42,22 @@
                     <td>이름, 생년월일, 연락처(휴대전화번호), 주소</td>
                 </tr>
                 <tr>
-                    <th>계약자</th>
+                    <th style="padding-left: 15px;">계약자</th>
                     <td>차량번호, 차량모델, 차량옵션, 차량등록증</td>
                     <td>대리인명, 연락처(휴대폰 번호)</td>
                 </tr>
                 <tr>
-                    <th>정비사회원</th>
+                    <th style="padding-left: 15px;">정비사회원</th>
                     <td>상호명, 사업자등록번호, 전화번호</td>
                     <td>주소, 은행계좌, 사업자등롲으, 상호이미지, 대표자사진</td>
                 </tr>
                 <tr>
-                    <th>기술사회원</th>
+                    <th style="padding-left: 15px;">기술사회원</th>
                     <td>기술사번호, 기술사명, 전화번호</td>
                     <td>기술사사진, 은행계좌, 기술사등록증</td>
                 </tr>
                 <tr>
-                    <th>모바일사용자</th>
+                    <th style="padding-left: 15px;">모바일사용자</th>
                     <td>디바이스아이디</td>
                     <td></td>
                 </tr>

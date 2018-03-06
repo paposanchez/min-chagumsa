@@ -210,26 +210,27 @@
                             </div>
 
                             <div role="tabpanel" class="tab-pane" id="home3">
-                                <table class="table">
-                                    <colgroup>
-                                        <col width="15%">
-                                        <col width="20%">
-                                        <col width="15%">
-                                        <col width="15%">
-                                        <col width="20%">
-                                        <col width="15%">
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th class="text-center">영역</th>
-                                        <th class="text-center">항목</th>
-                                        <th class="text-center">진단개수</th>
-                                        <th class="text-center">영역</th>
-                                        <th class="text-center">항목</th>
-                                        <th class="text-center">진단개수</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                                <dl>
+                                    <table class="table table-bordered">
+                                        <colgroup>
+                                            <col width="15%">
+                                            <col width="20%">
+                                            <col width="15%">
+                                            <col width="15%">
+                                            <col width="20%">
+                                            <col width="15%">
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">영역</th>
+                                            <th class="text-center">항목</th>
+                                            <th class="text-center">진단개수</th>
+                                            <th class="text-center">영역</th>
+                                            <th class="text-center">항목</th>
+                                            <th class="text-center">진단개수</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
                                         <tr>
                                             <td class="text-center">주요 내/외판</td>
                                             <td class="text-center">차체 및 주요 골격</td>
@@ -294,8 +295,9 @@
                                             <td class="text-center">운전 점검</td>
                                             <td class="text-center">5</td>
                                         </tr>
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </dl>
                             </div>
 
 
