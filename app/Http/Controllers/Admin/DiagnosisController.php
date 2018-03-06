@@ -202,7 +202,6 @@ class DiagnosisController extends Controller
             ->triggerReview($user->id);
         $diagnosis_layout = $repository->layout();
 
-
         return view('admin.diagnosis.edit', compact('user', 'diagnosis', 'order', 'diagnosis_layout', 'select_vin_yn', 'kinds', 'select_color', 'select_transmission', 'select_fueltype'));
     }
 

@@ -386,161 +386,6 @@ class DiagnosisController extends ApiController
 
                 }
 
-
-                /**
-                * @SWG\Post(
-                *     path="/diagnosis/upload",
-                *     tags={"Diagnosis"},
-                *     summary="진단데이터의 파일업로드 핸들러",
-                *     description="진단데이터의 이미지, 음성파일을 스토리지로 업로드한다",
-                *     produces={"application/json"},
-                *     @SWG\Parameter(name="user_id",in="query",description="유저 seq",required=true,type="integer"),
-                *     @SWG\Parameter(name="order_id",in="query",description="주문 seq",required=true,type="integer"),
-                *     @SWG\Parameter(name="diagnosis_id",in="query",description="진단데이터 seq",required=true,type="integer"),
-                *     @SWG\Parameter(
-                *         description="업로드파일",
-                *         in="formData",
-                *         name="upfile",
-                *         required=true,
-                *         type="file"
-                *     ),
-                *     @SWG\Response(response=200,description="success",
-                *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Code"))
-                *     ),
-                *     @SWG\Response(response=404, description="no result"),
-                *     @SWG\Response(response="default",description="error",
-                *          @SWG\Schema(ref="#/definitions/ErrorModel")
-                *     )
-                * )
-                */
-                public function upload(Request $request)
-                {
-                        try {
-
-                                $requestData = $request->validate([
-                                        'user_id'       => 'required|exists:users,id',
-                                        'diagnoses_id'  => 'required|exists:diagnoses,id',
-                                ]);
-
-
-                                // 조회를 요청한 사용자의 정보조회
-                                $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
-
-
-
-                                // validator
-                                $uploader_name = 'upfile';
-                                // 업로드 경로
-                                $diagnosis_upload_prifix = storage_path('app/diagnosis');
-
-                                $uploader = new Receiver($request, $diagnosis_upload_prifix);
-                                $response = $uploader->receive($uploader_name, function ($file, $path_prefix, $path, $file_new_name) {
-                                        // 파일이동
-                                        $file->move($path_prefix . $path, $file_new_name);
-
-                                        try {
-                                                $file_size = $file->getClientSize();
-                                        } catch (RuntimeException $ex) {
-                                                $file_size = 0;
-                                        }
-
-                                        return [
-                                                'original' => $file->getClientOriginalName(),
-                                                'source' => $file_new_name,
-                                                'path' => $path,
-                                                'size' => $file_size,
-                                                'extension' => $file->getClientOriginalExtension(),
-                                                'mime' => $file->getClientMimeType(),
-                                                'hash' => md5($file)
-                                        ];
-                                });
-
-                                // 업로드 성공시
-                                if ($response['result']) {
-
-                                        // Save the record to the db
-                                        $data = DiagnosesFile::create([
-                                                'diagnoses_id' => $diagnoses_id,
-                                                'original' => $response['result']['original'],
-                                                'source' => $response['result']['source'],
-                                                'path' => $response['result']['path'],
-                                                'size' => $response['result']['size'],
-                                                'mime' => $response['result']['mime'],
-                                        ]);
-
-                                        $data->save();
-
-                                        //todo mme를 호출해서 이미지변환을 요청함
-
-                                        return response()->json([
-                                                "status" => 'success'
-                                        ]);
-                                }
-
-                                return response()->json([
-                                        "status" => 'fail'
-                                ]);
-
-                        } catch (Exception $ex) {
-                                return response()->json([
-                                        "status" => 'fail'
-                                ]);
-                        }
-                }
-
-
-                /**
-                * @SWG\Post(
-                *     path="/diagnosis/start",
-                *     tags={"Diagnosis"},
-                *     summary="진단시작",
-                *     description="특정주문의 진단이 시직되면 헤당 엔지니어에게 사용자 설정을 한다.",
-                *     operationId="setDiagnosisEngineer",
-                *     produces={"application/json"},
-                *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
-                *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
-                *     @SWG\Response(response=401, description="unauthorized"),
-                *     @SWG\Response(response=404, description="not found"),
-                *     @SWG\Response(response=500, description="internal server error"),
-                *     @SWG\Response(response="default",description="error",
-                *          @SWG\Schema(ref="#/definitions/Error")
-                *     ),
-                *     security={
-                *     }
-                * )
-                */
-                // public function setDiagnosisStart(Request $request)
-                // {
-                //
-                //         try {
-                //
-                //                 $requestData = $request->validate([
-                //                         'user_id'       => 'required|exists:users,id',
-                //                         'diagnosis_id'  => 'required|exists:diagnosis,id'
-                //                 ]);
-                //
-                //                 // 조회를 요청한 사용자의 정보조회
-                //                 $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
-                //
-                //                 // 해당 진단 조회
-                //                 $diagnosis              = Diagnosis::where('status_cd', 113)->findOrFail($requestData['diagnosis_id']);
-                //                 $diagnosis->engineer_id = $user->id;
-                //                 $diagnosis->start_at    = Carbon::now();
-                //                 // $diagnosis->status_cd   = 114;
-                //                 $diagnosis->save();
-                //
-                //                 return response()->json([
-                //                         "status" => 'success'
-                //                 ]);
-                //
-                //         } catch (Exception $e) {
-                //                 return response()->json([
-                //                         "status" => 'fail'
-                //                 ]);
-                //
-                //         }
-                // }
-
                 /**
                 * @SWG\Post(
                 *     path="/diagnosis/complete",
@@ -723,101 +568,273 @@ class DiagnosisController extends ApiController
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-                public function getDiagnosesFileInfo(Request $request)
+                /**
+                * @SWG\Post(
+                *     path="/diagnosis/upload",
+                *     tags={"Diagnosis"},
+                *     summary="진단데이터의 파일업로드 핸들러",
+                *     description="진단데이터의 이미지, 음성파일을 스토리지로 업로드한다",
+                *     produces={"application/json"},
+                *     @SWG\Parameter(name="user_id",in="query",description="유저 seq",required=true,type="integer"),
+                *     @SWG\Parameter(name="order_id",in="query",description="주문 seq",required=true,type="integer"),
+                *     @SWG\Parameter(name="diagnosis_id",in="query",description="진단데이터 seq",required=true,type="integer"),
+                *     @SWG\Parameter(
+                *         description="업로드파일",
+                *         in="formData",
+                *         name="upfile",
+                *         required=true,
+                *         type="file"
+                *     ),
+                *     @SWG\Response(response=200,description="success",
+                *          @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/Code"))
+                *     ),
+                *     @SWG\Response(response=404, description="no result"),
+                *     @SWG\Response(response="default",description="error",
+                *          @SWG\Schema(ref="#/definitions/ErrorModel")
+                *     )
+                * )
+                */
+                public function upload(Request $request)
                 {
-                        $validator = Validator::make($request->all(), [
-                                'div' => 'required'
-                        ]);
+                        try {
 
-                        if ($validator->fails()) {
-                                return response()->json([
-                                        "status" => 'fail'
+                                $requestData = $request->validate([
+                                        'user_id'       => 'required|exists:users,id',
+                                        'diagnoses_id'  => 'required|exists:diagnoses,id',
                                 ]);
-                        }
 
-                        $log_where = S3Tran::orderBy('id', 'DESC')->where('div', $request->get('div'))->first();
 
-                        if ($log_where) {
-                                $info = DiagnosesFile::where('id', '>', $log_where->trans_id)
-                                ->where('mime', '<>', 'audio/mp3')->orderBy('id', 'ASC')->get();
-                        } else {
-                                $info = DiagnosesFile::where('mime', '<>', 'audio/mp3')->get();
-                        }
+                                // 조회를 요청한 사용자의 정보조회
+                                $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
 
-                        $trans_info = [];
 
-                        foreach ($info as $key => $row) {
 
-                                # /storage/app/diagnosis/2017/10/19/23/4654-3620d4bdef48c6861c161ab635a1d9ee-42QwY5r
-                                $path = "app/diagnosis" . $row->path . '/' . $row->source;
+                                // validator
+                                $uploader_name = 'upfile';
+                                // 업로드 경로
+                                $diagnosis_upload_prifix = storage_path('app/diagnosis');
 
-                                $trans_info[$key] = [
-                                        'div' => 'diagnosis',
-                                        'img_num' => $row->id,
-                                        'path' => $path
-                                ];
-                        }
+                                $uploader = new Receiver($request, $diagnosis_upload_prifix);
+                                $response = $uploader->receive($uploader_name, function ($file, $path_prefix, $path, $file_new_name) {
 
-                        return response()->json([
-                                "status" => 'success',
-                                "data" => $trans_info
-                        ]);
-                }
+                                        // 파일이동
+                                        $file->move($path_prefix . $path, $file_new_name);
 
-                public function setTransDiagnosesFileInfo(Request $request)
-                {
-                        $validator = Validator::make($request->all(), [
-                                'trans_id' => 'required|int',
-                                'div' => 'required'
-                        ]);
+                                        try {
+                                                $file_size = $file->getClientSize();
+                                        } catch (RuntimeException $ex) {
+                                                $file_size = 0;
+                                        }
 
-                        if ($validator->fails()) {
-                                return response()->json([
-                                        "status" => 'fail'
-                                ]);
-                        }
 
-                        $where = S3Tran::orderBy('trans_id', 'DESC')->where('div', $request->get('div'))->first();
-                        if ($where) {
-                                if ($request->get('trans_id') > $where->trans_id) {
-                                        //이전 등록된 파일 정보보다 입력하려는 id가 크므로
-                                        $model = new S3Tran();
-                                        $error = '';
-                                } else {
-                                        $error = '입력요청값이 작거나 같습니다.';
-                                        $model = false;
+                                        // // 이미지 리사이즈 엔 워터마크
+                                        $watermark = \Intervention\Image\Image::make('public/logo.png')->opacity(30);
+                                        $thumbnail = \Intervention\Image\Image::make($thumbnail_origin)
+                                        ->resize(null, 300, function ($constraint) {
+                                                $constraint->aspectRatio();
+                                        })
+                                        ->insert($watermark, 'bottom-right', 10, 10)
+                                        ->encode('jpg', 80);
+                                        ->save($path_prefix . $path . $data->id. '.thumb.jpg');
+
+
+
+                                        return [
+                                                'original' => $file->getClientOriginalName(),
+                                                'source' => $file_new_name,
+                                                'path' => $path,
+                                                'size' => $file_size,
+                                                'extension' => $file->getClientOriginalExtension(),
+                                                'mime' => $file->getClientMimeType(),
+                                                'hash' => md5($file)
+                                        ];
+                                });
+
+                                // 업로드 성공시
+                                if ($response['result']) {
+
+                                        // Save the record to the db
+                                        $data = DiagnosesFile::create([
+                                                'diagnoses_id' => $diagnoses_id,
+                                                'original' => $response['result']['original'],
+                                                'source' => $response['result']['source'],
+                                                'path' => $response['result']['path'],
+                                                'size' => $response['result']['size'],
+                                                'mime' => $response['result']['mime'],
+                                        ]);
+
+                                        $data->save();
+
+
+
+
+
+
+                                        //todo mme를 호출해서 이미지변환을 요청함
+                                        return response()->json([
+                                                "status" => 'success'
+                                        ]);
                                 }
-                        } else {
-                                $model = new S3Tran();
-                                $error = '';
-                        }
 
-                        if ($model !== false) {
-                                $data = [
-                                        'div' => $request->get('div'),
-                                        'trans_id' => $request->get('trans_id')
-                                ];
-                                $model->insert($data);
-
-                                return response()->json([
-                                        "status" => 'success'
-                                ]);
-                        } else {
                                 return response()->json([
                                         "status" => 'fail'
                                 ]);
+
+                        } catch (Exception $ex) {
+                                return response()->json([
+                                        "status" => 'fail',
+                                        "message"       => $ex->getMessage()
+                                ]);
                         }
                 }
+
+
+
+                /**
+                * @SWG\Post(
+                *     path="/diagnosis/start",
+                *     tags={"Diagnosis"},
+                *     summary="진단시작",
+                *     description="특정주문의 진단이 시직되면 헤당 엔지니어에게 사용자 설정을 한다.",
+                *     operationId="setDiagnosisEngineer",
+                *     produces={"application/json"},
+                *     @SWG\Parameter(name="order_id",in="query",description="주문 번호",required=true,type="integer",format="int32"),
+                *     @SWG\Parameter(name="user_id",in="query",description="사용자 번호",required=true,type="integer",format="int32"),
+                *     @SWG\Response(response=401, description="unauthorized"),
+                *     @SWG\Response(response=404, description="not found"),
+                *     @SWG\Response(response=500, description="internal server error"),
+                *     @SWG\Response(response="default",description="error",
+                *          @SWG\Schema(ref="#/definitions/Error")
+                *     ),
+                *     security={
+                *     }
+                * )
+                */
+                // public function setDiagnosisStart(Request $request)
+                // {
+                //
+                //         try {
+                //
+                //                 $requestData = $request->validate([
+                //                         'user_id'       => 'required|exists:users,id',
+                //                         'diagnosis_id'  => 'required|exists:diagnosis,id'
+                //                 ]);
+                //
+                //                 // 조회를 요청한 사용자의 정보조회
+                //                 $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
+                //
+                //                 // 해당 진단 조회
+                //                 $diagnosis              = Diagnosis::where('status_cd', 113)->findOrFail($requestData['diagnosis_id']);
+                //                 $diagnosis->engineer_id = $user->id;
+                //                 $diagnosis->start_at    = Carbon::now();
+                //                 // $diagnosis->status_cd   = 114;
+                //                 $diagnosis->save();
+                //
+                //                 return response()->json([
+                //                         "status" => 'success'
+                //                 ]);
+                //
+                //         } catch (Exception $e) {
+                //                 return response()->json([
+                //                         "status" => 'fail'
+                //                 ]);
+                //
+                //         }
+                // }
+
+
+
+
+
+
+
+
+
+
+                // public function getDiagnosesFileInfo(Request $request)
+                // {
+                //         $validator = Validator::make($request->all(), [
+                //                 'div' => 'required'
+                //         ]);
+                //
+                //         if ($validator->fails()) {
+                //                 return response()->json([
+                //                         "status" => 'fail'
+                //                 ]);
+                //         }
+                //
+                //         $log_where = S3Tran::orderBy('id', 'DESC')->where('div', $request->get('div'))->first();
+                //
+                //         if ($log_where) {
+                //                 $info = DiagnosesFile::where('id', '>', $log_where->trans_id)
+                //                 ->where('mime', '<>', 'audio/mp3')->orderBy('id', 'ASC')->get();
+                //         } else {
+                //                 $info = DiagnosesFile::where('mime', '<>', 'audio/mp3')->get();
+                //         }
+                //
+                //         $trans_info = [];
+                //
+                //         foreach ($info as $key => $row) {
+                //
+                //                 # /storage/app/diagnosis/2017/10/19/23/4654-3620d4bdef48c6861c161ab635a1d9ee-42QwY5r
+                //                 $path = "app/diagnosis" . $row->path . '/' . $row->source;
+                //
+                //                 $trans_info[$key] = [
+                //                         'div' => 'diagnosis',
+                //                         'img_num' => $row->id,
+                //                         'path' => $path
+                //                 ];
+                //         }
+                //
+                //         return response()->json([
+                //                 "status" => 'success',
+                //                 "data" => $trans_info
+                //         ]);
+                // }
+
+                // public function setTransDiagnosesFileInfo(Request $request)
+                // {
+                //         $validator = Validator::make($request->all(), [
+                //                 'trans_id' => 'required|int',
+                //                 'div' => 'required'
+                //         ]);
+                //
+                //         if ($validator->fails()) {
+                //                 return response()->json([
+                //                         "status" => 'fail'
+                //                 ]);
+                //         }
+                //
+                //         $where = S3Tran::orderBy('trans_id', 'DESC')->where('div', $request->get('div'))->first();
+                //         if ($where) {
+                //                 if ($request->get('trans_id') > $where->trans_id) {
+                //                         //이전 등록된 파일 정보보다 입력하려는 id가 크므로
+                //                         $model = new S3Tran();
+                //                         $error = '';
+                //                 } else {
+                //                         $error = '입력요청값이 작거나 같습니다.';
+                //                         $model = false;
+                //                 }
+                //         } else {
+                //                 $model = new S3Tran();
+                //                 $error = '';
+                //         }
+                //
+                //         if ($model !== false) {
+                //                 $data = [
+                //                         'div' => $request->get('div'),
+                //                         'trans_id' => $request->get('trans_id')
+                //                 ];
+                //                 $model->insert($data);
+                //
+                //                 return response()->json([
+                //                         "status" => 'success'
+                //                 ]);
+                //         } else {
+                //                 return response()->json([
+                //                         "status" => 'fail'
+                //                 ]);
+                //         }
+                // }
 
         }
