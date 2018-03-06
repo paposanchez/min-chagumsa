@@ -673,9 +673,9 @@ class DiagnosisController extends ApiController
                                         try {
 
                                                 $storage_file = $response['result']['path'] .'/'. $response['result']['source'];
-                                                Storage::disk('s3')->move($diagnosis_upload_prifix . $storage_file, $storage_file);
-                                                Storage::disk('s3')->move($diagnosis_upload_prifix . $storage_file.'.thumbnail.jpg', $storage_file.'.thumbnail.jpg');
-                                                // Storage::delete(['file.jpg', 'file2.jpg']);
+                                                $s3 = Storage::disk('s3');
+                                                $s->put($diagnosis_upload_prifix . $storage_file, file_get_contents('/diagnosis'.$diagnosis_upload_prifix.$storage_file));
+                                                $s->put($diagnosis_upload_prifix . $storage_file.'.thumbnail.jpg', file_get_contents('/diagnosis'.$diagnosis_upload_prifix.$storage_file.'.thumbnail.jpg'));
 
                                                 // log
                                                 $data->synced_at = Carbon::now();
