@@ -15,7 +15,7 @@
                 <tr>
                         <th>종합의견</th>
                         <td>
-                                {{ $total_opinion }}
+                                {{ $data->opinion }}
                         </td>
                 </tr>
 
