@@ -68,7 +68,6 @@ Route::get('notify/bedge', "NotifyController@bedge");
 //         return view('api.index');
 // });
 Route::any( '/', function( ){
-
         // $diagnosis = \App\Models\Diagnosis::find(1);
         // event(new \App\Events\Diagnosis\OnDiagnosisCompleted($diagnosis));
 
