@@ -13,7 +13,7 @@
 
                     <ul class="actions">
                         <li>
-                            <a href="/posting" class="goback">
+                            <a href="/coupon" class="goback">
                                 <i class="zmdi zmdi-view-list"></i>
                             </a>
                         </li>
@@ -50,11 +50,10 @@
                     </div>
 
                     <div class="form-group {{ $errors->has('publish_length') ? 'has-error' : '' }}">
-                        <label for="inputPassword" class="control-label col-md-3">쿠폰번호 자리수</label>
+                        <label for="inputPassword" class="control-label col-md-3">쿠폰구분번호</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="쿠폰코드 길이수를 입력해주세요.(기본 10, 최대 20)"
-                                   name="publish_length" id="publish_length" value="10" required="required" >
-                            <small>쿠폰코드 길이수를 입력해주세요.(기본 10, 최대 20)</small>
+                            <input type="text" class="form-control" placeholder="쿠폰 구분 코드를 입력해주세요.(영문, 숫자 조합 4자리 입력)"
+                                   name="codes" id="codes" value="" minlength="4" maxlength="4" required="required" >
 
                             @if ($errors->has('publish_length'))
                                 <span class="help-block">
