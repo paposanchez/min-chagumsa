@@ -6,6 +6,7 @@ use App\Mixapply\Uploader\Receiver;
 use App\Models\Car;
 use App\Models\CarNumber;
 use App\Models\Code;
+use App\Models\Diagnoses;
 use App\Models\Diagnosis;
 use App\Models\DiagnosisFile;
 use App\Models\Models;
@@ -213,12 +214,18 @@ class DiagnosisController extends Controller
      */
     public function updateCode(Request $request)
     {
-        $id = $request->get('id');
-        $selected = $request->get('selected');
-        $diagnosis = Diagnosis::where('id', $id)->first();
-        $diagnosis->selected = $selected;
-        $diagnosis->save();
-        return $diagnosis;
+        try{
+            $id = $request->get('diagnoses_id');
+            $selected = $request->get('selected');
+            $diagnosis = Diagnoses::findOrFail($id);
+            $diagnosis->selected = $selected;
+            $diagnosis->save();
+
+            return response()->json('success');
+        }catch (\Exception $e){
+            return response()->json($e->getMessage());
+        }
+
 
     }
 

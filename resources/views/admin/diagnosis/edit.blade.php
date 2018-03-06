@@ -28,10 +28,10 @@
                             </button>
                         @endif
 
-{{--                        @if($user->hasRole(['admin', 'technician']) && $diagnosis->status_cd == 126)--}}
-                            <button class="btn btn-primary pull-right status_button" data-toggle="tooltip" title="진단완료"
-                                    data-target="#issueForm" data-type="issue">진단완료
-                            </button>
+                        {{--                        @if($user->hasRole(['admin', 'technician']) && $diagnosis->status_cd == 126)--}}
+                        <button class="btn btn-primary pull-right status_button" data-toggle="tooltip" title="진단완료"
+                                data-target="#issueForm" data-type="issue">진단완료
+                        </button>
                         {{--@endif--}}
                     </ul>
                 </div>
@@ -86,7 +86,6 @@
                                     {!! Form::close() !!}
                                 </div>
                             </div>
-
 
 
                         </div>
@@ -382,6 +381,28 @@
         //     });
         // });
 
+
+        $(".selected_cd").click(function () {
+            var diagnoses_id = $(this).data('diagnoses_id');
+            var change_value = $(this).data('id');
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '/diagnosis/update-code',
+                data: {
+                    'diagnoses_id': diagnoses_id,
+                    'selected': change_value
+                },
+                success: function (data) {
+                    alert('정상적으로 변경되었습니다.');
+                },
+                error: function (data) {
+                    alert(JSON.stringify(data));
+                }
+            })
+        });
+
         $(document).on('click', '#orderBtn', function () {
             var url = $(this).data('url');
             window.open(url, 'blank')
@@ -434,5 +455,7 @@
                 $(target).addClass('hidden');
             }
         });
+
+
     </script>
 @endpush
