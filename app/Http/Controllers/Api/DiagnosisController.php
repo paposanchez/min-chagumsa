@@ -674,7 +674,7 @@ class DiagnosisController extends ApiController
 
                                                 $storage_file = $response['result']['path'] .'/'. $response['result']['source'];
                                                 Storage::move($diagnosis_upload_prifix . $storage_file, $storage_file);
-                                                Storage::move($diagnosis_upload_prifix . $storage_file'.thumbnail.jpg', $storage_file'.thumbnail.jpg');
+                                                Storage::move($diagnosis_upload_prifix . $storage_file.'.thumbnail.jpg', $storage_file.'.thumbnail.jpg');
                                                 // Storage::delete(['file.jpg', 'file2.jpg']);
 
                                                 // log
