@@ -19,6 +19,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Validator;
 
+use Intervention\Image\ImageManagerStatic as Image;
+
 class DiagnosisController extends ApiController
 {
 
@@ -598,6 +600,8 @@ class DiagnosisController extends ApiController
                 {
                         try {
 
+
+
                                 $requestData = $request->validate([
                                         'user_id'       => 'required|exists:users,id',
                                         'diagnoses_id'  => 'required|exists:diagnoses,id',
@@ -606,6 +610,7 @@ class DiagnosisController extends ApiController
 
                                 // 조회를 요청한 사용자의 정보조회
                                 $user = User::withRole('engineer')->findOrFail($requestData['user_id']);
+
 
 
 
@@ -626,19 +631,16 @@ class DiagnosisController extends ApiController
                                                 $file_size = 0;
                                         }
 
-
-                                        // // 이미지 리사이즈 엔 워터마크
-                                        $watermark = \Intervention\Image\Image::make('public/logo.png')->opacity(30);
-                                        $thumbnail = \Intervention\Image\Image::make($thumbnail_origin)
+                                        //============= 이미지 리사이즈 엔 워터마크
+                                        $uploaded_file = $path_prefix . $path .'/'. $file_new_name;
+                                        $watermark = Image::make(public_path('assets/img/logo.png'))->opacity(30);
+                                        $thumbnail = Image::make($uploaded_file)
                                         ->resize(null, 300, function ($constraint) {
                                                 $constraint->aspectRatio();
                                         })
                                         ->insert($watermark, 'bottom-right', 10, 10)
-                                        ->encode('jpg', 80);
-                                        ->save($path_prefix . $path . $data->id. '.thumb.jpg');
-
-
-
+                                        ->encode('jpg', 80)
+                                        ->save($uploaded_file . '.thumbnail.jpg');
                                         return [
                                                 'original' => $file->getClientOriginalName(),
                                                 'source' => $file_new_name,
@@ -650,9 +652,10 @@ class DiagnosisController extends ApiController
                                         ];
                                 });
 
+                                return ;
+
                                 // 업로드 성공시
                                 if ($response['result']) {
-
                                         // Save the record to the db
                                         $data = DiagnosesFile::create([
                                                 'diagnoses_id' => $diagnoses_id,
@@ -662,12 +665,7 @@ class DiagnosisController extends ApiController
                                                 'size' => $response['result']['size'],
                                                 'mime' => $response['result']['mime'],
                                         ]);
-
                                         $data->save();
-
-
-
-
 
 
                                         //todo mme를 호출해서 이미지변환을 요청함
@@ -680,7 +678,8 @@ class DiagnosisController extends ApiController
                                         "status" => 'fail'
                                 ]);
 
-                        } catch (Exception $ex) {
+                        } catch (Exception $e) {
+                                dd($e);
                                 return response()->json([
                                         "status" => 'fail',
                                         "message"       => $ex->getMessage()
